@@ -5,9 +5,8 @@ function clearMagnet() {
     magnetX = 0;
     let magnets = document.getElementsByClassName("magnet");
 
-    for(let i = 0; i < magnets.length; i++) {
-        magnets[i].remove();
-	}
+	while(magnets.length > 0)
+        magnets[0].remove();
 	
 	document.getElementById("menu").hidden = true;
 }
