@@ -4,12 +4,22 @@
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 	<link rel="stylesheet" type="text/css" href="style.css" />
 	<script src="main.js"></script>
+	<script src="magnetManager.js"></script>
+	<script src="myMagnets.js"></script>
 </head>
 
 <body>
-	<canvas width=1024 height=1024 id="canvas"></canvas>
+	<canvas width=2500 height=1300 id="canvas"></canvas>
+	
+	<div hidden id="menu">
+		<h1>Tableau noir - Menu</h1>
+		<h2>Basic features</h2>
+		Esc. = show/hide this menu <br/>
+		e = switch between chunk and eraser<br/>
 
-	<img class="magnet" src="1.png"/>
-	<img class="magnet" src="2.png"/>
-	<img class="magnet" src="3.png"/>
+		<h2>Magnets</h2>
+		<button id="clearMagnet">Remove all the magnets</button>
+		<button id="magnetSorting">Sorting</button>
+		<button id="magnetGraphNodes">Graph nodes</button>
+	</div>
 </body>

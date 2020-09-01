@@ -13,11 +13,24 @@ canvas {
 body {
 	margin: 0px;
 	padding: 0px;
+	overflow: hidden;
 }
-
-
 
 .magnet {
 	position: absolute;
+	background-color: white;
+	font-size: 32px;
+	font-weight: bold;
+	padding: 8px;
 	
+}
+
+#menu {
+	position: absolute;
+	margin: 16px;
+	padding: 16px;
+	background-color: lightgray;
+	top: 0px;
+	left: 0px;
+	background-color: white;
 }
