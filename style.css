@@ -1,0 +1,23 @@
+canvas {
+	background-color: black;
+	margin: 0px;
+	padding: 0px;
+	cursor: url('craie.png') 0 0, auto;
+}
+
+.eraser {
+	cursor: url('eraser.png') 19 16, auto;
+}
+
+
+body {
+	margin: 0px;
+	padding: 0px;
+}
+
+
+
+.magnet {
+	position: absolute;
+	
+}
