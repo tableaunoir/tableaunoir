@@ -1,6 +1,12 @@
 window.onload = load;
 window.onresize = resize;
 
+const BACKGROUND_COLOR = "black";
+
+const colors = ["white", "orange", "rgb(100, 172, 255)"];
+
+let currentColorID = 0;
+
 function load() {
 	let x = 0;
 	let y = 0;
@@ -8,14 +14,20 @@ function load() {
 	let eraseMode = false;
 
 	document.onkeydown = (evt) => {
-		if (evt.keyCode == 27) {//escape 
+		if (evt.keyCode == 27) {//escape => show menu
 			document.getElementById("menu").hidden = !document.getElementById("menu").hidden;
 		}
 
-		if (evt.keyCode == 69) { //e
+		if (evt.keyCode == 67) { //c => change color
+			currentColorID++;
+			currentColorID = currentColorID % colors.length;
+			document.getElementById("canvas").style.cursor = `url('chalk${currentColorID}.png') 0 0, auto`;
+		}
+
+		if (evt.keyCode == 69) { //e = switch eraser and chalk
 			eraseMode = !eraseMode;
-			if (eraseMode) { document.getElementById("canvas").classList.add("eraser") }
-			else document.getElementById("canvas").classList.remove("eraser")
+			if (eraseMode) { document.getElementById("canvas").style.cursor = `url('eraser.png') 0 0, auto`; }
+			else document.getElementById("canvas").style.cursor = `url('chalk${currentColorID}.png') 0 0, auto`;
 		}
 	};
 
@@ -71,7 +83,7 @@ function resize() {
 
 function drawLine(context, x1, y1, x2, y2) {
 	context.beginPath();
-	context.strokeStyle = 'white';
+	context.strokeStyle = colors[currentColorID];
 	context.lineWidth = 1.5;
 	context.moveTo(x1, y1);
 	context.lineTo(x2, y2);
@@ -82,7 +94,7 @@ function drawLine(context, x1, y1, x2, y2) {
 
 function clearLine(context, x1, y1, x2, y2) {
 	context.beginPath();
-	context.strokeStyle = 'black';
+	context.strokeStyle = BACKGROUND_COLOR;
 	context.lineWidth = 20;
 	context.moveTo(x1, y1);
 	context.lineTo(x2, y2);
