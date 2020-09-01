@@ -51,6 +51,8 @@ function load() {
 	}
 
 	document.getElementById("clearMagnet").onclick = clearMagnet;
+
+	setTimeout(() => document.getElementById("help").hidden = true, 5000)
 	loadMagnets();
 
 	resize();
