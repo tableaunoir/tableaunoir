@@ -8,9 +8,13 @@ const colors = ["white", "orange", "rgb(100, 172, 255)"];
 let currentColorID = 0;
 
 function load() {
+	let xInit = 0;
+	let yInit = 0;
+
 	let x = 0;
 	let y = 0;
 	let isDrawing = false;
+	let alreadyDrawnSth = false; // true if something visible has been drawn (If still false, draw a dot)
 	let eraseMode = false;
 
 	document.onkeydown = (evt) => {
@@ -35,6 +39,8 @@ function load() {
 	document.getElementById("canvas").onmousedown = function (evt) {
 		x = evt.offsetX;
 		y = evt.offsetY;
+		xInit = x;
+		yInit = y;
 		isDrawing = true;
 	}
 
@@ -47,11 +53,19 @@ function load() {
 				drawLine(document.getElementById("canvas").getContext("2d"), x, y, evt.offsetX, evt.offsetY);
 			x = evt.offsetX;
 			y = evt.offsetY;
+
+			if(Math.abs(x - xInit) > 1 || Math.abs(y - yInit) > 1)
+				alreadyDrawnSth = true;
 		}
 	}
 
 
-	document.getElementById("canvas").onmouseup = function (evt) { isDrawing = false; }
+	document.getElementById("canvas").onmouseup = function (evt) { 
+		if(isDrawing && !eraseMode && !alreadyDrawnSth) {
+			drawDot(document.getElementById("canvas").getContext("2d"), x, y);
+		}
+		alreadyDrawnSth = false;
+		isDrawing = false; }
 
 	document.getElementById("canvas").onmouseleave = function (evt) { isDrawing = false; }
 
@@ -84,10 +98,20 @@ function resize() {
 function drawLine(context, x1, y1, x2, y2) {
 	context.beginPath();
 	context.strokeStyle = colors[currentColorID];
-	context.lineWidth = 1.5;
+	context.lineWidth = 2.5;
 	context.moveTo(x1, y1);
 	context.lineTo(x2, y2);
 	context.stroke();
+	context.closePath();
+}
+
+
+function drawDot(context, x, y) {
+	context.beginPath();
+	context.fillStyle = colors[currentColorID];
+	context.lineWidth = 2.5;
+	context.arc(x, y, 2, 0, 2*Math.PI);
+	context.fill();
 	context.closePath();
 }
 
