@@ -14,6 +14,24 @@ function createMagnetRainbow(content) {
     return o;
 }
 
+
+function createMagnetGS_B(content) {
+    let o = document.createElement("div");
+    o.innerHTML = content;
+    o.classList.add("GS_B")
+    return o;
+}
+function magnetGS() {
+    clearMagnet();
+    addMagnet(createMagnet(1))
+    addMagnet(createMagnet(2))
+    addMagnet(createMagnet(3))
+    addMagnet(createMagnetGS_B(1))
+    addMagnet(createMagnetGS_B(2))
+    addMagnet(createMagnetGS_B(3))
+
+}
+
 function magnetSorting() {
     clearMagnet();
     for (let i = 1; i <= 17; i++)
@@ -29,6 +47,7 @@ function magnetGraphNodes() {
 function loadMagnets() {
     document.getElementById("magnetSorting").onclick = magnetSorting;
     document.getElementById("magnetGraphNodes").onclick = magnetGraphNodes;
+    document.getElementById("magnetGS").onclick = magnetGS;
 }
 
 

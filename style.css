@@ -22,6 +22,12 @@ body {
 	
 }
 
+
+.GS_B {
+	color: orange;
+	border-radius: 32px;
+	padding: 16px;
+}
 #menu {
 	position: absolute;
 	margin: 16px;
