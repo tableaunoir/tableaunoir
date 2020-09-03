@@ -15,9 +15,23 @@ Tableaunoir means blackboard in french. Tableaunoir is an online blackboard tool
 ![Screenshot](./img/screenshot2.png)
 ![Screenshot](./img/screenshot3.png)
 
+
+## Online version
+
+The online version is available here:
+[https://tableaunoir.github.io/]
+
+## Offline version
+
+The offline version can be launched via Electron:
+
+electron mainElectron.js
+
+
 ## Future features (to be implemented)
 
 * Share the screen online (but you can actually do it via Discord, Zoom etc.)
 * More magnets
 * Multiple persons that can edit
+
 
