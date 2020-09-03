@@ -17,15 +17,22 @@ function load() {
 	let alreadyDrawnSth = false; // true if something visible has been drawn (If still false, draw a dot)
 	let eraseMode = false;
 
+	BoardManager.init();
+
 	document.onkeydown = (evt) => {
 		if (evt.keyCode == 27) {//escape => show menu
 			document.getElementById("menu").hidden = !document.getElementById("menu").hidden;
 		}
 
+
 		if (evt.keyCode == 67) { //c => change color
 			currentColorID++;
 			currentColorID = currentColorID % colors.length;
 			document.getElementById("canvas").style.cursor = `url('chalk${currentColorID}.png') 0 0, auto`;
+		}
+
+		if(evt.keyCode == 68) {
+			divideScreen();
 		}
 
 		if (evt.keyCode == 69) { //e = switch eraser and chalk
@@ -65,7 +72,9 @@ function load() {
 			drawDot(document.getElementById("canvas").getContext("2d"), x, y);
 		}
 		alreadyDrawnSth = false;
-		isDrawing = false; }
+		isDrawing = false;
+		BoardManager.save();
+	 }
 
 	document.getElementById("canvas").onmouseleave = function (evt) { isDrawing = false; }
 
@@ -81,17 +90,15 @@ function load() {
 	setTimeout(() => document.getElementById("help").hidden = true, 5000)
 	loadMagnets();
 
+	BoardManager.load();
 	resize();
+
+	
 }
 
 
 function resize() {
-	let w = document.getElementById("canvas").width;
-	if (document.getElementById("canvas").width < window.innerWidth)
-		document.getElementById("canvas").width = window.innerWidth;
-
-	if (document.getElementById("canvas").height < window.innerHeight)
-		document.getElementById("canvas").height = window.innerHeight;
+	BoardManager.resize(window.innerWidth, window.innerHeight);
 }
 
 
@@ -126,3 +133,10 @@ function clearLine(context, x1, y1, x2, y2) {
 	context.closePath();
 }
 
+
+
+function divideScreen() {
+	let x = document.body.scrollLeft + window.innerWidth/2;
+	drawLine(document.getElementById("canvas").getContext("2d"), x, 0, x, window.innerHeight);
+	BoardManager.save();
+}

@@ -6,6 +6,7 @@
 	<script src="main.js"></script>
 	<script src="magnetManager.js"></script>
 	<script src="myMagnets.js"></script>
+	<script src="boardManager.js"></script>
 </head>
 
 <body>
@@ -13,15 +14,27 @@
 	<div id="help">Press Esc. for help.</div>
 	<div hidden id="menu">
 		<h1>Tableau noir - Menu</h1>
-		<h2>Basic features</h2>
-		Esc. = show/hide this menu <br/>
-		e = switch between chalk and eraser<br/>
-		c = switch the color
-		<h2>Magnets</h2>
-		<button id="clearMagnet">Remove all the magnets</button>
-		<h3>Algorithms</h3>
-		<button id="magnetGS">Gale-Shapley algorithm</button>
-		<button id="magnetSorting">Sorting</button>
-		<button id="magnetGraphNodes">Graph nodes</button>
+		<div>
+			<div>
+				<h2>Keyboard shortcuts</h2>
+				Esc. = show/hide this menu <br />
+				e = switch between chalk and eraser<br />
+				c = switch the color<br />
+				d = divide the screen<br/>
+			</div>
+			<div>
+				<h2>My blackboard</h2>
+				<button id="blackboardClear">clear the full blackboard</button>
+			</div>
+			<div>
+				<h2>Magnets</h2>
+				<button id="clearMagnet">Remove all the magnets</button>
+				<h3>Algorithms</h3>
+				<button id="magnetGS">Gale-Shapley algorithm</button>
+				<button id="magnetSorting">Sorting</button>
+				<button id="magnetBTrees">B trees</button>
+				<button id="magnetGraphNodes">Graph nodes</button>
+			</div>
+		</div>
 	</div>
 </body>

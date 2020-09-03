@@ -38,6 +38,14 @@ function magnetSorting() {
         addMagnet(createMagnetRainbow(i))
 }
 
+
+function magnetBTrees() {
+    clearMagnet();
+    for (let i = 1; i <= 17; i++)
+        addMagnet(createMagnetRainbow(i))
+    addMagnetImage("Btreenode.png");
+}
+
 function magnetGraphNodes() {
     clearMagnet();
     for (let i of ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I'])
@@ -46,6 +54,7 @@ function magnetGraphNodes() {
 
 function loadMagnets() {
     document.getElementById("magnetSorting").onclick = magnetSorting;
+    document.getElementById("magnetBTrees").onclick = magnetBTrees;
     document.getElementById("magnetGraphNodes").onclick = magnetGraphNodes;
     document.getElementById("magnetGS").onclick = magnetGS;
 }
