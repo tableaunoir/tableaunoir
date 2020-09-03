@@ -11,9 +11,9 @@ Tableaunoir means blackboard in french. Tableaunoir is an online blackboard tool
 ## Galery
 
 
-![Screenshot](./screenshot.png)
-![Screenshot](./screenshot2.png)
-![Screenshot](./screenshot3.png)
+![Screenshot](./img/screenshot.png)
+![Screenshot](./img/screenshot2.png)
+![Screenshot](./img/screenshot3.png)
 
 ## Future features (to be implemented)
 

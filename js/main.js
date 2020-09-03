@@ -28,7 +28,7 @@ function load() {
 		if (evt.keyCode == 67) { //c => change color
 			currentColorID++;
 			currentColorID = currentColorID % colors.length;
-			document.getElementById("canvas").style.cursor = `url('chalk${currentColorID}.png') 0 0, auto`;
+			document.getElementById("canvas").style.cursor = `url('img/chalk${currentColorID}.png') 0 0, auto`;
 		}
 
 		if (evt.keyCode == 68) {
@@ -37,8 +37,8 @@ function load() {
 
 		if (evt.keyCode == 69) { //e = switch eraser and chalk
 			eraseMode = !eraseMode;
-			if (eraseMode) { document.getElementById("canvas").style.cursor = `url('eraser.png') 0 0, auto`; }
-			else document.getElementById("canvas").style.cursor = `url('chalk${currentColorID}.png') 0 0, auto`;
+			if (eraseMode) { document.getElementById("canvas").style.cursor = `url('img/eraser.png') 0 0, auto`; }
+			else document.getElementById("canvas").style.cursor = `url('img/chalk${currentColorID}.png') 0 0, auto`;
 		}
 	};
 

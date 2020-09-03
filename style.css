@@ -2,7 +2,7 @@ canvas {
 	background-color: black;
 	margin: 0px;
 	padding: 0px;
-	cursor: url('chalk0.png') 0 0, auto;
+	cursor: url('img/chalk0.png') 0 0, auto;
 	z-index: -10000;
 }
 
