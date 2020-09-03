@@ -1,6 +1,6 @@
 # tableaunoir
 
-Tableaunoir means blackboard in french. Tableaunoir is an online blackboard tool.
+Tableaunoir is an online blackboard tool. "Tableau noir" means blackboard in french. 
 
 ## Features
 
