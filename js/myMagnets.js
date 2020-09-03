@@ -33,27 +33,27 @@ function magnetGS() {
 }
 
 function magnetSorting() {
-    clearMagnet();
+    MagnetManager.clearMagnet();
     for (let i = 1; i <= 17; i++)
-        addMagnet(createMagnetRainbow(i))
+        MagnetManager.addMagnet(createMagnetRainbow(i))
 }
 
 
 function magnetBTrees() {
-    clearMagnet();
+    MagnetManager.clearMagnet();
     for (let i = 1; i <= 17; i++)
-        addMagnet(createMagnetRainbow(i))
+        MagnetManager.addMagnet(createMagnetRainbow(i))
 
     for (let i = 1; i <= 7; i++)
-        addMagnetImage("Btreenode.png");
+        MagnetManager.addMagnetImage("Btreenode.png");
 
 
 }
 
 function magnetGraphNodes() {
-    clearMagnet();
+    MagnetManager.clearMagnet();
     for (let i of ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I'])
-        addMagnet(createMagnet(i))
+        MagnetManager.addMagnet(createMagnet(i))
 }
 
 function loadMagnets() {

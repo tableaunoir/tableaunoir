@@ -1,18 +1,54 @@
+/**
+ * Manage the board
+ */
 class BoardManager {
 
+    /** name of the board. Default is 0 (this name is used for storing in localStorage) */
     static boardName = 0;
 
+
+    /**
+   * initialization (button)
+   */
+    static init() {
+        document.getElementById("blackboardClear").onclick = () => {
+            BoardManager.clear();
+            BoardManager.save();
+            document.getElementById("menu").hidden = true;
+        }
+    }
+
+    /**
+        * erase the board
+        */
+    static clear() {
+        document.getElementById("canvas").width = document.getElementById("canvas").width; //clear
+    }
+
+
+    /**
+ * resize the board to the size of the window
+ */
+    static resize() {
+        if (document.getElementById("canvas").width < window.innerWidth)
+            document.getElementById("canvas").width = window.innerWidth;
+
+        if (document.getElementById("canvas").height < window.innerHeight)
+            document.getElementById("canvas").height = window.innerHeight;
+    }
+
+    /**
+     * save the current board
+     */
     static save() {
         let data = document.getElementById("canvas").toDataURL();
         localStorage.setItem(BoardManager.boardName, data);
     }
 
 
-    static clear() {
-        document.getElementById("canvas").width = document.getElementById("canvas").width; //clear
-    }
-
-
+    /**
+     * load the board
+     */
     static load() {
         let data = localStorage.getItem(BoardManager.boardName);
 
@@ -32,19 +68,6 @@ class BoardManager {
     }
 
 
-    static resize() {
-        if (document.getElementById("canvas").width < window.innerWidth)
-            document.getElementById("canvas").width = window.innerWidth;
 
-        if (document.getElementById("canvas").height < window.innerHeight)
-            document.getElementById("canvas").height = window.innerHeight;
-    }
 
-    static init() {
-        document.getElementById("blackboardClear").onclick = () => {
-            BoardManager.clear();
-            BoardManager.save();
-            document.getElementById("menu").hidden = true;
-        }
-    }
 }

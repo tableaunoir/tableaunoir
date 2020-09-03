@@ -93,7 +93,7 @@ function load() {
 
 	}
 
-	document.getElementById("clearMagnet").onclick = clearMagnet;
+	document.getElementById("clearMagnet").onclick = MagnetManager.clearMagnet;
 
 	setTimeout(() => document.getElementById("help").hidden = true, 5000)
 	loadMagnets();
