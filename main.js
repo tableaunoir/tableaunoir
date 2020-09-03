@@ -31,7 +31,7 @@ function load() {
 			document.getElementById("canvas").style.cursor = `url('chalk${currentColorID}.png') 0 0, auto`;
 		}
 
-		if(evt.keyCode == 68) {
+		if (evt.keyCode == 68) {
 			divideScreen();
 		}
 
@@ -43,7 +43,7 @@ function load() {
 	};
 
 
-	document.getElementById("canvas").onmousedown = function (evt) {
+	document.getElementById("canvas").onpointerdown = function (evt) {
 		x = evt.offsetX;
 		y = evt.offsetY;
 		xInit = x;
@@ -52,29 +52,37 @@ function load() {
 	}
 
 
-	document.getElementById("canvas").onmousemove = function (evt) {
+	document.getElementById("canvas").onpointermove = function (evt) {
+		let evtX = evt.offsetX;
+		let evtY = evt.offsetY;
 		if (isDrawing) {
-			if (eraseMode)
-				clearLine(document.getElementById("canvas").getContext("2d"), x, y, evt.offsetX, evt.offsetY);
-			else
-				drawLine(document.getElementById("canvas").getContext("2d"), x, y, evt.offsetX, evt.offsetY);
-			x = evt.offsetX;
-			y = evt.offsetY;
+			if (eraseMode) {
+				if (evt.pressure >= 0.5) {
+					evtY = evtY + 64; //shift because big erasing, centered
+				}
+				clearLine(document.getElementById("canvas").getContext("2d"), x, y, evtX, evtY, evt.pressure);
+			}
+			else {
+				drawLine(document.getElementById("canvas").getContext("2d"), x, y, evtX, evtY, evt.pressure);
 
-			if(Math.abs(x - xInit) > 1 || Math.abs(y - yInit) > 1)
+			}
+			x = evtX;
+			y = evtY;
+
+			if (Math.abs(x - xInit) > 1 || Math.abs(y - yInit) > 1)
 				alreadyDrawnSth = true;
 		}
 	}
 
 
-	document.getElementById("canvas").onmouseup = function (evt) { 
-		if(isDrawing && !eraseMode && !alreadyDrawnSth) {
+	document.getElementById("canvas").onpointerup = function (evt) {
+		if (isDrawing && !eraseMode && !alreadyDrawnSth) {
 			drawDot(document.getElementById("canvas").getContext("2d"), x, y);
 		}
 		alreadyDrawnSth = false;
 		isDrawing = false;
 		BoardManager.save();
-	 }
+	}
 
 	document.getElementById("canvas").onmouseleave = function (evt) { isDrawing = false; }
 
@@ -93,7 +101,7 @@ function load() {
 	BoardManager.load();
 	resize();
 
-	
+
 }
 
 
@@ -102,10 +110,11 @@ function resize() {
 }
 
 
-function drawLine(context, x1, y1, x2, y2) {
+function drawLine(context, x1, y1, x2, y2, pressure = 1.0) {
 	context.beginPath();
 	context.strokeStyle = colors[currentColorID];
-	context.lineWidth = 2.5;
+	context.globalAlpha = 0.75 + 0.25 * pressure;
+	context.lineWidth = 1 + 3.5 * pressure;
 	context.moveTo(x1, y1);
 	context.lineTo(x2, y2);
 	context.stroke();
@@ -117,16 +126,19 @@ function drawDot(context, x, y) {
 	context.beginPath();
 	context.fillStyle = colors[currentColorID];
 	context.lineWidth = 2.5;
-	context.arc(x, y, 2, 0, 2*Math.PI);
+	context.arc(x, y, 2, 0, 2 * Math.PI);
 	context.fill();
 	context.closePath();
 }
 
 
-function clearLine(context, x1, y1, x2, y2) {
+function clearLine(context, x1, y1, x2, y2, pressure = 1.0) {
 	context.beginPath();
 	context.strokeStyle = BACKGROUND_COLOR;
-	context.lineWidth = 20;
+	if (pressure < 0.5)
+		context.lineWidth = 20 + 30 * pressure;
+	else
+		context.lineWidth = 300;
 	context.moveTo(x1, y1);
 	context.lineTo(x2, y2);
 	context.stroke();
@@ -136,7 +148,7 @@ function clearLine(context, x1, y1, x2, y2) {
 
 
 function divideScreen() {
-	let x = document.body.scrollLeft + window.innerWidth/2;
+	let x = document.body.scrollLeft + window.innerWidth / 2;
 	drawLine(document.getElementById("canvas").getContext("2d"), x, 0, x, window.innerHeight);
 	BoardManager.save();
 }

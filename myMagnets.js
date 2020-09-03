@@ -9,8 +9,8 @@ function createMagnetRainbow(content) {
     let o = createMagnet(content);
     let colors = ['rgb(139, 97, 195)', 'rgb(115, 97, 195)', 'rgb(93, 105, 214)', 'rgb(40, 167, 226)', 'rgb(40, 204, 226)', 'rgb(40, 226, 201)', 'rgb(40, 226, 148)',
         'rgb(40, 226, 102)', 'rgb(130, 226, 40)', 'rgb(170, 226, 40)', 'rgb(223, 226, 40)', 'rgb(226, 183, 40)',
-         'rgb(226, 152, 40)', 'rgb(226, 124, 40)', 'rgb(226, 77, 40)', 'rgb(255, 0, 0)', 'rgb(144, 24, 24)'];
-    o.style.backgroundColor = colors[content-1];
+        'rgb(226, 152, 40)', 'rgb(226, 124, 40)', 'rgb(226, 77, 40)', 'rgb(255, 0, 0)', 'rgb(144, 24, 24)'];
+    o.style.backgroundColor = colors[content - 1];
     return o;
 }
 
@@ -43,7 +43,11 @@ function magnetBTrees() {
     clearMagnet();
     for (let i = 1; i <= 17; i++)
         addMagnet(createMagnetRainbow(i))
-    addMagnetImage("Btreenode.png");
+
+    for (let i = 1; i <= 7; i++)
+        addMagnetImage("Btreenode.png");
+
+
 }
 
 function magnetGraphNodes() {
