@@ -1,8 +1,10 @@
 let magnetX = 0;
+let magnetY = 0;
 
 
 function clearMagnet() {
 	magnetX = 0;
+	magnetY = 0;
 	let magnets = document.getElementsByClassName("magnet");
 
 	while (magnets.length > 0)
@@ -29,8 +31,14 @@ function setMagnetsZIndex() {
 }
 
 function addMagnet(element) {
-	element.style.top = "0px";
+	if(magnetX > window.innerWidth - 10) {
+		magnetX = 0;
+		magnetY += 64;
+	}
+
 	element.style.left = magnetX + "px";
+	element.style.top = magnetY + "px";
+	
 	magnetX += 64;
 	element.classList.add("magnet");
 	document.body.appendChild(element);
