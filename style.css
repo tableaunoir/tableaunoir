@@ -1,3 +1,5 @@
+
+
 canvas {
 	background-color: black;
 	margin: 0px;
@@ -13,17 +15,18 @@ body {
 	overflow: hidden;
 }
 
+
 .magnet {
 	position: absolute;
 	background-color: white;
 	font-size: 32px;
 	font-weight: bold;
-	
+
 	cursor: grab;
-	
+
 }
 
-div.magnet  {
+div.magnet {
 	padding: 8px;
 }
 
@@ -47,7 +50,7 @@ img.magnet {
 	left: 0px;
 	width: 90%;
 	height: 90%;
-	border:16px gray solid;
+	border: 16px gray solid;
 	border-radius: 32px;
 	z-index: 10000;
 	overflow: auto;
@@ -63,12 +66,13 @@ img.magnet {
 	margin: 16px;
 	background-color: white;
 }
+
 button {
 	background-color: lightgray;
 	border: none;
 	border-radius: 16px;
-	padding:8px;
-	font-size:14pt;
+	padding: 8px;
+	font-size: 14pt;
 	font-weight: bold;
 }
 
@@ -87,7 +91,7 @@ h1 {
 	background-color: gray;
 	color: white;
 	margin: 0px;
-	padding:8px;
+	padding: 8px;
 }
 
 #help {
@@ -102,4 +106,16 @@ h1 {
 	position: absolute;
 	top: 0px;
 	right: 0px;
+}
+
+
+.keyboardkey {
+	display: inline-block;
+	color: #292929;
+	border-radius: 6px;
+	border: solid 1px #726e67;
+	background: #eeedeb;
+	padding: 8px;
+	margin: 4px;
+	box-shadow: 0px 6px 0px #7c604e;
 }

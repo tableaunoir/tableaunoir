@@ -22,13 +22,13 @@ function createMagnetGS_B(content) {
     return o;
 }
 function magnetGS() {
-    clearMagnet();
-    addMagnet(createMagnet(1))
-    addMagnet(createMagnet(2))
-    addMagnet(createMagnet(3))
-    addMagnet(createMagnetGS_B(1))
-    addMagnet(createMagnetGS_B(2))
-    addMagnet(createMagnetGS_B(3))
+    MagnetManager.clearMagnet();
+    MagnetManager.addMagnet(createMagnet(1))
+    MagnetManager.addMagnet(createMagnet(2))
+    MagnetManager.addMagnet(createMagnet(3))
+    MagnetManager.addMagnet(createMagnetGS_B(1))
+    MagnetManager.addMagnet(createMagnetGS_B(2))
+    MagnetManager.addMagnet(createMagnetGS_B(3))
 
 }
 
