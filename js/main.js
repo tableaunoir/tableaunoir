@@ -31,8 +31,15 @@ function load() {
 			document.getElementById("canvas").style.cursor = `url('img/chalk${currentColorID}.png') 0 0, auto`;
 		}
 
-		if (evt.keyCode == 68) {
+		if (evt.keyCode == 68) { //d = divide screen
 			divideScreen();
+		}
+
+		if (evt.keyCode == 90) {//z = cancel or redo
+			if (evt.ctrlKey && evt.shiftKey)
+				BoardManager.redo();
+			else if (evt.ctrlKey)
+				BoardManager.cancel();
 		}
 
 		if (evt.keyCode == 69) { //e = switch eraser and chalk
