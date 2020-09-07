@@ -133,6 +133,13 @@ class MagnetManager {
 		MagnetManager.addMagnet(img);
 	}
 	
+
+
+
+
+	static register(magnetSetName) {
+		document.getElementById(magnetSetName).onclick = eval(magnetSetName);
+	}
 	
 	
 }
