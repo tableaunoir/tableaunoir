@@ -16,6 +16,7 @@ function load() {
 	let isDrawing = false;
 	let alreadyDrawnSth = false; // true if something visible has been drawn (If still false, draw a dot)
 	let eraseMode = false;
+	let eraseModeBig = false;
 
 	BoardManager.init();
 
@@ -26,6 +27,7 @@ function load() {
 
 
 		if (evt.keyCode == 67) { //c => change color
+			eraseMode = false;
 			currentColorID++;
 			currentColorID = currentColorID % colors.length;
 			document.getElementById("canvas").style.cursor = `url('img/chalk${currentColorID}.png') 0 0, auto`;
@@ -56,6 +58,7 @@ function load() {
 		xInit = x;
 		yInit = y;
 		isDrawing = true;
+		eraseModeBig = false;
 	}
 
 
@@ -64,10 +67,20 @@ function load() {
 		let evtY = evt.offsetY;
 		if (isDrawing) {
 			if (eraseMode) {
-				if (evt.pressure >= 0.5) {
+				let lineWidth = 20;
+
+
+				lineWidth = 20 + 30 * evt.pressure;
+
+				if (Math.abs(x - xInit) > window.innerWidth / 4 || Math.abs(y - yInit) > window.innerHeight / 4)
+					eraseModeBig = true;
+
+				if (eraseModeBig) {
 					evtY = evtY + 64; //shift because big erasing, centered
+					lineWidth= 300;
 				}
-				clearLine(document.getElementById("canvas").getContext("2d"), x, y, evtX, evtY, evt.pressure);
+
+				clearLine(document.getElementById("canvas").getContext("2d"), x, y, evtX, evtY, lineWidth);
 			}
 			else {
 				drawLine(document.getElementById("canvas").getContext("2d"), x, y, evtX, evtY, evt.pressure);
@@ -139,13 +152,10 @@ function drawDot(context, x, y) {
 }
 
 
-function clearLine(context, x1, y1, x2, y2, pressure = 1.0) {
+function clearLine(context, x1, y1, x2, y2, lineWidth = 10) {
 	context.beginPath();
 	context.strokeStyle = BACKGROUND_COLOR;
-	if (pressure < 0.5)
-		context.lineWidth = 20 + 30 * pressure;
-	else
-		context.lineWidth = 300;
+	context.lineWidth = lineWidth;
 	context.moveTo(x1, y1);
 	context.lineTo(x2, y2);
 	context.stroke();
