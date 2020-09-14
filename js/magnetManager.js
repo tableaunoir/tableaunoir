@@ -49,6 +49,7 @@ class MagnetManager {
 		element.style.top = MagnetManager.magnetY + "px";
 
 		MagnetManager.magnetX += 64;
+		MagnetManager.currentMagnet = element;
 		element.classList.add("magnet");
 		document.body.appendChild(element);
 		dragElement(element);
@@ -90,6 +91,8 @@ class MagnetManager {
 
 				let magnets = MagnetManager.getMagnets();
 				otherElementsToMove = [];
+
+				//if(elmt.style.clipPath == undefined) //if not an image (otherwise bug)
 				for (let i = 0; i < magnets.length; i++)
 					if (magnets[i] != elmnt && inside(magnets[i], elmnt)) {
 						otherElementsToMove.push(magnets[i]);

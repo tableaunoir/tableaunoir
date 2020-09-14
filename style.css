@@ -29,6 +29,8 @@ body {
 .magnet:hover {
 	box-shadow: 0 8px 16px 0 rgba(255, 255, 255, 1);
 }
+
+
 div.magnet {
 	background-color: white;
 	padding: 8px;
@@ -38,6 +40,11 @@ div.magnet {
 img.magnet {
 	padding: 0px;
 	background-color:  rgba(255, 255, 255, 0.2);
+}
+
+
+img.magnet:hover {
+	background-color:  rgba(255, 255, 255, 0.3);
 }
 
 .GS_B {

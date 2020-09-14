@@ -32,14 +32,26 @@ class MagnetizerMode {
         img.src = document.getElementById("canvas").toDataURL();
         img.style.clipPath = "polygon(" + this.points.map(point => `${point.x}px ${point.y}px`).join(", ") + ")";
         MagnetManager.addMagnet(img);
+        img.style.left = "0px";
+        img.style.top = "0px";
         this.active = false;
 
-        ctx.fillStyle = "black";
+        ctx.save();
+        ctx.beginPath();
         ctx.moveTo(this.points[0].x, this.points[0].y);
         for (let point of this.points) {
             ctx.lineTo(point.x, point.y);
         }
-        ctx.fill();
+        ctx.clip();
+        ctx.clearRect(0, 0, window.innerWidth, window.innerHeight);
+        ctx.restore();
+
+        /*ctx.fillStyle = "black";
+        ctx.moveTo(this.points[0].x, this.points[0].y);
+        for (let point of this.points) {
+            ctx.lineTo(point.x, point.y);
+        }
+        ctx.fill();*/
 
         BoardManager.save();
         this.reset();
