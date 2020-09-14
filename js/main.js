@@ -17,6 +17,7 @@ function load() {
 	let alreadyDrawnSth = false; // true if something visible has been drawn (If still false, draw a dot)
 	let eraseMode = false;
 	let eraseModeBig = false;
+	let magnetizerMode = new MagnetizerMode();
 
 	BoardManager.init();
 
@@ -49,6 +50,11 @@ function load() {
 			if (eraseMode) { document.getElementById("canvas").style.cursor = `url('img/eraser.png') 0 0, auto`; }
 			else document.getElementById("canvas").style.cursor = `url('img/chalk${currentColorID}.png') 0 0, auto`;
 		}
+
+		if (evt.keyCode == 77) { //m = make new magnets
+			magnetizerMode.print();
+
+		}
 	};
 
 
@@ -59,12 +65,20 @@ function load() {
 		yInit = y;
 		isDrawing = true;
 		eraseModeBig = false;
+
+
+		magnetizerMode.reset();
+		magnetizerMode.addPoint({x: x, y: y});
 	}
 
 
 	document.getElementById("canvas").onpointermove = function (evt) {
 		let evtX = evt.offsetX;
 		let evtY = evt.offsetY;
+
+	
+
+
 		if (isDrawing) {
 			if (eraseMode) {
 				let lineWidth = 20;
@@ -77,13 +91,14 @@ function load() {
 
 				if (eraseModeBig) {
 					evtY = evtY + 64; //shift because big erasing, centered
-					lineWidth= 300;
+					lineWidth = 300;
 				}
 
 				clearLine(document.getElementById("canvas").getContext("2d"), x, y, evtX, evtY, lineWidth);
 			}
 			else {
 				drawLine(document.getElementById("canvas").getContext("2d"), x, y, evtX, evtY, evt.pressure);
+				magnetizerMode.addPoint({x: evtX, y: evtY});
 
 			}
 			x = evtX;
@@ -96,7 +111,11 @@ function load() {
 
 
 	document.getElementById("canvas").onpointerup = function (evt) {
-		if (isDrawing && !eraseMode && !alreadyDrawnSth) {
+		if (magnetizerMode) {
+			magnetizerMode.onpointerup(evt);
+			magnetizerMode = undefined;
+		}
+		else if (isDrawing && !eraseMode && !alreadyDrawnSth) {
 			drawDot(document.getElementById("canvas").getContext("2d"), x, y);
 		}
 		alreadyDrawnSth = false;

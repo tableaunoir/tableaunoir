@@ -118,13 +118,22 @@ function magnetTilings() {
 }
 
 
+
+/**
+ * 
+ */
+function magnetUnionFind() {
+    MagnetManager.clearMagnet();
+    MagnetManager.addMagnetImage("unionfind0.png");
+}
+
 function loadMagnets() {
     MagnetManager.register("magnetGS");
     MagnetManager.register("magnetSorting");
     MagnetManager.register("magnetBTrees");
     MagnetManager.register("magnetGraphNodes");
     MagnetManager.register("magnetTilings");
-
+    MagnetManager.register("magnetUnionFind");
 }
 
 

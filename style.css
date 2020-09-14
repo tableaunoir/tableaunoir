@@ -18,21 +18,26 @@ body {
 
 .magnet {
 	position: absolute;
-	background-color: white;
+	
 	font-size: 32px;
 	font-weight: bold;
-
 	cursor: grab;
 
 }
 
+
+.magnet:hover {
+	box-shadow: 0 8px 16px 0 rgba(255, 255, 255, 1);
+}
 div.magnet {
+	background-color: white;
 	padding: 8px;
 }
 
 
 img.magnet {
 	padding: 0px;
+	background-color:  rgba(255, 255, 255, 0.2);
 }
 
 .GS_B {
@@ -65,6 +70,7 @@ img.magnet {
 #menu div div {
 	margin: 16px;
 	background-color: white;
+	display:inline-block;
 }
 
 button {

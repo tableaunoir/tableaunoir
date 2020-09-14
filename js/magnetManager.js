@@ -131,6 +131,30 @@ class MagnetManager {
 		let img = new Image();
 		img.src = "magnets/" + filename;
 		MagnetManager.addMagnet(img);
+		img.onclick = () => {
+			console.log("printed");
+			let ctx = document.getElementById("canvas").getContext("2d");
+
+			let s = img.style.clipPath;
+
+			s.substr("polygon(".length, s.length - "polygon(".length - ")".length);
+
+			ctx.save();
+			ctx.beginPath();
+			for(let pointStr in s.split(",")) {
+				let a = pointStr.split(" ");
+				ctx.moveTo(parseInt(a[0]), parseInt(a[1]));	
+			}
+			ctx.clip();
+		
+			ctx.drawImage(img, 0, 0);
+
+			ctx.restore();
+
+			
+
+			BoardManager.save();
+		};
 	}
 	
 
