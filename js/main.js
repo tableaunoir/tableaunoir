@@ -17,7 +17,7 @@ function load() {
 	let alreadyDrawnSth = false; // true if something visible has been drawn (If still false, draw a dot)
 	let eraseMode = false;
 	let eraseModeBig = false;
-	let magnetizerMode = new MagnetizerMode();
+	let magnetizer = new MagnetizerMode();
 
 	BoardManager.init();
 
@@ -52,8 +52,20 @@ function load() {
 		}
 
 		if (evt.keyCode == 77) { //m = make new magnets
-			magnetizerMode.print();
+			if (magnetizer.containsPolygonToMagnetize())
+				magnetizer.magnetize();
+			else {
+				MagnetManager.printCurrentMagnet();
+				MagnetManager.removeCurrentMagnet();
+			}
+		}
 
+		if (evt.keyCode == 80) { //p = print the current magnet
+			MagnetManager.printCurrentMagnet();
+		}
+
+		if (evt.keyCode == 46) { //supr = delete the current magnet
+			MagnetManager.removeCurrentMagnet();
 		}
 	};
 
@@ -67,8 +79,8 @@ function load() {
 		eraseModeBig = false;
 
 
-		magnetizerMode.reset();
-		magnetizerMode.addPoint({x: x, y: y});
+		magnetizer.reset();
+		magnetizer.addPoint({ x: x, y: y });
 	}
 
 
@@ -76,7 +88,7 @@ function load() {
 		let evtX = evt.offsetX;
 		let evtY = evt.offsetY;
 
-	
+
 
 
 		if (isDrawing) {
@@ -98,7 +110,7 @@ function load() {
 			}
 			else {
 				drawLine(document.getElementById("canvas").getContext("2d"), x, y, evtX, evtY, evt.pressure);
-				magnetizerMode.addPoint({x: evtX, y: evtY});
+				magnetizer.addPoint({ x: evtX, y: evtY });
 
 			}
 			x = evtX;
@@ -111,11 +123,7 @@ function load() {
 
 
 	document.getElementById("canvas").onpointerup = function (evt) {
-		if (magnetizerMode) {
-			magnetizerMode.onpointerup(evt);
-			magnetizerMode = undefined;
-		}
-		else if (isDrawing && !eraseMode && !alreadyDrawnSth) {
+		if (isDrawing && !eraseMode && !alreadyDrawnSth) {
 			drawDot(document.getElementById("canvas").getContext("2d"), x, y);
 		}
 		alreadyDrawnSth = false;
