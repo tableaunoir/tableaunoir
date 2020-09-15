@@ -160,6 +160,7 @@ function resize() {
 function drawLine(context, x1, y1, x2, y2, pressure = 1.0) {
 	context.beginPath();
 	context.strokeStyle = colors[currentColorID];
+	context.globalCompositeOperation = "source-over"; 
 	context.globalAlpha = 0.75 + 0.25 * pressure;
 	context.lineWidth = 1 + 3.5 * pressure;
 	context.moveTo(x1, y1);
@@ -181,10 +182,13 @@ function drawDot(context, x, y) {
 
 function clearLine(context, x1, y1, x2, y2, lineWidth = 10) {
 	context.beginPath();
-	context.strokeStyle = BACKGROUND_COLOR;
+	//context.strokeStyle = BACKGROUND_COLOR;
+	context.globalCompositeOperation = "destination-out"; 
+    context.strokeStyle = "rgba(255,255,255,1)";
 	context.lineWidth = lineWidth;
 	context.moveTo(x1, y1);
 	context.lineTo(x2, y2);
+	
 	context.stroke();
 	context.closePath();
 }

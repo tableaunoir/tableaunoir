@@ -150,9 +150,7 @@ class MagnetManager {
 			return;
 		}
 
-
-
-		let ctx = document.getElementById("canvas").getContext("2d");
+		let context = document.getElementById("canvas").getContext("2d");
 
 		let x = parseInt(img.style.left);
 		let y = parseInt(img.style.top);
@@ -160,25 +158,25 @@ class MagnetManager {
 
 		s = s.substr("polygon(".length, s.length - "polygon(".length - ")".length);
 
-
-		ctx.save();
-		ctx.beginPath();
+		context.globalCompositeOperation = "source-over";
+		context.save();
+		context.beginPath();
 		let begin = true;
 		for (let pointStr of s.split(",")) {
 			pointStr = pointStr.trim();
 			let a = pointStr.split(" ");
 			if (begin)
-				ctx.moveTo(x + parseInt(a[0]), y + parseInt(a[1]));
+				context.moveTo(x + parseInt(a[0]), y + parseInt(a[1]));
 			else
-				ctx.lineTo(x + parseInt(a[0]), y + parseInt(a[1]));
+				context.lineTo(x + parseInt(a[0]), y + parseInt(a[1]));
 			begin = false;
 		}
-		ctx.closePath();
-		ctx.clip();
+		context.closePath();
+		context.clip();
 
-		ctx.drawImage(img, x, y);
+		context.drawImage(img, x, y);
 
-		ctx.restore();
+		context.restore();
 
 
 

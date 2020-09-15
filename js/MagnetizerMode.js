@@ -16,44 +16,59 @@ class MagnetizerMode {
     }
 
     magnetize() {
-        const ctx = document.getElementById("canvas").getContext("2d");
+        const context = document.getElementById("canvas").getContext("2d");
 
-        ctx.strokeStyle = "black";
-        ctx.lineWidth = 6;
-        ctx.globalAlpha = 1.0;
-
-        ctx.moveTo(this.points[0].x, this.points[0].y);
-        for (let point of this.points) {
-            ctx.lineTo(point.x, point.y);
+        const isSuitable = () => {
+            for (let point of this.points) {
+                if (Math.abs(point.x - this.points[0].x) > 16 &&
+                    Math.abs(point.x - this.points[0].x) > 16)
+                    return true;
+            }
+            return false;
         }
-        ctx.stroke();
+        const removeContour = () => {
+            context.globalCompositeOperation = "destination-out";
+            context.strokeStyle = "rgba(255,255,255,1)";
+            context.lineWidth = 6;
+            context.globalAlpha = 1.0;
 
-        let img = new Image();
-        img.src = document.getElementById("canvas").toDataURL();
-        img.style.clipPath = "polygon(" + this.points.map(point => `${point.x}px ${point.y}px`).join(", ") + ")";
-        MagnetManager.addMagnet(img);
-        img.style.left = "0px";
-        img.style.top = "0px";
-        this.active = false;
-
-        ctx.save();
-        ctx.beginPath();
-        ctx.moveTo(this.points[0].x, this.points[0].y);
-        for (let point of this.points) {
-            ctx.lineTo(point.x, point.y);
+            context.moveTo(this.points[0].x, this.points[0].y);
+            for (let point of this.points) {
+                context.lineTo(point.x, point.y);
+            }
+            context.stroke();
         }
-        ctx.clip();
-        ctx.clearRect(0, 0, window.innerWidth, window.innerHeight);
-        ctx.restore();
 
-        /*ctx.fillStyle = "black";
-        ctx.moveTo(this.points[0].x, this.points[0].y);
-        for (let point of this.points) {
-            ctx.lineTo(point.x, point.y);
+        const createMagnetFromImg = () => {
+            let img = new Image();
+            img.src = document.getElementById("canvas").toDataURL();
+            img.style.clipPath = "polygon(" + this.points.map(point => `${point.x}px ${point.y}px`).join(", ") + ")";
+            MagnetManager.addMagnet(img);
+            img.style.left = "0px";
+            img.style.top = "0px";
         }
-        ctx.fill();*/
 
-        BoardManager.save();
-        this.reset();
+        const clearBehindMagnet = () => {
+            context.save();
+            context.beginPath();
+            context.moveTo(this.points[0].x, this.points[0].y);
+            for (let point of this.points) {
+                context.lineTo(point.x, point.y);
+            }
+            context.clip();
+            context.clearRect(0, 0, window.innerWidth, window.innerHeight);
+            context.restore();
+            context.globalCompositeOperation = "source-over";
+            BoardManager.save();
+            this.reset();
+        }
+
+        if (!isSuitable())
+            return;
+            
+        removeContour();
+        createMagnetFromImg();
+        clearBehindMagnet();
+
     }
 }
