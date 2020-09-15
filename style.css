@@ -95,8 +95,9 @@ button:hover {
 }
 
 
-#blackboardClear {
+.buttonClear {
 	background-color: rgb(255, 161, 98);
+	margin: 8px;
 }
 
 

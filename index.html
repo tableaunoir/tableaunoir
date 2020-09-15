@@ -13,27 +13,27 @@
 
 <body>
 	<canvas width=2500 height=1300 id="canvas"></canvas>
-	<div id="help">Press Esc. for help.</div>
+	<div id="help">Welcome to Tableau noir, the coolest online blackboard. Press Esc. for help.</div>
 	<div hidden id="menu">
 		<h1>Tableau noir - Menu</h1>
 		<div>
 			<div>
-				<h2>Keyboard shortcuts</h2>
+				<h2>My keyboard</h2>
 				<span class="keyboardkey">Esc.</span> = show/hide this menu <br />
 				<span class="keyboardkey">e</span> = switch between chalk and eraser<br />
 				<span class="keyboardkey">c</span> = switch the color, change size of the eraser<br />
 				<span class="keyboardkey">d</span> = divide the screen<br/>
+				<button class="buttonClear" id="blackboardClear">clear the full blackboard</button>
+			</div>
+			<div>
+				<h2>My magnets</h2>
 				<span class="keyboardkey">Suppr</span> = Delete the current magnet<br/>
 				<span class="keyboardkey">m</span> = Transform the selected area in a magnet<br/>
 				<span class="keyboardkey">p</span> = Print the current magnet<br/>
+				<button class="buttonClear" id="clearMagnet">Remove all the magnets</button>
 			</div>
 			<div>
-				<h2>My blackboard</h2>
-				<button id="blackboardClear">clear the full blackboard</button>
-			</div>
-			<div>
-				<h2>Magnets</h2>
-				<button id="clearMagnet">Remove all the magnets</button>
+				<h2>Magnet collections</h2>
 				<h3>Algorithms</h3>
 				<button id="magnetGS">Gale-Shapley algorithm</button>
 				<button id="magnetSorting">Sorting</button>
@@ -43,6 +43,10 @@
 				<h3>Complexity theory</h3>
 				<button id="magnetTilings">Tilings</button>
 			</div>
+			<div>
+				<a href="https://github.com/tableaunoir">Source code at https://github.com/tableaunoir</a>
+			</div>
 		</div>
+		
 	</div>
 </body>
