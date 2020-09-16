@@ -1,12 +1,13 @@
 # tableaunoir
 
-Tableaunoir is an online blackboard tool. "Tableau noir" means blackboard in french. 
+Tableaunoir is an online blackboard tool. "Tableau noir" means blackboard in french. The online version is available here:
+[https://tableaunoir.github.io/]
 
 ## Features
 
-* Draw in white, orange, blue!
-* Erase
-* Objects like fridge magnets that you can move on the board, to make animation e.g. for illustrating sorting algorithms, etc.
+* Draw and erase
+* Fridge magnets that you can move on the board, to make animation e.g. for illustrating sorting algorithms, etc.
+* Create custom "fridge magnets" for interactive courses
 
 ## Galery
 
@@ -16,10 +17,12 @@ Tableaunoir is an online blackboard tool. "Tableau noir" means blackboard in fre
 ![Screenshot](./img/screenshot3.png)
 
 
-## Online version
+## Photos
 
-The online version is available here:
-[https://tableaunoir.github.io/]
+![Screenshot](./photos/tableaunoir_amphi.jpg)
+![Screenshot](./photos/tableaunoir_amphi2.jpg)
+![Screenshot](./photos/tableaunoir_amphi3.jpg)
+
 
 ## Offline version
 
