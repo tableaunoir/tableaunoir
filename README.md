@@ -11,7 +11,7 @@ Tableaunoir is an online blackboard tool. "Tableau noir" means blackboard in fre
 
 ## Galery
 
-<img src="./img/screenshot.png" alt="screenshot" width="300"/> <img src="./img/screenshot2.png" alt="screenshot" width="150"/> <img src="./img/screenshot3.png" alt="screenshot" height="300"/>
+<img src="./img/screenshot.png" alt="screenshot" width="300"/> <img src="./img/screenshot2.png" alt="screenshot" width="150"/> <img src="./img/screenshot3.png" alt="screenshot" width="300"/>
 
 
 
