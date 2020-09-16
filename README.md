@@ -11,18 +11,18 @@ Tableaunoir is an online blackboard tool. "Tableau noir" means blackboard in fre
 
 ## Galery
 
-<img src="./img/screenshot.png" alt="screenshot" width="200"/>
+<img src="./img/screenshot.png" alt="screenshot" width="300"/>
+<img src="./img/screenshot2.png" alt="screenshot" width="300"/>
+<img src="./img/screenshot3.png" alt="screenshot" width="300"/>
 
-![Screenshot](./img/screenshot.png =250x)
-![Screenshot](./img/screenshot2.png =250x)
-![Screenshot](./img/screenshot3.png =250x)
 
 
 ## Photos
 
-![Photo](./photos/tableaunoir_amphi.jpg =250x)
-![Photo](./photos/tableaunoir_amphi2.jpg =250x)
-![Photo](./photos/tableaunoir_amphi3.jpg =250x)
+<img src="./photos/tableaunoir_amphi.jpg" alt="photo" width="300"/>
+<img src="./photos/tableaunoir_amphi2.jpg" alt="photo" width="300"/>
+<img src="./photos/tableaunoir_amphi3.jpg" alt="photo" width="300"/>
+
 
 
 ## Offline version
