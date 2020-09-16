@@ -17,9 +17,8 @@ Tableaunoir is used for teaching at ENS Rennes. The main advantage is that the s
 * You can also use kind of predefined fridge magnets that you can move on the board, to make animation e.g. for illustrating sorting algorithms, etc.
 * You can also create customized "fridge magnets" for interactive courses.
 
-## Galery
+## Screenshots
 
-Some screenshots of the tool:
 <img src="./img/screenshot.png" alt="screenshot" width="300"/> <img src="./img/screenshot2.png" alt="screenshot" width="150"/> <img src="./img/screenshot3.png" alt="screenshot" width="300"/>
 
 
