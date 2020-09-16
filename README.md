@@ -5,9 +5,9 @@ Tableaunoir is an online blackboard tool. "Tableau noir" means blackboard in fre
 
 ## Features
 
-* Draw and erase
-* Fridge magnets that you can move on the board, to make animation e.g. for illustrating sorting algorithms, etc.
-* Create custom "fridge magnets" for interactive courses
+* Of course, you can draw and erase.
+* You can also use kind of fridge magnets that you can move on the board, to make animation e.g. for illustrating sorting algorithms, etc.
+* You can also create custom "fridge magnets" for interactive courses.
 
 ## Galery
 
