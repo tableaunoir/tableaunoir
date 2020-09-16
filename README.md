@@ -19,9 +19,9 @@ Tableaunoir is an online blackboard tool. "Tableau noir" means blackboard in fre
 
 ## Photos
 
-![Screenshot](./photos/tableaunoir_amphi.jpg)
-![Screenshot](./photos/tableaunoir_amphi2.jpg)
-![Screenshot](./photos/tableaunoir_amphi3.jpg)
+![Photo](./photos/tableaunoir_amphi.jpg)
+![Photo](./photos/tableaunoir_amphi2.jpg)
+![Photo](./photos/tableaunoir_amphi3.jpg)
 
 
 ## Offline version
