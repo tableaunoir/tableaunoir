@@ -17,6 +17,9 @@ Tableaunoir is used for teaching at ENS Rennes. The main advantage is that the s
 * You can also use kind of predefined fridge magnets that you can move on the board, to make animation e.g. for illustrating sorting algorithms, etc.
 * You can also create customized "fridge magnets" for interactive courses.
 
+
+You can teach online by sharing the screen with Discord, Zoom, Teams, etc.
+
 ## Screenshots
 
 <img src="./img/screenshot.png" alt="screenshot" width="300"/> <img src="./img/screenshot2.png" alt="screenshot" width="150"/> <img src="./img/screenshot3.png" alt="screenshot" width="300"/>
@@ -28,15 +31,8 @@ Tableaunoir is used for teaching at ENS Rennes. The main advantage is that the s
 
 ## Offline version
 
-The offline version can be launched via Electron:
+If you prefer to use an offline version, it is possible. You have to install Electron and then the application can be launched as follows:
 
 electron mainElectron.js
-
-
-## Future features (to be implemented)
-
-* Share the screen online (but you can actually do it via Discord, Zoom etc.)
-* More magnets
-* Multiple persons that can edit
 
 
