@@ -17,7 +17,7 @@ function load() {
 	let eraseModeBig = false;
 	let lastDelineation = new Delineation();
 
-
+	LoadSave.init();
 	BoardManager.init();
 	palette.createPalette();
 	palette.onchange = () => {
@@ -93,7 +93,7 @@ function load() {
 		if (evt.key == "m") { //m = make new magnets
 			palette.hide();
 			if (lastDelineation.containsPolygonToMagnetize())
-				lastDelineation.cutAndMagnetize()();
+				lastDelineation.cutAndMagnetize();
 			else {
 				MagnetManager.printCurrentMagnet();
 				MagnetManager.removeCurrentMagnet();
@@ -107,10 +107,10 @@ function load() {
 
 		if (evt.keyCode == 46) { //supr = delete the current magnet
 			palette.hide();
-			if (lastDelineation.containsPolygonToMagnetize())
+			/*if (lastDelineation.containsPolygonToMagnetize())
 				lastDelineation.erase();
-			else
-				MagnetManager.removeCurrentMagnet();
+			else*/
+			MagnetManager.removeCurrentMagnet();
 		}
 	};
 

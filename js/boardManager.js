@@ -54,8 +54,8 @@ class BoardManager {
     /**
      * load the board from the local storage
      */
-    static load() {
-        let data = localStorage.getItem(BoardManager.boardName);
+    static load(data = localStorage.getItem(BoardManager.boardName)) {
+       // let data = localStorage.getItem(BoardManager.boardName);
 
         if (data != undefined) {
             BoardManager._clear();

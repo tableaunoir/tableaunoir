@@ -39,8 +39,7 @@ div.magnet {
 
 img.magnet {
 	padding: 0px;
-	opacity: 0.8;
-	background-color:  rgb(64, 64, 64);
+	background-color:  rgba(64, 64, 64, 0.9);
 }
 
 

@@ -11,11 +11,14 @@
 	<script src="js/boardManager.js"></script>
 	<script src="js/Delineation.js"></script>
 	<script src="js/ChalkCursor.js"></script>
-	
+	<script src="js/LoadSave.js"></script>
+
 </head>
 
 <body>
+
 	<canvas width=2500 height=1300 id="canvas"></canvas>
+	<div id="magnets"></div>
 	<div id="help">Welcome to Tableau noir, the coolest online blackboard. Press Esc. for help.</div>
 	<div id="palette"></div>
 	<div hidden id="menu">
@@ -24,23 +27,60 @@
 			<div>
 				<h2>My keyboard</h2>
 				<table>
-					<tr><td><span class="keyboardkey">Esc.</span></td><td>show/hide this menu</td></tr>
-					<tr><td><span class="keyboardkey">e</span></td><td>switch between chalk and eraser</td></tr>
-					<tr><td><span class="keyboardkey">c</span></td><td>switch the color</td></tr>
-					<tr><td><span class="keyboardkey">d</span></td><td>divide the screen</td></tr>
+					<tr>
+						<td><span class="keyboardkey">Esc.</span></td>
+						<td>show/hide this menu</td>
+					</tr>
+					<tr>
+						<td><span class="keyboardkey">e</span></td>
+						<td>switch between chalk and eraser</td>
+					</tr>
+					<tr>
+						<td><span class="keyboardkey">c</span></td>
+						<td>switch the color</td>
+					</tr>
+					<tr>
+						<td><span class="keyboardkey">d</span></td>
+						<td>divide the screen</td>
+					</tr>
 				</table>
 				<button class="buttonClear" id="blackboardClear">clear the full blackboard</button>
 			</div>
 			<div>
 				<h2>My magnets</h2>
 				<table>
-					<tr><td><span class="keyboardkey">Suppr</span></td><td>delete the current magnet</td></tr>
-					<tr><td><span class="keyboardkey">Ctrl+x</span></td><td>cut the content inside the drawn contour into a magnet</td></tr>
-					<tr><td><span class="keyboardkey">Ctrl+c</span></td><td>copy the content inside the drawn contour into a magnet</td></tr>
-					<tr><td><span class="keyboardkey">m</span></td><td>cut the content inside the drawn contour into a magnet / flatten the current magnet to the blackboard</td></tr>
-					<tr><td><span class="keyboardkey">Ctrl+v</span> or <span class="keyboardkey">p</span></td><td>print the current magnet (like rubber stamping)</td></tr>
+					<tr>
+						<td><span class="keyboardkey">Suppr</span></td>
+						<td>delete the current magnet</td>
+					</tr>
+					<tr>
+						<td><span class="keyboardkey">Ctrl+x</span></td>
+						<td>cut the content inside the drawn contour into a magnet</td>
+					</tr>
+					<tr>
+						<td><span class="keyboardkey">Ctrl+c</span></td>
+						<td>copy the content inside the drawn contour into a magnet</td>
+					</tr>
+					<tr>
+						<td><span class="keyboardkey">m</span></td>
+						<td>cut the content inside the drawn contour into a magnet / flatten the current magnet to the
+							blackboard</td>
+					</tr>
+					<tr>
+						<td><span class="keyboardkey">Ctrl+v</span> or <span class="keyboardkey">p</span></td>
+						<td>print the current magnet (like rubber stamping)</td>
+					</tr>
+					In order to use existing images as magnets, drag and drop .png/.svg/.gif/.jpg files.<br />
 				</table>
 				<button class="buttonClear" id="clearMagnet">Remove all the magnets</button>
+			</div>
+			<div>
+				<h2>Load an existing board</h2>
+				In order to load/import an existing board, drag and drop your file .tableaunoir file in the application.
+				<h2>Save/download my blackboard</h2>
+				<button id="save">Save</button>
+				<br />
+				<br />
 			</div>
 			<div>
 				<h2>Magnet collections</h2>
@@ -57,6 +97,6 @@
 				<a href="https://github.com/tableaunoir">Source code at https://github.com/tableaunoir</a>
 			</div>
 		</div>
-		
+
 	</div>
 </body>

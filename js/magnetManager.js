@@ -56,12 +56,19 @@ class MagnetManager {
 		MagnetManager.magnetX += 64;
 		MagnetManager.currentMagnet = element;
 		element.classList.add("magnet");
-		document.body.appendChild(element);
+		//document.body.appendChild(element);
+
+		document.getElementById("magnets").appendChild(element);
+		MagnetManager.installMagnet(element);
+	}
+
+
+	static installMagnet(element) {
 		makeDraggableElement(element);
 
 
-		element.onmouseenter = () => { MagnetManager.magnetUnderCursor = element};
-		element.onmouseleave = () => { MagnetManager.magnetUnderCursor = undefined};
+		element.onmouseenter = () => { MagnetManager.magnetUnderCursor = element };
+		element.onmouseleave = () => { MagnetManager.magnetUnderCursor = undefined };
 		function makeDraggableElement(element) {
 			var pos1 = 0, pos2 = 0, pos3 = 0, pos4 = 0;
 			if (document.getElementById(element.id + "header")) {
@@ -137,6 +144,17 @@ class MagnetManager {
 			}
 		}
 	}
+
+
+
+	static installMagnets() {
+		let magnets = MagnetManager.getMagnets();
+
+		//if(elmt.style.clipPath == undefined) //if not an image (otherwise bug)
+		for (let i = 0; i < magnets.length; i++)
+			MagnetManager.installMagnet(magnets[i]);
+	}
+
 
 	static addMagnetImage(filename) {
 		let img = new Image();
