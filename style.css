@@ -39,12 +39,13 @@ div.magnet {
 
 img.magnet {
 	padding: 0px;
-	background-color:  rgba(255, 255, 255, 0.2);
+	opacity: 0.8;
+	background-color:  rgb(64, 64, 64);
 }
 
 
 img.magnet:hover {
-	background-color:  rgba(255, 255, 255, 0.3);
+	opacity: 0.9;
 }
 
 .GS_B {
@@ -131,7 +132,29 @@ h1 {
 	border-radius: 6px;
 	border: solid 1px #726e67;
 	background: #eeedeb;
-	padding: 8px;
-	margin: 4px;
-	box-shadow: 0px 6px 0px #7c604e;
+	padding: 4px;
+	margin: 2px;
+	box-shadow: 0px 2px 2px #7c604e;
+}
+
+
+#palette {
+	position: absolute;
+}
+
+
+.paletteColorButton {
+		position: absolute;
+		border-radius: 8px;
+		padding:8px;
+		background-color: #292929;
+}
+
+
+.paletteColorButton:hover {
+	background-color: gray;
+}
+
+.paletteColorButton.selected {
+	border: 1px white solid;
 }

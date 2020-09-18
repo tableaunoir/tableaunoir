@@ -3,9 +3,7 @@ window.onresize = resize;
 
 const BACKGROUND_COLOR = "black";
 
-const colors = ["white", "orange", "rgb(100, 172, 255)"];
-
-let currentColorID = 0;
+let palette = new Palette();
 
 function load() {
 	let xInit = 0;
@@ -19,26 +17,42 @@ function load() {
 	let eraseModeBig = false;
 	let magnetizer = new MagnetizerMode();
 
+
 	BoardManager.init();
+	palette.createPalette();
+	palette.onchange = () => {
+		eraseMode = false;
+		document.getElementById("canvas").style.cursor = ChalkCursor.getStyleCursor(palette.getCurrentColor());
+	}
+
+	document.getElementById("canvas").style.cursor = ChalkCursor.getStyleCursor(palette.getCurrentColor());
 
 	document.onkeydown = (evt) => {
 		if (evt.keyCode == 27) {//escape => show menu
 			document.getElementById("menu").hidden = !document.getElementById("menu").hidden;
 		}
 
+		if (!evt.ctrlKey && evt.key == "c") { // c => change color
 
-		if (evt.keyCode == 67) { //c => change color
-			eraseMode = false;
-			currentColorID++;
-			currentColorID = currentColorID % colors.length;
-			document.getElementById("canvas").style.cursor = `url('img/chalk${currentColorID}.png') 0 0, auto`;
+			if (MagnetManager.getMagnetUnderCursor() == undefined) { //if no magnet under the cursor, change the color of the chalk
+				eraseMode = false;
+
+				if (!isDrawing)
+					palette.show({ x: x, y: y });
+				palette.next();
+			}
+			else { // if there is a magnet change the background of the magnet
+				let magnet = MagnetManager.getMagnetUnderCursor();
+				magnet.style.backgroundColor = nextBackgroundColor(magnet.style.backgroundColor);
+			}
+
 		}
 
-		if (evt.keyCode == 68) { //d = divide screen
+		if (evt.key == "d") { //d = divide screen
 			divideScreen();
 		}
 
-		if (evt.keyCode == 90) {//z = cancel or redo
+		if (evt.key == "z") {//z = cancel or redo
 			if (evt.ctrlKey && evt.shiftKey)
 				BoardManager.redo();
 			else if (evt.ctrlKey)
@@ -51,16 +65,33 @@ function load() {
 			else document.getElementById("canvas").style.cursor = `url('img/chalk${currentColorID}.png') 0 0, auto`;
 		}
 
-		if (evt.keyCode == 77) { //m = make new magnets
+
+		if (evt.ctrlKey && evt.key == 'x') {//Ctrl + x 
 			if (magnetizer.containsPolygonToMagnetize())
-				magnetizer.magnetize();
+				magnetizer.cutAndMagnetize()();
+
+		}
+
+
+		if (evt.ctrlKey && evt.key == 'c') {//Ctrl + c
+			if (magnetizer.containsPolygonToMagnetize())
+				magnetizer.copyAndMagnetize()();
+		}
+
+		if (evt.ctrlKey && evt.key == "v") { //Ctrl + v = print the current magnet
+			MagnetManager.printCurrentMagnet();
+		}
+
+		if (evt.key == "m") { //m = make new magnets
+			if (magnetizer.containsPolygonToMagnetize())
+				magnetizer.cutAndMagnetize()();
 			else {
 				MagnetManager.printCurrentMagnet();
 				MagnetManager.removeCurrentMagnet();
 			}
 		}
 
-		if (evt.keyCode == 80) { //p = print the current magnet
+		if (evt.key == "p") { //p = print the current magnet
 			MagnetManager.printCurrentMagnet();
 		}
 
@@ -81,6 +112,8 @@ function load() {
 
 		magnetizer.reset();
 		magnetizer.addPoint({ x: x, y: y });
+
+		palette.hide();
 	}
 
 
@@ -88,10 +121,8 @@ function load() {
 		let evtX = evt.offsetX;
 		let evtY = evt.offsetY;
 
-
-
-
 		if (isDrawing) {
+			palette.hide();
 			if (eraseMode) {
 				let lineWidth = 20;
 
@@ -119,6 +150,9 @@ function load() {
 			if (Math.abs(x - xInit) > 1 || Math.abs(y - yInit) > 1)
 				alreadyDrawnSth = true;
 		}
+
+		x = evtX;
+		y = evtY;
 	}
 
 
@@ -159,8 +193,8 @@ function resize() {
 
 function drawLine(context, x1, y1, x2, y2, pressure = 1.0) {
 	context.beginPath();
-	context.strokeStyle = colors[currentColorID];
-	context.globalCompositeOperation = "source-over"; 
+	context.strokeStyle = palette.getCurrentColor();
+	context.globalCompositeOperation = "source-over";
 	context.globalAlpha = 0.75 + 0.25 * pressure;
 	context.lineWidth = 1 + 3.5 * pressure;
 	context.moveTo(x1, y1);
@@ -172,7 +206,7 @@ function drawLine(context, x1, y1, x2, y2, pressure = 1.0) {
 
 function drawDot(context, x, y) {
 	context.beginPath();
-	context.fillStyle = colors[currentColorID];
+	context.fillStyle = palette.getCurrentColor();
 	context.lineWidth = 2.5;
 	context.arc(x, y, 2, 0, 2 * Math.PI);
 	context.fill();
@@ -183,12 +217,12 @@ function drawDot(context, x, y) {
 function clearLine(context, x1, y1, x2, y2, lineWidth = 10) {
 	context.beginPath();
 	//context.strokeStyle = BACKGROUND_COLOR;
-	context.globalCompositeOperation = "destination-out"; 
-    context.strokeStyle = "rgba(255,255,255,1)";
+	context.globalCompositeOperation = "destination-out";
+	context.strokeStyle = "rgba(255,255,255,1)";
 	context.lineWidth = lineWidth;
 	context.moveTo(x1, y1);
 	context.lineTo(x2, y2);
-	
+
 	context.stroke();
 	context.closePath();
 }
@@ -199,4 +233,18 @@ function divideScreen() {
 	let x = document.body.scrollLeft + window.innerWidth / 2;
 	drawLine(document.getElementById("canvas").getContext("2d"), x, 0, x, window.innerHeight);
 	BoardManager.save();
+}
+
+
+
+
+function nextBackgroundColor(color) {
+	let colors = ['rgb(64, 64, 64)', 'rgb(0, 128, 0)', 'rgba(192, 0, 0)', 'rgb(0, 0, 128)'];
+
+	for (let i = 0; i < colors.length; i++) {
+		if (colors[i] == color)
+			return colors[(i + 1) % colors.length];
+	}
+
+	return colors[0];
 }

@@ -4,7 +4,12 @@ class MagnetManager {
 
 	static magnetX = 0;
 	static magnetY = 0;
-	static currentMagnet = undefined;
+	static currentMagnet = undefined; // last magnet used
+	static magnetUnderCursor = undefined;
+
+	static getMagnetUnderCursor() {
+		return MagnetManager.magnetUnderCursor;
+	}
 
 	static getMagnets() {
 		return document.getElementsByClassName("magnet");
@@ -52,16 +57,19 @@ class MagnetManager {
 		MagnetManager.currentMagnet = element;
 		element.classList.add("magnet");
 		document.body.appendChild(element);
-		dragElement(element);
+		makeDraggableElement(element);
 
-		function dragElement(elmnt) {
+
+		element.onmouseenter = () => { MagnetManager.magnetUnderCursor = element};
+		element.onmouseleave = () => { MagnetManager.magnetUnderCursor = undefined};
+		function makeDraggableElement(element) {
 			var pos1 = 0, pos2 = 0, pos3 = 0, pos4 = 0;
-			if (document.getElementById(elmnt.id + "header")) {
+			if (document.getElementById(element.id + "header")) {
 				// if present, the header is where you move the DIV from:
-				document.getElementById(elmnt.id + "header").onmousedown = dragMouseDown;
+				document.getElementById(element.id + "header").onmousedown = dragMouseDown;
 			} else {
 				// otherwise, move the DIV from anywhere inside the DIV:
-				elmnt.onmousedown = dragMouseDown;
+				element.onmousedown = dragMouseDown;
 			}
 
 			let otherElementsToMove = [];
@@ -94,7 +102,7 @@ class MagnetManager {
 
 				//if(elmt.style.clipPath == undefined) //if not an image (otherwise bug)
 				for (let i = 0; i < magnets.length; i++)
-					if (magnets[i] != elmnt && inside(magnets[i], elmnt)) {
+					if (magnets[i] != element && inside(magnets[i], element)) {
 						otherElementsToMove.push(magnets[i]);
 					}
 			}
@@ -113,8 +121,8 @@ class MagnetManager {
 
 
 				// set the element's new position:
-				elmnt.style.top = (elmnt.offsetTop - pos2) + "px";
-				elmnt.style.left = (elmnt.offsetLeft - pos1) + "px";
+				element.style.top = (element.offsetTop - pos2) + "px";
+				element.style.left = (element.offsetLeft - pos1) + "px";
 
 				for (let el of otherElementsToMove) {
 					el.style.top = (el.offsetTop - pos2) + "px";

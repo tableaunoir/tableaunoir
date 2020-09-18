@@ -3,17 +3,21 @@
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 	<link rel="stylesheet" type="text/css" href="style.css" />
+	<script src="js/Palette.js"></script>
 	<script src="js/main.js"></script>
 	<script src="js/magnetManager.js"></script>
 	<script src="js/myMagnets.js"></script>
 	<script src="js/cancelStack.js"></script>
 	<script src="js/boardManager.js"></script>
 	<script src="js/MagnetizerMode.js"></script>
+	<script src="js/ChalkCursor.js"></script>
+	
 </head>
 
 <body>
 	<canvas width=2500 height=1300 id="canvas"></canvas>
 	<div id="help">Welcome to Tableau noir, the coolest online blackboard. Press Esc. for help.</div>
+	<div id="palette"></div>
 	<div hidden id="menu">
 		<h1>Tableau noir - Menu</h1>
 		<div>
@@ -31,8 +35,10 @@
 				<h2>My magnets</h2>
 				<table>
 					<tr><td><span class="keyboardkey">Suppr</span></td><td>delete the current magnet</td></tr>
-					<tr><td><span class="keyboardkey">m</span></td><td>transform the selected area in a magnet (to select simply draw a contour around the area with your chalk) / flat the current magnet to the blackboard</td></tr>
-					<tr><td><span class="keyboardkey">p</span></td><td>print the current magnet (like rubber stamping)</td></tr>
+					<tr><td><span class="keyboardkey">Ctrl+x</span></td><td>cut the content inside the drawn contour into a magnet</td></tr>
+					<tr><td><span class="keyboardkey">Ctrl+c</span></td><td>copy the content inside the drawn contour into a magnet</td></tr>
+					<tr><td><span class="keyboardkey">m</span></td><td>cut the content inside the drawn contour into a magnet / flatten the current magnet to the blackboard</td></tr>
+					<tr><td><span class="keyboardkey">Ctrl+v</span> or <span class="keyboardkey">p</span></td><td>print the current magnet (like rubber stamping)</td></tr>
 				</table>
 				<button class="buttonClear" id="clearMagnet">Remove all the magnets</button>
 			</div>

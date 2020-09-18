@@ -6,6 +6,7 @@ class BoardManager {
     /** name of the board. Default is 0 (this name is used for storing in localStorage) */
     static boardName = 0;
 
+    /** stack to store the cancel/redo actions */
     static cancelStack = new CancelStack();
 
     /**
@@ -40,7 +41,7 @@ class BoardManager {
     }
 
     /**
-     * save the current board
+     * save the current board into the cancel/redo stack but also in the localStorage of the browser
      */
     static save() {
         let data = document.getElementById("canvas").toDataURL();
@@ -51,7 +52,7 @@ class BoardManager {
 
 
     /**
-     * load the board
+     * load the board from the local storage
      */
     static load() {
         let data = localStorage.getItem(BoardManager.boardName);

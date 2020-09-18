@@ -15,7 +15,20 @@ class MagnetizerMode {
         this.points.push(point);
     }
 
-    magnetize() {
+    copyAndMagnetize() {
+        this._magnetize(false);
+    }
+
+    cutAndMagnetize() {
+        this._magnetize(true);
+    }
+
+    /**
+     * 
+     * @param {*} a Boolean cut 
+     * @description magnetize the "selected" part of the blackboard. If cut is true, the selected part is also removed.
+     */
+    _magnetize(cut) {
         const context = document.getElementById("canvas").getContext("2d");
 
         const isSuitable = () => {
@@ -65,10 +78,12 @@ class MagnetizerMode {
 
         if (!isSuitable())
             return;
-            
+
         removeContour();
         createMagnetFromImg();
-        clearBehindMagnet();
+
+        if (cut)
+            clearBehindMagnet();
 
     }
 }
