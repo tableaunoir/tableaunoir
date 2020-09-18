@@ -1,15 +1,16 @@
 class LoadSave {
+
+    /**
+     * @description initialize the button Save and the drag and drop of files
+     */
     static init() {
         document.getElementById("save").onclick = LoadSave.save;
         //document.getElementById("load").onchange = LoadSave.load;
         document.body.ondragover = (event) => {
-            console.log('File(s) in drop zone');
-
             // Prevent default behavior (Prevent file from being opened)
             event.preventDefault();
         }
         document.body.ondrop = (event) => {
-            console.log("drop!", event);
             // Prevent default behavior (Prevent file from being opened)
             event.preventDefault();
 
@@ -32,34 +33,38 @@ class LoadSave {
         };
     }
 
-
+    /**
+     * 
+     * @param {File} file 
+     * @description load the file file
+     */
     static loadFile(file) {
         if (file) {
             let reader = new FileReader();
             reader.readAsText(file, "UTF-8");
             reader.onload = function (evt) {
                 LoadSave.loadJSON(JSON.parse(evt.target.result));
-                //document.getElementById("fileContents").innerHTML = evt.target.result;
             }
-            reader.onerror = function (evt) {
-                //document.getElementById("fileContents").innerHTML = "error reading file";
-            }
+            reader.onerror = function (evt) { }
         }
-        // fetch FileList object
-        //  var files = e.target.files || e.dataTransfer.files;
-
-        // process all File objects
-        /*   for (var i = 0, f; f = files[i]; i++) {
-               f.data
-           }*/
-
     }
+
+    /**
+     * 
+     * @param {*} obj 
+     * @description load the JSON object:
+     * obj.canvasDataURL is the content of the canvas
+     * obj.magnets is the HTML code of the magnets
+     */
     static loadJSON(obj) {
         BoardManager.load(obj.canvasDataURL);
         document.getElementById("magnets").innerHTML = obj.magnets;
         MagnetManager.installMagnets();
     }
 
+    /**
+     * @description save the blackboard and the magnets
+     */
     static save() {
         let magnets = document.getElementById("magnets").innerHTML;
         let canvasDataURL = document.getElementById("canvas").toDataURL();
@@ -67,7 +72,12 @@ class LoadSave {
         LoadSave.download("myblackboard.tableaunoir", JSON.stringify(obj));
     }
 
-
+    /**
+     * 
+     * @param {*} filename 
+     * @param {*} text 
+     * @description propose to download a file called filename that contains the text text
+     */
     static download(filename, text) {
         let element = document.createElement('a');
         element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(text));
