@@ -62,7 +62,7 @@ function load() {
 		if (evt.keyCode == 69) { //e = switch eraser and chalk
 			eraseMode = !eraseMode;
 			if (eraseMode) { document.getElementById("canvas").style.cursor = `url('img/eraser.png') 0 0, auto`; }
-			else document.getElementById("canvas").style.cursor = `url('img/chalk${currentColorID}.png') 0 0, auto`;
+			else document.getElementById("canvas").style.cursor =  ChalkCursor.getStyleCursor(palette.getCurrentColor());
 		}
 
 
