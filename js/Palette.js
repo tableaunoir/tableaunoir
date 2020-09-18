@@ -53,7 +53,7 @@ class Palette {
     }
 
     isShown() {
-        return false; (document.getElementById("palette").style.visibility == "visible");
+        return (document.getElementById("palette").style.visibility == "visible");
     }
 
     getCurrentColor() {
