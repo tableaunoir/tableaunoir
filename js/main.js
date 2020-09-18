@@ -15,7 +15,7 @@ function load() {
 	let alreadyDrawnSth = false; // true if something visible has been drawn (If still false, draw a dot)
 	let eraseMode = false;
 	let eraseModeBig = false;
-	let magnetizer = new MagnetizerMode();
+	let lastDelineation = new Delineation();
 
 
 	BoardManager.init();
@@ -73,16 +73,16 @@ function load() {
 
 		if (evt.ctrlKey && evt.key == 'x') {//Ctrl + x 
 			palette.hide();
-			if (magnetizer.containsPolygonToMagnetize())
-				magnetizer.cutAndMagnetize();
+			if (lastDelineation.containsPolygonToMagnetize())
+				lastDelineation.cutAndMagnetize();
 
 		}
 
 
 		if (evt.ctrlKey && evt.key == 'c') {//Ctrl + c
 			palette.hide();
-			if (magnetizer.containsPolygonToMagnetize())
-				magnetizer.copyAndMagnetize();
+			if (lastDelineation.containsPolygonToMagnetize())
+				lastDelineation.copyAndMagnetize();
 		}
 
 		if (evt.ctrlKey && evt.key == "v") { //Ctrl + v = print the current magnet
@@ -92,8 +92,8 @@ function load() {
 
 		if (evt.key == "m") { //m = make new magnets
 			palette.hide();
-			if (magnetizer.containsPolygonToMagnetize())
-				magnetizer.cutAndMagnetize()();
+			if (lastDelineation.containsPolygonToMagnetize())
+				lastDelineation.cutAndMagnetize()();
 			else {
 				MagnetManager.printCurrentMagnet();
 				MagnetManager.removeCurrentMagnet();
@@ -107,7 +107,10 @@ function load() {
 
 		if (evt.keyCode == 46) { //supr = delete the current magnet
 			palette.hide();
-			MagnetManager.removeCurrentMagnet();
+			if (lastDelineation.containsPolygonToMagnetize())
+				lastDelineation.erase();
+			else
+				MagnetManager.removeCurrentMagnet();
 		}
 	};
 
@@ -121,8 +124,8 @@ function load() {
 		eraseModeBig = false;
 
 
-		magnetizer.reset();
-		magnetizer.addPoint({ x: x, y: y });
+		lastDelineation.reset();
+		lastDelineation.addPoint({ x: x, y: y });
 
 		palette.hide();
 	}
@@ -152,7 +155,7 @@ function load() {
 			}
 			else {
 				drawLine(document.getElementById("canvas").getContext("2d"), x, y, evtX, evtY, evt.pressure);
-				magnetizer.addPoint({ x: evtX, y: evtY });
+				lastDelineation.addPoint({ x: evtX, y: evtY });
 
 			}
 			x = evtX;

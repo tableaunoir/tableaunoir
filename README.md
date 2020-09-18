@@ -36,3 +36,12 @@ If you prefer to use an offline version, it is possible. You have to install Ele
 electron mainElectron.js
 
 
+## New features
+
+* Color palette for chalk
+* Color palette for magnet background
+* Save the current environment
+* Load an environment
+* tableaublanc
+* 
+

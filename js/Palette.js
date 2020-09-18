@@ -21,6 +21,7 @@ class Palette {
         let radius = 96;
         img.style.top = (radius * Math.sin(angle) - 22) + "px";
         img.style.left = (radius * Math.cos(angle) - 16) + "px";
+        img.style.borderColor = this.colors[i];
         img.onclick = () => {
             this.buttons[this.currentColorID].classList.remove("selected");
             this.currentColorID = i;

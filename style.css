@@ -160,6 +160,7 @@ h1 {
 	background-color: gray;
 }
 
+
 .paletteColorButton.selected {
-	border: 1px white solid;
+	border: 2px white solid;
 }
