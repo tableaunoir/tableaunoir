@@ -17,7 +17,7 @@ class Palette {
         img.src = ChalkCursor.getCursorURL(this.colors[i]);
         img.classList.add("paletteColorButton");
 
-        let angle = -Math.PI / 2 - 2 * Math.PI * i / this.colors.length;
+        let angle = -Math.PI / 2 + 2 * Math.PI * i / this.colors.length;
         let radius = 96;
         img.style.top = (radius * Math.sin(angle) - 22) + "px";
         img.style.left = (radius * Math.cos(angle) - 16) + "px";
