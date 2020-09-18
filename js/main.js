@@ -70,14 +70,14 @@ function load() {
 
 		if (evt.ctrlKey && evt.key == 'x') {//Ctrl + x 
 			if (magnetizer.containsPolygonToMagnetize())
-				magnetizer.cutAndMagnetize()();
+				magnetizer.cutAndMagnetize();
 
 		}
 
 
 		if (evt.ctrlKey && evt.key == 'c') {//Ctrl + c
 			if (magnetizer.containsPolygonToMagnetize())
-				magnetizer.copyAndMagnetize()();
+				magnetizer.copyAndMagnetize();
 		}
 
 		if (evt.ctrlKey && evt.key == "v") { //Ctrl + v = print the current magnet
