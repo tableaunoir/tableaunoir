@@ -29,11 +29,13 @@ function load() {
 
 	document.onkeydown = (evt) => {
 		if (evt.keyCode == 27) {//escape => show menu
-			document.getElementById("menu").hidden = !document.getElementById("menu").hidden;
+			if (palette.isShown())
+				palette.hide();
+			else
+				document.getElementById("menu").hidden = !document.getElementById("menu").hidden;
 		}
 
 		if (!evt.ctrlKey && evt.key == "c") { // c => change color
-
 			if (MagnetManager.getMagnetUnderCursor() == undefined) { //if no magnet under the cursor, change the color of the chalk
 				eraseMode = false;
 
@@ -62,7 +64,7 @@ function load() {
 		if (evt.keyCode == 69) { //e = switch eraser and chalk
 			eraseMode = !eraseMode;
 			if (eraseMode) { document.getElementById("canvas").style.cursor = `url('img/eraser.png') 0 0, auto`; }
-			else document.getElementById("canvas").style.cursor =  ChalkCursor.getStyleCursor(palette.getCurrentColor());
+			else document.getElementById("canvas").style.cursor = ChalkCursor.getStyleCursor(palette.getCurrentColor());
 		}
 
 

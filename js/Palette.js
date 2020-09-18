@@ -2,7 +2,7 @@ class Palette {
     colors = ["white", "yellow", "orange", "rgb(100, 172, 255)", "Crimson", "Plum", "LimeGreen"];
     buttons = [];
     currentColorID = 0;
-    onchange = () => {};
+    onchange = () => { };
 
     createPalette() {
         const div = document.getElementById("palette");
@@ -17,10 +17,10 @@ class Palette {
         img.src = ChalkCursor.getCursorURL(this.colors[i]);
         img.classList.add("paletteColorButton");
 
-        let angle = -Math.PI/2 - 2*Math.PI * i/this.colors.length;
+        let angle = -Math.PI / 2 - 2 * Math.PI * i / this.colors.length;
         let radius = 96;
-        img.style.top = (radius * Math.sin(angle)-22) + "px";
-        img.style.left = (radius * Math.cos(angle)-16) + "px";
+        img.style.top = (radius * Math.sin(angle) - 22) + "px";
+        img.style.left = (radius * Math.cos(angle) - 16) + "px";
         img.onclick = () => {
             this.buttons[this.currentColorID].classList.remove("selected");
             this.currentColorID = i;
@@ -50,6 +50,10 @@ class Palette {
     hide() {
         const div = document.getElementById("palette");
         div.style.visibility = "hidden";
+    }
+
+    isShown() {
+        return false; (document.getElementById("palette").style.visibility == "visible");
     }
 
     getCurrentColor() {
