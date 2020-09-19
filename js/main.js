@@ -19,7 +19,9 @@ function load() {
 
 	LoadSave.init();
 	BoardManager.init();
-	palette.createPalette();
+
+	BlackVSWhiteBoard.init();
+
 	palette.onchange = () => {
 		eraseMode = false;
 		document.getElementById("canvas").style.cursor = ChalkCursor.getStyleCursor(palette.getCurrentColor());
@@ -253,11 +255,13 @@ function divideScreen() {
 
 
 function nextBackgroundColor(color) {
-	let colors = ['rgb(64, 64, 64)', 'rgb(0, 128, 0)', 'rgba(192, 0, 0)', 'rgb(0, 0, 128)'];
+	let colors = ['rgb(64, 64, 64)', 'rgb(255, 255, 0)', 'rgb(0, 128, 0)', 'rgb(192, 0, 0)', 'rgb(0, 0, 255)'];
 
 	for (let i = 0; i < colors.length; i++) {
-		if (colors[i] == color)
+		if (colors[i] == color) {
 			return colors[(i + 1) % colors.length];
+		}
+
 	}
 
 	return colors[0];

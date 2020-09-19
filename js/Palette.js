@@ -4,12 +4,17 @@ class Palette {
     currentColorID = 0;
     onchange = () => { };
 
-    createPalette() {
+    _createPalette() {
         const div = document.getElementById("palette");
         for (let i in this.colors) {
             this.buttons[i] = this.createColorButton(i);
             div.appendChild(this.buttons[i]);
         }
+    }
+
+    switchBlackAndWhite() {
+        this.colors[0] = (this.colors[0] == "white") ? "black" : "white";
+        document.getElementById("canvas").style.cursor = ChalkCursor.getStyleCursor(palette.getCurrentColor());
     }
 
     createColorButton(i) {
@@ -43,6 +48,8 @@ class Palette {
 
     show(position) {
         const div = document.getElementById("palette");
+        div.innerHTML = "";
+        this._createPalette();
         div.style.left = position.x + "px";
         div.style.top = position.y + "px";
         div.style.visibility = "visible";
