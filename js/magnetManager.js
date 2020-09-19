@@ -162,7 +162,7 @@ class MagnetManager {
 		MagnetManager.addMagnet(img);
 	}
 
-
+	
 
 	static removeCurrentMagnet() {
 		MagnetManager.currentMagnet.remove();

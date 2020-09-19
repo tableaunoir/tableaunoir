@@ -41,13 +41,26 @@ class LoadSave {
     static loadFile(file) {
         if (file) {
             let reader = new FileReader();
-            reader.readAsText(file, "UTF-8");
-            reader.onload = function (evt) {
-                LoadSave.loadJSON(JSON.parse(evt.target.result));
-            }
             reader.onerror = function (evt) { }
+
+            /** load a .tableaunoir file, that is, a file containing the blackboard + some magnets */
+            if (file.name.endsWith(".tableaunoir")) {
+                reader.readAsText(file, "UTF-8");
+                reader.onload = function (evt) { LoadSave.loadJSON(JSON.parse(evt.target.result)); }
+            }
+            else {
+                /** load an image and add it as a magnet */
+                reader.readAsDataURL(file);
+                reader.onload = function (evt) {
+                    let img = new Image();
+                    img.src = evt.target.result;
+                    MagnetManager.addMagnet(img);
+                }
+            }
         }
     }
+
+
 
     /**
      * 
