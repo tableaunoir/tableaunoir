@@ -1,4 +1,13 @@
+/**
+main screen
+*/
 
+body {
+	margin: 0px;
+	padding: 0px;
+	overflow: hidden;
+	user-select: none;
+}
 
 canvas {
 	background-color: black;
@@ -9,16 +18,13 @@ canvas {
 }
 
 
-body {
-	margin: 0px;
-	padding: 0px;
-	overflow: hidden;
-}
 
+
+/** Magnets **/
 
 .magnet {
 	position: absolute;
-	
+
 	font-size: 32px;
 	font-weight: bold;
 	cursor: grab;
@@ -39,7 +45,7 @@ div.magnet {
 
 img.magnet {
 	padding: 0px;
-	background-color:  rgba(64, 64, 64, 0.9);
+	background-color: rgba(64, 64, 64, 0.9);
 }
 
 
@@ -47,25 +53,37 @@ img.magnet:hover {
 	opacity: 0.9;
 }
 
+
+/** Gale-Shapley, the B's**/
 .GS_B {
 	color: orange;
 	border-radius: 32px;
 	padding: 16px;
 }
 
+
+/**menu **/
+
 #menu {
 	position: absolute;
 	margin: 16px;
-
 	background-color: gray;
 	top: 0px;
 	left: 0px;
-	width: 90%;
-	height: 90%;
+	right: 0px;
+	bottom: 0px;
 	border: 16px gray solid;
 	border-radius: 32px;
 	z-index: 10000;
 	overflow: auto;
+}
+
+#board {
+	font-size: 24;
+	font-weight: bold;
+	background-color: white;
+	border-radius: 8px;
+	padding: 4px;
 }
 
 
@@ -75,11 +93,32 @@ img.magnet:hover {
 }
 
 #menu div div {
-	margin: 16px;
+	vertical-align: top;
+	margin: 8px;
 	background-color: white;
 	width: 380px;
-	display:inline-block;
+	display: inline-block;
 }
+
+
+table {
+	border-collapse: collapse;
+}
+
+tr:nth-child(even) {
+	background-color: #ffffcc;
+}
+
+tr:nth-child(odd) {
+	background-color: #ccffff;
+}
+
+th,
+td {
+	border-bottom: 0px solid #ddd;
+}
+
+
 
 button {
 	background-color: lightgray;
@@ -99,7 +138,12 @@ button:hover {
 
 .buttonClear {
 	background-color: rgb(255, 161, 98);
-	
+
+}
+
+
+.buttonClear:hover {
+	background-color: rgb(255, 116, 74);
 }
 
 
@@ -143,15 +187,15 @@ h1 {
 
 
 .paletteColorButton {
-		position: absolute;
-		border-radius: 32px;
-		width: 46px;
-		padding-left: 16px;	
-		padding-right: 16px;	
-		padding-top: 8px;	
-		padding-bottom: 8px;	
-		background-color: #555555;
-		cursor: pointer;
+	position: absolute;
+	border-radius: 32px;
+	width: 46px;
+	padding-left: 16px;
+	padding-right: 16px;
+	padding-top: 8px;
+	padding-bottom: 8px;
+	background-color: #555555;
+	cursor: pointer;
 }
 
 

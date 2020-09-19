@@ -23,10 +23,10 @@
 	<div id="help">Welcome to Tableau noir, the coolest online blackboard. Press Esc. for help.</div>
 	<div id="palette"></div>
 	<div hidden id="menu">
-		<h1>Tableau noir - Menu</h1>
+		<h1>Tableau noir - Menu and help</h1>
 		<div>
 			<div>
-				<h2>My <select name="board" id="board">
+				<h2>My <select name="board" id="board" title="change depending on whether you prefer a blackboard or a whiteboard">
 					<option value="black">blackboard</option>
 					<option value="white">whiteboard</option>
 				  </select></h2>
@@ -41,17 +41,17 @@
 					</tr>
 					<tr>
 						<td><span class="keyboardkey">c</span></td>
-						<td>switch the color</td>
+						<td>change the color</td>
 					</tr>
 					<tr>
 						<td><span class="keyboardkey">d</span></td>
 						<td>divide the screen</td>
 					</tr>
 				</table>
-				<button class="buttonClear" id="blackboardClear">clear the full blackboard</button>
+				<button class="buttonClear" id="blackboardClear">clear the board</button>
 			</div>
 			<div>
-				<h2>My magnets</h2>
+				<h2>Magnets</h2>
 				<table>
 					<tr>
 						<td><span class="keyboardkey">Suppr</span></td>
@@ -79,15 +79,15 @@
 				<button class="buttonClear" id="clearMagnet">Remove all the magnets</button>
 			</div>
 			<div>
-				<h2>Load an existing board</h2>
-				In order to load/import an existing board, drag and drop your file .tableaunoir file in the application.
-				<h2>Save/download my blackboard</h2>
+				<h2>Load / Save</h2>
+				To load/import an existing board, drag and drop your file .tableaunoir file in the application.
+				<br/>
 				<button id="save">Save</button>
 				<br />
 				<br />
 			</div>
 			<div>
-				<h2>Magnet collections</h2>
+				<h2>Predefined Magnet collections</h2>
 				<h3>Algorithms</h3>
 				<button id="magnetGS">Gale-Shapley algorithm</button>
 				<button id="magnetSorting">Sorting</button>
