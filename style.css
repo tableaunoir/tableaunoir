@@ -90,13 +90,13 @@ img.magnet:hover {
 #menu div {
 	padding: 16px;
 	background-color: gray;
+	columns: 6 500px;
 }
 
 #menu div div {
-	vertical-align: top;
 	margin: 8px;
 	background-color: white;
-	width: 380px;
+	width: 480px;
 	display: inline-block;
 }
 

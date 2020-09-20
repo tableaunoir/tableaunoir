@@ -67,7 +67,7 @@ function load() {
 			eraseMode = !eraseMode;
 			if (eraseMode) {
 				palette.hide();
-				document.getElementById("canvas").style.cursor = `url('img/eraser.png') 0 0, auto`;
+				document.getElementById("canvas").style.cursor = EraserCursor.getStyleCursor();
 			}
 			else document.getElementById("canvas").style.cursor = ChalkCursor.getStyleCursor(palette.getCurrentColor());
 		}
@@ -140,16 +140,14 @@ function load() {
 		if (isDrawing) {
 			palette.hide();
 			if (eraseMode) {
-				let lineWidth = 20;
+				let lineWidth = 10;
 
-
-				lineWidth = 20 + 30 * evt.pressure;
+				lineWidth = 10 + 30 * evt.pressure;
 
 				if (Math.abs(x - xInit) > window.innerWidth / 4 || Math.abs(y - yInit) > window.innerHeight / 4)
 					eraseModeBig = true;
 
 				if (eraseModeBig) {
-					evtY = evtY + 64; //shift because big erasing, centered
 					lineWidth = 300;
 				}
 
@@ -176,6 +174,10 @@ function load() {
 		if (isDrawing && !eraseMode && !alreadyDrawnSth) {
 			drawDot(document.getElementById("canvas").getContext("2d"), x, y);
 		}
+
+		if (eraseMode) //restore the eraser to the original size
+			document.getElementById("canvas").style.cursor = EraserCursor.getStyleCursor();
+
 		alreadyDrawnSth = false;
 		isDrawing = false;
 		BoardManager.save();
@@ -235,10 +237,11 @@ function clearLine(context, x1, y1, x2, y2, lineWidth = 10) {
 	//context.strokeStyle = BACKGROUND_COLOR;
 	context.globalCompositeOperation = "destination-out";
 	context.strokeStyle = "rgba(255,255,255,1)";
+	document.getElementById("canvas").style.cursor = EraserCursor.getStyleCursor(lineWidth);
 	context.lineWidth = lineWidth;
 	context.moveTo(x1, y1);
 	context.lineTo(x2, y2);
-
+	context.lineCap = "round";
 	context.stroke();
 	context.closePath();
 }
