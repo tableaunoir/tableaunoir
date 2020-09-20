@@ -91,16 +91,17 @@ img.magnet:hover {
 	padding: 16px;
 	background-color: gray;
 	display: flex;
-	flex-flow: column wrap;
-	max-height: 100%;
-	width: 100%;
+	flex-flow: row wrap;
+	align-content:flex-start;
+	flex-grow: 0;
+
 }
 
 #menu div div {
 	background-color: white;
 	text-align: center;
 	margin: 8px;
-
+	display: inline-block;
 	padding-top: 0px;
 	
 	width: 480px;
