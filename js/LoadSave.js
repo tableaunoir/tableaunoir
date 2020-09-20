@@ -82,7 +82,7 @@ class LoadSave {
         let magnets = document.getElementById("magnets").innerHTML;
         let canvasDataURL = document.getElementById("canvas").toDataURL();
         let obj = { magnets: magnets, canvasDataURL: canvasDataURL };
-        LoadSave.download("myblackboard.tableaunoir", JSON.stringify(obj));
+        LoadSave.download(document.getElementById("name").value + ".tableaunoir", JSON.stringify(obj));
     }
 
     /**
