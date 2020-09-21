@@ -30,7 +30,7 @@ function load() {
 	document.getElementById("canvas").style.cursor = ChalkCursor.getStyleCursor(palette.getCurrentColor());
 
 	document.onkeydown = (evt) => {
-		if (evt.keyCode == 27) {//escape => show menu
+		if (evt.key == "Escape" || evt.key == "F1") {//escape => show menu
 			if (palette.isShown())
 				palette.hide();
 			else
