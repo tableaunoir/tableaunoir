@@ -66,6 +66,7 @@ img.magnet:hover {
 #menu {
 	position: absolute;
 	margin: 16px;
+	margin: 48px;
 	background-color: gray;
 	top: 0px;
 	left: 0px;
@@ -232,4 +233,11 @@ h1 {
 
 .paletteColorButton.selected {
 	border: 2px white solid;
+}
+
+
+#controls {
+	position: absolute;
+	top: 0px;
+	left: 0px;
 }

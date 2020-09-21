@@ -4,6 +4,8 @@ class Palette {
     currentColorID = 0;
     onchange = () => { };
 
+    static radius = 96;
+
     _createPalette() {
         const div = document.getElementById("palette");
         for (let i in this.colors) {
@@ -23,9 +25,9 @@ class Palette {
         img.classList.add("paletteColorButton");
 
         let angle = -Math.PI / 2 + 2 * Math.PI * i / this.colors.length;
-        let radius = 96;
-        img.style.top = (radius * Math.sin(angle) - 22) + "px";
-        img.style.left = (radius * Math.cos(angle) - 16) + "px";
+        
+        img.style.top = (Palette.radius * Math.sin(angle) - 22) + "px";
+        img.style.left = (Palette.radius * Math.cos(angle) - 16) + "px";
         img.style.borderColor = this.colors[i];
         img.onclick = () => {
             this.buttons[this.currentColorID].classList.remove("selected");
@@ -50,6 +52,10 @@ class Palette {
         const div = document.getElementById("palette");
         div.innerHTML = "";
         this._createPalette();
+    
+        position.y = Math.max(position.y,  Palette.radius + 16 + 48);
+        position.x = Math.max(position.x,  Palette.radius + 16 + 48);
+
         div.style.left = position.x + "px";
         div.style.top = position.y + "px";
         div.style.visibility = "visible";

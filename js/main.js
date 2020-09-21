@@ -5,6 +5,13 @@ const BACKGROUND_COLOR = "black";
 
 let palette = new Palette();
 
+
+function toggleMenu() {
+	document.getElementById("menu").hidden = !document.getElementById("menu").hidden;
+}
+
+
+
 function load() {
 	let xInit = 0;
 	let yInit = 0;
@@ -20,6 +27,40 @@ function load() {
 	LoadSave.init();
 	BoardManager.init();
 
+
+	let changeColor = () => {
+		if (MagnetManager.getMagnetUnderCursor() == undefined) { //if no magnet under the cursor, change the color of the chalk
+			eraseMode = false;
+	
+			if (!isDrawing)
+				palette.show({ x: x, y: y });
+			palette.next();
+		}
+		else { // if there is a magnet change the background of the magnet
+			let magnet = MagnetManager.getMagnetUnderCursor();
+			magnet.style.backgroundColor = nextBackgroundColor(magnet.style.backgroundColor);
+		}
+	}
+
+
+
+	let switchChalkEraser = () => {
+		eraseMode = !eraseMode;
+			if (eraseMode) {
+				palette.hide();
+				document.getElementById("canvas").style.cursor = EraserCursor.getStyleCursor();
+			}
+			else document.getElementById("canvas").style.cursor = ChalkCursor.getStyleCursor(palette.getCurrentColor());
+	}
+
+	buttonMenu.onclick = toggleMenu;
+	buttonColors.onclick = changeColor;
+	buttonEraser.onclick = switchChalkEraser;
+
+	let params = new URLSearchParams(document.location.search.substring(1));
+	if(params.get("controls"))
+		controls.hidden = false;
+
 	BlackVSWhiteBoard.init();
 
 	palette.onchange = () => {
@@ -34,21 +75,12 @@ function load() {
 			if (palette.isShown())
 				palette.hide();
 			else
-				document.getElementById("menu").hidden = !document.getElementById("menu").hidden;
+				toggleMenu();
+				
 		}
 
 		if (!evt.ctrlKey && evt.key == "c") { // c => change color
-			if (MagnetManager.getMagnetUnderCursor() == undefined) { //if no magnet under the cursor, change the color of the chalk
-				eraseMode = false;
-
-				if (!isDrawing)
-					palette.show({ x: x, y: y });
-				palette.next();
-			}
-			else { // if there is a magnet change the background of the magnet
-				let magnet = MagnetManager.getMagnetUnderCursor();
-				magnet.style.backgroundColor = nextBackgroundColor(magnet.style.backgroundColor);
-			}
+			changeColor();
 
 		}
 
@@ -63,13 +95,8 @@ function load() {
 				BoardManager.cancel();
 		}
 
-		if (evt.keyCode == 69) { //e = switch eraser and chalk
-			eraseMode = !eraseMode;
-			if (eraseMode) {
-				palette.hide();
-				document.getElementById("canvas").style.cursor = EraserCursor.getStyleCursor();
-			}
-			else document.getElementById("canvas").style.cursor = ChalkCursor.getStyleCursor(palette.getCurrentColor());
+		if (evt.key == "e") { //e = switch eraser and chalk
+			switchChalkEraser();
 		}
 
 
