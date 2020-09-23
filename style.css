@@ -99,7 +99,7 @@ img.magnet:hover {
 
 #menu div div {
 	background-color: white;
-	text-align: center;
+	text-align: justify;
 	margin: 8px;
 	display: inline-block;
 	
@@ -107,6 +107,8 @@ img.magnet:hover {
 	width: 480px;
 
 }
+
+
 
 #menu div div a {
 	margin-top: 16px;
@@ -132,10 +134,17 @@ tr:nth-child(even) {
 	background-color: #ffffff;
 }
 
+td:first-child {
+	background-color: #eeeeee;
+}
+
 tr:nth-child(odd) {
 	background-color: #ffffff;
 }
 
+tr {
+	border: 1px solid  #bbbbbb;
+}
 th,
 td {
 	border-bottom: 0px solid #ddd;
@@ -199,13 +208,6 @@ h1 {
 
 .keyboardkey {
 	display: inline-block;
-	color: #292929;
-	border-radius: 6px;
-	border: solid 1px #726e67;
-	background: #eeedeb;
-	padding: 4px;
-	margin: 2px;
-	box-shadow: 0px 2px 2px #7c604e;
 }
 
 
