@@ -31,7 +31,7 @@ function load() {
 	let changeColor = () => {
 		if (MagnetManager.getMagnetUnderCursor() == undefined) { //if no magnet under the cursor, change the color of the chalk
 			eraseMode = false;
-	
+
 			if (!isDrawing)
 				palette.show({ x: x, y: y });
 			palette.next();
@@ -46,19 +46,21 @@ function load() {
 
 	let switchChalkEraser = () => {
 		eraseMode = !eraseMode;
-			if (eraseMode) {
-				palette.hide();
-				document.getElementById("canvas").style.cursor = EraserCursor.getStyleCursor();
-			}
-			else document.getElementById("canvas").style.cursor = ChalkCursor.getStyleCursor(palette.getCurrentColor());
+		if (eraseMode) {
+			palette.hide();
+			document.getElementById("canvas").style.cursor = EraserCursor.getStyleCursor();
+		}
+		else document.getElementById("canvas").style.cursor = ChalkCursor.getStyleCursor(palette.getCurrentColor());
 	}
+
 
 	buttonMenu.onclick = toggleMenu;
 	buttonColors.onclick = changeColor;
 	buttonEraser.onclick = switchChalkEraser;
 
+
 	let params = new URLSearchParams(document.location.search.substring(1));
-	if(params.get("controls"))
+	if (params.get("controls"))
 		controls.hidden = false;
 
 	BlackVSWhiteBoard.init();
@@ -71,55 +73,40 @@ function load() {
 	document.getElementById("canvas").style.cursor = ChalkCursor.getStyleCursor(palette.getCurrentColor());
 
 	document.onkeydown = (evt) => {
+		//console.log("ctrl: " + evt.ctrlKey + " shift:" + evt.shiftKey + "key: " + evt.key)
 		if (evt.key == "Escape" || evt.key == "F1") {//escape => show menu
 			if (palette.isShown())
 				palette.hide();
 			else
 				toggleMenu();
-				
 		}
-
-		if (!evt.ctrlKey && evt.key == "c") { // c => change color
+		else if (!evt.ctrlKey && evt.key == "c") // c => change color
 			changeColor();
-
-		}
-
-		if (evt.key == "d") { //d = divide screen
+		else if (evt.key == "d")  //d = divide screen
 			divideScreen();
-		}
-
-		if (evt.key == "z") {//z = cancel or redo
-			if (evt.ctrlKey && evt.shiftKey)
-				BoardManager.redo();
-			else if (evt.ctrlKey)
-				BoardManager.cancel();
-		}
-
-		if (evt.key == "e") { //e = switch eraser and chalk
+		else if (evt.ctrlKey && evt.shiftKey && evt.key == "Z") //ctrl + shift + z = redo
+			BoardManager.redo();
+		else if (evt.ctrlKey && evt.key == "y")
+			BoardManager.redo();
+		else if (evt.ctrlKey && evt.key == "z") // ctrl + z = undo
+			BoardManager.cancel();
+		else if (evt.key == "e")  //e = switch eraser and chalk
 			switchChalkEraser();
-		}
-
-
-		if (evt.ctrlKey && evt.key == 'x') {//Ctrl + x 
+		else if (evt.ctrlKey && evt.key == 'x') {//Ctrl + x 
 			palette.hide();
 			if (lastDelineation.containsPolygonToMagnetize())
 				lastDelineation.cutAndMagnetize();
-
 		}
-
-
-		if (evt.ctrlKey && evt.key == 'c') {//Ctrl + c
+		else if (evt.ctrlKey && evt.key == 'c') {//Ctrl + c
 			palette.hide();
 			if (lastDelineation.containsPolygonToMagnetize())
 				lastDelineation.copyAndMagnetize();
 		}
-
-		if (evt.ctrlKey && evt.key == "v") { //Ctrl + v = print the current magnet
+		else if (evt.ctrlKey && evt.key == "v") { //Ctrl + v = print the current magnet
 			palette.hide();
 			MagnetManager.printCurrentMagnet();
 		}
-
-		if (evt.key == "m") { //m = make new magnets
+		else if (evt.key == "m") { //m = make new magnets
 			palette.hide();
 			if (lastDelineation.containsPolygonToMagnetize())
 				lastDelineation.cutAndMagnetize();
@@ -128,13 +115,11 @@ function load() {
 				MagnetManager.removeCurrentMagnet();
 			}
 		}
-
-		if (evt.key == "p") { //p = print the current magnet
+		else if (evt.key == "p") { //p = print the current magnet
 			palette.hide();
 			MagnetManager.printCurrentMagnet();
 		}
-
-		if (evt.keyCode == 46) { //supr = delete the current magnet
+		else if (evt.keyCode == 46) { //supr = delete the current magnet
 			palette.hide();
 			/*if (lastDelineation.containsPolygonToMagnetize())
 				lastDelineation.erase();
