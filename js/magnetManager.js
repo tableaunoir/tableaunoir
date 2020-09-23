@@ -154,6 +154,8 @@ class MagnetManager {
 
 	static removeCurrentMagnet() {
 		MagnetManager.currentMagnet.remove();
+		MagnetManager.currentMagnet == undefined;
+		MagnetManager.magnetUnderCursor = undefined;
 	}
 
 	static printCurrentMagnet() {

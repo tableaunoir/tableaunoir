@@ -98,6 +98,10 @@ function load() {
 			previousColor();
 		else if (evt.key == "Enter")
 			palette.hide();
+		else if (evt.key == "ArrowLeft" && palette.isShown())
+			palette.previous();
+		else if (evt.key == "ArrowRight" && palette.isShown())
+			palette.next();
 		else if (evt.key == "d")  //d = divide screen
 			divideScreen();
 		else if (evt.ctrlKey && evt.shiftKey && evt.key == "Z") //ctrl + shift + z = redo
