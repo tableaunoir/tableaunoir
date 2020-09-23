@@ -42,7 +42,19 @@ function load() {
 		}
 	}
 
+	let previousColor = () => {
+		if (MagnetManager.getMagnetUnderCursor() == undefined) { //if no magnet under the cursor, change the color of the chalk
+			eraseMode = false;
 
+			if (!isDrawing)
+				palette.show({ x: x, y: y });
+			palette.previous();
+		}
+		else { // if there is a magnet change the background of the magnet
+			let magnet = MagnetManager.getMagnetUnderCursor();
+			magnet.style.backgroundColor = nextBackgroundColor(magnet.style.backgroundColor);
+		}
+	}
 
 	let switchChalkEraser = () => {
 		eraseMode = !eraseMode;
@@ -73,15 +85,19 @@ function load() {
 	document.getElementById("canvas").style.cursor = ChalkCursor.getStyleCursor(palette.getCurrentColor());
 
 	document.onkeydown = (evt) => {
-		//console.log("ctrl: " + evt.ctrlKey + " shift:" + evt.shiftKey + "key: " + evt.key)
+		console.log("ctrl: " + evt.ctrlKey + " shift:" + evt.shiftKey + "key: " + evt.key)
 		if (evt.key == "Escape" || evt.key == "F1") {//escape => show menu
 			if (palette.isShown())
 				palette.hide();
 			else
 				toggleMenu();
 		}
-		else if (!evt.ctrlKey && evt.key == "c") // c => change color
+		else if (!evt.ctrlKey && !evt.shiftKey && evt.key == "c") // c => change color
 			changeColor();
+		else if (!evt.ctrlKey && evt.shiftKey && evt.key == "C")
+			previousColor();
+		else if (evt.key == "Enter")
+			palette.hide();
 		else if (evt.key == "d")  //d = divide screen
 			divideScreen();
 		else if (evt.ctrlKey && evt.shiftKey && evt.key == "Z") //ctrl + shift + z = redo

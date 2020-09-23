@@ -26,23 +26,9 @@ class MagnetManager {
 
 		document.getElementById("menu").hidden = true;
 
-		setTimeout(MagnetManager.setMagnetsZIndex, 400);
+
 	}
 
-
-
-	static setMagnetsZIndex() {
-		let magnets = MagnetManager.getMagnets();
-
-		let A = [...Array(magnets.length).keys()];
-
-		A.sort((i, j) => magnets[j].clientWidth - magnets[i].clientWidth);
-		//A contains the indices of the magnet from the biggest to the smallest
-
-		for (let i = 0; i < magnets.length; i++) {
-			magnets[A[i]].style.zIndex = i;
-		}
-	}
 
 	static addMagnet(element) {
 		if (MagnetManager.magnetX > window.innerWidth - 10) {
@@ -53,10 +39,12 @@ class MagnetManager {
 		element.style.left = MagnetManager.magnetX + "px";
 		element.style.top = MagnetManager.magnetY + "px";
 
+		//done with setTimeout because images may be loaded
+		setTimeout(() => element.style.zIndex = window.innerWidth - element.clientWidth, 400);
+
 		MagnetManager.magnetX += 64;
 		MagnetManager.currentMagnet = element;
 		element.classList.add("magnet");
-		//document.body.appendChild(element);
 
 		document.getElementById("magnets").appendChild(element);
 		MagnetManager.installMagnet(element);
