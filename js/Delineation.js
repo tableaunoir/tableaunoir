@@ -74,14 +74,40 @@ class Delineation {
         context.stroke();
     }
 
+    _getRectangle() {
+        let r = { x1: canvas.width, y1: canvas.height, x2: 0, y2: 0 };
+
+        for (let point of this.points) {
+            r.x1 = Math.min(r.x1, point.x);
+            r.y1 = Math.min(r.y1, point.y);
+            r.x2 = Math.max(r.x2, point.x);
+            r.y2 = Math.max(r.y2, point.y);
+        }   
+
+        return r;
+    }
+
+    _getDataURLPictureOfRectangle(r) {
+        let C = document.createElement("canvas");
+        C.width = r.x2 - r.x1;
+        C.height = r.y2 - r.y1;
+        let ctx = C.getContext("2d");
+        ctx.drawImage( document.getElementById("canvas"),
+            r.x1, r.y1, r.x2 - r.x1, r.y2 - r.y1, //coordinates in the canvas
+            0, 0, r.x2 - r.x1, r.y2 - r.y1); //coordinates in the magnet
+        return C.toDataURL();
+    }
+
 
     _createMagnetFromImg = () => {
         let img = new Image();
-        img.src = document.getElementById("canvas").toDataURL();
-        img.style.clipPath = "polygon(" + this.points.map(point => `${point.x}px ${point.y}px`).join(", ") + ")";
+        const rectangle = this._getRectangle();
+        console.log(rectangle)
+        img.src = this._getDataURLPictureOfRectangle(rectangle);
+        img.style.clipPath = "polygon(" + this.points.map(point => `${point.x - rectangle.x1}px ${point.y - rectangle.y1}px`).join(", ") + ")";
         MagnetManager.addMagnet(img);
-        img.style.left = "0px";
-        img.style.top = "0px";
+        img.style.left = rectangle.x1 + "px";
+        img.style.top = rectangle.y1 + "px";
     }
 
     _clearBehindMagnet = () => {
