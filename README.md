@@ -15,7 +15,13 @@ Tableaunoir is used for teaching at ENS Rennes. The main advantage is that the s
 
 * Of course, you can draw and erase.
 * You can also use kind of predefined fridge magnets that you can move on the board, to make animation e.g. for illustrating sorting algorithms, etc.
-* You can also create customized "fridge magnets" for interactive courses.
+* create your own customized "fridge magnets" for interactive courses.
+* Color palette for chalk
+* Chance the color of magnets' background
+* Save the current board
+* Load an board
+* switch to a whiteboard instead of a blackboard
+
 
 
 You can teach online by sharing the screen with Discord, Zoom, Teams, etc.
@@ -35,13 +41,4 @@ If you prefer to use an offline version, it is possible. You have to install Ele
 
 electron mainElectron.js
 
-
-## New features
-
-* Color palette for chalk
-* Color palette for magnet background
-* Save the current environment
-* Load an environment
-* tableaublanc
-* 
 
