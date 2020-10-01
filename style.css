@@ -2,11 +2,16 @@
 main screen
 */
 
+
+html {
+	overscroll-behavior-x: none;
+}
 body {
 	margin: 0px;
 	padding: 0px;
 	overflow: hidden;
 	user-select: none;
+	overscroll-behavior-x: none;
 }
 
 canvas {

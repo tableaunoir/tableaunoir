@@ -149,7 +149,17 @@ function load() {
 	};
 
 
-	document.getElementById("canvas").onpointerdown = function (evt) {
+	document.getElementById("canvas").onpointerdown = mousedown;
+	document.getElementById("canvas").onmousedown = mousedown;
+
+	document.getElementById("canvas").ontouchstart = mousedown;
+	document.getElementById("canvas").ontouchmove = mousemove;
+	document.getElementById("canvas").ontouchend= mouseup;
+	document.getElementById("canvas").ontouchcancel= mouseup;
+
+	function mousedown(evt) {
+		evt.preventDefault();
+		console.log("mousedown")
 		x = evt.offsetX;
 		y = evt.offsetY;
 		xInit = x;
@@ -165,7 +175,12 @@ function load() {
 	}
 
 
-	document.getElementById("canvas").onpointermove = function (evt) {
+	document.getElementById("canvas").onpointermove = mousemove;
+	document.getElementById("canvas").onmousemove = mousemove;
+	
+	function mousemove(evt) {
+		console.log("mousemove")
+		evt.preventDefault();
 		let evtX = evt.offsetX;
 		let evtY = evt.offsetY;
 
@@ -180,7 +195,7 @@ function load() {
 					eraseModeBig = true;
 
 				if (eraseModeBig) {
-					lineWidth = 300;
+					lineWidth = 128;
 				}
 
 				clearLine(document.getElementById("canvas").getContext("2d"), x, y, evtX, evtY, lineWidth);
@@ -202,7 +217,12 @@ function load() {
 	}
 
 
-	document.getElementById("canvas").onpointerup = function (evt) {
+	document.getElementById("canvas").onpointerup = mouseup;
+	document.getElementById("canvas").onmouseup = mouseup;
+	
+	function mouseup(evt) {
+		evt.preventDefault();
+		console.log("mouseup")
 		if (isDrawing && !eraseMode && !alreadyDrawnSth) {
 			drawDot(document.getElementById("canvas").getContext("2d"), x, y);
 		}
