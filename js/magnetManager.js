@@ -7,8 +7,25 @@ class MagnetManager {
 	static currentMagnet = undefined; // last magnet used
 	static magnetUnderCursor = undefined;
 
+
 	static getMagnetUnderCursor() {
 		return MagnetManager.magnetUnderCursor;
+	}
+
+	/**
+	 * 
+	 * @param {boolean} b 
+	 * @description if b == true, makes all the magnets interactable with the mouse/pointer
+	 *  if b == false, the magnets cannot be moved
+	 */
+	static setInteractable(b) {
+		const v = b ? "auto" : "none";
+
+		let magnets = MagnetManager.getMagnets();
+		
+		for (let i = 0; i < magnets.length; i++)
+			magnets[i].style.pointerEvents = v;
+
 	}
 
 	static getMagnets() {
@@ -150,7 +167,7 @@ class MagnetManager {
 		MagnetManager.addMagnet(img);
 	}
 
-	
+
 
 	static removeCurrentMagnet() {
 		MagnetManager.currentMagnet.remove();

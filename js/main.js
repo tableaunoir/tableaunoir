@@ -158,6 +158,8 @@ function load() {
 	document.getElementById("canvas").ontouchcancel= mouseup;
 
 	function mousedown(evt) {
+		MagnetManager.setInteractable(false);
+
 		evt.preventDefault();
 		console.log("mousedown")
 		x = evt.offsetX;
@@ -221,6 +223,8 @@ function load() {
 	document.getElementById("canvas").onmouseup = mouseup;
 	
 	function mouseup(evt) {
+		MagnetManager.setInteractable(true);
+
 		evt.preventDefault();
 		console.log("mouseup")
 		if (isDrawing && !eraseMode && !alreadyDrawnSth) {
@@ -235,7 +239,7 @@ function load() {
 		BoardManager.save();
 	}
 
-	document.getElementById("canvas").onmouseleave = function (evt) { isDrawing = false; }
+//	document.getElementById("canvas").onmouseleave = function (evt) { isDrawing = false; }
 
 	let magnets = document.getElementsByClassName("magnet");
 	for (let i = 0; i < magnets.length; i++) {
