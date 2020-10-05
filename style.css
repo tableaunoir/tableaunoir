@@ -278,9 +278,25 @@ h1 {
 #palette {
 	position: absolute;
 	z-index: 10000;
+	transition: 400ms;
 }
 
 
+
+
+.PaletteShow {
+	opacity: 1;
+	transform: rotate(0deg), scale(1);
+	visibility: visible;
+	
+}
+
+
+.PaletteHide {
+	opacity: 0;
+	transform: rotate(180deg) scale(10);
+	visibility: hidden;
+}
 
 .paletteColorButton {
 	position: absolute;

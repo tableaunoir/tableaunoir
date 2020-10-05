@@ -69,16 +69,18 @@ class Palette {
 
         div.style.left = position.x + "px";
         div.style.top = position.y + "px";
-        div.style.visibility = "visible";
+        div.classList.remove("PaletteHide");
+        div.classList.add("PaletteShow");
     }
 
     hide() {
         const div = document.getElementById("palette");
-        div.style.visibility = "hidden";
+        div.classList.remove("PaletteShow");
+        div.classList.add("PaletteHide");
     }
 
     isShown() {
-        return (document.getElementById("palette").style.visibility == "visible");
+        return document.getElementById("palette").classList.contains("PaletteShow");
     }
 
     getCurrentColor() {
