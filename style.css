@@ -26,21 +26,27 @@ canvas {
 
 /** Magnets **/
 
+@keyframes magnetInit {
+	from {
+		filter: blur(2px)
+	}
+	to {
+		
+	}
+}
+
 .magnet {
 	position: absolute;
-
 	font-size: 32px;
 	font-weight: bold;
 	cursor: grab;
-
+	animation: magnetInit 500ms normal;
 }
 
 
 .magnet:hover {
 	box-shadow: 0 2px 4px 0 rgba(255, 255, 255, 1);
 }
-
-
 
 .magnetDrag {
 	cursor: none;
@@ -52,23 +58,22 @@ div.magnet {
 }
 
 
-
 @keyframes magnetCreation {
 	from {
 		background-color: rgb(0, 0, 0);
 		filter: blur(2px)
 	}
-
 	to {
 		background-color: rgba(64, 64, 64, 0.9);
 		background-image: none;
 	}
 }
 
+
 img.magnet {
 	padding: 0px;
-	animation: magnetCreation 500ms normal;
 	background-color: rgba(64, 64, 64, 0.9);
+	animation: magnetCreation 500ms normal;
 }
 
 
@@ -126,7 +131,7 @@ img.magnet:hover {
 
 .menuShow {
 	visibility: visible;
-	animation: menuShow 500ms normal;
+	animation: menuShow 200ms normal;
 }
 
 
