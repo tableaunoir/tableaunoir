@@ -41,9 +41,7 @@ class MagnetManager {
 		while (magnets.length > 0)
 			magnets[0].remove();
 
-		document.getElementById("menu").hidden = true;
-
-
+		Menu.hide();
 	}
 
 
@@ -85,21 +83,23 @@ class MagnetManager {
 			}
 
 			let otherElementsToMove = [];
+			let canvasCursorStore = undefined;
+			
 			function dragMouseDown(e) {
 
 				/**
-		 * 
-		 * @param {*} el 
-		 * @param {*} bigel 
-		 * @returns true if el is inside bigel
-		 */
+				 * 
+				 * @param {*} el 
+				 * @param {*} bigel 
+				 * @returns true if el is inside bigel
+				 */
 				function inside(el, bigel) {
 					return el.offsetLeft > bigel.offsetLeft && el.offsetTop > bigel.offsetTop &&
 						el.offsetLeft + el.clientWidth < bigel.offsetLeft + bigel.clientWidth &&
 						el.offsetTop + el.clientHeight < bigel.offsetTop + bigel.clientHeight;
 				}
 
-
+				canvasCursorStore = canvas.style.cursor;
 				e = e || window.event;
 				e.preventDefault();
 				// get the mouse cursor position at startup:
@@ -119,9 +119,14 @@ class MagnetManager {
 					}
 			}
 
+
+			
+
 			function elementDrag(e) {
 				MagnetManager.currentMagnet = e.target;
-
+				e.target.classList.add("magnetDrag");
+				
+				canvas.style.cursor = "none";
 				e = e || window.event;
 				e.preventDefault();
 				// calculate the new cursor position:
@@ -142,7 +147,11 @@ class MagnetManager {
 				}
 			}
 
-			function closeDragElement() {
+			function closeDragElement(e) {
+				
+				e.target.classList.remove("magnetDrag");
+				canvas.style.cursor = canvasCursorStore;
+				
 				// stop moving when mouse button is released:
 				document.onmouseup = null;
 				document.onmousemove = null;

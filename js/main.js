@@ -6,9 +6,7 @@ const BACKGROUND_COLOR = "black";
 let palette = new Palette();
 
 
-function toggleMenu() {
-	document.getElementById("menu").hidden = !document.getElementById("menu").hidden;
-}
+
 
 
 
@@ -66,7 +64,7 @@ function load() {
 	}
 
 
-	buttonMenu.onclick = toggleMenu;
+	buttonMenu.onclick = Menu.toggle;
 	buttonColors.onclick = changeColor;
 	buttonEraser.onclick = switchChalkEraser;
 
@@ -85,12 +83,12 @@ function load() {
 	document.getElementById("canvas").style.cursor = ChalkCursor.getStyleCursor(palette.getCurrentColor());
 
 	document.onkeydown = (evt) => {
-		console.log("ctrl: " + evt.ctrlKey + " shift:" + evt.shiftKey + "key: " + evt.key)
+		//console.log("ctrl: " + evt.ctrlKey + " shift:" + evt.shiftKey + "key: " + evt.key)
 		if (evt.key == "Escape" || evt.key == "F1") {//escape => show menu
 			if (palette.isShown())
 				palette.hide();
 			else
-				toggleMenu();
+				Menu.toggle();
 		}
 		else if (!evt.ctrlKey && !evt.shiftKey && evt.key == "c") // c => change color
 			changeColor();
@@ -154,14 +152,14 @@ function load() {
 
 	document.getElementById("canvas").ontouchstart = mousedown;
 	document.getElementById("canvas").ontouchmove = mousemove;
-	document.getElementById("canvas").ontouchend= mouseup;
-	document.getElementById("canvas").ontouchcancel= mouseup;
+	document.getElementById("canvas").ontouchend = mouseup;
+	document.getElementById("canvas").ontouchcancel = mouseup;
 
 	function mousedown(evt) {
 		MagnetManager.setInteractable(false);
 
 		evt.preventDefault();
-		console.log("mousedown")
+		//console.log("mousedown")
 		x = evt.offsetX;
 		y = evt.offsetY;
 		xInit = x;
@@ -179,9 +177,9 @@ function load() {
 
 	document.getElementById("canvas").onpointermove = mousemove;
 	document.getElementById("canvas").onmousemove = mousemove;
-	
+
 	function mousemove(evt) {
-		console.log("mousemove")
+		//console.log("mousemove")
 		evt.preventDefault();
 		let evtX = evt.offsetX;
 		let evtY = evt.offsetY;
@@ -221,12 +219,12 @@ function load() {
 
 	document.getElementById("canvas").onpointerup = mouseup;
 	document.getElementById("canvas").onmouseup = mouseup;
-	
+
 	function mouseup(evt) {
 		MagnetManager.setInteractable(true);
 
 		evt.preventDefault();
-		console.log("mouseup")
+		//console.log("mouseup")
 		if (isDrawing && !eraseMode && !alreadyDrawnSth) {
 			drawDot(document.getElementById("canvas").getContext("2d"), x, y);
 		}
@@ -239,7 +237,7 @@ function load() {
 		BoardManager.save();
 	}
 
-//	document.getElementById("canvas").onmouseleave = function (evt) { isDrawing = false; }
+	//	document.getElementById("canvas").onmouseleave = function (evt) { isDrawing = false; }
 
 	let magnets = document.getElementsByClassName("magnet");
 	for (let i = 0; i < magnets.length; i++) {

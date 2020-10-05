@@ -37,9 +37,14 @@ canvas {
 
 
 .magnet:hover {
-	box-shadow: 0 8px 16px 0 rgba(255, 255, 255, 1);
+	box-shadow: 0 2px 4px 0 rgba(255, 255, 255, 1);
 }
 
+
+
+.magnetDrag {
+	cursor: none;
+}
 
 div.magnet {
 	background-color: white;
@@ -95,6 +100,39 @@ img.magnet:hover {
 	border-radius: 32px;
 	z-index: 10000;
 	overflow: auto;
+}
+
+
+@keyframes menuShow {
+	from {
+		opacity: 0;
+		top: 64px;
+		left: 64px;
+		right: 64px;
+		bottom: 64px;
+		scale: 0.2;
+		visibility: hidden;
+	}
+
+	to {
+		opacity: 1;
+		top: 0px;
+		left: 0px;
+		right: 0px;
+		bottom: 0px;
+		scale: 1;
+	}
+}
+
+.menuShow {
+	visibility: visible;
+	animation: menuShow 500ms normal;
+}
+
+
+.menuHide {
+	visibility: hidden;
+
 }
 
 #board {

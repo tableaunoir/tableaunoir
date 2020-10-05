@@ -16,7 +16,7 @@ class BoardManager {
         document.getElementById("blackboardClear").onclick = () => {
             BoardManager._clear();
             BoardManager.save();
-            document.getElementById("menu").hidden = true;
+            Menu.hide();
         }
     }
 
