@@ -269,7 +269,7 @@ h1 {
 	overflow: auto;
 }
 
-#help div {
+#help .explanation {
 	background-color: white;
 	border-radius: 32px;
 	padding: 16px;
@@ -277,9 +277,13 @@ h1 {
 }
 
 #help .modePanel {
-	padding: 0px;
+	padding: 16px;
+	margin-left: 16px;
+	margin-right: 16px;
+	border-radius: 32px;
 	display: inline-block;
 	width: 40%;
+	background-color: rgb(241, 241, 186);
 }
 
 .modePanel button {
