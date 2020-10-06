@@ -15,7 +15,7 @@ class Welcome {
 
 
     static isShown() {
-        return help.classList.contains("menuShow");
+        return !help.classList.contains("menuHide");
     }
 
     static hide() {

@@ -22,7 +22,10 @@ canvas {
 }
 
 
-
+em {
+	color: green;
+	font-weight: bold;
+}
 
 /** Magnets **/
 
@@ -283,6 +286,7 @@ h1 {
 	border-radius: 32px;
 	display: inline-block;
 	width: 40%;
+	min-height: 250px;
 	background-color: rgb(241, 241, 186);
 }
 
