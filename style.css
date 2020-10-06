@@ -252,13 +252,51 @@ h1 {
 	padding: 8px;
 }
 
+
+
 #help {
-	color: white;
 	position: absolute;
+	margin: 16px;
+	margin: 48px;
+	background-color: gray;
 	top: 0px;
 	left: 0px;
-	width: 640px;
+	right: 0px;
+	bottom: 0px;
+	border: 16px gray solid;
+	border-radius: 32px;
+	z-index: 10000;
+	overflow: auto;
 }
+
+#help div {
+	background-color: white;
+	border-radius: 32px;
+	padding: 16px;
+	margin: 8px;
+}
+
+#help .modePanel {
+	padding: 0px;
+	display: inline-block;
+	width: 40%;
+}
+
+.modePanel button {
+	background-color: greenyellow;
+	padding: 16px;
+}
+
+
+.modePanel button:hover {
+	background-color: rgb(206, 255, 44);
+}
+
+.center {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+  }
 
 #number {
 	color: white;

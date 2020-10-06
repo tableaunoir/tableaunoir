@@ -69,9 +69,12 @@ function load() {
 	buttonEraser.onclick = switchChalkEraser;
 
 
-	let params = new URLSearchParams(document.location.search.substring(1));
+	/*let params = new URLSearchParams(document.location.search.substring(1));
 	if (params.get("controls"))
-		controls.hidden = false;
+		controls.hidden = false;*/
+
+	Welcome.init();
+
 
 	BlackVSWhiteBoard.init();
 
@@ -85,12 +88,18 @@ function load() {
 	document.onkeydown = (evt) => {
 		//console.log("ctrl: " + evt.ctrlKey + " shift:" + evt.shiftKey + "key: " + evt.key)
 		if (evt.key == "Escape" || evt.key == "F1") {//escape => show menu
-			if (palette.isShown())
+			if (Welcome.isShown())
+				Welcome.hide();
+			else if (palette.isShown())
 				palette.hide();
 			else
 				Menu.toggle();
 		}
-		else if (!evt.ctrlKey && !evt.shiftKey && evt.key == "c") // c => change color
+
+		if(Menu.isShown() || Welcome.isShown())
+			return;
+
+		if (!evt.ctrlKey && !evt.shiftKey && evt.key == "c") // c => change color
 			changeColor();
 		else if (!evt.ctrlKey && evt.shiftKey && evt.key == "C")
 			previousColor();
@@ -248,7 +257,6 @@ function load() {
 
 	document.getElementById("clearMagnet").onclick = MagnetManager.clearMagnet;
 
-	setTimeout(() => document.getElementById("help").hidden = true, 5000)
 	loadMagnets();
 
 	BoardManager.load();

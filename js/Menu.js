@@ -15,4 +15,9 @@ class Menu {
         menu.classList.remove("menuShow");
         menu.classList.add("menuHide");
     }
+
+
+    static isShown() {
+        return menu.classList.contains("menuShow");
+    }
 }

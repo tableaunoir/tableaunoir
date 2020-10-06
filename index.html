@@ -15,6 +15,7 @@
 	<script src="js/LoadSave.js"></script>
 	<script src="js/Menu.js"></script>
 	<script src="js/BlackVSWhiteBoard.js"></script>
+	<script src="js/Welcome.js"></script>
 </head>
 
 <body>
@@ -26,27 +27,44 @@
 		<button id="buttonEraser">Chalk/Eraser</button>
 	</div>
 	<div id="magnets"></div>
-	<div id="help">Press Esc. or F1 for help. Welcome to Tableau noir, the greatest online blackboard. If it does not work, please update your browser. Work best on
-		Firefox, Chrome or Chromium, last versions.</div>
+	<div id="help"  class="menuShow">
+		<h1>Welcome to Tableaunoir</h1>
+
+		<div>
+			Tableaunoir is the greatest (!) online blackboard. If it does not work, please update your browser. Work
+			best on
+			Firefox, Chrome or Chromium, last versions.
+			Of course, you can draw and erase, but
+			you can also create <i>magnets</i> (think of them as fridge magnets) for making interactive courses,
+			presentations and discussions with students.
+			<br /><br />
+			The project is open source and the source code is available at:
+			<br />
+			<a href="https://github.com/tableaunoir">https://github.com/tableaunoir</a>
+		</div>
+		<br/>
+		<div class="center">
+		<div class="modePanel">
+			<div class="center">
+				<button id="start">Start button-free mode</button>
+			</div>
+			The button-free mode does not show any button, so that your students will not be distracted by any graphical
+			user interface elements. Press Esc. or F1 for show the menu that explains all the keyboard shortcuts, and
+			give some help.
+
+		</div>
+		<div class="modePanel">
+			<div class="center">
+				<button id="startButtonMode">Start button mode</button>
+			</div>
+			The button mode offers few buttons for changing the colors, for erasing and for showing the menu.
+		</div>
+	</div>
+	</div>
 	<div id="palette" class="PaletteHide"></div>
 	<div id="menu" class="menuHide">
 		<h1>Tableaunoir - Menu and help</h1>
 		<div>
-			<div id="presentation">
-				Tableaunoir <a
-				href="https://tableaunoir.github.io">https://tableaunoir.github.io</a>  is an online opensource blackboard (or whiteboard!). Of course, you can draw and erase, but
-				you can also create <i>magnets</i> (think of them as fridge magnets) for making interactive courses,
-				 presentations and discussions with students.
-				<br /><br />
-				If you would like to use visible control buttons please use
-				<br />
-				<a
-				href="https://tableaunoir.github.io?controls=true">https://tableaunoir.github.io?controls=true</a> 
-				<br /><br />
-				The project is open source and the source code is available at:
-				<br />
-				<a href="https://github.com/tableaunoir">https://github.com/tableaunoir</a>
-			</div>
 			<div>
 				<h2>My <select name="board" id="board"
 						title="change depending on whether you prefer a blackboard or a whiteboard">
@@ -77,7 +95,8 @@
 						<td>cancel</td>
 					</tr>
 					<tr>
-						<td><span class="keyboardkey">Ctrl+Y</span> or <span class="keyboardkey">Ctrl+Shift+Z</span></td>
+						<td><span class="keyboardkey">Ctrl+Y</span> or <span class="keyboardkey">Ctrl+Shift+Z</span>
+						</td>
 						<td>redo</td>
 					</tr>
 				</table>
@@ -91,7 +110,7 @@
 				<br />
 				<h2>Save</h2>
 				Name: <input id="name" value="myblackboard"></input><button id="save">Save</button>
-				
+
 			</div>
 
 
