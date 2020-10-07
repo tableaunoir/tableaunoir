@@ -90,12 +90,14 @@
 				Shortcuts</button>
 			<button class="tablink" onclick="Menu.openPage('Magnets', this)">Magnets</button>
 		</div>
+
 		<div id="MyBlackboard" class="tabcontent">
 			<h2>My <select name="board" id="board"
 					title="change depending on whether you prefer a blackboard or a whiteboard">
 					<option value="black">blackboard</option>
 					<option value="white">whiteboard</option>
 				</select></h2>
+				<button id="controlsToggle" onclick="controls.hidden = !controls.hidden; Menu.hide()">Show/hide control buttons</button>
 			<button class="buttonClear" id="blackboardClear">clear the board</button>
 			<button class="buttonClear" id="clearMagnet">Remove all the magnets</button>
 

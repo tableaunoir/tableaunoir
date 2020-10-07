@@ -272,23 +272,15 @@ h1 {
 	padding: 16px;
 	margin-left: 16px;
 	margin-right: 16px;
-	border-radius: 32px;
 	display: inline-block;
 	width: 40%;
 	min-height: 250px;
 	background-color:rgb(29, 29, 29)
 }
 
-.modePanel button {
-	background-color: rgb(97, 97, 255);
-	color: white;
-	padding: 16px;
-}
 
 
-.modePanel button:hover {
-	background-color: rgb(0, 170, 0);
-}
+
 
 .center {
 	display: flex;
