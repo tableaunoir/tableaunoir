@@ -24,6 +24,7 @@ function load() {
 
 	LoadSave.init();
 	BoardManager.init();
+	Menu.init();
 
 
 	let changeColor = () => {
