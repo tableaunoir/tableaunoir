@@ -28,10 +28,17 @@ class MagnetManager {
 
 	}
 
+	/**
+	 * @returns an array containing all the magnets
+	 */
 	static getMagnets() {
 		return document.getElementsByClassName("magnet");
 	}
 
+
+	/**
+	 * delete all the magnets
+	 */
 	static clearMagnet() {
 		MagnetManager.currentMagnet = undefined;
 		MagnetManager.magnetX = 0;
@@ -44,7 +51,11 @@ class MagnetManager {
 		Menu.hide();
 	}
 
-
+/**
+ * 
+ * @param {*} element 
+ * @description add the DOM element element to the list of magnets
+ */
 	static addMagnet(element) {
 		if (MagnetManager.magnetX > window.innerWidth - 10) {
 			MagnetManager.magnetX = 0;
@@ -62,11 +73,11 @@ class MagnetManager {
 		element.classList.add("magnet");
 
 		document.getElementById("magnets").appendChild(element);
-		MagnetManager.installMagnet(element);
+		MagnetManager._installMagnet(element);
 	}
 
 
-	static installMagnet(element) {
+	static _installMagnet(element) {
 		makeDraggableElement(element);
 
 
@@ -160,14 +171,6 @@ class MagnetManager {
 	}
 
 
-
-	static installMagnets() {
-		let magnets = MagnetManager.getMagnets();
-
-		//if(elmt.style.clipPath == undefined) //if not an image (otherwise bug)
-		for (let i = 0; i < magnets.length; i++)
-			MagnetManager.installMagnet(magnets[i]);
-	}
 
 
 	static addMagnetImage(filename) {
