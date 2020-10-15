@@ -27,13 +27,11 @@ class Menu {
 
 
     static toggle() {
-        if (menu.classList.contains("menuShow")) {
-            menu.classList.remove("menuShow");
-            menu.classList.add("menuHide");
+        if (Menu.isShown()) {
+            Menu.hide();
         }
         else {
-            menu.classList.add("menuShow");
-            menu.classList.remove("menuHide");
+            Menu.show();
         }
     }
 
@@ -41,8 +39,17 @@ class Menu {
     static hide() {
         menu.classList.remove("menuShow");
         menu.classList.add("menuHide");
+     /*   document.getElementById("content").classList.remove("preview");
+        document.body.appendChild(document.getElementById("content"));*/
     }
 
+
+    static show() {
+        menu.classList.add("menuShow");
+        menu.classList.remove("menuHide");
+        /*document.getElementById("content").classList.add("preview");
+        document.getElementById("menucontent").appendChild(document.getElementById("content"));*/
+    }
 
     static isShown() {
         return menu.classList.contains("menuShow");

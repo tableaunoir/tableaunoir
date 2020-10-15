@@ -51,7 +51,7 @@ function load() {
 		}
 		else { // if there is a magnet change the background of the magnet
 			let magnet = MagnetManager.getMagnetUnderCursor();
-			magnet.style.backgroundColor = nextBackgroundColor(magnet.style.backgroundColor);
+			magnet.style.backgroundColor = previousBackgroundColor(magnet.style.backgroundColor);
 		}
 	}
 
@@ -60,8 +60,12 @@ function load() {
 		if (eraseMode) {
 			palette.hide();
 			document.getElementById("canvas").style.cursor = EraserCursor.getStyleCursor();
+			buttonEraser.innerHTML = "Chalk";
 		}
-		else document.getElementById("canvas").style.cursor = ChalkCursor.getStyleCursor(palette.getCurrentColor());
+		else {
+			document.getElementById("canvas").style.cursor = ChalkCursor.getStyleCursor(palette.getCurrentColor());
+			buttonEraser.innerHTML = "Eraser";
+		}
 	}
 
 
@@ -97,7 +101,7 @@ function load() {
 				Menu.toggle();
 		}
 
-		if(Menu.isShown() || Welcome.isShown())
+		if (Menu.isShown() || Welcome.isShown())
 			return;
 
 		if (!evt.ctrlKey && !evt.shiftKey && evt.key == "c") // c => change color
@@ -194,7 +198,7 @@ function load() {
 		let evtX = evt.offsetX;
 		let evtY = evt.offsetY;
 
-		if (isDrawing) {
+		if (isDrawing && lastDelineation.isDrawing()) {
 			palette.hide();
 			if (eraseMode) {
 				let lineWidth = 10;
@@ -232,6 +236,7 @@ function load() {
 
 	function mouseup(evt) {
 		MagnetManager.setInteractable(true);
+		lastDelineation.finish();
 
 		evt.preventDefault();
 		//console.log("mouseup")
@@ -257,6 +262,7 @@ function load() {
 	}
 
 	document.getElementById("clearMagnet").onclick = MagnetManager.clearMagnet;
+	document.getElementById("magnetsArrange").onclick = MagnetManager.arrange;
 
 	loadMagnets();
 
@@ -318,17 +324,23 @@ function divideScreen() {
 }
 
 
-
+let magnetColors = ['', 'rgb(255, 128, 0)', 'rgb(0, 128, 0)', 'rgb(192, 0, 0)', 'rgb(0, 0, 255)'];
 
 function nextBackgroundColor(color) {
-	let colors = ['rgb(64, 64, 64)', 'rgb(255, 128, 0)', 'rgb(0, 128, 0)', 'rgb(192, 0, 0)', 'rgb(0, 0, 255)'];
-
-	for (let i = 0; i < colors.length; i++) {
-		if (colors[i] == color) {
-			return colors[(i + 1) % colors.length];
+	for (let i = 0; i < magnetColors.length; i++) {
+		if (magnetColors[i] == color) {
+			return magnetColors[(i + 1) % magnetColors.length];
 		}
-
 	}
+	return magnetColors[0];
+}
 
-	return colors[0];
+
+function previousBackgroundColor(color) {
+	for (let i = 0; i < magnetColors.length; i++) {
+		if (magnetColors[i] == color) {
+			return magnetColors[(i - 1) % magnetColors.length];
+		}
+	}
+	return magnetColors[0];
 }

@@ -10,6 +10,7 @@ body {
 	overflow: hidden;
 	user-select: none;
 	overscroll-behavior-x: none;
+	background-color: black;
 }
 
 canvas {
@@ -19,6 +20,14 @@ canvas {
 	z-index: -10000;
 }
 
+
+svg {
+	z-index: 0;
+	position: absolute;
+	top: 0;
+	left: 0;
+	pointer-events: none;
+}
 
 em {
 	color: rgb(220, 255, 168);
@@ -35,9 +44,8 @@ a {
 	from {
 		filter: blur(2px)
 	}
-	to {
-		
-	}
+
+	to {}
 }
 
 .magnet {
@@ -68,11 +76,13 @@ div.magnet {
 		background-color: rgb(0, 0, 0);
 		filter: blur(2px)
 	}
+
 	to {
 		background-color: rgba(64, 64, 64, 0.9);
 		background-image: none;
 	}
 }
+
 
 
 img.magnet {
@@ -87,6 +97,34 @@ img.magnet:hover {
 }
 
 
+@keyframes magnetCreationPolygon {
+	0% {
+		opacity: 0;
+	}
+
+	50% {
+		stroke-dashoffset: 1000;
+		opacity: 0.5;
+	}
+
+	100% {
+		stroke-dashoffset: 2000;
+		opacity: 1;
+	}
+}
+
+
+
+
+#magnetCreationPolygon {
+	stroke: greenyellow;
+	fill: none;
+	stroke-width: 8px;
+	stroke-dasharray: 100 100;
+	animation: magnetCreationPolygon 2s infinite;
+	
+
+}
 /** Gale-Shapley, the B's**/
 .GS_B {
 	color: orange;
@@ -121,6 +159,7 @@ img.magnet:hover {
 		scale: 0.2;
 		visibility: hidden;
 	}
+
 	to {
 		opacity: 1;
 		top: 0px;
@@ -174,8 +213,8 @@ img.magnet:hover {
 }
 
 .tabcontent {
-   padding: 32px;
-   
+	padding: 32px;
+
 }
 
 
@@ -198,8 +237,9 @@ table {
 
 
 tr {
-	border: 1px solid  #bbbbbb;
+	border: 1px solid #bbbbbb;
 }
+
 th,
 td {
 	border-bottom: 0px solid #ddd;
@@ -212,7 +252,7 @@ td:first-child {
 }
 
 button {
-	background-color:  rgb(108, 108, 255);
+	background-color: rgb(108, 108, 255);
 	color: white;
 	border: none;
 	border-radius: 5px;
@@ -250,7 +290,7 @@ h1 {
 
 .MenuPanel {
 	position: absolute;
-	background-color:  rgb(61, 61, 61);
+	background-color: rgb(61, 61, 61);
 	top: 0px;
 	left: 0px;
 	right: 0px;
@@ -275,18 +315,24 @@ h1 {
 	display: inline-block;
 	width: 40%;
 	min-height: 250px;
-	background-color:rgb(29, 29, 29)
+	background-color: rgb(29, 29, 29)
 }
 
 
 
-
+.preview {
+	border: white 5px solid;
+	scale: 0.1;
+	height: 200px;
+	width: 300px;
+	pointer-events: none;
+}
 
 .center {
 	display: flex;
 	justify-content: center;
 	align-items: center;
-  }
+}
 
 #number {
 	color: white;
@@ -316,7 +362,7 @@ h1 {
 	opacity: 1;
 	transform: rotate(0deg), scale(1);
 	visibility: visible;
-	
+
 }
 
 

@@ -19,14 +19,16 @@
 </head>
 
 <body>
-
-	<canvas width=2500 height=1300 id="canvas"></canvas>
-	<div hidden id=controls>
-		<button id="buttonMenu">Menu</button>
-		<button id="buttonColors">Colors</button>
-		<button id="buttonEraser">Chalk/Eraser</button>
+	<div id="content">
+		<canvas width=2500 height=1300 id="canvas"></canvas>
+		<svg id="svg" width=2500 height=1300 ></svg>
+		<div hidden id=controls>
+			<button id="buttonMenu">Menu</button>
+			<button id="buttonColors">Colors</button>
+			<button id="buttonEraser">Chalk/Eraser</button>
+		</div>
+		<div id="magnets"></div>
 	</div>
-	<div id="magnets"></div>
 	<div id="help" class="MenuPanel">
 		<h1>Welcome to Tableaunoir</h1>
 
@@ -41,7 +43,8 @@
 			Firefox, Chrome or Chromium, last versions.
 			<br /><br />
 			The project is <em>open source</em> and the source code is available at:
-			<a target="_blank" rel="noopener noreferrer" href="https://github.com/tableaunoir">https://github.com/tableaunoir</a>
+			<a target="_blank" rel="noopener noreferrer"
+				href="https://github.com/tableaunoir">https://github.com/tableaunoir</a>
 		</div>
 		<br />
 		<div class="center">
@@ -92,106 +95,115 @@
 			<button class="tablink" onclick="Menu.openPage('Magnets', this)">Magnets</button>
 			<button class="tablink" onclick="Menu.openPage('About', this)" id="defaultOpen">About tableaunoir</button>
 		</div>
-		<div id="About" class="tabcontent">
-			Tableaunoir is the greatest (!) <em>online blackboard</em>.
-			Of course, you can <em>draw</em> in different <em>colors</em> and <em>erase</em>, but
-			you can also create <em>magnets</em> (think of them as fridge magnets) for making <em>interactive
-				courses</em>,
-			presentations and discussions with students. Ideally, you use it with a <em>graphics tablet</em>.
-			If it does not work, please update your browser. Work
-			best on
-			Firefox, Chrome or Chromium, last versions.
-			<br /><br />
-			The project is <em>open source</em> and the source code is available at:
-			<a target="_blank" rel="noopener noreferrer" href="https://github.com/tableaunoir">https://github.com/tableaunoir</a>
-		</div>
-		<div id="MyBlackboard" class="tabcontent">
-			<h2>My <select name="board" id="board"
-					title="change depending on whether you prefer a blackboard or a whiteboard">
-					<option value="black">blackboard</option>
-					<option value="white">whiteboard</option>
-				</select></h2>
-				<button id="controlsToggle" onclick="controls.hidden = !controls.hidden; Menu.hide()">Show/hide control buttons</button>
-			<button class="buttonClear" id="blackboardClear">clear the board</button>
-			<button class="buttonClear" id="clearMagnet">Remove all the magnets</button>
+		<div>
+			<div id="menucontent"></div>
+			<div id="About" class="tabcontent">
+				Tableaunoir is the greatest (!) <em>online blackboard</em>.
+				Of course, you can <em>draw</em> in different <em>colors</em> and <em>erase</em>, but
+				you can also create <em>magnets</em> (think of them as fridge magnets) for making <em>interactive
+					courses</em>,
+				presentations and discussions with students. Ideally, you use it with a <em>graphics tablet</em>.
+				If it does not work, please update your browser. Work
+				best on
+				Firefox, Chrome or Chromium, last versions.
+				<br /><br />
+				The project is <em>open source</em> and the source code is available at:
+				<a target="_blank" rel="noopener noreferrer"
+					href="https://github.com/tableaunoir">https://github.com/tableaunoir</a>
+			</div>
+			<div id="MyBlackboard" class="tabcontent">
+				<h2>My <select name="board" id="board"
+						title="change depending on whether you prefer a blackboard or a whiteboard">
+						<option value="black">blackboard</option>
+						<option value="white">whiteboard</option>
+					</select></h2>
+				<button id="controlsToggle" onclick="controls.hidden = !controls.hidden; Menu.hide()">Show/hide control
+					buttons</button>
+				<button class="buttonClear" id="blackboardClear">clear the board</button>
+				<button class="buttonClear" id="clearMagnet">Remove all the magnets</button>
 
-			<h2>Load</h2>
-			To import an existing board, drag and drop your <em>.tableaunoir file</em> in the application.
-			<br />
-			<br />
-			<h2>Save</h2>
-			Name: <input id="name" value="myblackboard"></input><button id="save">Save</button>
-		</div>
+				<h2>Load</h2>
+				To import an existing board, drag and drop your <em>.tableaunoir file</em> in the application.
+				<br />
+				<br />
+				<h2>Save</h2>
+				Name: <input id="name" value="myblackboard"></input><button id="save">Save</button>
+			</div>
 
-		<div id="KeyboardShortcuts" class="tabcontent">
-			<h2>Blackboard keyboard shortcuts</h2>
-			<table>
-				<tr>
-					<td><span class="keyboardkey">Esc.</span> or <span class="keyboardkey">F1</span></td>
-					<td>show/hide this menu</td>
-				</tr>
-				<tr>
-					<td><span class="keyboardkey">e</span></td>
-					<td>switch between chalk and <em>eraser</em></td>
-				</tr>
-				<tr>
-					<td><span class="keyboardkey">c</span></td>
-					<td>change the <em>color</em> of the chalk or of the selected magnet</td>
-				</tr>
-				<tr>
-					<td><span class="keyboardkey">d</span></td>
-					<td>divide the screen</td>
-				</tr>
-				<tr>
-					<td><span class="keyboardkey">Ctrl+Z</span></td>
-					<td>cancel</td>
-				</tr>
-				<tr>
-					<td><span class="keyboardkey">Ctrl+Y</span> or <span class="keyboardkey">Ctrl+Shift+Z</span>
-					</td>
-					<td>redo</td>
-				</tr>
-			</table>
+			<div id="KeyboardShortcuts" class="tabcontent">
+				<h2>Blackboard keyboard shortcuts</h2>
+				<table>
+					<tr>
+						<td><span class="keyboardkey">Esc.</span> or <span class="keyboardkey">F1</span></td>
+						<td>show/hide this menu</td>
+					</tr>
+					<tr>
+						<td><span class="keyboardkey">e</span></td>
+						<td>switch between chalk and <em>eraser</em></td>
+					</tr>
+					<tr>
+						<td><span class="keyboardkey">c</span></td>
+						<td>change the <em>color</em> of the chalk or of the selected magnet</td>
+					</tr>
+					<tr>
+						<td><span class="keyboardkey">d</span></td>
+						<td>divide the screen</td>
+					</tr>
+					<tr>
+						<td><span class="keyboardkey">Ctrl+Z</span></td>
+						<td>cancel</td>
+					</tr>
+					<tr>
+						<td><span class="keyboardkey">Ctrl+Y</span> or <span class="keyboardkey">Ctrl+Shift+Z</span>
+						</td>
+						<td>redo</td>
+					</tr>
+				</table>
 
-			<h2>Magnet keyboard shortcuts</h2>
-			<table>
-				<tr>
-					<td><span class="keyboardkey">Del</span></td>
-					<td>delete the current magnet</td>
-				</tr>
-				<tr>
-					<td><span class="keyboardkey">Ctrl+x</span></td>
-					<td>cut the content inside the drawn contour into a magnet</td>
-				</tr>
-				<tr>
-					<td><span class="keyboardkey">Ctrl+c</span></td>
-					<td>copy the content inside the drawn contour into a magnet</td>
-				</tr>
-				<tr>
-					<td><span class="keyboardkey">m</span></td>
-					<td>cut the content inside the drawn contour into a magnet / flatten the current magnet to the
-						blackboard</td>
-				</tr>
-				<tr>
-					<td><span class="keyboardkey">Ctrl+v</span> or <span class="keyboardkey">p</span></td>
-					<td>print the current magnet (like rubber stamping)</td>
-				</tr>
-			</table>
-		</div>
+				<h2>Magnet keyboard shortcuts</h2>
+				<table>
+					<tr>
+						<td><span class="keyboardkey">Del</span></td>
+						<td>delete the current magnet</td>
+					</tr>
+					<tr>
+						<td><span class="keyboardkey">Ctrl+x</span></td>
+						<td>cut the content inside the drawn contour into a magnet</td>
+					</tr>
+					<tr>
+						<td><span class="keyboardkey">Ctrl+c</span></td>
+						<td>copy the content inside the drawn contour into a magnet</td>
+					</tr>
+					<tr>
+						<td><span class="keyboardkey">m</span></td>
+						<td>cut the content inside the drawn contour into a magnet / flatten the current magnet to the
+							blackboard</td>
+					</tr>
+					<tr>
+						<td><span class="keyboardkey">Ctrl+v</span> or <span class="keyboardkey">p</span></td>
+						<td>print the current magnet (like rubber stamping)</td>
+					</tr>
+				</table>
+			</div>
 
-		<div id="Magnets" class="tabcontent">
-			<h2>Using existing images</h2>
-			In order to <em>use existing images as magnets</em>, drag and drop .png/.svg/.gif/.jpg files.
+			<div id="Magnets" class="tabcontent">
 
-			<h2>Predefined Magnet collections</h2>
-			<h3>Algorithms</h3>
-			<button id="magnetGS">Gale-Shapley algorithm</button>
-			<button id="magnetSorting">Sorting</button>
-			<button id="magnetBTrees">B trees</button>
-			<button id="magnetGraphNodes">Graph nodes</button>
-			<button id="magnetUnionFind">Union-find</button>
-			<h3>Complexity theory</h3>
-			<button id="magnetTilings">Tilings</button>
+				<button id="magnetsArrange">Arrange the magnets on the board</button>
+
+				<h2>Using existing images</h2>
+				In order to <em>use existing images as magnets</em>, drag and drop .png/.svg/.gif/.jpg files.
+
+				<h2>Predefined Magnet collections</h2>
+				<h3>Algorithms</h3>
+				<button id="magnetGS">Gale-Shapley algorithm</button>
+				<button id="magnetSorting">Sorting</button>
+				<button id="magnetBTrees">B trees</button>
+				<button id="magnetGraphNodes">Graph nodes</button>
+				<button id="magnetUnionFind">Union-find</button>
+				<h3>Complexity theory</h3>
+				<button id="magnetTilings">Tilings</button>
+			</div>
+			
 		</div>
 		<div><button onclick="Menu.hide()">X</button>Esc.</div>
 	</div>

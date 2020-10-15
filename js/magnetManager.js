@@ -22,7 +22,7 @@ class MagnetManager {
 		const v = b ? "auto" : "none";
 
 		let magnets = MagnetManager.getMagnets();
-		
+
 		for (let i = 0; i < magnets.length; i++)
 			magnets[i].style.pointerEvents = v;
 
@@ -51,11 +51,11 @@ class MagnetManager {
 		Menu.hide();
 	}
 
-/**
- * 
- * @param {*} element 
- * @description add the DOM element element to the list of magnets
- */
+	/**
+	 * 
+	 * @param {*} element 
+	 * @description add the DOM element element to the list of magnets
+	 */
 	static addMagnet(element) {
 		if (MagnetManager.magnetX > window.innerWidth - 10) {
 			MagnetManager.magnetX = 0;
@@ -77,6 +77,80 @@ class MagnetManager {
 	}
 
 
+	static arrange() {
+		let magnets = MagnetManager.getMagnets();
+
+		for (let i = 0; i < magnets.length; i++) {
+			let magnet = magnets[i];
+			let x = undefined;
+			let y = undefined;
+
+			let magnetContains = (m, x, y) => {
+				return (parseInt(m.style.left) <= x && parseInt(m.style.top) <= y &&
+					x <= parseInt(m.style.left) + parseInt(m.clientWidth) &&
+					y <= parseInt(m.style.top) + parseInt(m.clientHeight));
+			}
+
+			let dist = () => {
+				let minDist = 100000;
+				for (let j = 0; j < magnets.length; j++) {
+					minDist = Math.min(minDist,
+						Math.abs(x - parseInt(magnets[j].style.left)) + Math.abs(y - parseInt(magnets[j].style.top)));
+				}
+				return minDist;
+
+			}
+			let contains = () => {
+				for (let j = 0; j < magnets.length; j++) {
+					if (magnetContains(magnets[j], x, y) ||
+						magnetContains(magnets[j], x + parseInt(magnet.clientWidth), y + parseInt(magnet.clientHeight)))
+						return true;
+				}
+				return false;
+			}
+
+			let generatePosition = () => {
+				let count = 0;
+				const margin = 32;
+				do {
+					x = (Math.random() * window.innerWidth);
+					y = (Math.random() * window.innerHeight);
+
+					x = Math.max(x, margin);
+					y = Math.max(y, margin);
+					x = Math.min(x, window.innerWidth - magnet.clientWidth - margin);
+					y = Math.min(y, window.innerHeight - magnet.clientHeight - margin);
+					count++;
+				}
+				while (contains() && count < 50)
+			}
+
+
+			let count = 0;
+			let bestDist = 0;
+			let bestX = undefined;
+			let bestY = undefined;
+
+			while (count < 30) {
+
+				generatePosition();
+
+				if (bestDist < dist()) {
+					bestX = x;
+					bestY = y;
+					bestDist = dist();
+				}
+				count++;
+			}
+
+			magnet.style.left = bestX;
+			magnet.style.top = bestY;
+		}
+
+	}
+
+
+
 	static _installMagnet(element) {
 		makeDraggableElement(element);
 
@@ -95,7 +169,7 @@ class MagnetManager {
 
 			let otherElementsToMove = [];
 			let canvasCursorStore = undefined;
-			
+
 			function dragMouseDown(e) {
 
 				/**
@@ -131,12 +205,12 @@ class MagnetManager {
 			}
 
 
-			
+
 
 			function elementDrag(e) {
 				MagnetManager.currentMagnet = e.target;
 				e.target.classList.add("magnetDrag");
-				
+
 				canvas.style.cursor = "none";
 				e = e || window.event;
 				e.preventDefault();
@@ -159,10 +233,10 @@ class MagnetManager {
 			}
 
 			function closeDragElement(e) {
-				
+
 				e.target.classList.remove("magnetDrag");
 				canvas.style.cursor = canvasCursorStore;
-				
+
 				// stop moving when mouse button is released:
 				document.onmouseup = null;
 				document.onmousemove = null;
