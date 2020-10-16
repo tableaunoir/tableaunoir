@@ -261,9 +261,7 @@ function load() {
 
 	}
 
-	document.getElementById("clearMagnet").onclick = MagnetManager.clearMagnet;
-	document.getElementById("magnetsArrange").onclick = MagnetManager.arrange;
-
+	MagnetManager.init();
 	loadMagnets();
 
 	BoardManager.load();

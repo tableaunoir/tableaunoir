@@ -7,6 +7,11 @@ class MagnetManager {
 	static currentMagnet = undefined; // last magnet used
 	static magnetUnderCursor = undefined;
 
+	static init() {
+		document.getElementById("clearMagnet").onclick = MagnetManager.clearMagnet;
+		document.getElementById("magnetsArrange").onclick = MagnetManager.arrange;
+		document.getElementById("magnetsCreateGraph").onclick = MagnetManager.drawGraph;
+	}
 
 	static getMagnetUnderCursor() {
 		return MagnetManager.magnetUnderCursor;
@@ -150,6 +155,61 @@ class MagnetManager {
 	}
 
 
+	static getNodes() {
+		let magnets = MagnetManager.getMagnets();
+		let nodes = [];
+		for (let i = 0; i < magnets.length; i++) {
+			let m = magnets[i];
+			nodes.push({ x: parseInt(m.style.left) + parseInt(m.clientWidth) / 2, y: parseInt(m.style.top) + parseInt(m.clientHeight) / 2 });
+		}
+		console.log(nodes)
+		return nodes;
+	}
+
+	static drawGraph() {
+		MagnetManager.arrange();
+
+		let nodes = MagnetManager.getNodes();
+		let context = canvas.getContext("2d");
+		let edges = [];
+		for (let i = 0; i < nodes.length; i++) {
+			edges[i] = [];
+			for (let j = 0; j < nodes.length; j++) { edges[i][j] = 0; }
+		}
+
+		// returns true iff the line from (a,b)->(c,d) intersects with (p,q)->(r,s)
+		function intersects(a, b, c, d, p, q, r, s) {
+			var det, gamma, lambda;
+			det = (c - a) * (s - q) - (r - p) * (d - b);
+			if (det === 0) {
+				return false;
+			} else {
+				lambda = ((s - q) * (r - a) + (p - r) * (s - b)) / det;
+				gamma = ((b - d) * (r - a) + (c - a) * (s - b)) / det;
+				return (0 < lambda && lambda < 1) && (0 < gamma && gamma < 1);
+			}
+		};
+
+		let isCrossing = (i, j) => {
+			for (let k = 0; k < nodes.length; k++)
+				for (let l = 0; l < nodes.length; l++)
+					if (edges[k][l]) {
+						if (intersects(nodes[i].x, nodes[i].y, nodes[j].x, nodes[j].y, nodes[k].x, nodes[k].y, nodes[l].x, nodes[l].y))
+							return true;
+					}
+			return false;
+		}
+
+		for (let i = 0; i < nodes.length; i++)
+			for (let j = 0; j < nodes.length; j++) {
+				if (Math.abs(nodes[i].x - nodes[j].x) + Math.abs(nodes[i].y - nodes[j].y) < 400 && !isCrossing(i, j)) {
+					edges[i][j] = 1;
+					drawLine(context, nodes[i].x, nodes[i].y, nodes[j].x, nodes[j].y);
+				}
+			}
+
+		BoardManager.save();
+	}
 
 	static _installMagnet(element) {
 		makeDraggableElement(element);
