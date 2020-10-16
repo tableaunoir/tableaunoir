@@ -211,6 +211,14 @@ class MagnetManager {
 		BoardManager.save();
 	}
 
+
+	static installMagnets() {
+		let magnets = MagnetManager.getMagnets();
+
+		for(let i = 0; i < magnets.length; i++)
+			MagnetManager._installMagnet(magnets[i]);
+
+	}
 	static _installMagnet(element) {
 		makeDraggableElement(element);
 
