@@ -67,6 +67,22 @@ function magnetGraphNodes() {
 
 
 
+function magnetGraphSimCity() {
+    MagnetManager.clearMagnet();
+
+    const simCityPictures = ["antenne.png",       "commerce.png",      "parking.png",        "tour.png",
+        "batimentplat.png",  "foursolaire.png",   "residence2.png",    "usine.png",
+        "building.png",      "gare.png",          "residencebleu.png",
+        "chateaudeau.png",   "nuclearplant.png",  "residence.png",
+        "citerne.png",       "parc.png",          "stade.png"
+        ];
+
+        for(let name of simCityPictures) {
+            MagnetManager.addMagnetImage("simCityGraph/" + name);
+        }
+    
+}
+
 /** Tilings */
 
 function createTiling(leftColor, upColor, rightColor, bottomColor, leftText, upText, rightText, bottomText ) {
@@ -134,6 +150,7 @@ function loadMagnets() {
     MagnetManager.register("magnetGraphNodes");
     MagnetManager.register("magnetTilings");
     MagnetManager.register("magnetUnionFind");
+    MagnetManager.register("magnetGraphSimCity")
 }
 
 

@@ -219,6 +219,7 @@ class MagnetManager {
 			MagnetManager._installMagnet(magnets[i]);
 
 	}
+	
 	static _installMagnet(element) {
 		makeDraggableElement(element);
 
