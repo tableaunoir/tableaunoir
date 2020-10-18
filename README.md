@@ -29,6 +29,8 @@ You can teach online by sharing the screen with Discord, Zoom, Teams, etc.
 ## Screenshots
 
 <img src="./img/screenshot.png" alt="screenshot" width="300"/> <img src="./img/screenshot2.png" alt="screenshot" width="150"/> <img src="./img/screenshot3.png" alt="screenshot" width="300"/>
+<img src="./img/simcitygraph.png" alt="screenshot" width="300"/>
+<img src="./img/euclide.png" alt="screenshot" width="300"/>
 
 
 
