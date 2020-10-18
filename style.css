@@ -17,6 +17,7 @@ canvas {
 	background-color: black;
 	margin: 0px;
 	padding: 0px;
+	border: 1px gray solid;
 	z-index: -10000;
 }
 

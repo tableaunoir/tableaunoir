@@ -20,15 +20,21 @@
 
 <body>
 	<div id="content">
-		<canvas width=2500 height=1300 id="canvas"></canvas>
-		<svg id="svg" width=2500 height=1300 ></svg>
+		<div class="board">
+			<canvas width=2500 height=1300 id="canvas"></canvas>
+			<div id="magnets"></div>
+		</div>
+		<div class="board">
+			<canvas width=2500 height=1300></canvas>
+			<div id="magnets"></div>
+		</div>
+	</div>
+	<svg id="svg" width=2500 height=1300></svg>
 		<div hidden id=controls>
 			<button id="buttonMenu">Menu</button>
 			<button id="buttonColors">Colors</button>
 			<button id="buttonEraser">Chalk/Eraser</button>
 		</div>
-		<div id="magnets"></div>
-	</div>
 	<div id="help" class="MenuPanel">
 		<h1>Welcome to Tableaunoir</h1>
 
@@ -190,7 +196,7 @@
 
 				<button id="magnetsArrange">Arrange the magnets on the board</button>
 				<button id="magnetsCreateGraph">Create graph from the magnets</button>
-				
+
 				<h2>Using existing images</h2>
 				In order to <em>use existing images as magnets</em>, drag and drop .png/.svg/.gif/.jpg files.
 
@@ -205,7 +211,7 @@
 				<h3>Complexity theory</h3>
 				<button id="magnetTilings">Tilings</button>
 			</div>
-			
+
 		</div>
 		<div><button onclick="Menu.hide()">X</button>Esc.</div>
 	</div>
