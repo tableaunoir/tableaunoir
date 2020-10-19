@@ -9,6 +9,8 @@ class BoardManager {
     /** stack to store the cancel/redo actions */
     static cancelStack = new CancelStack();
 
+    static _rightExtendCanvasEnable = true;
+
     /**
    * initialization (button)
    */
@@ -40,22 +42,63 @@ class BoardManager {
             document.getElementById("canvas").height = window.innerHeight;
     }
 
+
+    /**
+     * 
+     * @param {*} r a rectangle {x1, y1, x2, y2}
+     * @returns the content as a string of the image
+     */
+    static _getDataURLPictureOfRectangle(r) {
+        let C = document.createElement("canvas");
+        C.width = r.x2 - r.x1;
+        C.height = r.y2 - r.y1;
+        let ctx = C.getContext("2d");
+        ctx.drawImage(document.getElementById("canvas"),
+            r.x1, r.y1, r.x2 - r.x1, r.y2 - r.y1, //coordinates in the canvas
+            0, 0, r.x2 - r.x1, r.y2 - r.y1); //coordinates in the magnet
+        return C.toDataURL();
+    }
+
+
+
     /**
      * save the current board into the cancel/redo stack but also in the localStorage of the browser
      */
-    static save() {
-        let data = document.getElementById("canvas").toDataURL();
-        localStorage.setItem(BoardManager.boardName, data);
+    static save(rectangle) {
+        if (rectangle == undefined) {
+            let data = document.getElementById("canvas").toDataURL();
+            localStorage.setItem(BoardManager.boardName, data);
 
-        BoardManager.cancelStack.push(data);
+            BoardManager.cancelStack.push(data);
+        }
+        else {
+            console.log("save rectangle at " + rectangle.x1)
+            rectangle.data = BoardManager._getDataURLPictureOfRectangle(rectangle);
+            BoardManager.cancelStack.push(rectangle);
+        }
+
     }
 
+
+
+
+    static getCurrentScreenRectangle() {
+        const x1 = container.scrollLeft;
+        const y1 = container.scrollTop;
+        const x2 = x1 + window.innerWidth;
+        const y2 = y1 + window.innerHeight;
+        return { x1: x1, y1: y1, x2: x2, y2: y2 };
+    }
+
+    static saveCurrentScreen() {
+        BoardManager.save(BoardManager.getCurrentScreenRectangle());
+    }
 
     /**
      * load the board from the local storage
      */
     static load(data = localStorage.getItem(BoardManager.boardName)) {
-       // let data = localStorage.getItem(BoardManager.boardName);
+        // let data = localStorage.getItem(BoardManager.boardName);
 
         if (data != undefined) {
             BoardManager._clear();
@@ -77,7 +120,51 @@ class BoardManager {
     }
 
 
+    static scrollQuantity() {
+        return window.innerWidth / 2;
+    }
 
+    static left() {
+        container.scrollTo({ top: 0, left: container.scrollLeft - BoardManager.scrollQuantity(), behavior: 'smooth' });
+        BoardManager.showPageNumber();
+    }
+
+    static right() {
+        const MAXCANVASWIDTH = 20000;
+
+        if (container.scrollLeft >= MAXCANVASWIDTH - window.innerWidth) {
+            container.scrollLeft = MAXCANVASWIDTH - window.innerWidth;
+            return;
+        }
+
+        if (container.scrollLeft >= canvas.width - window.innerWidth && BoardManager._rightExtendCanvasEnable) {
+            let image = new Image();
+            image.src = canvas.toDataURL();
+            console.log("extension: canvas width " + canvas.width + " to " + (container.scrollLeft + window.innerWidth))
+            canvas.width = canvas.width + BoardManager.scrollQuantity();
+            const context = document.getElementById("canvas").getContext("2d");
+            context.globalCompositeOperation = "source-over";
+            context.globalAlpha = 1.0;
+            image.onload = function () {
+                context.drawImage(image, 0, 0);
+            }
+            BoardManager._rightExtendCanvasEnable = false;
+            setTimeout(() => { BoardManager._rightExtendCanvasEnable = true }, 1000);
+        }
+        container.scrollTo({ top: 0, left: container.scrollLeft + BoardManager.scrollQuantity(), behavior: 'smooth' });
+        BoardManager.showPageNumber();
+    }
+
+
+    static showPageNumber() {
+        const n = 1 + Math.floor(container.scrollLeft / BoardManager.scrollQuantity());
+        const total = Math.floor(canvas.width / BoardManager.scrollQuantity()) - 1;
+        pageNumber.innerHTML = n + "/" + total;
+        pageNumber.classList.remove("pageNumberHidden");
+        pageNumber.classList.remove("pageNumber");
+        requestAnimationFrame(() => pageNumber.classList.add("pageNumber"))
+
+    }
 
     /**
      * 
@@ -85,12 +172,28 @@ class BoardManager {
      */
     static _loadCurrentCancellationStackData(data) {
         let image = new Image();
-        image.src = data;
-        image.onload = function () {
-            document.getElementById("canvas").width = image.width;
-            document.getElementById("canvas").height = image.height;
-            document.getElementById("canvas").getContext("2d").drawImage(image, 0, 0);
+
+        const context = document.getElementById("canvas").getContext("2d");
+        context.globalCompositeOperation = "source-over";
+        context.globalAlpha = 1.0;
+
+        if (typeof data == "string") {
+            image.src = data;
+            image.onload = function () {
+                document.getElementById("canvas").width = image.width;
+                document.getElementById("canvas").height = image.height;
+                context.drawImage(image, 0, 0);
+            }
+        } else {
+            console.log("_loadCurrentCancellationStackData with rectangle at " + data.x1)
+            image.src = data.data;
+            image.onload = function () {
+                context.clearRect(data.x1, data.y1, data.x2 - data.x1, data.y2 - data.y1);
+                context.drawImage(image, data.x1, data.y1);
+            }
         }
+
+
     }
 
     /**

@@ -46,7 +46,7 @@ class MagnetManager {
 	 */
 	static clearMagnet() {
 		MagnetManager.currentMagnet = undefined;
-		MagnetManager.magnetX = 0;
+		MagnetManager.magnetX = BoardManager.getCurrentScreenRectangle().x1;
 		MagnetManager.magnetY = 0;
 		let magnets = MagnetManager.getMagnets();
 
@@ -62,8 +62,8 @@ class MagnetManager {
 	 * @description add the DOM element element to the list of magnets
 	 */
 	static addMagnet(element) {
-		if (MagnetManager.magnetX > window.innerWidth - 10) {
-			MagnetManager.magnetX = 0;
+		if (MagnetManager.magnetX > BoardManager.getCurrentScreenRectangle().x2 - 10) {
+			MagnetManager.magnetX = BoardManager.getCurrentScreenRectangle().x1;
 			MagnetManager.magnetY += 64;
 		}
 
@@ -114,17 +114,19 @@ class MagnetManager {
 				return false;
 			}
 
+			const rect = BoardManager.getCurrentScreenRectangle();
+
 			let generatePosition = () => {
 				let count = 0;
 				const margin = 32;
 				do {
-					x = (Math.random() * window.innerWidth);
-					y = (Math.random() * window.innerHeight);
+					x = rect.x1 + (Math.random() * window.innerWidth);
+					y = rect.y1 + (Math.random() * window.innerHeight);
 
-					x = Math.max(x, margin);
-					y = Math.max(y, margin);
-					x = Math.min(x, window.innerWidth - magnet.clientWidth - margin);
-					y = Math.min(y, window.innerHeight - magnet.clientHeight - margin);
+					x = Math.max(x, rect.x1 + margin);
+					y = Math.max(y, rect.y1 + margin);
+					x = Math.min(x, rect.x2 - magnet.clientWidth - margin);
+					y = Math.min(y, rect.y2 - magnet.clientHeight - margin);
 					count++;
 				}
 				while (contains() && count < 50)
@@ -215,11 +217,11 @@ class MagnetManager {
 	static installMagnets() {
 		let magnets = MagnetManager.getMagnets();
 
-		for(let i = 0; i < magnets.length; i++)
+		for (let i = 0; i < magnets.length; i++)
 			MagnetManager._installMagnet(magnets[i]);
 
 	}
-	
+
 	static _installMagnet(element) {
 		makeDraggableElement(element);
 

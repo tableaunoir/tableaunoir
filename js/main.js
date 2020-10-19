@@ -114,6 +114,12 @@ function load() {
 			palette.previous();
 		else if (evt.key == "ArrowRight" && palette.isShown())
 			palette.next();
+		else if (evt.key == "ArrowLeft") {
+			BoardManager.left();
+		}
+		else if (evt.key == "ArrowRight") {
+			BoardManager.right();
+		}
 		else if (evt.key == "d")  //d = divide screen
 			divideScreen();
 		else if (evt.ctrlKey && evt.shiftKey && evt.key == "Z") //ctrl + shift + z = redo
@@ -249,7 +255,7 @@ function load() {
 
 		alreadyDrawnSth = false;
 		isDrawing = false;
-		BoardManager.save();
+		BoardManager.saveCurrentScreen();
 	}
 
 	//	document.getElementById("canvas").onmouseleave = function (evt) { isDrawing = false; }
@@ -316,9 +322,9 @@ function clearLine(context, x1, y1, x2, y2, lineWidth = 10) {
 
 
 function divideScreen() {
-	let x = document.body.scrollLeft + window.innerWidth / 2;
+	let x = container.scrollLeft + window.innerWidth / 2;
 	drawLine(document.getElementById("canvas").getContext("2d"), x, 0, x, window.innerHeight);
-	BoardManager.save();
+	BoardManager.saveCurrentScreen();
 }
 
 

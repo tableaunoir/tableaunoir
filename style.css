@@ -17,10 +17,30 @@ canvas {
 	background-color: black;
 	margin: 0px;
 	padding: 0px;
-	border: 1px gray solid;
 	z-index: -10000;
 }
 
+#board {
+	position: relative;
+	margin: 0px;
+	padding: 0px;
+	height: 100%;
+}
+
+
+
+.pageNumberHidden {
+	visibility: hidden;
+}
+
+
+
+#container {
+	overflow: hidden;
+	margin: 0px;
+	padding: 0px;
+	height: 100%;
+}
 
 svg {
 	z-index: 0;
@@ -28,6 +48,13 @@ svg {
 	top: 0;
 	left: 0;
 	pointer-events: none;
+}
+
+
+magnets {
+	position:absolute;
+	left: 0px;
+	top: 0px;
 }
 
 em {
@@ -57,6 +84,28 @@ a {
 	animation: magnetInit 500ms normal;
 }
 
+
+@keyframes pageNumberShow {
+	from {
+		visibility: visible;
+		opacity: 1.0;
+	}
+
+	to {
+		visibility: hidden;
+		opacity: 0.0;
+	}
+}
+
+.pageNumber {
+	position: absolute;
+	animation: pageNumberShow 1000ms forwards;
+	right: 0px;
+	top: 0px;
+	font-size: 24px;
+	color: white;
+	pointer-events: none;
+}
 
 .magnet:hover {
 	box-shadow: 0 2px 4px 0 rgba(255, 255, 255, 1);
@@ -142,7 +191,7 @@ img.magnet:hover {
 
 /**selector of the board**/
 
-#board {
+#blackVSWhiteBoard {
 	font-size: 24;
 	font-weight: bold;
 	background-color: white;

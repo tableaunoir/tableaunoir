@@ -155,7 +155,7 @@ class Delineation {
         context.globalCompositeOperation = "destination-out";
         context.strokeStyle = "rgba(255,255,255,1)";
         context.lineWidth = 6;
-        context.globalAlpha = 1.0;
+        context.global = 1.0;
 
         context.moveTo(this.points[0].x, this.points[0].y);
         for (let point of this.points) {
@@ -177,23 +177,14 @@ class Delineation {
         return r;
     }
 
-    _getDataURLPictureOfRectangle(r) {
-        let C = document.createElement("canvas");
-        C.width = r.x2 - r.x1;
-        C.height = r.y2 - r.y1;
-        let ctx = C.getContext("2d");
-        ctx.drawImage(document.getElementById("canvas"),
-            r.x1, r.y1, r.x2 - r.x1, r.y2 - r.y1, //coordinates in the canvas
-            0, 0, r.x2 - r.x1, r.y2 - r.y1); //coordinates in the magnet
-        return C.toDataURL();
-    }
+
 
 
     _createMagnetFromImg = () => {
         let img = new Image();
         const rectangle = this._getRectangle();
         console.log(rectangle)
-        img.src = this._getDataURLPictureOfRectangle(rectangle);
+        img.src = BoardManager._getDataURLPictureOfRectangle(rectangle);
         img.style.clipPath = "polygon(" + this.points.map(point => `${point.x - rectangle.x1}px ${point.y - rectangle.y1}px`).join(", ") + ")";
         MagnetManager.addMagnet(img);
         img.style.left = rectangle.x1 + "px";
