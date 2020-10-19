@@ -99,9 +99,10 @@ a {
 
 .pageNumber {
 	position: absolute;
-	animation: pageNumberShow 1000ms forwards;
+	animation: pageNumberShow 2000ms forwards;
 	right: 0px;
 	top: 0px;
+	padding:12px;
 	font-size: 24px;
 	color: white;
 	pointer-events: none;

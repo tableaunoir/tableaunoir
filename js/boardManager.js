@@ -119,16 +119,24 @@ class BoardManager {
 
     }
 
-
+    /**
+     * @returns the number of pixels when scrolling
+     */
     static scrollQuantity() {
         return window.innerWidth / 2;
     }
 
+    /**
+     * go left
+     */
     static left() {
         container.scrollTo({ top: 0, left: container.scrollLeft - BoardManager.scrollQuantity(), behavior: 'smooth' });
         BoardManager.showPageNumber();
     }
 
+    /**
+     * go right (and extend the board if necessary)
+     */
     static right() {
         const MAXCANVASWIDTH = 20000;
 
@@ -137,11 +145,11 @@ class BoardManager {
             return;
         }
 
-        if (container.scrollLeft >= canvas.width - window.innerWidth && BoardManager._rightExtendCanvasEnable) {
+        if ((container.scrollLeft >= canvas.width - window.innerWidth - BoardManager.scrollQuantity()) && BoardManager._rightExtendCanvasEnable) {
             let image = new Image();
             image.src = canvas.toDataURL();
             console.log("extension: canvas width " + canvas.width + " to " + (container.scrollLeft + window.innerWidth))
-            canvas.width = canvas.width + BoardManager.scrollQuantity();
+            canvas.width = ((canvas.width / BoardManager.scrollQuantity()) + 1) * BoardManager.scrollQuantity();
             const context = document.getElementById("canvas").getContext("2d");
             context.globalCompositeOperation = "source-over";
             context.globalAlpha = 1.0;
@@ -157,12 +165,15 @@ class BoardManager {
 
 
     static showPageNumber() {
-        const n = 1 + Math.floor(container.scrollLeft / BoardManager.scrollQuantity());
-        const total = Math.floor(canvas.width / BoardManager.scrollQuantity()) - 1;
-        pageNumber.innerHTML = n + "/" + total;
+
         pageNumber.classList.remove("pageNumberHidden");
         pageNumber.classList.remove("pageNumber");
-        requestAnimationFrame(() => pageNumber.classList.add("pageNumber"))
+        setTimeout(() => {
+            const n = Math.round(container.scrollLeft / BoardManager.scrollQuantity());
+            const total = Math.round(canvas.width / BoardManager.scrollQuantity()) - 1;
+            container.scrollLeft = (n) * BoardManager.scrollQuantity();
+            pageNumber.innerHTML = (n / 2) + "/" + (total / 2); pageNumber.classList.add("pageNumber");
+        }, 1000)
 
     }
 
