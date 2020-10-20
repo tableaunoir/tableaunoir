@@ -130,8 +130,9 @@ class BoardManager {
      * go left
      */
     static left() {
-        container.scrollTo({ top: 0, left: container.scrollLeft - BoardManager.scrollQuantity(), behavior: 'smooth' });
-        BoardManager.showPageNumber();
+        const x = container.scrollLeft - BoardManager.scrollQuantity();
+        container.scrollTo({ top: 0, left: x, behavior: 'smooth' });
+        BoardManager.showPageNumber(x);
     }
 
     /**
@@ -159,21 +160,22 @@ class BoardManager {
             BoardManager._rightExtendCanvasEnable = false;
             setTimeout(() => { BoardManager._rightExtendCanvasEnable = true }, 1000);
         }
-        container.scrollTo({ top: 0, left: container.scrollLeft + BoardManager.scrollQuantity(), behavior: 'smooth' });
-        BoardManager.showPageNumber();
+        const x = container.scrollLeft + BoardManager.scrollQuantity();
+        container.scrollTo({ top: 0, left: x, behavior: 'smooth' });
+        BoardManager.showPageNumber(x);
     }
 
 
-    static showPageNumber() {
+    static showPageNumber(x) {
 
         pageNumber.classList.remove("pageNumberHidden");
         pageNumber.classList.remove("pageNumber");
         setTimeout(() => {
-            const n = Math.round(container.scrollLeft / BoardManager.scrollQuantity());
-            const total = Math.round(canvas.width / BoardManager.scrollQuantity()) - 1;
+            const n = Math.round(x / BoardManager.scrollQuantity());
+            const total = Math.round(canvas.width / BoardManager.scrollQuantity());
             container.scrollLeft = (n) * BoardManager.scrollQuantity();
-            pageNumber.innerHTML = (n / 2) + "/" + (total / 2); pageNumber.classList.add("pageNumber");
-        }, 1000)
+            pageNumber.innerHTML = (n+1) + "/" + (total); pageNumber.classList.add("pageNumber");
+        }, 100)
 
     }
 
