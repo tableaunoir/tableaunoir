@@ -131,6 +131,12 @@ class BoardManager {
      */
     static left() {
         const x = container.scrollLeft - BoardManager.scrollQuantity();
+
+        if (x < 0) {
+            BoardManager.showPageNumber(0);
+            return;
+        }
+
         container.scrollTo({ top: 0, left: x, behavior: 'smooth' });
         BoardManager.showPageNumber(x);
     }
@@ -174,8 +180,8 @@ class BoardManager {
             const n = Math.round(x / BoardManager.scrollQuantity());
             const total = Math.round(canvas.width / BoardManager.scrollQuantity());
             container.scrollLeft = (n) * BoardManager.scrollQuantity();
-            pageNumber.innerHTML = (n+1) + "/" + (total); pageNumber.classList.add("pageNumber");
-        }, 100)
+            pageNumber.innerHTML = (n + 1) + "/" + (total); pageNumber.classList.add("pageNumber");
+        }, 300)
 
     }
 

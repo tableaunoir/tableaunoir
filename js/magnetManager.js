@@ -121,7 +121,7 @@ class MagnetManager {
 				const margin = 32;
 				do {
 					x = rect.x1 + (Math.random() * window.innerWidth);
-					y = rect.y1 + (Math.random() * window.innerHeight);
+					y = rect.y1 + (Math.random() * 3 * window.innerHeight / 4);
 
 					x = Math.max(x, rect.x1 + margin);
 					y = Math.max(y, rect.y1 + margin);
@@ -230,18 +230,25 @@ class MagnetManager {
 		element.onmouseleave = () => { MagnetManager.magnetUnderCursor = undefined };
 		function makeDraggableElement(element) {
 			var pos1 = 0, pos2 = 0, pos3 = 0, pos4 = 0;
-			if (document.getElementById(element.id + "header")) {
-				// if present, the header is where you move the DIV from:
-				document.getElementById(element.id + "header").onmousedown = dragMouseDown;
-			} else {
-				// otherwise, move the DIV from anywhere inside the DIV:
-				element.onmousedown = dragMouseDown;
-			}
+
+			element.addEventListener("mousedown", dragMouseDown);
+
 
 			let otherElementsToMove = [];
 			let canvasCursorStore = undefined;
+			let drag = true;
 
 			function dragMouseDown(e) {
+				/*
+								if(e.target.contentEditable == "true") {
+									if(!((e.layerX < 8) || (e.layerY < 8))) {
+										drag = false;
+										console.log("no drag")
+										return; //no drag because we tick the part that is editable
+									}
+										
+								}*/
+
 
 				/**
 				 * 
@@ -279,6 +286,8 @@ class MagnetManager {
 
 
 			function elementDrag(e) {
+				if (!drag) return;
+
 				MagnetManager.currentMagnet = e.target;
 				e.target.classList.add("magnetDrag");
 
@@ -322,6 +331,31 @@ class MagnetManager {
 		let img = new Image();
 		img.src = "magnets/" + filename;
 		MagnetManager.addMagnet(img);
+	}
+
+
+	static addMagnetText(x, y) {
+		let div = document.createElement("div");
+		let divText = document.createElement("div");
+		div.appendChild(divText);
+		divText.innerHTML = "type text";
+		divText.onmousedown = (e) => { e.stopPropagation(); }
+		divText.onkeydown = (e) => {
+			if (e.key == "Escape") {
+				divText.blur();
+				window.getSelection().removeAllRanges();
+			}
+			e.stopPropagation();
+		}
+		MagnetManager.addMagnet(div);
+		div.style.left = x + "px";
+		div.style.top = y + "px";
+		div.classList.add("magnetText");
+		div.style.backgroundColor = "rgba(0.2, 0.2, 0.2, 0.9)";
+		div.style.color = "white";
+		divText.contentEditable = true;
+		divText.focus();
+		document.execCommand('selectAll', false, null);
 	}
 
 

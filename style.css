@@ -116,10 +116,25 @@ a {
 	cursor: none;
 }
 
+.magnetText div {
+	background-color: rgba(27, 27, 27, 0.9);
+	color: white;
+	cursor: text;
+}
+
+div.magnetText {
+	background-color: rgba(64, 64, 64, 0.9);
+	color: white;
+}
+
+
 div.magnet {
 	background-color: white;
 	padding: 8px;
 }
+
+
+
 
 
 @keyframes magnetCreation {

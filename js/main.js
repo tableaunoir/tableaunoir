@@ -108,12 +108,16 @@ function load() {
 			changeColor();
 		else if (!evt.ctrlKey && evt.shiftKey && evt.key == "C")
 			previousColor();
-		else if (evt.key == "Enter")
+		else if (evt.key == "Enter" && palette.isShown())
 			palette.hide();
 		else if (evt.key == "ArrowLeft" && palette.isShown())
 			palette.previous();
 		else if (evt.key == "ArrowRight" && palette.isShown())
 			palette.next();
+		else if (evt.key == "Enter") {
+			MagnetManager.addMagnetText(x, y);
+			evt.preventDefault(); //so that it will not add "new line" in the text element
+		}
 		else if (evt.key == "ArrowLeft") {
 			BoardManager.left();
 		}
@@ -122,12 +126,15 @@ function load() {
 		}
 		else if (evt.key == "d")  //d = divide screen
 			divideScreen();
-		else if (evt.ctrlKey && evt.shiftKey && evt.key == "Z") //ctrl + shift + z = redo
+		else if ((evt.ctrlKey && evt.shiftKey && evt.key == "Z") || (evt.ctrlKey && evt.key == "y")) { //ctrl + shift + z OR Ctrl + Y = redo
 			BoardManager.redo();
-		else if (evt.ctrlKey && evt.key == "y")
-			BoardManager.redo();
-		else if (evt.ctrlKey && evt.key == "z") // ctrl + z = undo
+			evt.preventDefault();
+		}
+		else if (evt.ctrlKey && evt.key == "z") {// ctrl + z = undo 
 			BoardManager.cancel();
+			evt.preventDefault();
+		}
+
 		else if (evt.key == "e")  //e = switch eraser and chalk
 			switchChalkEraser();
 		else if (evt.ctrlKey && evt.key == 'x') {//Ctrl + x 
@@ -177,6 +184,9 @@ function load() {
 
 	function mousedown(evt) {
 		MagnetManager.setInteractable(false);
+
+		//unselect the selected element (e.g. a text in edit mode)
+		document.activeElement.blur();
 
 		evt.preventDefault();
 		//console.log("mousedown")
