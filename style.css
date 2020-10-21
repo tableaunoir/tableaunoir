@@ -194,10 +194,11 @@ img.magnet:hover {
 
 #blackVSWhiteBoard {
 	font-size: 24;
-	font-weight: bold;
+	/* font-weight: bold; */
 	background-color: white;
 	border-radius: 8px;
 	padding: 4px;
+	border: none;
 }
 
 @keyframes menuShow {
@@ -265,10 +266,7 @@ img.magnet:hover {
 
 .tabcontent {
 	padding: 32px;
-
 }
-
-
 
 h2 {
 	margin: 8px;
@@ -281,19 +279,17 @@ h3 {
 
 table {
 	border-collapse: collapse;
-	margin: 8px;
-	padding: 8px;
 	color: white;
 }
 
-
 tr {
-	border: 1px solid #bbbbbb;
+	border-bottom: 1px solid #bbbbbb;
 }
 
 th,
 td {
 	border-bottom: 0px solid #ddd;
+	padding: 10px;
 }
 
 td:first-child {
@@ -365,8 +361,8 @@ h1 {
 	margin-right: 16px;
 	display: inline-block;
 	width: 40%;
-	min-height: 250px;
-	background-color: rgb(29, 29, 29)
+	background-color: rgb(29, 29, 29);
+	border-radius: 5px;
 }
 
 
@@ -382,7 +378,7 @@ h1 {
 .center {
 	display: flex;
 	justify-content: center;
-	align-items: center;
+	align-items: flex-start;
 }
 
 #number {
@@ -392,13 +388,15 @@ h1 {
 	right: 0px;
 }
 
-
 .keyboardkey {
 	display: inline-block;
+	padding: 5px;
+	border: 2px solid #bbbbbb;
+	margin: 5 px;
+	border-radius:  5px;
+	min-width: 20px;
+	text-align: center;
 }
-
-
-
 
 #palette {
 	position: absolute;
@@ -445,9 +443,24 @@ h1 {
 	border: 2px white solid;
 }
 
+.menuDiv {
+	margin: 8px;
+	padding: 0px;
+}
 
 #controls {
 	position: absolute;
 	top: 0px;
 	left: 0px;
 }
+
+#name {
+	border: none;
+	border-radius: 5px;
+	padding: 8px;
+	padding-top: 6px;
+	font-size: 14pt;
+	margin: 8px;
+	outline: none;
+}
+
