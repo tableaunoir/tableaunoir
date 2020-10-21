@@ -330,6 +330,10 @@ button {
 	outline: none;
 }
 
+button img {
+	height: 64px;
+}
+
 .magnetCollectionButton {
 	display: block;
 	background: none;
