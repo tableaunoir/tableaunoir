@@ -121,10 +121,12 @@
 						<option value="black">blackboard</option>
 						<option value="white">whiteboard</option>
 					</select></h2>
-				<button id="controlsToggle" onclick="controls.hidden = !controls.hidden; Menu.hide()">Show/hide control
+				<button id="controlsToggle" onclick="controls.hidden = !controls.hidden; Menu.hide()">
+					<img src="img/showbuttons.png"/><br/>
+					Show/hide control
 					buttons</button>
-				<button class="buttonClear" id="blackboardClear">clear the board</button>
-				<button class="buttonClear" id="clearMagnet">Remove all the magnets</button>
+				<button class="buttonClear" id="blackboardClear"><img src="img/clearboard.png"/><br/>clear the board</button>
+				<button class="buttonClear" id="clearMagnet"><img src="img/magnet_delete.png"/><br/>Remove all the magnets</button>
 
 				<h2>Load</h2>
 				To import an existing board, drag and drop your <em>.tableaunoir file</em> in the application.
@@ -200,22 +202,22 @@
 
 			<div id="Magnets" class="tabcontent">
 
-				<button id="magnetsArrange">Arrange the magnets on the board</button>
-				<button id="magnetsCreateGraph">Create graph from the magnets</button>
+				<button id="magnetsArrange"><img src="img/arrange.png"/><br/>Arrange the magnets on the board</button>
+				<button id="magnetsCreateGraph"><img src="img/graph.png"/><br/>Create graph from the magnets</button>
 
 				<h2>Using existing images</h2>
 				In order to <em>use existing images as magnets</em>, drag and drop .png/.svg/.gif/.jpg files.
 
 				<h2>Predefined Magnet collections</h2>
 				<h3>Algorithms</h3>
-				<button id="magnetGS">Gale-Shapley algorithm</button>
-				<button id="magnetSorting">Sorting</button>
-				<button id="magnetBTrees">B trees</button>
-				<button id="magnetGraphNodes">Graph nodes</button>
-				<button id="magnetGraphSimCity">Simcity graph nodes</button>
-				<button id="magnetUnionFind">Union-find</button>
+				<button class="magnetCollectionButton" id="magnetGS">Gale-Shapley algorithm</button>
+				<button class="magnetCollectionButton" id="magnetSorting">Sorting</button>
+				<button class="magnetCollectionButton" id="magnetBTrees">B trees</button>
+				<button class="magnetCollectionButton" id="magnetGraphNodes">Graph nodes</button>
+				<button class="magnetCollectionButton" id="magnetGraphSimCity">Simcity graph nodes</button>
+				<button class="magnetCollectionButton" id="magnetUnionFind">Union-find</button>
 				<h3>Complexity theory</h3>
-				<button id="magnetTilings">Tilings</button>
+				<button class="magnetCollectionButton" id="magnetTilings">Tilings</button>
 			</div>
 
 		</div>

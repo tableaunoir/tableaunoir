@@ -287,6 +287,7 @@ img.magnet:hover {
 
 h2 {
 	margin: 8px;
+	margin-top: 32px;
 	padding: 0px;
 }
 
@@ -329,7 +330,23 @@ button {
 	outline: none;
 }
 
+.magnetCollectionButton {
+	display: block;
+	background: none;
+	color:  rgb(191, 191, 255);
+	border: none;
+	outline: none;
+	padding: 0px;
+	cursor: pointer;
+}
 
+.magnetCollectionButton:hover {
+	display: block;
+	background: none;
+	color:  rgb(157, 157, 255);
+	border: none;
+	outline: none;
+}
 
 button:hover {
 	background-color: rgb(132, 132, 255);
