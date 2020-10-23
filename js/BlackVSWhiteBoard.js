@@ -2,7 +2,7 @@ class BlackVSWhiteBoard {
     static init() {
         document.getElementById("canvas").style.backgroundColor = "black";
         document.getElementById("blackVSWhiteBoard").value = "black";
-        document.getElementById("blackVSWhiteBoard").onclick = () => BlackVSWhiteBoard.switch(document.getElementById("board").value);
+        document.getElementById("blackVSWhiteBoard").onclick = () => BlackVSWhiteBoard.switch(document.getElementById("blackVSWhiteBoard").value);
     }
 
 
