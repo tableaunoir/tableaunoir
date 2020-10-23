@@ -260,6 +260,11 @@ img.magnet:hover {
 }
 
 
+.divMenuHide {
+	position: sticky;
+	top: 0px;
+}
+
 .tablink {
 	display: block;
 	border: none;
