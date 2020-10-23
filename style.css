@@ -253,6 +253,9 @@ img.magnet:hover {
 
 .tabs {
 	display: inline-block;
+	position: sticky;
+	left: 0px;
+	top: 0px;
 	background-color: black;
 }
 
