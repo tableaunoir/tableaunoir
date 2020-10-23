@@ -116,10 +116,25 @@ a {
 	cursor: none;
 }
 
+.magnetText div {
+	background-color: rgba(27, 27, 27, 0.9);
+	color: white;
+	cursor: text;
+}
+
+div.magnetText {
+	background-color: rgba(64, 64, 64, 0.9);
+	color: white;
+}
+
+
 div.magnet {
 	background-color: white;
 	padding: 8px;
 }
+
+
+
 
 
 @keyframes magnetCreation {
@@ -270,6 +285,7 @@ img.magnet:hover {
 
 h2 {
 	margin: 8px;
+	margin-top: 32px;
 	padding: 0px;
 }
 
@@ -310,7 +326,27 @@ button {
 	outline: none;
 }
 
+button img {
+	height: 64px;
+}
 
+.magnetCollectionButton {
+	display: block;
+	background: none;
+	color:  rgb(191, 191, 255);
+	border: none;
+	outline: none;
+	padding: 0px;
+	cursor: pointer;
+}
+
+.magnetCollectionButton:hover {
+	display: block;
+	background: none;
+	color:  rgb(157, 157, 255);
+	border: none;
+	outline: none;
+}
 
 button:hover {
 	background-color: rgb(132, 132, 255);

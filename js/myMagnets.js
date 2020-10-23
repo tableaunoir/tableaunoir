@@ -60,15 +60,15 @@ function magnetBTrees() {
 /** Graphs */
 
 function magnetGraphNodes() {
-    MagnetManager.clearMagnet();
-    for (let i of ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I'])
+    //MagnetManager.clearMagnet();
+    for (let i of ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O'])
         MagnetManager.addMagnet(createMagnet(i))
 }
 
 
 
 function magnetGraphSimCity() {
-    MagnetManager.clearMagnet();
+    //MagnetManager.clearMagnet();
 
     const simCityPictures = ["antenne.png",       "commerce.png",      "parking.png",        "tour.png",
         "batimentplat.png",  "foursolaire.png",   "residence2.png",    "usine.png",
