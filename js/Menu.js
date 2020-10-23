@@ -39,8 +39,8 @@ class Menu {
     static hide() {
         menu.classList.remove("menuShow");
         menu.classList.add("menuHide");
-     /*   document.getElementById("content").classList.remove("preview");
-        document.body.appendChild(document.getElementById("content"));*/
+        /*   document.getElementById("content").classList.remove("preview");
+           document.body.appendChild(document.getElementById("content"));*/
     }
 
 
