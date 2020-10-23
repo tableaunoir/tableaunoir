@@ -65,7 +65,12 @@ function magnetGraphNodes() {
         MagnetManager.addMagnet(createMagnet(i))
 }
 
-
+magnetFloydsAlgorithm
+function magnetFloydsAlgorithm() {
+    MagnetManager.addMagnetImage("turtlerabbit/turtle.png");
+    MagnetManager.addMagnetImage("turtlerabbit/rabbit.png");
+    
+}
 
 function magnetGraphSimCity() {
     //MagnetManager.clearMagnet();
@@ -150,7 +155,8 @@ function loadMagnets() {
     MagnetManager.register("magnetGraphNodes");
     MagnetManager.register("magnetTilings");
     MagnetManager.register("magnetUnionFind");
-    MagnetManager.register("magnetGraphSimCity")
+    MagnetManager.register("magnetGraphSimCity");
+    MagnetManager.register("magnetFloydsAlgorithm");
 }
 
 
