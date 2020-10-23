@@ -1,0 +1,16 @@
+Bonjour,
+
+voici un tableau noir en ligne qui pourrait vous être utile : https://tableaunoir.github.io/
+
+Il n'y a rien à installer. L'outil s'utilise de préférence avec une tablette graphique. L'outil peut s'utiliser en distanciel (avec Teams, Zoom, Discord, etc.) ou en présentiel. Voici une vidéo de 3min qui montre l'utilisation de tableaunoir :
+
+https://www.youtube.com/watch?v=P6_lhqiPBow
+
+L'outil est libre. Il offre un peu plus de fonctionnalités qu'un tableau classique, notamment l'utilisation de "magnets".
+
+Si vous avez des questions, des remarques, des suggestions, n'hésitez pas à me contacter.
+
+Bonne soirée,
+
+François
+
