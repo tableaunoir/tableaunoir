@@ -153,9 +153,10 @@ class Delineation {
     _removeContour = () => {
         const context = document.getElementById("canvas").getContext("2d");
         context.globalCompositeOperation = "destination-out";
-        context.strokeStyle = "rgba(255,255,255,1)";
+        context.strokeStyle = "rgba(255, 255, 255, 1)";
         context.lineWidth = 6;
-        context.global = 1.0;
+        context.globalAlpha = 1.0;
+        
 
         context.moveTo(this.points[0].x, this.points[0].y);
         for (let point of this.points) {
