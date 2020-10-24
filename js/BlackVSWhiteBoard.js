@@ -1,21 +1,19 @@
 class BlackVSWhiteBoard {
+    
     static init() {
         document.getElementById("canvas").style.backgroundColor = "black";
-        document.getElementById("blackVSWhiteBoard").value = "black";
-        document.getElementById("blackVSWhiteBoard").onclick = () => BlackVSWhiteBoard.switch(document.getElementById("blackVSWhiteBoard").value);
+        document.getElementById("blackVSWhiteBoard").onclick = BlackVSWhiteBoard.switch;
     }
 
 
-    static switch(backgroundColor) {
-
-        if (backgroundColor == document.getElementById("canvas").style.backgroundColor)
-            return;
+    static switch() {
+        let backgroundColor = (document.getElementById("canvas").style.backgroundColor == "white") ? "black" : "white";
 
         console.log("previous background color was " + document.getElementById("canvas").style.backgroundColor);
         console.log("switch to " + backgroundColor + "board")
         palette.switchBlackAndWhite();
-        document.getElementById("canvas").style.backgroundColor =
-            (document.getElementById("canvas").style.backgroundColor == "white") ? "black" : "white";
+        document.getElementById("canvas").style.backgroundColor = backgroundColor;
+
         BlackVSWhiteBoard._invertCanvas();
     }
 

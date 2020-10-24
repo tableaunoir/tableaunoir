@@ -94,9 +94,10 @@
 	<div id="menu" class="menuHide MenuPanel">
 		<div class="tabs">
 			<button id="defaultOpen" class="tablink" onclick="Menu.openPage('MyBlackboard', this)">My Board</button>
+			<button class="tablink" onclick="Menu.openPage('Options', this)">Options</button>
+			<button class="tablink" onclick="Menu.openPage('Magnets', this)">Magnets</button>
 			<button class="tablink" onclick="Menu.openPage('KeyboardShortcuts', this)" id="defaultOpen">Keyboard
 				Shortcuts</button>
-			<button class="tablink" onclick="Menu.openPage('Magnets', this)">Magnets</button>
 			<button class="tablink" onclick="Menu.openPage('About', this)" id="defaultOpen">About tableaunoir</button>
 		</div>
 		<div>
@@ -115,40 +116,32 @@
 				<a target="_blank" rel="noopener noreferrer"
 					href="https://github.com/tableaunoir">https://github.com/tableaunoir</a>
 			</div>
+			
 			<div id="MyBlackboard" class="tabcontent">
-				<h2>My
-					<select name="board" id="blackVSWhiteBoard"
-						title="change depending on whether you prefer a blackboard or a whiteboard">
-						<option value="black">blackboard</option>
-						<option value="white">whiteboard</option>
-					</select>
-				</h2>
-				<button id="controlsToggle" onclick="controls.hidden = !controls.hidden; Menu.hide()">Show/hide
-					control
-					buttons</button>
-
-
-				<h2>Board cleaning</h2>
+				<h2>Cleaning</h2>
 				<div class="menuDiv">
-					
-					<button class="buttonClear" id="blackboardClear">clear the board</button>
-					<button class="buttonClear" id="clearMagnet">Remove all the magnets</button>
+					<button class="buttonClear" id="blackboardClear">
+						<img src="img/clearboard.png" /><br />clear the board</button>
+					<button class="buttonClear" id="clearMagnet">
+						<img src="img/magnet_delete.png" /><br />Remove all the magnets</button>
 				</div>
-
-
-
 				<h2>Load</h2>
 				<div class="menuDiv">
 					To import an existing board, drag and drop your <em>.tableaunoir file</em> in the application.
 				</div>
-
-
-
 				<h2>Save</h2>
 
 				<div class="menuDiv">
 					Name: <input id="name" value="myblackboard"></input><button id="save">Save</button>
 				</div>
+			</div>
+
+			<div id="Options" class="tabcontent">
+				<button id="blackVSWhiteBoard"><img src="img/switchblackwhite.png" /><br />Switch
+					blackboard/whiteboard</button>
+
+				<button id="controlsToggle" onclick="controls.hidden = !controls.hidden; Menu.hide()">
+					<img src="img/showbuttons.png" /><br />Show/hide control buttons</button>
 			</div>
 
 			<div id="KeyboardShortcuts" class="tabcontent">
@@ -184,7 +177,7 @@
 							<td><em>redo</em> the last action</td>
 						</tr>
 						<tr>
-							<td><span class="keyboardkey">←</span>   <span class="keyboardkey">→</span>
+							<td><span class="keyboardkey">←</span> <span class="keyboardkey">→</span>
 							</td>
 							<td><em>move</em> in the board</td>
 						</tr>

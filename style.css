@@ -205,17 +205,6 @@ img.magnet:hover {
 
 /**menu **/
 
-/**selector of the board**/
-
-#blackVSWhiteBoard {
-	font-size: 24;
-	/* font-weight: bold; */
-	background-color: white;
-	border-radius: 8px;
-	padding: 4px;
-	border: none;
-}
-
 @keyframes menuShow {
 	from {
 		opacity: 0;
@@ -362,8 +351,7 @@ button:hover {
 
 
 .buttonClear {
-	background-color: rgb(255, 116, 74);
-
+	background-color: rgb(170, 73, 43);
 }
 
 
