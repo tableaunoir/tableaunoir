@@ -66,16 +66,26 @@ class BoardManager {
      */
     static save(rectangle) {
         if (rectangle == undefined) {
-            let data = document.getElementById("canvas").toDataURL();
-            localStorage.setItem(BoardManager.boardName, data);
-
-            BoardManager.cancelStack.push(data);
+            document.getElementById("canvas").toBlob((data) => {
+                console.log("save that blob: " + data)
+                localStorage.setItem(BoardManager.boardName, data);
+                BoardManager.cancelStack.push(data);
+            }
+            );
         }
         else {
-            console.log("save rectangle at " + rectangle.x1)
-            rectangle.data = BoardManager._getDataURLPictureOfRectangle(rectangle);
-            BoardManager.cancelStack.push(rectangle);
+            /* console.log("save rectangle at " + rectangle.x1)
+             rectangle.data = BoardManager._getDataURLPictureOfRectangle(rectangle);
+             BoardManager.cancelStack.push(rectangle);*/
+            document.getElementById("canvas").toBlob((data) => {
+                console.log("save that blob: " + data)
+                localStorage.setItem(BoardManager.boardName, data);
+                BoardManager.cancelStack.push(data);
+            }
+            );
         }
+
+
 
     }
 
@@ -196,21 +206,21 @@ class BoardManager {
         context.globalCompositeOperation = "source-over";
         context.globalAlpha = 1.0;
 
-        if (typeof data == "string") {
-            image.src = data;
-            image.onload = function () {
-                document.getElementById("canvas").width = image.width;
-                document.getElementById("canvas").height = image.height;
-                context.drawImage(image, 0, 0);
-            }
-        } else {
+        //if (typeof data == "string") {
+        image.src = URL.createObjectURL(data);
+        image.onload = function () {
+            document.getElementById("canvas").width = image.width;
+            document.getElementById("canvas").height = image.height;
+            context.drawImage(image, 0, 0);
+        }
+        /*} /*else {
             console.log("_loadCurrentCancellationStackData with rectangle at " + data.x1)
             image.src = data.data;
             image.onload = function () {
                 context.clearRect(data.x1, data.y1, data.x2 - data.x1, data.y2 - data.y1);
                 context.drawImage(image, data.x1, data.y1);
             }
-        }
+        }*/
 
 
     }
