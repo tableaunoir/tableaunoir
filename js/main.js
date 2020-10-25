@@ -207,8 +207,6 @@ function load() {
 	}
 
 
-	document.getElementById("canvas").onpointermove = mousemove;
-	document.getElementById("canvas").onmousemove = mousemove;
 
 	function mousemove(evt) {
 		//console.log("mousemove")
@@ -248,9 +246,6 @@ function load() {
 		y = evtY;
 	}
 
-
-	document.getElementById("canvas").onpointerup = mouseup;
-	document.getElementById("canvas").onmouseup = mouseup;
 
 	function mouseup(evt) {
 		MagnetManager.setInteractable(true);
