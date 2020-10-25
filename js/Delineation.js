@@ -185,7 +185,8 @@ class Delineation {
         let img = new Image();
         const rectangle = this._getRectangle();
         console.log(rectangle)
-        img.src = BoardManager._getDataURLPictureOfRectangle(rectangle);
+        BoardManager._toBlobOfRectangle(rectangle, (blob) => img.src = URL.createObjectURL(blob));
+        //img.src = BoardManager._getDataURLPictureOfRectangle(rectangle);
         img.style.clipPath = "polygon(" + this.points.map(point => `${point.x - rectangle.x1}px ${point.y - rectangle.y1}px`).join(", ") + ")";
         MagnetManager.addMagnet(img);
         img.style.left = rectangle.x1 + "px";

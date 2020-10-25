@@ -228,28 +228,20 @@ class MagnetManager {
 
 		element.onmouseenter = () => { MagnetManager.magnetUnderCursor = element };
 		element.onmouseleave = () => { MagnetManager.magnetUnderCursor = undefined };
+
 		function makeDraggableElement(element) {
 			var pos1 = 0, pos2 = 0, pos3 = 0, pos4 = 0;
 
-			element.addEventListener("mousedown", dragMouseDown);
+			element.addEventListener("pointerdown", dragMouseDown);
 
+			TouchScreen.addTouchEvents(element);
 
 			let otherElementsToMove = [];
 			let canvasCursorStore = undefined;
 			let drag = true;
 
 			function dragMouseDown(e) {
-				/*
-								if(e.target.contentEditable == "true") {
-									if(!((e.layerX < 8) || (e.layerY < 8))) {
-										drag = false;
-										console.log("no drag")
-										return; //no drag because we tick the part that is editable
-									}
-										
-								}*/
-
-
+				drag = true;
 				/**
 				 * 
 				 * @param {*} el 
@@ -268,9 +260,10 @@ class MagnetManager {
 				// get the mouse cursor position at startup:
 				pos3 = e.clientX;
 				pos4 = e.clientY;
+				document.onpointerup = closeDragElement;
 				document.onmouseup = closeDragElement;
 				// call a function whenever the cursor moves:
-				document.onmousemove = elementDrag;
+				document.onpointermove = elementDrag;
 
 				let magnets = MagnetManager.getMagnets();
 				otherElementsToMove = [];
@@ -313,7 +306,8 @@ class MagnetManager {
 			}
 
 			function closeDragElement(e) {
-
+				drag = false;
+				console.log("close drag")
 				e.target.classList.remove("magnetDrag");
 				canvas.style.cursor = canvasCursorStore;
 

@@ -20,6 +20,7 @@ class BoardManager {
             BoardManager.save();
             Menu.hide();
         }
+
     }
 
     /**
@@ -43,12 +44,8 @@ class BoardManager {
     }
 
 
-    /**
-     * 
-     * @param {*} r a rectangle {x1, y1, x2, y2}
-     * @returns the content as a string of the image
-     */
-    static _getDataURLPictureOfRectangle(r) {
+
+    static _createCanvasForRectangle(r) {
         let C = document.createElement("canvas");
         C.width = r.x2 - r.x1;
         C.height = r.y2 - r.y1;
@@ -56,7 +53,17 @@ class BoardManager {
         ctx.drawImage(document.getElementById("canvas"),
             r.x1, r.y1, r.x2 - r.x1, r.y2 - r.y1, //coordinates in the canvas
             0, 0, r.x2 - r.x1, r.y2 - r.y1); //coordinates in the magnet
-        return C.toDataURL();
+        return C;
+    }
+
+
+    /**
+     * 
+     * @param {*} r a rectangle {x1, y1, x2, y2}
+     * @returns the content as a string of the image
+     */
+    static _toBlobOfRectangle(r, callback) {
+        return BoardManager._createCanvasForRectangle(r).toBlob(callback);
     }
 
 
@@ -65,26 +72,27 @@ class BoardManager {
      * save the current board into the cancel/redo stack but also in the localStorage of the browser
      */
     static save(rectangle) {
-        if (rectangle == undefined) {
-            document.getElementById("canvas").toBlob((data) => {
-                console.log("save that blob: " + data)
-                localStorage.setItem(BoardManager.boardName, data);
-                BoardManager.cancelStack.push(data);
-            }
-            );
+        // if (rectangle == undefined) {
+        document.getElementById("canvas").toBlob((blob) => {
+            console.log("save that blob: " + blob)
+            localStorage.setItem(BoardManager.boardName, blob);
+            BoardManager.cancelStack.push(blob);
         }
-        else {
-            /* console.log("save rectangle at " + rectangle.x1)
-             rectangle.data = BoardManager._getDataURLPictureOfRectangle(rectangle);
-             BoardManager.cancelStack.push(rectangle);*/
-            document.getElementById("canvas").toBlob((data) => {
-                console.log("save that blob: " + data)
-                localStorage.setItem(BoardManager.boardName, data);
-                BoardManager.cancelStack.push(data);
-            }
-            );
-        }
-
+        );
+        /*}
+          else {
+              BoardManager._toBlobOfRectangle(rectangle, (blob) => {
+                  rectangle.blob = blob;
+                  BoardManager.cancelStack.push(rectangle);
+              });
+    
+              document.getElementById("canvas").toBlob((blob) => {
+                  console.log("save that blob: " + blob)
+                  localStorage.setItem(BoardManager.boardName, blob);
+              }
+              );
+          }
+    */
 
 
     }
@@ -206,21 +214,22 @@ class BoardManager {
         context.globalCompositeOperation = "source-over";
         context.globalAlpha = 1.0;
 
-        //if (typeof data == "string") {
+        //  if (data instanceof Blob) {
         image.src = URL.createObjectURL(data);
         image.onload = function () {
             document.getElementById("canvas").width = image.width;
             document.getElementById("canvas").height = image.height;
             context.drawImage(image, 0, 0);
         }
-        /*} /*else {
-            console.log("_loadCurrentCancellationStackData with rectangle at " + data.x1)
-            image.src = data.data;
-            image.onload = function () {
-                context.clearRect(data.x1, data.y1, data.x2 - data.x1, data.y2 - data.y1);
-                context.drawImage(image, data.x1, data.y1);
-            }
-        }*/
+        /*  }
+          else {
+              console.log("_loadCurrentCancellationStackData with rectangle at " + data.x1)
+              image.src = URL.createObjectURL(data.blob);
+              image.onload = function () {
+                  context.clearRect(data.x1, data.y1, data.x2 - data.x1, data.y2 - data.y1);
+                  context.drawImage(image, data.x1, data.y1);
+              }
+          }*/ //still bugy
 
 
     }
