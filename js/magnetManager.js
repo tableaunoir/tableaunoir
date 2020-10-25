@@ -273,6 +273,8 @@ class MagnetManager {
 					if (magnets[i] != element && inside(magnets[i], element)) {
 						otherElementsToMove.push(magnets[i]);
 					}
+
+				
 			}
 
 
