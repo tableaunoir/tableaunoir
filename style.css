@@ -34,12 +34,21 @@ canvas {
 }
 
 
+#controls {
+	top: 0px;
+	left: 0px;
+	background-color: rgb(68, 68, 68);
+}
+
+#controls button {
+	height: 48px;
+}
 
 #container {
 	overflow: hidden;
 	margin: 0px;
 	padding: 0px;
-	height: 100%;
+	bottom: 0px;
 }
 
 svg {
@@ -480,11 +489,7 @@ h1 {
 	padding: 0px;
 }
 
-#controls {
-	position: absolute;
-	top: 0px;
-	left: 0px;
-}
+
 
 #name {
 	border: none;

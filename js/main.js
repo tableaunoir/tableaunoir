@@ -72,6 +72,10 @@ function load() {
 	buttonMenu.onclick = Menu.toggle;
 	buttonColors.onclick = changeColor;
 	buttonEraser.onclick = switchChalkEraser;
+	buttonLeft.onclick = BoardManager.left;
+	buttonRight.onclick = BoardManager.right;
+	buttonCancel.onclick = BoardManager.cancel;
+	buttonRedo.onclick = BoardManager.redo;
 
 
 	/*let params = new URLSearchParams(document.location.search.substring(1));
