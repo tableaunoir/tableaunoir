@@ -164,18 +164,21 @@ function load() {
 			palette.hide();
 			MagnetManager.printCurrentMagnet();
 		}
-		else if (evt.keyCode == 46) { //supr = delete the current magnet
+		else if (evt.key == "Delete" || evt.key == "x") { //supr = delete the current magnet
 			palette.hide();
 			/*if (lastDelineation.containsPolygonToMagnetize())
 				lastDelineation.erase();
 			else*/
 			MagnetManager.removeCurrentMagnet();
 		}
+		evt.preventDefault();
 	};
 
 
 	document.getElementById("canvas").onpointerdown = mousedown;
-	document.getElementById("canvas").onmousedown = mousedown;
+	document.getElementById("canvas").onpointermove = mousemove;
+	document.getElementById("canvas").onpointerup = mouseup;
+	//document.getElementById("canvas").onmousedown = mousedown;
 
 	document.getElementById("canvas").ontouchstart = mousedown;
 	document.getElementById("canvas").ontouchmove = mousemove;
