@@ -1,5 +1,10 @@
 class TouchScreen {
 
+    /**
+     * 
+     * @param {*} element 
+     * @description makes that an element with events for the mouse, can be used on a smartphone/tablet
+     */
     static addTouchEvents(element) {
         element.ontouchstart = TouchScreen._touchHandler;
         element.ontouchmove = TouchScreen._touchHandler;

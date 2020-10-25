@@ -1,13 +1,7 @@
 window.onload = load;
 window.onresize = resize;
 
-const BACKGROUND_COLOR = "black";
-
 let palette = new Palette();
-
-
-
-
 
 
 function load() {

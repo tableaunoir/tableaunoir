@@ -274,7 +274,7 @@ class MagnetManager {
 						otherElementsToMove.push(magnets[i]);
 					}
 
-				
+
 			}
 
 
@@ -308,6 +308,9 @@ class MagnetManager {
 			}
 
 			function closeDragElement(e) {
+				if (!drag)
+					return;
+					
 				drag = false;
 				console.log("close drag")
 				e.target.classList.remove("magnetDrag");

@@ -30,7 +30,9 @@ class BlackVSWhiteBoard {
     }
 
 
-
+    /**
+     * @dsecription invert the colors of the canvas (black becomes white, white becomes black, red becomes...)
+     */
     static _invertCanvas() {
         const canvas = document.getElementById('canvas');
         const context = canvas.getContext('2d');

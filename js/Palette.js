@@ -1,5 +1,7 @@
 class Palette {
+    /** colors that can have a chalk. The first color must be white */
     colors = ["white", "yellow", "orange", "rgb(100, 172, 255)", "Crimson", "Plum", "LimeGreen"];
+
     buttons = [];
     currentColorID = 0;
     onchange = () => { };
@@ -9,17 +11,25 @@ class Palette {
     _createPalette() {
         const div = document.getElementById("palette");
         for (let i in this.colors) {
-            this.buttons[i] = this.createColorButton(i);
+            this.buttons[i] = this._createColorButton(i);
             div.appendChild(this.buttons[i]);
         }
     }
 
+    /**
+     * @description switch the first color (white <=> black)
+     */
     switchBlackAndWhite() {
         this.colors[0] = (this.colors[0] == "white") ? "black" : "white";
         document.getElementById("canvas").style.cursor = ChalkCursor.getStyleCursor(palette.getCurrentColor());
     }
 
-    createColorButton(i) {
+    /**
+     * 
+     * @param {*} i  an index between 0 and this.colors.length - 1
+     * @description create the button for the color of index i
+     */
+    _createColorButton(i) {
         const img = new Image();
         img.src = ChalkCursor.getCursorURL(this.colors[i]);
         img.classList.add("paletteColorButton");
@@ -29,7 +39,6 @@ class Palette {
         img.style.top = (Palette.radius * Math.sin(angle) - 22) + "px";
         img.style.left = (Palette.radius * Math.cos(angle) - 16) + "px";
         img.style.borderColor = this.colors[i];
-       // img.style.backgroundColor = this.colors[i];
 
         img.onclick = () => {
             this.buttons[this.currentColorID].classList.remove("selected");
@@ -41,6 +50,9 @@ class Palette {
         return img;
     }
 
+    /**
+     * @description select the next color
+     */
     next() {
         this.buttons[this.currentColorID].classList.remove("selected");
         this.currentColorID++;
@@ -49,7 +61,9 @@ class Palette {
         this.onchange();
     }
 
-
+    /**
+     * @description select the previous color
+     */
     previous() {
         this.buttons[this.currentColorID].classList.remove("selected");
         this.currentColorID--;
@@ -59,6 +73,10 @@ class Palette {
         this.onchange();
     }
 
+    /**
+     * @param position a point {x: ..., y: ...}
+     * @description show the palette at position position
+     */
     show(position) {
         const div = document.getElementById("palette");
         div.innerHTML = "";
@@ -83,6 +101,9 @@ class Palette {
         return document.getElementById("palette").classList.contains("PaletteShow");
     }
 
+    /**
+     * @returns the selected color
+     */
     getCurrentColor() {
         return this.colors[this.currentColorID];
     }
