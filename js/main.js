@@ -170,8 +170,9 @@ function load() {
 				lastDelineation.erase();
 			else*/
 			MagnetManager.removeCurrentMagnet();
+			evt.preventDefault();
 		}
-		evt.preventDefault();
+		
 	};
 
 

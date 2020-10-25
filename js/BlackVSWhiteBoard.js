@@ -1,15 +1,27 @@
+/**
+ * This class implements the switch between whiteboard and blackboard
+ */
 class BlackVSWhiteBoard {
-    
+
     static init() {
         document.getElementById("canvas").style.backgroundColor = "black";
-        document.getElementById("blackVSWhiteBoard").onclick = BlackVSWhiteBoard.switch;
+        document.getElementById("whiteBoardSwitch").onclick = BlackVSWhiteBoard.switch;
+        document.getElementById("blackBoardSwitch").onclick = BlackVSWhiteBoard.switch;
     }
 
 
+    /**
+     * switch between whiteboard and blackboard
+     */
     static switch() {
-        let backgroundColor = (document.getElementById("canvas").style.backgroundColor == "white") ? "black" : "white";
+        const previousBackgroundColor = document.getElementById("canvas").style.backgroundColor;
+        const backgroundColor = previousBackgroundColor == "white" ? "black" : "white";
 
-        console.log("previous background color was " + document.getElementById("canvas").style.backgroundColor);
+        document.getElementById(backgroundColor + "BoardSwitch").hidden = true;
+        document.getElementById(previousBackgroundColor + "BoardSwitch").hidden = false;
+
+
+        console.log("previous background color was " + previousBackgroundColor);
         console.log("switch to " + backgroundColor + "board")
         palette.switchBlackAndWhite();
         document.getElementById("canvas").style.backgroundColor = backgroundColor;
@@ -20,11 +32,11 @@ class BlackVSWhiteBoard {
 
 
     static _invertCanvas() {
-        let canvas = document.getElementById('canvas');
-        var context = canvas.getContext('2d');
+        const canvas = document.getElementById('canvas');
+        const context = canvas.getContext('2d');
 
-        var imageData = context.getImageData(0, 0, canvas.width, canvas.height);
-        var data = imageData.data;
+        const imageData = context.getImageData(0, 0, canvas.width, canvas.height);
+        const data = imageData.data;
 
         for (let i = 0; i < data.length; i += 4) {
             // red
