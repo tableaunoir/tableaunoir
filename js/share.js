@@ -59,7 +59,8 @@ class Share {
 
 	static execute(instruction) {
 		eval(instruction);
-		Share.send({type: "execute", data: instruction});
+		if (Share.isShared())
+			Share.send({ type: "execute", data: instruction });
 	}
 
 
