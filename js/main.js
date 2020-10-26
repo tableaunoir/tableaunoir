@@ -227,10 +227,12 @@ function load() {
 					lineWidth = 128;
 				}
 
-				clearLine(document.getElementById("canvas").getContext("2d"), x, y, evtX, evtY, lineWidth);
+				
+				Share.execute(`clearLine(${x}, ${y}, ${evtX}, ${evtY}, ${lineWidth})`);
 			}
 			else {
-				drawLine(document.getElementById("canvas").getContext("2d"), x, y, evtX, evtY, evt.pressure);
+				Share.execute(`drawLine(${x}, ${y}, ${evtX}, ${evtY}, ${evt.pressure})`);
+				
 				lastDelineation.addPoint({ x: evtX, y: evtY });
 
 			}
@@ -288,7 +290,8 @@ function resize() {
 }
 
 
-function drawLine(context, x1, y1, x2, y2, pressure = 1.0) {
+function drawLine(x1, y1, x2, y2, pressure = 1.0) {
+	const context = document.getElementById("canvas").getContext("2d");
 	context.beginPath();
 	context.strokeStyle = palette.getCurrentColor();
 	context.globalCompositeOperation = "source-over";
@@ -302,6 +305,7 @@ function drawLine(context, x1, y1, x2, y2, pressure = 1.0) {
 
 
 function drawDot(context, x, y) {
+	const context = document.getElementById("canvas").getContext("2d");
 	context.beginPath();
 	context.fillStyle = palette.getCurrentColor();
 	context.lineWidth = 2.5;
@@ -311,7 +315,8 @@ function drawDot(context, x, y) {
 }
 
 
-function clearLine(context, x1, y1, x2, y2, lineWidth = 10) {
+function clearLine(x1, y1, x2, y2, lineWidth = 10) {
+	const context = document.getElementById("canvas").getContext("2d");
 	context.beginPath();
 	//context.strokeStyle = BACKGROUND_COLOR;
 	context.globalCompositeOperation = "destination-out";

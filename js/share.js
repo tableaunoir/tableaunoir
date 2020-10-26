@@ -42,6 +42,7 @@ class Share {
 			case "id": Share._setID(msg.id); break;
 			case "join": break; //somebody joins
 			case "fullCanvas": BoardManager.loadWithoutSave(msg.data); break;
+			case "execute": eval(msg.data);
 		}
 	}
 
@@ -55,6 +56,12 @@ class Share {
 	static sendFullCanvas(blob) {
 		Share.send({ type: "fullCanvas", data: canvas.toDataURL() }); // at some point send the blob directly
 	}
+
+	static execute(instruction) {
+		eval(instruction);
+		Share.send({type: "execute", data: instruction});
+	}
+
 
 	static _setID(id) {
 		Share.id = id;
