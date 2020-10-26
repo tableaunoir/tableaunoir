@@ -13,7 +13,7 @@ class TableauNoir {
   }
 
   dispatch(msg, exceptSocket) {
-    this.sockets.forEach(s => { if (s != exceptSocket) s.send(msg) });
+    this.sockets.forEach(s => { if (s != exceptSocket) s.send(JSON.stringify(msg)) });
   }
 }
 

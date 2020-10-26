@@ -19,7 +19,7 @@ class Share {
 		};
 
 		setTimeout(() => {
-			if (!Share.isShared)
+			if (!Share.isShared())
 				Share.share()
 		}, 1000); //just for test. Should be removed at the end (the button share does it)
 	}
@@ -27,6 +27,7 @@ class Share {
 
 
 	static isShared() {
+		console.log("already shared! the id is " + Share.id);
 		return Share.id != undefined;
 	}
 
@@ -68,7 +69,8 @@ class Share {
 	static tryJoin() {
 		let params = (new URL(document.location)).searchParams;
 		Share.id = params.get('id');
-		Share.join(Share.id);
+		if (Share.id != null)
+			Share.join(Share.id);
 	}
 
 
