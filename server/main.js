@@ -23,7 +23,10 @@ const server = new WebSocket.Server({
 
 let sockets = [];
 
+console.log("Tableaunoir server -- Welcome");
+
 server.on('connection', function (socket) {
+  console.log("New connection!")
   sockets.push(socket);
 
   socket.on('message', function (msg) {
@@ -46,7 +49,7 @@ function treatReceivedMessageFromClient(msg) {
       id = generateID();
       tableaunoirs[id] = new TableauNoir();
       tableaunoirs[id].addSocket(msg.socket);
-      socket.send(JSON.stringify({ type: "id", id: id }));
+      msg.socket.send(JSON.stringify({ type: "id", id: id }));
       break;
 
     case "join":
