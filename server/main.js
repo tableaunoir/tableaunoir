@@ -28,15 +28,33 @@ server.on('connection', function (socket) {
 
   socket.on('message', function (msg) {
     console.log(msg);
-    if (msg == "share") {
-      let id = generateID();
-      tableaunoirs[id] = new TableauNoir();
-      tableaunoirs[id].addSocket(socket);
-      socket.send(JSON.stringify({ type: "id", id: id }));
-    }
+    msg.socket = socket;
+    treatReceivedMessageFromClient(JSON.parse(msg));
   });
 
   socket.on('close', function () {
     sockets = sockets.filter(s => s !== socket);
   });
 });
+
+
+
+function treatReceivedMessageFromClient(msg) {
+  switch (msg.type) {
+    case "share":
+      let id = generateID();
+      tableaunoirs[id] = new TableauNoir();
+      tableaunoirs[id].addSocket(msg.socket);
+      socket.send(JSON.stringify({ type: "id", id: id }));
+      break;
+
+    case "join":
+      let id = msg.id;
+      if (tableaunoirs[id] == undefined) {
+        console.log("there is no tableaunoir of id " + id);
+        return;
+      }
+      tableaunoirs[id].addSocket(msg.socket);
+      break;
+  }
+}
