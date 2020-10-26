@@ -40,16 +40,16 @@ server.on('connection', function (socket) {
 
 
 function treatReceivedMessageFromClient(msg) {
+  let id = msg.id;
   switch (msg.type) {
     case "share":
-      let id = generateID();
+      id = generateID();
       tableaunoirs[id] = new TableauNoir();
       tableaunoirs[id].addSocket(msg.socket);
       socket.send(JSON.stringify({ type: "id", id: id }));
       break;
 
     case "join":
-      let id = msg.id;
       if (tableaunoirs[id] == undefined) {
         console.log("there is no tableaunoir of id " + id);
         return;
