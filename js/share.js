@@ -1,5 +1,5 @@
 class Share {
-	static ws;
+	static ws = undefined;
 	static id = undefined;
 
 	static init() {
@@ -14,11 +14,14 @@ class Share {
 		};
 
 		document.getElementById("shareButton").onclick = () => {
-			if (Share.isShared())
+			if (!Share.isShared())
 				Share.share();
 		};
 
-		setTimeout(() => Share.share(), 1000);
+		setTimeout(() => {
+			if (!Share.isShared)
+				Share.share()
+		}, 1000); //just for test. Should be removed at the end (the button share does it)
 	}
 
 
@@ -29,7 +32,6 @@ class Share {
 
 	static share() {
 		Share.send({ type: "share" });
-		Share.sendFullCanvas();
 	}
 
 
@@ -49,21 +51,24 @@ class Share {
 	}
 
 
-	static sendFullCanvas() {
-		Share.send({type: "fullCanvas", data: canvas.toDataURL()});
+	static sendFullCanvas(blob) {
+		Share.send({ type: "fullCanvas", data: canvas.toDataURL() }); // at some point send the blob directly
 	}
 
 	static _setID(id) {
 		Share.id = id;
 		let newUrl = document.location.href + "?id=" + id;
 		history.pushState({}, null, newUrl);
+
+		document.getElementById("canvas").toBlob((blob) => Share.sendFullCanvas(blob));
+
 	}
 
 
 	static tryJoin() {
 		let params = (new URL(document.location)).searchParams;
-		id = params.get('id');
-		Share.join(id);
+		Share.id = params.get('id');
+		Share.join(Share.id);
 	}
 
 
