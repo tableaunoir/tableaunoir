@@ -29,7 +29,7 @@ server.on('connection', function (socket) {
   console.log("New connection!")
   sockets.push(socket);
 
-  socket.on('message', function (msg) {
+  socket.on('message', (msg) => {
     console.log(msg);
     msg.socket = socket;
     treatReceivedMessageFromClient(JSON.parse(msg));
