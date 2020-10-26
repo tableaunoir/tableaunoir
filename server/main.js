@@ -31,8 +31,9 @@ server.on('connection', function (socket) {
 
   socket.on('message', (msg) => {
     console.log(msg);
+    msg = JSON.parse(msg);
     msg.socket = socket;
-    treatReceivedMessageFromClient(JSON.parse(msg));
+    treatReceivedMessageFromClient(msg);
   });
 
   socket.on('close', function () {
