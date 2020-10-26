@@ -232,7 +232,7 @@ function load() {
 			}
 			else {
 				Share.execute(`drawLine(${x}, ${y}, ${evtX}, ${evtY}, ${evt.pressure})`);
-				
+
 				lastDelineation.addPoint({ x: evtX, y: evtY });
 
 			}
@@ -305,7 +305,7 @@ function drawLine(x1, y1, x2, y2, pressure = 1.0) {
 
 
 function drawDot(context, x, y) {
-	const context = document.getElementById("canvas").getContext("2d");
+	//const context = document.getElementById("canvas").getContext("2d");
 	context.beginPath();
 	context.fillStyle = palette.getCurrentColor();
 	context.lineWidth = 2.5;
