@@ -3,18 +3,18 @@ const generateID = require("uuid/v4")
 
 const tableaunoirs = {};
 
-
-
 class TableauNoir {
-    sockets = [];
+  constructor() {
+    this.sockets = [];
+  }
 
-    addSocket(socket) {
-      this.sockets.push(socket);
-    }
+  addSocket(socket) {
+    this.sockets.push(socket);
+  }
 
-    dispatch(msg) {
-      this.sockets.forEach(s => s.send(msg));
-    }
+  dispatch(msg) {
+    this.sockets.forEach(s => s.send(msg));
+  }
 }
 
 const server = new WebSocket.Server({
@@ -23,19 +23,19 @@ const server = new WebSocket.Server({
 
 let sockets = [];
 
-server.on('connection', function(socket) {
+server.on('connection', function (socket) {
   sockets.push(socket);
 
-  socket.on('message', function(msg) {
-    if(msg == "share") {
+  socket.on('message', function (msg) {
+    if (msg == "share") {
       let id = generateID();
       tableaunoirs[id] = new TableauNoir();
       tableaunoirs[id].addSocket(socket);
-      socket.send({type: "id", id: id});
+      socket.send({ type: "id", id: id });
     }
   });
 
-  socket.on('close', function() {
+  socket.on('close', function () {
     sockets = sockets.filter(s => s !== socket);
   });
 });
