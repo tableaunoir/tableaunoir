@@ -27,6 +27,7 @@ server.on('connection', function (socket) {
   sockets.push(socket);
 
   socket.on('message', function (msg) {
+    console.log(msg);
     if (msg == "share") {
       let id = generateID();
       tableaunoirs[id] = new TableauNoir();
