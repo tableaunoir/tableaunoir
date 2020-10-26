@@ -62,7 +62,7 @@ function treatReceivedMessageFromClient(msg) {
       break;
   }
 
-  tableaunoirs[id].dispatch(msg, socket);
+  tableaunoirs[id].dispatch(msg, msg.socket);
 
 
 }
