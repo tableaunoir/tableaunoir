@@ -12,8 +12,8 @@ class TableauNoir {
     this.sockets.push(socket);
   }
 
-  dispatch(msg) {
-    this.sockets.forEach(s => s.send(msg));
+  dispatch(msg, exceptSocket) {
+    this.sockets.forEach(s => { if (s != exceptSocket) s.send(msg) });
   }
 }
 
@@ -61,4 +61,8 @@ function treatReceivedMessageFromClient(msg) {
       tableaunoirs[id].addSocket(msg.socket);
       break;
   }
+
+  tableaunoirs[id].dispatch(msg, socket);
+
+
 }
