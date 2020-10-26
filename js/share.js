@@ -3,7 +3,7 @@ class Share {
 	static id = undefined;
 
 	static init() {
-		Share.ws = new WebSocket('ws://tableaunoir.irisa.fr:443');
+		Share.ws = new WebSocket('wss://tableaunoir.irisa.fr:443');
 		
 		Share.ws.onmessage = (msg) => {
 			console.log("I received the data: ");
