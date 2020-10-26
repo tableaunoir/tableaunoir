@@ -18,7 +18,7 @@ class TableauNoir {
 }
 
 const server = new WebSocket.Server({
-  port: 8080
+  port: 443
 });
 
 let sockets = [];
