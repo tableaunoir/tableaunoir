@@ -31,7 +31,7 @@ server.on('connection', function (socket) {
       let id = generateID();
       tableaunoirs[id] = new TableauNoir();
       tableaunoirs[id].addSocket(socket);
-      socket.send({ type: "id", id: id });
+      socket.send(JSON.stringify({ type: "id", id: id }));
     }
   });
 
