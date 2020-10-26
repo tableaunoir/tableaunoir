@@ -162,7 +162,7 @@ function load() {
 			palette.hide();
 			MagnetManager.printCurrentMagnet();
 		}
-		else if (evt.key == "Delete" || evt.key == "x") { //supr = delete the current magnet
+		else if (evt.key == "Delete" || evt.key == "x" || evt.key =="Backspace") { //supr = delete the current magnet
 			palette.hide();
 			/*if (lastDelineation.containsPolygonToMagnetize())
 				lastDelineation.erase();
