@@ -41,7 +41,7 @@ class Share {
 		switch (msg.type) {
 			case "id": Share._setID(msg.id); break;
 			case "join": break; //somebody joins
-			case "fullCanvas": BoardManager.load(msg.data); break;
+			case "fullCanvas": BoardManager.loadWithoutSave(msg.data); break;
 		}
 	}
 

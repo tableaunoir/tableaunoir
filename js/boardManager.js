@@ -139,6 +139,32 @@ class BoardManager {
 
     }
 
+
+
+
+    /**
+     * load the board from the local storage
+     */
+    static loadWithoutSave(data = localStorage.getItem(BoardManager.boardName)) {
+        // let data = localStorage.getItem(BoardManager.boardName);
+
+        if (data != undefined) {
+            BoardManager._clear();
+            let image = new Image();
+            image.src = data;
+            image.onload = function () {
+                document.getElementById("canvas").width = image.width;
+                document.getElementById("canvas").height = image.height;
+                document.getElementById("canvas").getContext("2d").drawImage(image, 0, 0);
+                console.log("loaded!")
+            }
+        }
+        else {
+            BoardManager._clear();
+        }
+
+    }
+
     /**
      * @returns the number of pixels when scrolling
      */
