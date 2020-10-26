@@ -45,6 +45,14 @@ server.on('connection', function (socket) {
 
 function treatReceivedMessageFromClient(msg) {
   let id = msg.id;
+
+  if (msg.type != "share")
+    if (tableaunoirs[id] == undefined) {
+      console.log("automatic creation of a tableaunoir of id " + msg.id)
+      tableaunoirs[id] = new TableauNoir();
+      tableaunoirs[id].addSocket(msg.socket);
+    }
+
   switch (msg.type) {
     case "share":
       id = generateID();
