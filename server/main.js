@@ -45,7 +45,7 @@ class TableauNoir {
     //inform the others that socket arrives
     this.dispatch({ type: "join", userid: socket.userid }, socket);
 
-    console.log("users are "+ this.sockets((s) => s.userid).join(","));
+    console.log("users are "+ this.sockets.map((s) => s.userid).join(","));
   }
 
   removeSocket(socket) {
