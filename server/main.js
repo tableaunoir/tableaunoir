@@ -42,14 +42,17 @@ class TableauNoir {
   dispatch(msg, exceptSocket) {
     delete msg.socket;
 
-    if (msg.type != "fullCanvas" && msg.type != "execute")
-      console.log("send ", msg);
-    else
-      console.log("send ", msg.type);
+    if (this.sockets > 1) {
+      if (msg.type != "fullCanvas" && msg.type != "execute")
+        console.log("dispatch ", msg);
+      else
+        console.log("dispatch ", msg.type);
+    }
+
     this.sockets.forEach(s => {
       if (s != exceptSocket) {
         s.send(JSON.stringify(msg))
-        console.log("   to user " + s.userid);
+        console.log("  to user " + s.userid);
       }
     });
   }
