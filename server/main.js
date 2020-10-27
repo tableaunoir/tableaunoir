@@ -34,7 +34,7 @@ console.log("Tableaunoir server -- Welcome");
 
 server.on('connection', function (socket) {
   console.log("New connection!")
-  socket.userid = uuid.v4();
+  socket.userid = generateID();
   sockets.push(socket);
 
   socket.on('message', (msg) => {
