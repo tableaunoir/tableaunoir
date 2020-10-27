@@ -256,7 +256,7 @@ class MagnetManager {
 
 				canvasCursorStore = canvas.style.cursor;
 				e = e || window.event;
-				e.preventDefault();
+				//e.preventDefault();
 				// get the mouse cursor position at startup:
 				pos3 = e.clientX;
 				pos4 = e.clientY;
@@ -310,7 +310,7 @@ class MagnetManager {
 			function closeDragElement(e) {
 				if (!drag)
 					return;
-					
+
 				drag = false;
 				console.log("close drag")
 				e.target.classList.remove("magnetDrag");
@@ -336,25 +336,51 @@ class MagnetManager {
 	static addMagnetText(x, y) {
 		let div = document.createElement("div");
 		let divText = document.createElement("div");
+		MagnetManager.addMagnet(div);
 		div.appendChild(divText);
 		divText.innerHTML = "type text";
-		divText.onmousedown = (e) => { e.stopPropagation(); }
+		divText.onpointerdown = (e) => { e.stopPropagation(); }
+		divText.onpointermove = (e) => { e.stopPropagation(); }
+		divText.onpointerup = (e) => { e.stopPropagation(); }
 		divText.onkeydown = (e) => {
+			let setFontSize = (size) => {
+				divText.style.fontSize = size + "px";
+				for(let o of divText.children) {
+					o.style.fontSize = size + "px";
+				}
+			}
+
+
 			if (e.key == "Escape") {
 				divText.blur();
 				window.getSelection().removeAllRanges();
 				/*if(divText.innerHTML == "")
 					MagnetManager.remove(div);*/
 			}
+			if ((e.ctrlKey && e.key == "=") || (e.ctrlKey && e.key == "+")) { // Ctrl + +
+
+				let size = parseInt(divText.style.fontSize);
+				size++;
+				setFontSize(size);
+				e.preventDefault();
+			}
+			else if (e.ctrlKey && e.key == "-") { // Ctrl + -
+				let size = parseInt(divText.style.fontSize);
+				if(size > 6) size--;
+				setFontSize(size);
+				e.preventDefault();
+			}
 			e.stopPropagation();
 		}
-		MagnetManager.addMagnet(div);
+
 		div.style.left = x + "px";
 		div.style.top = y + "px";
 		div.classList.add("magnetText");
 		div.style.backgroundColor = "rgba(0.2, 0.2, 0.2, 0.9)";
 		div.style.color = "white";
+
 		divText.contentEditable = true;
+		divText.style.fontSize = "24px";
 		divText.focus();
 		document.execCommand('selectAll', false, null);
 	}
