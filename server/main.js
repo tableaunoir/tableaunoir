@@ -89,16 +89,22 @@ const credentials = {
   //ca: fs.readFileSync('tableaunoir.irisa.fr.csr')
 };
 
-const httpsServer = https.createServer(credentials);
+const httpsServer = https.createServer(credentials, function (request, response) {
+  // it sends 404 response so browser stops loading, otherwise it keeps loading 
+  console.log((new Date()) + ' Received HTTP(S) request for ' + request.url);
+  response.writeHead(404);
+  response.end();
+});
+
 
 const server = new WebSocket.Server({
-  httpServer: httpsServer,
-    // You should not use autoAcceptConnections for production
-    // applications, as it defeats all standard cross-origin protection
-    // facilities built into the protocol and the browser.  You should
-    // *always* verify the connection's origin and decide whether or not
-    // to accept it.
-    autoAcceptConnections: false
+  server: httpsServer,
+  // You should not use autoAcceptConnections for production
+  // applications, as it defeats all standard cross-origin protection
+  // facilities built into the protocol and the browser.  You should
+  // *always* verify the connection's origin and decide whether or not
+  // to accept it.
+  autoAcceptConnections: false
 });
 
 let sockets = [];
