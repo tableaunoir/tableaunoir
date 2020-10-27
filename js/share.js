@@ -5,7 +5,7 @@ class Share {
 
 	static init() {
 		try {
-			Share.ws = new WebSocket('ws://tableaunoir.irisa.fr:443');
+			Share.ws = new WebSocket('wss://tableaunoir.irisa.fr:443');
 			Share.ws.binaryType = "arraybuffer";
 
 			Share.ws.onopen = () => { Share.tryJoin(); };
@@ -28,7 +28,7 @@ class Share {
 			}, 1000); //just for test. Should be removed at the end (the button share does it)
 		}
 		catch (e) {
-			console.log("error: impossible to connet to the server")
+			console.log("error: impossible to connect to the server", e)
 		}
 
 	}
