@@ -1,6 +1,5 @@
 class ShareEvent {
     static mousedown(userId, evt) {
-        console.log("mousedown", userId)
         users[userId].mousedown(evt);
     }
 

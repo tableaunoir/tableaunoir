@@ -19,10 +19,10 @@ class TableauNoir {
   }
 
   addSocket(socket) {
-    
+
     //inform the new user socket that the others exist
     this.sockets.forEach(s => {
-      socket.send(JSON.stringify({type: "join", userid: s.userid}))
+      socket.send(JSON.stringify({ type: "join", userid: s.userid }))
     });
 
     this.sockets.push(socket);
@@ -41,8 +41,11 @@ class TableauNoir {
 
   dispatch(msg, exceptSocket) {
     delete msg.socket;
-    console.log("send ", msg)
 
+    if (msg.type != "fullCanvas" && msg.type != "execute")
+      console.log("send ", msg);
+    else
+      console.log("send ", msg.type);
     this.sockets.forEach(s => {
       if (s != exceptSocket) {
         s.send(JSON.stringify(msg))

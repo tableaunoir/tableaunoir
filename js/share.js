@@ -1,3 +1,4 @@
+
 class Share {
 	static ws = undefined;
 	static id = undefined;
@@ -46,9 +47,12 @@ class Share {
 
 
 	static _treatReceivedMessage(msg) {
-		console.log(msg)
+		if (msg.type != "fullCanvas" && msg.type != "execute")
+			console.log("Server -> me: " + JSON.stringify(msg));
+		else
+			console.log("Server -> me: " + msg.type);
 		switch (msg.type) {
-			case "id": Share._setID(msg.id); break;
+			case "id": Share._setTableauID(msg.id); break;
 			case "userid": Share._setMyUserID(msg.userid); break;
 			case "join": users[msg.userid] = new User(); break;
 			case "leave": delete users[msg.userid]; break;
@@ -89,7 +93,7 @@ class Share {
 	}
 
 
-	static _setID(id) {
+	static _setTableauID(id) {
 		Share.id = id;
 		let newUrl = document.location.href + "?id=" + id;
 		history.pushState({}, null, newUrl);
