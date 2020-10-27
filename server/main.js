@@ -1,3 +1,6 @@
+'use strict';
+
+const https = require('https');
 const WebSocket = require('ws');
 //const generateID = require("uuid/v4")
 const uuid = require('small-uuid');
@@ -72,9 +75,16 @@ class TableauNoir {
   }
 }
 
+/*
+
+const httpsServer = https.createServer({
+  cert: fs.readFileSync('/etc/ssl/certs/ Baltimore_CyberTrust_Root.pem'),
+  key: fs.readFileSync('../test/fixtures/key.pem')
+});*/
+
 const server = new WebSocket.Server({
   port: 443,
-  server: httpsServer
+  //httpsServer
 });
 
 let sockets = [];
