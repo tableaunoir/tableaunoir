@@ -2,6 +2,7 @@
 
 const https = require('https');
 const WebSocket = require('ws');
+const fs = require('fs');
 //const generateID = require("uuid/v4")
 const uuid = require('small-uuid');
 
