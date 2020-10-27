@@ -21,7 +21,7 @@ class TableauNoir {
   dispatch(msg, exceptSocket) {
     delete msg.socket;
     console.log("send ", msg)
-    
+
     this.sockets.forEach(s => {
       if (s != exceptSocket) {
         s.send(JSON.stringify(msg))
@@ -87,9 +87,12 @@ function treatReceivedMessageFromClient(msg) {
       msg.socket.id = id;
       tableaunoirs[id].addSocket(msg.socket);
       break;
+
+    default:
+      tableaunoirs[id].dispatch(msg, msg.socket);
   }
 
-  tableaunoirs[id].dispatch(msg, msg.socket);
+
 
 
 }
