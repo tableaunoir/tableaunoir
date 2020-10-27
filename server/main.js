@@ -79,8 +79,8 @@ class TableauNoir {
 
 
 const httpsServer = https.createServer({
-  cert: fs.readFileSync('/etc/ssl/private/tableaunoir.irisa.fr.csr'),
-  key: fs.readFileSync('/etc/ssl/private/tableaunoir.irisa.fr.key')
+  cert: fs.readFileSync('public.pem'),
+  key: fs.readFileSync('private.pem')
 });
 
 const server = new WebSocket.Server({
