@@ -33,11 +33,13 @@ class TableauNoir {
     //inform the new user socket that the others exist
     this.sockets.forEach(s => {
       socket.send(JSON.stringify({ type: "join", userid: s.userid }))
+      console.log("send to " + socket.userid + " " + messageToString({ type: "join", userid: s.userid }));
     });
 
     this.sockets.push(socket);
 
     //send to socket its own userid
+    console.log("send to " + socket.userid + " " + messageToString({ type: "userid", userid: socket.userid }));
     socket.send(JSON.stringify({ type: "userid", userid: socket.userid }));
 
     //inform the others that socket arrives
