@@ -104,7 +104,7 @@ function load() {
 		else if (evt.key == "ArrowRight" && palette.isShown())
 			palette.next();
 		else if (evt.key == "Enter") {
-			MagnetManager.addMagnetText(x, y);
+			MagnetManager.addMagnetText(user.x, user.y);
 			evt.preventDefault(); //so that it will not add "new line" in the text element
 		}
 		else if (evt.key == "ArrowLeft") {

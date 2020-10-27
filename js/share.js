@@ -124,15 +124,18 @@ class Share {
 			i++;
 			keys.push(key);
 		 }
-		document.getElementById("users").value = i + " users: " + keys.join("   ");
+		document.getElementById("users").innerHTML = i + " users: " + keys.join("   ");
 	}
 
 
 	static tryJoin() {
 		let params = (new URL(document.location)).searchParams;
 		Share.id = params.get('id');
-		if (Share.id != null)
+		if (Share.id != null) {
 			Share.join(Share.id);
+			document.getElementById("shareUrl").value = document.location;
+		}
+			
 	}
 
 
