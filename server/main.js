@@ -76,17 +76,29 @@ class TableauNoir {
   }
 }
 
-
+/*
 const credentials = {
   cert: fs.readFileSync('/etc/ssl/private/tableaunoir.irisa.fr.cer'),
   key: fs.readFileSync('/etc/ssl/private/ssl-cert-snakeoil.key'),
   ca: fs.readFileSync('/etc/ssl/private/tableaunoir.irisa.fr.csr')
 };
+*/
+const credentials = {
+  cert: fs.readFileSync('tableaunoir_irisa_fr.pem'),
+  key: fs.readFileSync('private.pem'),
+  //ca: fs.readFileSync('tableaunoir.irisa.fr.csr')
+};
 
 const httpsServer = https.createServer(credentials);
 
 const server = new WebSocket.Server({
-  server: httpsServer
+  httpServer: httpsServer,
+    // You should not use autoAcceptConnections for production
+    // applications, as it defeats all standard cross-origin protection
+    // facilities built into the protocol and the browser.  You should
+    // *always* verify the connection's origin and decide whether or not
+    // to accept it.
+    autoAcceptConnections: false
 });
 
 let sockets = [];
