@@ -87,7 +87,7 @@ class Share {
 		}
 		eval("ShareEvent." + event)(...params);
 		if (Share.isShared())
-			Share.send({ type: "execute", event: event, params: params.map((param) => stringify(param)) };
+			Share.send({ type: "execute", event: event, params: params.map((param) => stringify(param)) });
 	}
 
 
