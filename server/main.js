@@ -77,14 +77,15 @@ class TableauNoir {
 }
 
 
-
-const httpsServer = https.createServer({
+const credentials = {
   cert: fs.readFileSync('public.pem'),
   key: fs.readFileSync('private.pem')
-});
+};
+
+const httpsServer = https.createServer(credentials);
 
 const server = new WebSocket.Server({
-  port: 443,
+//  port: 443,
   server: httpsServer
 });
 
