@@ -11,6 +11,14 @@ function generateUserID() {
 }
 
 
+
+
+function messageToString(msg) {
+  if (msg.type != "fullCanvas" && msg.type != "execute")
+    return msg;
+  else
+    return msg.type;
+}
 const tableaunoirs = {};
 
 class TableauNoir {
@@ -42,12 +50,9 @@ class TableauNoir {
   dispatch(msg, exceptSocket) {
     delete msg.socket;
 
-    if (this.sockets > 1) {
-      if (msg.type != "fullCanvas" && msg.type != "execute")
-        console.log("dispatch ", msg);
-      else
-        console.log("dispatch ", msg.type);
-    }
+    if (this.sockets.length > 1)
+      console.log("dispatch ", messageToString(msg));
+
 
     this.sockets.forEach(s => {
       if (s != exceptSocket) {
@@ -72,7 +77,7 @@ server.on('connection', function (socket) {
   sockets.push(socket);
 
   socket.on('message', (msg) => {
-    console.log(msg);
+    console.log("from user " + socket.userid + " received " + messageToString(msg));
     msg = JSON.parse(msg);
     msg.socket = socket;
     treatReceivedMessageFromClient(msg);
