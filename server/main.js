@@ -79,7 +79,7 @@ class TableauNoir {
 
 const credentials = {
   cert: fs.readFileSync('/etc/ssl/private/tableaunoir.irisa.fr.cer'),
-  key: fs.readFileSync('/etc/ssl/private/tableaunoir.irisa.fr.key'),
+  key: fs.readFileSync('/etc/ssl/private/ssl-cert-snakeoil.key'),
   ca: fs.readFileSync('/etc/ssl/private/tableaunoir.irisa.fr.csr')
 };
 
