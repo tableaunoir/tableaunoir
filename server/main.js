@@ -78,7 +78,7 @@ class TableauNoir {
 
 
 const credentials = {
-  cert: fs.readFileSync('public.pem'),
+  cert: fs.readFileSync('tableaunoir_irisa_fr.pem'),
   key: fs.readFileSync('private.pem')
 };
 
