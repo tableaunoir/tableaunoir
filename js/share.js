@@ -1,5 +1,3 @@
-const { stringify } = require("querystring");
-
 class Share {
 	static ws = undefined;
 	static id = undefined;
