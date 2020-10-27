@@ -1,6 +1,16 @@
 const WebSocket = require('ws');
 const generateID = require("uuid/v4")
 
+function generateTableauID() {
+  return "t" + generateID();
+}
+
+
+function generateUserID() {
+  return "u" + generateID();
+}
+
+
 const tableaunoirs = {};
 
 class TableauNoir {
@@ -52,7 +62,7 @@ console.log("Tableaunoir server -- Welcome");
 
 server.on('connection', function (socket) {
   console.log("New connection!")
-  socket.userid = generateID();
+  socket.userid = generateUserID();
   sockets.push(socket);
 
   socket.on('message', (msg) => {
@@ -83,7 +93,7 @@ function treatReceivedMessageFromClient(msg) {
 
   switch (msg.type) {
     case "share":
-      id = generateID();
+      id = generateTableauID();
       tableaunoirs[id] = new TableauNoir();
       tableaunoirs[id].addSocket(msg.socket);
       msg.socket.id = id;
