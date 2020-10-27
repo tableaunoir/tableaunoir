@@ -10,17 +10,23 @@ class TableauNoir {
 
   addSocket(socket) {
     this.sockets.push(socket);
-    this.dispatch({type: "join", userid: socket.userid}, socket);
+    this.dispatch({ type: "join", userid: socket.userid }, socket);
   }
 
   removeSocket(socket) {
     this.sockets = this.sockets.filter(s => s !== socket);
-    this.dispatch({type: "leave", userid: socket.userid}, socket);
+    this.dispatch({ type: "leave", userid: socket.userid }, socket);
   }
 
   dispatch(msg, exceptSocket) {
+    console.log("send ", msg)
     delete msg.socket;
-    this.sockets.forEach(s => { if (s != exceptSocket) s.send(JSON.stringify(msg)) });
+    this.sockets.forEach(s => {
+      if (s != exceptSocket) {
+        s.send(JSON.stringify(msg))
+        console.log("   to user " + s.userid);
+      }
+    });
   }
 }
 

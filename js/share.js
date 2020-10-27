@@ -46,6 +46,7 @@ class Share {
 
 
 	static _treatReceivedMessage(msg) {
+		console.log(msg)
 		switch (msg.type) {
 			case "id": Share._setID(msg.id); break;
 			case "userid": Share._setMyUserID(msg.userid); break;
@@ -80,7 +81,6 @@ class Share {
 				});
 			}
 
-			console.log(JSON.stringify(obj));
 			return JSON.stringify(obj);
 		}
 		eval("ShareEvent." + event)(...params);
