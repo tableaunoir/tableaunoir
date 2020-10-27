@@ -11,7 +11,6 @@ class Share {
 			Share.ws.onopen = () => { Share.tryJoin(); };
 			Share.ws.onmessage = (msg) => {
 				console.log("I received the message: ");
-				console.log(msg)
 				Share._treatReceivedMessage(JSON.parse(msg.data));
 			};
 
@@ -54,7 +53,7 @@ class Share {
 		switch (msg.type) {
 			case "id": Share._setTableauID(msg.id); break;
 			case "userid": Share._setMyUserID(msg.userid); break;
-			case "join": users[msg.userid] = new User(); break;
+			case "join": users[msg.userid] = new User(); console.log(users); break;
 			case "leave": delete users[msg.userid]; break;
 			case "fullCanvas": BoardManager.loadWithoutSave(msg.data); break;
 			case "execute": eval("ShareEvent." + msg.event)(...msg.params);
@@ -104,8 +103,6 @@ class Share {
 
 
 	static _setMyUserID(userid) {
-		users = {};
-
 		for (let key in users) {
 			if (users[key] == user)
 				delete users[key];
