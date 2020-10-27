@@ -5,6 +5,7 @@ class Palette {
     buttons = [];
     currentColorID = 0;
     onchange = () => { };
+   
 
     static radius = 96;
 
@@ -21,7 +22,7 @@ class Palette {
      */
     switchBlackAndWhite() {
         this.colors[0] = (this.colors[0] == "white") ? "black" : "white";
-        document.getElementById("canvas").style.cursor = ChalkCursor.getStyleCursor(palette.getCurrentColor());
+        this.onchange();
     }
 
     /**

@@ -25,7 +25,7 @@ class Share {
 			}, 1000); //just for test. Should be removed at the end (the button share does it)
 		}
 		catch(e) {
-			
+
 		}
 		
 	}
@@ -46,9 +46,11 @@ class Share {
 	static _treatReceivedMessage(msg) {
 		switch (msg.type) {
 			case "id": Share._setID(msg.id); break;
-			case "join": break; //somebody joins
+			case "userid": Share._setMyUserID(msg.userid); break;
+			case "join": users[msg.userid] = new User(); break;
+			case "leave": delete users[msg.userid]; break;
 			case "fullCanvas": BoardManager.loadWithoutSave(msg.data); break;
-			case "execute": eval(msg.data);
+			case "execute": eval("ShareEvent." + msg.event)(...msg.params);
 		}
 	}
 
@@ -63,10 +65,10 @@ class Share {
 		Share.send({ type: "fullCanvas", data: canvas.toDataURL() }); // at some point send the blob directly
 	}
 
-	static execute(instruction) {
-		eval(instruction);
+	static execute(event, params) {
+		eval("ShareEvent." + event)(...params);
 		if (Share.isShared())
-			Share.send({ type: "execute", data: instruction });
+			Share.send({ type: "execute", event: instruction, params: params});
 	}
 
 
@@ -77,6 +79,19 @@ class Share {
 
 		document.getElementById("canvas").toBlob((blob) => Share.sendFullCanvas(blob));
 
+	}
+
+
+	static _setMyUserID(userid) {
+		users = {};
+		
+		for(let key in users) {
+			if(users[key] == user)
+				delete users[key];
+		}
+
+		users[userid] = user;
+		user.setUserID(userid);
 	}
 
 

@@ -1,20 +1,15 @@
 window.onload = load;
 window.onresize = resize;
 
+let users = {};
+let user = new User();
+users['root'] = user;
+user.setUserID('root');
 let palette = new Palette();
 
 
 function load() {
-	let xInit = 0;
-	let yInit = 0;
 
-	let x = 0;
-	let y = 0;
-	let isDrawing = false;
-	let alreadyDrawnSth = false; // true if something visible has been drawn (If still false, draw a dot)
-	let eraseMode = false;
-	let eraseModeBig = false;
-	let lastDelineation = new Delineation();
 
 	LoadSave.init();
 	BoardManager.init();
@@ -24,10 +19,10 @@ function load() {
 
 	let changeColor = () => {
 		if (MagnetManager.getMagnetUnderCursor() == undefined) { //if no magnet under the cursor, change the color of the chalk
-			eraseMode = false;
+			user.switchErase();
 
-			if (!isDrawing)
-				palette.show({ x: x, y: y });
+			//if (!isDrawing)
+			palette.show({ x: user.x, y: user.y });
 			palette.next();
 		}
 		else { // if there is a magnet change the background of the magnet
@@ -51,16 +46,9 @@ function load() {
 	}
 
 	let switchChalkEraser = () => {
-		eraseMode = !eraseMode;
-		if (eraseMode) {
-			palette.hide();
-			document.getElementById("canvas").style.cursor = EraserCursor.getStyleCursor();
-			buttonEraser.innerHTML = "Chalk";
-		}
-		else {
-			document.getElementById("canvas").style.cursor = ChalkCursor.getStyleCursor(palette.getCurrentColor());
-			buttonEraser.innerHTML = "Eraser";
-		}
+		user.switchChalkEraser();
+
+		
 	}
 
 
@@ -83,11 +71,12 @@ function load() {
 	BlackVSWhiteBoard.init();
 
 	palette.onchange = () => {
-		eraseMode = false;
-		document.getElementById("canvas").style.cursor = ChalkCursor.getStyleCursor(palette.getCurrentColor());
+		user.switchChalk();
+		user.setCurrentColor(palette.getCurrentColor());
 	}
 
-	document.getElementById("canvas").style.cursor = ChalkCursor.getStyleCursor(palette.getCurrentColor());
+	user.init();
+	
 
 	document.onkeydown = (evt) => {
 		//console.log("ctrl: " + evt.ctrlKey + " shift:" + evt.shiftKey + "key: " + evt.key)
@@ -135,11 +124,11 @@ function load() {
 		}
 
 		else if (evt.key == "e")  //e = switch eraser and chalk
-			switchChalkEraser();
+			user.switchChalkEraser();
 		else if (evt.ctrlKey && evt.key == 'x') {//Ctrl + x 
 			palette.hide();
-			if (lastDelineation.containsPolygonToMagnetize())
-				lastDelineation.cutAndMagnetize();
+			if (user.lastDelineation.containsPolygonToMagnetize())
+				user.lastDelineation.cutAndMagnetize();
 		}
 		else if (evt.ctrlKey && evt.key == 'c') {//Ctrl + c
 			palette.hide();
@@ -152,8 +141,8 @@ function load() {
 		}
 		else if (evt.key == "m") { //m = make new magnets
 			palette.hide();
-			if (lastDelineation.containsPolygonToMagnetize())
-				lastDelineation.cutAndMagnetize();
+			if (user.lastDelineation.containsPolygonToMagnetize())
+				user.lastDelineation.cutAndMagnetize();
 			else {
 				MagnetManager.printCurrentMagnet();
 				MagnetManager.removeCurrentMagnet();
@@ -163,7 +152,7 @@ function load() {
 			palette.hide();
 			MagnetManager.printCurrentMagnet();
 		}
-		else if (evt.key == "Delete" || evt.key == "x" || evt.key =="Backspace") { //supr = delete the current magnet
+		else if (evt.key == "Delete" || evt.key == "x" || evt.key == "Backspace") { //supr = delete the current magnet
 			palette.hide();
 			/*if (lastDelineation.containsPolygonToMagnetize())
 				lastDelineation.erase();
@@ -171,100 +160,19 @@ function load() {
 			MagnetManager.removeCurrentMagnet();
 			evt.preventDefault();
 		}
-		
+
 	};
 
 
-	document.getElementById("canvas").onpointerdown = mousedown;
-	document.getElementById("canvas").onpointermove = mousemove;
-	document.getElementById("canvas").onpointerup = mouseup;
+	document.getElementById("canvas").onpointerdown = (evt) => Share.execute("mousedown", [user.userID, evt]);
+	document.getElementById("canvas").onpointermove = (evt) => Share.execute("mousemove", [user.userID, evt]);
+	document.getElementById("canvas").onpointerup = (evt) => Share.execute("mouseup", [user.userID, evt]);
 	//document.getElementById("canvas").onmousedown = mousedown;
 
 	TouchScreen.addTouchEvents(document.getElementById("canvas"));
 
-	
-	function mousedown(evt) {
-		MagnetManager.setInteractable(false);
-
-		//unselect the selected element (e.g. a text in edit mode)
-		document.activeElement.blur();
-
-		evt.preventDefault();
-		//console.log("mousedown")
-		x = evt.offsetX;
-		y = evt.offsetY;
-		xInit = x;
-		yInit = y;
-		isDrawing = true;
-		eraseModeBig = false;
 
 
-		lastDelineation.reset();
-		lastDelineation.addPoint({ x: x, y: y });
-
-		palette.hide();
-	}
-
-
-
-	function mousemove(evt) {
-		//console.log("mousemove")
-		evt.preventDefault();
-		let evtX = evt.offsetX;
-		let evtY = evt.offsetY;
-
-		if (isDrawing && lastDelineation.isDrawing()) {
-			palette.hide();
-			if (eraseMode) {
-				let lineWidth = 10;
-
-				lineWidth = 10 + 30 * evt.pressure;
-
-				if (Math.abs(x - xInit) > window.innerWidth / 4 || Math.abs(y - yInit) > window.innerHeight / 4)
-					eraseModeBig = true;
-
-				if (eraseModeBig) {
-					lineWidth = 128;
-				}
-
-				
-				Share.execute(`clearLine(${x}, ${y}, ${evtX}, ${evtY}, ${lineWidth})`);
-			}
-			else {
-				Share.execute(`drawLine(${x}, ${y}, ${evtX}, ${evtY}, ${evt.pressure})`);
-
-				lastDelineation.addPoint({ x: evtX, y: evtY });
-
-			}
-			x = evtX;
-			y = evtY;
-
-			if (Math.abs(x - xInit) > 1 || Math.abs(y - yInit) > 1)
-				alreadyDrawnSth = true;
-		}
-
-		x = evtX;
-		y = evtY;
-	}
-
-
-	function mouseup(evt) {
-		MagnetManager.setInteractable(true);
-		lastDelineation.finish();
-
-		evt.preventDefault();
-		//console.log("mouseup")
-		if (isDrawing && !eraseMode && !alreadyDrawnSth) {
-			drawDot(document.getElementById("canvas").getContext("2d"), x, y);
-		}
-
-		if (eraseMode) //restore the eraser to the original size
-			document.getElementById("canvas").style.cursor = EraserCursor.getStyleCursor();
-
-		alreadyDrawnSth = false;
-		isDrawing = false;
-		BoardManager.saveCurrentScreen();
-	}
 
 	//	document.getElementById("canvas").onmouseleave = function (evt) { isDrawing = false; }
 

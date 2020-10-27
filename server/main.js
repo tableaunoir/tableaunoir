@@ -10,6 +10,12 @@ class TableauNoir {
 
   addSocket(socket) {
     this.sockets.push(socket);
+    this.dispatch({type: "join", userid: socket.userid}, socket);
+  }
+
+  removeSocket(socket) {
+    this.sockets = this.sockets.filter(s => s !== socket);
+    this.dispatch({type: "leave", userid: socket.userid}, socket);
   }
 
   dispatch(msg, exceptSocket) {
@@ -28,6 +34,7 @@ console.log("Tableaunoir server -- Welcome");
 
 server.on('connection', function (socket) {
   console.log("New connection!")
+  socket.userid = uuid.v4();
   sockets.push(socket);
 
   socket.on('message', (msg) => {
@@ -39,6 +46,7 @@ server.on('connection', function (socket) {
 
   socket.on('close', function () {
     sockets = sockets.filter(s => s !== socket);
+    tableaunoirs[socket.id].removeSocket(socket);
   });
 });
 
@@ -59,6 +67,8 @@ function treatReceivedMessageFromClient(msg) {
       id = generateID();
       tableaunoirs[id] = new TableauNoir();
       tableaunoirs[id].addSocket(msg.socket);
+      msg.socket.id = id;
+      msg.socket.userid = "root";
       msg.socket.send(JSON.stringify({ type: "id", id: id }));
       break;
 
@@ -67,6 +77,7 @@ function treatReceivedMessageFromClient(msg) {
         console.log("there is no tableaunoir of id " + id);
         return;
       }
+      msg.socket.id = id;
       tableaunoirs[id].addSocket(msg.socket);
       break;
   }
