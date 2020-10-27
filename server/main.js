@@ -5,9 +5,11 @@ function generateTableauID() {
   return "t" + generateID();
 }
 
+let userIDi = 1;
 
 function generateUserID() {
-  return "u" + generateID();
+  return "u" + userIDi;
+  userIDi++;
 }
 
 
