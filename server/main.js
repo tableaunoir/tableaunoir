@@ -79,7 +79,8 @@ class TableauNoir {
 
 const credentials = {
   cert: fs.readFileSync('tableaunoir_irisa_fr.pem'),
-  key: fs.readFileSync('private.pem')
+  key: fs.readFileSync('private.pem'),
+  ca: fs.readFileSync('/etc/ssl/private/tableaunoir.irisa.fr.csr')
 };
 
 const httpsServer = https.createServer(credentials);
