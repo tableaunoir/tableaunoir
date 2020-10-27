@@ -10,7 +10,7 @@ let userIDi = 0;
 function generateUserID() {
   userIDi++;
   return "u" + userIDi;
-  
+
 }
 
 
@@ -46,7 +46,7 @@ class TableauNoir {
     //inform the others that socket arrives
     this.dispatch({ type: "join", userid: socket.userid }, socket);
 
-    console.log("users are "+ this.sockets.map((s) => s.userid).join(","));
+    console.log("users are " + this.sockets.map((s) => s.userid).join(","));
   }
 
   removeSocket(socket) {
@@ -101,13 +101,6 @@ server.on('connection', function (socket) {
 function treatReceivedMessageFromClient(msg) {
   let id = msg.id;
 
-  if (msg.type != "share")
-    if (tableaunoirs[id] == undefined) {
-      console.log("automatic creation of a tableaunoir of id " + msg.id)
-      tableaunoirs[id] = new TableauNoir();
-      tableaunoirs[id].addSocket(msg.socket);
-    }
-
   switch (msg.type) {
     case "share":
       id = generateTableauID();
@@ -119,8 +112,8 @@ function treatReceivedMessageFromClient(msg) {
 
     case "join":
       if (tableaunoirs[id] == undefined) {
-        console.log("there is no tableaunoir of id " + id);
-        return;
+        console.log("automatic creation of a tableaunoir of id " + msg.id)
+        tableaunoirs[id] = new TableauNoir();
       }
       msg.socket.id = id;
       tableaunoirs[id].addSocket(msg.socket);
