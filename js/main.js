@@ -164,9 +164,9 @@ function load() {
 	};
 
 
-	document.getElementById("canvas").onpointerdown = (evt) => Share.execute("mousedown", [user.userID, evt]);
-	document.getElementById("canvas").onpointermove = (evt) => Share.execute("mousemove", [user.userID, evt]);
-	document.getElementById("canvas").onpointerup = (evt) => Share.execute("mouseup", [user.userID, evt]);
+	document.getElementById("canvas").onpointerdown = (evt) => {evt.preventDefault(); Share.execute("mousedown", [user.userID, evt])};
+	document.getElementById("canvas").onpointermove = (evt) => {evt.preventDefault(); Share.execute("mousemove", [user.userID, evt])};
+	document.getElementById("canvas").onpointerup = (evt) => {evt.preventDefault(); Share.execute("mouseup", [user.userID, evt])};
 	//document.getElementById("canvas").onmousedown = mousedown;
 
 	TouchScreen.addTouchEvents(document.getElementById("canvas"));

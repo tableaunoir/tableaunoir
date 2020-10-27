@@ -57,7 +57,7 @@ class User {
         //unselect the selected element (e.g. a text in edit mode)
         document.activeElement.blur();
 
-        evt.preventDefault();
+        
         //console.log("mousedown")
         this.x = evt.offsetX;
         this.y = evt.offsetY;
@@ -77,7 +77,7 @@ class User {
 
     mousemove(evt) {
         //console.log("mousemove")
-        evt.preventDefault();
+        
         let evtX = evt.offsetX;
         let evtY = evt.offsetY;
 
@@ -120,7 +120,7 @@ class User {
         MagnetManager.setInteractable(true);
         this.lastDelineation.finish();
 
-        evt.preventDefault();
+        
         //console.log("mouseup")
         if (this.isDrawing && !this.eraseMode && !this.alreadyDrawnSth) {
             drawDot(document.getElementById("canvas").getContext("2d"), this.x, this.y);
