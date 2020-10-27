@@ -85,7 +85,7 @@ const credentials = {
 const httpsServer = https.createServer(credentials);
 
 const server = new WebSocket.Server({
-  httpsServer
+  server: httpsServer
 });
 
 let sockets = [];
