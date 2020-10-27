@@ -19,8 +19,6 @@ function load() {
 
 	let changeColor = () => {
 		if (MagnetManager.getMagnetUnderCursor() == undefined) { //if no magnet under the cursor, change the color of the chalk
-			user.switchErase();
-
 			//if (!isDrawing)
 			palette.show({ x: user.x, y: user.y });
 			palette.next();
@@ -46,9 +44,12 @@ function load() {
 	}
 
 	let switchChalkEraser = () => {
-		user.switchChalkEraser();
+		if (user.eraseMode)
+			Share.execute("switchChalk", [user.userID]);
+		else
+			Share.execute("switchErase", [user.userID]);
 
-		
+
 	}
 
 
@@ -71,12 +72,12 @@ function load() {
 	BlackVSWhiteBoard.init();
 
 	palette.onchange = () => {
-		user.switchChalk();
-		user.setCurrentColor(palette.getCurrentColor());
+		Share.execute("switchChalk", [user.userID]);
+		Share.execute("setCurrentColor", [user.userID, palette.getCurrentColor()]);
 	}
 
 	user.init();
-	
+
 
 	document.onkeydown = (evt) => {
 		//console.log("ctrl: " + evt.ctrlKey + " shift:" + evt.shiftKey + "key: " + evt.key)
@@ -124,7 +125,7 @@ function load() {
 		}
 
 		else if (evt.key == "e")  //e = switch eraser and chalk
-			user.switchChalkEraser();
+			switchChalkEraser();
 		else if (evt.ctrlKey && evt.key == 'x') {//Ctrl + x 
 			palette.hide();
 			if (user.lastDelineation.containsPolygonToMagnetize())
@@ -164,9 +165,9 @@ function load() {
 	};
 
 
-	document.getElementById("canvas").onpointerdown = (evt) => {evt.preventDefault(); Share.execute("mousedown", [user.userID, evt])};
-	document.getElementById("canvas").onpointermove = (evt) => {evt.preventDefault(); Share.execute("mousemove", [user.userID, evt])};
-	document.getElementById("canvas").onpointerup = (evt) => {evt.preventDefault(); Share.execute("mouseup", [user.userID, evt])};
+	document.getElementById("canvas").onpointerdown = (evt) => { evt.preventDefault(); Share.execute("mousedown", [user.userID, evt]) };
+	document.getElementById("canvas").onpointermove = (evt) => { evt.preventDefault(); Share.execute("mousemove", [user.userID, evt]) };
+	document.getElementById("canvas").onpointerup = (evt) => { evt.preventDefault(); Share.execute("mouseup", [user.userID, evt]) };
 	//document.getElementById("canvas").onmousedown = mousedown;
 
 	TouchScreen.addTouchEvents(document.getElementById("canvas"));
@@ -198,10 +199,10 @@ function resize() {
 }
 
 
-function drawLine(x1, y1, x2, y2, pressure = 1.0) {
+function drawLine(x1, y1, x2, y2, pressure = 1.0, color) {
 	const context = document.getElementById("canvas").getContext("2d");
 	context.beginPath();
-	context.strokeStyle = palette.getCurrentColor();
+	context.strokeStyle = color;
 	context.globalCompositeOperation = "source-over";
 	context.globalAlpha = 0.75 + 0.25 * pressure;
 	context.lineWidth = 1 + 3.5 * pressure;
@@ -212,10 +213,10 @@ function drawLine(x1, y1, x2, y2, pressure = 1.0) {
 }
 
 
-function drawDot(context, x, y) {
-	//const context = document.getElementById("canvas").getContext("2d");
+function drawDot(x, y, color) {
+	const context = document.getElementById("canvas").getContext("2d");
 	context.beginPath();
-	context.fillStyle = palette.getCurrentColor();
+	context.fillStyle = color;
 	context.lineWidth = 2.5;
 	context.arc(x, y, 2, 0, 2 * Math.PI);
 	context.fill();

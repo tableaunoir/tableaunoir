@@ -28,7 +28,7 @@ class Share {
 			}, 1000); //just for test. Should be removed at the end (the button share does it)
 		}
 		catch (e) {
-
+			console.log("error: impossible to connet to the server")
 		}
 
 	}
@@ -72,9 +72,9 @@ class Share {
 	}
 
 	static execute(event, params) {
-		function stringify(obj) {
+		function adapt(obj) {
 			if (obj instanceof MouseEvent) {
-				let props = ['target', 'clientX', 'clientY', 'layerX', 'layerY'];
+				let props = ['target', 'clientX', 'clientY', 'layerX', 'layerY', 'pressure', 'offsetX', 'offsetY'];
 				props.forEach(prop => {
 					Object.defineProperty(obj, prop, {
 						value: obj[prop],
@@ -84,11 +84,11 @@ class Share {
 				});
 			}
 
-			return JSON.stringify(obj);
+			return obj;
 		}
 		eval("ShareEvent." + event)(...params);
 		if (Share.isShared())
-			Share.send({ type: "execute", event: event, params: params.map((param) => stringify(param)) });
+			Share.send({ type: "execute", event: event, params: params.map((param) => adapt(param)) });
 	}
 
 

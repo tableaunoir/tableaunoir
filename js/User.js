@@ -31,23 +31,39 @@ class User {
         this.eraseMode = !this.eraseMode;
 
         if (this.eraseMode) {
-			palette.hide();
-			document.getElementById("canvas").style.cursor = EraserCursor.getStyleCursor();
-			buttonEraser.innerHTML = "Chalk";
-		}
-		else {
-			document.getElementById("canvas").style.cursor = ChalkCursor.getStyleCursor(palette.getCurrentColor());
-			buttonEraser.innerHTML = "Eraser";
-		}
+
+        }
+        else {
+
+        }
     }
 
 
     switchChalk() {
         this.eraseMode = false;
+
+        if (this.isCurrentUser()) {
+            document.getElementById("canvas").style.cursor = ChalkCursor.getStyleCursor(palette.getCurrentColor());
+            buttonEraser.innerHTML = "Eraser";
+        }
+
+    }
+
+    /**
+     * @returns true iff the user is the current user (the one that controls the mouse)
+     */
+    isCurrentUser() {
+        return (this == user);
     }
 
     switchErase() {
         this.eraseMode = true;
+
+        if (this.isCurrentUser()) {
+            palette.hide();
+            document.getElementById("canvas").style.cursor = EraserCursor.getStyleCursor();
+            buttonEraser.innerHTML = "Chalk";
+        }
     }
 
 
@@ -57,7 +73,7 @@ class User {
         //unselect the selected element (e.g. a text in edit mode)
         document.activeElement.blur();
 
-        
+
         //console.log("mousedown")
         this.x = evt.offsetX;
         this.y = evt.offsetY;
@@ -77,7 +93,7 @@ class User {
 
     mousemove(evt) {
         //console.log("mousemove")
-        
+
         let evtX = evt.offsetX;
         let evtY = evt.offsetY;
 
@@ -99,7 +115,9 @@ class User {
                 clearLine(this.x, this.y, evtX, evtY, lineWidth);
             }
             else {
-                drawLine(this.x, this.y, evtX, evtY, evt.pressure);
+
+                
+                drawLine(this.x, this.y, evtX, evtY, evt.pressure, this.color);
 
                 this.lastDelineation.addPoint({ x: evtX, y: evtY });
 
@@ -120,10 +138,10 @@ class User {
         MagnetManager.setInteractable(true);
         this.lastDelineation.finish();
 
-        
+
         //console.log("mouseup")
         if (this.isDrawing && !this.eraseMode && !this.alreadyDrawnSth) {
-            drawDot(document.getElementById("canvas").getContext("2d"), this.x, this.y);
+            drawDot(this.x, this.y, this.color);
         }
 
         if (this.eraseMode) //restore the eraser to the original size

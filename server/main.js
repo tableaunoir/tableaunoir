@@ -1,8 +1,10 @@
 const WebSocket = require('ws');
-const generateID = require("uuid/v4")
+//const generateID = require("uuid/v4")
+const uuid = require('small-uuid');
+
 
 function generateTableauID() {
-  return "t" + generateID();
+  return uuid.create();//"t" + generateID();
 }
 
 let userIDi = 0;
