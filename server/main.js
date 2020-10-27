@@ -5,11 +5,12 @@ function generateTableauID() {
   return "t" + generateID();
 }
 
-let userIDi = 1;
+let userIDi = 0;
 
 function generateUserID() {
-  return "u" + userIDi;
   userIDi++;
+  return "u" + userIDi;
+  
 }
 
 
@@ -17,7 +18,7 @@ function generateUserID() {
 
 function messageToString(msg) {
   if (msg.type != "fullCanvas" && msg.type != "execute")
-    return msg;
+    return JSON.stringify(msg);
   else
     return msg.type;
 }
