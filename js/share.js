@@ -118,7 +118,13 @@ class Share {
 
 
 	static updateUsers() {
-		document.getElementById("users").value = Object.keys(users).length + " users: " + users.map((user) => user.userID).join("   ");
+		let i = 0;
+		let keys = [];
+		for(var key in users){
+			i++;
+			keys.push(key);
+		 }
+		document.getElementById("users").value = i + " users: " + keys.join("   ");
 	}
 
 
