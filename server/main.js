@@ -73,7 +73,8 @@ class TableauNoir {
 }
 
 const server = new WebSocket.Server({
-  port: 443
+  port: 443,
+  server: httpsServer
 });
 
 let sockets = [];
