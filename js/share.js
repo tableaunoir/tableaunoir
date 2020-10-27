@@ -5,7 +5,7 @@ class Share {
 
 	static init() {
 		try {
-			Share.ws = new WebSocket('wss://tableaunoir.irisa.fr:443');
+			Share.ws = new WebSocket('ws://tableaunoir.irisa.fr:443');
 			Share.ws.binaryType = "arraybuffer";
 
 			Share.ws.onopen = () => { Share.tryJoin(); };
