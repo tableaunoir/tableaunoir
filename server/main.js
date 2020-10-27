@@ -10,6 +10,7 @@ class TableauNoir {
 
   addSocket(socket) {
     this.sockets.push(socket);
+    socket.send(JSON.stringify({ type: "userid", userid: socket.userid }));
     this.dispatch({ type: "join", userid: socket.userid }, socket);
   }
 
@@ -66,6 +67,7 @@ function treatReceivedMessageFromClient(msg) {
     if (tableaunoirs[id] == undefined) {
       console.log("automatic creation of a tableaunoir of id " + msg.id)
       tableaunoirs[id] = new TableauNoir();
+      msg.socket.userid = "root";
       tableaunoirs[id].addSocket(msg.socket);
     }
 
