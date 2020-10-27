@@ -75,16 +75,16 @@ class TableauNoir {
   }
 }
 
-/*
+
 
 const httpsServer = https.createServer({
-  cert: fs.readFileSync('/etc/ssl/certs/ Baltimore_CyberTrust_Root.pem'),
-  key: fs.readFileSync('../test/fixtures/key.pem')
-});*/
+  cert: fs.readFileSync('/etc/ssl/private/tableaunoir.irisa.fr.csr'),
+  key: fs.readFileSync('/etc/ssl/private/tableaunoir.irisa.fr.key')
+});
 
 const server = new WebSocket.Server({
   port: 443,
-  //httpsServer
+  server: httpsServer
 });
 
 let sockets = [];
