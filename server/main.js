@@ -19,8 +19,9 @@ class TableauNoir {
   }
 
   dispatch(msg, exceptSocket) {
-    console.log("send ", msg)
     delete msg.socket;
+    console.log("send ", msg)
+    
     this.sockets.forEach(s => {
       if (s != exceptSocket) {
         s.send(JSON.stringify(msg))
