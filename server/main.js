@@ -105,7 +105,6 @@ function treatReceivedMessageFromClient(msg) {
     if (tableaunoirs[id] == undefined) {
       console.log("automatic creation of a tableaunoir of id " + msg.id)
       tableaunoirs[id] = new TableauNoir();
-      msg.socket.userid = generateUserID();//root
       tableaunoirs[id].addSocket(msg.socket);
     }
 
@@ -114,7 +113,6 @@ function treatReceivedMessageFromClient(msg) {
       id = generateTableauID();
       tableaunoirs[id] = new TableauNoir();
       msg.socket.id = id;
-      msg.socket.userid = generateUserID();
       tableaunoirs[id].addSocket(msg.socket);
       msg.socket.send(JSON.stringify({ type: "id", id: id }));
       break;
