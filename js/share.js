@@ -53,8 +53,8 @@ class Share {
 		switch (msg.type) {
 			case "id": Share._setTableauID(msg.id); break;
 			case "userid": Share._setMyUserID(msg.userid); break;
-			case "join": users[msg.userid] = new User(); console.log(users); break;
-			case "leave": delete users[msg.userid]; break;
+			case "join": users[msg.userid] = new User(); console.log(users); Share.updateUsers(); break;
+			case "leave": delete users[msg.userid]; Share.updateUsers(); break;
 			case "fullCanvas": BoardManager.loadWithoutSave(msg.data); break;
 			case "execute": eval("ShareEvent." + msg.event)(...msg.params);
 		}
@@ -96,6 +96,7 @@ class Share {
 		Share.id = id;
 		let newUrl = document.location.href + "?id=" + id;
 		history.pushState({}, null, newUrl);
+		document.getElementById("shareUrl").value = newUrl;
 
 		document.getElementById("canvas").toBlob((blob) => Share.sendFullCanvas(blob));
 
@@ -110,6 +111,14 @@ class Share {
 
 		users[userid] = user;
 		user.setUserID(userid);
+		Share.updateUsers();
+	}
+
+
+
+
+	static updateUsers() {
+		document.getElementById("users").value = Object.keys(users).length + " users: ".users.map((user) => user.userID).join("   ");
 	}
 
 
