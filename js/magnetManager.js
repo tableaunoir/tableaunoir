@@ -343,6 +343,8 @@ class MagnetManager {
 			if (e.key == "Escape") {
 				divText.blur();
 				window.getSelection().removeAllRanges();
+				/*if(divText.innerHTML == "")
+					MagnetManager.remove(div);*/
 			}
 			e.stopPropagation();
 		}
