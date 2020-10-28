@@ -57,7 +57,7 @@ class TableauNoir {
 
     //send to socket the last canvas stored
     if (this.data != "")
-      socket.send(JSON.stringifu({ type: "fullCanvas", data: this.data }));
+      socket.send(JSON.stringify({ type: "fullCanvas", data: this.data }));
 
     //inform the others that socket arrives
     this.dispatch({ type: "join", userid: socket.userid }, socket);
