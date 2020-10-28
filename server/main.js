@@ -80,7 +80,7 @@ class TableauNoir {
 const credentials = {
   key: fs.readFileSync('/etc/ssl/private/ssl-cert-snakeoil.key'),
   ca: fs.readFileSync('/etc/ssl/private/tableaunoir.irisa.fr.cer'),
-  cert: fs.readFileSync('/etc/ssl/private/tableaunoir.irisa.fr.csr')
+  cert: fs.readFileSync('tableaunoir_irisa_fr.pem')//fs.readFileSync('/etc/ssl/private/tableaunoir.irisa.fr.csr')
 };
 
 /*
