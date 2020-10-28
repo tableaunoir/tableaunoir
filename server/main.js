@@ -96,12 +96,14 @@ const credentials = {
   key: fs.readFileSync('private.pem'),
 };*/
 
-const httpsServer = https.createServer(credentials, function (request, response) {
+const httpsServer = https.createServer(credentials);
+/*
+, function (request, response) {
   // it sends 404 response so browser stops loading, otherwise it keeps loading 
   console.log((new Date()) + ' Received HTTP(S) request for ' + request.url);
   response.writeHead(404);
   response.end();
-});
+});*/
 
 
 const server = new WebSocket.Server({
