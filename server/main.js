@@ -76,18 +76,18 @@ class TableauNoir {
   }
 }
 
-/*
+
 const credentials = {
-  cert: fs.readFileSync('/etc/ssl/private/tableaunoir.irisa.fr.cer'),
   key: fs.readFileSync('/etc/ssl/private/ssl-cert-snakeoil.key'),
-  ca: fs.readFileSync('/etc/ssl/private/tableaunoir.irisa.fr.csr')
+  ca: fs.readFileSync('/etc/ssl/private/tableaunoir.irisa.fr.cer'),
+  cert: fs.readFileSync('/etc/ssl/private/tableaunoir.irisa.fr.csr')
 };
-*/
+
+/*
 const credentials = {
   cert: fs.readFileSync('tableaunoir_irisa_fr.pem'),
   key: fs.readFileSync('private.pem'),
-  //ca: fs.readFileSync('tableaunoir.irisa.fr.csr')
-};
+};*/
 
 const httpsServer = https.createServer(credentials, function (request, response) {
   // it sends 404 response so browser stops loading, otherwise it keeps loading 
