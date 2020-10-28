@@ -86,8 +86,8 @@ const credentials = {
 
 const credentials = {
   key: fs.readFileSync('/etc/ssl/private/tableaunoir.irisa.fr.key'),
-  ca: fs.readFileSync('/etc/ssl/private/tableaunoir.irisa.fr.cer'),
-  //cert: fs.readFileSync('tableaunoir_irisa_fr.pem')
+  //ca: fs.readFileSync('/etc/ssl/private/tableaunoir.irisa.fr.cer'),
+  cert: fs.readFileSync('tableaunoir_irisa_fr.pem')
 };
 
 /*
@@ -96,14 +96,11 @@ const credentials = {
   key: fs.readFileSync('private.pem'),
 };*/
 
-const httpsServer = https.createServer(credentials);
-/*
-, function (request, response) {
-  // it sends 404 response so browser stops loading, otherwise it keeps loading 
-  console.log((new Date()) + ' Received HTTP(S) request for ' + request.url);
-  response.writeHead(404);
-  response.end();
-});*/
+const httpsServer = https.createServer(credentials
+  , function (request, response) {
+    response.writeHead(200);
+    response.end("Hello!\n");
+  });
 
 
 const server = new WebSocket.Server({
