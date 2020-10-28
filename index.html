@@ -20,6 +20,7 @@
 	<script src="js/TouchScreen.js"></script>
 	<script src="js/share.js"></script>
 	<script src="js/ShareEvent.js"></script>
+	<script src="js/ErrorMessage.js"></script>
 </head>
 
 <body>
@@ -37,8 +38,8 @@
 			<canvas width=2000 height=1200 id="canvas"></canvas>
 			<div id="magnets"></div>
 			<svg id="svg" width=2500 height=1300></svg>
+			<div id="cursors"></div>
 			<div id="palette" class="PaletteHide"></div>
-
 		</div>
 	</div>
 
@@ -250,31 +251,34 @@
 				</div>
 			</div>
 			<div id="Share" class="tabcontent">
-				<div class="warning" id="ShareGithub">Warning: Share boards does not work since tableaunoir.github.io is a showcase. You have to install tableaunoir on your own server.</div>
-				<div class="warning">Warning: this functionnality is still under development and may not work perfectly.</div>
+				<div class="warning" id="ShareGithub">Warning: Share boards does not work since tableaunoir.github.io is
+					a showcase. You have to install tableaunoir on your own server.</div>
+				<div class="warning">Warning: this functionnality is still under development and may not work perfectly.
+				</div>
+
+
+				<div id="shareAndJoin">
+					<h2>Make a shared board</h2>
+
+					If you want some of your friends to see and modify your board, make a <em>shared</em> board.
+					<button id="shareButton">Make a shared board</button>
+
+					</br />
+					<div id="join">
+						<h2>Join an existing board</h2>
+						In order to <em>join</em> an existing shared board, type its URL:<br />
+						<input id="joinUrl" value=""></input>
+						<button id="joinButton">Join</button>
+					</div>
+				</div>
+
 				<div hidden id="shareInfo">
 					In order to <em>share</em> the board with your friends, give them the following URL:<br />
 					<input id="shareUrl" value=""></input>
-				</div>
-				<h2>Me</h2>
-				My name:
-				<input id="userName" value="François"></input>
-				<br /><br />
-				<h2>Share the board</h2>
+					<h2>Connected Users</h2>
+					<div id="users"></div>
 
-				If you want some of your friends to see and modify your board, <em>share</em> it.
-				<button id="shareButton">Share my board</button>
-
-				</br />
-				<div id="join">
-					<h2>Join an existing board</h2>
-					In order to <em>join</em> an existing board, type the URL your friend gave you:<br/>
-					<input id="joinUrl" value=""></input>
-					<button id="joinButton">Join</button>
 				</div>
-		
-				<h2>Connected Users</h2>
-				<div id="users"></div>
 			</div>
 			<div id="Magnets" class="tabcontent">
 
@@ -318,7 +322,7 @@
 			</div>
 			<div id="Help" class="tabcontent">
 				<h2>How to create a magnet?</h2>
-				<img src="img/help/createmagnet.gif"/>
+				<img src="img/help/createmagnet.gif" />
 				<ul>
 					<li>Draw a contour around the picture</li>
 					<li>Then press <span class="keyboardkey">Ctrl+X</span></li>
@@ -328,4 +332,5 @@
 		</div>
 		<div class="divMenuHide"><button onclick="Menu.hide()">X</button>Esc.</div>
 	</div>
+	<div id="error" hidden></div>
 </body>

@@ -256,7 +256,7 @@ class MagnetManager {
 
 				canvasCursorStore = canvas.style.cursor;
 				e = e || window.event;
-				//e.preventDefault();
+				e.preventDefault(); //to avoid the drag/drop by the browser
 				// get the mouse cursor position at startup:
 				pos3 = e.clientX;
 				pos4 = e.clientY;

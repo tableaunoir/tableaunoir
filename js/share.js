@@ -3,33 +3,37 @@ class Share {
 	static ws = undefined;
 	static id = undefined;
 
+
+	static tryConnect() {
+		if (Share.ws != undefined)
+			return;
+
+		Share.ws = new WebSocket('ws://tableaunoir.irisa.fr:8080');
+		Share.ws.binaryType = "arraybuffer";
+
+		Share.ws.onopen = () => { Share.tryJoin(); };
+		Share.ws.onmessage = (msg) => {
+			console.log("I received the message: ");
+			Share._treatReceivedMessage(JSON.parse(msg.data));
+		};
+
+	}
 	static init() {
-		try {
-			Share.ws = new WebSocket('ws://tableaunoir.irisa.fr:8080');
-			Share.ws.binaryType = "arraybuffer";
+		document.getElementById("shareButton").onclick = () => {
+			if (!Share.isShared())
+				Share.share();
+		};
 
-			Share.ws.onopen = () => { Share.tryJoin(); };
-			Share.ws.onmessage = (msg) => {
-				console.log("I received the message: ");
-				Share._treatReceivedMessage(JSON.parse(msg.data));
-			};
-
-			document.getElementById("shareButton").onclick = () => {
-				if (!Share.isShared())
-					Share.share();
-			};
-
-			document.getElementById("joinButton").onclick = () => {
-				window.open(window.location,"_self")
-			}
-
-
-			if (window.location.origin.indexOf("github") < 0)
-				document.getElementById('ShareGithub').hidden = true;
+		document.getElementById("joinButton").onclick = () => {
+			window.open(window.location, "_self")
 		}
-		catch (e) {
-			console.log("error: impossible to connect to the server", e)
-		}
+
+		if (window.location.origin.indexOf("github") < 0)
+			document.getElementById('ShareGithub').hidden = true;
+
+
+		if (Share.isSharedURL())
+			Share.tryJoin();
 
 	}
 
@@ -40,9 +44,18 @@ class Share {
 	}
 
 	static share() {
-		Share.send({ type: "share" });
-		document.getElementById("shareInfo").hidden = false;
-		document.getElementById("join").hidden = true;
+		try {
+			Share.tryConnect();
+			Share.send({ type: "share" });
+			document.getElementById("shareInfo").hidden = false;
+			document.getElementById("join").hidden = true;
+
+		}
+		catch (e) {
+			Share.ws = undefined;
+			ErrorMessage.show("Impossible to connect to the server", e);
+		}
+
 	}
 
 
@@ -56,8 +69,9 @@ class Share {
 			case "id": Share._setTableauID(msg.id); break;
 			case "userid":
 				Share._setMyUserID(msg.userid);
-				document.getElementById("shareInfo").hidden = true;
-				document.getElementById("join").hidden = false;
+
+				document.getElementById("shareAndJoin").hidden = true;
+				document.getElementById("shareInfo").hidden = false;
 				break;
 			case "join": users[msg.userid] = new User(); console.log(users); Share.updateUsers(); break;
 			case "leave": delete users[msg.userid]; Share.updateUsers(); break;
@@ -134,12 +148,29 @@ class Share {
 	}
 
 
-	static tryJoin() {
+
+	static isSharedURL() {
 		let params = (new URL(document.location)).searchParams;
-		Share.id = params.get('id');
-		if (Share.id != null) {
-			Share.join(Share.id);
-			document.getElementById("shareUrl").value = document.location;
+		return params.get('id') != null;
+	}
+
+	static getIDInSharedURL() {
+		let params = (new URL(document.location)).searchParams;
+		return params.get('id');
+	}
+
+	static tryJoin() {
+		try {
+			Share.tryConnect();
+			Share.id = Share.getIDInSharedURL();
+			if (Share.id != null) {
+				Share.join(Share.id);
+				document.getElementById("shareUrl").value = document.location;
+			}
+		}
+		catch (e) {
+			Share.ws = undefined;
+			ErrorMessage.show("Impossible to connect to the server", e);
 		}
 
 	}

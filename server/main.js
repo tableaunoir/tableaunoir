@@ -172,7 +172,9 @@ server.on('connection', function (socket) {
 
   socket.on('close', function () {
     sockets = sockets.filter(s => s !== socket);
-    tableaunoirs[socket.id].removeSocket(socket);
+
+    if (socket.id != undefined && tableaunoirs[socket.id] != undefined)
+      tableaunoirs[socket.id].removeSocket(socket);
   });
 });
 

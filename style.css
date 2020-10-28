@@ -59,12 +59,14 @@ svg {
 	pointer-events: none;
 }
 
-
-magnets {
-	position:absolute;
+#cursors {
+	position: absolute;
 	left: 0px;
 	top: 0px;
 }
+
+
+
 
 em {
 	color: rgb(220, 255, 168);
@@ -111,7 +113,7 @@ a {
 	animation: pageNumberShow 2000ms forwards;
 	right: 0px;
 	top: 0px;
-	padding:12px;
+	padding: 12px;
 	font-size: 24px;
 	color: white;
 	pointer-events: none;
@@ -198,9 +200,10 @@ img.magnet:hover {
 	stroke-width: 8px;
 	stroke-dasharray: 100 100;
 	animation: magnetCreationPolygon 2s infinite;
-	
+
 
 }
+
 /** Gale-Shapley, the B's**/
 .GS_B {
 	color: orange;
@@ -340,7 +343,7 @@ button img {
 .magnetCollectionButton {
 	display: block;
 	background: none;
-	color:  rgb(191, 191, 255);
+	color: rgb(191, 191, 255);
 	border: none;
 	outline: none;
 	padding: 0px;
@@ -350,7 +353,7 @@ button img {
 .magnetCollectionButton:hover {
 	display: block;
 	background: none;
-	color:  rgb(157, 157, 255);
+	color: rgb(157, 157, 255);
 	border: none;
 	outline: none;
 }
@@ -435,7 +438,7 @@ h1 {
 	padding: 5px;
 	border: 2px solid #bbbbbb;
 	margin: 5 px;
-	border-radius:  5px;
+	border-radius: 5px;
 	min-width: 20px;
 	text-align: center;
 }
@@ -506,4 +509,20 @@ h1 {
 
 #shareUrl {
 	width: 500px;
+}
+
+#joinUrl {
+	width: 500px;
+}
+
+#error {
+	top: 0px;
+	left: 0px;
+	opacity: 0.8;
+	font-size: 64px;
+	background-color: white;
+	padding: 16px;
+	color: red;
+	position: absolute;
+	z-index: 10000;
 }
