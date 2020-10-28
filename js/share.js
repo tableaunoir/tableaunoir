@@ -26,6 +26,9 @@ class Share {
 				}
 
 			}, 1000); //just for test. Should be removed at the end (the button share does it)
+
+			if (window.location.indexOf("github") < 0)
+				document.getElementById('ShareGithub').hidden = true;
 		}
 		catch (e) {
 			console.log("error: impossible to connect to the server", e)
@@ -120,10 +123,10 @@ class Share {
 	static updateUsers() {
 		let i = 0;
 		let keys = [];
-		for(var key in users){
+		for (var key in users) {
 			i++;
 			keys.push(key);
-		 }
+		}
 		document.getElementById("users").innerHTML = i + " users: " + keys.join("   ");
 	}
 
@@ -135,7 +138,7 @@ class Share {
 			Share.join(Share.id);
 			document.getElementById("shareUrl").value = document.location;
 		}
-			
+
 	}
 
 
