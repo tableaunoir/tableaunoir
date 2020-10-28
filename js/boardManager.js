@@ -44,7 +44,11 @@ class BoardManager {
     }
 
 
+    static getDefaultChalkColor() {
+        return (document.getElementById("canvas").style.backgroundColor == "black") ? "white" : "black";
+    }
 
+    
     static _createCanvasForRectangle(r) {
         let C = document.createElement("canvas");
         C.width = r.x2 - r.x1;
