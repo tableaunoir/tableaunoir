@@ -130,7 +130,7 @@ const credentials = {
  * create a simple web socket server
  */
 function createWebSocketServerNormal() {
-  return server = new WebSocket.Server({
+  return new WebSocket.Server({
     port: 443
   });
 }
