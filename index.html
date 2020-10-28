@@ -250,21 +250,29 @@
 				</div>
 			</div>
 			<div id="Share" class="tabcontent">
-				<div id="ShareGithub">Warning: Share boards does not work since tableaunoir.github.io is a showcase. You have to install tableaunoir on your own server.</div>
+				<div class="warning" id="ShareGithub">Warning: Share boards does not work since tableaunoir.github.io is a showcase. You have to install tableaunoir on your own server.</div>
+				<div class="warning">Warning: this functionnality is still under development and may not work perfectly.</div>
+				<div hidden id="shareInfo">
+					In order to <em>share</em> the board with your friends, give them the following URL:<br />
+					<input id="shareUrl" value=""></input>
+				</div>
 				<h2>Me</h2>
 				My name:
 				<input id="userName" value="François"></input>
 				<br /><br />
 				<h2>Share the board</h2>
 
+				If you want some of your friends to see and modify your board, <em>share</em> it.
 				<button id="shareButton">Share my board</button>
-				</br />
-				In order to <em>share</em> the board with your friends, give them the following URL:<br />
-				<input id="shareUrl" value=""></input>
 
-				<br />
-				They will be able to see and modify the board. This functionality is still in development and may not
-				work completely properly.
+				</br />
+				<div id="join">
+					<h2>Join an existing board</h2>
+					In order to <em>join</em> an existing board, type the URL your friend gave you:<br/>
+					<input id="joinUrl" value=""></input>
+					<button id="joinButton">Join</button>
+				</div>
+		
 				<h2>Connected Users</h2>
 				<div id="users"></div>
 			</div>

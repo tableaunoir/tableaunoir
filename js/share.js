@@ -5,7 +5,7 @@ class Share {
 
 	static init() {
 		try {
-			Share.ws = new WebSocket('ws://tableaunoir.irisa.fr:443');
+			Share.ws = new WebSocket('ws://tableaunoir.irisa.fr:8080');
 			Share.ws.binaryType = "arraybuffer";
 
 			Share.ws.onopen = () => { Share.tryJoin(); };
@@ -18,6 +18,10 @@ class Share {
 				if (!Share.isShared())
 					Share.share();
 			};
+
+			document.getElementById("joinButton").onclick = () => {
+				window.open(window.location,"_self")
+			}
 
 			setTimeout(() => {
 				if (!Share.isShared()) {
@@ -44,6 +48,8 @@ class Share {
 
 	static share() {
 		Share.send({ type: "share" });
+		document.getElementById("shareInfo").hidden = false;
+		document.getElementById("join").hidden = true;
 	}
 
 
@@ -55,7 +61,11 @@ class Share {
 			console.log("Server -> me: " + msg.type);
 		switch (msg.type) {
 			case "id": Share._setTableauID(msg.id); break;
-			case "userid": Share._setMyUserID(msg.userid); break;
+			case "userid":
+				Share._setMyUserID(msg.userid);
+				document.getElementById("shareInfo").hidden = true;
+				document.getElementById("join").hidden = false;
+				break;
 			case "join": users[msg.userid] = new User(); console.log(users); Share.updateUsers(); break;
 			case "leave": delete users[msg.userid]; Share.updateUsers(); break;
 			case "fullCanvas": BoardManager.loadWithoutSave(msg.data); break;
