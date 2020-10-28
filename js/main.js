@@ -243,7 +243,7 @@ function clearLine(x1, y1, x2, y2, lineWidth = 10) {
 
 function divideScreen() {
 	let x = container.scrollLeft + window.innerWidth / 2;
-	drawLine(document.getElementById("canvas").getContext("2d"), x, 0, x, window.innerHeight);
+	drawLine(document.getElementById("canvas").getContext("2d"), x, 0, x, window.innerHeight, "white");
 	BoardManager.saveCurrentScreen();
 }
 

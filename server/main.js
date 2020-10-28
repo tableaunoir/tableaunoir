@@ -200,7 +200,10 @@ function treatReceivedMessageFromClient(msg) {
       break;
 
     case "fullCanvas":
-      tableaunoirs[id].storeFullCanvas(msg.data);
+      if (id == undefined)
+        console.log("error: fullCanvas message and id undefined");
+      else
+        tableaunoirs[id].storeFullCanvas(msg.data);
       break;
     default:
       tableaunoirs[id].dispatch(msg, msg.socket);

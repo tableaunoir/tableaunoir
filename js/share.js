@@ -23,13 +23,6 @@ class Share {
 				window.open(window.location,"_self")
 			}
 
-			setTimeout(() => {
-				if (!Share.isShared()) {
-					console.log("already shared! the id is " + Share.id);
-					Share.share()
-				}
-
-			}, 1000); //just for test. Should be removed at the end (the button share does it)
 
 			if (window.location.indexOf("github") < 0)
 				document.getElementById('ShareGithub').hidden = true;
