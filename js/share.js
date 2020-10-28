@@ -3,15 +3,21 @@ class Share {
 	static ws = undefined;
 	static id = undefined;
 
-
-	static tryConnect() {
+	/**
+	 * 
+	 * @param {*} a function f 
+	 * @description tries to connect to the server, when the connection is made, it executes f
+	 */
+	static tryConnect(f) {
 		if (Share.ws != undefined)
 			return;
 
 		Share.ws = new WebSocket('ws://tableaunoir.irisa.fr:8080');
 		Share.ws.binaryType = "arraybuffer";
 
-		Share.ws.onopen = () => { Share.tryJoin(); };
+
+
+		Share.ws.onopen = f;
 		Share.ws.onmessage = (msg) => {
 			console.log("I received the message: ");
 			Share._treatReceivedMessage(JSON.parse(msg.data));
@@ -31,9 +37,26 @@ class Share {
 		if (window.location.origin.indexOf("github") < 0)
 			document.getElementById('ShareGithub').hidden = true;
 
+		if (Share.isSharedURL()) {
+			let tryJoin = () => {
+				try {
+					Share.id = Share.getIDInSharedURL();
+					if (Share.id != null) {
+						Share.join(Share.id);
+						document.getElementById("shareUrl").value = document.location;
+					}
+				}
+				catch (e) {
+					Share.ws = undefined;
+					ErrorMessage.show("Impossible to connect to the server", e);
+				}
 
-		if (Share.isSharedURL())
-			Share.tryJoin();
+			}
+
+			Share.tryConnect(tryJoin);
+		}
+
+
 
 	}
 
@@ -45,8 +68,8 @@ class Share {
 
 	static share() {
 		try {
-			Share.tryConnect();
-			Share.send({ type: "share" });
+			Share.tryConnect(() => Share.send({ type: "share" }));
+
 			document.getElementById("shareInfo").hidden = false;
 			document.getElementById("join").hidden = true;
 
@@ -74,7 +97,7 @@ class Share {
 				document.getElementById("shareInfo").hidden = false;
 				break;
 			case "join": users[msg.userid] = new User(); console.log(users); Share.updateUsers(); break;
-			case "leave": delete users[msg.userid]; Share.updateUsers(); break;
+			case "leave": users[msg.userid].destroy(); delete users[msg.userid]; Share.updateUsers(); break;
 			case "fullCanvas": BoardManager.loadWithoutSave(msg.data); break;
 			case "execute": eval("ShareEvent." + msg.event)(...msg.params);
 		}
@@ -94,7 +117,8 @@ class Share {
 	static execute(event, params) {
 		function adapt(obj) {
 			if (obj instanceof MouseEvent) {
-				let props = ['target', 'clientX', 'clientY', 'layerX', 'layerY', 'pressure', 'offsetX', 'offsetY'];
+				let props = [//'target', 'clientX', 'clientY', 'layerX', 'layerY', 
+					'pressure', 'offsetX', 'offsetY'];
 				props.forEach(prop => {
 					Object.defineProperty(obj, prop, {
 						value: obj[prop],
@@ -159,21 +183,7 @@ class Share {
 		return params.get('id');
 	}
 
-	static tryJoin() {
-		try {
-			Share.tryConnect();
-			Share.id = Share.getIDInSharedURL();
-			if (Share.id != null) {
-				Share.join(Share.id);
-				document.getElementById("shareUrl").value = document.location;
-			}
-		}
-		catch (e) {
-			Share.ws = undefined;
-			ErrorMessage.show("Impossible to connect to the server", e);
-		}
 
-	}
 
 
 	static join(id) {

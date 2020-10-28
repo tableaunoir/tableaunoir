@@ -11,16 +11,36 @@ class User {
     lastDelineation = new Delineation();
     color = "white";
 
+    cursor = undefined;
+
     userID = 0;
 
     setUserID(userID) {
         this.userID = userID;
     }
 
-    init() {
+    /**
+     * 
+     * @param {*} isCurrentUser that tells whether the user is the current one
+     * @description create the user. 
+     */
+    constructor(isCurrentUser) {
+        this.cursor = document.createElement("div");
+        this.cursor.classList.add("cursor");
+
+        if (isCurrentUser)
+            this.cursor.hidden = true;
+
+        document.getElementById("cursors").appendChild(this.cursor);
         document.getElementById("canvas").style.cursor = ChalkCursor.getStyleCursor(this.color);
     }
 
+    /**
+     * tells that the user has disconnected
+     */
+    destroy() {
+        document.getElementById("cursors").removeChild(this.cursor);
+    }
 
     setCurrentColor(color) {
         this.color = color;
@@ -97,6 +117,9 @@ class User {
         let evtX = evt.offsetX;
         let evtY = evt.offsetY;
 
+        this.cursor.style.left = evtX - 8;
+        this.cursor.style.top = evtY - 8;
+
         if (this.isDrawing && this.lastDelineation.isDrawing()) {
             palette.hide();
             if (this.eraseMode) {
@@ -116,7 +139,7 @@ class User {
             }
             else {
 
-                
+
                 drawLine(this.x, this.y, evtX, evtY, evt.pressure, this.color);
 
                 this.lastDelineation.addPoint({ x: evtX, y: evtY });

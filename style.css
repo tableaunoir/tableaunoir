@@ -526,3 +526,15 @@ h1 {
 	position: absolute;
 	z-index: 10000;
 }
+
+
+
+.cursor {
+	position: absolute;
+	pointer-events: none;
+	border: 3px solid white;
+	border-radius: 8px;
+	opacity: 0.5;
+	width: 8px;
+	height: 8px;
+}

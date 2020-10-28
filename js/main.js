@@ -2,14 +2,15 @@ window.onload = load;
 window.onresize = resize;
 
 let users = {};
-let user = new User();
-users['root'] = user;
-user.setUserID('root');
+let user = undefined;
 let palette = new Palette();
 
 
 function load() {
 
+	user = new User(true);
+	users['root'] = user;
+	user.setUserID('root');
 
 	LoadSave.init();
 	BoardManager.init();
@@ -75,8 +76,6 @@ function load() {
 		Share.execute("switchChalk", [user.userID]);
 		Share.execute("setCurrentColor", [user.userID, palette.getCurrentColor()]);
 	}
-
-	user.init();
 
 
 	document.onkeydown = (evt) => {
