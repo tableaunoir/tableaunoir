@@ -87,7 +87,7 @@ const credentials = {
 const credentials = {
   key: fs.readFileSync('/etc/ssl/private/tableaunoir.irisa.fr.key'),
   ca: fs.readFileSync('/etc/ssl/private/tableaunoir.irisa.fr.cer'),
-  cert: fs.readFileSync('tableaunoir_irisa_fr.pem')
+  //cert: fs.readFileSync('tableaunoir_irisa_fr.pem')
 };
 
 /*
