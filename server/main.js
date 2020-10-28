@@ -147,7 +147,7 @@ const credentials = {
  */
 function createWebSocketServerNormal() {
   return new WebSocket.Server({
-    port: 443
+    port: 8080
   });
 }
 
