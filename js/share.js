@@ -5,7 +5,7 @@ class Share {
 
 	static init() {
 		try {
-			Share.ws = new WebSocket('ws://tableaunoir.irisa.fr:8080');
+			Share.ws = new WebSocket('ws://tableaunoir.irisa.fr:80');
 			Share.ws.binaryType = "arraybuffer";
 
 			Share.ws.onopen = () => { Share.tryJoin(); };
@@ -24,7 +24,7 @@ class Share {
 			}
 
 
-			if (window.location.indexOf("github") < 0)
+			if (window.location.origin.indexOf("github") < 0)
 				document.getElementById('ShareGithub').hidden = true;
 		}
 		catch (e) {
