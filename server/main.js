@@ -76,7 +76,15 @@ class TableauNoir {
   }
 }
 
-/*
+
+
+
+/**
+ * @description create a SSL websocket server (does not work yet... issues with the certificate)
+ */
+function createWebSocketServerSSL() {
+
+  /*
 const credentials = {
   key: fs.readFileSync('/etc/ssl/private/tableaunoir.irisa.fr.key'),
   ca: fs.readFileSync('/etc/ssl/private/tableaunoir.irisa.fr.cer'),
@@ -84,34 +92,51 @@ const credentials = {
 };
 */
 
-const credentials = {
-  key: fs.readFileSync('/etc/ssl/private/tableaunoir.irisa.fr.key'),
-  //ca: fs.readFileSync('/etc/ssl/private/tableaunoir.irisa.fr.cer'),
-  //key: fs.readFileSync('private.pem'),
-  cert: fs.readFileSync('/etc/ssl/private/autrescertEtChain/tableaunoir.irisa.fr.crt')
-};
 
-/*
-const credentials = {
-  cert: fs.readFileSync('tableaunoir_irisa_fr.pem'),
-  key: fs.readFileSync('private.pem'),
-};*/
+  const credentials = {
+    key: fs.readFileSync('/etc/ssl/private/tableaunoir.irisa.fr.key'),
+    //ca: fs.readFileSync('/etc/ssl/private/tableaunoir.irisa.fr.cer'),
+    //key: fs.readFileSync('private.pem'),
+    cert: fs.readFileSync('/etc/ssl/private/tableaunoir.irisa.fr.crt')
+  };
 
-const httpsServer = https.createServer(credentials
-  , function (request, response) {
-    response.writeHead(200);
-    response.end("Hello!\n");
+  /*
+  const credentials = {
+    cert: fs.readFileSync('tableaunoir_irisa_fr.pem'),
+    key: fs.readFileSync('private.pem'),
+  };*/
+
+
+  const httpsServer = https.createServer(credentials
+    , function (request, response) {
+      response.writeHead(200);
+      response.end("Hello!\n");
+    });
+
+  return WebSocket.Server({
+    server: httpsServer,
+    // You should not use autoAcceptConnections for production
+    // applications, as it defeats all standard cross-origin protection
+    // facilities built into the protocol and the browser.  You should
+    // *always* verify the connection's origin and decide whether or not
+    // to accept it.
   });
 
+}
 
-const server = new WebSocket.Server({
-  server: httpsServer,
-  // You should not use autoAcceptConnections for production
-  // applications, as it defeats all standard cross-origin protection
-  // facilities built into the protocol and the browser.  You should
-  // *always* verify the connection's origin and decide whether or not
-  // to accept it.
-});
+
+
+/**
+ * create a simple web socket server
+ */
+function createWebSocketServerNormal() {
+  return server = new WebSocket.Server({
+    port: 443
+  });
+}
+
+let server = createWebSocketServerNormal();
+
 
 let sockets = [];
 
