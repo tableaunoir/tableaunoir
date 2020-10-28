@@ -21,13 +21,19 @@ function generateUserID() {
 
 
 
-
+/**
+ * 
+ * @param {*} msg 
+ * @return 
+ */
 function messageToString(msg) {
   if (msg.type != "fullCanvas" && msg.type != "execute")
     return JSON.stringify(msg);
   else
     return msg.type;
 }
+
+
 const tableaunoirs = {};
 
 class TableauNoir {
@@ -158,8 +164,8 @@ server.on('connection', function (socket) {
   sockets.push(socket);
 
   socket.on('message', (msg) => {
-    console.log("from user " + socket.userid + " received " + messageToString(msg));
     msg = JSON.parse(msg);
+    console.log("from user " + socket.userid + " received " + messageToString(msg));
     msg.socket = socket;
     treatReceivedMessageFromClient(msg);
   });
