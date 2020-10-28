@@ -33,6 +33,12 @@ const tableaunoirs = {};
 class TableauNoir {
   constructor() {
     this.sockets = [];
+    this.dataURL = "";
+  }
+
+
+  storeFullCanvas(data) {
+    this.data = data;
   }
 
   addSocket(socket) {
@@ -48,6 +54,10 @@ class TableauNoir {
     //send to socket its own userid
     console.log("send to " + socket.userid + " " + messageToString({ type: "userid", userid: socket.userid }));
     socket.send(JSON.stringify({ type: "userid", userid: socket.userid }));
+
+    //send to socket the last canvas stored
+    if (this.data != "")
+      socket.send(JSON.stringifu({ type: "fullCanvas", data: this.data }));
 
     //inform the others that socket arrives
     this.dispatch({ type: "join", userid: socket.userid }, socket);
@@ -183,6 +193,9 @@ function treatReceivedMessageFromClient(msg) {
       tableaunoirs[id].addSocket(msg.socket);
       break;
 
+    case "fullCanvas":
+      tableaunoirs[id].storeFullCanvas(msg.data);
+      break;
     default:
       tableaunoirs[id].dispatch(msg, msg.socket);
   }

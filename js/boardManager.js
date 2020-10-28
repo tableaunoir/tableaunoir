@@ -77,6 +77,7 @@ class BoardManager {
             console.log("save that blob: " + blob)
             localStorage.setItem(BoardManager.boardName, blob);
             BoardManager.cancelStack.push(blob);
+            Share.sendFullCanvas(blob);
         }
         );
         /*}
