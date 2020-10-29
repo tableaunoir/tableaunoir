@@ -2,15 +2,12 @@
 
 const PORT = 8080;
 
-const https = require('https');
-const WebSocket = require('ws');
-const fs = require('fs');
-//const generateID = require("uuid/v4")
+const https = require('https'); //https library (I can make it work properly)
+const WebSocket = require('ws'); //websocket library
+const fs = require('fs'); //filesystem
 const uuid = require('small-uuid');
 
-
 class UserManager {
-
   /**
    * @returns a identifier for a new user
    */
@@ -21,8 +18,6 @@ class UserManager {
     return "u" + UserManager.userIDi;
   }
 }
-
-
 
 
 
@@ -46,6 +41,9 @@ const tableaunoirs = {};
  */
 class TableauNoir {
 
+  /**
+   * @returns generate an ID for a new tableaunoir
+   */
   static generateTableauID() {
     return uuid.create();//"t" + generateID();
   }
@@ -53,14 +51,19 @@ class TableauNoir {
 
   constructor() {
     this.sockets = [];
-    this.dataURL = "";
+    this.data = ""; //content of the canvas
+    this.magnets = ""; // content of the magnet part
   }
-
 
   storeFullCanvas(data) {
     this.data = data;
   }
 
+  /**
+   * 
+   * @param {*} socket 
+   * @description adds the new user socket
+   */
   addSocket(socket) {
 
     //inform the new user socket that the others exist
@@ -85,11 +88,22 @@ class TableauNoir {
     console.log("users are " + this.sockets.map((s) => s.userid).join(","));
   }
 
+  /**
+   * 
+   * @param {*} socket 
+   * @description removes the user socket
+   */
   removeSocket(socket) {
     this.sockets = this.sockets.filter(s => s !== socket);
-    this.dispatch({ type: "leave", userid: socket.userid }, socket);
+    this.dispatch({ type: "leave", userid: socket.userid }, socket); //tells the others that socket leaved
   }
 
+  /**
+   * 
+   * @param {*} msg 
+   * @param {*} exceptSocket 
+   * @description sends msg to all except exceptSocket
+   */
   dispatch(msg, exceptSocket) {
     delete msg.socket;
 
@@ -193,36 +207,42 @@ server.on('connection', function (socket) {
 });
 
 
-
+/**
+ * 
+ * @param {*} msg a message in object form, received from one client
+ * @description treats the msg
+ */
 function treatReceivedMessageFromClient(msg) {
-  let id = msg.id;
+  let tableaunoirID = msg.id; 
 
   switch (msg.type) {
     case "share":
-      id = TableauNoir.generateTableauID();
-      tableaunoirs[id] = new TableauNoir();
-      msg.socket.id = id;
-      tableaunoirs[id].addSocket(msg.socket);
-      msg.socket.send(JSON.stringify({ type: "id", id: id }));
+      tableaunoirID = TableauNoir.generateTableauID();
+      tableaunoirs[tableaunoirID] = new TableauNoir();
+      msg.socket.id = tableaunoirID;
+      tableaunoirs[tableaunoirID].addSocket(msg.socket);
+      msg.socket.send(JSON.stringify({ type: "id", id: tableaunoirID }));
       break;
 
     case "join":
-      if (tableaunoirs[id] == undefined) {
+      if (tableaunoirs[tableaunoirID] == undefined) {
         console.log("automatic creation of a tableaunoir of id " + msg.id)
-        tableaunoirs[id] = new TableauNoir();
+        tableaunoirs[tableaunoirID] = new TableauNoir();
       }
-      msg.socket.id = id;
-      tableaunoirs[id].addSocket(msg.socket);
+      msg.socket.id = tableaunoirID;
+      tableaunoirs[tableaunoirID].addSocket(msg.socket);
       break;
 
     case "fullCanvas":
-      if (id == undefined)
+      if (tableaunoirID == undefined)
         console.log("error: fullCanvas message and id undefined");
       else
-        tableaunoirs[id].storeFullCanvas(msg.data);
+        tableaunoirs[tableaunoirID].storeFullCanvas(msg.data);
       break;
+
+      //by default other msgs are dispatched
     default:
-      tableaunoirs[id].dispatch(msg, msg.socket);
+      tableaunoirs[tableaunoirID].dispatch(msg, msg.socket);
   }
 
 
