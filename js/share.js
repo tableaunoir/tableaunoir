@@ -2,7 +2,6 @@
 class Share {
 	static ws = undefined;
 	static id = undefined;
-	static IamTheBoss = false; //true if I am the one who shared the board
 	static canWriteValueByDefault = false;
 	/**
 	 * 
@@ -76,7 +75,6 @@ class Share {
 
 			document.getElementById("shareInfo").hidden = false;
 			document.getElementById("join").hidden = true;
-			Share.IamTheBoss = true;
 
 		}
 		catch (e) {
@@ -104,9 +102,15 @@ class Share {
 
 				break;
 			case "join":
+				if (isSmallestUserID()) {
+					canvas.toBlob((blob) => Share.sendFullCanvas(blob, msg.userid));
+				}
+
 				users[msg.userid] = new User();
 				Share.updateUsers();
 				Share.execute("setUserCanWrite", [msg.userid, Share.canWriteValueByDefault]);
+
+
 				break;
 			case "leave": users[msg.userid].destroy(); delete users[msg.userid]; Share.updateUsers(); break;
 			case "fullCanvas": BoardManager.loadWithoutSave(msg.data); break;
@@ -120,9 +124,14 @@ class Share {
 		this.ws.send(JSON.stringify(msg));
 	}
 
-
-	static sendFullCanvas(blob) {
-		Share.send({ type: "fullCanvas", data: canvas.toDataURL() }); // at some point send the blob directly
+	/**
+	 * 
+	 * @param {*} blob 
+	 * @param {*} to 
+	 * @description send the blob of the canvas to the user to
+	 */
+	static sendFullCanvas(blob, to) {
+		Share.send({ type: "fullCanvas", data: canvas.toDataURL(), to: to }); // at some point send the blob directly
 	}
 
 	static execute(event, params) {

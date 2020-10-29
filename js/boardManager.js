@@ -48,7 +48,7 @@ class BoardManager {
         return (document.getElementById("canvas").style.backgroundColor == "black") ? "white" : "black";
     }
 
-    
+
     static _createCanvasForRectangle(r) {
         let C = document.createElement("canvas");
         C.width = r.x2 - r.x1;
@@ -81,7 +81,7 @@ class BoardManager {
             console.log("save that blob: " + blob)
             localStorage.setItem(BoardManager.boardName, blob);
             BoardManager.cancelStack.push(blob);
-            Share.sendFullCanvas(blob);
+            //Share.sendFullCanvas(blob);
         }
         );
         /*}

@@ -98,6 +98,18 @@ class TableauNoir {
     this.dispatch({ type: "leave", userid: socket.userid }, socket); //tells the others that socket leaved
   }
 
+
+  sendTo(msg) {
+    delete msg.socket;
+
+    this.sockets.forEach(s => {
+      if (s.userid == msg.to) {
+        s.send(JSON.stringify(msg))
+        console.log("  to user " + s.userid);
+      }
+    });
+
+  }
   /**
    * 
    * @param {*} msg 
@@ -213,7 +225,7 @@ server.on('connection', function (socket) {
  * @description treats the msg
  */
 function treatReceivedMessageFromClient(msg) {
-  let tableaunoirID = msg.id; 
+  let tableaunoirID = msg.id;
 
   switch (msg.type) {
     case "share":
@@ -238,9 +250,11 @@ function treatReceivedMessageFromClient(msg) {
         console.log("error: fullCanvas message and id undefined");
       else
         tableaunoirs[tableaunoirID].storeFullCanvas(msg.data);
+
+        tableaunoirs[tableaunoirID].sendTo(msg);
       break;
 
-      //by default other msgs are dispatched
+    //by default other msgs are dispatched
     default:
       tableaunoirs[tableaunoirID].dispatch(msg, msg.socket);
   }
