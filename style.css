@@ -117,7 +117,7 @@ a {
 	position: absolute;
 	animation: pageNumberShow 2000ms forwards;
 	right: 0px;
-	top: 0px;
+	top: 50px;
 	padding: 12px;
 	font-size: 24px;
 	color: white;
