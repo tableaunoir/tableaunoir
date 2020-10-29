@@ -339,6 +339,7 @@ button {
 	font-size: 14pt;
 	margin: 8px;
 	outline: none;
+	cursor: pointer;
 }
 
 button img {
