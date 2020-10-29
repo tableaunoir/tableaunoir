@@ -400,6 +400,7 @@ h1 {
 
 
 #welcome {
+	
 	top: 20%;
 	bottom: 20%;
 	left: 10%;
@@ -407,12 +408,19 @@ h1 {
 }
 
 #welcome .explanation {
-	border-radius: 32px;
+	position: relative;
+	display: inline-block;
 	padding: 16px;
 	margin: 8px;
+	width: 40%;
+	vertical-align: top; 
 }
 
-
+.explanation img {
+	width:150px;
+	margin-left: 20px;
+	display: block;
+}
 
 .preview {
 	border: white 5px solid;

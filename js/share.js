@@ -15,7 +15,7 @@ class Share {
 		Share.ws = new WebSocket('ws://tableaunoir.irisa.fr:8080');
 		Share.ws.binaryType = "arraybuffer";
 
-
+		Share.ws.onerror = () => { ErrorMessage.show("Impossible to connect to the server.")};
 
 		Share.ws.onopen = f;
 		Share.ws.onmessage = (msg) => {
