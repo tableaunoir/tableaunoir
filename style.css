@@ -527,7 +527,10 @@ h1 {
 	z-index: 10000;
 }
 
-
+.warning {
+	color: yellow;
+	background-color: rgb(150, 150, 81);
+}
 
 .cursor {
 	position: absolute;

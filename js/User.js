@@ -32,7 +32,16 @@ class User {
             this.cursor.hidden = true;
 
         document.getElementById("cursors").appendChild(this.cursor);
-        document.getElementById("canvas").style.cursor = ChalkCursor.getStyleCursor(this.color);
+        if (isCurrentUser)
+            document.getElementById("canvas").style.cursor = ChalkCursor.getStyleCursor(this.color);
+    }
+
+
+
+    updateCursor() {
+        if (this.isCurrentUser()) {
+            document.getElementById("canvas").style.cursor = ChalkCursor.getStyleCursor(this.color);
+        }
     }
 
     /**
@@ -44,7 +53,7 @@ class User {
 
     setCurrentColor(color) {
         this.color = color;
-        document.getElementById("canvas").style.cursor = ChalkCursor.getStyleCursor(this.color);
+        this.updateCursor();
     }
 
     switchChalkEraser() {
@@ -63,7 +72,7 @@ class User {
         this.eraseMode = false;
 
         if (this.isCurrentUser()) {
-            document.getElementById("canvas").style.cursor = ChalkCursor.getStyleCursor(palette.getCurrentColor());
+            this.updateCursor();
             buttonEraser.innerHTML = "Eraser";
         }
 
@@ -134,7 +143,8 @@ class User {
                     lineWidth = 128;
                 }
 
-
+                if (this.isCurrentUser())
+                    document.getElementById("canvas").style.cursor = EraserCursor.getStyleCursor(lineWidth);
                 clearLine(this.x, this.y, evtX, evtY, lineWidth);
             }
             else {
@@ -167,8 +177,11 @@ class User {
             drawDot(this.x, this.y, this.color);
         }
 
-        if (this.eraseMode) //restore the eraser to the original size
-            document.getElementById("canvas").style.cursor = EraserCursor.getStyleCursor();
+        if (this.isCurrentUser()) {
+            if (this.eraseMode) //restore the eraser to the original size
+                document.getElementById("canvas").style.cursor = EraserCursor.getStyleCursor();
+        }
+
 
         this.alreadyDrawnSth = false;
         this.isDrawing = false;

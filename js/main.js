@@ -229,7 +229,7 @@ function clearLine(x1, y1, x2, y2, lineWidth = 10) {
 	//context.strokeStyle = BACKGROUND_COLOR;
 	context.globalCompositeOperation = "destination-out";
 	context.strokeStyle = "rgba(255,255,255,1)";
-	document.getElementById("canvas").style.cursor = EraserCursor.getStyleCursor(lineWidth);
+	
 	context.lineWidth = lineWidth;
 	context.moveTo(x1, y1);
 	context.lineTo(x2, y2);
