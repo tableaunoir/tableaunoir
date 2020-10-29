@@ -106,7 +106,7 @@ class Share {
 			case "join":
 				users[msg.userid] = new User();
 				Share.updateUsers();
-				Share.execute("setUserCanWrite", msg.userid, canWriteValueByDefault);
+				Share.execute("setUserCanWrite", [msg.userid, Share.canWriteValueByDefault]);
 				break;
 			case "leave": users[msg.userid].destroy(); delete users[msg.userid]; Share.updateUsers(); break;
 			case "fullCanvas": BoardManager.loadWithoutSave(msg.data); break;
@@ -210,13 +210,15 @@ class Share {
 
 	static setCanWriteForAllExceptMeAndByDefault(bool) {
 		for (let userid in users) {
-			users[userid].setCanWrite(bool);
+			if (users[userid] != user)
+				Share.execute("setUserCanWrite", [userid, bool]);
 		}
 		Share.canWriteValueByDefault = bool;
+		Share.execute("setUserCanWrite", [user.userID, true]);
 	}
 
 	static everybodyWritesMode() {
-		Share.setCanWriteForAllExceptMeAndByDefault(false);
+		Share.setCanWriteForAllExceptMeAndByDefault(true);
 	}
 }
 
