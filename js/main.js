@@ -16,7 +16,7 @@ function load() {
 	BoardManager.init();
 	Menu.init();
 	Share.init();
-
+	alert(navigator.userAgent)
 	if (navigator.userAgent.match(/Android/i)
 		|| navigator.userAgent.match(/webOS/i)
 		|| navigator.userAgent.match(/iPhone/i)
@@ -26,7 +26,7 @@ function load() {
 		|| navigator.userAgent.match(/Windows Phone/i)) {
 			buttonCloseControls.hidden = true; //on phone or tablet, we can not remove the toolbar
 	}
-	
+
 	let changeColor = () => {
 		if (MagnetManager.getMagnetUnderCursor() == undefined) { //if no magnet under the cursor, change the color of the chalk
 			//if (!isDrawing)
