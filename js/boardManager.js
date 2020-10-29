@@ -125,15 +125,21 @@ class BoardManager {
 
         if (data != undefined) {
             BoardManager._clear();
-            let image = new Image();
-            image.src = data;
-            image.onload = function () {
-                document.getElementById("canvas").width = image.width;
-                document.getElementById("canvas").height = image.height;
-                document.getElementById("canvas").getContext("2d").drawImage(image, 0, 0);
-                BoardManager.save();
-                console.log("loaded!")
+            try {
+                let image = new Image();
+                image.src = data;
+                image.onload = function () {
+                    document.getElementById("canvas").width = image.width;
+                    document.getElementById("canvas").height = image.height;
+                    document.getElementById("canvas").getContext("2d").drawImage(image, 0, 0);
+                    BoardManager.save();
+                    console.log("loaded!")
+                }
             }
+            catch(e) {
+                
+            }
+            
         }
         else {
             BoardManager._clear();
