@@ -529,6 +529,7 @@ h1 {
 
 .warning {
 	color: yellow;
+	width: 500px;
 	background-color: rgb(150, 150, 81);
 }
 
