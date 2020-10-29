@@ -84,7 +84,17 @@ class Share {
 
 	}
 
-
+	/**
+	 * @returns true if the userID of the current user is the minimum of all participants
+	 */
+	static isSmallestUserID() {
+		let minkey = "zzzzzzzzzzzzzzzz";
+		for (let key in users) {
+			if (key < minkey)
+				minkey = key;
+		}
+		return (user.userID == minkey);
+	}
 
 	static _treatReceivedMessage(msg) {
 		if (msg.type != "fullCanvas" && msg.type != "execute")
@@ -102,7 +112,7 @@ class Share {
 
 				break;
 			case "join":
-				if (isSmallestUserID()) {
+				if (Share.isSmallestUserID()) {
 					canvas.toBlob((blob) => Share.sendFullCanvas(blob, msg.userid));
 				}
 
