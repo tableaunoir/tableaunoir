@@ -9,6 +9,8 @@ class User {
     eraseMode = false;
     eraseModeBig = false;
     lastDelineation = new Delineation();
+    canWrite = true;
+
     color = "white";
 
     cursor = undefined;
@@ -17,6 +19,10 @@ class User {
 
     setUserID(userID) {
         this.userID = userID;
+    }
+
+    setCanWrite(bool) {
+        this.canWrite = bool;
     }
 
     /**
@@ -111,9 +117,11 @@ class User {
         this.isDrawing = true;
         this.eraseModeBig = false;
 
+        if (this.canWrite) {
+            this.lastDelineation.reset();
+            this.lastDelineation.addPoint({ x: this.x, y: this.y });
+        }
 
-        this.lastDelineation.reset();
-        this.lastDelineation.addPoint({ x: this.x, y: this.y });
 
         palette.hide();
     }
@@ -129,37 +137,39 @@ class User {
         this.cursor.style.left = evtX - 8;
         this.cursor.style.top = evtY - 8;
 
-        if (this.isDrawing && this.lastDelineation.isDrawing()) {
-            palette.hide();
-            if (this.eraseMode) {
-                let lineWidth = 10;
+        if (this.canWrite) {
+            if (this.isDrawing && this.lastDelineation.isDrawing()) {
+                palette.hide();
+                if (this.eraseMode) {
+                    let lineWidth = 10;
 
-                lineWidth = 10 + 30 * evt.pressure;
+                    lineWidth = 10 + 30 * evt.pressure;
 
-                if (Math.abs(this.x - this.xInit) > window.innerWidth / 4 || Math.abs(this.y - this.yInit) > window.innerHeight / 4)
-                    this.eraseModeBig = true;
+                    if (Math.abs(this.x - this.xInit) > window.innerWidth / 4 || Math.abs(this.y - this.yInit) > window.innerHeight / 4)
+                        this.eraseModeBig = true;
 
-                if (this.eraseModeBig) {
-                    lineWidth = 128;
+                    if (this.eraseModeBig) {
+                        lineWidth = 128;
+                    }
+
+                    if (this.isCurrentUser())
+                        document.getElementById("canvas").style.cursor = EraserCursor.getStyleCursor(lineWidth);
+                    clearLine(this.x, this.y, evtX, evtY, lineWidth);
                 }
+                else {
 
-                if (this.isCurrentUser())
-                    document.getElementById("canvas").style.cursor = EraserCursor.getStyleCursor(lineWidth);
-                clearLine(this.x, this.y, evtX, evtY, lineWidth);
+
+                    drawLine(this.x, this.y, evtX, evtY, evt.pressure, this.color);
+
+                    this.lastDelineation.addPoint({ x: evtX, y: evtY });
+
+                }
+                this.x = evtX;
+                this.y = evtY;
+
+                if (Math.abs(this.x - this.xInit) > 1 || Math.abs(this.y - this.yInit) > 1)
+                    this.alreadyDrawnSth = true;
             }
-            else {
-
-
-                drawLine(this.x, this.y, evtX, evtY, evt.pressure, this.color);
-
-                this.lastDelineation.addPoint({ x: evtX, y: evtY });
-
-            }
-            this.x = evtX;
-            this.y = evtY;
-
-            if (Math.abs(this.x - this.xInit) > 1 || Math.abs(this.y - this.yInit) > 1)
-                this.alreadyDrawnSth = true;
         }
 
         this.x = evtX;
@@ -169,22 +179,26 @@ class User {
 
     mouseup(evt) {
         MagnetManager.setInteractable(true);
-        this.lastDelineation.finish();
+
+        if (this.canWrite) {
+            this.lastDelineation.finish();
 
 
-        //console.log("mouseup")
-        if (this.isDrawing && !this.eraseMode && !this.alreadyDrawnSth) {
-            drawDot(this.x, this.y, this.color);
+            //console.log("mouseup")
+            if (this.isDrawing && !this.eraseMode && !this.alreadyDrawnSth) {
+                drawDot(this.x, this.y, this.color);
+            }
+
+            if (this.isCurrentUser()) {
+                if (this.eraseMode) //restore the eraser to the original size
+                    document.getElementById("canvas").style.cursor = EraserCursor.getStyleCursor();
+            }
+
+
+
+            BoardManager.saveCurrentScreen();
         }
-
-        if (this.isCurrentUser()) {
-            if (this.eraseMode) //restore the eraser to the original size
-                document.getElementById("canvas").style.cursor = EraserCursor.getStyleCursor();
-        }
-
-
         this.alreadyDrawnSth = false;
         this.isDrawing = false;
-        BoardManager.saveCurrentScreen();
     }
 }

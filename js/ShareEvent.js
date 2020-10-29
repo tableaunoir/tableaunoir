@@ -24,4 +24,8 @@ class ShareEvent {
     static switchChalk(userId) {
         users[userId].switchChalk();
     }
+
+    static setUserCanWrite(userId, bool) {
+        users[userId].setCanWrite(bool);
+    }
 }

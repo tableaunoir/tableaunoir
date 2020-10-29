@@ -2,7 +2,8 @@
 class Share {
 	static ws = undefined;
 	static id = undefined;
-
+	static IamTheBoss = false; //true if I am the one who shared the board
+	static canWriteValueByDefault = false;
 	/**
 	 * 
 	 * @param {*} a function f 
@@ -33,6 +34,9 @@ class Share {
 		document.getElementById("joinButton").onclick = () => {
 			window.open(window.location, "_self")
 		}
+
+		document.getElementById("shareInEverybodyWritesMode").onclick = Share.everybodyWritesMode;
+		document.getElementById("shareInTeacherMode").onclick = Share.teacherMode;
 
 		if (window.location.origin.indexOf("github") < 0)
 			document.getElementById('ShareGithub').hidden = true;
@@ -72,6 +76,7 @@ class Share {
 
 			document.getElementById("shareInfo").hidden = false;
 			document.getElementById("join").hidden = true;
+			Share.IamTheBoss = true;
 
 		}
 		catch (e) {
@@ -95,8 +100,14 @@ class Share {
 
 				document.getElementById("shareAndJoin").hidden = true;
 				document.getElementById("shareInfo").hidden = false;
+				document.getElementById("shareMode").hidden = false;
+
 				break;
-			case "join": users[msg.userid] = new User(); console.log(users); Share.updateUsers(); break;
+			case "join":
+				users[msg.userid] = new User();
+				Share.updateUsers();
+				Share.execute("setUserCanWrite", msg.userid, canWriteValueByDefault);
+				break;
 			case "leave": users[msg.userid].destroy(); delete users[msg.userid]; Share.updateUsers(); break;
 			case "fullCanvas": BoardManager.loadWithoutSave(msg.data); break;
 			case "execute": eval("ShareEvent." + msg.event)(...msg.params);
@@ -188,6 +199,24 @@ class Share {
 
 	static join(id) {
 		Share.send({ type: "join", id: id });
+	}
+
+
+
+	static teacherMode() {
+		Share.setCanWriteForAllExceptMeAndByDefault(false);
+	}
+
+
+	static setCanWriteForAllExceptMeAndByDefault(bool) {
+		for (let userid in users) {
+			users[userid].setCanWrite(bool);
+		}
+		Share.canWriteValueByDefault = bool;
+	}
+
+	static everybodyWritesMode() {
+		Share.setCanWriteForAllExceptMeAndByDefault(false);
 	}
 }
 
