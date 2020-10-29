@@ -10,12 +10,13 @@ const uuid = require('small-uuid');
 
 
 class UserManager {
-  static userIDi = 0;
 
   /**
    * @returns a identifier for a new user
    */
   static generateUserID() {
+    if (UserManager.userIDi == undefined)
+      UserManager.userIDi = 0;
     UserManager.userIDi++;
     return "u" + UserManager.userIDi;
   }
