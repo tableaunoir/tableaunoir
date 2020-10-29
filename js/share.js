@@ -208,6 +208,16 @@ class Share {
 		return params.get('id') != null;
 	}
 
+
+	static getTableauNoirID() {
+		if(Share.isSharedURL()) {
+			return Share.getIDInSharedURL();
+		}
+		else
+			return "local";
+	}
+
+
 	static getIDInSharedURL() {
 		let params = (new URL(document.location)).searchParams;
 		return params.get('id');
