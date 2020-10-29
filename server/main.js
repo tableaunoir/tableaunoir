@@ -1,5 +1,7 @@
 'use strict';
 
+const PORT = 8080;
+
 const https = require('https');
 const WebSocket = require('ws');
 const fs = require('fs');
@@ -7,24 +9,26 @@ const fs = require('fs');
 const uuid = require('small-uuid');
 
 
-function generateTableauID() {
-  return uuid.create();//"t" + generateID();
+class UserManager {
+  static userIDi = 0;
+
+  /**
+   * @returns a identifier for a new user
+   */
+  static generateUserID() {
+    UserManager.userIDi++;
+    return "u" + UserManager.userIDi;
+  }
 }
 
-let userIDi = 0;
 
-function generateUserID() {
-  userIDi++;
-  return "u" + userIDi;
-
-}
 
 
 
 /**
  * 
- * @param {*} msg 
- * @return 
+ * @param {*} msg a message (in the object format)
+ * @return a string that can displayed in the console and that represents the message msg
  */
 function messageToString(msg) {
   if (msg.type != "fullCanvas" && msg.type != "execute")
@@ -36,7 +40,16 @@ function messageToString(msg) {
 
 const tableaunoirs = {};
 
+/**
+ * represents a tableaunoir in use
+ */
 class TableauNoir {
+
+  static generateTableauID() {
+    return uuid.create();//"t" + generateID();
+  }
+
+
   constructor() {
     this.sockets = [];
     this.dataURL = "";
@@ -147,7 +160,7 @@ const credentials = {
  */
 function createWebSocketServerNormal() {
   return new WebSocket.Server({
-    port: 8080
+    port: PORT
   });
 }
 
@@ -160,7 +173,7 @@ console.log("Tableaunoir server -- Welcome");
 
 server.on('connection', function (socket) {
   console.log("New connection!")
-  socket.userid = generateUserID();
+  socket.userid = UserManager.generateUserID();
   sockets.push(socket);
 
   socket.on('message', (msg) => {
@@ -185,7 +198,7 @@ function treatReceivedMessageFromClient(msg) {
 
   switch (msg.type) {
     case "share":
-      id = generateTableauID();
+      id = TableauNoir.generateTableauID();
       tableaunoirs[id] = new TableauNoir();
       msg.socket.id = id;
       tableaunoirs[id].addSocket(msg.socket);
