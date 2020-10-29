@@ -38,6 +38,11 @@ canvas {
 	top: 0px;
 	left: 0px;
 	background-color: rgb(68, 68, 68);
+	color: white;	
+}
+
+#controls span {
+	margin-right: 24px;
 }
 
 #controls button {
@@ -393,21 +398,17 @@ h1 {
 }
 
 
+#welcome {
+	top: 20%;
+	bottom: 20%;
+	left: 10%;
+	right: 10%;
+}
 
-#help .explanation {
+#welcome .explanation {
 	border-radius: 32px;
 	padding: 16px;
 	margin: 8px;
-}
-
-#help .modePanel {
-	padding: 16px;
-	margin-left: 16px;
-	margin-right: 16px;
-	display: inline-block;
-	width: 40%;
-	background-color: rgb(29, 29, 29);
-	border-radius: 5px;
 }
 
 
@@ -541,4 +542,10 @@ h1 {
 	opacity: 0.5;
 	width: 8px;
 	height: 8px;
+}
+
+
+#buttonCloseControls {
+	float: right;
+	background-color: rgb(22, 114, 200);
 }

@@ -63,10 +63,6 @@ function load() {
 	buttonRedo.onclick = BoardManager.redo;
 
 
-	/*let params = new URLSearchParams(document.location.search.substring(1));
-	if (params.get("controls"))
-		controls.hidden = false;*/
-
 	Welcome.init();
 
 
@@ -164,7 +160,12 @@ function load() {
 	};
 
 
-	document.getElementById("canvas").onpointerdown = (evt) => { evt.preventDefault(); Share.execute("mousedown", [user.userID, evt]) };
+	document.getElementById("canvas").onpointerdown = (evt) => {
+		if (Welcome.isShown())
+			Welcome.hide();
+		evt.preventDefault();
+		Share.execute("mousedown", [user.userID, evt])
+	};
 	document.getElementById("canvas").onpointermove = (evt) => { evt.preventDefault(); Share.execute("mousemove", [user.userID, evt]) };
 	document.getElementById("canvas").onpointerup = (evt) => { evt.preventDefault(); Share.execute("mouseup", [user.userID, evt]) };
 	//document.getElementById("canvas").onmousedown = mousedown;
@@ -229,7 +230,7 @@ function clearLine(x1, y1, x2, y2, lineWidth = 10) {
 	//context.strokeStyle = BACKGROUND_COLOR;
 	context.globalCompositeOperation = "destination-out";
 	context.strokeStyle = "rgba(255,255,255,1)";
-	
+
 	context.lineWidth = lineWidth;
 	context.moveTo(x1, y1);
 	context.lineTo(x2, y2);

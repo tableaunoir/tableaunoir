@@ -1,25 +1,15 @@
 class Welcome {
     static init() {
-        document.getElementById("start").onclick =
-            () => {
-                Welcome.hide();
-                controls.hidden = true;
-            }
-
-        document.getElementById("startButtonMode").onclick =
-            () => {
-                Welcome.hide();
-                controls.hidden = false;
-            }
+       document.getElementById("welcome").onclick = Welcome.hide;
     }
 
 
     static isShown() {
-        return !help.classList.contains("menuHide");
+        return !welcome.classList.contains("menuHide");
     }
 
     static hide() {
-        help.classList.remove("menuShow");
-        help.classList.add("menuHide");
+        welcome.classList.remove("menuShow");
+        welcome.classList.add("menuHide");
     }
 }

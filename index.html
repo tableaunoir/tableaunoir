@@ -24,14 +24,15 @@
 </head>
 
 <body>
-	<div hidden id=controls>
-		<button id="buttonMenu">Menu</button>
-		<button id="buttonColors">Colors</button>
-		<button id="buttonEraser">Chalk/Eraser</button>
-		<button id="buttonCancel">Cancel</button>
-		<button id="buttonRedo">Redo</button>
-		<button id="buttonLeft">Left</button>
-		<button id="buttonRight">Right</button>
+	<div id=controls>
+		<button id="buttonMenu">☕ Menu</button><span>Esc.</span>
+		<button id="buttonColors">🎨 Colors</button><span>c</span>
+		<button id="buttonEraser">⌫ Eraser</button><span>e</span>
+		<button id="buttonCancel">↩ Cancel</button>
+		<button id="buttonRedo">↪ Redo</button>
+		<button id="buttonLeft">← Left</button>
+		<button id="buttonRight">→ Right</button>
+		<button id="buttonCloseControls" onclick="controls.hidden = true">Hide controls</button>
 	</div>
 	<div id="container">
 		<div id="board">
@@ -44,7 +45,7 @@
 	</div>
 
 	<div class="pageNumberHidden" id="pageNumber">1</div>
-	<div id="help" class="MenuPanel">
+	<div id="welcome" class="MenuPanel">
 		<h1>Welcome to Tableaunoir</h1>
 
 		<div class="explanation">
@@ -57,47 +58,15 @@
 			best on
 			Firefox, Chrome or Chromium, last versions.
 			<br /><br />
+			Do not hesite to hide the toolbar and use the keyboard shortcuts so that your audience is <em>concentrated
+				on the content</em>.
+			<br /><br />
 			The project is <em>open source</em> and the source code is available at:
 			<a target="_blank" rel="noopener noreferrer"
 				href="https://github.com/tableaunoir">https://github.com/tableaunoir</a>
 		</div>
-		<br />
-		<div class="center">
-			<div class="modePanel">
-				<div class="center">
-					<button id="start"><img src="img/nobutton.png" /><br />Start <br />button-free mode</button>
-				</div>
-				For your audience being <em>concentrated on the content</em>, no button is shown.
-				<table>
-					<tr>
-						<th>Keyboard shortcuts</th>
-						<th></th>
-					</tr>
-					<tr>
-						<td><span class="keyboardkey">Esc.</span> or <span class="keyboardkey">F1</span></td>
-						<td>show/hide the menu that gives all the <em>keyboard shortcuts</em>.</td>
-					</tr>
-					<tr>
-						<td><span class="keyboardkey">e</span></td>
-						<td>switch between chalk and eraser</td>
-					</tr>
-					<tr>
-						<td><span class="keyboardkey">c</span></td>
-						<td>change the color of the chalk or of the selected magnet</td>
-					</tr>
-				</table>
 
 
-
-			</div>
-			<div class="modePanel">
-				<div class="center">
-					<button id="startButtonMode"><img src="img/showbuttons.png" /><br />Start <br /> button
-						mode</button>
-				</div>
-				This mode offers few <em>buttons</em> for changing the colors, for erasing and for showing the menu.
-			</div>
-		</div>
 	</div>
 
 
@@ -252,8 +221,10 @@
 			</div>
 			<div id="Share" class="tabcontent">
 				<div class="warning" id="ShareGithub">Warning: Share boards does not work since tableaunoir.github.io is
-					a showcase. You have to install tableaunoir on your own server, or you may try <a href="http://tableaunoir.irisa.fr">http://tableaunoir.irisa.fr</a> if it works!</div>
-				<div class="warning">Warning: this functionnality is still under development and may not work perfectly. In particular, magnets are not shared yet.
+					a showcase. You have to install tableaunoir on your own server, or you may try <a
+						href="http://tableaunoir.irisa.fr">http://tableaunoir.irisa.fr</a> if it works!</div>
+				<div class="warning">Warning: this functionnality is still under development and may not work perfectly.
+					In particular, magnets are not shared yet.
 				</div>
 
 
@@ -279,8 +250,10 @@
 
 					<div hidden id="shareMode">
 						<h2>Share mode</h2>
-						<button id="shareInTeacherMode"><img src="img/shareInTeacherMode.png" /><br />You write and the other users only see</button>
-						<button id="shareInEverybodyWritesMode"><img src="img/shareInEverybodyWritesMode.png" /><br />All users can write</button>
+						<button id="shareInTeacherMode"><img src="img/shareInTeacherMode.png" /><br />You write and the
+							other users only see</button>
+						<button id="shareInEverybodyWritesMode"><img
+								src="img/shareInEverybodyWritesMode.png" /><br />All users can write</button>
 					</div>
 
 					<h2>Connected Users</h2>

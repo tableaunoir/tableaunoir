@@ -79,7 +79,7 @@ class User {
 
         if (this.isCurrentUser()) {
             this.updateCursor();
-            buttonEraser.innerHTML = "Eraser";
+            buttonEraser.innerHTML = "⌫ Eraser";
         }
 
     }
@@ -97,7 +97,7 @@ class User {
         if (this.isCurrentUser()) {
             palette.hide();
             document.getElementById("canvas").style.cursor = EraserCursor.getStyleCursor();
-            buttonEraser.innerHTML = "Chalk";
+            buttonEraser.innerHTML = "🖊 Chalk";
         }
     }
 
