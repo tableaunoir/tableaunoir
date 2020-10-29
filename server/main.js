@@ -29,6 +29,8 @@ class UserManager {
 function messageToString(msg) {
   if (msg.type != "fullCanvas" && msg.type != "execute")
     return JSON.stringify(msg);
+  else if (msg.type == "execute")
+    return msg.type + " " + msg.event;
   else
     return msg.type;
 }
@@ -251,7 +253,7 @@ function treatReceivedMessageFromClient(msg) {
       else
         tableaunoirs[tableaunoirID].storeFullCanvas(msg.data);
 
-        tableaunoirs[tableaunoirID].sendTo(msg);
+      tableaunoirs[tableaunoirID].sendTo(msg);
       break;
 
     //by default other msgs are dispatched

@@ -2,7 +2,7 @@
 class Share {
 	static ws = undefined;
 	static id = undefined;
-	static canWriteValueByDefault = false;
+	static canWriteValueByDefault = true;
 	/**
 	 * 
 	 * @param {*} a function f 
