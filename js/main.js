@@ -16,7 +16,7 @@ function load() {
 	BoardManager.init();
 	Menu.init();
 	Share.init();
-	alert(navigator.userAgent)
+	
 	if (navigator.userAgent.match(/Android/i)
 		|| navigator.userAgent.match(/webOS/i)
 		|| navigator.userAgent.match(/iPhone/i)
