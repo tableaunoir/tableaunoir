@@ -26,6 +26,7 @@ function load() {
 		|| navigator.userAgent.match(/Windows Phone/i)) {
 			buttonCloseControls.hidden = true; //on phone or tablet, we can not remove the toolbar
 	}
+	
 	let changeColor = () => {
 		if (MagnetManager.getMagnetUnderCursor() == undefined) { //if no magnet under the cursor, change the color of the chalk
 			//if (!isDrawing)
