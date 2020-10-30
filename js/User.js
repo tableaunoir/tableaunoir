@@ -62,6 +62,10 @@ class User {
         this.updateCursor();
     }
 
+    getCurrentColor() {
+        return this.color;
+    }
+
     switchChalkEraser() {
         this.eraseMode = !this.eraseMode;
 

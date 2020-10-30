@@ -208,7 +208,7 @@ function resize() {
 }
 
 
-function drawLine(x1, y1, x2, y2, pressure = 1.0, color) {
+function drawLine(x1, y1, x2, y2, pressure = 1.0, color = user.getCurrentColor()) {
 	const context = document.getElementById("canvas").getContext("2d");
 	context.beginPath();
 	context.strokeStyle = color;
