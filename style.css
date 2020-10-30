@@ -340,6 +340,7 @@ button {
 	margin: 8px;
 	outline: none;
 	cursor: pointer;
+	min-width: 48px;
 }
 
 button img {

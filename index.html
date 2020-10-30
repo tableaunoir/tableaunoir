@@ -26,13 +26,13 @@
 <body>
 	<div id=controls>
 		<button id="buttonMenu">☕ Menu</button><span>Esc.</span>
-		<button id="buttonColors">🎨 Colors</button><span>c</span>
-		<button id="buttonEraser">⌫ Eraser</button><span>e</span>
-		<button id="buttonCancel">↩ Cancel</button>
-		<button id="buttonRedo">↪ Redo</button>
-		<button id="buttonLeft">← Left</button>
-		<button id="buttonRight">→ Right</button>
-		<button id="buttonCloseControls" onclick="controls.hidden = true">Hide controls</button>
+		<button id="buttonColors" title="Choose your color">🎨 Colors</button><span>c</span>
+		<button id="buttonEraser" title="Switch between erase and draw">⌫ Eraser</button><span>e</span>
+		<button id="buttonCancel" title="Cancel the last action">↩ Cancel</button>
+		<button id="buttonRedo" title="Redo the last action">↪ Redo</button>
+		<button id="buttonLeft" title="Go left">← Left</button>
+		<button id="buttonRight" title="Go right">→ Right</button>
+		<button id="buttonCloseControls" title="Hide this toolbar (it can be shown again in the menu)" onclick="controls.hidden = true">Hide toolbar</button>
 	</div>
 	<div id="container">
 		<div id="board">
@@ -93,11 +93,11 @@
 			<button class="tablink" onclick="Menu.openPage('Share', this)">🔗 Share</button>
 			<button class="tablink" onclick="Menu.openPage('Magnets', this)">🎊 Magnets</button>
 
-			<button class="tablink" onclick="Menu.openPage('Options', this)">⚛ Options</button>
+			<button class="tablink" onclick="Menu.openPage('Options', this)">⚛ 	Options</button>
 
 			<button class="tablink" onclick="Menu.openPage('KeyboardShortcuts', this)" id="defaultOpen">⌨ Keyboard
 				Shortcuts</button>
-			<button class="tablink" onclick="Menu.openPage('Help', this)" id="defaultOpen">❓ Help</button>
+			<button class="tablink" onclick="Menu.openPage('Help', this)" id="defaultOpen">? Help</button>
 
 			<button class="tablink" onclick="Menu.openPage('About', this)" id="defaultOpen">About tableaunoir</button>
 		</div>
