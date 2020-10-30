@@ -44,3 +44,12 @@ If you prefer to use an offline version, it is possible. You have to install Ele
 electron mainElectron.js
 
 
+
+## Create your own tableaunoir server
+
+In order to share blackboards, you need a server. 
+In the server, git pull the project. Modify the variable SERVERADRESS in js/share.js to be the address of your server. Install Apache to deploy index.html. Install the dependencies for the server see server/INSTALL.md. Then server/run.sh.
+
+## Credits
+
+Somes pictures come from [https://github.com/nicholas-ochoa/OpenSC2K].

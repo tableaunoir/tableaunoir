@@ -1,3 +1,5 @@
+const SERVERADRESS = 'ws://tableaunoir.irisa.fr:8080';
+
 
 class Share {
 	static ws = undefined;
@@ -12,7 +14,7 @@ class Share {
 		if (Share.ws != undefined)
 			return;
 
-		Share.ws = new WebSocket('ws://tableaunoir.irisa.fr:8080');
+		Share.ws = new WebSocket(SERVERADRESS);
 		Share.ws.binaryType = "arraybuffer";
 
 		Share.ws.onerror = () => { ErrorMessage.show("Impossible to connect to the server.")};
