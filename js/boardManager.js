@@ -79,7 +79,7 @@ class BoardManager {
         // if (rectangle == undefined) {
         document.getElementById("canvas").toBlob((blob) => {
             console.log("save that blob: " + blob)
-            localStorage.setItem(Share.getTableauNoirID(), canvas.toDataURL());
+          //  localStorage.setItem(Share.getTableauNoirID(), canvas.toDataURL());
             BoardManager.cancelStack.push(blob);
             //Share.sendFullCanvas(blob);
         }
