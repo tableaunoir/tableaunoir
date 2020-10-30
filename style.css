@@ -269,6 +269,7 @@ img.magnet:hover {
 
 .divMenuHide {
 	position: sticky;
+	float: right;
 	top: 0px;
 }
 
@@ -401,11 +402,10 @@ h1 {
 
 
 #welcome {
-	
-	top: 20%;
-	bottom: 20%;
-	left: 10%;
-	right: 10%;
+	top: 15%;
+	bottom: 8%;
+	left: 5%;
+	right: 5%;
 }
 
 #welcome .explanation {
@@ -413,7 +413,7 @@ h1 {
 	display: inline-block;
 	padding: 16px;
 	margin: 8px;
-	width: 40%;
+	width: 42%;
 	vertical-align: top; 
 }
 

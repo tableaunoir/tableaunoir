@@ -32,7 +32,7 @@
 		<button id="buttonRedo" title="Redo the last action">↪ Redo</button>
 		<button id="buttonLeft" title="Go left">← Left</button>
 		<button id="buttonRight" title="Go right">→ Right</button>
-		<button id="buttonCloseControls" title="Hide this toolbar (it can be shown again in the menu)" onclick="controls.hidden = true">Hide toolbar</button>
+		<button id="buttonCloseControls" title="Hide this toolbar (it can be shown again in the menu)" onclick="controls.hidden = true; welcome.hidden = true;">Hide toolbar</button>
 	</div>
 	<div id="container">
 		<div id="board">
@@ -46,28 +46,29 @@
 
 	<div class="pageNumberHidden" id="pageNumber">1</div>
 	<div id="welcome" class="MenuPanel">
+		<div class="divMenuHide"><button onclick="welcom.hidden = true">X</button>Esc.</div>
+
+
 		<h1>Welcome to Tableaunoir</h1>
 
 		<div class="explanation">
 			<img src="img/welcome_tableaunoir.png" />
-			Tableaunoir is the greatest (!) <em>online blackboard</em>. Ideally, you use it with a <em>graphics
-				tablet</em>. <br />
-
-			Do not hesite to hide the toolbar and use the keyboard shortcuts so that your audience is <em>concentrated
-				on the content</em>.
+			This <em>online blackboard</em> is ideally used with a <em>graphics
+				tablet</em>. Your audience is <em>concentrated
+					on the content</em> if you hide the toolbar and use keyboard shortcuts.
 
 		</div>
 
 		<div class="explanation">
 			<img src="img/welcome_magnets.png" />
-			You can also create <em>magnets</em> (think of them as fridge magnets) for making
+			You may create <em>magnets</em> (think of them as fridge magnets) for making
 			<em>interactive
 				courses</em>,
-			presentations and discussions with students.</em>. Open the menu!</div>
+			presentations and discussions with students.</em></div>
 	
 		<div class="explanation">
 			<img src="img/shareInEverybodyWritesMode.png" />
-			Blackboard are sharable (feature still in development). Open the menu!
+			Blackboard are sharable in order to <em>collaborate</em> with your friends (feature still in development). Open the menu!
 		</div>
 		<div class="explanation">
 			<img src="img/welcome_open.png" />
@@ -75,14 +76,13 @@
 			best on
 			Firefox, Chrome or Chromium, last versions.
 
-			If it does not work, please update your browser. 
 
-			The project is <em>open source</em> and the source code is available at:
+			The project is <em>open source</em>. See:
 			<a target="_blank" rel="noopener noreferrer"
 				href="https://github.com/tableaunoir">https://github.com/tableaunoir</a>
 		</div>
 
-
+		
 
 	</div>
 
