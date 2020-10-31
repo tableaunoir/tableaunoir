@@ -5,6 +5,10 @@ Tableaunoir is an online blackboard tool. It can be used as a traditional blackb
 [https://tableaunoir.github.io/]
 
 
+## Video
+
+[https://www.youtube.com/watch?v=P6_lhqiPBow] (in french)
+
 ## Example of use
 
 Tableaunoir is used for teaching at ENS Rennes. The main advantage is that the screen is fully black: there are no buttons that annoy the students (in my personal use, I simply hide the toolbar). Tableaunoir is controlled by a graphic tablet and by the keyboard of the computer (7 keys!). It makes it very interactive compared to fixed slides. 
@@ -31,7 +35,6 @@ You can teach online by sharing the screen with Discord, Zoom, Teams, etc., or b
 
 <img src="./img/screenshot.png" alt="screenshot" width="300"/> <img src="./img/screenshot2.png" alt="screenshot" width="150"/> <img src="./img/screenshot3.png" alt="screenshot" width="300"/>
 <img src="./img/simcitygraph.png" alt="screenshot" width="300"/>
-<img src="./img/euclide.png" alt="screenshot" width="300"/>
 <img src="./img/euclide.png" alt="screenshot" width="300"/>
 <img src="./img/screenshot_tablet.jpg" alt="screenshot" width="300"/>
 
