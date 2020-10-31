@@ -20,7 +20,7 @@ Tableaunoir is used for teaching at ENS Rennes. The main advantage is that the s
 
 ### Example of a course
 
-<img src="./img/coursparcourslargeur.gif" alt="photo" width="300"/>
+<img src="./img/coursparcourslargeur.gif" alt="photo" width="680"/>
 
 ## Features
 
