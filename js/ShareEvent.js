@@ -28,4 +28,15 @@ class ShareEvent {
     static setUserCanWrite(userId, bool) {
         users[userId].setCanWrite(bool);
     }
+
+    static magnetMove(idMagnet, x, y) {
+        const el = document.getElementById(idMagnet);
+        el.style.top = y + "px";
+        el.style.left = x + "px";
+    }
+
+
+    static magnetsClear() {
+        MagnetManager.clearMangnet();
+    }
 }

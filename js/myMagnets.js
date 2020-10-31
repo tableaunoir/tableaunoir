@@ -7,7 +7,9 @@ function createMagnet(content) {
 }
 
 
-
+function magnetsClear() {
+    Share.execute("magnetsClear", []);
+}
 
 function createMagnetGS_B(content) {
     let o = document.createElement("div");
@@ -15,8 +17,10 @@ function createMagnetGS_B(content) {
     o.classList.add("GS_B")
     return o;
 }
+
+
 function magnetGS() {
-    MagnetManager.clearMagnet();
+    magnetsClear();
     MagnetManager.addMagnet(createMagnet(1))
     MagnetManager.addMagnet(createMagnet(2))
     MagnetManager.addMagnet(createMagnet(3))

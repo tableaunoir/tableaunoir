@@ -29,6 +29,7 @@
 		<button id="buttonMenu">☕ Menu</button><span>Esc.</span>
 		<button id="buttonColors" title="Choose your color">🎨 Colors</button><span>c</span>
 		<button id="buttonEraser" title="Switch between erase and draw">⌫ Eraser</button><span>e</span>
+		<button id="buttonDivide" title="Divide the screen vertically in two">| Divide</button><span>d</span>
 		<button id="buttonCancel" title="Cancel the last action">↩ Cancel</button>
 		<button id="buttonRedo" title="Redo the last action">↪ Redo</button>
 		<button id="buttonLeft" title="Go left">← Left</button>
@@ -46,7 +47,7 @@
 	</div>
 
 	<div class="pageNumberHidden" id="pageNumber">1</div>
-	<div id="welcome" class="MenuPanel">
+	<div id="welcome" hidden class="MenuPanel">
 		<div class="divMenuHide"><button onclick="welcome.hidden = true">X</button>Esc.</div>
 
 
@@ -80,7 +81,7 @@
 
 			The project is <em>open source</em>. See:
 			<a target="_blank" rel="noopener noreferrer"
-				href="https://github.com/tableaunoir">https://github.com/tableaunoir</a>
+				href="https://github.com/tableaunoir/tableaunoir.github.io">https://github.com/tableaunoir/tableaunoir.github.io</a>
 		</div>
 
 		
@@ -105,20 +106,39 @@
 		<div>
 			<div id="menucontent"></div>
 			<div id="About" class="tabcontent">
-				Tableaunoir is the greatest (!) <em>online blackboard</em>.
-				Of course, you can <em>draw</em> in different <em>colors</em> and <em>erase</em>, but
-				you can also create <em>magnets</em> (think of them as fridge magnets) for making <em>interactive
-					courses</em>,
-				presentations and discussions with students. Ideally, you use it with a <em>graphics tablet</em>.
-				If it does not work, please update your browser. Work
-				best on
-				Firefox, Chrome or Chromium, last versions.
-				<br /><br />
-				The project is <em>open source</em> and the source code is available at:
-				<a target="_blank" rel="noopener noreferrer"
-					href="https://github.com/tableaunoir">https://github.com/tableaunoir</a>
+				<h2>About Tableaunoir</h2>
+				<div class="explanation">
+					<img src="img/welcome_tableaunoir.png" />
+					Tableaunoir is an <em>online blackboard</em>. It is ideally used with a <em>graphics
+						tablet</em>. Your audience is <em>concentrated
+							on the content</em> if you hide the toolbar and use keyboard shortcuts.
+		
+				</div>
+		
+				<div class="explanation">
+					<img src="img/welcome_magnets.png" />
+					You may create <em>magnets</em> (think of them as fridge magnets) for making
+					<em>interactive
+						courses</em>,
+					presentations and discussions with students.</em></div>
+			
+				<div class="explanation">
+					<img src="img/shareInEverybodyWritesMode.png" />
+					Blackboards are sharable in order to <em>collaborate</em> with your friends (feature still in development). Open the menu!
+				</div>
+				<div class="explanation">
+					<img src="img/welcome_open.png" />
+					Work
+					best on
+					Firefox, Chrome or Chromium, last versions.
+		
+		
+					The project is <em>open source</em>. See:
+					<a target="_blank" rel="noopener noreferrer"
+						href="https://github.com/tableaunoir/tableaunoir.github.io">https://github.com/tableaunoir/tableaunoir.github.io</a>
+				</div>
 
-				<br /><br />
+				<h2>Videos</h2>
 				<a target="_blank" rel="noopener noreferrer" href="https://www.youtube.com/watch?v=P6_lhqiPBow">Video of
 					that presents tableaunoir (in french)</a>
 			</div>

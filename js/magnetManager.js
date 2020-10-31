@@ -53,6 +53,8 @@ class MagnetManager {
 		while (magnets.length > 0)
 			magnets[0].remove();
 
+		Share.sendMagnets();
+
 		Menu.hide();
 	}
 
@@ -67,6 +69,7 @@ class MagnetManager {
 			MagnetManager.magnetY += 64;
 		}
 
+		element.id = "m" + Math.random(); //generate randomly an id
 		element.style.left = MagnetManager.magnetX + "px";
 		element.style.top = MagnetManager.magnetY + "px";
 
@@ -215,7 +218,7 @@ class MagnetManager {
 
 
 	static _installMagnetsNoMsg() {
-		
+
 		let magnets = MagnetManager.getMagnets();
 
 		for (let i = 0; i < magnets.length; i++)
@@ -225,8 +228,8 @@ class MagnetManager {
 
 
 	static installMagnets() {
-		Share.sendMagnets();
 		MagnetManager._installMagnetsNoMsg();
+		Share.sendMagnets();
 	}
 
 	static _installMagnet(element) {
@@ -305,12 +308,10 @@ class MagnetManager {
 
 
 				// set the element's new position:
-				element.style.top = (element.offsetTop - pos2) + "px";
-				element.style.left = (element.offsetLeft - pos1) + "px";
+				Share.execute("magnetMove", [element.id, element.offsetLeft - pos1, element.offsetTop - pos2]);
 
 				for (let el of otherElementsToMove) {
-					el.style.top = (el.offsetTop - pos2) + "px";
-					el.style.left = (el.offsetLeft - pos1) + "px";
+					Share.execute("magnetMove", [el.id, el.offsetLeft - pos1, el.offsetTop - pos2]);
 				}
 			}
 
@@ -352,7 +353,7 @@ class MagnetManager {
 		divText.onkeydown = (e) => {
 			let setFontSize = (size) => {
 				divText.style.fontSize = size + "px";
-				for(let o of divText.children) {
+				for (let o of divText.children) {
 					o.style.fontSize = size + "px";
 				}
 			}
@@ -373,7 +374,7 @@ class MagnetManager {
 			}
 			else if (e.ctrlKey && e.key == "-") { // Ctrl + -
 				let size = parseInt(divText.style.fontSize);
-				if(size > 6) size--;
+				if (size > 6) size--;
 				setFontSize(size);
 				e.preventDefault();
 			}

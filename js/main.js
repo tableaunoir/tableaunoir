@@ -66,6 +66,7 @@ function load() {
 	buttonMenu.onclick = Menu.toggle;
 	buttonColors.onclick = changeColor;
 	buttonEraser.onclick = switchChalkEraser;
+	buttonDivide.onclick = divideScreen;
 	buttonLeft.onclick = BoardManager.left;
 	buttonRight.onclick = BoardManager.right;
 	buttonCancel.onclick = BoardManager.cancel;

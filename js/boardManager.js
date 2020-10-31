@@ -275,7 +275,7 @@ class BoardManager {
      * 
      */
     static cancel() {
-        if (!Shared.isShared())
+        if (!Share.isShared())
             BoardManager._loadCurrentCancellationStackData(BoardManager.cancelStack.back());
     }
 
@@ -285,7 +285,7 @@ class BoardManager {
      * 
      */
     static redo() {
-        if (!Shared.isShared())
+        if (!Share.isShared())
             BoardManager._loadCurrentCancellationStackData(BoardManager.cancelStack.forward());
     }
 }

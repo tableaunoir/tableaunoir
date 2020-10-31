@@ -144,13 +144,17 @@ class Share {
 				if (Share.isSmallestUserID()) {
 					canvas.toBlob((blob) => Share.sendFullCanvas(blob, msg.userid));
 					Share.sendFullCanvas(msg.userid);
+					Share.sendMagnets(msg.userid);
 					Share.execute("setUserCanWrite", [msg.userid, Share.canWriteValueByDefault]);
 				}
 
 				break;
 			case "leave": users[msg.userid].destroy(); delete users[msg.userid]; Share.updateUsers(); break;
 			case "fullCanvas": BoardManager.loadWithoutSave(msg.data); break;
-			case "magnets": document.getElementById("magnets").innerHTML = msg.magnets; break;
+			case "magnets":
+				document.getElementById("magnets").innerHTML = msg.magnets;
+				MagnetManager._installMagnetsNoMsg();
+				break;
 			case "execute": eval("ShareEvent." + msg.event)(...msg.params);
 		}
 	}
@@ -179,7 +183,6 @@ class Share {
 
 	static sendMagnets(to) {
 		Share.send({ type: "magnets", magnets: document.getElementById("magnets").innerHTML, to: to }); // send the html code for all the magnets
-		MagnetManager._installMagnetsNoMsg();
 	}
 
 

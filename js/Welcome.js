@@ -3,7 +3,6 @@ class Welcome {
        document.getElementById("welcome").onclick = Welcome.hide;
     }
 
-
     static isShown() {
         return !welcome.classList.contains("menuHide");
     }

@@ -284,6 +284,7 @@ img.magnet:hover {
 	margin: 8px;
 	width: 300px;
 	outline: none;
+	text-align: left;
 }
 
 .tablink:hover {
@@ -408,7 +409,7 @@ h1 {
 	right: 5%;
 }
 
-#welcome .explanation {
+.explanation {
 	position: relative;
 	display: inline-block;
 	padding: 16px;
