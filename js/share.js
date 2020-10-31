@@ -174,7 +174,7 @@ class Share {
 		history.pushState({}, null, newUrl);
 		document.getElementById("shareUrl").value = newUrl;
 
-		document.getElementById("canvas").toBlob((blob) => Share.sendFullCanvas(blob));
+		//document.getElementById("canvas").toBlob((blob) => Share.sendFullCanvas(blob));
 
 	}
 
