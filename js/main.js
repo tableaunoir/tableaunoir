@@ -137,8 +137,8 @@ function load() {
 		}
 		else if (evt.ctrlKey && evt.key == 'c') {//Ctrl + c
 			palette.hide();
-			if (lastDelineation.containsPolygonToMagnetize())
-				lastDelineation.copyAndMagnetize();
+			if (user.lastDelineation.containsPolygonToMagnetize())
+			    user.lastDelineation.copyAndMagnetize();
 		}
 		else if (evt.ctrlKey && evt.key == "v") { //Ctrl + v = print the current magnet
 			palette.hide();
