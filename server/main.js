@@ -110,6 +110,7 @@ class TableauNoir {
    * @description removes the user socket
    */
   removeSocket(socket) {
+    print(socket.userid + " leaves.");
     this.sockets = this.sockets.filter(s => s !== socket);
     this.dispatch({ type: "leave", userid: socket.userid }, socket); //tells the others that socket leaved
   }
