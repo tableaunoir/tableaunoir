@@ -144,7 +144,7 @@ class TableauNoir {
     this.sockets.forEach(s => {
       if (s != exceptSocket) {
         s.send(JSON.stringify(msg))
-        //print("  to user " + s.userid);
+        print("  to user " + s.userid);
       }
     });
   }
