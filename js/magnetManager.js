@@ -215,6 +215,7 @@ class MagnetManager {
 
 
 	static installMagnets() {
+		Share.sendMagnets();
 		let magnets = MagnetManager.getMagnets();
 
 		for (let i = 0; i < magnets.length; i++)

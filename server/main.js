@@ -40,7 +40,7 @@ let lastStr = undefined;
 let iLastStr = 0;
 
 function print(str) {
-  if(lastStr == str) {
+  if (lastStr == str) {
     iLastStr++;
     process.stdout.write(".");
   } else {
@@ -48,7 +48,7 @@ function print(str) {
     process.stdout.write("\n" + str);
     iLastStr = 1;
   }
-  
+
 }
 const tableaunoirs = {};
 
@@ -270,7 +270,22 @@ function treatReceivedMessageFromClient(msg) {
       else
         tableaunoirs[tableaunoirID].storeFullCanvas(msg.data);
 
-      tableaunoirs[tableaunoirID].sendTo(msg);
+      if (msg.to)
+        tableaunoirs[tableaunoirID].sendTo(msg);
+      else
+        tableaunoirs[tableaunoirID].dispatch(msg, msg.socket);
+      break;
+
+
+    case "magnets":
+      if (tableaunoirID == undefined)
+        print("error: magnets message and id undefined");
+
+      if (msg.to)
+        tableaunoirs[tableaunoirID].sendTo(msg);
+      else
+        tableaunoirs[tableaunoirID].dispatch(msg, msg.socket);
+
       break;
 
     //by default other msgs are dispatched

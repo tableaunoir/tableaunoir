@@ -111,7 +111,7 @@ class Share {
 	 * @description treats the msg received from the server
 	 */
 	static _treatReceivedMessage(msg) {
-		if (msg.type != "fullCanvas" && msg.type != "execute")
+		if (msg.type != "fullCanvas" && msg.type != "magnets" && msg.type != "execute")
 			console.log("Server -> me: " + JSON.stringify(msg));
 		else
 			console.log("Server -> me: " + msg.type);
@@ -143,12 +143,14 @@ class Share {
 
 				if (Share.isSmallestUserID()) {
 					canvas.toBlob((blob) => Share.sendFullCanvas(blob, msg.userid));
+					Share.sendFullCanvas(msg.userid);
 					Share.execute("setUserCanWrite", [msg.userid, Share.canWriteValueByDefault]);
 				}
 
 				break;
 			case "leave": users[msg.userid].destroy(); delete users[msg.userid]; Share.updateUsers(); break;
 			case "fullCanvas": BoardManager.loadWithoutSave(msg.data); break;
+			case "magnets": document.getElementById("magnets").innerHTML = msg.magnets; break;
 			case "execute": eval("ShareEvent." + msg.event)(...msg.params);
 		}
 	}
@@ -172,6 +174,11 @@ class Share {
 	 */
 	static sendFullCanvas(blob, to) {
 		Share.send({ type: "fullCanvas", data: canvas.toDataURL(), to: to }); // at some point send the blob directly
+	}
+
+
+	static sendMagnets(to) {
+		Share.send({ type: "magnets", magnets: document.getElementById("magnets").innerHTML, to: to }); // send the html code for all the magnets
 	}
 
 
