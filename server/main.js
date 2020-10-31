@@ -44,6 +44,7 @@ function print(str) {
     iLastStr++;
     process.stdout.write(".");
   } else {
+    lastStr = str;
     process.stdout.write("\n" + str);
     iLastStr = 1;
   }
