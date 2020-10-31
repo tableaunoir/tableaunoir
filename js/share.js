@@ -66,11 +66,17 @@ class Share {
 	}
 
 
-
+	/**
+	 * @returns true iff the board is shared with others
+	 */
 	static isShared() {
 		return Share.id != undefined;
 	}
 
+
+	/**
+	 * @description tries to connect the server to make a shared board
+	 */
 	static share() {
 		try {
 			Share.tryConnect(() => Share.send({ type: "share" }));
@@ -98,6 +104,12 @@ class Share {
 		return (user.userID == minkey);
 	}
 
+
+	/**
+	 * 
+	 * @param {*} msg as an object
+	 * @description treats the msg received from the server
+	 */
 	static _treatReceivedMessage(msg) {
 		if (msg.type != "fullCanvas" && msg.type != "execute")
 			console.log("Server -> me: " + JSON.stringify(msg));
@@ -141,7 +153,12 @@ class Share {
 		}
 	}
 
-
+	/**
+	 * 
+	 * @param {*} msg as an object
+	 * @description send the message to server
+	 * 
+	 */
 	static send(msg) {
 		msg.id = Share.id;
 		this.ws.send(JSON.stringify(msg));
@@ -157,6 +174,14 @@ class Share {
 		Share.send({ type: "fullCanvas", data: canvas.toDataURL(), to: to }); // at some point send the blob directly
 	}
 
+
+	/**
+	 * 
+	 * @param {*} event, an event name (string), that is a method of the class ShareEvent
+	 * @param {*} params an array of parameters
+	 * @description executes the event with the params, that is execute the method event of the class ShareEvent
+	 * with the params. Then send a message to server that this event should be executed for the other users as well
+	 */
 	static execute(event, params) {
 		function adapt(obj) {
 			if (obj instanceof MouseEvent) {
@@ -209,7 +234,11 @@ class Share {
 		let keys = [];
 		for (var key in users) {
 			i++;
-			keys.push(key);
+			if (key == user.userID)
+				keys.push(key + "(me)");
+			else
+				keys.push(key);
+
 		}
 		document.getElementById("users").innerHTML = i + " users: " + keys.join("   ");
 	}

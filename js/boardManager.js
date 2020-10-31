@@ -79,7 +79,7 @@ class BoardManager {
         // if (rectangle == undefined) {
         document.getElementById("canvas").toBlob((blob) => {
             console.log("save that blob: " + blob)
-          //  localStorage.setItem(Share.getTableauNoirID(), canvas.toDataURL());
+            //  localStorage.setItem(Share.getTableauNoirID(), canvas.toDataURL());
             BoardManager.cancelStack.push(blob);
             //Share.sendFullCanvas(blob);
         }
@@ -136,10 +136,10 @@ class BoardManager {
                     console.log("loaded!")
                 }
             }
-            catch(e) {
+            catch (e) {
 
             }
-            
+
         }
         else {
             BoardManager._clear();
@@ -275,7 +275,8 @@ class BoardManager {
      * 
      */
     static cancel() {
-        BoardManager._loadCurrentCancellationStackData(BoardManager.cancelStack.back());
+        if (!Shared.isShared())
+            BoardManager._loadCurrentCancellationStackData(BoardManager.cancelStack.back());
     }
 
 
@@ -284,6 +285,7 @@ class BoardManager {
      * 
      */
     static redo() {
-        BoardManager._loadCurrentCancellationStackData(BoardManager.cancelStack.forward());
+        if (!Shared.isShared())
+            BoardManager._loadCurrentCancellationStackData(BoardManager.cancelStack.forward());
     }
 }
