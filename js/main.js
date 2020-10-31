@@ -16,7 +16,7 @@ function load() {
 	BoardManager.init();
 	Menu.init();
 	Share.init();
-	
+
 	if (navigator.userAgent.match(/Android/i)
 		|| navigator.userAgent.match(/webOS/i)
 		|| navigator.userAgent.match(/iPhone/i)
@@ -24,7 +24,7 @@ function load() {
 		|| navigator.userAgent.match(/iPod/i)
 		|| navigator.userAgent.match(/BlackBerry/i)
 		|| navigator.userAgent.match(/Windows Phone/i)) {
-			buttonCloseControls.hidden = true; //on phone or tablet, we can not remove the toolbar
+		buttonCloseControls.hidden = true; //on phone or tablet, we can not remove the toolbar
 	}
 
 	let changeColor = () => {
@@ -72,6 +72,10 @@ function load() {
 	buttonCancel.onclick = BoardManager.cancel;
 	buttonRedo.onclick = BoardManager.redo;
 
+	let buttons = document.getElementById("controls").children;
+
+	for (let i = 0; i < buttons.length; i++)
+		buttons[i].onfocus = document.activeElement.blur;
 
 	Welcome.init();
 
@@ -139,7 +143,7 @@ function load() {
 		else if (evt.ctrlKey && evt.key == 'c') {//Ctrl + c
 			palette.hide();
 			if (user.lastDelineation.containsPolygonToMagnetize())
-			    user.lastDelineation.copyAndMagnetize();
+				user.lastDelineation.copyAndMagnetize();
 		}
 		else if (evt.ctrlKey && evt.key == "v") { //Ctrl + v = print the current magnet
 			palette.hide();
