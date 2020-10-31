@@ -13,14 +13,14 @@ Tableaunoir is an online blackboard tool. It can be used as a traditional blackb
 
 Tableaunoir is used for teaching at ENS Rennes. The main advantage is that the screen is fully black: there are no buttons that annoy the students (in my personal use, I simply hide the toolbar). Tableaunoir is controlled by a graphic tablet and by the keyboard of the computer (7 keys!). It makes it very interactive compared to fixed slides. 
 
-###Photos in a lecture hall
+### Photos in a lecture hall
 
 
-<img src="./photos/coursparcourslargeur.gif" alt="photo" width="600"/>
+<img src="./photos/tableaunoir_amphi.jpg" alt="photo" width="300"/> <img src="./photos/tableaunoir_amphi2.jpg" alt="photo" width="300"/> <img src="./photos/tableaunoir_amphi3.jpg" alt="photo" width="300"/>
 
-###Example of a course
+### Example of a course
 
-<img src="./img/courstableaunoir_amphi.jpg" alt="photo" width="300"/>
+<img src="./img/coursparcourslargeur.gif" alt="photo" width="300"/>
 
 ## Features
 
