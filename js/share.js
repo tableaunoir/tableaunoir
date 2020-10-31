@@ -179,6 +179,7 @@ class Share {
 
 	static sendMagnets(to) {
 		Share.send({ type: "magnets", magnets: document.getElementById("magnets").innerHTML, to: to }); // send the html code for all the magnets
+		MagnetManager._installMagnetsNoMsg();
 	}
 
 

@@ -214,13 +214,19 @@ class MagnetManager {
 	}
 
 
-	static installMagnets() {
-		Share.sendMagnets();
+	static _installMagnetsNoMsg() {
+		
 		let magnets = MagnetManager.getMagnets();
 
 		for (let i = 0; i < magnets.length; i++)
 			MagnetManager._installMagnet(magnets[i]);
 
+	}
+
+
+	static installMagnets() {
+		Share.sendMagnets();
+		MagnetManager._installMagnetsNoMsg();
 	}
 
 	static _installMagnet(element) {
