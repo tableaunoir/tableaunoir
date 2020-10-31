@@ -84,15 +84,15 @@ class TableauNoir {
 
     //inform the new user socket that the others exist
     this.sockets.forEach(s => {
-      socket.send(JSON.stringify({ type: "join", userid: s.userid }))
-      print("send to " + socket.userid + " " + messageToString({ type: "join", userid: s.userid }));
+      socket.send(JSON.stringify({ type: "user", userid: s.userid }))
+      print("send to " + socket.userid + " " + messageToString({ type: "user", userid: s.userid }));
     });
 
     this.sockets.push(socket);
 
     //send to socket its own userid
-    print("send to " + socket.userid + " " + messageToString({ type: "userid", userid: socket.userid }));
-    socket.send(JSON.stringify({ type: "userid", userid: socket.userid }));
+    print("send to " + socket.userid + " " + messageToString({ type: "youruserid", userid: socket.userid }));
+    socket.send(JSON.stringify({ type: "youruserid", userid: socket.userid }));
 
     //send to socket the last canvas stored
     if (this.data != "")
@@ -126,6 +126,8 @@ class TableauNoir {
     });
 
   }
+
+
   /**
    * 
    * @param {*} msg 
@@ -142,7 +144,7 @@ class TableauNoir {
     this.sockets.forEach(s => {
       if (s != exceptSocket) {
         s.send(JSON.stringify(msg))
-        print("  to user " + s.userid);
+        //print("  to user " + s.userid);
       }
     });
   }

@@ -17,7 +17,7 @@ class Share {
 		Share.ws = new WebSocket(SERVERADRESS);
 		Share.ws.binaryType = "arraybuffer";
 
-		Share.ws.onerror = () => { ErrorMessage.show("Impossible to connect to the server.")};
+		Share.ws.onerror = () => { ErrorMessage.show("Impossible to connect to the server.") };
 
 		Share.ws.onopen = f;
 		Share.ws.onmessage = (msg) => {
@@ -105,7 +105,7 @@ class Share {
 			console.log("Server -> me: " + msg.type);
 		switch (msg.type) {
 			case "id": Share._setTableauID(msg.id); break;
-			case "userid":
+			case "youruserid": // "your name is ..."
 				Share._setMyUserID(msg.userid);
 
 				document.getElementById("shareAndJoin").hidden = true;
@@ -113,14 +113,22 @@ class Share {
 				document.getElementById("shareMode").hidden = false;
 
 				break;
-			case "join":
+			case "user": //there is an existing user
+				if (userid != user.userID)
+					users[userid] = new User();
+				Share.updateUsers();
+				break;
+
+			case "join": //a new user joins the group
+
+				// the leader is the user with the smallest ID
 				if (Share.isSmallestUserID()) {
 					canvas.toBlob((blob) => Share.sendFullCanvas(blob, msg.userid));
+					Share.execute("setUserCanWrite", [msg.userid, Share.canWriteValueByDefault]);
 				}
-
 				users[msg.userid] = new User();
 				Share.updateUsers();
-				Share.execute("setUserCanWrite", [msg.userid, Share.canWriteValueByDefault]);
+
 
 
 				break;
@@ -212,7 +220,7 @@ class Share {
 
 
 	static getTableauNoirID() {
-		if(Share.isSharedURL()) {
+		if (Share.isSharedURL()) {
 			return Share.getIDInSharedURL();
 		}
 		else
