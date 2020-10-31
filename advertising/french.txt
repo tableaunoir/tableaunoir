@@ -6,7 +6,46 @@ Il n'y a rien à installer. L'outil s'utilise de préférence avec une tablette 
 
 https://www.youtube.com/watch?v=P6_lhqiPBow
 
-L'outil est libre. Il offre un peu plus de fonctionnalités qu'un tableau classique, notamment l'utilisation de "magnets".
+Il offre un peu plus de fonctionnalités qu'un tableau classique, notamment l'utilisation de "magnets".
+
+L'outil est libre. Vous pouvez aussi consulter le projet github correspondant :
+https://github.com/tableaunoir/tableaunoir.github.io
+
+Si vous avez des questions, des remarques, des suggestions, n'hésitez pas à me contacter.
+
+Bonne soirée,
+
+François
+
+
+======
+
+Bonjour,
+
+bon courage à tous pour le confinement. N'hésitez pas à utiliser tableaunoir https://tableaunoir.github.io/ développé à Rennes.
+
+Le projet est libre. N'hésitez pas à visiter la page du projet :
+https://github.com/tableaunoir/tableaunoir.github.io
+
+Les nouveautés sont :
+- avec <- et ->, on peut faire défiler le tableau et faire un cours qui fait plus que un tableau
+- on peut partager un tableau et collaborer à plusieurs : https://tableaunoir.irisa.fr
+
+
+
+
+
+Je rappelle le lien vers la vidéo qui montre l'utilisation de tableaunoir :
+https://www.youtube.com/watch?v=P6_lhqiPBow
+
+Il n'y a rien à installer. L'outil s'utilise de préférence avec une tablette graphique. L'outil peut s'utiliser en distanciel (avec Teams, Zoom, Discord, etc.) ou en présentiel. Voici une vidéo de 3min qui montre l'utilisation de tableaunoir :
+
+https://www.youtube.com/watch?v=P6_lhqiPBow
+
+Il offre un peu plus de fonctionnalités qu'un tableau classique, notamment l'utilisation de "magnets".
+
+L'outil est libre. Vous pouvez aussi consulter le projet github correspondant :
+https://github.com/tableaunoir/tableaunoir.github.io
 
 Si vous avez des questions, des remarques, des suggestions, n'hésitez pas à me contacter.
 

@@ -36,6 +36,19 @@ function messageToString(msg) {
 }
 
 
+let lastStr = undefined;
+let iLastStr = 0;
+
+function print(str) {
+  if(lastStr == str) {
+    iLastStr++;
+    process.stdout.write(".");
+  } else {
+    process.stdout.write("\n" + str);
+    iLastStr = 1;
+  }
+  
+}
 const tableaunoirs = {};
 
 /**
@@ -71,13 +84,13 @@ class TableauNoir {
     //inform the new user socket that the others exist
     this.sockets.forEach(s => {
       socket.send(JSON.stringify({ type: "join", userid: s.userid }))
-      console.log("send to " + socket.userid + " " + messageToString({ type: "join", userid: s.userid }));
+      print("send to " + socket.userid + " " + messageToString({ type: "join", userid: s.userid }));
     });
 
     this.sockets.push(socket);
 
     //send to socket its own userid
-    console.log("send to " + socket.userid + " " + messageToString({ type: "userid", userid: socket.userid }));
+    print("send to " + socket.userid + " " + messageToString({ type: "userid", userid: socket.userid }));
     socket.send(JSON.stringify({ type: "userid", userid: socket.userid }));
 
     //send to socket the last canvas stored
@@ -87,7 +100,7 @@ class TableauNoir {
     //inform the others that socket arrives
     this.dispatch({ type: "join", userid: socket.userid }, socket);
 
-    console.log("users are " + this.sockets.map((s) => s.userid).join(","));
+    print("users are " + this.sockets.map((s) => s.userid).join(","));
   }
 
   /**
@@ -107,7 +120,7 @@ class TableauNoir {
     this.sockets.forEach(s => {
       if (s.userid == msg.to) {
         s.send(JSON.stringify(msg))
-        console.log("  to user " + s.userid);
+        print("  to user " + s.userid);
       }
     });
 
@@ -122,13 +135,13 @@ class TableauNoir {
     delete msg.socket;
 
     if (this.sockets.length > 1)
-      console.log("dispatch ", messageToString(msg));
+      print("dispatch ", messageToString(msg));
 
 
     this.sockets.forEach(s => {
       if (s != exceptSocket) {
         s.send(JSON.stringify(msg))
-        console.log("  to user " + s.userid);
+        print("  to user " + s.userid);
       }
     });
   }
@@ -198,16 +211,16 @@ let server = createWebSocketServerNormal();
 
 let sockets = [];
 
-console.log("Tableaunoir server -- Welcome");
+print("Tableaunoir server -- Welcome");
 
 server.on('connection', function (socket) {
-  console.log("New connection!")
+  print("New connection!")
   socket.userid = UserManager.generateUserID();
   sockets.push(socket);
 
   socket.on('message', (msg) => {
     msg = JSON.parse(msg);
-    console.log("from user " + socket.userid + " received " + messageToString(msg));
+    print("from user " + socket.userid + " received " + messageToString(msg));
     msg.socket = socket;
     treatReceivedMessageFromClient(msg);
   });
@@ -240,7 +253,7 @@ function treatReceivedMessageFromClient(msg) {
 
     case "join":
       if (tableaunoirs[tableaunoirID] == undefined) {
-        console.log("automatic creation of a tableaunoir of id " + msg.id)
+        print("automatic creation of a tableaunoir of id " + msg.id)
         tableaunoirs[tableaunoirID] = new TableauNoir();
       }
       msg.socket.id = tableaunoirID;
@@ -249,7 +262,7 @@ function treatReceivedMessageFromClient(msg) {
 
     case "fullCanvas":
       if (tableaunoirID == undefined)
-        console.log("error: fullCanvas message and id undefined");
+        print("error: fullCanvas message and id undefined");
       else
         tableaunoirs[tableaunoirID].storeFullCanvas(msg.data);
 
