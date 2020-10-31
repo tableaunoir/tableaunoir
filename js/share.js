@@ -114,8 +114,8 @@ class Share {
 
 				break;
 			case "user": //there is an existing user
-				if (userid != user.userID)
-					users[userid] = new User();
+				if (msg.userid != user.userID)
+					users[msg.userid] = new User();
 				Share.updateUsers();
 				break;
 
