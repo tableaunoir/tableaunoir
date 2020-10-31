@@ -114,22 +114,25 @@ class Share {
 
 				break;
 			case "user": //there is an existing user
-				if (msg.userid != user.userID)
-					users[msg.userid] = new User();
+				console.log("existing user: ", msg.userid)
+				if (msg.userid == user.userID)
+					throw "oops... an already existing user has the same name than me";
+
+				users[msg.userid] = new User();
 				Share.updateUsers();
 				break;
 
 			case "join": //a new user joins the group
-
+				console.log("a new user is joining: ", msg.userid)
 				// the leader is the user with the smallest ID
+
+				users[msg.userid] = new User();
+				Share.updateUsers();
+
 				if (Share.isSmallestUserID()) {
 					canvas.toBlob((blob) => Share.sendFullCanvas(blob, msg.userid));
 					Share.execute("setUserCanWrite", [msg.userid, Share.canWriteValueByDefault]);
 				}
-				users[msg.userid] = new User();
-				Share.updateUsers();
-
-
 
 				break;
 			case "leave": users[msg.userid].destroy(); delete users[msg.userid]; Share.updateUsers(); break;
