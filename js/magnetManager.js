@@ -396,6 +396,8 @@ class MagnetManager {
 
 
 	static removeCurrentMagnet() {
+		if (MagnetManager.currentMagnet == undefined)
+			return;
 		MagnetManager.currentMagnet.remove();
 		MagnetManager.currentMagnet == undefined;
 		MagnetManager.magnetUnderCursor = undefined;
