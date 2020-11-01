@@ -141,8 +141,6 @@ class User {
 
 
     mousemove(evt) {
-        console.log("mousemove")
-
         let evtX = evt.offsetX;
         let evtY = evt.offsetY;
 
