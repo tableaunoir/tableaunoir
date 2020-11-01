@@ -1,3 +1,6 @@
+/**
+ * This class represents a polyline drawn by a user
+ */
 class Delineation {
 
     points = [];
@@ -37,7 +40,7 @@ class Delineation {
     }
 
     removePolygon() {
-        if(document.getElementById("magnetCreationPolygon"))
+        if (document.getElementById("magnetCreationPolygon"))
             svg.removeChild(document.getElementById("magnetCreationPolygon"));
     }
 
@@ -105,18 +108,6 @@ class Delineation {
     dotInPreviousPolygon() {
         return Delineation.inPolygon(this.points[0], this.lastpoints);
     }
-    /**
-     * @description magnetize the "selected" part of the blackboard.
-     */
-    copyAndMagnetize() {
-        if (!this.isSuitable())
-            return;
-
-        this._removeContour();
-        this._createMagnetFromImg();
-        BoardManager.save();
-    }
-
 
     erase() {
         if (!this.isSuitable())
@@ -141,6 +132,22 @@ class Delineation {
         BoardManager.save();
     }
 
+
+    /**
+    * @description magnetize the "selected" part of the blackboard.
+    */
+    copyAndMagnetize() {
+        if (!this.isSuitable())
+            return;
+
+        this._removeContour();
+        this._createMagnetFromImg();
+        BoardManager.save();
+    }
+
+
+
+
     isSuitable() {
         for (let point of this.points) {
             if (Math.abs(point.x - this.points[0].x) > 16 &&
@@ -156,7 +163,7 @@ class Delineation {
         context.strokeStyle = "rgba(255, 255, 255, 1)";
         context.lineWidth = 6;
         context.globalAlpha = 1.0;
-        
+
 
         context.moveTo(this.points[0].x, this.points[0].y);
         for (let point of this.points) {

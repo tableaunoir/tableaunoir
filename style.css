@@ -14,19 +14,28 @@ body {
 }
 
 canvas {
-	background-color: black;
 	margin: 0px;
 	padding: 0px;
-	z-index: -10000;
+	z-index: 1;
+}
+
+#canvasBackground {
+	position: absolute;
+	z-index: 0;
 }
 
 #board {
 	position: relative;
 	margin: 0px;
 	padding: 0px;
-	height: 100%;
 }
 
+
+#content {
+	position: relative;
+	margin: 0px;
+	padding: 0px;
+}
 
 
 .pageNumberHidden {
@@ -38,7 +47,7 @@ canvas {
 	top: 0px;
 	left: 0px;
 	background-color: rgb(68, 68, 68);
-	color: white;	
+	color: white;
 }
 
 #controls span {
@@ -415,11 +424,11 @@ h1 {
 	padding: 16px;
 	margin: 8px;
 	width: 42%;
-	vertical-align: top; 
+	vertical-align: top;
 }
 
 .explanation img {
-	width:150px;
+	width: 150px;
 	margin-left: 20px;
 	display: block;
 }

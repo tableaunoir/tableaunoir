@@ -1,3 +1,5 @@
+const ERASEMODEDEFAULTSIZE = 10;
+
 class User {
     xInit = 0;
     yInit = 0;
@@ -122,8 +124,14 @@ class User {
         this.eraseModeBig = false;
 
         if (this.canWrite) {
-            this.lastDelineation.reset();
-            this.lastDelineation.addPoint({ x: this.x, y: this.y });
+            if (this.eraseMode) {
+                clearLine(this.x, this.y, this.x, this.y, ERASEMODEDEFAULTSIZE);
+            }
+            else {
+                this.lastDelineation.reset();
+                this.lastDelineation.addPoint({ x: this.x, y: this.y });
+            }
+
         }
 
 
@@ -133,7 +141,7 @@ class User {
 
 
     mousemove(evt) {
-        //console.log("mousemove")
+        console.log("mousemove")
 
         let evtX = evt.offsetX;
         let evtY = evt.offsetY;
@@ -142,7 +150,7 @@ class User {
         this.cursor.style.top = evtY - 8;
 
         if (this.canWrite) {
-            if (this.isDrawing && this.lastDelineation.isDrawing()) {
+            if (this.isDrawing) {//} && this.lastDelineation.isDrawing()) {
                 palette.hide();
                 if (this.eraseMode) {
                     let lineWidth = 10;
@@ -162,14 +170,15 @@ class User {
                 }
                 else {
 
+                    if (this.lastDelineation.isDrawing()) {//this guard is because, when a magnet is created the user does not know the drawing stopped.
+                        drawLine(document.getElementById("canvas").getContext("2d"), this.x, this.y, evtX, evtY, evt.pressure, this.color);
+                        this.lastDelineation.addPoint({ x: evtX, y: evtY });
+                    } 
+                        
 
-                    drawLine(this.x, this.y, evtX, evtY, evt.pressure, this.color);
-
-                    this.lastDelineation.addPoint({ x: evtX, y: evtY });
+                    
 
                 }
-                this.x = evtX;
-                this.y = evtY;
 
                 if (Math.abs(this.x - this.xInit) > 1 || Math.abs(this.y - this.yInit) > 1)
                     this.alreadyDrawnSth = true;

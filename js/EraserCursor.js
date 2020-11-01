@@ -22,10 +22,10 @@ class EraserCursor {
 
         ctx.beginPath();
         ctx.arc(radius, radius, radius, 0, 2 * Math.PI);
-        ctx.strokeStyle = document.getElementById("canvas").style.backgroundColor == "black" ? "white" : "black";
+        ctx.strokeStyle = BoardManager.getBackgroundColor() == "black" ? "white" : "black";
         ctx.lineWidth = 1;
         ctx.stroke();
-        ctx.fillStyle =  document.getElementById("canvas").style.backgroundColor == "black" ? "rgba(255, 255, 255, 0.2)" : "rgba(0, 0, 0, 0.2)";
+        ctx.fillStyle =  BoardManager.getBackgroundColor() == "black" ? "rgba(255, 255, 255, 0.2)" : "rgba(0, 0, 0, 0.2)";
         ctx.fill();
         return canvas.toDataURL();
     }

@@ -12,6 +12,9 @@ function load() {
 	users['root'] = user;
 	user.setUserID('root');
 
+	buttonNoBackground.onclick = () => { backgroundClear(); Menu.hide(); };
+	buttonMusicScore.onclick = () => { musicScore(); Menu.hide(); };
+
 	LoadSave.init();
 	BoardManager.init();
 	Menu.init();
@@ -180,6 +183,7 @@ function load() {
 		evt.preventDefault();
 		Share.execute("mousedown", [user.userID, evt])
 	};
+	document.getElementById("canvasBackground").onpointermove = (evt) => { console.log("mousemove on the background should not occur") };
 	document.getElementById("canvas").onpointermove = (evt) => { evt.preventDefault(); Share.execute("mousemove", [user.userID, evt]) };
 	document.getElementById("canvas").onpointerup = (evt) => { evt.preventDefault(); Share.execute("mouseup", [user.userID, evt]) };
 	//document.getElementById("canvas").onmousedown = mousedown;
@@ -213,8 +217,7 @@ function resize() {
 }
 
 
-function drawLine(x1, y1, x2, y2, pressure = 1.0, color = user.getCurrentColor()) {
-	const context = document.getElementById("canvas").getContext("2d");
+function drawLine(context, x1, y1, x2, y2, pressure = 1.0, color = user.getCurrentColor()) {
 	context.beginPath();
 	context.strokeStyle = color;
 	context.globalCompositeOperation = "source-over";
@@ -258,7 +261,37 @@ function clearLine(x1, y1, x2, y2, lineWidth = 10) {
 function divideScreen() {
 	console.log("divide the screen")
 	let x = container.scrollLeft + window.innerWidth / 2;
-	drawLine(x, 0, x, window.innerHeight, 1, BoardManager.getDefaultChalkColor());
+	drawLine(canvas.getContext("2d"), x, 0, x, window.innerHeight, 1, BoardManager.getDefaultChalkColor());
+	BoardManager.saveCurrentScreen();
+}
+
+
+function backgroundClear() {
+	canvasBackground.getContext("2d").clearRect(0, 0, canvasBackground.width, canvasBackground.height);
+}
+
+
+function musicScore() {
+	backgroundClear();
+	let COLORSTAFF = "rgb(128, 128, 255)";
+	let fullHeight = window.innerHeight - 32;
+	let x = container.scrollLeft;
+	let x2 = container.scrollLeft + window.innerWidth;
+	let ymiddleScreen = fullHeight / 2;
+	let yshift = fullHeight / 7;
+	let drawStaff = (ymiddle) => {
+		let space = fullHeight / 30;
+
+		for (let i = -2; i <= 2; i++) {
+			let y = ymiddle + i * space;
+			drawLine(canvasBackground.getContext("2d"), x, y, x2, y, 1.0, COLORSTAFF);
+		}
+	}
+
+
+	drawStaff(ymiddleScreen - yshift);
+	drawStaff(ymiddleScreen + yshift);
+
 	BoardManager.saveCurrentScreen();
 }
 

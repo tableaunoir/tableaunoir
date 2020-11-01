@@ -209,7 +209,7 @@ class MagnetManager {
 			for (let j = 0; j < nodes.length; j++) {
 				if (Math.abs(nodes[i].x - nodes[j].x) + Math.abs(nodes[i].y - nodes[j].y) < 400 && !isCrossing(i, j)) {
 					edges[i][j] = 1;
-					drawLine(nodes[i].x, nodes[i].y, nodes[j].x, nodes[j].y);
+					drawLine(context, nodes[i].x, nodes[i].y, nodes[j].x, nodes[j].y);
 				}
 			}
 

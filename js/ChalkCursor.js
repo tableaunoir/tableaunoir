@@ -17,7 +17,7 @@ class ChalkCursor {
         const canvas = document.createElement('canvas');
         canvas.width = sizeX;
         canvas.height = sizeY;
-        const ctx = canvas.getContext("2d");
+        const context = canvas.getContext("2d");
 
         /*  ctx.beginPath();
           ctx.moveTo(0, 0);
@@ -42,24 +42,24 @@ class ChalkCursor {
         const p2 = { x: sizeHead * Math.cos(angleMinus), y: sizeHead * Math.sin(angleMinus) };
         const ll = {x : length * Math.cos(angle), y: length * Math.sin(angle) };
 
-        ctx.beginPath();
-        ctx.moveTo(0, 0);
-        ctx.lineTo(p1.x, p1.y);
-        ctx.lineTo(p1.x + ll.x, p1.y + ll.y);
-        ctx.lineTo(p2.x + ll.x, p2.y + ll.y);
-        ctx.lineTo(p2.x, p2.y);
-        ctx.lineTo(0, 0);
+        context.beginPath();
+        context.moveTo(0, 0);
+        context.lineTo(p1.x, p1.y);
+        context.lineTo(p1.x + ll.x, p1.y + ll.y);
+        context.lineTo(p2.x + ll.x, p2.y + ll.y);
+        context.lineTo(p2.x, p2.y);
+        context.lineTo(0, 0);
 
-        ctx.lineWidth = 1;
-        ctx.strokeStyle = "black";
-        ctx.stroke();
-        ctx.fillStyle = color;
-        ctx.fill();
+        context.lineWidth = 1;
+        context.strokeStyle = "black";
+        context.stroke();
+        context.fillStyle = color;
+        context.fill();
 
-        ctx.beginPath();
-        ctx.moveTo(sizeHead * Math.cos(anglePlus), sizeHead * Math.sin(anglePlus));
-        ctx.lineTo(sizeHead * Math.cos(angleMinus), sizeHead * Math.sin(angleMinus));
-        ctx.stroke();
+        context.beginPath();
+        context.moveTo(sizeHead * Math.cos(anglePlus), sizeHead * Math.sin(anglePlus));
+        context.lineTo(sizeHead * Math.cos(angleMinus), sizeHead * Math.sin(angleMinus));
+        context.stroke();
 
         return canvas.toDataURL();
     }

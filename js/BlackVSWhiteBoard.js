@@ -4,7 +4,7 @@
 class BlackVSWhiteBoard {
 
     static init() {
-        document.getElementById("canvas").style.backgroundColor = "black";
+        document.getElementById("canvasBackground").style.backgroundColor = "black";
         document.getElementById("whiteBoardSwitch").onclick = BlackVSWhiteBoard.switch;
         document.getElementById("blackBoardSwitch").onclick = BlackVSWhiteBoard.switch;
     }
@@ -14,7 +14,7 @@ class BlackVSWhiteBoard {
      * switch between whiteboard and blackboard
      */
     static switch() {
-        const previousBackgroundColor = document.getElementById("canvas").style.backgroundColor;
+        const previousBackgroundColor = document.getElementById("canvasBackground").style.backgroundColor;
         const backgroundColor = previousBackgroundColor == "white" ? "black" : "white";
 
         document.getElementById(backgroundColor + "BoardSwitch").hidden = true;
@@ -24,7 +24,7 @@ class BlackVSWhiteBoard {
         console.log("previous background color was " + previousBackgroundColor);
         console.log("switch to " + backgroundColor + "board")
         palette.switchBlackAndWhite();
-        document.getElementById("canvas").style.backgroundColor = backgroundColor;
+        document.getElementById("canvasBackground").style.backgroundColor = backgroundColor;
 
         BlackVSWhiteBoard._invertCanvas();
     }

@@ -34,15 +34,19 @@
 		<button id="buttonRedo" title="Redo the last action">↪ Redo</button>
 		<button id="buttonLeft" title="Go left">← Left</button>
 		<button id="buttonRight" title="Go right">→ Right</button>
-		<button id="buttonCloseControls" title="Hide this toolbar (it can be shown again in the menu)" onclick="controls.hidden = true; welcome.hidden = true;">Hide toolbar</button>
+		<button id="buttonCloseControls" title="Hide this toolbar (it can be shown again in the menu)"
+			onclick="controls.hidden = true; welcome.hidden = true;">Hide toolbar</button>
 	</div>
-	<div id="container">
-		<div id="board">
-			<canvas width=2000 height=1200 id="canvas"></canvas>
-			<div id="magnets"></div>
-			<svg id="svg" width=2500 height=1300></svg>
-			<div id="cursors"></div>
-			<div id="palette" class="PaletteHide"></div>
+	<div id="content">
+		<canvas id="canvasBackground" width=2000 height=1200 ></canvas>
+		<div id="container">
+			<div id="board">
+				<canvas width=2000 height=1200 id="canvas"></canvas>
+				<div id="magnets"></div>
+				<svg id="svg" width=2500 height=1300></svg>
+				<div id="cursors"></div>
+				<div id="palette" class="PaletteHide"></div>
+			</div>
 		</div>
 	</div>
 
@@ -57,7 +61,7 @@
 			<img src="img/welcome_tableaunoir.png" />
 			This <em>online blackboard</em> is ideally used with a <em>graphics
 				tablet</em>. Your audience is <em>concentrated
-					on the content</em> if you hide the toolbar and use keyboard shortcuts.
+				on the content</em> if you hide the toolbar and use keyboard shortcuts.
 
 		</div>
 
@@ -67,10 +71,11 @@
 			<em>interactive
 				courses</em>,
 			presentations and discussions with students.</em></div>
-	
+
 		<div class="explanation">
 			<img src="img/shareInEverybodyWritesMode.png" />
-			Blackboards are sharable in order to <em>collaborate</em> with your friends (feature still in development). Open the menu!
+			Blackboards are sharable in order to <em>collaborate</em> with your friends (feature still in development).
+			Open the menu!
 		</div>
 		<div class="explanation">
 			<img src="img/welcome_open.png" />
@@ -84,7 +89,7 @@
 				href="https://github.com/tableaunoir/tableaunoir.github.io">https://github.com/tableaunoir/tableaunoir.github.io</a>
 		</div>
 
-		
+
 
 	</div>
 
@@ -95,7 +100,7 @@
 			<button class="tablink" onclick="Menu.openPage('Share', this)">🔗 Share</button>
 			<button class="tablink" onclick="Menu.openPage('Magnets', this)">🎊 Magnets</button>
 
-			<button class="tablink" onclick="Menu.openPage('Options', this)">⚛ 	Options</button>
+			<button class="tablink" onclick="Menu.openPage('Options', this)">⚛ Options</button>
 
 			<button class="tablink" onclick="Menu.openPage('KeyboardShortcuts', this)" id="defaultOpen">⌨ Keyboard
 				Shortcuts</button>
@@ -111,28 +116,29 @@
 					<img src="img/welcome_tableaunoir.png" />
 					Tableaunoir is an <em>online blackboard</em>. It is ideally used with a <em>graphics
 						tablet</em>. Your audience is <em>concentrated
-							on the content</em> if you hide the toolbar and use keyboard shortcuts.
-		
+						on the content</em> if you hide the toolbar and use keyboard shortcuts.
+
 				</div>
-		
+
 				<div class="explanation">
 					<img src="img/welcome_magnets.png" />
 					You may create <em>magnets</em> (think of them as fridge magnets) for making
 					<em>interactive
 						courses</em>,
 					presentations and discussions with students.</em></div>
-			
+
 				<div class="explanation">
 					<img src="img/shareInEverybodyWritesMode.png" />
-					Blackboards are sharable in order to <em>collaborate</em> with your friends (feature still in development). Open the menu!
+					Blackboards are sharable in order to <em>collaborate</em> with your friends (feature still in
+					development). Open the menu!
 				</div>
 				<div class="explanation">
 					<img src="img/welcome_open.png" />
 					Work
 					best on
 					Firefox, Chrome or Chromium, last versions.
-		
-		
+
+
 					The project is <em>open source</em>. See:
 					<a target="_blank" rel="noopener noreferrer"
 						href="https://github.com/tableaunoir/tableaunoir.github.io">https://github.com/tableaunoir/tableaunoir.github.io</a>
@@ -151,6 +157,11 @@
 					<button class="buttonClear" id="clearMagnet">
 						<img src="img/magnet_delete.png" /><br />Remove all the magnets</button>
 				</div>
+				<h2>Add a background</h2>
+				<button id="buttonNoBackground">
+					<img src="img/nobackground.png" /><br />No background</button>
+				<button class="buttonMusicScore" id="buttonMusicScore">
+					<img src="img/backgroundmusicscore.png" /><br />Music score</button>
 				<h2>Load</h2>
 				<div class="menuDiv">
 					To import an existing board, drag and drop your <em>.tableaunoir file</em> in the application.

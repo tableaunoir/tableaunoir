@@ -23,6 +23,11 @@ class BoardManager {
 
     }
 
+
+    static getBackgroundColor() {
+        return document.getElementById("canvasBackground").style.backgroundColor;
+    }
+    
     /**
         * erase the board
         */
@@ -45,7 +50,7 @@ class BoardManager {
 
 
     static getDefaultChalkColor() {
-        return (document.getElementById("canvas").style.backgroundColor == "black") ? "white" : "black";
+        return (document.getElementById("canvasBackground").style.backgroundColor == "black") ? "white" : "black";
     }
 
 
