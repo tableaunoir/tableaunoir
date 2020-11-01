@@ -1,2 +1,2 @@
 git pull
-node main.js & disown & 
+nohup node main.js &
