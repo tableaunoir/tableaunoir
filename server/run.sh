@@ -1,2 +1,2 @@
 git pull
-node main.js
+node main.js & disown & 
