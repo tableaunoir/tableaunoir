@@ -93,6 +93,9 @@ function load() {
 
 	document.onkeydown = (evt) => {
 		//console.log("ctrl: " + evt.ctrlKey + " shift:" + evt.shiftKey + "key: " + evt.key)
+		if (evt.key == "Backspace")
+			evt.preventDefault();
+
 		if (evt.key == "Escape" || evt.key == "F1") {//escape => show menu
 			if (Welcome.isShown())
 				Welcome.hide();
