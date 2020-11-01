@@ -38,7 +38,7 @@
 			onclick="controls.hidden = true; welcome.hidden = true;">Hide toolbar</button>
 	</div>
 	<div id="content">
-		<canvas id="canvasBackground" width=2000 height=1200 ></canvas>
+		<canvas id="canvasBackground" width=2000 height=1200></canvas>
 		<div id="container">
 			<div id="board">
 				<canvas width=2000 height=1200 id="canvas"></canvas>
@@ -164,7 +164,11 @@
 					<img src="img/backgroundmusicscore.png" /><br />Music score</button>
 				<h2>Load</h2>
 				<div class="menuDiv">
-					To import an existing board, drag and drop your <em>.tableaunoir file</em> in the application.
+					<label for="file">
+						To open an existing board, drag and drop your <em>.tableaunoir file</em> in the application or
+						choose a file:</label>
+					</br>
+					<input type="file" id="file" name="file" accept="image/png, image/jpeg, .tableaunoir" />
 				</div>
 				<h2>Save</h2>
 

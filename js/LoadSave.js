@@ -4,8 +4,17 @@ class LoadSave {
      * @description initialize the button Save and the drag and drop of files
      */
     static init() {
+        /**
+         * load a file from the <input type="file"...>
+         */
+        document.getElementById("file").onchange = function (evt) {
+            LoadSave.loadFile(this.files[0]);
+        };
+
+
+
         document.getElementById("save").onclick = LoadSave.save;
-        //document.getElementById("load").onchange = LoadSave.load;
+        
         document.body.ondragover = (event) => {
             // Prevent default behavior (Prevent file from being opened)
             event.preventDefault();
