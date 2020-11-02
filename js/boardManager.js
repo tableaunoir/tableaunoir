@@ -27,7 +27,7 @@ class BoardManager {
     static getBackgroundColor() {
         return document.getElementById("canvasBackground").style.backgroundColor;
     }
-    
+
     /**
         * erase the board
         */
@@ -68,18 +68,23 @@ class BoardManager {
 
 
 
+    static isCancelRedoActivated() {
+        return (!Share.isShared() && !Layout.isTactileDevice());
+    }
+
     /**
      * save the current board into the cancel/redo stack but also in the localStorage of the browser
      */
     static save(rectangle) {
         // if (rectangle == undefined) {
-        document.getElementById("canvas").toBlob((blob) => {
-            console.log("save that blob: " + blob)
-            //  localStorage.setItem(Share.getTableauNoirID(), canvas.toDataURL());
-            BoardManager.cancelStack.push(blob);
-            //Share.sendFullCanvas(blob);
-        }
-        );
+        if (BoardManager.isCancelRedoActivated())
+            document.getElementById("canvas").toBlob((blob) => {
+                console.log("save that blob: " + blob)
+                //  localStorage.setItem(Share.getTableauNoirID(), canvas.toDataURL());
+                BoardManager.cancelStack.push(blob);
+                //Share.sendFullCanvas(blob);
+            }
+            );
         /*}
           else {
               BoardManager._toBlobOfRectangle(rectangle, (blob) => {
@@ -271,7 +276,7 @@ class BoardManager {
      * 
      */
     static cancel() {
-        if (!Share.isShared())
+        if (BoardManager.isCancelRedoActivated())
             BoardManager._loadCurrentCancellationStackData(BoardManager.cancelStack.back());
     }
 
@@ -281,7 +286,7 @@ class BoardManager {
      * 
      */
     static redo() {
-        if (!Share.isShared())
+        if (BoardManager.isCancelRedoActivated())
             BoardManager._loadCurrentCancellationStackData(BoardManager.cancelStack.forward());
     }
 }

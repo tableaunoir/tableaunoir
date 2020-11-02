@@ -1,6 +1,6 @@
 class Layout {
 
-    static STANDARDHEIGHT = 1000;
+    static STANDARDHEIGHT = 800;
 
     static init() {
         console.log("Layout.init()")
@@ -25,7 +25,7 @@ class Layout {
 
 
     static getZoom() {
-        return Layout.STANDARDHEIGHT / window.innerHeight;
+        return Layout.STANDARDHEIGHT / screen.height;
     }
     static _initModeClassic() {
         if (document.getElementById("canvas").width < window.innerWidth)
@@ -49,7 +49,7 @@ class Layout {
         window.addEventListener("resize", Layout._resize);
 
         Layout.getWindowHeight = () => { return Layout.STANDARDHEIGHT; };
-        Layout.getWindowWidth = () => { return Layout.STANDARDHEIGHT * window.innerWidth / window.innerHeight; };
+        Layout.getWindowWidth = () => { return window.innerWidth * Layout.getZoom(); };
 
         Layout._resize();
     }
@@ -59,7 +59,7 @@ class Layout {
     static _resize() {
         console.log("resize");
         //if(window.innerHeight > Layout.STANDARDHEIGHT)
-        document.getElementById("content").style.transform = `scale(${screen.height / Layout.STANDARDHEIGHT})`;
+        document.getElementById("content").style.transform = `scale(${1 / Layout.getZoom()})`;
         //BoardManager.resize(window.innerWidth, window.innerHeight);
 
     }
