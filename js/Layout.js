@@ -4,7 +4,7 @@ class Layout {
 
     static init() {
         console.log("Zoom.init()")
-        Layout._initModeCLassic();
+        Layout._initModeClassic();
     }
 
 
