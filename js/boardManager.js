@@ -69,7 +69,7 @@ class BoardManager {
 
 
     static isCancelRedoActivated() {
-        return (!Share.isShared() && !Layout.isTactileDevice());
+        return !Share.isShared();//(!Share.isShared() && !Layout.isTactileDevice());
     }
 
     /**

@@ -219,6 +219,7 @@ function load() {
 
 
 function drawLine(context, x1, y1, x2, y2, pressure = 1.0, color = user.getCurrentColor()) {
+	//console.log(pressure)
 	context.beginPath();
 	context.strokeStyle = color;
 	context.globalCompositeOperation = "source-over";

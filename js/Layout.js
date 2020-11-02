@@ -25,7 +25,8 @@ class Layout {
 
 
     static getZoom() {
-        return Layout.STANDARDHEIGHT / screen.height;
+        return 1;
+        //return Layout.STANDARDHEIGHT / screen.height;
     }
     static _initModeClassic() {
         if (document.getElementById("canvas").width < window.innerWidth)
