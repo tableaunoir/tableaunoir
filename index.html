@@ -22,6 +22,7 @@
 	<script src="js/share.js"></script>
 	<script src="js/ShareEvent.js"></script>
 	<script src="js/ErrorMessage.js"></script>
+	<script src="js/Toolbar.js"></script>
 </head>
 
 <body>
@@ -29,13 +30,14 @@
 		<button id="buttonMenu">☕ Menu</button><span>Esc.</span>
 		<button id="buttonColors" title="Choose your color">🎨 Colors</button><span>c</span>
 		<button id="buttonEraser" title="Switch between erase and draw">⌫ Eraser</button><span>e</span>
+		<button id="buttonText" title="Add some text written with the keyboard">Text</button><span>Enter</span>
 		<button id="buttonDivide" title="Divide the screen vertically in two">| Divide</button><span>d</span>
 		<button id="buttonCancel" title="Cancel the last action">↩ Cancel</button>
 		<button id="buttonRedo" title="Redo the last action">↪ Redo</button>
 		<button id="buttonLeft" title="Go left">← Left</button>
 		<button id="buttonRight" title="Go right">→ Right</button>
 		<button id="buttonCloseControls" title="Hide this toolbar (it can be shown again in the menu)"
-			onclick="controls.hidden = true; welcome.hidden = true;">Hide toolbar</button>
+			onclick="controls.hidden = true; welcome.hidden = true;">Hide toolbar</button><span>h</span>
 	</div>
 	<div id="content">
 		<canvas id="canvasBackground" width=2000 height=1200></canvas>

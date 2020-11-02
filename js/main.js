@@ -19,16 +19,9 @@ function load() {
 	BoardManager.init();
 	Menu.init();
 	Share.init();
+	Toolbar.init();
+	
 
-	if (navigator.userAgent.match(/Android/i)
-		|| navigator.userAgent.match(/webOS/i)
-		|| navigator.userAgent.match(/iPhone/i)
-		|| navigator.userAgent.match(/iPad/i)
-		|| navigator.userAgent.match(/iPod/i)
-		|| navigator.userAgent.match(/BlackBerry/i)
-		|| navigator.userAgent.match(/Windows Phone/i)) {
-		buttonCloseControls.hidden = true; //on phone or tablet, we can not remove the toolbar
-	}
 
 	let changeColor = () => {
 		if (MagnetManager.getMagnetUnderCursor() == undefined) { //if no magnet under the cursor, change the color of the chalk
@@ -69,7 +62,9 @@ function load() {
 	buttonMenu.onclick = Menu.toggle;
 	buttonColors.onclick = changeColor;
 	buttonEraser.onclick = switchChalkEraser;
+	buttonText.onclick = () => MagnetManager.addMagnetText(user.x, user.y);
 	buttonDivide.onclick = divideScreen;
+
 	buttonLeft.onclick = BoardManager.left;
 	buttonRight.onclick = BoardManager.right;
 	buttonCancel.onclick = BoardManager.cancel;
@@ -141,6 +136,8 @@ function load() {
 
 		else if (evt.key == "e")  //e = switch eraser and chalk
 			switchChalkEraser();
+		else if (evt.key == "h")
+			Toolbar.toggle();
 		else if (evt.ctrlKey && evt.key == 'x') {//Ctrl + x 
 			palette.hide();
 			if (user.lastDelineation.containsPolygonToMagnetize())

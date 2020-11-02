@@ -252,6 +252,7 @@ class MagnetManager {
 
 			function dragMouseDown(e) {
 				drag = true;
+				MagnetManager.currentMagnet = e.target;
 				/**
 				 * 
 				 * @param {*} el 
@@ -321,7 +322,9 @@ class MagnetManager {
 
 				drag = false;
 				console.log("close drag")
-				e.target.classList.remove("magnetDrag");
+
+				if (e.target != undefined)
+					e.target.classList.remove("magnetDrag");
 				canvas.style.cursor = canvasCursorStore;
 
 				// stop moving when mouse button is released:
