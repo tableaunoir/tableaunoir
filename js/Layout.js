@@ -4,7 +4,7 @@ class Layout {
 
     static init() {
         console.log("Layout.init()")
-        Layout._initModeResize();
+        Layout._initModeClassic();
 
     }
 
