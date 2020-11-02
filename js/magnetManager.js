@@ -323,8 +323,9 @@ class MagnetManager {
 				drag = false;
 				console.log("close drag")
 
-				if (e.target != undefined)
+				if (e.target.classList != undefined) //it is undefined = dropped outside the screen. TODO: delete the magnets?
 					e.target.classList.remove("magnetDrag");
+
 				canvas.style.cursor = canvasCursorStore;
 
 				// stop moving when mouse button is released:
