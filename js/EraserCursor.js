@@ -9,7 +9,7 @@ class EraserCursor {
     */
     static getStyleCursor(size = 20) {
         if(size > 128) size = 128;
-        return `url(${EraserCursor.getCursorURL(size)}) ${size/2} ${size/2}, auto`;
+        return {data: EraserCursor.getCursorURL(size), x: size/2, y: size/2};
     }
 
 

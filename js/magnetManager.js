@@ -74,7 +74,7 @@ class MagnetManager {
 		element.style.top = MagnetManager.magnetY + "px";
 
 		//done with setTimeout because images may be loaded
-		setTimeout(() => element.style.zIndex = window.innerWidth - element.clientWidth, 400);
+		setTimeout(() => element.style.zIndex = Layout.getWindowWidth() - element.clientWidth, 400);
 
 		MagnetManager.magnetX += 64;
 		MagnetManager.currentMagnet = element;
@@ -123,8 +123,8 @@ class MagnetManager {
 				let count = 0;
 				const margin = 32;
 				do {
-					x = rect.x1 + (Math.random() * window.innerWidth);
-					y = rect.y1 + (Math.random() * 3 * window.innerHeight / 4);
+					x = rect.x1 + (Math.random() * Layout.getWindowWidth());
+					y = rect.y1 + (Math.random() * 3 * Layout.getWindowHeight() / 4);
 
 					x = Math.max(x, rect.x1 + margin);
 					y = Math.max(y, rect.y1 + margin);

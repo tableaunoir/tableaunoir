@@ -1,5 +1,5 @@
 window.onload = load;
-window.onresize = resize;
+
 
 let users = {};
 let user = undefined;
@@ -7,6 +7,7 @@ let palette = new Palette();
 
 
 function load() {
+	
 
 	user = new User(true);
 	users['root'] = user;
@@ -14,6 +15,9 @@ function load() {
 
 	buttonNoBackground.onclick = () => { backgroundClear(); Menu.hide(); };
 	buttonMusicScore.onclick = () => { musicScore(); Menu.hide(); };
+
+	Layout.init();
+	
 
 	LoadSave.init();
 	BoardManager.init();
@@ -206,15 +210,12 @@ function load() {
 	loadMagnets();
 
 	BoardManager.load();
-	resize();
 
 
 }
 
 
-function resize() {
-	BoardManager.resize(window.innerWidth, window.innerHeight);
-}
+
 
 
 function drawLine(context, x1, y1, x2, y2, pressure = 1.0, color = user.getCurrentColor()) {
@@ -260,8 +261,8 @@ function clearLine(x1, y1, x2, y2, lineWidth = 10) {
 
 function divideScreen() {
 	console.log("divide the screen")
-	let x = container.scrollLeft + window.innerWidth / 2;
-	drawLine(canvas.getContext("2d"), x, 0, x, window.innerHeight, 1, BoardManager.getDefaultChalkColor());
+	let x = container.scrollLeft + Layout.getWindowWidth() / 2;
+	drawLine(canvas.getContext("2d"), x, 0, x, Layout.getWindowHeight(), 1, BoardManager.getDefaultChalkColor());
 	BoardManager.saveCurrentScreen();
 }
 
@@ -274,9 +275,9 @@ function backgroundClear() {
 function musicScore() {
 	backgroundClear();
 	let COLORSTAFF = "rgb(128, 128, 255)";
-	let fullHeight = window.innerHeight - 32;
+	let fullHeight = Layout.getWindowHeight() - 32;
 	let x = container.scrollLeft;
-	let x2 = container.scrollLeft + window.innerWidth;
+	let x2 = container.scrollLeft + Layout.getWindowWidth();
 	let ymiddleScreen = fullHeight / 2;
 	let yshift = fullHeight / 7;
 	let drawStaff = (ymiddle) => {

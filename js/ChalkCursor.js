@@ -1,5 +1,5 @@
 class ChalkCursor {
-    
+
 
 
     /**
@@ -8,7 +8,7 @@ class ChalkCursor {
      * @returns the .style.cursor of the canvas if you want to have a cursor that looks like a chalk with the color color.
      */
     static getStyleCursor(color) {
-        return `url(${ChalkCursor.getCursorURL(color)}) 0 0, auto`;
+        return {data: ChalkCursor.getCursorURL(color), x: 0 , y: 0};
     }
 
 

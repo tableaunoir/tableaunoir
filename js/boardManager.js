@@ -37,16 +37,7 @@ class BoardManager {
     }
 
 
-    /**
- * resize the board to the size of the window
- */
-    static resize() {
-        if (document.getElementById("canvas").width < window.innerWidth)
-            document.getElementById("canvas").width = window.innerWidth;
 
-        if (document.getElementById("canvas").height < window.innerHeight)
-            document.getElementById("canvas").height = window.innerHeight;
-    }
 
 
     static getDefaultChalkColor() {
@@ -113,8 +104,8 @@ class BoardManager {
     static getCurrentScreenRectangle() {
         const x1 = container.scrollLeft;
         const y1 = container.scrollTop;
-        const x2 = x1 + window.innerWidth;
-        const y2 = y1 + window.innerHeight;
+        const x2 = x1 + Layout.getWindowWidth();
+        const y2 = y1 + Layout.getWindowHeight();
         return { x1: x1, y1: y1, x2: x2, y2: y2 };
     }
 
@@ -183,7 +174,7 @@ class BoardManager {
      * @returns the number of pixels when scrolling
      */
     static scrollQuantity() {
-        return window.innerWidth / 2;
+        return Layout.getWindowWidth() / 2;
     }
 
     /**
@@ -207,15 +198,15 @@ class BoardManager {
     static right() {
         const MAXCANVASWIDTH = 20000;
 
-        if (container.scrollLeft >= MAXCANVASWIDTH - window.innerWidth) {
-            container.scrollLeft = MAXCANVASWIDTH - window.innerWidth;
+        if (container.scrollLeft >= MAXCANVASWIDTH - Layout.getWindowWidth()) {
+            container.scrollLeft = MAXCANVASWIDTH - Layout.getWindowWidth();
             return;
         }
 
-        if ((container.scrollLeft >= canvas.width - window.innerWidth - BoardManager.scrollQuantity()) && BoardManager._rightExtendCanvasEnable) {
+        if ((container.scrollLeft >= canvas.width - Layout.getWindowWidth() - BoardManager.scrollQuantity()) && BoardManager._rightExtendCanvasEnable) {
             let image = new Image();
             image.src = canvas.toDataURL();
-            console.log("extension: canvas width " + canvas.width + " to " + (container.scrollLeft + window.innerWidth))
+            console.log("extension: canvas width " + canvas.width + " to " + (container.scrollLeft + Layout.getWindowWidth()))
             canvas.width = ((canvas.width / BoardManager.scrollQuantity()) + 1) * BoardManager.scrollQuantity();
             const context = document.getElementById("canvas").getContext("2d");
             context.globalCompositeOperation = "source-over";
