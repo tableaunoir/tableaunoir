@@ -269,8 +269,9 @@ class MagnetManager {
 				e = e || window.event;
 				e.preventDefault(); //to avoid the drag/drop by the browser
 				// get the mouse cursor position at startup:
-				pos3 = e.clientX;
-				pos4 = e.clientY;
+				
+				pos3 = e.clientX * Layout.getZoom();
+				pos4 = e.clientY * Layout.getZoom();
 				document.onpointerup = closeDragElement;
 				document.onmouseup = closeDragElement;
 				// call a function whenever the cursor moves:
@@ -301,10 +302,10 @@ class MagnetManager {
 				e = e || window.event;
 				e.preventDefault();
 				// calculate the new cursor position:
-				pos1 = pos3 - e.clientX;
-				pos2 = pos4 - e.clientY;
-				pos3 = e.clientX;
-				pos4 = e.clientY;
+				pos1 = pos3 - e.clientX  * Layout.getZoom();
+				pos2 = pos4 - e.clientY * Layout.getZoom();
+				pos3 = e.clientX * Layout.getZoom();
+				pos4 = e.clientY * Layout.getZoom();
 
 
 

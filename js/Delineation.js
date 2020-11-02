@@ -209,7 +209,7 @@ class Delineation {
             context.lineTo(point.x, point.y);
         }
         context.clip();
-        context.clearRect(0, 0, Zoom.getWindowWidth(), Zoom.getWindowHeight());
+        context.clearRect(0, 0, Layout.getWindowWidth(), Layout.getWindowHeight());
         context.restore();
         context.globalCompositeOperation = "source-over";
         this.reset();

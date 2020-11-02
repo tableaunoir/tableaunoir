@@ -46,8 +46,11 @@ canvas {
 
 
 #controls {
+	position: sticky;
 	top: 0px;
 	left: 0px;
+	right: 0px;
+	width: 100%;
 	background-color: rgb(68, 68, 68);
 	color: white;
 }

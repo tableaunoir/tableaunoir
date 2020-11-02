@@ -1,10 +1,11 @@
 class Layout {
 
-    static STANDARDHEIGHT = 800;
+    static STANDARDHEIGHT = 1000;
 
     static init() {
-        console.log("Zoom.init()")
-        Layout._initModeClassic();
+        console.log("Layout.init()")
+        Layout._initModeResize();
+
     }
 
 
@@ -21,7 +22,11 @@ class Layout {
             || navigator.userAgent.match(/Windows Phone/i);
     }
 
-    
+
+
+    static getZoom() {
+        return Layout.STANDARDHEIGHT / window.innerHeight;
+    }
     static _initModeClassic() {
         if (document.getElementById("canvas").width < window.innerWidth)
             document.getElementById("canvas").width = window.innerWidth;
@@ -29,23 +34,32 @@ class Layout {
         if (document.getElementById("canvas").height < window.innerHeight)
             document.getElementById("canvas").height = window.innerHeight;
 
-        Layout.getWindowHeight = () => { return window.innerHeight; };
         Layout.getWindowWidth = () => { return window.innerWidth; };
+        Layout.getWindowHeight = () => { return window.innerHeight; };
+
     }
 
     static _initModeResize() {
         document.getElementById("canvas").height = Layout.STANDARDHEIGHT;
         document.getElementById("canvas").width = 4800;
+
+        document.getElementById("canvasBackground").height = Layout.STANDARDHEIGHT;
+        document.getElementById("canvasBackground").width = 4800;
+
         window.addEventListener("resize", Layout._resize);
 
         Layout.getWindowHeight = () => { return Layout.STANDARDHEIGHT; };
         Layout.getWindowWidth = () => { return Layout.STANDARDHEIGHT * window.innerWidth / window.innerHeight; };
+
+        Layout._resize();
     }
+
 
 
     static _resize() {
         console.log("resize");
-        document.getElementById("content").style.transform = `scale(${window.innerHeight / Layout.STANDARDHEIGHT})`;
+        //if(window.innerHeight > Layout.STANDARDHEIGHT)
+        document.getElementById("content").style.transform = `scale(${screen.height / Layout.STANDARDHEIGHT})`;
         //BoardManager.resize(window.innerWidth, window.innerHeight);
 
     }
