@@ -10,7 +10,7 @@ body {
 	overflow: hidden;
 	user-select: none;
 	overscroll-behavior-x: none;
-	background-color: rgb(85, 48, 0);
+	background-color: rgb(44, 25, 0);
 }
 
 canvas {
