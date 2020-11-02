@@ -1,2 +1,2 @@
 git pull
-nohup node main.js &
+node main.js
