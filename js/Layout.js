@@ -4,7 +4,7 @@ class Layout {
 
     static init() {
         console.log("Layout.init()")
-        Layout._initModeClassic();
+        Layout._initModeResize();
 
     }
 
@@ -25,8 +25,8 @@ class Layout {
 
 
     static getZoom() {
-        return 1;
-        //return Layout.STANDARDHEIGHT / screen.height;
+       // return 1;
+       return Layout.STANDARDHEIGHT / screen.height;
     }
     static _initModeClassic() {
         if (document.getElementById("canvas").width < window.innerWidth)

@@ -32,7 +32,7 @@ class User {
 
     setToolCursorImage(srcImage) {
         document.getElementById("canvas").style.cursor = `url(${srcImage.data}) ${srcImage.x} ${srcImage.y}, auto`;
-       // this.toolCursor.src = srcImage;
+        // this.toolCursor.src = srcImage;
     }
 
     /**
@@ -158,6 +158,7 @@ class User {
 
 
     mousemove(evt) {
+
         let evtX = evt.offsetX;
         let evtY = evt.offsetY;
 
@@ -184,7 +185,7 @@ class User {
                     if (this.isCurrentUser()) {
                         this.setToolCursorImage(EraserCursor.getStyleCursor(this.eraseLineWidth));
                     }
-                        
+
                     clearLine(this.x, this.y, evtX, evtY, this.eraseLineWidth);
                 }
                 else {
@@ -235,7 +236,7 @@ class User {
                     this.eraseLineWidth = ERASEMODEDEFAULTSIZE;
                     this.setToolCursorImage(EraserCursor.getStyleCursor(this.eraseLineWidth));
                 }
-                    
+
             }
 
             BoardManager.saveCurrentScreen();

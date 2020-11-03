@@ -15,7 +15,7 @@ function load() {
 
 		Layout.init();
 
-
+		ChalkCursor.init();
 		LoadSave.init();
 		BoardManager.init();
 		Menu.init();

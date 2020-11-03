@@ -32,15 +32,19 @@
 	<div id=controls>
 		<button id="buttonMenu">☕ Menu</button><span class="keyboardkeyhelp">Esc.</span>
 		<button id="buttonColors" title="Choose your color">🎨 Colors</button><span class="keyboardkeyhelp">c</span>
-		<button id="buttonEraser" title="Switch between erase and draw">⌫ Eraser</button><span class="keyboardkeyhelp">e</span>
-		<button id="buttonText" title="Add some text written with the keyboard">Text</button><span class="keyboardkeyhelp">Enter</span>
-		<button id="buttonDivide" title="Divide the screen vertically in two">| Divide</button><span class="keyboardkeyhelp">d</span>
+		<button id="buttonEraser" title="Switch between erase and draw">⌫ Eraser</button><span
+			class="keyboardkeyhelp">e</span>
+		<button id="buttonText" title="Add some text written with the keyboard">Text</button><span
+			class="keyboardkeyhelp">Enter</span>
+		<button id="buttonDivide" title="Divide the screen vertically in two">| Divide</button><span
+			class="keyboardkeyhelp">d</span>
 		<button id="buttonCancel" title="Cancel the last action">↩ Cancel</button>
 		<button id="buttonRedo" title="Redo the last action">↪ Redo</button>
 		<button id="buttonLeft" title="Go left">← Left</button>
 		<button id="buttonRight" title="Go right">→ Right</button>
 		<button id="buttonCloseControls" title="Hide this toolbar (it can be shown again in the menu)"
-			onclick="controls.hidden = true; welcome.hidden = true;">Hide toolbar</button><span class="keyboardkeyhelp">h</span>
+			onclick="controls.hidden = true; welcome.hidden = true;">Hide toolbar</button><span
+			class="keyboardkeyhelp">h</span>
 		<div id="users"></div>
 	</div>
 	<div id="content">
@@ -190,6 +194,10 @@
 					whiteboard</button>
 				<button id="controlsToggle" onclick="controls.hidden = !controls.hidden; Menu.hide()">
 					<img src="img/showbuttons.png" /><br />Show/hide toolbar</button>
+				<h2>Cursor</h2>
+				<button id="buttonLefthanded">Left-handed</button>
+				<button id="buttonRighthanded">Right-handed</button>
+
 			</div>
 
 			<div id="KeyboardShortcuts" class="tabcontent">

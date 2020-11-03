@@ -1,6 +1,26 @@
 class ChalkCursor {
 
+    /** undefined for right-handed, "true" for left-handed */
+    static leftHanded = localStorage.getItem("leftHanded");
 
+
+    /**
+     * @description adds clicks on buttons in the menu for left- and right-handed options
+     */
+    static init() {
+        let change = (param) => {
+            ChalkCursor.leftHanded = param;
+            if (!param)
+                localStorage.removeItem("leftHanded");
+            else
+                localStorage.setItem("leftHanded", "true");
+            UserManager.me.updateCursor();
+            Menu.hide();
+        }
+
+        buttonLefthanded.onclick = () => { change(true); }
+        buttonRighthanded.onclick = () => { change(false); }
+    }
 
     /**
      * 
@@ -8,41 +28,33 @@ class ChalkCursor {
      * @returns the .style.cursor of the canvas if you want to have a cursor that looks like a chalk with the color color.
      */
     static getStyleCursor(color) {
-        return {data: ChalkCursor.getCursorURL(color), x: 0 , y: 0};
+        return { data: ChalkCursor.getCursorURL(color), x: ChalkCursor.leftHanded ? 32 : 0, y: 0 };
     }
 
 
     static getCursorURL(color) {
         const sizeX = 32;
         const sizeY = 44;
-        const chalkRadius = 3;
+        const angleOpening = 0.3;
+        const sizeHead = 16;
+        const length = 34;
+
         const canvas = document.createElement('canvas');
         canvas.width = sizeX;
         canvas.height = sizeY;
         const context = canvas.getContext("2d");
 
-        /*  ctx.beginPath();
-          ctx.moveTo(0, 0);
-          ctx.lineTo(sizeX, sizeY);
-          ctx.lineWidth = chalkRadius * 2;
-          ctx.strokeStyle = color;
-          ctx.stroke();
-  
-          ctx.beginPath();
-          ctx.arc(chalkRadius, chalkRadius, chalkRadius, 0, 2 * Math.PI);
-          ctx.strokeStyle = "black";
-          ctx.lineWidth = 1;
-          ctx.stroke();*/
+        if (ChalkCursor.leftHanded) //transformation of the chalk picture for left-handed
+            context.transform(-1, 0, 0, 1, sizeX, 0);
 
         const angle = Math.atan2(sizeY, sizeX);
-        const angleOpening = 0.3;
+
         const anglePlus = angle + angleOpening;
         const angleMinus = angle - angleOpening;
-        const sizeHead = 16;
-        const length = 34;
+
         const p1 = { x: sizeHead * Math.cos(anglePlus), y: sizeHead * Math.sin(anglePlus) };
         const p2 = { x: sizeHead * Math.cos(angleMinus), y: sizeHead * Math.sin(angleMinus) };
-        const ll = {x : length * Math.cos(angle), y: length * Math.sin(angle) };
+        const ll = { x: length * Math.cos(angle), y: length * Math.sin(angle) };
 
         context.beginPath();
         context.moveTo(0, 0);

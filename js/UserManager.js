@@ -5,8 +5,11 @@ class UserManager {
     static me = undefined;
     static users = {};
 
-    static init() {
 
+    /**
+     * initialisation: creation of myself :)
+     */
+    static init() {
         UserManager.me = new User(true);
         UserManager.users['root'] = UserManager.me;
         UserManager.me.setUserID('root');
