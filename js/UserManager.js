@@ -6,8 +6,9 @@ class UserManager {
     static users = {};
 
     static init() {
+
         UserManager.me = new User(true);
-        users['root'] = UserManager.me;
+        UserManager.users['root'] = UserManager.me;
         UserManager.me.setUserID('root');
     }
 
