@@ -1,16 +1,13 @@
 window.onload = load;
 
 
-let users = {};
-let user = undefined;
 let palette = new Palette();
 
 
 function load() {
 	try {
-		user = new User(true);
-		users['root'] = user;
-		user.setUserID('root');
+		UserManager.init();
+		
 
 
 		buttonNoBackground.onclick = () => { backgroundClear(); Menu.hide(); };
@@ -30,7 +27,7 @@ function load() {
 		let changeColor = () => {
 			if (MagnetManager.getMagnetUnderCursor() == undefined) { //if no magnet under the cursor, change the color of the chalk
 				//if (!isDrawing)
-				palette.show({ x: user.x, y: user.y });
+				palette.show({ x: UserManager.me.x, y: UserManager.me.y });
 				palette.next();
 			}
 			else { // if there is a magnet change the background of the magnet
@@ -54,10 +51,10 @@ function load() {
 		}
 
 		let switchChalkEraser = () => {
-			if (user.eraseMode)
-				Share.execute("switchChalk", [user.userID]);
+			if (UserManager.me.eraseMode)
+				Share.execute("switchChalk", [UserManager.me.userID]);
 			else
-				Share.execute("switchErase", [user.userID]);
+				Share.execute("switchErase", [UserManager.me.userID]);
 
 
 		}
@@ -66,7 +63,7 @@ function load() {
 		buttonMenu.onclick = Menu.toggle;
 		buttonColors.onclick = changeColor;
 		buttonEraser.onclick = switchChalkEraser;
-		buttonText.onclick = () => MagnetManager.addMagnetText(user.x, user.y);
+		buttonText.onclick = () => MagnetManager.addMagnetText(UserManager.me.x, UserManager.me.y);
 		buttonDivide.onclick = divideScreen;
 
 		buttonLeft.onclick = BoardManager.left;
@@ -85,8 +82,8 @@ function load() {
 		BlackVSWhiteBoard.init();
 
 		palette.onchange = () => {
-			Share.execute("switchChalk", [user.userID]);
-			Share.execute("setCurrentColor", [user.userID, palette.getCurrentColor()]);
+			Share.execute("switchChalk", [UserManager.me.userID]);
+			Share.execute("setCurrentColor", [UserManager.me.userID, palette.getCurrentColor()]);
 		}
 
 
@@ -118,7 +115,7 @@ function load() {
 			else if (evt.key == "ArrowRight" && palette.isShown())
 				palette.next();
 			else if (evt.key == "Enter") {
-				MagnetManager.addMagnetText(user.x, user.y);
+				MagnetManager.addMagnetText(UserManager.me.x, UserManager.me.y);
 				evt.preventDefault(); //so that it will not add "new line" in the text element
 			}
 			else if (evt.key == "ArrowLeft") {
@@ -144,13 +141,13 @@ function load() {
 				Toolbar.toggle();
 			else if (evt.ctrlKey && evt.key == 'x') {//Ctrl + x 
 				palette.hide();
-				if (user.lastDelineation.containsPolygonToMagnetize())
-					user.lastDelineation.cutAndMagnetize();
+				if (UserManager.me.lastDelineation.containsPolygonToMagnetize())
+					UserManager.me.lastDelineation.cutAndMagnetize();
 			}
 			else if (evt.ctrlKey && evt.key == 'c') {//Ctrl + c
 				palette.hide();
-				if (user.lastDelineation.containsPolygonToMagnetize())
-					user.lastDelineation.copyAndMagnetize();
+				if (UserManager.me.lastDelineation.containsPolygonToMagnetize())
+					UserManager.me.lastDelineation.copyAndMagnetize();
 			}
 			else if (evt.ctrlKey && evt.key == "v") { //Ctrl + v = print the current magnet
 				palette.hide();
@@ -158,8 +155,8 @@ function load() {
 			}
 			else if (evt.key == "m") { //m = make new magnets
 				palette.hide();
-				if (user.lastDelineation.containsPolygonToMagnetize())
-					user.lastDelineation.cutAndMagnetize();
+				if (UserManager.me.lastDelineation.containsPolygonToMagnetize())
+					UserManager.me.lastDelineation.cutAndMagnetize();
 				else {
 					MagnetManager.printCurrentMagnet();
 					MagnetManager.removeCurrentMagnet();
@@ -185,11 +182,11 @@ function load() {
 			if (Welcome.isShown())
 				Welcome.hide();
 			evt.preventDefault();
-			Share.execute("mousedown", [user.userID, evt])
+			Share.execute("mousedown", [UserManager.me.userID, evt])
 		};
 		document.getElementById("canvasBackground").onpointermove = (evt) => { console.log("mousemove on the background should not occur") };
-		document.getElementById("canvas").onpointermove = (evt) => { evt.preventDefault(); Share.execute("mousemove", [user.userID, evt]) };
-		document.getElementById("canvas").onpointerup = (evt) => { evt.preventDefault(); Share.execute("mouseup", [user.userID, evt]) };
+		document.getElementById("canvas").onpointermove = (evt) => { evt.preventDefault(); Share.execute("mousemove", [UserManager.me.userID, evt]) };
+		document.getElementById("canvas").onpointerup = (evt) => { evt.preventDefault(); Share.execute("mouseup", [UserManager.me.userID, evt]) };
 		//document.getElementById("canvas").onmousedown = mousedown;
 
 		TouchScreen.addTouchEvents(document.getElementById("canvas"));
@@ -221,7 +218,7 @@ function load() {
 
 
 
-function drawLine(context, x1, y1, x2, y2, pressure = 1.0, color = user.getCurrentColor()) {
+function drawLine(context, x1, y1, x2, y2, pressure = 1.0, color = UserManager.me.getCurrentColor()) {
 	//console.log(pressure)
 	context.beginPath();
 	context.strokeStyle = color;

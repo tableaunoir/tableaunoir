@@ -111,7 +111,7 @@ class User {
      * @returns true iff the user is the current user (the one that controls the mouse)
      */
     isCurrentUser() {
-        return (this == user);
+        return (this == UserManager.me);
     }
 
     switchErase() {

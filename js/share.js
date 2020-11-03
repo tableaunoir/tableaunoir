@@ -92,17 +92,7 @@ class Share {
 
 	}
 
-	/**
-	 * @returns true if the userID of the current user is the minimum of all participants
-	 */
-	static isSmallestUserID() {
-		let minkey = "zzzzzzzzzzzzzzzz";
-		for (let key in users) {
-			if (key < minkey)
-				minkey = key;
-		}
-		return (user.userID == minkey);
-	}
+
 
 
 	/**
@@ -118,7 +108,7 @@ class Share {
 		switch (msg.type) {
 			case "id": Share._setTableauID(msg.id); break;
 			case "youruserid": // "your name is ..."
-				Share._setMyUserID(msg.userid);
+				UserManager.setMyUserID(msg.userid);
 
 				document.getElementById("shareAndJoin").hidden = true;
 				document.getElementById("shareInfo").hidden = false;
@@ -127,21 +117,19 @@ class Share {
 				break;
 			case "user": //there is an existing user
 				console.log("existing user: ", msg.userid)
-				if (msg.userid == user.userID)
+				if (msg.userid == UserManager.me.userID)
 					throw "oops... an already existing user has the same name than me";
 
-				users[msg.userid] = new User();
-				Share.updateUsers();
+				UserManager.add(msg.userid);
 				break;
 
 			case "join": //a new user joins the group
 				console.log("a new user is joining: ", msg.userid)
 				// the leader is the user with the smallest ID
 
-				users[msg.userid] = new User();
-				Share.updateUsers();
+				UserManager.add(msg.userid);
 
-				if (Share.isSmallestUserID()) {
+				if (UserManager.isSmallestUserID()) {
 					canvas.toBlob((blob) => Share.sendFullCanvas(blob, msg.userid));
 					Share.sendFullCanvas(msg.userid);
 					Share.sendMagnets(msg.userid);
@@ -149,7 +137,9 @@ class Share {
 				}
 
 				break;
-			case "leave": users[msg.userid].destroy(); delete users[msg.userid]; Share.updateUsers(); break;
+			case "leave":
+				UserManager.leave(msg.userid);
+				break;
 			case "fullCanvas": BoardManager.loadWithoutSave(msg.data); break;
 			case "magnets":
 				document.getElementById("magnets").innerHTML = msg.magnets;
@@ -227,33 +217,12 @@ class Share {
 	}
 
 
-	static _setMyUserID(userid) {
-		for (let key in users) {
-			if (users[key] == user)
-				delete users[key];
-		}
-
-		users[userid] = user;
-		user.setUserID(userid);
-		Share.updateUsers();
-	}
 
 
 
 
-	static updateUsers() {
-		let i = 0;
-		let keys = [];
-		for (var key in users) {
-			i++;
-			if (key == user.userID)
-				keys.push(key + "(me)");
-			else
-				keys.push(key);
 
-		}
-		document.getElementById("users").innerHTML = i + " users: " + keys.join("   ");
-	}
+
 
 
 
@@ -292,12 +261,12 @@ class Share {
 
 
 	static setCanWriteForAllExceptMeAndByDefault(bool) {
-		for (let userid in users) {
-			if (users[userid] != user)
+		for (let userid in UserManager.users) {
+			if (UserManager.users[userid] != UserManager.me)
 				Share.execute("setUserCanWrite", [userid, bool]);
 		}
 		Share.canWriteValueByDefault = bool;
-		Share.execute("setUserCanWrite", [user.userID, true]);
+		Share.execute("setUserCanWrite", [UserManager.me.userID, true]);
 	}
 
 	static everybodyWritesMode() {

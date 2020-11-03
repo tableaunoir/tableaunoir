@@ -7,6 +7,7 @@
 	<link rel="stylesheet" type="text/css" href="style.css" />
 	<script src="js/Delineation.js"></script>
 	<script src="js/Palette.js"></script>
+	<script src="js/UserManager.js"></script>
 	<script src="js/User.js"></script>
 	<script src="js/main.js"></script>
 	<script src="js/magnetManager.js"></script>
@@ -29,17 +30,18 @@
 
 <body>
 	<div id=controls>
-		<button id="buttonMenu">☕ Menu</button><span>Esc.</span>
-		<button id="buttonColors" title="Choose your color">🎨 Colors</button><span>c</span>
-		<button id="buttonEraser" title="Switch between erase and draw">⌫ Eraser</button><span>e</span>
-		<button id="buttonText" title="Add some text written with the keyboard">Text</button><span>Enter</span>
-		<button id="buttonDivide" title="Divide the screen vertically in two">| Divide</button><span>d</span>
+		<button id="buttonMenu">☕ Menu</button><span class="keyboardkeyhelp">Esc.</span>
+		<button id="buttonColors" title="Choose your color">🎨 Colors</button><span class="keyboardkeyhelp">c</span>
+		<button id="buttonEraser" title="Switch between erase and draw">⌫ Eraser</button><span class="keyboardkeyhelp">e</span>
+		<button id="buttonText" title="Add some text written with the keyboard">Text</button><span class="keyboardkeyhelp">Enter</span>
+		<button id="buttonDivide" title="Divide the screen vertically in two">| Divide</button><span class="keyboardkeyhelp">d</span>
 		<button id="buttonCancel" title="Cancel the last action">↩ Cancel</button>
 		<button id="buttonRedo" title="Redo the last action">↪ Redo</button>
 		<button id="buttonLeft" title="Go left">← Left</button>
 		<button id="buttonRight" title="Go right">→ Right</button>
 		<button id="buttonCloseControls" title="Hide this toolbar (it can be shown again in the menu)"
-			onclick="controls.hidden = true; welcome.hidden = true;">Hide toolbar</button><span>h</span>
+			onclick="controls.hidden = true; welcome.hidden = true;">Hide toolbar</button><span class="keyboardkeyhelp">h</span>
+		<div id="users"></div>
 	</div>
 	<div id="content">
 		<canvas id="canvasBackground" width=2000 height=1200></canvas>
@@ -317,7 +319,6 @@
 								src="img/shareInEverybodyWritesMode.png" /><br />All users can write</button>
 					</div>
 
-					<h2>Connected Users</h2>
 					<div id="users"></div>
 
 				</div>
