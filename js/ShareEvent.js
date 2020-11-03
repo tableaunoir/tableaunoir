@@ -4,7 +4,7 @@ class ShareEvent {
     }
 
     static mousemove(userId, evt) {
-        if (users[userId] == undefined)
+        if (UserManager.users[userId] == undefined)
             console.log("why is " + userId + " not declared?");
         UserManager.users[userId].mousemove(evt);
     }
