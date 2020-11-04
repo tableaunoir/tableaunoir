@@ -152,6 +152,19 @@ function magnetUnionFind() {
     MagnetManager.addMagnetImage("unionfind0.png");
 }
 
+
+
+
+
+
+
+function magnetGo() {
+    MagnetManager.clearMagnet();
+    for(let i = 0; i < 50; i++) {        MagnetManager.addMagnetImage("go/white.png");    }
+    for(let i = 0; i < 50; i++) {        MagnetManager.addMagnetImage("go/black.png");    }
+    MagnetManager.addMagnetImage("go/goban.png");
+}
+
 function loadMagnets() {
     MagnetManager.register("magnetGS");
     MagnetManager.register("magnetSorting");
@@ -161,6 +174,7 @@ function loadMagnets() {
     MagnetManager.register("magnetUnionFind");
     MagnetManager.register("magnetGraphSimCity");
     MagnetManager.register("magnetFloydsAlgorithm");
+    MagnetManager.register("magnetGo");
 }
 
 
