@@ -26,12 +26,18 @@ class ChalkCursor {
      * 
      * @param {*} color 
      * @returns the .style.cursor of the canvas if you want to have a cursor that looks like a chalk with the color color.
+     * The cursor is an objet {data: dataofimage, x: position where to click, y: position where to click}
      */
     static getStyleCursor(color) {
         return { data: ChalkCursor.getCursorURL(color), x: ChalkCursor.leftHanded ? 32 : 0, y: 0 };
     }
 
 
+    /**
+     * 
+     * @param {*} color 
+     * @returns the image information of the chalk of a specific color
+     */
     static getCursorURL(color) {
         const sizeX = 32;
         const sizeY = 44;

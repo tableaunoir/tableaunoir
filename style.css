@@ -503,6 +503,8 @@ h1 {
 	padding-bottom: 8px;
 	background-color: #555555;
 	cursor: pointer;
+	user-select: none;
+	user-drag: none;
 }
 
 
