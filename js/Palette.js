@@ -1,6 +1,10 @@
+/**
+ * the circular palette
+ */
 class Palette {
-    /** colors that can have a chalk. The first color must be white */
+    /** colors that can have a chalk. The first color *must* be white */
     colors = ["white", "yellow", "orange", "rgb(100, 172, 255)", "Crimson", "Plum", "LimeGreen"];
+
 
     buttons = [];
     currentColorID = 0;
@@ -9,6 +13,9 @@ class Palette {
 
     static radius = 96;
 
+    /**
+     * @descrition create (the DOM elements of) the palette 
+     */
     _createPalette() {
         const div = document.getElementById("palette");
         for (let i in this.colors) {
@@ -42,7 +49,7 @@ class Palette {
         img.style.borderColor = this.colors[i];
 
         img.onmousedown = (evt) => {evt.preventDefault();} //to prevent the drag and drop of the image of the chalk
-        
+
         img.onclick = () => {
             this.buttons[this.currentColorID].classList.remove("selected");
             this.currentColorID = i;
@@ -94,12 +101,18 @@ class Palette {
         div.classList.add("PaletteShow");
     }
 
+    /**
+     * @description hide the palette
+     */
     hide() {
         const div = document.getElementById("palette");
         div.classList.remove("PaletteShow");
         div.classList.add("PaletteHide");
     }
 
+    /**
+     * @returns true iff the palette is shown
+     */
     isShown() {
         return document.getElementById("palette").classList.contains("PaletteShow");
     }

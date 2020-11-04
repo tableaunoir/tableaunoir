@@ -68,10 +68,3 @@ class Layout {
 
 }
 
-/**
-* resize the board to the size of the window
-*/
-/*
-static resize() {
-
-}*/

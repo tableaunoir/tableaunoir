@@ -8,8 +8,6 @@ function load() {
 	try {
 		UserManager.init();
 		
-
-
 		buttonNoBackground.onclick = () => { backgroundClear(); Menu.hide(); };
 		buttonMusicScore.onclick = () => { musicScore(); Menu.hide(); };
 
