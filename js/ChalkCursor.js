@@ -28,11 +28,11 @@ class ChalkCursor {
      * @returns the .style.cursor of the canvas if you want to have a cursor that looks like a chalk with the color color.
      */
     static getStyleCursor(color) {
-        return { data: ChalkCursor._getCursorURL(color), x: ChalkCursor.leftHanded ? 32 : 0, y: 0 };
+        return { data: ChalkCursor.getCursorURL(color), x: ChalkCursor.leftHanded ? 32 : 0, y: 0 };
     }
 
 
-    static _getCursorURL(color) {
+    static getCursorURL(color) {
         const sizeX = 32;
         const sizeY = 44;
         const angleOpening = 0.3;

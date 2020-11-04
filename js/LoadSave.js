@@ -1,3 +1,6 @@
+/**
+ * this class contains the code for loading/saving a tableaunoir. Also for importing images as magnets.
+ */
 class LoadSave {
 
     /**

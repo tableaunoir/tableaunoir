@@ -1,3 +1,7 @@
+/** 
+ * this class contains the events that are shared with other users connected to the same tableaunoir 
+ * */
+
 class ShareEvent {
     static mousedown(userId, evt) {
         UserManager.users[userId].mousedown(evt);
