@@ -142,6 +142,7 @@ class Share {
 				break;
 			case "fullCanvas": BoardManager.loadWithoutSave(msg.data); break;
 			case "magnets":
+				console.log(msg.magnets)
 				document.getElementById("magnets").innerHTML = msg.magnets;
 				MagnetManager._installMagnetsNoMsg();
 				break;
@@ -172,8 +173,13 @@ class Share {
 
 
 	static sendMagnets(to) {
-		if (Share.isShared())
-			Share.send({ type: "magnets", magnets: document.getElementById("magnets").innerHTML, to: to }); // send the html code for all the magnets
+		if (Share.isShared()) {
+			if (to)
+				Share.send({ type: "magnets", magnets: document.getElementById("magnets").innerHTML, to: to }); // send the html code for all the magnets
+			else
+				Share.send({ type: "magnets", magnets: document.getElementById("magnets").innerHTML }); // send the html code for all the magnets
+		}
+
 	}
 
 
