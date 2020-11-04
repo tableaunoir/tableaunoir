@@ -79,7 +79,8 @@ class MagnetManager {
 		document.getElementById("magnets").appendChild(element);
 
 		let f = () => {
-			element.style.zIndex = Layout.getWindowWidth() - element.clientWidth;
+			const LARGENUMBER = 10000;
+			element.style.zIndex = LARGENUMBER - element.clientWidth;
 			Share.sendMagnets();
 			
 		}
