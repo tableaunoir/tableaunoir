@@ -79,7 +79,8 @@ class MagnetManager {
 		document.getElementById("magnets").appendChild(element);
 
 		let f = () => {
-			Share.sendNewMagnet(element);
+			if (Share.isShared())
+				Share.sendNewMagnet(element);
 			MagnetManager._installMagnet(element);
 		}
 
