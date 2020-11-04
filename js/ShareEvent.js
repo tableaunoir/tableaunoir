@@ -47,4 +47,10 @@ class ShareEvent {
     static magnetRemove(idMagnet) {
         MagnetManager.magnetRemove(idMagnet)
     }
+
+    static boardClear() {
+        BoardManager._clear();
+        BoardManager.save();
+        Menu.hide();
+    }
 }

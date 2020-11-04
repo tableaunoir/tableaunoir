@@ -74,7 +74,7 @@ class Delineation {
             return false;
 
         for (let point of this.points)
-            if (Math.abs(point.x - this.points[0].x) > 1 && Math.abs(point.y - this.points[0].y) > 1)
+            if (Math.abs(point.x - this.points[0].x) > 2 && Math.abs(point.y - this.points[0].y) > 2)
                 return false;
 
         return true;
@@ -192,8 +192,8 @@ class Delineation {
         let img = new Image();
         const rectangle = this._getRectangle();
         console.log(rectangle)
-        BoardManager._toBlobOfRectangle(rectangle, (blob) => img.src = URL.createObjectURL(blob));
-        //img.src = BoardManager._getDataURLPictureOfRectangle(rectangle);
+        //BoardManager._toBlobOfRectangle(rectangle, (blob) => img.src = URL.createObjectURL(blob));
+        img.src = BoardManager.getDataURLOfRectangle(rectangle);
         img.style.clipPath = "polygon(" + this.points.map(point => `${point.x - rectangle.x1}px ${point.y - rectangle.y1}px`).join(", ") + ")";
         MagnetManager.addMagnet(img);
         img.style.left = rectangle.x1 + "px";

@@ -16,9 +16,7 @@ class BoardManager {
    */
     static init() {
         document.getElementById("blackboardClear").onclick = () => {
-            BoardManager._clear();
-            BoardManager.save();
-            Menu.hide();
+           Share.execute("boardClear", []);
         }
 
     }
@@ -60,10 +58,21 @@ class BoardManager {
     /**
      * 
      * @param {*} r a rectangle {x1, y1, x2, y2}
-     * @returns the content as a string of the image
+     * @description call the callback when the blob of the rectangle is created
      */
     static _toBlobOfRectangle(r, callback) {
-        return BoardManager._createCanvasForRectangle(r).toBlob(callback);
+        BoardManager._createCanvasForRectangle(r).toBlob(callback);
+    }
+
+
+
+       /**
+     * 
+     * @param {*} r a rectangle {x1, y1, x2, y2}
+     * @returns the content as a string of the image
+     */
+    static getDataURLOfRectangle(r) {
+        return BoardManager._createCanvasForRectangle(r).toDataURL();
     }
 
 
