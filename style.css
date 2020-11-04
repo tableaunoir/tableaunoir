@@ -190,6 +190,10 @@ img.magnet {
 	animation: magnetCreation 500ms normal;
 }
 
+img.magnet.backgroundTransparent {
+	background: none;
+}
+
 
 img.magnet:hover {
 	

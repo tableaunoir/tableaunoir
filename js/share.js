@@ -146,6 +146,10 @@ class Share {
 				document.getElementById("magnets").innerHTML = msg.magnets;
 				MagnetManager._installMagnetsNoMsg();
 				break;
+			case "newmagnet":
+				document.getElementById("magnets").appendChild(msg.data);
+				MagnetManager._installMagnetsNoMsg();
+				break;
 			case "execute": eval("ShareEvent." + msg.event)(...msg.params);
 		}
 	}
@@ -183,6 +187,10 @@ class Share {
 	}
 
 
+
+	static sendNewMagnet(element) {
+		Share.send({ type: "newmagnet", data: element.outerHTML });
+	}
 	/**
 	 * 
 	 * @param {*} event, an event name (string), that is a method of the class ShareEvent

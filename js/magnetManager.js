@@ -81,7 +81,7 @@ class MagnetManager {
 		let f = () => {
 			const LARGENUMBER = 10000;
 			element.style.zIndex = LARGENUMBER - element.clientWidth;
-			Share.sendMagnets();
+			Share.sendNewMagnet(element);
 			
 		}
 
@@ -357,7 +357,9 @@ class MagnetManager {
 	static addMagnetImage(filename) {
 		let img = new Image();
 		img.src = "magnets/" + filename;
+		img.classList.add("backgroundTransparent");
 		MagnetManager.addMagnet(img);
+		return img;
 	}
 
 

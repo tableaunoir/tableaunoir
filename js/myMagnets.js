@@ -73,28 +73,28 @@ magnetFloydsAlgorithm
 function magnetFloydsAlgorithm() {
     MagnetManager.addMagnetImage("turtlerabbit/turtle.png");
     MagnetManager.addMagnetImage("turtlerabbit/rabbit.png");
-    
+
 }
 
 function magnetGraphSimCity() {
     //MagnetManager.clearMagnet();
 
-    const simCityPictures = ["antenne.png",       "commerce.png",      "parking.png",        "tour.png",
-        "batimentplat.png",  "foursolaire.png",   "residence2.png",    "usine.png",
-        "building.png",      "gare.png",          "residencebleu.png",
-        "chateaudeau.png",   "nuclearplant.png",  "residence.png",
-        "citerne.png",       "parc.png",          "stade.png"
-        ];
+    const simCityPictures = ["antenne.png", "commerce.png", "parking.png", "tour.png",
+        "batimentplat.png", "foursolaire.png", "residence2.png", "usine.png",
+        "building.png", "gare.png", "residencebleu.png",
+        "chateaudeau.png", "nuclearplant.png", "residence.png",
+        "citerne.png", "parc.png", "stade.png"
+    ];
 
-        for(let name of simCityPictures) {
-            MagnetManager.addMagnetImage("simCityGraph/" + name);
-        }
-    
+    for (let name of simCityPictures) {
+        MagnetManager.addMagnetImage("simCityGraph/" + name);
+    }
+
 }
 
 /** Tilings */
 
-function createTiling(leftColor, upColor, rightColor, bottomColor, leftText, upText, rightText, bottomText ) {
+function createTiling(leftColor, upColor, rightColor, bottomColor, leftText, upText, rightText, bottomText) {
     let xmlns = "http://www.w3.org/2000/svg";
     var div = document.createElement("div");
     let size = 100;
@@ -103,7 +103,7 @@ function createTiling(leftColor, upColor, rightColor, bottomColor, leftText, upT
     svgElem.setAttributeNS(null, "width", size);
     svgElem.setAttributeNS(null, "height", size);
     svgElem.style.display = "block";
-    
+
 
     function createPath(pathDesc, color) {
         var path = document.createElementNS(xmlns, "path");
@@ -115,7 +115,7 @@ function createTiling(leftColor, upColor, rightColor, bottomColor, leftText, upT
         path.setAttributeNS(null, 'opacity', 1.0);
         return path;
     }
-   
+
     svgElem.appendChild(createPath("M 50 50 L 0 0 L 0 100 Z", leftColor));
     svgElem.appendChild(createPath("M 50 50 L 0 0 L 100 0 Z", upColor));
     svgElem.appendChild(createPath("M 50 50 L 100 0 L 100 100 Z", rightColor));
@@ -160,9 +160,19 @@ function magnetUnionFind() {
 
 function magnetGo() {
     MagnetManager.clearMagnet();
-    for(let i = 0; i < 50; i++) {        MagnetManager.addMagnetImage("go/white.png");    }
-    for(let i = 0; i < 50; i++) {        MagnetManager.addMagnetImage("go/black.png");    }
-    MagnetManager.addMagnetImage("go/goban.png");
+
+    let f = (color, x) => {
+        for (let i = 0; i < 20; i++) {
+            const img = MagnetManager.addMagnetImage("go/" + color + ".png");
+            setTimeout(() => Share.execute("magnetMove", [img.id, x, 10 + i * 5], 500));
+        }
+    }
+
+    f("black", 20);
+    f("white", 50);
+
+    const img = MagnetManager.addMagnetImage("go/goban.png");
+    setTimeout(() => Share.execute("magnetMove", [img.id, 110, 20]), 500);
 }
 
 function loadMagnets() {
