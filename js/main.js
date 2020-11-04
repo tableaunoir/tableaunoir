@@ -2,12 +2,17 @@ window.onload = load;
 
 
 let palette = new Palette();
-
+let loaded = false;
 
 function load() {
 	try {
+		if (loaded)
+			return;
+
+		setTimeout(load, 1000);
+
 		UserManager.init();
-		
+
 		buttonNoBackground.onclick = () => { backgroundClear(); Menu.hide(); };
 		buttonMusicScore.onclick = () => { musicScore(); Menu.hide(); };
 
@@ -205,10 +210,11 @@ function load() {
 		loadMagnets();
 
 		BoardManager.load();
-
+		loaded = true;
 	}
 	catch (e) {
 		ErrorMessage.show(e);
+		loaded = false;
 	}
 }
 
