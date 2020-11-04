@@ -140,7 +140,9 @@ class Share {
 			case "leave":
 				UserManager.leave(msg.userid);
 				break;
-			case "fullCanvas": BoardManager.loadWithoutSave(msg.data); break;
+			case "fullCanvas":
+				BoardManager.loadWithoutSave(msg.data);
+				break;
 			case "magnets":
 				console.log(msg.magnets)
 				document.getElementById("magnets").innerHTML = msg.magnets;
@@ -148,8 +150,8 @@ class Share {
 				break;
 			case "newmagnet":
 				console.log("new magnet:")
-				console.log(msg.data)
-				document.getElementById("magnets").appendChild(msg.data);
+				document.getElementById("magnets").innerHTML =
+					document.getElementById("magnets").innerHTML + appendChild(msg.data); //a bit crazy
 				MagnetManager._installMagnetsNoMsg();
 				break;
 			case "execute": eval("ShareEvent." + msg.event)(...msg.params);
