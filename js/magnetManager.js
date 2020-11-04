@@ -79,15 +79,14 @@ class MagnetManager {
 		document.getElementById("magnets").appendChild(element);
 
 		let f = () => {
-			const LARGENUMBER = 10000;
-			element.style.zIndex = LARGENUMBER - element.clientWidth;
 			Share.sendNewMagnet(element);
-			
+			MagnetManager._installMagnet(element);
 		}
 
 		let g = () => {
 			f();
-			console.log("magnet loaded")
+			console.log("magnet loaded");
+
 		}
 		if (element.tagName == "IMG") {
 			element.addEventListener("load", g);
@@ -96,7 +95,7 @@ class MagnetManager {
 			f();
 		}
 
-		MagnetManager._installMagnet(element);
+
 	}
 
 
@@ -249,7 +248,9 @@ class MagnetManager {
 
 	static _installMagnet(element) {
 		makeDraggableElement(element);
-		Share.sendMagnets();
+
+		const LARGENUMBER = 10000;
+		element.style.zIndex = LARGENUMBER - element.clientWidth;
 
 		element.onmouseenter = () => { MagnetManager.magnetUnderCursor = element };
 		element.onmouseleave = () => { MagnetManager.magnetUnderCursor = undefined };

@@ -147,6 +147,8 @@ class Share {
 				MagnetManager._installMagnetsNoMsg();
 				break;
 			case "newmagnet":
+				console.log("new magnet:")
+				console.log(msg.data)
 				document.getElementById("magnets").appendChild(msg.data);
 				MagnetManager._installMagnetsNoMsg();
 				break;
