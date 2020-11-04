@@ -191,6 +191,7 @@ class Share {
 
 
 	static sendNewMagnet(element) {
+		console.log("new magnet sent!")
 		Share.send({ type: "newmagnet", data: element.outerHTML });
 	}
 	/**
