@@ -229,7 +229,7 @@ class BoardManager {
                 context.drawImage(image, 0, 0);
             }
             BoardManager._rightExtendCanvasEnable = false;
-            setTimeout(() => { BoardManager._rightExtendCanvasEnable = true }, 1000);
+            setTimeout(() => { BoardManager._rightExtendCanvasEnable = true }, 1000);//prevent to extend the canvas too many times
         }
         const x = container.scrollLeft + BoardManager.scrollQuantity();
         container.scrollTo({ top: 0, left: x, behavior: 'smooth' });

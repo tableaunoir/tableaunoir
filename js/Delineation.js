@@ -59,7 +59,7 @@ class Delineation {
                     this.lastpoints = [];
                     this.cutAndMagnetize();
                 }
-            }, 2000);
+            }, 1000);
         }
         else
             this.removePolygon();

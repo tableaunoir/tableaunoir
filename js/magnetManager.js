@@ -63,7 +63,7 @@ class MagnetManager {
 	 * @param {*} element 
 	 * @description add the DOM element element to the list of magnets
 	 */
-	static addMagnet(element) {
+	static addMagnet(element, callback = () => {}) {
 		if (MagnetManager.magnetX > BoardManager.getCurrentScreenRectangle().x2 - 10) {
 			MagnetManager.magnetX = BoardManager.getCurrentScreenRectangle().x1;
 			MagnetManager.magnetY += 64;
@@ -81,22 +81,18 @@ class MagnetManager {
 		let f = () => {
 			if (Share.isShared())
 				Share.sendNewMagnet(element);
-			MagnetManager._installMagnet(element);
+			callback(element);
 		}
 
-		let g = () => {
-			f();
-			console.log("magnet loaded");
-
-		}
+		
 		if (element.tagName == "IMG") {
-			element.addEventListener("load", g);
+			element.addEventListener("load", f);
 		}
 		else {
 			f();
 		}
 
-
+		MagnetManager._installMagnet(element);
 	}
 
 
@@ -232,8 +228,8 @@ class MagnetManager {
 	}
 
 
-	static _installMagnetsNoMsg() {
 
+	static installMagnets() {
 		let magnets = MagnetManager.getMagnets();
 
 		for (let i = 0; i < magnets.length; i++)
@@ -241,17 +237,20 @@ class MagnetManager {
 
 	}
 
-
-	static installMagnets() {
-		MagnetManager._installMagnetsNoMsg();
-
-	}
-
 	static _installMagnet(element) {
 		makeDraggableElement(element);
 
-		const LARGENUMBER = 10000;
-		element.style.zIndex = LARGENUMBER - element.clientWidth;
+		
+
+		let f = () => {const LARGENUMBER = 10000; };
+		if (element.tagName == "IMG") {
+			element.addEventListener("load", f);
+		}
+		else {
+			f();
+		}
+
+		
 
 		element.onmouseenter = () => { MagnetManager.magnetUnderCursor = element };
 		element.onmouseleave = () => { MagnetManager.magnetUnderCursor = undefined };
@@ -356,11 +355,11 @@ class MagnetManager {
 
 
 
-	static addMagnetImage(filename) {
+	static addMagnetImage(filename, callback = () => {}) {
 		let img = new Image();
 		img.src = "magnets/" + filename;
 		img.classList.add("backgroundTransparent");
-		MagnetManager.addMagnet(img);
+		MagnetManager.addMagnet(img, callback);
 		return img;
 	}
 

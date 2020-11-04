@@ -9,7 +9,7 @@ function load() {
 		if (loaded)
 			return;
 
-		setTimeout(load, 1000);
+		setTimeout(load, 1000); //trick for ipad ?
 
 		UserManager.init();
 

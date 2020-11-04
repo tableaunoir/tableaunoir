@@ -163,16 +163,17 @@ function magnetGo() {
 
     let f = (color, x) => {
         for (let i = 0; i < 20; i++) {
-            const img = MagnetManager.addMagnetImage("go/" + color + ".png");
-            setTimeout(() => Share.execute("magnetMove", [img.id, x, 10 + i * 5], 500));
+            MagnetManager.addMagnetImage("go/" + color + ".png",
+            (img) => Share.execute("magnetMove", [img.id, x, 10 + i * 5]));
+            
         }
     }
 
     f("black", 20);
     f("white", 50);
 
-    const img = MagnetManager.addMagnetImage("go/goban.png");
-    setTimeout(() => Share.execute("magnetMove", [img.id, 110, 20]), 500);
+    MagnetManager.addMagnetImage("go/goban.png", (img) => Share.execute("magnetMove", [img.id, 110, 20]));
+    
 }
 
 function loadMagnets() {
