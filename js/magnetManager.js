@@ -73,14 +73,28 @@ class MagnetManager {
 		element.style.left = MagnetManager.magnetX + "px";
 		element.style.top = MagnetManager.magnetY + "px";
 
-		//done with setTimeout because images may be loaded
-		setTimeout(() => element.style.zIndex = Layout.getWindowWidth() - element.clientWidth, 400);
-
 		MagnetManager.magnetX += 64;
 		MagnetManager.currentMagnet = element;
 		element.classList.add("magnet");
+		document.getElementById("magnets").appendChild(element);
 
-		setTimeout(() => document.getElementById("magnets").appendChild(element), 400); //to wait that imgs are loaded (not great)
+		let f = () => {
+			element.style.zIndex = Layout.getWindowWidth() - element.clientWidth;
+			Share.sendMagnets();
+			
+		}
+
+		let g = () => {
+			f();
+			console.log("magnet loaded")
+		}
+		if (element.tagName == "IMG") {
+			element.addEventListener("load", g);
+		}
+		else {
+			f();
+		}
+
 		MagnetManager._installMagnet(element);
 	}
 
@@ -409,7 +423,7 @@ class MagnetManager {
 	/**
 	 * 
 	 * @param {*} id 
-	 * @description remove the magnet of ID
+	 * @description remove the magnet of id
 	 */
 	static magnetRemove(id) {
 		document.getElementById(id).remove();
