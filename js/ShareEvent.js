@@ -43,4 +43,8 @@ class ShareEvent {
     static magnetsClear() {
         MagnetManager.clearMangnet();
     }
+
+    static magnetRemove(idMagnet) {
+        MagnetManager.magnetRemove(idMagnet)
+    }
 }

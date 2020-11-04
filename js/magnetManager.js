@@ -80,7 +80,7 @@ class MagnetManager {
 		MagnetManager.currentMagnet = element;
 		element.classList.add("magnet");
 
-		document.getElementById("magnets").appendChild(element);
+		setTimeout(() => document.getElementById("magnets").appendChild(element), 400); //to wait that imgs are loaded (not great)
 		MagnetManager._installMagnet(element);
 	}
 
@@ -229,12 +229,12 @@ class MagnetManager {
 
 	static installMagnets() {
 		MagnetManager._installMagnetsNoMsg();
-		Share.sendMagnets();
+
 	}
 
 	static _installMagnet(element) {
 		makeDraggableElement(element);
-
+		Share.sendMagnets();
 
 		element.onmouseenter = () => { MagnetManager.magnetUnderCursor = element };
 		element.onmouseleave = () => { MagnetManager.magnetUnderCursor = undefined };
@@ -269,7 +269,7 @@ class MagnetManager {
 				e = e || window.event;
 				e.preventDefault(); //to avoid the drag/drop by the browser
 				// get the mouse cursor position at startup:
-				
+
 				pos3 = e.clientX * Layout.getZoom();
 				pos4 = e.clientY * Layout.getZoom();
 				document.onpointerup = closeDragElement;
@@ -302,7 +302,7 @@ class MagnetManager {
 				e = e || window.event;
 				e.preventDefault();
 				// calculate the new cursor position:
-				pos1 = pos3 - e.clientX  * Layout.getZoom();
+				pos1 = pos3 - e.clientX * Layout.getZoom();
 				pos2 = pos4 - e.clientY * Layout.getZoom();
 				pos3 = e.clientX * Layout.getZoom();
 				pos4 = e.clientY * Layout.getZoom();
@@ -403,7 +403,16 @@ class MagnetManager {
 	static removeCurrentMagnet() {
 		if (MagnetManager.currentMagnet == undefined)
 			return;
-		MagnetManager.currentMagnet.remove();
+		Share.execute("magnetRemove", [MagnetManager.currentMagnet.id]);
+	}
+
+	/**
+	 * 
+	 * @param {*} id 
+	 * @description remove the magnet of ID
+	 */
+	static magnetRemove(id) {
+		document.getElementById(id).remove();
 		MagnetManager.currentMagnet == undefined;
 		MagnetManager.magnetUnderCursor = undefined;
 	}
