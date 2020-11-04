@@ -151,7 +151,7 @@ class Share {
 			case "newmagnet":
 				console.log("new magnet:")
 				document.getElementById("magnets").innerHTML =
-					document.getElementById("magnets").innerHTML + appendChild(msg.data); //a bit crazy
+					document.getElementById("magnets").innerHTML + (msg.data); //a bit crazy
 				MagnetManager._installMagnetsNoMsg();
 				break;
 			case "execute": eval("ShareEvent." + msg.event)(...msg.params);
@@ -194,7 +194,7 @@ class Share {
 
 	static sendNewMagnet(element) {
 		console.log("new magnet sent!")
-		Share.send({ type: "newmagnet", data: element.outerHTML });
+		Share.send({type: "newmagnet", data: element.outerHTML });
 	}
 	/**
 	 * 
