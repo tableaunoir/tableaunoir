@@ -71,7 +71,7 @@ canvas {
 	bottom: 0px;
 }
 
-svg {
+#svg {
 	z-index: 0;
 	position: absolute;
 	top: 0;
@@ -109,6 +109,7 @@ a {
 
 .magnet {
 	position: absolute;
+	display: inline-block;
 	font-size: 32px;
 	font-weight: bold;
 	cursor: grab;
