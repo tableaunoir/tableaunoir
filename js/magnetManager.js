@@ -242,7 +242,7 @@ class MagnetManager {
 
 		
 
-		let f = () => {const LARGENUMBER = 10000; };
+		let f = () => {const LARGENUMBER = 10000; element.style.zIndex = LARGENUMBER - element.clientWidth;};
 		if (element.tagName == "IMG") {
 			element.addEventListener("load", f);
 		}
