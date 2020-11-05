@@ -4,8 +4,26 @@ window.onload = load;
 let palette = new Palette();
 let loaded = false;
 
+
+/**
+ * this function sets the document.body scrolls to 0
+ * It solves some issues:
+ * - on smartphones: that we can scroll the page itself
+ * - when typing texts in magnet, it makes the screen not to scroll
+ */
+function installBodyNoScroll() {
+	setInterval(() => {
+		document.body.scrollLeft = 0;
+		document.body.scrollTop = 0;
+	}, 1000);
+}
+
+
 function load() {
 	try {
+
+		installBodyNoScroll();
+
 		if (loaded)
 			return;
 

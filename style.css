@@ -2,6 +2,8 @@
 
 html {
 	overscroll-behavior-x: none;
+	width: 100%;
+	height:100%;
 }
 
 body {
@@ -10,6 +12,8 @@ body {
 	overflow: hidden;
 	user-select: none;
 	overscroll-behavior-x: none;
+	height: 100%;
+	width: 100%;
 	background-color: rgb(44, 25, 0);
 }
 

@@ -1,10 +1,10 @@
 objet : 
 
-	Bonjour,
+Bonjour,
 
 voici un tableau noir en ligne qui pourrait vous être utile : https://tableaunoir.github.io/
 
-Il n'y a rien à installer. L'outil s'utilise de préférence avec une tablette graphique. L'outil peut s'utiliser en distanciel (avec Teams, Zoom, Discord, etc.). Voici une vidéo de 3min qui montre l'utilisation de tableaunoir :
+Il n'y a rien à installer. L'outil s'utilise de préférence avec une tablette graphique. L'outil peut s'utiliser en distanciel (avec Teams, Zoom, Discord, etc.), ou alors en partage de tableau. Voici une vidéo de 3min qui montre l'utilisation de tableaunoir :
 
 https://www.youtube.com/watch?v=P6_lhqiPBow
 
