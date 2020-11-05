@@ -17,7 +17,11 @@ class LoadSave {
 
 
         document.getElementById("save").onclick = LoadSave.save;
-        
+        document.getElementById("exportPng").onclick = LoadSave.exportPng;
+
+
+
+
         document.body.ondragover = (event) => {
             // Prevent default behavior (Prevent file from being opened)
             event.preventDefault();
@@ -87,6 +91,18 @@ class LoadSave {
         MagnetManager.installMagnets();
     }
 
+
+    static exportPng() {
+        const node = document.getElementById("content");
+
+        html2canvas(node).then(canvas => {
+            LoadSave.downloadDataURL(document.getElementById("exportPngName").value + ".png", canvas.toDataURL());
+        });
+
+
+    }
+
+
     /**
      * @description save the blackboard and the magnets
      */
@@ -104,8 +120,21 @@ class LoadSave {
      * @description propose to download a file called filename that contains the text text
      */
     static download(filename, text) {
+       LoadSave.downloadDataURL(filename, 'data:text/plain;charset=utf-8,' + encodeURIComponent(text))
+
+    }
+
+
+
+    /**
+ * 
+ * @param {*} filename 
+ * @param {*} dataURL 
+ * @description propose to download a file with the content
+ */
+    static downloadDataURL(filename, dataURL) {
         let element = document.createElement('a');
-        element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(text));
+        element.setAttribute('href', dataURL);
         element.setAttribute('download', filename);
 
         element.style.display = 'none';

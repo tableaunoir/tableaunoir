@@ -24,19 +24,20 @@ class Layout {
 
 
 
-    static getZoom() {
-       // return 1;
-       return Layout.STANDARDHEIGHT / screen.height;
-    }
     static _initModeClassic() {
-        if (document.getElementById("canvas").width < window.innerWidth)
-            document.getElementById("canvas").width = window.innerWidth;
+        let WIDTH = 4800;
+        let HEIGHT = 1500;
 
-        if (document.getElementById("canvas").height < window.innerHeight)
-            document.getElementById("canvas").height = window.innerHeight;
+        if (document.getElementById("canvas").width < WIDTH)
+            document.getElementById("canvas").width = WIDTH;
+
+        if (document.getElementById("canvas").height < HEIGHT)
+            document.getElementById("canvas").height = HEIGHT;
 
         Layout.getWindowWidth = () => { return window.innerWidth; };
         Layout.getWindowHeight = () => { return window.innerHeight; };
+        Layout.getZoom = () => { return 1; }
+        Layout._resize();
 
     }
 
@@ -51,7 +52,7 @@ class Layout {
 
         Layout.getWindowHeight = () => { return Layout.STANDARDHEIGHT; };
         Layout.getWindowWidth = () => { return window.innerWidth * Layout.getZoom(); };
-
+        Layout.getZoom = () => { return Layout.STANDARDHEIGHT / screen.height; };
         Layout._resize();
     }
 

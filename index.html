@@ -5,6 +5,7 @@
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
 	<link rel="stylesheet" type="text/css" href="style.css" />
+	<script src="lib/html2canvas.min.js"></script>
 	<script src="js/Delineation.js"></script>
 	<script src="js/Palette.js"></script>
 	<script src="js/UserManager.js"></script>
@@ -181,9 +182,20 @@
 					<input type="file" id="file" name="file" accept="image/png, image/jpeg, .tableaunoir" />
 				</div>
 				<h2>Save</h2>
-
+				You may save your board in a <em>.tableaunoir file</em> for using it later:
 				<div class="menuDiv">
 					Name: <input id="name" value="myblackboard"></input><button id="save">Save</button>
+				</div>
+
+
+				<h2>Export</h2>
+				You may export your board as an <em>image .png file</em> for showing it with other people.
+				<div class="warning">
+					You can take a "screenshot" of the current view of the board. You will not be able to import that file again. All magnets will be "flatten" in the resulting
+					image.
+				</div>
+				<div class="menuDiv">
+					Name: <input id="exportPngName" value="myblackboard"></input><button id="exportPng">Get an image of my board</button>
 				</div>
 			</div>
 
