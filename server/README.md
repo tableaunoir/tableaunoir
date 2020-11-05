@@ -48,7 +48,7 @@ server {
 ## Hosting the back-end websocket server
 
 The back-end requires a little more configuration.
-Note that it does not necessarity have to be on the same machine as the
+Note that it does not necessarily have to be on the same machine as the
 front-end.
 
 ### System dependencies
@@ -68,7 +68,7 @@ And then in the `server` folder of the repository:
 $ npm install ws small-uuid
 ```
 
-### Running the websocker server
+### Running the websocket server
 
 Then you need to run `node main.js` from the `server` folder of the repository,
 which will start a websocket server accepting connections on `0.0.0.0:8080`.
@@ -86,4 +86,102 @@ Otherwise, take a look at the following.
 
 ## SSL encryption
 
-TODO
+If you want SSL encryption, you should not expose the websocket server on the
+network since it does not understand SSL.
+One possible way to have SSL encryption on your instance is to have your web
+server (nginx, apache, …) act as a reverse-proxy between the websocket server
+and the outside world.
+
+Thus, the clients communicate over an encrypted channel with the web server,
+which in turn communicates in clear text with the websocket server running
+**locally**.
+
+```
+           wss               ws
+Client <---------> Nginx <--------> node main.js
+         outside           locally
+          world
+```
+
+Here is a sample nginx configuration file implementing the reverse proxy.
+We use two different domain names here for the back-end and the front-end as a
+convenience though it should be possible to have both under the same domain name
+with some extra configuration (not tried yet).
+
+```nginx
+# ---
+# Front-end, just serve the static content of the repository.
+# ---
+
+server {
+  listen 443 ssl;
+  listen [::]:443 ssl;
+
+  server_name tableaunoir.example.com;
+
+  # SSL config, you might want to take a look https://ssl-config.mozilla.org/
+  # to set other configuration parameters.
+  ssl_certificate /path/to/certificate;
+  ssl_certificate_key /path/to/certificate/key;
+
+  root /path/to/the/code;
+  index index.html;
+
+  location / {
+    try_files $uri $uri/ =404;
+  }
+
+  location /server { return 404; }
+  location /.git   { return 404; }
+}
+
+# ---
+# Back-end, nginx act as a reverse-proxy to localhost:8080
+# ---
+
+upstream tableaunoir {
+  server localhost:8080;  # Or whatever port the backend in listening on
+}
+
+server {
+  listen 443 ssl;
+  listen [::]:443 ssl;
+
+  # Different host name for convenience
+  server_name ws.tableaunoir.example.com;
+
+  # SSL config, you might want to take a look https://ssl-config.mozilla.org/
+  # to set other configuration parameters.
+  ssl_certificate /path/to/certificate;
+  ssl_certificate_key /path/to/certificate/key;
+
+  root /dev/null;
+
+  # http://nginx.org/en/docs/http/websocket.html
+  location / {
+    include proxy_params;
+    proxy_pass http://tableaunoir;
+    proxy_http_version 1.1;
+    proxy_set_header Upgrade $http_upgrade;
+    proxy_set_header Connection "upgrade";
+  }
+}
+
+# ---
+# Redirect all unencrypted traffic
+# ---
+
+server {
+  listen 80;
+  listen [::]:80;
+  server_name tableaunoir.example.com, ws.tableaunoir.example.com;
+  return 301 https://$host$request_uri;
+}
+```
+
+Do not forget to update the `SERVERADDRESS` in `js/share.js` to
+`wss://ws.tableaunoir.example.com` (no port specified, `wss` instead of `ws`).
+
+In this setup, you should also configure your firewall to block incoming trafic
+from the outside world to the `8080` port, so that the only way to talk to the
+websocket server is through nginx over SSL.
