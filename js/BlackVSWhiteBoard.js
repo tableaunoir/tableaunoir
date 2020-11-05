@@ -26,6 +26,17 @@ class BlackVSWhiteBoard {
         palette.switchBlackAndWhite();
         document.getElementById("canvasBackground").style.backgroundColor = backgroundColor;
 
+        if (backgroundColor == "black") {
+            jCSSRule(".magnetText div", "background-color", "rgba(27, 27, 27, 0.9)");
+            jCSSRule("div.magnetText", "background-color", "rgba(64, 64, 64, 0.9)");
+            jCSSRule(".magnetText div", "color", "white");
+        }
+        else {
+            jCSSRule(".magnetText div", "background-color", "rgba(247, 247, 247, 0.9)");
+            jCSSRule("div.magnetText", "background-color", "rgba(227, 227, 227, 0.9)");
+            jCSSRule(".magnetText div", "color", "black");
+        }
+
         BlackVSWhiteBoard._invertCanvas();
     }
 

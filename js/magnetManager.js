@@ -406,9 +406,7 @@ class MagnetManager {
 
 		div.style.left = x + "px";
 		div.style.top = y + "px";
-		div.classList.add("magnetText");
-		div.style.backgroundColor = "rgba(0.2, 0.2, 0.2, 0.9)";
-		div.style.color = "white";
+		div.classList.add("magnetText");		
 
 		divText.contentEditable = true;
 		divText.style.fontSize = "24px";
