@@ -1,8 +1,13 @@
 'use strict';
 
-const PORT = 8080;
+// For the server to listen on a regular internet domain socket, set SOCKET_ADDR
+// to a length-2 list of the form [addr, port], for instance:
+const SOCKET_ADDR = ['localhost', 8080]
+// If you prefer Unix domain sockets, set SOCKET_ADDR to the path of the socket,
+// for instance:
+// const SOCKET_ADDR = '/run/tableaunoir.sock';
 
-const https = require('https'); //https library (I can make it work properly)
+const http = require('http');
 const WebSocket = require('ws'); //websocket library
 const fs = require('fs'); //filesystem
 const uuid = require('small-uuid');
@@ -151,67 +156,52 @@ class TableauNoir {
   }
 }
 
-
-
-
 /**
- * @description create a SSL websocket server (does not work yet... issues with the certificate)
+ * Create a web socket server at a Unix socket.
  */
-function createWebSocketServerSSL() {
+function createWebSocketServerUnix(path) {
+  const httpServer = http.createServer();
+  const wsServer = new WebSocket.Server({ server: httpServer });
 
-  /*
-const credentials = {
-  key: fs.readFileSync('/etc/ssl/private/tableaunoir.irisa.fr.key'),
-  ca: fs.readFileSync('/etc/ssl/private/tableaunoir.irisa.fr.cer'),
-  cert: fs.readFileSync('/etc/ssl/private/tableaunoir.irisa.fr.csr')
-};
-*/
-
-
-  const credentials = {
-    key: fs.readFileSync('/etc/ssl/private/tableaunoir.irisa.fr.key'),
-    //ca: fs.readFileSync('/etc/ssl/private/tableaunoir.irisa.fr.cer'),
-    //key: fs.readFileSync('private.pem'),
-    cert: fs.readFileSync('/etc/ssl/private/tableaunoir.irisa.fr.crt')
-  };
-
-  /*
-  const credentials = {
-    cert: fs.readFileSync('tableaunoir_irisa_fr.pem'),
-    key: fs.readFileSync('private.pem'),
-  };*/
-
-
-  const httpsServer = https.createServer(credentials
-    , function (request, response) {
-      response.writeHead(200);
-      response.end("Hello!\n");
-    });
-
-  return WebSocket.Server({
-    server: httpsServer,
-    // You should not use autoAcceptConnections for production
-    // applications, as it defeats all standard cross-origin protection
-    // facilities built into the protocol and the browser.  You should
-    // *always* verify the connection's origin and decide whether or not
-    // to accept it.
+  // The socket must be world readable and world writable.
+  httpServer.listen(path, () => {
+    fs.chmod(path, 0o777, (err) => { if (err) throw err; });
   });
 
+  // Remove the socket before exiting.
+  process.on('SIGINT', () => {
+    fs.unlink(path, (err) => { if (err) throw err; });
+    process.exit();
+  });
+
+  return wsServer;
 }
-
-
 
 /**
- * create a simple web socket server
+ * Create a simple web socket server at an internet domain socket.
  */
-function createWebSocketServerNormal() {
-  return new WebSocket.Server({
-    port: PORT
-  });
+function createWebSocketServerInet(addr, port) {
+  const httpServer = http.createServer();
+  const wsServer = new WebSocket.Server({ server: httpServer });
+  httpServer.listen(port, addr);
+  return wsServer;
 }
 
-let server = createWebSocketServerNormal();
+/**
+ * Create a simple web socket at the address specified in SOCKET_ADDR.
+ */
+function createWebSocketServer() {
+  if (typeof SOCKET_ADDR === 'string') {
+    // Assuming Unix socket
+    return createWebSocketServerUnix(SOCKET_ADDR);
+  } else {
+    // Assuming regular socket
+    const [addr, port] = SOCKET_ADDR;
+    return createWebSocketServerInet(addr, port);
+  }
+}
 
+const server = createWebSocketServer();
 
 let sockets = [];
 
@@ -292,8 +282,4 @@ function treatReceivedMessageFromClient(msg) {
     default:
       tableaunoirs[tableaunoirID].dispatch(msg, msg.socket);
   }
-
-
-
-
 }
