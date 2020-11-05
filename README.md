@@ -56,7 +56,7 @@ $ electron mainElectron.js
 
 In order to share blackboards, you need a server. 
 In the server, first `git clone` (and then later `git pull`) the project. Modify the variable `SERVERADRESS` in `js/share.js` to be the address of your server (eg `1.2.3.4`). Install Apache HTTPD to deploy `index.html` (other web servers might work too, but have not been tested).
-Install the dependencies for the server, see [`server/INSTALL.md`](server/INSTALL.md).
+Install the dependencies for the server, see [`server/README.md`](server/README.md).
 Then `server/run.sh`.
 
 ---
