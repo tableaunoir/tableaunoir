@@ -146,13 +146,13 @@ class Share {
 			case "magnets":
 				console.log(msg.magnets)
 				document.getElementById("magnets").innerHTML = msg.magnets;
-				MagnetManager._installMagnets();
+				MagnetManager.installMagnets();
 				break;
 			case "newmagnet":
 				console.log("new magnet:")
 				document.getElementById("magnets").innerHTML =
 					document.getElementById("magnets").innerHTML + (msg.data); //a bit crazy
-				MagnetManager._installMagnets();
+				MagnetManager.installMagnets();
 				break;
 			case "execute": eval("ShareEvent." + msg.event)(...msg.params);
 		}
