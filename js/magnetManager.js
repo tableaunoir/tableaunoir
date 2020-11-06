@@ -384,6 +384,7 @@ class MagnetManager {
 
 			if (e.key == "Escape") {
 				divText.blur();
+				MathJax.typeset();
 				window.getSelection().removeAllRanges();
 				/*if(divText.innerHTML == "")
 					MagnetManager.remove(div);*/

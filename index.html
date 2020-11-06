@@ -7,6 +7,8 @@
 	<link rel="stylesheet" type="text/css" href="style.css" />
 	<script src="lib/html2canvas.min.js"></script>
 	<script src="lib/jcssrule.js"></script>
+	<script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+	<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
 	<script src="js/Delineation.js"></script>
 	<script src="js/Palette.js"></script>
 	<script src="js/UserManager.js"></script>
@@ -192,11 +194,13 @@
 				<h2>Export</h2>
 				You may export your board as an <em>image .png file</em> for showing it with other people.
 				<div class="warning">
-					You can take a "screenshot" of the current view of the board. You will not be able to import that file again. All magnets will be "flatten" in the resulting
+					You can take a "screenshot" of the current view of the board. You will not be able to import that
+					file again. All magnets will be "flatten" in the resulting
 					image.
 				</div>
 				<div class="menuDiv">
-					Name: <input id="exportPngName" value="myblackboard"></input><button id="exportPng">Get an image of my board</button>
+					Name: <input id="exportPngName" value="myblackboard"></input><button id="exportPng">Get an image of
+						my board</button>
 				</div>
 			</div>
 
