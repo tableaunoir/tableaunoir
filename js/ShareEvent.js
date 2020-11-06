@@ -45,7 +45,11 @@ class ShareEvent {
     }
 
     static magnetRemove(idMagnet) {
-        MagnetManager.magnetRemove(idMagnet)
+        MagnetManager.magnetRemove(idMagnet);
+    }
+
+    static magnetChange(idMagnet, outerHTML) {
+        document.getElementById(idMagnet).outerHTML = outerHTML;
     }
 
     static boardClear() {

@@ -63,7 +63,7 @@ class MagnetManager {
 	 * @param {*} element 
 	 * @description add the DOM element element to the list of magnets
 	 */
-	static addMagnet(element, callback = () => {}) {
+	static addMagnet(element, callback = () => { }) {
 		if (MagnetManager.magnetX > BoardManager.getCurrentScreenRectangle().x2 - 10) {
 			MagnetManager.magnetX = BoardManager.getCurrentScreenRectangle().x1;
 			MagnetManager.magnetY += 64;
@@ -84,7 +84,7 @@ class MagnetManager {
 			callback(element);
 		}
 
-		
+
 		if (element.tagName == "IMG") {
 			element.addEventListener("load", f);
 		}
@@ -235,14 +235,20 @@ class MagnetManager {
 		for (let i = 0; i < magnets.length; i++)
 			MagnetManager._installMagnet(magnets[i]);
 
+		MathJax.typeset();
+
 	}
 
 	static _installMagnet(element) {
+		if (element.classList.contains("magnetText"))
+			MagnetManager.installMagnetText(element);
+
+
 		makeDraggableElement(element);
 
-		
 
-		let f = () => {const LARGENUMBER = 10000; element.style.zIndex = LARGENUMBER - element.clientWidth;};
+
+		let f = () => { const LARGENUMBER = 10000; element.style.zIndex = LARGENUMBER - element.clientWidth; };
 		if (element.tagName == "IMG") {
 			element.addEventListener("load", f);
 		}
@@ -250,7 +256,7 @@ class MagnetManager {
 			f();
 		}
 
-		
+
 
 		element.onmouseenter = () => { MagnetManager.magnetUnderCursor = element };
 		element.onmouseleave = () => { MagnetManager.magnetUnderCursor = undefined };
@@ -355,7 +361,7 @@ class MagnetManager {
 
 
 
-	static addMagnetImage(filename, callback = () => {}) {
+	static addMagnetImage(filename, callback = () => { }) {
 		let img = new Image();
 		img.src = "magnets/" + filename;
 		img.classList.add("backgroundTransparent");
@@ -364,12 +370,11 @@ class MagnetManager {
 	}
 
 
-	static addMagnetText(x, y) {
-		let div = document.createElement("div");
-		let divText = document.createElement("div");
-		MagnetManager.addMagnet(div);
-		div.appendChild(divText);
-		divText.innerHTML = "type text";
+
+	static installMagnetText(element) {
+
+		const divText = element.children[0];
+
 		divText.onpointerdown = (e) => { e.stopPropagation(); }
 		divText.onpointermove = (e) => { e.stopPropagation(); }
 		divText.onpointerup = (e) => { e.stopPropagation(); }
@@ -402,16 +407,45 @@ class MagnetManager {
 				setFontSize(size);
 				e.preventDefault();
 			}
+
+
 			e.stopPropagation();
 		}
 
-		div.style.left = x + "px";
-		div.style.top = y + "px";
-		div.classList.add("magnetText");		
+		divText.onkeyup = evt => {
+			if (Share.isShared())
+				Share.sendMagnetChanged(element);
+			evt.stopPropagation();
+		};
+	}
 
+
+	/**
+	 * 
+	 * @param {*} x 
+	 * @param {*} y 
+	 * @description adds a new magnet text at position x and y
+	 */
+	static addMagnetText(x, y) {
+		const div = document.createElement("div");
+		const divText = document.createElement("div");
+
+		div.appendChild(divText);
+		divText.innerHTML = "type text";
 		divText.contentEditable = true;
 		divText.style.fontSize = "24px";
+		div.classList.add("magnetText");
+
+
+		MagnetManager.addMagnet(div);
+		div.style.left = x + "px";
+		div.style.top = y + "px";
 		divText.focus();
+
+		if (Share.isShared())
+			Share.sendMagnetChanged(div);
+
+
 		document.execCommand('selectAll', false, null);
 	}
 

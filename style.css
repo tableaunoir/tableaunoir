@@ -103,22 +103,12 @@ a {
 
 /** Magnets **/
 
-@keyframes magnetInit {
-	from {
-		filter: blur(2px)
-	}
-
-	to {}
-}
-
-
 .magnet {
 	position: absolute;
 	display: inline-block;
 	font-size: 32px;
 	font-weight: bold;
 	cursor: grab;
-	animation: magnetInit 500ms normal;
 }
 
 

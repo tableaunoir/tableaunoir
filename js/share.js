@@ -148,6 +148,10 @@ class Share {
 				document.getElementById("magnets").innerHTML = msg.magnets;
 				MagnetManager.installMagnets();
 				break;
+			case "magnetChanged":
+				document.getElementById(msg.magnetid).outerHTML = msg.data;
+				MagnetManager.installMagnets();
+				break;
 			case "newmagnet":
 				console.log("new magnet:")
 				document.getElementById("magnets").innerHTML =
@@ -195,6 +199,12 @@ class Share {
 	static sendNewMagnet(element) {
 		console.log("new magnet sent!")
 		Share.send({type: "newmagnet", data: element.outerHTML });
+	}
+
+
+
+	static sendMagnetChanged(element) {
+		Share.send({type: "magnetChanged", magnetid: element.id, data: element.outerHTML });
 	}
 	/**
 	 * 
