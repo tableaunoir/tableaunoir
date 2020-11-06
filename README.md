@@ -1,14 +1,13 @@
 # tableaunoir
 
 Tableaunoir is an online blackboard tool. It can be used as a traditional blackboard but you can also create interactive animations via the use of "fridge magnets".
-["Tableau noir" means blackboard in french](https://www.deepl.com/translator#fr/en/Tableau noir).
-The online version is available here: [https://tableaunoir.github.io/] ([another one](http://tableaunoir.irisa.fr)
-
+["Tableau noir" means blackboard in french](https://www.deepl.com/translator#fr/en/Tableau%20noir).
+The online version is available here: [https://tableaunoir.github.io/] ([another one](http://tableaunoir.irisa.fr))
 
 ## Video
 
 [https://www.youtube.com/watch?v=P6_lhqiPBow] (in French)
-<img src="./photos/snapshot_from_1st_YouTube_video.jpg" alt="Showing the first image of the YouTube video https://www.youtube.com/watch?v=P6_lhqiPBow" width="300"/>
+<img src="./photos/snapshot_from_1st_YouTube_video.png" alt="Showing the first image of the YouTube video https://www.youtube.com/watch?v=P6_lhqiPBow" width="300"/>
 
 ## Examples of use
 
@@ -30,11 +29,11 @@ Tableaunoir is used for teaching at ENS Rennes. The main advantage is that the s
 * Color palette for chalk (`c`, 7 colors  black/white ![#000000](https://placehold.it/15/000000/000000?text=+), yellow ![#FFFF00](https://placehold.it/15/FFFF00/000000?text=+), orange ![#FFA500](https://placehold.it/15/FFA500/000000?text=+), blue ![#64ACFF](https://placehold.it/15/64ACFF/000000?text=+), red ![#DC143C](https://placehold.it/15/DC143C/000000?text=+), pink ![#DDA0DD](https://placehold.it/15/DDA0DD/000000?text=+), green ![#32CD32](https://placehold.it/15/32CD32/000000?text=+)),
 * Change the color of magnets' background,
 * Load/Save the current board,
-* Add texts (`Enter` and type), and move texts,
+* Add texts (`Enter` and type), and move texts. Supports LaTeX (using [MathJax](https://www.mathjax.org/))!
 * Switch to a whiteboard instead of a blackboard,
 * Collaborate and edit the same board at the same time (need a server for that),
 * Change from right-handed (default) to left-handed cursor,
-* Add as many new half-board as you need, going right with `→` and then left/right with `←/→` keyboard arrows.
+* Add as many new half-board as you need, going right with `→` and then left/right with `←/→` keyboard arrows,
 
 You can teach online by sharing the screen with Discord, Zoom, Teams, etc, or by sharing a link (need a server for that).
 
