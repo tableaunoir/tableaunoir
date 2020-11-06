@@ -1,11 +1,11 @@
 'use strict';
 
 // For the server to listen on a regular internet domain socket, set SOCKET_ADDR
-// to a length-2 list of the form [addr, port], for instance:
-const SOCKET_ADDR = ['localhost', 8080]
-// If you prefer Unix domain sockets, set SOCKET_ADDR to the path of the socket,
-// for instance:
-// const SOCKET_ADDR = '/run/tableaunoir.sock';
+// to a record of the form { addr: addr, port: port }, for instance:
+const SOCKET_ADDR = { addr: 'localhost', port: 8080 };
+// If you prefer Unix domain sockets, set SOCKET_ADDR to a record containing the
+// path of the socket, for instance:
+// const SOCKET_ADDR = { unix: '/run/tableaunoir.sock' };
 
 const http = require('http');
 const WebSocket = require('ws'); //websocket library
@@ -191,14 +191,13 @@ function createWebSocketServerInet(addr, port) {
  * Create a simple web socket at the address specified in SOCKET_ADDR.
  */
 function createWebSocketServer() {
-  if (typeof SOCKET_ADDR === 'string') {
-    // Assuming Unix socket
-    return createWebSocketServerUnix(SOCKET_ADDR);
-  } else {
-    // Assuming regular socket
-    const [addr, port] = SOCKET_ADDR;
-    return createWebSocketServerInet(addr, port);
+  if (SOCKET_ADDR.hasOwnProperty('addr') && SOCKET_ADDR.hasOwnProperty('port')) {
+    return createWebSocketServerInet(SOCKET_ADDR.addr, SOCKET_ADDR.port);
   }
+  if (SOCKET_ADDR.hasOwnProperty('unix')) {
+    return createWebSocketServerUnix(SOCKET_ADDR.unix);
+  }
+  throw 'Invalid SOCKET_ADDR';
 }
 
 const server = createWebSocketServer();
