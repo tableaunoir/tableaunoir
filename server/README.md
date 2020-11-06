@@ -45,6 +45,33 @@ server {
 }
 ```
 
+### Apache
+
+Let's assume that you've got an already working server with sensible values.
+Ensure `mod_proxy` and `mod_proxy_wstunnel` are enabled. Add a configuration
+file for tableaunoir `/etc/apache2/conf-available/tableaunoir.conf` :
+
+```apache
+ProxyPass /tableaunoir/ws  ws://localhost:8080/
+Alias /tableaunoir /var/www/tableaunoir
+# This assume a copy of tableaunoir in /var/www
+
+# You may want to do something smarter than `Alias`; exercice left to the
+# advised reader
+```
+
+```sh
+e2enmod proxy
+e2enmod proxy_wstunnel
+a2enconf tableaunoir
+# run node (see next section)
+# reload appache
+```
+
+Finally to use it through https, use `const SERVERADRESS = 'wss://your-domain.com/tableaunoir/ws'`
+in `js/share.js`.
+
+
 ## Hosting the back-end websocket server
 
 The back-end requires a little more configuration.
