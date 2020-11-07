@@ -3,8 +3,12 @@ var Discussion = /** @class */ (function () {
     }
     Discussion.askQuestion = function () {
         var question = prompt("Type the question you want to ask:");
-        if (question != null)
-            Share.execute("questionAdd", [UserManager.me.userID, question]);
+        if (question == null)
+            return;
+        question = question.trim();
+        if (question == "")
+            return;
+        Share.execute("questionAdd", [UserManager.me.userID, question]);
     };
     Discussion.addQuestion = function (userID, question) {
         var questionElement = document.createElement("div");
