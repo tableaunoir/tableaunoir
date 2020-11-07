@@ -2,7 +2,7 @@
 
 class UserManager {
 
-    static me = undefined;
+    static me: User = undefined;
     static users = {};
 
 

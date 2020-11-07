@@ -3,7 +3,7 @@
 html {
 	overscroll-behavior-x: none;
 	width: 100%;
-	height:100%;
+	height: 100%;
 }
 
 body {
@@ -189,9 +189,7 @@ img.magnet.backgroundTransparent {
 }
 
 
-img.magnet:hover {
-	
-}
+img.magnet:hover {}
 
 
 @keyframes magnetCreationPolygon {
@@ -589,11 +587,41 @@ h1 {
 
 .user {
 	margin-right: 1px;
-	padding:0px;
+	padding: 0px;
 	margin-left: 1px;
 
 }
 
 .me {
 	font-weight: bold;
+}
+
+
+#questions {
+	position: absolute;
+	left: 0px;
+	right: 0px;
+	bottom: 0px;
+	width: 100%;
+	background-color: rgb(199, 199, 255);
+}
+
+
+@keyframes newQuestion {
+	from {
+		filter: blur(10px);
+	}
+
+	to {}
+}
+
+
+.question {
+	display: inline-block;
+	color: rgb(12, 78, 78);
+	font-size: 24;
+	padding: 8px;
+	margin-right: 32px;
+	animation: newQuestion 2000ms forwards;
+
 }

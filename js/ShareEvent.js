@@ -46,6 +46,9 @@ var ShareEvent = /** @class */ (function () {
         BoardManager.save();
         Menu.hide();
     };
+    ShareEvent.questionAdd = function (userID, question) {
+        Discussion.addQuestion(userID, question);
+    };
     return ShareEvent;
 }());
 //# sourceMappingURL=ShareEvent.js.map

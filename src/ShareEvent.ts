@@ -57,4 +57,8 @@ class ShareEvent {
         BoardManager.save();
         Menu.hide();
     }
+
+    static questionAdd(userID, question) {
+        Discussion.addQuestion(userID, question);
+    }
 }

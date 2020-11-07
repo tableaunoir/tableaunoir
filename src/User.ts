@@ -19,7 +19,7 @@ class User {
     cursor = undefined;
     toolCursor = undefined;
 
-    userID = 0;
+    userID: string = "0";
 
     setUserID(userID) {
         this.userID = userID;

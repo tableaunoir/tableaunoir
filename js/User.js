@@ -20,7 +20,7 @@ var User = /** @class */ (function () {
         this.color = "white";
         this.cursor = undefined;
         this.toolCursor = undefined;
-        this.userID = 0;
+        this.userID = "0";
         this.cursor = document.createElement("div");
         this.cursor.classList.add("cursor");
         this.toolCursor = document.createElement("img");
