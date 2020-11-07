@@ -1,19 +1,19 @@
-class Toolbar {
-    static init() {
+var Toolbar = /** @class */ (function () {
+    function Toolbar() {
+    }
+    Toolbar.init = function () {
         if (Layout.isTactileDevice()) {
-            buttonCloseControls.hidden = true; //on phone or tablet, we can not remove the toolbar, therefore the button is hidden
-
-            for(let o of document.querySelectorAll("#controls > span")) {
-                o.hidden = true;
+            document.getElementById("buttonCloseControls").hidden = true; //on phone or tablet, we can not remove the toolbar, therefore the button is hidden
+            var spans = document.querySelectorAll("#controls > span");
+            for (var i = 0; spans.length; i++) {
+                spans[i].hidden = true;
             }
-                
         }
-    }
-
-
-
-
-    static toggle() {
+    };
+    Toolbar.toggle = function () {
+        var controls = document.getElementById("controls");
         controls.hidden = !controls.hidden;
-    }
-}
+    };
+    return Toolbar;
+}());
+//# sourceMappingURL=Toolbar.js.map

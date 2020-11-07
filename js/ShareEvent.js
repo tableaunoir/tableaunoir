@@ -1,60 +1,51 @@
-/** 
- * this class contains the events that are shared with other users connected to the same tableaunoir 
+/**
+ * this class contains the events that are shared with other users connected to the same tableaunoir
  * */
-
-class ShareEvent {
-    static mousedown(userId, evt) {
-        UserManager.users[userId].mousedown(evt);
+var ShareEvent = /** @class */ (function () {
+    function ShareEvent() {
     }
-
-    static mousemove(userId, evt) {
+    ShareEvent.mousedown = function (userId, evt) {
+        UserManager.users[userId].mousedown(evt);
+    };
+    ShareEvent.mousemove = function (userId, evt) {
         if (UserManager.users[userId] == undefined)
             console.log("why is " + userId + " not declared?");
         UserManager.users[userId].mousemove(evt);
-    }
-
-    static mouseup(userId, evt) {
+    };
+    ShareEvent.mouseup = function (userId, evt) {
         UserManager.users[userId].mouseup(evt);
-    }
-
-    static setCurrentColor(userId, color) {
+    };
+    ShareEvent.setCurrentColor = function (userId, color) {
         UserManager.users[userId].setCurrentColor(color);
-    }
-
-    static switchErase(userId) {
+    };
+    ShareEvent.switchErase = function (userId) {
         UserManager.users[userId].switchErase();
-    }
-
-    static switchChalk(userId) {
+    };
+    ShareEvent.switchChalk = function (userId) {
         UserManager.users[userId].switchChalk();
-    }
-
-    static setUserCanWrite(userId, bool) {
+    };
+    ShareEvent.setUserCanWrite = function (userId, bool) {
         UserManager.users[userId].setCanWrite(bool);
-    }
-
-    static magnetMove(idMagnet, x, y) {
-        const el = document.getElementById(idMagnet);
+    };
+    ShareEvent.magnetMove = function (idMagnet, x, y) {
+        var el = document.getElementById(idMagnet);
         el.style.top = y + "px";
         el.style.left = x + "px";
-    }
-
-
-    static magnetsClear() {
+    };
+    ShareEvent.magnetsClear = function () {
         MagnetManager.clearMagnet();
-    }
-
-    static magnetRemove(idMagnet) {
+    };
+    ShareEvent.magnetRemove = function (idMagnet) {
         MagnetManager.magnetRemove(idMagnet);
-    }
-
-    static magnetChange(idMagnet, outerHTML) {
+    };
+    ShareEvent.magnetChange = function (idMagnet, outerHTML) {
         document.getElementById(idMagnet).outerHTML = outerHTML;
-    }
-
-    static boardClear() {
+    };
+    ShareEvent.boardClear = function () {
         BoardManager._clear();
         BoardManager.save();
         Menu.hide();
-    }
-}
+    };
+    return ShareEvent;
+}());
+//# sourceMappingURL=ShareEvent.js.map
