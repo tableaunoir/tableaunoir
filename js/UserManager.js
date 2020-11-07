@@ -53,10 +53,17 @@ var UserManager = /** @class */ (function () {
         UserManager.me.setUserID(userid);
         UserManager.updateUsers();
     };
+    UserManager.getUserImage = function (userid) {
+        var img = new Image();
+        var i = parseInt(userid.substr(1));
+        img.src = "img/users/" + UserManager.usersImageFileNames[i % UserManager.usersImageFileNames.length];
+        img.classList.add("userImage");
+        return img;
+    };
     UserManager.userIdToDom = function (userID) {
-        var userDOM = document.createElement("span");
-        userDOM.innerHTML = userID;
+        var userDOM = UserManager.getUserImage(userID);
         userDOM.classList.add("user");
+        userDOM.title = "user " + userID;
         return userDOM;
     };
     /**
@@ -75,6 +82,7 @@ var UserManager = /** @class */ (function () {
     };
     UserManager.me = undefined;
     UserManager.users = {};
+    UserManager.usersImageFileNames = ['1F9D1-200D-1F384.svg', '1F9D9.svg', '1F9DA-200D-2640-FE0F.svg', '1F9DD.svg'];
     return UserManager;
 }());
 //# sourceMappingURL=UserManager.js.map

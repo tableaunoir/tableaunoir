@@ -50,6 +50,10 @@ function print(str) {
   }
 
 }
+
+
+
+
 const tableaunoirs = {};
 
 /**

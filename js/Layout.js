@@ -52,7 +52,7 @@ var Layout = /** @class */ (function () {
         document.getElementById("content").style.transform = "scale(" + 1 / Layout.getZoom() + ")";
         //BoardManager.resize(window.innerWidth, window.innerHeight);
     };
-    Layout.STANDARDHEIGHT = 800;
+    Layout.STANDARDHEIGHT = 1000;
     return Layout;
 }());
 //# sourceMappingURL=Layout.js.map

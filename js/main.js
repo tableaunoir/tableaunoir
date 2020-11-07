@@ -28,6 +28,7 @@ function load() {
         Menu.init();
         Share.init();
         Toolbar.init();
+        Discussion.init();
         var changeColor_1 = function () {
             if (MagnetManager.getMagnetUnderCursor() == undefined) { //if no magnet under the cursor, change the color of the chalk
                 //if (!isDrawing)

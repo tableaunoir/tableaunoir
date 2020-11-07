@@ -594,8 +594,13 @@ h1 {
 
 .me {
 	font-weight: bold;
+	border: white 1px solid;
 }
 
+
+#questions::before {
+	content: "Questions/comments: ";
+}
 
 #questions {
 	position: absolute;
@@ -624,4 +629,11 @@ h1 {
 	margin-right: 32px;
 	animation: newQuestion 2000ms forwards;
 
+}
+
+
+.userImage {
+	width: 48px;
+	height: 48px;
+	vertical-align: middle;
 }

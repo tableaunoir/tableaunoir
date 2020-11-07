@@ -61,4 +61,9 @@ class ShareEvent {
     static questionAdd(userID, question) {
         Discussion.addQuestion(userID, question);
     }
+
+
+    static questionRemove(questionID) {
+        Discussion.removeQuestion(questionID);
+    }
 }

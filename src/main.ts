@@ -42,6 +42,7 @@ function load() {
 		Menu.init();
 		Share.init();
 		Toolbar.init();
+		Discussion.init();
 
 
 

@@ -49,6 +49,9 @@ var ShareEvent = /** @class */ (function () {
     ShareEvent.questionAdd = function (userID, question) {
         Discussion.addQuestion(userID, question);
     };
+    ShareEvent.questionRemove = function (questionID) {
+        Discussion.removeQuestion(questionID);
+    };
     return ShareEvent;
 }());
 //# sourceMappingURL=ShareEvent.js.map

@@ -1,6 +1,6 @@
 class Layout {
 
-    static STANDARDHEIGHT = 800;
+    static STANDARDHEIGHT = 1000;
 
 
     static getWindowWidth: () => number;

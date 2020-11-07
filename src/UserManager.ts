@@ -5,6 +5,8 @@ class UserManager {
     static me: User = undefined;
     static users = {};
 
+    static readonly usersImageFileNames = ['1F9D1-200D-1F384.svg', '1F9D9.svg', '1F9DA-200D-2640-FE0F.svg', '1F9DD.svg'];
+
 
     /**
      * initialisation: creation of myself :)
@@ -67,10 +69,21 @@ class UserManager {
     }
 
 
+
+    static getUserImage(userid: string): HTMLImageElement {
+        const img = new Image();
+        const i = parseInt(userid.substr(1));
+        img.src = "img/users/" + UserManager.usersImageFileNames[i % UserManager.usersImageFileNames.length];
+        img.classList.add("userImage");
+        return img;
+    }
+
+
     static userIdToDom(userID) {
-        let userDOM = document.createElement("span");
-        userDOM.innerHTML = userID;
+        
+        let userDOM = UserManager.getUserImage(userID);
         userDOM.classList.add("user");
+        userDOM.title = "user " + userID;
         return userDOM;
     }
 
