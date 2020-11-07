@@ -3,10 +3,15 @@ var Toolbar = /** @class */ (function () {
     }
     Toolbar.init = function () {
         if (Layout.isTactileDevice()) {
-            document.getElementById("buttonCloseControls").hidden = true; //on phone or tablet, we can not remove the toolbar, therefore the button is hidden
-            var spans = document.querySelectorAll("#controls > span");
-            for (var i = 0; spans.length; i++) {
-                spans[i].hidden = true;
+            try {
+                document.getElementById("buttonCloseControls").hidden = true; //on phone or tablet, we can not remove the toolbar, therefore the button is hidden
+                var spans = document.querySelectorAll("#controls > span");
+                for (var i = 0; spans.length; i++) {
+                    spans[i].hidden = true;
+                }
+            }
+            catch (e) {
+                ErrorMessage.show("Error in loading the toolbar.");
             }
         }
     };
