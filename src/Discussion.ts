@@ -17,7 +17,10 @@ class Discussion {
         const questionElement = document.createElement("div");
         questionElement.classList.add("question");
         questionElement.innerHTML = question;
-        questionElement.onclick = () => { questionElement.remove(); }
+        questionElement.onclick = () => {
+            if (UserManager.me.canWrite)
+                questionElement.remove();
+        }
         document.getElementById("questions").appendChild(questionElement);
     }
 }
