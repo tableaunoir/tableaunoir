@@ -55,6 +55,6 @@ var BlackVSWhiteBoard = /** @class */ (function () {
     return BlackVSWhiteBoard;
 }());
 function modifyCSSRule(selector, property, value) {
-    eval("jCSSRule(" + selector + ", " + property + ", " + value + ")");
+    eval("jCSSRule(\"" + selector + "\", \"" + property + "\", \"" + value + "\")");
 }
 //# sourceMappingURL=BlackVSWhiteBoard.js.map

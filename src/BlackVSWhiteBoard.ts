@@ -70,5 +70,5 @@ class BlackVSWhiteBoard {
 
 
 function modifyCSSRule(selector, property, value) { //a bit ugly but I do not know how to call external libs in TypeScript
-    eval(`jCSSRule(${selector}, ${property}, ${value})`);
+    eval(`jCSSRule("${selector}", "${property}", "${value}")`);
 }
