@@ -199,8 +199,8 @@ function drawLine(context, x1, y1, x2, y2, pressure, color) {
     context.beginPath();
     context.strokeStyle = color;
     context.globalCompositeOperation = "source-over";
-    context.globalAlpha = 0.75 + 0.25 * pressure;
-    context.lineWidth = 1 + 3.5 * pressure;
+    context.globalAlpha = 0.9 + 0.1 * pressure;
+    context.lineWidth = 1.5 + 3 * pressure;
     context.moveTo(x1, y1);
     context.lineTo(x2, y2);
     context.stroke();
