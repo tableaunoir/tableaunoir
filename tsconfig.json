@@ -1,0 +1,18 @@
+{
+  "compilerOptions": {
+  "moduleResolution": "node",
+    "baseUrl": "src/",
+    "module": "ES6",
+    "target": "es5",
+    "sourceMap": true,
+    "allowSyntheticDefaultImports": true,
+    "outDir": "js/",
+    "lib": [
+      "dom",
+      "es2015",
+      "es5",
+      "es6"
+    ]
+  },
+  "exports": [],
+}
