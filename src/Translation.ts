@@ -35,6 +35,9 @@ class Translation {
 
 
     static translateElement(element: Element, dict) {
+        if(element.children == undefined)
+            return;
+            
         if (element.children.length == 0) {
             if (dict[element.innerHTML])
                 element.innerHTML = dict[element.innerHTML];

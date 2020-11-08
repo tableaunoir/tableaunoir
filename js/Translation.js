@@ -24,6 +24,8 @@ var Translation = /** @class */ (function () {
             .then(function (txt) { return txt.json(); });
     };
     Translation.translateElement = function (element, dict) {
+        if (element.children == undefined)
+            return;
         if (element.children.length == 0) {
             if (dict[element.innerHTML])
                 element.innerHTML = dict[element.innerHTML];
