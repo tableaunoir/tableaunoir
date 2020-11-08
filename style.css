@@ -361,6 +361,12 @@ button img {
 	height: 64px;
 }
 
+
+label img {
+	height: 64px;
+	vertical-align: middle;
+}
+
 .magnetCollectionButton {
 	display: block;
 	background: none;

@@ -332,11 +332,10 @@
 				</div>
 			</div>
 			<div id="Share" class="tabcontent">
-				<div class="warning" id="ShareGithub">Warning: Share boards does not work since tableaunoir.github.io is
-					a showcase. You have to install tableaunoir on your own server, or you may try <a
-						href="http://tableaunoir.irisa.fr">http://tableaunoir.irisa.fr</a> if it works!</div>
+				<div class="warning" id="ShareGithub">Warning: tableaunoir.github.io is
+					a showcase!For sharing, please try <a
+					href="http://tableaunoir.irisa.fr">http://tableaunoir.irisa.fr</a> instead.</div>
 				<div class="warning">Warning: this functionnality is still under development and may not work perfectly.
-					In particular, magnets are not shared yet.
 				</div>
 				<div class="warning">Warning: The server will not save your board.
 				</div>
@@ -363,10 +362,12 @@
 
 					<div hidden id="shareMode">
 						<h2>Share mode</h2>
-						<button id="shareInTeacherMode"><img src="img/shareInTeacherMode.png" /><br />You write and the
-							other users only see</button>
-						<button id="shareInEverybodyWritesMode"><img
-								src="img/shareInEverybodyWritesMode.png" /><br />All users can write</button>
+						<input type="radio" id="shareInTeacherMode" name="shareMode" value="shareInTeacherMode">
+						<label for="shareInTeacherMode"><img src="img/shareInTeacherMode.png" />You write and the
+							other users only see</label><br />
+						<input type="radio" id="shareInEverybodyWritesMode" name="shareMode" value="shareInEverybodyWritesMode">
+						<label for="shareInEverybodyWritesMode"><img
+							src="img/shareInEverybodyWritesMode.png" />All users can write</label>
 					</div>
 
 					<div id="users"></div>

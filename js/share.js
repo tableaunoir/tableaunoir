@@ -198,11 +198,11 @@ var Share = /** @class */ (function () {
     Share._setTableauID = function (id) {
         Share.id = id;
         var url = document.location.href;
-        if (url.startsWith("file://"))
-            url = DEFAULTADRESS;
+        /*	if (url.startsWith("file://"))
+                url = DEFAULTADRESS;*/
         var newUrl = url + "?id=" + id;
         history.pushState({}, null, newUrl);
-        document.getElementById("shareUrl").value = newUrl;
+        document.getElementById("shareUrl").value = url.startsWith("file://") ? DEFAULTADRESS + "?id=" + id : newUrl;
         //document.getElementById("canvas").toBlob((blob) => Share.sendFullCanvas(blob));
     };
     Share.isSharedURL = function () {

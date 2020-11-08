@@ -243,13 +243,14 @@ class Share {
 	static _setTableauID(id) {
 		Share.id = id;
 
-		let url = document.location.href;
-		if (url.startsWith("file://"))
-			url = DEFAULTADRESS;
+		const url = document.location.href;
+	/*	if (url.startsWith("file://"))
+			url = DEFAULTADRESS;*/
 
 		const newUrl = url + "?id=" + id;
 		history.pushState({}, null, newUrl);
-		(<HTMLInputElement>document.getElementById("shareUrl")).value = newUrl;
+
+		(<HTMLInputElement>document.getElementById("shareUrl")).value = url.startsWith("file://") ? DEFAULTADRESS + "?id=" + id : newUrl;
 
 		//document.getElementById("canvas").toBlob((blob) => Share.sendFullCanvas(blob));
 

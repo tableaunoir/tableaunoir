@@ -27,10 +27,10 @@ var Discussion = /** @class */ (function () {
         questionElement.id = Discussion.generateID();
         questionElement.innerHTML = UserManager.getUserImage(userID).outerHTML + question;
         questionElement.onclick = function () {
-            if (UserManager.me.canWrite) {
-                Discussion.removeQuestion(questionElement.id);
-                //Share.execute("questionRemove", [questionElement.id]);
-            }
+            //  if (UserManager.me.canWrite) {
+            Discussion.removeQuestion(questionElement.id);
+            //Share.execute("questionRemove", [questionElement.id]);
+            //}
         };
         document.getElementById("questions").appendChild(questionElement);
         document.getElementById("questions").hidden = false;

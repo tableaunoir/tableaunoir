@@ -35,10 +35,10 @@ class Discussion {
         questionElement.id = Discussion.generateID();
         questionElement.innerHTML = UserManager.getUserImage(userID).outerHTML + question;
         questionElement.onclick = () => {
-            if (UserManager.me.canWrite) {
+          //  if (UserManager.me.canWrite) {
                 Discussion.removeQuestion(questionElement.id);
                 //Share.execute("questionRemove", [questionElement.id]);
-            }
+        //}
 
         }
         document.getElementById("questions").appendChild(questionElement);
