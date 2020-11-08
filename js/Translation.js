@@ -26,6 +26,10 @@ var Translation = /** @class */ (function () {
     Translation.translateElement = function (element, dict) {
         if (element.children == undefined)
             return;
+        if (element.title == undefined) {
+            if (dict[element.title])
+                element.title = dict[element.title];
+        }
         if (element.children.length == 0) {
             if (dict[element.innerHTML])
                 element.innerHTML = dict[element.innerHTML];

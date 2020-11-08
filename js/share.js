@@ -1,4 +1,5 @@
 var SERVERADRESS = 'ws://tableaunoir.irisa.fr:8080';
+var DEFAULTADRESS = "http://tableaunoir.irisa.fr";
 var Share = /** @class */ (function () {
     function Share() {
     }
@@ -192,7 +193,10 @@ var Share = /** @class */ (function () {
     };
     Share._setTableauID = function (id) {
         Share.id = id;
-        var newUrl = document.location.href + "?id=" + id;
+        var url = document.location.href;
+        if (url.startsWith("file://"))
+            url = DEFAULTADRESS;
+        var newUrl = url + "?id=" + id;
         history.pushState({}, null, newUrl);
         document.getElementById("shareUrl").value = newUrl;
         //document.getElementById("canvas").toBlob((blob) => Share.sendFullCanvas(blob));

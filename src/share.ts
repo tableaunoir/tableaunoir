@@ -1,5 +1,5 @@
 const SERVERADRESS = 'ws://tableaunoir.irisa.fr:8080';
-
+const DEFAULTADRESS = "http://tableaunoir.irisa.fr";
 
 class Share {
 	static ws = undefined;
@@ -33,7 +33,7 @@ class Share {
 		};
 
 		document.getElementById("joinButton").onclick = () => {
-			window.open(<any> window.location, "_self")
+			window.open(<any>window.location, "_self")
 		}
 
 		document.getElementById("shareInEverybodyWritesMode").onclick = Share.everybodyWritesMode;
@@ -48,7 +48,7 @@ class Share {
 					Share.id = Share.getIDInSharedURL();
 					if (Share.id != null) {
 						Share.join(Share.id);
-						(<HTMLInputElement> document.getElementById("shareUrl")).value = <any> document.location;
+						(<HTMLInputElement>document.getElementById("shareUrl")).value = <any>document.location;
 					}
 				}
 				catch (e) {
@@ -198,13 +198,13 @@ class Share {
 
 	static sendNewMagnet(element) {
 		console.log("new magnet sent!")
-		Share.send({type: "newmagnet", data: element.outerHTML });
+		Share.send({ type: "newmagnet", data: element.outerHTML });
 	}
 
 
 
 	static sendMagnetChanged(element) {
-		Share.send({type: "magnetChanged", magnetid: element.id, data: element.outerHTML });
+		Share.send({ type: "magnetChanged", magnetid: element.id, data: element.outerHTML });
 	}
 	/**
 	 * 
@@ -237,9 +237,14 @@ class Share {
 
 	static _setTableauID(id) {
 		Share.id = id;
-		let newUrl = document.location.href + "?id=" + id;
+
+		let url = document.location.href;
+		if (url.startsWith("file://"))
+			url = DEFAULTADRESS;
+
+		const newUrl = url + "?id=" + id;
 		history.pushState({}, null, newUrl);
-		(<HTMLInputElement> document.getElementById("shareUrl")).value = newUrl;
+		(<HTMLInputElement>document.getElementById("shareUrl")).value = newUrl;
 
 		//document.getElementById("canvas").toBlob((blob) => Share.sendFullCanvas(blob));
 
@@ -256,7 +261,7 @@ class Share {
 
 
 	static isSharedURL() {
-		let params = (new URL(<any> document.location)).searchParams;
+		let params = (new URL(<any>document.location)).searchParams;
 		return params.get('id') != null;
 	}
 
@@ -271,7 +276,7 @@ class Share {
 
 
 	static getIDInSharedURL() {
-		let params = (new URL(<any> document.location)).searchParams;
+		let params = (new URL(<any>document.location)).searchParams;
 		return params.get('id');
 	}
 
