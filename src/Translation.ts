@@ -7,10 +7,10 @@ class Translation {
         try {
             Translation.translate();
         }
-        catch(e) {
+        catch (e) {
             ErrorMessage.show(e);
         }
-        
+
     }
 
     /**
@@ -35,9 +35,14 @@ class Translation {
 
 
     static translateElement(element: Element, dict) {
-        if(element.children == undefined)
+        if (element.children == undefined)
             return;
-            
+
+        if ((<any>element).title == undefined) {
+            if (dict[(<any>element).title])
+                (<any>element).title = dict[(<any>element).title];
+        }
+
         if (element.children.length == 0) {
             if (dict[element.innerHTML])
                 element.innerHTML = dict[element.innerHTML];
@@ -56,6 +61,6 @@ class Translation {
             Translation.translateElement(document.getElementById("menu"), dict);
 
         }
-            )
+        )
     }
 }
