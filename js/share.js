@@ -174,10 +174,13 @@ var Share = /** @class */ (function () {
     Share.execute = function (event, params) {
         function adapt(obj) {
             if (obj instanceof MouseEvent) {
-                var props = [
-                    'pressure', 'offsetX', 'offsetY'
-                ];
-                props.forEach(function (prop) {
+                return { pressure: obj.pressure, offsetX: obj.offsetX, offsetY: obj.offsetY };
+            }
+            else
+                return obj;
+            /*	let props = [//'target', 'clientX', 'clientY', 'layerX', 'layerY',
+                    'pressure', 'offsetX', 'offsetY'];
+                props.forEach(prop => {
                     Object.defineProperty(obj, prop, {
                         value: obj[prop],
                         enumerable: true,
@@ -185,7 +188,8 @@ var Share = /** @class */ (function () {
                     });
                 });
             }
-            return obj;
+
+            return obj;*/
         }
         eval("ShareEvent." + event).apply(void 0, params);
         if (Share.isShared())

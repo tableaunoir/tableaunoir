@@ -30,6 +30,7 @@
 	<script src="js/Toolbar.js"></script>
 	<script src="js/Layout.js"></script>
 	<script src="js/Discussion.js"></script>
+	<script src="js/Background.js"></script>
 	<script src="js/Translation.js"></script>
 	<script src="js/main.js"></script>
 </head>
@@ -120,6 +121,7 @@
 		<div class="tabs">
 			<button class="tablink" id="defaultOpen" onclick="Menu.openPage('MyBlackboard', this)">⎕ My Board</button>
 			<button class="tablink" onclick="Menu.openPage('Share', this)">🔗 Share</button>
+			<button class="tablink" onclick="Menu.openPage('Background', this)">🖼 Background</button>
 			<button class="tablink" onclick="Menu.openPage('Magnets', this)">🎊 Magnets</button>
 
 			<button class="tablink" onclick="Menu.openPage('Options', this)">⚛ Options</button>
@@ -179,11 +181,7 @@
 					<button class="buttonClear" id="clearMagnet">
 						<img src="img/magnet_delete.png" /><br />Remove all the magnets</button>
 				</div>
-				<h2>Add a background</h2>
-				<button id="buttonNoBackground">
-					<img src="img/nobackground.png" /><br />No background</button>
-				<button class="buttonMusicScore" id="buttonMusicScore">
-					<img src="img/backgroundmusicscore.png" /><br />Music score</button>
+
 				<h2>Load</h2>
 				<div class="menuDiv">
 					<label for="file">
@@ -211,6 +209,25 @@
 						my board</button>
 				</div>
 			</div>
+
+			<div id="Background" class="tabcontent">
+				<button class="buttonClear" id="buttonNoBackground">
+					<img src="img/nobackground.png" /><br />No background</button>
+
+				<h2>Predefined Background</h2>
+
+				<div>You may add a background to your board. For instance, you can teach music by adding a music score
+					background:</div>
+
+				<button class="buttonMusicScore" id="buttonMusicScore">
+					<img src="img/backgroundmusicscore.png" /><br />Music score</button>
+
+				<h2>Your own background</h2>
+				<div>You can also import your own background:</div>
+
+				<input type="file" accept="image/png, image/jpeg" id="inputBackground"></input>
+			</div>
+
 
 			<div id="Options" class="tabcontent">
 				<button id="blackBoardSwitch" hidden><img src="img/switchblackwhite.png" /><br />Switch to

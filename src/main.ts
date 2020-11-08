@@ -31,9 +31,8 @@ function load() {
 
 		UserManager.init();
 
-		document.getElementById("buttonNoBackground").onclick = () => { backgroundClear(); Menu.hide(); };
-		document.getElementById("buttonMusicScore").onclick = () => { musicScore(); Menu.hide(); };
 
+		Background.init();
 		Layout.init();
 
 		Translation.init();
@@ -88,7 +87,7 @@ function load() {
 
 		document.getElementById("buttonChalk").onclick = switchChalkEraser;
 		document.getElementById("buttonEraser").onclick = switchChalkEraser;
-		
+
 		document.getElementById("buttonText").onclick = () => MagnetManager.addMagnetText(UserManager.me.x, UserManager.me.y);
 		document.getElementById("buttonDivide").onclick = divideScreen;
 
@@ -99,13 +98,13 @@ function load() {
 
 		document.getElementById("buttonAskQuestion").onclick = Discussion.askQuestion;
 
-		
+
 
 		let buttons = document.getElementById("controls").children;
 
 		for (let i = 0; i < buttons.length; i++)
-			if(buttons[i] instanceof HTMLButtonElement)
-				(<HTMLButtonElement> buttons[i]).onfocus = (<any> document.activeElement).blur; //to be improved
+			if (buttons[i] instanceof HTMLButtonElement)
+				(<HTMLButtonElement>buttons[i]).onfocus = (<any>document.activeElement).blur; //to be improved
 
 		Welcome.init();
 
@@ -216,8 +215,14 @@ function load() {
 			Share.execute("mousedown", [UserManager.me.userID, evt])
 		};
 		document.getElementById("canvasBackground").onpointermove = (evt) => { console.log("mousemove on the background should not occur") };
-		document.getElementById("canvas").onpointermove = (evt) => { evt.preventDefault(); Share.execute("mousemove", [UserManager.me.userID, evt]) };
-		document.getElementById("canvas").onpointerup = (evt) => { evt.preventDefault(); Share.execute("mouseup", [UserManager.me.userID, evt]) };
+		document.getElementById("canvas").onpointermove = (evt) => {
+			evt.preventDefault();
+			Share.execute("mousemove", [UserManager.me.userID, evt])
+		};
+		document.getElementById("canvas").onpointerup = (evt) => {
+			evt.preventDefault();
+			Share.execute("mouseup", [UserManager.me.userID, evt])
+		};
 		//document.getElementById("canvas").onmousedown = mousedown;
 
 		TouchScreen.addTouchEvents(document.getElementById("canvas"));
@@ -242,12 +247,12 @@ function load() {
 
 
 function getCanvas(): HTMLCanvasElement {
-	return <HTMLCanvasElement> document.getElementById("canvas");
+	return <HTMLCanvasElement>document.getElementById("canvas");
 }
 
 
 function getCanvasBackground(): HTMLCanvasElement {
-	return <HTMLCanvasElement> document.getElementById("canvasBackground");
+	return <HTMLCanvasElement>document.getElementById("canvasBackground");
 }
 
 
@@ -265,6 +270,8 @@ function drawLine(context, x1, y1, x2, y2, pressure = 1.0, color = UserManager.m
 	context.lineWidth = 1.5 + 3 * pressure;
 	context.moveTo(x1, y1);
 	context.lineTo(x2, y2);
+	/*context.moveTo(Math.round(x1), Math.round(y1));
+	context.lineTo(Math.round(x2), Math.round(y2));*/
 	context.stroke();
 	context.closePath();
 }
@@ -305,39 +312,6 @@ function divideScreen() {
 	BoardManager.saveCurrentScreen();
 }
 
-
-function backgroundClear() {
-	const canvasBackground = getCanvasBackground();
-	canvasBackground.getContext("2d").clearRect(0, 0, canvasBackground.width, canvasBackground.height);
-}
-
-
-function musicScore() {
-	backgroundClear();
-	let COLORSTAFF = "rgb(128, 128, 255)";
-	let fullHeight = Layout.getWindowHeight() - 32;
-	const container = document.getElementById("container");
-	const canvasBackground= getCanvasBackground();
-
-	let x = container.scrollLeft;
-	let x2 = container.scrollLeft + Layout.getWindowWidth();
-	let ymiddleScreen = fullHeight / 2;
-	let yshift = fullHeight / 7;
-	let drawStaff = (ymiddle) => {
-		let space = fullHeight / 30;
-
-		for (let i = -2; i <= 2; i++) {
-			let y = ymiddle + i * space;
-			drawLine(canvasBackground.getContext("2d"), x, y, x2, y, 1.0, COLORSTAFF);
-		}
-	}
-
-
-	drawStaff(ymiddleScreen - yshift);
-	drawStaff(ymiddleScreen + yshift);
-
-	BoardManager.saveCurrentScreen();
-}
 
 
 let magnetColors = ['', 'rgb(255, 128, 0)', 'rgb(0, 128, 0)', 'rgb(192, 0, 0)', 'rgb(0, 0, 255)'];

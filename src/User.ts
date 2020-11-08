@@ -121,7 +121,7 @@ class User {
         MagnetManager.setInteractable(false);
 
         //unselect the selected element (e.g. a text in edit mode)
-        (<any> document.activeElement).blur();
+        (<any>document.activeElement).blur();
 
 
         //console.log("mousedown")
@@ -151,23 +151,24 @@ class User {
 
     mousemove(evt) {
 
-        let evtX = evt.offsetX;
-        let evtY = evt.offsetY;
+        const evtX = evt.offsetX;
+        const evtY = evt.offsetY;
 
-        this.cursor.style.left = evtX - 8;
-        this.cursor.style.top = evtY - 8;
-
-
+        if (!this.isCurrentUser) {
+            this.cursor.style.left = evtX - 8;
+            this.cursor.style.top = evtY - 8;
+        }
 
         if (this.canWrite) {
             if (this.isDrawing) {//} && this.lastDelineation.isDrawing()) {
                 palette.hide();
                 if (this.eraseMode) {
-                    this.eraseLineWidth = 10;
+                    //this.eraseLineWidth = 10;
 
                     this.eraseLineWidth = 10 + 30 * evt.pressure;
 
-                    if (Math.abs(this.x - this.xInit) > Layout.getWindowWidth() / 4 || Math.abs(this.y - this.yInit) > Layout.getWindowHeight() / 4)
+                    if (Math.abs(this.x - this.xInit) > Layout.getWindowWidth() / 4 ||
+                        Math.abs(this.y - this.yInit) > Layout.getWindowHeight() / 4)
                         this.eraseModeBig = true;
 
                     if (this.eraseModeBig) {

@@ -216,7 +216,11 @@ class Share {
 	static execute(event, params) {
 		function adapt(obj) {
 			if (obj instanceof MouseEvent) {
-				let props = [//'target', 'clientX', 'clientY', 'layerX', 'layerY', 
+				return {pressure: (<any> obj).pressure, offsetX: obj.offsetX, offsetY: obj.offsetY};
+			}
+			else
+				return obj;
+			/*	let props = [//'target', 'clientX', 'clientY', 'layerX', 'layerY', 
 					'pressure', 'offsetX', 'offsetY'];
 				props.forEach(prop => {
 					Object.defineProperty(obj, prop, {
@@ -227,7 +231,8 @@ class Share {
 				});
 			}
 
-			return obj;
+			return obj;*/
+
 		}
 		eval("ShareEvent." + event)(...params);
 		if (Share.isShared())
