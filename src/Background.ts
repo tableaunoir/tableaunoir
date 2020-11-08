@@ -31,8 +31,8 @@ class Background {
         const container = document.getElementById("container");
         const canvasBackground = getCanvasBackground();
 
-        let x = container.scrollLeft;
-        let x2 = container.scrollLeft + Layout.getWindowWidth();
+        let x = 0;
+        let x2 = 2*Layout.getWindowWidth();
         let ymiddleScreen = fullHeight / 2;
         let yshift = fullHeight / 7;
         let drawStaff = (ymiddle) => {
