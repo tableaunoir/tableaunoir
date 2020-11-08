@@ -85,16 +85,6 @@ class User {
         return this.color;
     }
 
-    switchChalkEraser() {
-        this.eraseMode = !this.eraseMode;
-
-        if (this.eraseMode) {
-
-        }
-        else {
-
-        }
-    }
 
 
     switchChalk() {
@@ -102,7 +92,8 @@ class User {
 
         if (this.isCurrentUser()) {
             this.updateCursor();
-            document.getElementById("buttonEraser").innerHTML = "⌫ Eraser";
+            document.getElementById("buttonEraser").hidden = false;
+            document.getElementById("buttonChalk").hidden = true;
         }
 
     }
@@ -120,7 +111,8 @@ class User {
         if (this.isCurrentUser()) {
             palette.hide();
             this.setToolCursorImage(EraserCursor.getStyleCursor(this.eraseLineWidth));
-            document.getElementById("buttonEraser").innerHTML = "🖊 Chalk";
+            document.getElementById("buttonEraser").hidden = true;
+            document.getElementById("buttonChalk").hidden = false;
         }
     }
 

@@ -22,6 +22,7 @@ function load() {
         document.getElementById("buttonNoBackground").onclick = function () { backgroundClear(); Menu.hide(); };
         document.getElementById("buttonMusicScore").onclick = function () { musicScore(); Menu.hide(); };
         Layout.init();
+        Translation.init();
         ChalkCursor.init();
         LoadSave.init();
         BoardManager.init();
@@ -60,6 +61,7 @@ function load() {
         };
         document.getElementById("buttonMenu").onclick = Menu.toggle;
         document.getElementById("buttonColors").onclick = changeColor_1;
+        document.getElementById("buttonChalk").onclick = switchChalkEraser_1;
         document.getElementById("buttonEraser").onclick = switchChalkEraser_1;
         document.getElementById("buttonText").onclick = function () { return MagnetManager.addMagnetText(UserManager.me.x, UserManager.me.y); };
         document.getElementById("buttonDivide").onclick = divideScreen;

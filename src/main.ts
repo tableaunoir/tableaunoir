@@ -36,6 +36,7 @@ function load() {
 
 		Layout.init();
 
+		Translation.init();
 		ChalkCursor.init();
 		LoadSave.init();
 		BoardManager.init();
@@ -84,7 +85,10 @@ function load() {
 
 		document.getElementById("buttonMenu").onclick = Menu.toggle;
 		document.getElementById("buttonColors").onclick = changeColor;
+
+		document.getElementById("buttonChalk").onclick = switchChalkEraser;
 		document.getElementById("buttonEraser").onclick = switchChalkEraser;
+		
 		document.getElementById("buttonText").onclick = () => MagnetManager.addMagnetText(UserManager.me.x, UserManager.me.y);
 		document.getElementById("buttonDivide").onclick = divideScreen;
 

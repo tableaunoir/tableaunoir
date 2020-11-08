@@ -63,18 +63,12 @@ var User = /** @class */ (function () {
     User.prototype.getCurrentColor = function () {
         return this.color;
     };
-    User.prototype.switchChalkEraser = function () {
-        this.eraseMode = !this.eraseMode;
-        if (this.eraseMode) {
-        }
-        else {
-        }
-    };
     User.prototype.switchChalk = function () {
         this.eraseMode = false;
         if (this.isCurrentUser()) {
             this.updateCursor();
-            document.getElementById("buttonEraser").innerHTML = "⌫ Eraser";
+            document.getElementById("buttonEraser").hidden = false;
+            document.getElementById("buttonChalk").hidden = true;
         }
     };
     /**
@@ -88,7 +82,8 @@ var User = /** @class */ (function () {
         if (this.isCurrentUser()) {
             palette.hide();
             this.setToolCursorImage(EraserCursor.getStyleCursor(this.eraseLineWidth));
-            document.getElementById("buttonEraser").innerHTML = "🖊 Chalk";
+            document.getElementById("buttonEraser").hidden = true;
+            document.getElementById("buttonChalk").hidden = false;
         }
     };
     User.prototype.mousedown = function (evt) {
