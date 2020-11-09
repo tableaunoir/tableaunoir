@@ -81,7 +81,7 @@ function load() {
         };
         document.onkeydown = function (evt) {
             //console.log("ctrl: " + evt.ctrlKey + " shift:" + evt.shiftKey + "key: " + evt.key)
-            if (evt.key == "Backspace")
+            if (evt.key == "Backspace" && !(document.activeElement instanceof HTMLInputElement))
                 evt.preventDefault();
             if (evt.key == "Escape" || evt.key == "F1") { //escape => show menu
                 if (Welcome.isShown())

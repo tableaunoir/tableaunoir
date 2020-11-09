@@ -44,6 +44,16 @@ var Translation = /** @class */ (function () {
         dictionnary.then(function (dict) {
             Translation.translateElement(document.getElementById("controls"), dict);
             Translation.translateElement(document.getElementById("menu"), dict);
+            for (var key in dict) {
+                if (key.startsWith('#')) {
+                    var element = document.getElementById(key.substr(1));
+                    if (element == undefined)
+                        console.log("Element " + key + " not found. I can translate..");
+                    if (element.children.length > 0)
+                        console.log("I refuse to translate because the element has some children.");
+                    element.outerHTML = dict[key];
+                }
+            }
         });
     };
     return Translation;

@@ -79,7 +79,7 @@ class Share {
 	 */
 	static share() {
 		try {
-			Share.tryConnect(() => Share.send({ type: "share" }));
+			Share.tryConnect(() => Share.send({ type: "share", password: document.getElementById("password") }));
 
 			document.getElementById("shareInfo").hidden = false;
 			document.getElementById("join").hidden = true;
