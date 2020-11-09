@@ -33,13 +33,16 @@ var MagnetManager = /** @class */ (function () {
     MagnetManager.getMagnets = function () {
         return document.getElementsByClassName("magnet");
     };
+    MagnetManager.getYTopWhenNewMagnets = function () {
+        return 64;
+    };
     /**
      * delete all the magnets
      */
     MagnetManager.clearMagnet = function () {
         MagnetManager.currentMagnet = undefined;
         MagnetManager.magnetX = BoardManager.getCurrentScreenRectangle().x1;
-        MagnetManager.magnetY = 0;
+        MagnetManager.magnetY = MagnetManager.getYTopWhenNewMagnets();
         var magnets = MagnetManager.getMagnets();
         while (magnets.length > 0)
             magnets[0].remove();
@@ -445,7 +448,7 @@ var MagnetManager = /** @class */ (function () {
         document.getElementById(magnetSetName).onclick = eval(magnetSetName);
     };
     MagnetManager.magnetX = 0;
-    MagnetManager.magnetY = 0;
+    MagnetManager.magnetY = 64;
     MagnetManager.currentMagnet = undefined; // last magnet used
     MagnetManager.magnetUnderCursor = undefined;
     return MagnetManager;

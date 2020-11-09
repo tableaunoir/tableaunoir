@@ -3,7 +3,7 @@
 class MagnetManager {
 
 	static magnetX = 0;
-	static magnetY = 0;
+	static magnetY = 64;
 	static currentMagnet = undefined; // last magnet used
 	static magnetUnderCursor = undefined;
 
@@ -50,13 +50,18 @@ class MagnetManager {
 	}
 
 
+
+	static getYTopWhenNewMagnets() {
+		return 64;
+	}
+
 	/**
 	 * delete all the magnets
 	 */
 	static clearMagnet() {
 		MagnetManager.currentMagnet = undefined;
 		MagnetManager.magnetX = BoardManager.getCurrentScreenRectangle().x1;
-		MagnetManager.magnetY = 0;
+		MagnetManager.magnetY = MagnetManager.getYTopWhenNewMagnets();
 		let magnets = MagnetManager.getMagnets();
 
 		while (magnets.length > 0)
