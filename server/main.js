@@ -272,7 +272,7 @@ server.on('connection', function (socket) {
  * @description treats the msg
  */
 function treatReceivedMessageFromClient(msg) {
-  const tableaunoirID = msg.id;
+  let tableaunoirID = msg.id;
 
   switch (msg.type) {
     case "share":
