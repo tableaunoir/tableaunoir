@@ -14,7 +14,7 @@ body {
 	overscroll-behavior-x: none;
 	height: 100%;
 	width: 100%;
-	background-color: rgb(44, 25, 0);
+	background-color: rgb(194, 123, 31);
 }
 
 canvas {
@@ -38,9 +38,11 @@ canvas {
 
 #content {
 	transform-origin: left top;
-	position: relative;
+	position: absolute;
 	margin: 0px;
 	padding: 0px;
+	top: 0px;
+	left: 0px;
 }
 
 
@@ -57,6 +59,7 @@ canvas {
 	width: 100%;
 	background-color: rgb(68, 68, 68);
 	color: white;
+	z-index: 1;
 }
 
 .keyboardkeyhelp {

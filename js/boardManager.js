@@ -146,7 +146,9 @@ var BoardManager = /** @class */ (function () {
      * @returns the number of pixels when scrolling
      */
     BoardManager.scrollQuantity = function () {
-        return Layout.getWindowWidth() / 2;
+        var THESHOLD = 1500;
+        var middle = Layout.getWindowWidth() / 2;
+        return Math.min(middle, THESHOLD);
     };
     /**
      * go left

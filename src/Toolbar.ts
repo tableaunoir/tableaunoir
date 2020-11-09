@@ -29,5 +29,6 @@ class Toolbar {
     static toggle() {
         const controls = document.getElementById("controls");
         controls.hidden = !controls.hidden;
+        Layout._resize();
     }
 }

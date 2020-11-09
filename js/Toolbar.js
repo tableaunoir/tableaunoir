@@ -24,6 +24,7 @@ var Toolbar = /** @class */ (function () {
     Toolbar.toggle = function () {
         var controls = document.getElementById("controls");
         controls.hidden = !controls.hidden;
+        Layout._resize();
     };
     return Toolbar;
 }());

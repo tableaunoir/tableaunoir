@@ -187,7 +187,7 @@
 					<label for="file">
 						To open an existing board, drag and drop your <em>.tableaunoir file</em> in the application or
 						choose a file:</label>
-					</br>
+						<br/><br/>
 					<input type="file" id="file" name="file" accept="image/png, image/jpeg, .tableaunoir" />
 				</div>
 				<h2>Save</h2>
@@ -196,17 +196,20 @@
 					Name: <input id="name" value="myblackboard"></input><button id="save">Save</button>
 				</div>
 
-
-				<h2>Export</h2>
-				You may export your board as an <em>image .png file</em> for showing it with other people.
-				<div class="warning">
-					You can take a "screenshot" of the current view of the board. You will not be able to import that
-					file again. All magnets will be "flatten" in the resulting
-					image.
-				</div>
-				<div class="menuDiv">
-					Name: <input id="exportPngName" value="myblackboard"></input><button id="exportPng">Get an image of
-						my board</button>
+				<div hidden>
+					<h2>Export</h2>
+					You may export your board as an <em>image .png file</em> for showing it with other people.
+					<div class="warning">
+						You can take a "screenshot" of the current view of the board. You will not be able to import
+						that
+						file again. All magnets will be "flatten" in the resulting
+						image.
+					</div>
+					<div class="menuDiv">
+						Name: <input id="exportPngName" value="myblackboard"></input><button id="exportPng">Get an image
+							of
+							my board</button>
+					</div>
 				</div>
 			</div>
 
@@ -347,7 +350,8 @@
 
 
 					If you want some of your friends to see and modify your board, make a <em>shared</em> board. You may
-					use a <em>password</em> to keep your sharer privileges. If no password is given, all participants will have full privileges.<br />
+					use a <em>password</em> to keep your sharer privileges. If no password is given, all participants
+					will have full privileges.<br />
 					Password (optional): <input type="password" id="password"></input>
 					<button id="shareButton">Make a shared board</button>
 
@@ -363,14 +367,16 @@
 				<div hidden id="shareInfo">
 					<h2>Share with others</h2>
 					In order to <em>share</em> the board with your friends, give them the following URL:<br />
-					<input id="shareUrl" value=""></input><button id="buttonCopyShareUrl">Copy</button><span id="shareUrlCopied" hidden="true">Copied!</span>
+					<input id="shareUrl" value=""></input><button id="buttonCopyShareUrl">Copy</button><span
+						id="shareUrlCopied" hidden="true">Copied!</span>
 					<span id='sharecopytext' style='display: none;'>copy link</span>
 
 
 					<div id="askPrivilege">
 						<h2>Get privileges</h2>
 
-						<div>Actually, you do not have any privileges, and this board is <em>protected</em>. To obtain them, type the correct <em>password</em>.</div>
+						<div>Actually, you do not have any privileges, and this board is <em>protected</em>. To obtain
+							them, type the correct <em>password</em>.</div>
 						<input id="passwordCandidate" type="password"></input><button id="buttonAskPrivilege">Ask
 							Privilege</button>
 					</div>
@@ -382,10 +388,11 @@
 						<div>You have all the <em>privileges</em> to modify the permissions on this board.</div>
 
 						<div>
-						<input type="checkbox" id="sharePermissionWrite" name="shareMode" value="shareInTeacherMode">
-						<label for="sharePermissionWrite">All users can write</label>
-						<img hidden id="imgWritePermissionfalse" src="img/shareInTeacherMode.png" />
-						<img hidden id="imgWritePermissiontrue" src="img/shareInEverybodyWritesMode.png" /></div>
+							<input type="checkbox" id="sharePermissionWrite" name="shareMode"
+								value="shareInTeacherMode">
+							<label for="sharePermissionWrite">All users can write</label>
+							<img hidden id="imgWritePermissionfalse" src="img/shareInTeacherMode.png" />
+							<img hidden id="imgWritePermissiontrue" src="img/shareInEverybodyWritesMode.png" /></div>
 
 					</div>
 

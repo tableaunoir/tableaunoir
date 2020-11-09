@@ -11,7 +11,7 @@ class Layout {
      */
     static init() {
         console.log("Layout.init()")
-        Layout._initModeResize();
+        Layout.initWorWT();
 
     }
 
@@ -34,7 +34,7 @@ class Layout {
 
 
 
-    static _initModeClassic() {
+    static initClassic() {
         let WIDTH = 4800;
         let HEIGHT = 1500;
 
@@ -53,7 +53,11 @@ class Layout {
 
     }
 
-    static _initModeResize() {
+
+    /**
+     * rescaling with the screen
+     */
+    static initS() {
         const canvas = getCanvas();
         const canvasBackground = getCanvasBackground();
         canvas.height = Layout.STANDARDHEIGHT;
@@ -71,11 +75,79 @@ class Layout {
     }
 
 
+    /**
+        * rescaling with the screen
+        */
+    static initW() {
+        const canvas = getCanvas();
+        const canvasBackground = getCanvasBackground();
+        canvas.height = Layout.STANDARDHEIGHT;
+        canvas.width = 4800;
+
+        canvasBackground.height = Layout.STANDARDHEIGHT;
+        canvasBackground.width = 4800;
+
+        window.addEventListener("resize", Layout._resize);
+
+        Layout.getWindowHeight = () => { return Layout.STANDARDHEIGHT; };
+        Layout.getWindowWidth = () => { return window.innerWidth * Layout.getZoom(); };
+        Layout.getZoom = () => {
+            const innerHeight = window.innerHeight;
+
+            return Layout.STANDARDHEIGHT / innerHeight;
+        };
+        Layout._resize();
+    }
+
+
+    /**
+     * rescaling with the screen
+     */
+    static initWorWT() {
+        const canvas = getCanvas();
+        const canvasBackground = getCanvasBackground();
+        const content = document.getElementById("content");
+        canvas.height = Layout.STANDARDHEIGHT;
+        canvas.width = 4800;
+
+        canvasBackground.height = Layout.STANDARDHEIGHT;
+        canvasBackground.width = 4800;
+
+        window.addEventListener("resize", Layout._resize);
+
+        Layout.getWindowHeight = () => { return Layout.STANDARDHEIGHT; };
+        Layout.getWindowWidth = () => { return window.innerWidth * Layout.getZoom(); };
+        Layout.getZoom = () => {
+            const toolbar = document.getElementById("controls");
+            const innerHeight = window.innerHeight - (toolbar.hidden ? 0 : toolbar.clientHeight);
+            let heightused;
+            if (toolbar.clientHeight < window.innerHeight / 10) {
+                heightused = window.innerHeight;
+                content.style.position = "absolute";
+
+
+            }
+            else {
+                heightused = innerHeight;
+                content.style.position = "relative";
+
+            }
+
+
+            return Layout.STANDARDHEIGHT / heightused;
+        };
+        Layout._resize();
+    }
+
+
 
     static _resize() {
         console.log("resize");
         //if(window.innerHeight > Layout.STANDARDHEIGHT)
-        document.getElementById("content").style.transform = `scale(${1 / Layout.getZoom()})`;
+        const zoom = Layout.getZoom();
+        const contentElement = document.getElementById("content");
+        contentElement.style.width = window.innerWidth * zoom + "px";
+        contentElement.style.transform = `scale(${1 / Layout.getZoom()})`;
         //BoardManager.resize(window.innerWidth, window.innerHeight);
 
     }

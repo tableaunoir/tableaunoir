@@ -6,7 +6,7 @@ var Layout = /** @class */ (function () {
      */
     Layout.init = function () {
         console.log("Layout.init()");
-        Layout._initModeResize();
+        Layout.initWorWT();
     };
     /**
      * @returns true if the device is a smartphone or tablet, false if it is a computer
@@ -23,7 +23,7 @@ var Layout = /** @class */ (function () {
             || navigator.userAgent.match(/BlackBerry/i)
             || navigator.userAgent.match(/Windows Phone/i);
     };
-    Layout._initModeClassic = function () {
+    Layout.initClassic = function () {
         var WIDTH = 4800;
         var HEIGHT = 1500;
         var canvas = getCanvas();
@@ -36,7 +36,10 @@ var Layout = /** @class */ (function () {
         Layout.getZoom = function () { return 1; };
         Layout._resize();
     };
-    Layout._initModeResize = function () {
+    /**
+     * rescaling with the screen
+     */
+    Layout.initS = function () {
         var canvas = getCanvas();
         var canvasBackground = getCanvasBackground();
         canvas.height = Layout.STANDARDHEIGHT;
@@ -49,10 +52,62 @@ var Layout = /** @class */ (function () {
         Layout.getZoom = function () { return Layout.STANDARDHEIGHT / screen.height; };
         Layout._resize();
     };
+    /**
+        * rescaling with the screen
+        */
+    Layout.initW = function () {
+        var canvas = getCanvas();
+        var canvasBackground = getCanvasBackground();
+        canvas.height = Layout.STANDARDHEIGHT;
+        canvas.width = 4800;
+        canvasBackground.height = Layout.STANDARDHEIGHT;
+        canvasBackground.width = 4800;
+        window.addEventListener("resize", Layout._resize);
+        Layout.getWindowHeight = function () { return Layout.STANDARDHEIGHT; };
+        Layout.getWindowWidth = function () { return window.innerWidth * Layout.getZoom(); };
+        Layout.getZoom = function () {
+            var innerHeight = window.innerHeight;
+            return Layout.STANDARDHEIGHT / innerHeight;
+        };
+        Layout._resize();
+    };
+    /**
+     * rescaling with the screen
+     */
+    Layout.initWorWT = function () {
+        var canvas = getCanvas();
+        var canvasBackground = getCanvasBackground();
+        var content = document.getElementById("content");
+        canvas.height = Layout.STANDARDHEIGHT;
+        canvas.width = 4800;
+        canvasBackground.height = Layout.STANDARDHEIGHT;
+        canvasBackground.width = 4800;
+        window.addEventListener("resize", Layout._resize);
+        Layout.getWindowHeight = function () { return Layout.STANDARDHEIGHT; };
+        Layout.getWindowWidth = function () { return window.innerWidth * Layout.getZoom(); };
+        Layout.getZoom = function () {
+            var toolbar = document.getElementById("controls");
+            var innerHeight = window.innerHeight - (toolbar.hidden ? 0 : toolbar.clientHeight);
+            var heightused;
+            if (toolbar.clientHeight < window.innerHeight / 10) {
+                heightused = window.innerHeight;
+                content.style.position = "absolute";
+            }
+            else {
+                heightused = innerHeight;
+                content.style.position = "relative";
+            }
+            return Layout.STANDARDHEIGHT / heightused;
+        };
+        Layout._resize();
+    };
     Layout._resize = function () {
         console.log("resize");
         //if(window.innerHeight > Layout.STANDARDHEIGHT)
-        document.getElementById("content").style.transform = "scale(" + 1 / Layout.getZoom() + ")";
+        var zoom = Layout.getZoom();
+        var contentElement = document.getElementById("content");
+        contentElement.style.width = window.innerWidth * zoom + "px";
+        contentElement.style.transform = "scale(" + 1 / Layout.getZoom() + ")";
         //BoardManager.resize(window.innerWidth, window.innerHeight);
     };
     Layout.STANDARDHEIGHT = 1000;

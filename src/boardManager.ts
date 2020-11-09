@@ -16,7 +16,7 @@ class BoardManager {
    */
     static init() {
         document.getElementById("blackboardClear").onclick = () => {
-           Share.execute("boardClear", []);
+            Share.execute("boardClear", []);
         }
 
     }
@@ -67,11 +67,11 @@ class BoardManager {
 
 
 
-       /**
-     * 
-     * @param {*} r a rectangle {x1, y1, x2, y2}
-     * @returns the content as a string of the image
-     */
+    /**
+  * 
+  * @param {*} r a rectangle {x1, y1, x2, y2}
+  * @returns the content as a string of the image
+  */
     static getDataURLOfRectangle(r) {
         return BoardManager._createCanvasForRectangle(r).toDataURL();
     }
@@ -192,7 +192,9 @@ class BoardManager {
      * @returns the number of pixels when scrolling
      */
     static scrollQuantity() {
-        return Layout.getWindowWidth() / 2;
+        const THESHOLD = 1500;
+        const middle = Layout.getWindowWidth() / 2;
+        return Math.min(middle, THESHOLD);
     }
 
     /**
