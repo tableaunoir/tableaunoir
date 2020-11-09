@@ -33,6 +33,13 @@ class Share {
 
 	}
 
+
+	/**
+	 * @returns true iff we are on github.io
+	 */
+	static isOnGitHub() {
+		return window.location.origin.indexOf("github") >= 0;
+	}
 	/**
 	 * initialization
 	 */
@@ -43,13 +50,13 @@ class Share {
 		};
 
 		document.getElementById("buttonShare").onclick = function () {
-            if (!Share.isShared()) {
-                Share.share();
-            } else {
-                Share.copyShareUrl();
-            }
+			if (!Share.isShared()) {
+				Share.share();
+			} else {
+				Share.copyShareUrl();
+			}
 		}
-		
+
 		document.getElementById("joinButton").onclick = () => {
 			window.open(<any>window.location, "_self")
 		}
@@ -58,7 +65,7 @@ class Share {
 		checkboxSharePermissionWrite.onclick =
 			() => Share.setCanWriteForAllExceptMeAndByDefault(checkboxSharePermissionWrite.checked);
 
-		if (window.location.origin.indexOf("github") < 0)
+		if (!Share.isOnGitHub())
 			document.getElementById('ShareGithub').hidden = true;
 
 		if (Share.isSharedURL()) {
@@ -72,7 +79,10 @@ class Share {
 				}
 				catch (e) {
 					Share.ws = undefined;
-					ErrorMessage.show("Impossible to connect to the server", e);
+					if (Share.isOnGitHub())
+						ErrorMessage.show("Impossible to share from tableaunoir.github.io. Go to menu/share to have explanations.", e);
+					else
+						ErrorMessage.show("Impossible to connect to the server", e);
 				}
 
 			}
