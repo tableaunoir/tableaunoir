@@ -31,6 +31,13 @@ var Share = /** @class */ (function () {
             if (!Share.isShared())
                 Share.share();
         };
+        document.getElementById("buttonShare").onclick = function () {
+            if (!Share.isShared()) {
+                Share.share();
+            } else {
+                Share.copyShareUrl();
+            }
+        }
         document.getElementById("joinButton").onclick = function () {
             window.open(window.location, "_self");
         };
@@ -56,14 +63,7 @@ var Share = /** @class */ (function () {
             Share.tryConnect(tryJoin);
         }
         document.getElementById("buttonAskPrivilege").onclick = Share.askPrivilege;
-        document.getElementById("buttonCopyShareUrl").onclick = function () {
-            var inputElement = document.getElementById("shareUrl");
-            inputElement.select();
-            inputElement.setSelectionRange(0, 99999); /*For mobile devices*/
-            /* Copy the text inside the text field */
-            document.execCommand("copy");
-            document.getElementById("shareUrlCopied").hidden = false;
-        };
+        document.getElementById("buttonCopyShareUrl").onclick = Share.copyShareUrl;
     };
     /**
      * @description ask for privilege (root)
@@ -71,6 +71,12 @@ var Share = /** @class */ (function () {
     Share.askPrivilege = function () {
         var passwordCandidate = document.getElementById("passwordCandidate").value;
         Share.send({ type: "askprivilege", password: passwordCandidate });
+    };
+    Share.copyShareUrl = function () {
+        var sharelink = document.getElementById("shareUrl").value;
+        navigator.clipboard.writeText(sharelink).
+        then(function() { document.getElementById("shareUrlCopied").hidden = false; },
+        /* else */ function() { document.getElementById("shareUrlCopied").hidden = false; });
     };
     /**
      * @returns true iff the board is shared with others
@@ -92,6 +98,7 @@ var Share = /** @class */ (function () {
             var password_1 = document.getElementById("password").value;
             Share.tryConnect(function () { return Share.send({ type: "share", password: password_1 }); });
             document.getElementById("shareInfo").hidden = false;
+            document.getElementById("buttonShare").innerHTML = document.getElementById('sharecopytext').innerHTML;
             document.getElementById("join").hidden = true;
             if (password_1 == "") {
                 Share.setCanWriteForAllExceptMeAndByDefault(true);
@@ -123,6 +130,7 @@ var Share = /** @class */ (function () {
                 UserManager.setMyUserID(msg.userid);
                 document.getElementById("shareAndJoin").hidden = true;
                 document.getElementById("shareInfo").hidden = false;
+                document.getElementById("buttonShare").innerHTML = document.getElementById('sharecopytext').innerHTML;
                 break;
             case "user": //there is an existing user
                 console.log("existing user: ", msg.userid);
