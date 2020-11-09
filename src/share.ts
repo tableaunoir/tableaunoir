@@ -70,7 +70,8 @@ class Share {
 
 
 	static askPrivilege() {
-		Share.send({ type: "askprivilege", password: document.getElementById("passwordCandidate") })
+		const passwordCandidate = (<HTMLInputElement> document.getElementById("passwordCandidate")).value;
+		Share.send({ type: "askprivilege", password: passwordCandidate })
 	}
 
 	/**
