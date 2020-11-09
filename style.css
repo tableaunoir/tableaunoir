@@ -361,6 +361,11 @@ button img {
 	height: 64px;
 }
 
+
+img {
+	vertical-align: middle;
+}
+
 .magnetCollectionButton {
 	display: block;
 	background: none;
@@ -594,8 +599,13 @@ h1 {
 
 .me {
 	font-weight: bold;
+	border: white 2px solid;
 }
 
+
+#questions::before {
+	content: "Questions/comments: ";
+}
 
 #questions {
 	position: absolute;
@@ -603,6 +613,7 @@ h1 {
 	right: 0px;
 	bottom: 0px;
 	width: 100%;
+	max-height: 64px;
 	background-color: rgb(199, 199, 255);
 }
 
@@ -624,4 +635,11 @@ h1 {
 	margin-right: 32px;
 	animation: newQuestion 2000ms forwards;
 
+}
+
+
+.userImage {
+	width: 48px;
+	height: 48px;
+	vertical-align: middle;
 }

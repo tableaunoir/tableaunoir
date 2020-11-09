@@ -6,12 +6,14 @@ class Delineation {
     points = [];
     lastpoints = [];
     drawing: boolean;
+    maybeJustAPoint = true; //memoisation for getDot
 
 
     reset() {
         this.drawing = true;
         this.lastpoints = this.points;
         this.points = [];
+        this.maybeJustAPoint = true;
     }
 
     finish() {
@@ -72,12 +74,16 @@ class Delineation {
      * @returns true if the current drawing is just a point
      */
     isDot() {
+        if(!this.maybeJustAPoint)
+        return false;
         if (this.points.length == 0)
             return false;
 
         for (let point of this.points)
-            if (Math.abs(point.x - this.points[0].x) > 2 && Math.abs(point.y - this.points[0].y) > 2)
+            if (Math.abs(point.x - this.points[0].x) > 2 && Math.abs(point.y - this.points[0].y) > 2) {
+                this.maybeJustAPoint = false;
                 return false;
+            }
 
         return true;
     }

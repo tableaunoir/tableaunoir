@@ -19,15 +19,16 @@ function load() {
         if (loaded)
             return;
         UserManager.init();
-        document.getElementById("buttonNoBackground").onclick = function () { backgroundClear(); Menu.hide(); };
-        document.getElementById("buttonMusicScore").onclick = function () { musicScore(); Menu.hide(); };
+        Background.init();
         Layout.init();
+        Translation.init();
         ChalkCursor.init();
         LoadSave.init();
         BoardManager.init();
         Menu.init();
         Share.init();
         Toolbar.init();
+        Discussion.init();
         var changeColor_1 = function () {
             if (MagnetManager.getMagnetUnderCursor() == undefined) { //if no magnet under the cursor, change the color of the chalk
                 //if (!isDrawing)
@@ -59,6 +60,7 @@ function load() {
         };
         document.getElementById("buttonMenu").onclick = Menu.toggle;
         document.getElementById("buttonColors").onclick = changeColor_1;
+        document.getElementById("buttonChalk").onclick = switchChalkEraser_1;
         document.getElementById("buttonEraser").onclick = switchChalkEraser_1;
         document.getElementById("buttonText").onclick = function () { return MagnetManager.addMagnetText(UserManager.me.x, UserManager.me.y); };
         document.getElementById("buttonDivide").onclick = divideScreen;
@@ -79,7 +81,7 @@ function load() {
         };
         document.onkeydown = function (evt) {
             //console.log("ctrl: " + evt.ctrlKey + " shift:" + evt.shiftKey + "key: " + evt.key)
-            if (evt.key == "Backspace")
+            if (evt.key == "Backspace" && !(document.activeElement instanceof HTMLInputElement))
                 evt.preventDefault();
             if (evt.key == "Escape" || evt.key == "F1") { //escape => show menu
                 if (Welcome.isShown())
@@ -168,8 +170,14 @@ function load() {
             Share.execute("mousedown", [UserManager.me.userID, evt]);
         };
         document.getElementById("canvasBackground").onpointermove = function (evt) { console.log("mousemove on the background should not occur"); };
-        document.getElementById("canvas").onpointermove = function (evt) { evt.preventDefault(); Share.execute("mousemove", [UserManager.me.userID, evt]); };
-        document.getElementById("canvas").onpointerup = function (evt) { evt.preventDefault(); Share.execute("mouseup", [UserManager.me.userID, evt]); };
+        document.getElementById("canvas").onpointermove = function (evt) {
+            evt.preventDefault();
+            Share.execute("mousemove", [UserManager.me.userID, evt]);
+        };
+        document.getElementById("canvas").onpointerup = function (evt) {
+            evt.preventDefault();
+            Share.execute("mouseup", [UserManager.me.userID, evt]);
+        };
         //document.getElementById("canvas").onmousedown = mousedown;
         TouchScreen.addTouchEvents(document.getElementById("canvas"));
         //	document.getElementById("canvas").onmouseleave = function (evt) { isDrawing = false; }
@@ -203,6 +211,8 @@ function drawLine(context, x1, y1, x2, y2, pressure, color) {
     context.lineWidth = 1.5 + 3 * pressure;
     context.moveTo(x1, y1);
     context.lineTo(x2, y2);
+    /*context.moveTo(Math.round(x1), Math.round(y1));
+    context.lineTo(Math.round(x2), Math.round(y2));*/
     context.stroke();
     context.closePath();
 }
@@ -233,31 +243,6 @@ function divideScreen() {
     console.log("divide the screen");
     var x = document.getElementById("container").scrollLeft + Layout.getWindowWidth() / 2;
     drawLine(getCanvas().getContext("2d"), x, 0, x, Layout.getWindowHeight(), 1, BoardManager.getDefaultChalkColor());
-    BoardManager.saveCurrentScreen();
-}
-function backgroundClear() {
-    var canvasBackground = getCanvasBackground();
-    canvasBackground.getContext("2d").clearRect(0, 0, canvasBackground.width, canvasBackground.height);
-}
-function musicScore() {
-    backgroundClear();
-    var COLORSTAFF = "rgb(128, 128, 255)";
-    var fullHeight = Layout.getWindowHeight() - 32;
-    var container = document.getElementById("container");
-    var canvasBackground = getCanvasBackground();
-    var x = container.scrollLeft;
-    var x2 = container.scrollLeft + Layout.getWindowWidth();
-    var ymiddleScreen = fullHeight / 2;
-    var yshift = fullHeight / 7;
-    var drawStaff = function (ymiddle) {
-        var space = fullHeight / 30;
-        for (var i = -2; i <= 2; i++) {
-            var y = ymiddle + i * space;
-            drawLine(canvasBackground.getContext("2d"), x, y, x2, y, 1.0, COLORSTAFF);
-        }
-    };
-    drawStaff(ymiddleScreen - yshift);
-    drawStaff(ymiddleScreen + yshift);
     BoardManager.saveCurrentScreen();
 }
 var magnetColors = ['', 'rgb(255, 128, 0)', 'rgb(0, 128, 0)', 'rgb(192, 0, 0)', 'rgb(0, 0, 255)'];

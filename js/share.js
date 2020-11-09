@@ -1,4 +1,5 @@
 var SERVERADRESS = 'ws://tableaunoir.irisa.fr:8080';
+var DEFAULTADRESS = "http://tableaunoir.irisa.fr";
 var Share = /** @class */ (function () {
     function Share() {
     }
@@ -28,17 +29,15 @@ var Share = /** @class */ (function () {
             if (!Share.isShared()) {
                 Share.share();
             } else {
-                var sharelink = document.location.href + "?id=" + Share.id;
-                navigator.clipboard.writeText(sharelink).
-                  then(function() { },
-                    /* else */ function() {});
+                document.getElementById("buttonCopyShareUrl").onclick()
             }
         }
         document.getElementById("joinButton").onclick = function () {
             window.open(window.location, "_self");
         };
-        document.getElementById("shareInEverybodyWritesMode").onclick = Share.everybodyWritesMode;
-        document.getElementById("shareInTeacherMode").onclick = Share.teacherMode;
+        var checkboxSharePermissionWrite = document.getElementById("sharePermissionWrite");
+        checkboxSharePermissionWrite.onclick =
+            function () { return Share.setCanWriteForAllExceptMeAndByDefault(checkboxSharePermissionWrite.checked); };
         if (window.location.origin.indexOf("github") < 0)
             document.getElementById('ShareGithub').hidden = true;
         if (Share.isSharedURL()) {
@@ -57,6 +56,19 @@ var Share = /** @class */ (function () {
             };
             Share.tryConnect(tryJoin);
         }
+        document.getElementById("buttonAskPrivilege").onclick = Share.askPrivilege;
+        document.getElementById("buttonCopyShareUrl").onclick = function () {
+            var inputElement = document.getElementById("shareUrl");
+            inputElement.select();
+            inputElement.setSelectionRange(0, 99999); /*For mobile devices*/
+            /* Copy the text inside the text field */
+            document.execCommand("copy");
+            document.getElementById("shareUrlCopied").hidden = false;
+        };
+    };
+    Share.askPrivilege = function () {
+        var passwordCandidate = document.getElementById("passwordCandidate").value;
+        Share.send({ type: "askprivilege", password: passwordCandidate });
     };
     /**
      * @returns true iff the board is shared with others
@@ -65,14 +77,27 @@ var Share = /** @class */ (function () {
         return Share.id != undefined;
     };
     /**
+     * @returns true iff the current user is root
+     */
+    Share.isRoot = function () {
+        return document.getElementById("askPrivilege").hidden;
+    };
+    /**
      * @description tries to connect the server to make a shared board
      */
     Share.share = function () {
         try {
-            Share.tryConnect(function () { return Share.send({ type: "share" }); });
-            document.getElementById("buttonShare").innerHTML = document.getElementById('sharecopytext').innerHTML;
+            var password_1 = document.getElementById("password").value;
+            Share.tryConnect(function () { return Share.send({ type: "share", password: password_1 }); });
             document.getElementById("shareInfo").hidden = false;
+            document.getElementById("buttonShare").innerHTML = document.getElementById('sharecopytext').innerHTML;
             document.getElementById("join").hidden = true;
+            if (password_1 == "") {
+                Share.setCanWriteForAllExceptMeAndByDefault(true);
+            }
+            else
+                Share.setCanWriteForAllExceptMeAndByDefault(false);
+            Share.setRoot();
         }
         catch (e) {
             Share.ws = undefined;
@@ -97,13 +122,19 @@ var Share = /** @class */ (function () {
                 UserManager.setMyUserID(msg.userid);
                 document.getElementById("shareAndJoin").hidden = true;
                 document.getElementById("shareInfo").hidden = false;
-                document.getElementById("shareMode").hidden = false;
                 break;
             case "user": //there is an existing user
                 console.log("existing user: ", msg.userid);
                 if (msg.userid == UserManager.me.userID)
                     throw "oops... an already existing user has the same name than me";
                 UserManager.add(msg.userid);
+                break;
+            case "root": //you obtained root permission and the server tells you that
+                console.log("I am root.");
+                Share.setRoot();
+                break;
+            case "accessdenied":
+                ErrorMessage.show("Access denied");
                 break;
             case "join": //a new user joins the group
                 console.log("a new user is joining: ", msg.userid);
@@ -139,6 +170,10 @@ var Share = /** @class */ (function () {
                 break;
             case "execute": eval("ShareEvent." + msg.event).apply(void 0, msg.params);
         }
+    };
+    Share.setRoot = function () {
+        document.getElementById("askPrivilege").hidden = true;
+        document.getElementById("shareMode").hidden = false;
     };
     /**
      *
@@ -184,10 +219,13 @@ var Share = /** @class */ (function () {
     Share.execute = function (event, params) {
         function adapt(obj) {
             if (obj instanceof MouseEvent) {
-                var props = [
-                    'pressure', 'offsetX', 'offsetY'
-                ];
-                props.forEach(function (prop) {
+                return { pressure: obj.pressure, offsetX: obj.offsetX, offsetY: obj.offsetY };
+            }
+            else
+                return obj;
+            /*	let props = [//'target', 'clientX', 'clientY', 'layerX', 'layerY',
+                    'pressure', 'offsetX', 'offsetY'];
+                props.forEach(prop => {
                     Object.defineProperty(obj, prop, {
                         value: obj[prop],
                         enumerable: true,
@@ -195,7 +233,8 @@ var Share = /** @class */ (function () {
                     });
                 });
             }
-            return obj;
+
+            return obj;*/
         }
         eval("ShareEvent." + event).apply(void 0, params);
         if (Share.isShared())
@@ -203,9 +242,12 @@ var Share = /** @class */ (function () {
     };
     Share._setTableauID = function (id) {
         Share.id = id;
-        var newUrl = document.location.href + "?id=" + id;
+        var url = document.location.href;
+        /*	if (url.startsWith("file://"))
+                url = DEFAULTADRESS;*/
+        var newUrl = url + "?id=" + id;
         history.pushState({}, null, newUrl);
-        document.getElementById("shareUrl").value = newUrl;
+        document.getElementById("shareUrl").value = url.startsWith("file://") ? DEFAULTADRESS + "?id=" + id : newUrl;
         //document.getElementById("canvas").toBlob((blob) => Share.sendFullCanvas(blob));
     };
     Share.isSharedURL = function () {
@@ -226,19 +268,16 @@ var Share = /** @class */ (function () {
     Share.join = function (id) {
         Share.send({ type: "join", id: id });
     };
-    Share.teacherMode = function () {
-        Share.setCanWriteForAllExceptMeAndByDefault(false);
-    };
     Share.setCanWriteForAllExceptMeAndByDefault = function (bool) {
+        document.getElementById("imgWritePermission" + bool).hidden = false;
+        document.getElementById("imgWritePermission" + !bool).hidden = true;
+        document.getElementById("sharePermissionWrite").checked = bool;
         for (var userid in UserManager.users) {
             if (UserManager.users[userid] != UserManager.me)
                 Share.execute("setUserCanWrite", [userid, bool]);
         }
         Share.canWriteValueByDefault = bool;
         Share.execute("setUserCanWrite", [UserManager.me.userID, true]);
-    };
-    Share.everybodyWritesMode = function () {
-        Share.setCanWriteForAllExceptMeAndByDefault(true);
     };
     Share.ws = undefined;
     Share.id = undefined;

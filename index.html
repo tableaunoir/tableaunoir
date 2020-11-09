@@ -30,6 +30,8 @@
 	<script src="js/Toolbar.js"></script>
 	<script src="js/Layout.js"></script>
 	<script src="js/Discussion.js"></script>
+	<script src="js/Background.js"></script>
+	<script src="js/Translation.js"></script>
 	<script src="js/main.js"></script>
 </head>
 
@@ -37,6 +39,7 @@
 	<div id=controls>
 		<button id="buttonMenu">☕ Menu</button><span class="keyboardkeyhelp">Esc.</span>
 		<button id="buttonColors" title="Choose your color">🎨 Colors</button><span class="keyboardkeyhelp">c</span>
+		<button hidden id="buttonChalk" title="Switch between erase and draw">🖊 Chalk</button>
 		<button id="buttonEraser" title="Switch between erase and draw">⌫ Eraser</button><span
 			class="keyboardkeyhelp">e</span>
 		<button id="buttonText" title="Add some text written with the keyboard">Text</button><span
@@ -119,6 +122,7 @@
 		<div class="tabs">
 			<button class="tablink" id="defaultOpen" onclick="Menu.openPage('MyBlackboard', this)">⎕ My Board</button>
 			<button class="tablink" onclick="Menu.openPage('Share', this)">🔗 Share</button>
+			<button class="tablink" onclick="Menu.openPage('Background', this)">🖼 Background</button>
 			<button class="tablink" onclick="Menu.openPage('Magnets', this)">🎊 Magnets</button>
 
 			<button class="tablink" onclick="Menu.openPage('Options', this)">⚛ Options</button>
@@ -135,32 +139,32 @@
 				<h2>About Tableaunoir</h2>
 				<div class="explanation">
 					<img src="img/welcome_tableaunoir.png" />
-					Tableaunoir is an <em>online blackboard</em>. It is ideally used with a <em>graphics
-						tablet</em>. Your audience is <em>concentrated
-						on the content</em> if you hide the toolbar and use keyboard shortcuts.
+					<span>Tableaunoir is an <em>online blackboard</em>. It is ideally used with a <em>graphics
+							tablet</em>. Your audience is <em>concentrated
+							on the content</em> if you hide the toolbar and use keyboard shortcuts.</span>
 
 				</div>
 
 				<div class="explanation">
 					<img src="img/welcome_magnets.png" />
-					You may create <em>magnets</em> (think of them as fridge magnets) for making
-					<em>interactive
-						courses</em>,
-					presentations and discussions with students.</em></div>
+					<span>You may create <em>magnets</em> (think of them as fridge magnets) for making
+						<em>interactive
+							courses</em>,
+						presentations and discussions with students.</em></span></div>
 
 				<div class="explanation">
 					<img src="img/shareInEverybodyWritesMode.png" />
-					Blackboards are sharable in order to <em>collaborate</em> with your friends (feature still in
-					development). Open the menu!
+					<span>Blackboards are sharable in order to <em>collaborate</em> with your friends (feature still in
+						development). Open the menu!</span>
 				</div>
 				<div class="explanation">
 					<img src="img/welcome_open.png" />
-					Work
-					best on
-					Firefox, Chrome or Chromium, last versions.
+					<span>Work
+						best on
+						Firefox, Chrome or Chromium, last versions.</span>
 
 
-					The project is <em>open source</em>. See:
+					<span>The project is <em>open source</em>. See:</span>
 					<a target="_blank" rel="noopener noreferrer"
 						href="https://github.com/tableaunoir/tableaunoir.github.io">https://github.com/tableaunoir/tableaunoir.github.io</a>
 				</div>
@@ -178,11 +182,7 @@
 					<button class="buttonClear" id="clearMagnet">
 						<img src="img/magnet_delete.png" /><br />Remove all the magnets</button>
 				</div>
-				<h2>Add a background</h2>
-				<button id="buttonNoBackground">
-					<img src="img/nobackground.png" /><br />No background</button>
-				<button class="buttonMusicScore" id="buttonMusicScore">
-					<img src="img/backgroundmusicscore.png" /><br />Music score</button>
+
 				<h2>Load</h2>
 				<div class="menuDiv">
 					<label for="file">
@@ -210,6 +210,25 @@
 						my board</button>
 				</div>
 			</div>
+
+			<div id="Background" class="tabcontent">
+				<button class="buttonClear" id="buttonNoBackground">
+					<img src="img/nobackground.png" /><br />No background</button>
+
+				<h2>Predefined Background</h2>
+
+				<div>You may add a background to your board. For instance, you can teach music by adding a music score
+					background:</div>
+
+				<button class="buttonMusicScore" id="buttonMusicScore">
+					<img src="img/backgroundmusicscore.png" /><br />Music score</button>
+
+				<h2>Your own background</h2>
+				<div>You can also import your own background:</div>
+
+				<input type="file" accept="image/png, image/jpeg image/svg" id="inputBackground"></input>
+			</div>
+
 
 			<div id="Options" class="tabcontent">
 				<button id="blackBoardSwitch" hidden><img src="img/switchblackwhite.png" /><br />Switch to
@@ -314,11 +333,10 @@
 				</div>
 			</div>
 			<div id="Share" class="tabcontent">
-				<div class="warning" id="ShareGithub">Warning: Share boards does not work since tableaunoir.github.io is
-					a showcase. You have to install tableaunoir on your own server, or you may try <a
-						href="http://tableaunoir.irisa.fr">http://tableaunoir.irisa.fr</a> if it works!</div>
+				<div class="warning" id="ShareGithub">Warning: tableaunoir.github.io is
+					a showcase!For sharing, please try <a
+						href="http://tableaunoir.irisa.fr">http://tableaunoir.irisa.fr</a> instead.</div>
 				<div class="warning">Warning: this functionnality is still under development and may not work perfectly.
-					In particular, magnets are not shared yet.
 				</div>
 				<div class="warning">Warning: The server will not save your board.
 				</div>
@@ -326,7 +344,12 @@
 				<div id="shareAndJoin">
 					<h2>Make a shared board</h2>
 
-					If you want some of your friends to see and modify your board, make a <em>shared</em> board.
+
+
+
+					If you want some of your friends to see and modify your board, make a <em>shared</em> board. You may
+					use a <em>password</em> to keep your sharer privileges. If no password is given, all participants will have full privileges.<br />
+					Password (optional): <input type="password" id="password"></input>
 					<button id="shareButton">Make a shared board</button>
 
 					</br />
@@ -341,15 +364,30 @@
 				<div hidden id="shareInfo">
 					<h2>Share with others</h2>
 					In order to <em>share</em> the board with your friends, give them the following URL:<br />
-					<input id="shareUrl" value=""></input>
-					<span id='sharecopytext' style='display: none;'>Share link</span>
+					<input id="shareUrl" value=""></input><button id="buttonCopyShareUrl">Copy</button><span id="shareUrlCopied" hidden="true">Copied!</span>
+					<span id='sharecopytext' style='display: none;'>copy link</span>
+
+
+					<div id="askPrivilege">
+						<h2>Get privileges</h2>
+
+						<div>Actually, you do not have any privileges, and this board is <em>protected</em>. To obtain them, type the correct <em>password</em>.</div>
+						<input id="passwordCandidate" type="password"></input><button id="buttonAskPrivilege">Ask
+							Privilege</button>
+					</div>
+
 
 					<div hidden id="shareMode">
-						<h2>Share mode</h2>
-						<button id="shareInTeacherMode"><img src="img/shareInTeacherMode.png" /><br />You write and the
-							other users only see</button>
-						<button id="shareInEverybodyWritesMode"><img
-								src="img/shareInEverybodyWritesMode.png" /><br />All users can write</button>
+						<h2>Permissions</h2>
+
+						<div>You have all the <em>privileges</em> to modify the permissions on this board.</div>
+
+						<div>
+						<input type="checkbox" id="sharePermissionWrite" name="shareMode" value="shareInTeacherMode">
+						<label for="sharePermissionWrite">All users can write</label>
+						<img hidden id="imgWritePermissionfalse" src="img/shareInTeacherMode.png" />
+						<img hidden id="imgWritePermissiontrue" src="img/shareInEverybodyWritesMode.png" /></div>
+
 					</div>
 
 					<div id="users"></div>

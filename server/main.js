@@ -39,6 +39,11 @@ function messageToString(msg) {
 let lastStr = undefined;
 let iLastStr = 0;
 
+/**
+ * 
+ * @param {*} str 
+ * @description write str on the console, but write a "." if it was already printed before
+ */
 function print(str) {
   if (lastStr == str) {
     iLastStr++;
@@ -50,6 +55,10 @@ function print(str) {
   }
 
 }
+
+
+
+
 const tableaunoirs = {};
 
 /**
@@ -66,9 +75,11 @@ class TableauNoir {
 
 
   constructor() {
-    this.sockets = [];
+    this.sockets = [];//users of that board
+    this.rootSockets = []; //"teachers" (privileged users) //this.rootSockets is a subset of this.sockets
     this.data = ""; //content of the canvas
     this.magnets = ""; // content of the magnet part
+    this.password = "";
   }
 
   storeFullCanvas(data) {
@@ -88,6 +99,7 @@ class TableauNoir {
       print("> " + socket.userid + " " + messageToString({ type: "user", userid: s.userid }));
     });
 
+    //add to the socket
     this.sockets.push(socket);
 
     //send to socket its own userid
@@ -104,6 +116,27 @@ class TableauNoir {
     print("users are " + this.sockets.map((s) => s.userid).join(","));
   }
 
+
+
+  setRoot(socket) {
+    this.rootSockets.push(socket);
+  }
+
+
+  setPassWord(password) {
+    this.password = password;
+  }
+
+
+  isPassWordCorrect(candidate) {
+    return this.password == candidate;
+  }
+
+
+  isProtected() {
+    return this.password != "";
+  }
+
   /**
    * 
    * @param {*} socket 
@@ -116,6 +149,11 @@ class TableauNoir {
   }
 
 
+  /**
+   * 
+   * @param {*} msg 
+   * @description send the msg to the user given in msg.to
+   */
   sendTo(msg) {
     delete msg.socket;
 
@@ -252,6 +290,8 @@ function treatReceivedMessageFromClient(msg) {
       tableaunoirs[tableaunoirID] = new TableauNoir();
       msg.socket.id = tableaunoirID;
       tableaunoirs[tableaunoirID].addSocket(msg.socket);
+      tableaunoirs[tableaunoirID].setRoot(msg.socket);
+      tableaunoirs[tableaunoirID].setPassWord(msg.password);
       msg.socket.send(JSON.stringify({ type: "id", id: tableaunoirID }));
       break;
 
@@ -262,6 +302,10 @@ function treatReceivedMessageFromClient(msg) {
       }
       msg.socket.id = tableaunoirID;
       tableaunoirs[tableaunoirID].addSocket(msg.socket);
+
+      if (!tableaunoirs[tableaunoirID].isProtected())
+        tableaunoirs[tableaunoirID].sendTo({ type: "root", to: msg.socket.userid });
+
       break;
 
     case "fullCanvas":
@@ -276,7 +320,15 @@ function treatReceivedMessageFromClient(msg) {
         tableaunoirs[tableaunoirID].dispatch(msg, msg.socket);
       break;
 
-
+    case "askprivilege":
+      if (tableaunoirs[tableaunoirID].isPassWordCorrect(msg.password)) {
+        tableaunoirs[tableaunoirID].setRoot(msg.socket);
+        tableaunoirs[tableaunoirID].sendTo({ type: "root", to: msg.socket.userid });
+      }
+      else {
+        tableaunoirs[tableaunoirID].sendTo({ type: "accessdenied", to: msg.socket.userid });
+      }
+      break;
     case "magnets":
       if (tableaunoirID == undefined)
         print("error: magnets message and id undefined");

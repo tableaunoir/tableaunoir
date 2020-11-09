@@ -63,18 +63,12 @@ var User = /** @class */ (function () {
     User.prototype.getCurrentColor = function () {
         return this.color;
     };
-    User.prototype.switchChalkEraser = function () {
-        this.eraseMode = !this.eraseMode;
-        if (this.eraseMode) {
-        }
-        else {
-        }
-    };
     User.prototype.switchChalk = function () {
         this.eraseMode = false;
         if (this.isCurrentUser()) {
             this.updateCursor();
-            document.getElementById("buttonEraser").innerHTML = "⌫ Eraser";
+            document.getElementById("buttonEraser").hidden = false;
+            document.getElementById("buttonChalk").hidden = true;
         }
     };
     /**
@@ -88,7 +82,8 @@ var User = /** @class */ (function () {
         if (this.isCurrentUser()) {
             palette.hide();
             this.setToolCursorImage(EraserCursor.getStyleCursor(this.eraseLineWidth));
-            document.getElementById("buttonEraser").innerHTML = "🖊 Chalk";
+            document.getElementById("buttonEraser").hidden = true;
+            document.getElementById("buttonChalk").hidden = false;
         }
     };
     User.prototype.mousedown = function (evt) {
@@ -116,15 +111,18 @@ var User = /** @class */ (function () {
     User.prototype.mousemove = function (evt) {
         var evtX = evt.offsetX;
         var evtY = evt.offsetY;
-        this.cursor.style.left = evtX - 8;
-        this.cursor.style.top = evtY - 8;
+        if (!this.isCurrentUser) {
+            this.cursor.style.left = evtX - 8;
+            this.cursor.style.top = evtY - 8;
+        }
         if (this.canWrite) {
             if (this.isDrawing) { //} && this.lastDelineation.isDrawing()) {
                 palette.hide();
                 if (this.eraseMode) {
-                    this.eraseLineWidth = 10;
+                    //this.eraseLineWidth = 10;
                     this.eraseLineWidth = 10 + 30 * evt.pressure;
-                    if (Math.abs(this.x - this.xInit) > Layout.getWindowWidth() / 4 || Math.abs(this.y - this.yInit) > Layout.getWindowHeight() / 4)
+                    if (Math.abs(this.x - this.xInit) > Layout.getWindowWidth() / 4 ||
+                        Math.abs(this.y - this.yInit) > Layout.getWindowHeight() / 4)
                         this.eraseModeBig = true;
                     if (this.eraseModeBig) {
                         this.eraseLineWidth = 128;

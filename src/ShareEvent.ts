@@ -58,7 +58,12 @@ class ShareEvent {
         Menu.hide();
     }
 
-    static questionAdd(userID, question) {
-        Discussion.addQuestion(userID, question);
+    static questionAdd(userID, idquestion, question) {
+        Discussion.addQuestion(userID, idquestion, question);
+    }
+
+
+    static questionRemove(questionID) {
+        Discussion.removeQuestion(questionID);
     }
 }

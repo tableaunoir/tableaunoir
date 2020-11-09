@@ -6,6 +6,7 @@ var Delineation = /** @class */ (function () {
         var _this = this;
         this.points = [];
         this.lastpoints = [];
+        this.maybeJustAPoint = true; //memoisation for getDot
         this._removeContour = function () {
             var canvas = getCanvas();
             var context = canvas.getContext("2d");
@@ -51,6 +52,7 @@ var Delineation = /** @class */ (function () {
         this.drawing = true;
         this.lastpoints = this.points;
         this.points = [];
+        this.maybeJustAPoint = true;
     };
     Delineation.prototype.finish = function () {
         this.drawing = false;
@@ -100,12 +102,16 @@ var Delineation = /** @class */ (function () {
      * @returns true if the current drawing is just a point
      */
     Delineation.prototype.isDot = function () {
+        if (!this.maybeJustAPoint)
+            return false;
         if (this.points.length == 0)
             return false;
         for (var _i = 0, _a = this.points; _i < _a.length; _i++) {
             var point = _a[_i];
-            if (Math.abs(point.x - this.points[0].x) > 2 && Math.abs(point.y - this.points[0].y) > 2)
+            if (Math.abs(point.x - this.points[0].x) > 2 && Math.abs(point.y - this.points[0].y) > 2) {
+                this.maybeJustAPoint = false;
                 return false;
+            }
         }
         return true;
     };

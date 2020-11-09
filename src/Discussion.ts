@@ -1,6 +1,14 @@
 class Discussion {
+    static generateID() {
+        return "d" + Math.random();
+    }
+
+
+    static init() {
+        document.getElementById("questions").hidden = true;
+    }
     static askQuestion() {
-        let question = prompt("Type the question you want to ask:");
+        let question = prompt("Type your question/comment:");
         if (question == null)
             return;
 
@@ -9,15 +17,29 @@ class Discussion {
         if (question == "")
             return;
 
-        Share.execute("questionAdd", [UserManager.me.userID, question]);
+        Share.execute("questionAdd", [UserManager.me.userID, Discussion.generateID(), question]);
     }
 
 
-    static addQuestion(userID: string, question: string) {
+    static removeQuestion(questionID: string) {
+        document.getElementById(questionID).remove();
+        if (document.getElementById("questions").children.length == 0)
+            document.getElementById("questions").hidden = true;
+    }
+
+
+
+    static addQuestion(userID: string, idquestion: string, question: string) {
         const questionElement = document.createElement("div");
         questionElement.classList.add("question");
-        questionElement.innerHTML = question;
-        questionElement.onclick = () => { questionElement.remove(); }
+        questionElement.id = idquestion;
+        questionElement.innerHTML = UserManager.getUserImage(userID).outerHTML + question;
+        questionElement.onclick = () => {
+            if (UserManager.me.canWrite) {
+                Share.execute("questionRemove", [questionElement.id]);
+            }
+        }
         document.getElementById("questions").appendChild(questionElement);
+        document.getElementById("questions").hidden = false;
     }
 }

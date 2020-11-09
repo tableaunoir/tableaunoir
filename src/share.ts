@@ -1,5 +1,5 @@
 const SERVERADRESS = 'ws://tableaunoir.irisa.fr:8080';
-
+const DEFAULTADRESS = "http://tableaunoir.irisa.fr";
 
 class Share {
 	static ws = undefined;
@@ -33,11 +33,12 @@ class Share {
 		};
 
 		document.getElementById("joinButton").onclick = () => {
-			window.open(<any> window.location, "_self")
+			window.open(<any>window.location, "_self")
 		}
 
-		document.getElementById("shareInEverybodyWritesMode").onclick = Share.everybodyWritesMode;
-		document.getElementById("shareInTeacherMode").onclick = Share.teacherMode;
+		const checkboxSharePermissionWrite = <HTMLInputElement>document.getElementById("sharePermissionWrite");
+		checkboxSharePermissionWrite.onclick =
+			() => Share.setCanWriteForAllExceptMeAndByDefault(checkboxSharePermissionWrite.checked);
 
 		if (window.location.origin.indexOf("github") < 0)
 			document.getElementById('ShareGithub').hidden = true;
@@ -48,7 +49,7 @@ class Share {
 					Share.id = Share.getIDInSharedURL();
 					if (Share.id != null) {
 						Share.join(Share.id);
-						(<HTMLInputElement> document.getElementById("shareUrl")).value = <any> document.location;
+						(<HTMLInputElement>document.getElementById("shareUrl")).value = <any>document.location;
 					}
 				}
 				catch (e) {
@@ -61,10 +62,30 @@ class Share {
 			Share.tryConnect(tryJoin);
 		}
 
+		document.getElementById("buttonAskPrivilege").onclick = Share.askPrivilege;
+
+		document.getElementById("buttonCopyShareUrl").onclick = () => {
+			const inputElement = <HTMLInputElement> document.getElementById("shareUrl");
+			inputElement.select();
+			inputElement.setSelectionRange(0, 99999); /*For mobile devices*/
+
+			/* Copy the text inside the text field */
+			document.execCommand("copy");
+
+			document.getElementById("shareUrlCopied").hidden = false;
+		}
+
 
 
 	}
 
+
+
+
+	static askPrivilege() {
+		const passwordCandidate = (<HTMLInputElement>document.getElementById("passwordCandidate")).value;
+		Share.send({ type: "askprivilege", password: passwordCandidate })
+	}
 
 	/**
 	 * @returns true iff the board is shared with others
@@ -75,14 +96,31 @@ class Share {
 
 
 	/**
+	 * @returns true iff the current user is root
+	 */
+	static isRoot() {
+		return document.getElementById("askPrivilege").hidden;
+	}
+
+	/**
 	 * @description tries to connect the server to make a shared board
 	 */
 	static share() {
 		try {
-			Share.tryConnect(() => Share.send({ type: "share" }));
+			const password = (<HTMLInputElement>document.getElementById("password")).value;
+
+			Share.tryConnect(() => Share.send({ type: "share", password: password }));
 
 			document.getElementById("shareInfo").hidden = false;
 			document.getElementById("join").hidden = true;
+
+			if (password == "") {
+				Share.setCanWriteForAllExceptMeAndByDefault(true);
+			}
+			else
+				Share.setCanWriteForAllExceptMeAndByDefault(false);
+
+			Share.setRoot();
 
 		}
 		catch (e) {
@@ -112,7 +150,6 @@ class Share {
 
 				document.getElementById("shareAndJoin").hidden = true;
 				document.getElementById("shareInfo").hidden = false;
-				document.getElementById("shareMode").hidden = false;
 
 				break;
 			case "user": //there is an existing user
@@ -122,7 +159,13 @@ class Share {
 
 				UserManager.add(msg.userid);
 				break;
-
+			case "root": //you obtained root permission and the server tells you that
+				console.log("I am root.")
+				Share.setRoot();
+				break;
+			case "accessdenied":
+				ErrorMessage.show("Access denied");
+				break;
 			case "join": //a new user joins the group
 				console.log("a new user is joining: ", msg.userid)
 				// the leader is the user with the smallest ID
@@ -161,6 +204,10 @@ class Share {
 			case "execute": eval("ShareEvent." + msg.event)(...msg.params);
 		}
 	}
+	static setRoot() {
+		document.getElementById("askPrivilege").hidden = true;
+		document.getElementById("shareMode").hidden = false;
+	}
 
 	/**
 	 * 
@@ -198,13 +245,13 @@ class Share {
 
 	static sendNewMagnet(element) {
 		console.log("new magnet sent!")
-		Share.send({type: "newmagnet", data: element.outerHTML });
+		Share.send({ type: "newmagnet", data: element.outerHTML });
 	}
 
 
 
 	static sendMagnetChanged(element) {
-		Share.send({type: "magnetChanged", magnetid: element.id, data: element.outerHTML });
+		Share.send({ type: "magnetChanged", magnetid: element.id, data: element.outerHTML });
 	}
 	/**
 	 * 
@@ -216,7 +263,11 @@ class Share {
 	static execute(event, params) {
 		function adapt(obj) {
 			if (obj instanceof MouseEvent) {
-				let props = [//'target', 'clientX', 'clientY', 'layerX', 'layerY', 
+				return { pressure: (<any>obj).pressure, offsetX: obj.offsetX, offsetY: obj.offsetY };
+			}
+			else
+				return obj;
+			/*	let props = [//'target', 'clientX', 'clientY', 'layerX', 'layerY', 
 					'pressure', 'offsetX', 'offsetY'];
 				props.forEach(prop => {
 					Object.defineProperty(obj, prop, {
@@ -227,7 +278,8 @@ class Share {
 				});
 			}
 
-			return obj;
+			return obj;*/
+
 		}
 		eval("ShareEvent." + event)(...params);
 		if (Share.isShared())
@@ -237,9 +289,15 @@ class Share {
 
 	static _setTableauID(id) {
 		Share.id = id;
-		let newUrl = document.location.href + "?id=" + id;
+
+		const url = document.location.href;
+		/*	if (url.startsWith("file://"))
+				url = DEFAULTADRESS;*/
+
+		const newUrl = url + "?id=" + id;
 		history.pushState({}, null, newUrl);
-		(<HTMLInputElement> document.getElementById("shareUrl")).value = newUrl;
+
+		(<HTMLInputElement>document.getElementById("shareUrl")).value = url.startsWith("file://") ? DEFAULTADRESS + "?id=" + id : newUrl;
 
 		//document.getElementById("canvas").toBlob((blob) => Share.sendFullCanvas(blob));
 
@@ -256,7 +314,7 @@ class Share {
 
 
 	static isSharedURL() {
-		let params = (new URL(<any> document.location)).searchParams;
+		let params = (new URL(<any>document.location)).searchParams;
 		return params.get('id') != null;
 	}
 
@@ -271,7 +329,7 @@ class Share {
 
 
 	static getIDInSharedURL() {
-		let params = (new URL(<any> document.location)).searchParams;
+		let params = (new URL(<any>document.location)).searchParams;
 		return params.get('id');
 	}
 
@@ -284,12 +342,12 @@ class Share {
 
 
 
-	static teacherMode() {
-		Share.setCanWriteForAllExceptMeAndByDefault(false);
-	}
-
-
 	static setCanWriteForAllExceptMeAndByDefault(bool) {
+		document.getElementById("imgWritePermission" + bool).hidden = false;
+		document.getElementById("imgWritePermission" + !bool).hidden = true;
+
+		(<HTMLInputElement>document.getElementById("sharePermissionWrite")).checked = bool;
+
 		for (let userid in UserManager.users) {
 			if (UserManager.users[userid] != UserManager.me)
 				Share.execute("setUserCanWrite", [userid, bool]);
@@ -298,9 +356,7 @@ class Share {
 		Share.execute("setUserCanWrite", [UserManager.me.userID, true]);
 	}
 
-	static everybodyWritesMode() {
-		Share.setCanWriteForAllExceptMeAndByDefault(true);
-	}
+
 }
 
 

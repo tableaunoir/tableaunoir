@@ -66,6 +66,16 @@ var LoadSave = /** @class */ (function () {
             }
         }
     };
+    LoadSave.fetchImageFromFile = function (file, callback) {
+        var reader = new FileReader();
+        reader.onerror = function (evt) { };
+        reader.readAsDataURL(file);
+        reader.onload = function (evt) {
+            var img = new Image();
+            img.src = evt.target.result;
+            img.onload = function () { return callback(img); };
+        };
+    };
     /**
      *
      * @param {*} obj
