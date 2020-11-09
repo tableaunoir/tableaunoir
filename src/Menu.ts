@@ -1,10 +1,21 @@
 class Menu {
+
+    /**
+     * initialization
+     */
     static init() {
         // Get the element with id="defaultOpen" and click on it
         document.getElementById("defaultOpen").click();
     }
 
-    static openPage(pageName, elmnt) {
+
+    /**
+     * 
+     * @param pageName 
+     * @param elmnt 
+     * @description open the page of name pageName
+     */
+    static openPage(pageName: string, elmnt) {
         // Hide all elements with class="tabcontent" by default */
         var i, tabcontent, tablinks;
         tabcontent = document.getElementsByClassName("tabcontent");
@@ -37,20 +48,34 @@ class Menu {
         }
     }
 
+
+    /**
+     * @return the menu panel
+     */
     static getMenu() {
         return document.getElementById("menu");
     }
 
+
+    /**
+     * @description hide
+     */
     static hide() {
         Menu.getMenu().classList.remove("menuShow");
         Menu.getMenu().classList.add("menuHide");
     }
 
-
+    /**
+    * @description show
+    */
     static show() {
         Menu.getMenu().classList.add("menuShow");
         Menu.getMenu().classList.remove("menuHide");
     }
 
+
+    /**
+     * @returns true iff the menu is shown
+     */
     static isShown() { return Menu.getMenu().classList.contains("menuShow"); }
 }

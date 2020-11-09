@@ -1,4 +1,9 @@
 class Toolbar {
+
+
+    /**
+     * initialization
+     */
     static init() {
         if (Layout.isTactileDevice()) {
             try {
@@ -18,7 +23,9 @@ class Toolbar {
 
 
 
-
+    /**
+     * @description toogle the visibility of the toolbar
+     */
     static toggle() {
         const controls = document.getElementById("controls");
         controls.hidden = !controls.hidden;

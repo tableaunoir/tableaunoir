@@ -7,12 +7,21 @@ class MagnetManager {
 	static currentMagnet = undefined; // last magnet used
 	static magnetUnderCursor = undefined;
 
+
+
+	/**
+	 * initialization
+	 */
 	static init() {
 		document.getElementById("clearMagnet").onclick = MagnetManager.clearMagnet;
 		document.getElementById("magnetsArrange").onclick = MagnetManager.arrange;
 		document.getElementById("magnetsCreateGraph").onclick = MagnetManager.drawGraph;
 	}
 
+
+	/**
+	 * @returns the magnet under the cursor
+	 */
 	static getMagnetUnderCursor() {
 		return MagnetManager.magnetUnderCursor;
 	}
@@ -37,7 +46,7 @@ class MagnetManager {
 	 * @returns an array containing all the magnets
 	 */
 	static getMagnets(): HTMLCollectionOf<HTMLElement> {
-		return <HTMLCollectionOf<HTMLElement>> document.getElementsByClassName("magnet");
+		return <HTMLCollectionOf<HTMLElement>>document.getElementsByClassName("magnet");
 	}
 
 
@@ -95,7 +104,9 @@ class MagnetManager {
 		MagnetManager._installMagnet(element);
 	}
 
-
+	/**
+	 * @description put the existing magnets on the current screen
+	 */
 	static arrange() {
 		let magnets = MagnetManager.getMagnets();
 
@@ -170,7 +181,9 @@ class MagnetManager {
 
 	}
 
-
+	/**
+	 * @returns the array of center points of existing magnets
+	 */
 	static getNodes() {
 		let magnets = MagnetManager.getMagnets();
 		let nodes = [];
@@ -182,6 +195,9 @@ class MagnetManager {
 		return nodes;
 	}
 
+	/**
+	 * @description make a graph where the nodes are the magnets
+	 */
 	static drawGraph() {
 		MagnetManager.arrange();
 
@@ -229,7 +245,9 @@ class MagnetManager {
 	}
 
 
-
+	/**
+	 * @description adds the event mousedown etc. to the magnets. Call LaTEX
+	 */
 	static installMagnets() {
 		let magnets = MagnetManager.getMagnets();
 
@@ -240,6 +258,11 @@ class MagnetManager {
 
 	}
 
+	/**
+	 * 
+	 * @param element 
+	 * @description adds the event mousedown etc. to the magnet. Call LaTEX
+	 */
 	static _installMagnet(element) {
 		if (element.classList.contains("magnetText"))
 			MagnetManager.installMagnetText(element);
@@ -363,7 +386,12 @@ class MagnetManager {
 
 
 
-
+	/**
+	 * 
+	 * @param filename 
+	 * @param callback 
+	 * @description adds a image magnet where the file is already on the server
+	 */
 	static addMagnetImage(filename, callback = (el) => { }) {
 		let img = new Image();
 		img.src = "magnets/" + filename;
@@ -373,7 +401,11 @@ class MagnetManager {
 	}
 
 
-
+	/**
+	 * 
+	 * @param element 
+	 * @description set up the text magnet: add the mouse event, key event for editing the text magnet
+	 */
 	static installMagnetText(element) {
 
 		const divText = element.children[0];
@@ -453,7 +485,9 @@ class MagnetManager {
 	}
 
 
-
+	/**
+	 * @description remove the current magnet
+	 */
 	static removeCurrentMagnet() {
 		if (MagnetManager.currentMagnet == undefined)
 			return;
@@ -471,6 +505,10 @@ class MagnetManager {
 		MagnetManager.magnetUnderCursor = undefined;
 	}
 
+
+	/**
+	 * @description draw the current magnet to the canvas
+	 */
 	static printCurrentMagnet() {
 		const img = MagnetManager.currentMagnet;
 
@@ -512,7 +550,11 @@ class MagnetManager {
 		BoardManager.save();
 	}
 
-
+	/**
+	 * 
+	 * @param magnetSetName 
+	 * @description register a set of magnets. Add it to the magnet menu.
+	 */
 	static register(magnetSetName) {
 		document.getElementById(magnetSetName).onclick = eval(magnetSetName);
 	}

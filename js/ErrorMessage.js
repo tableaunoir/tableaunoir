@@ -1,6 +1,12 @@
 var ErrorMessage = /** @class */ (function () {
     function ErrorMessage() {
     }
+    /**
+     *
+     * @param msg
+     * @param msgplus
+     * @description show a message error. The message msg is shown. msgplus is shown in the console.
+     */
     ErrorMessage.show = function (msg, msgplus) {
         console.log("error: " + msg);
         if (msgplus)

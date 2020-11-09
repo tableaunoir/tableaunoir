@@ -1,7 +1,6 @@
 var EraserCursor = /** @class */ (function () {
     function EraserCursor() {
     }
-    // `url('img/eraser.png') 0 0, auto`;
     /**
     *
     * @param {*} size
@@ -13,6 +12,11 @@ var EraserCursor = /** @class */ (function () {
             size = 128;
         return { data: EraserCursor.getCursorURL(size), x: size / 2, y: size / 2 };
     };
+    /**
+     *
+     * @param size
+     * @returns the URL of the image of the cursor
+     */
     EraserCursor.getCursorURL = function (size) {
         var radius = size / 2;
         var canvas = document.createElement('canvas');

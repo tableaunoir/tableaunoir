@@ -78,6 +78,12 @@ class LoadSave {
 
 
 
+    /**
+     * 
+     * @param file 
+     * @param callback 
+     * @descrption load the image in the file, once the file is loaded. Call the callback function.
+     */
     static fetchImageFromFile(file, callback) {
         let reader = new FileReader();
         reader.onerror = function (evt) { }
@@ -104,6 +110,9 @@ class LoadSave {
     }
 
 
+    /**
+     * @description export the board as a .png image file
+     */
     static exportPng() {
         const node = document.getElementById("content");
         alert("to be implemented. Do screenshots.");

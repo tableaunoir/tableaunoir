@@ -66,6 +66,12 @@ var LoadSave = /** @class */ (function () {
             }
         }
     };
+    /**
+     *
+     * @param file
+     * @param callback
+     * @descrption load the image in the file, once the file is loaded. Call the callback function.
+     */
     LoadSave.fetchImageFromFile = function (file, callback) {
         var reader = new FileReader();
         reader.onerror = function (evt) { };
@@ -88,6 +94,9 @@ var LoadSave = /** @class */ (function () {
         document.getElementById("magnets").innerHTML = obj.magnets;
         MagnetManager.installMagnets();
     };
+    /**
+     * @description export the board as a .png image file
+     */
     LoadSave.exportPng = function () {
         var node = document.getElementById("content");
         alert("to be implemented. Do screenshots.");

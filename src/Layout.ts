@@ -2,11 +2,13 @@ class Layout {
 
     static STANDARDHEIGHT = 1000;
 
-
     static getWindowWidth: () => number;
     static getWindowHeight: () => number;
     static getZoom: () => number;
 
+    /**
+     * initialization
+     */
     static init() {
         console.log("Layout.init()")
         Layout._initModeResize();

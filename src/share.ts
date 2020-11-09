@@ -1,10 +1,16 @@
 const SERVERADRESS = 'ws://tableaunoir.irisa.fr:8080';
 const DEFAULTADRESS = "http://tableaunoir.irisa.fr";
 
+
+
+/**
+ * the class that enables to share the board
+ */
 class Share {
-	static ws = undefined;
-	static id = undefined;
-	static canWriteValueByDefault = true;
+	static ws: WebSocket = undefined;
+	static id: string = undefined;
+	static canWriteValueByDefault: boolean = true;
+
 	/**
 	 * 
 	 * @param {*} a function f 
@@ -26,6 +32,10 @@ class Share {
 		};
 
 	}
+
+	/**
+	 * initialization
+	 */
 	static init() {
 		document.getElementById("shareButton").onclick = () => {
 			if (!Share.isShared())
@@ -65,7 +75,7 @@ class Share {
 		document.getElementById("buttonAskPrivilege").onclick = Share.askPrivilege;
 
 		document.getElementById("buttonCopyShareUrl").onclick = () => {
-			const inputElement = <HTMLInputElement> document.getElementById("shareUrl");
+			const inputElement = <HTMLInputElement>document.getElementById("shareUrl");
 			inputElement.select();
 			inputElement.setSelectionRange(0, 99999); /*For mobile devices*/
 
@@ -81,7 +91,9 @@ class Share {
 
 
 
-
+	/**
+	 * @description ask for privilege (root)
+	 */
 	static askPrivilege() {
 		const passwordCandidate = (<HTMLInputElement>document.getElementById("passwordCandidate")).value;
 		Share.send({ type: "askprivilege", password: passwordCandidate })
@@ -204,6 +216,11 @@ class Share {
 			case "execute": eval("ShareEvent." + msg.event)(...msg.params);
 		}
 	}
+
+
+	/**
+	 * modify the interface to say that the current user is root (all privileges)
+	 */
 	static setRoot() {
 		document.getElementById("askPrivilege").hidden = true;
 		document.getElementById("shareMode").hidden = false;
@@ -231,6 +248,11 @@ class Share {
 	}
 
 
+	/**
+	 * 
+	 * @param to 
+	 * @description send all the magnets to to. If to is undefined, send to all.
+	 */
 	static sendMagnets(to?) {
 		if (Share.isShared()) {
 			if (to)
@@ -241,18 +263,27 @@ class Share {
 
 	}
 
-
-
+	/**
+	 * 
+	 * @param element 
+	 * @description send the fact that there is a new magnet
+	 */
 	static sendNewMagnet(element) {
 		console.log("new magnet sent!")
 		Share.send({ type: "newmagnet", data: element.outerHTML });
 	}
 
 
-
+	/**
+	 * 
+	 * @param element 
+	 * @description send the new information about an existing magnet
+	 */
 	static sendMagnetChanged(element) {
 		Share.send({ type: "magnetChanged", magnetid: element.id, data: element.outerHTML });
 	}
+
+
 	/**
 	 * 
 	 * @param {*} event, an event name (string), that is a method of the class ShareEvent
@@ -287,6 +318,11 @@ class Share {
 	}
 
 
+	/**
+	 * 
+	 * @param id 
+	 * @description set the ID of the current board
+	 */
 	static _setTableauID(id) {
 		Share.id = id;
 
@@ -312,13 +348,18 @@ class Share {
 
 
 
-
+	/**
+	 * @returns yes if the current URL is an URL of a shared board
+	 */
 	static isSharedURL() {
 		let params = (new URL(<any>document.location)).searchParams;
 		return params.get('id') != null;
 	}
 
 
+	/**
+	 * @returns the current tableaunoir ID
+	 */
 	static getTableauNoirID() {
 		if (Share.isSharedURL()) {
 			return Share.getIDInSharedURL();
@@ -327,7 +368,9 @@ class Share {
 			return "local";
 	}
 
-
+	/**
+	 * @returns the current tableaunoir ID
+	 */
 	static getIDInSharedURL() {
 		let params = (new URL(<any>document.location)).searchParams;
 		return params.get('id');
@@ -335,24 +378,32 @@ class Share {
 
 
 
-
+	/**
+	 * 
+	 * @param id 
+	 * @description say that the current user wants to join the tableaunoir id
+	 */
 	static join(id) {
 		Share.send({ type: "join", id: id });
 	}
 
 
+	/**
+	 * 
+	 * @param canWrite 
+	 * @description if canWrite == true, makes that everybody can draw, otherwise only you can
+	 */
+	static setCanWriteForAllExceptMeAndByDefault(canWrite) {
+		document.getElementById("imgWritePermission" + canWrite).hidden = false;
+		document.getElementById("imgWritePermission" + !canWrite).hidden = true;
 
-	static setCanWriteForAllExceptMeAndByDefault(bool) {
-		document.getElementById("imgWritePermission" + bool).hidden = false;
-		document.getElementById("imgWritePermission" + !bool).hidden = true;
-
-		(<HTMLInputElement>document.getElementById("sharePermissionWrite")).checked = bool;
+		(<HTMLInputElement>document.getElementById("sharePermissionWrite")).checked = canWrite;
 
 		for (let userid in UserManager.users) {
 			if (UserManager.users[userid] != UserManager.me)
-				Share.execute("setUserCanWrite", [userid, bool]);
+				Share.execute("setUserCanWrite", [userid, canWrite]);
 		}
-		Share.canWriteValueByDefault = bool;
+		Share.canWriteValueByDefault = canWrite;
 		Share.execute("setUserCanWrite", [UserManager.me.userID, true]);
 	}
 

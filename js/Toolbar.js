@@ -1,6 +1,9 @@
 var Toolbar = /** @class */ (function () {
     function Toolbar() {
     }
+    /**
+     * initialization
+     */
     Toolbar.init = function () {
         if (Layout.isTactileDevice()) {
             try {
@@ -15,6 +18,9 @@ var Toolbar = /** @class */ (function () {
             }
         }
     };
+    /**
+     * @description toogle the visibility of the toolbar
+     */
     Toolbar.toggle = function () {
         var controls = document.getElementById("controls");
         controls.hidden = !controls.hidden;

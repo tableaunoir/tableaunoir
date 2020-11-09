@@ -1,3 +1,6 @@
+/**
+ * This class makes that the mouse event also works for touch screens.
+ **/
 var TouchScreen = /** @class */ (function () {
     function TouchScreen() {
     }

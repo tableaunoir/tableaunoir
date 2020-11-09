@@ -1,11 +1,17 @@
 var MagnetManager = /** @class */ (function () {
     function MagnetManager() {
     }
+    /**
+     * initialization
+     */
     MagnetManager.init = function () {
         document.getElementById("clearMagnet").onclick = MagnetManager.clearMagnet;
         document.getElementById("magnetsArrange").onclick = MagnetManager.arrange;
         document.getElementById("magnetsCreateGraph").onclick = MagnetManager.drawGraph;
     };
+    /**
+     * @returns the magnet under the cursor
+     */
     MagnetManager.getMagnetUnderCursor = function () {
         return MagnetManager.magnetUnderCursor;
     };
@@ -71,6 +77,9 @@ var MagnetManager = /** @class */ (function () {
         }
         MagnetManager._installMagnet(element);
     };
+    /**
+     * @description put the existing magnets on the current screen
+     */
     MagnetManager.arrange = function () {
         var magnets = MagnetManager.getMagnets();
         var _loop_1 = function (i) {
@@ -131,6 +140,9 @@ var MagnetManager = /** @class */ (function () {
             _loop_1(i);
         }
     };
+    /**
+     * @returns the array of center points of existing magnets
+     */
     MagnetManager.getNodes = function () {
         var magnets = MagnetManager.getMagnets();
         var nodes = [];
@@ -141,6 +153,9 @@ var MagnetManager = /** @class */ (function () {
         console.log(nodes);
         return nodes;
     };
+    /**
+     * @description make a graph where the nodes are the magnets
+     */
     MagnetManager.drawGraph = function () {
         MagnetManager.arrange();
         var nodes = MagnetManager.getNodes();
@@ -185,12 +200,20 @@ var MagnetManager = /** @class */ (function () {
             }
         BoardManager.save();
     };
+    /**
+     * @description adds the event mousedown etc. to the magnets. Call LaTEX
+     */
     MagnetManager.installMagnets = function () {
         var magnets = MagnetManager.getMagnets();
         for (var i = 0; i < magnets.length; i++)
             MagnetManager._installMagnet(magnets[i]);
         eval("MathJax.typeset();");
     };
+    /**
+     *
+     * @param element
+     * @description adds the event mousedown etc. to the magnet. Call LaTEX
+     */
     MagnetManager._installMagnet = function (element) {
         if (element.classList.contains("magnetText"))
             MagnetManager.installMagnetText(element);
@@ -279,6 +302,12 @@ var MagnetManager = /** @class */ (function () {
             }
         }
     };
+    /**
+     *
+     * @param filename
+     * @param callback
+     * @description adds a image magnet where the file is already on the server
+     */
     MagnetManager.addMagnetImage = function (filename, callback) {
         if (callback === void 0) { callback = function (el) { }; }
         var img = new Image();
@@ -287,6 +316,11 @@ var MagnetManager = /** @class */ (function () {
         MagnetManager.addMagnet(img, callback);
         return img;
     };
+    /**
+     *
+     * @param element
+     * @description set up the text magnet: add the mouse event, key event for editing the text magnet
+     */
     MagnetManager.installMagnetText = function (element) {
         var divText = element.children[0];
         divText.onpointerdown = function (e) { e.stopPropagation(); };
@@ -350,6 +384,9 @@ var MagnetManager = /** @class */ (function () {
             Share.sendMagnetChanged(div);
         document.execCommand('selectAll', false, null);
     };
+    /**
+     * @description remove the current magnet
+     */
     MagnetManager.removeCurrentMagnet = function () {
         if (MagnetManager.currentMagnet == undefined)
             return;
@@ -365,6 +402,9 @@ var MagnetManager = /** @class */ (function () {
         MagnetManager.currentMagnet == undefined;
         MagnetManager.magnetUnderCursor = undefined;
     };
+    /**
+     * @description draw the current magnet to the canvas
+     */
     MagnetManager.printCurrentMagnet = function () {
         var img = MagnetManager.currentMagnet;
         if (!(img instanceof Image)) {
@@ -396,6 +436,11 @@ var MagnetManager = /** @class */ (function () {
         context.restore();
         BoardManager.save();
     };
+    /**
+     *
+     * @param magnetSetName
+     * @description register a set of magnets. Add it to the magnet menu.
+     */
     MagnetManager.register = function (magnetSetName) {
         document.getElementById(magnetSetName).onclick = eval(magnetSetName);
     };

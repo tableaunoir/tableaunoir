@@ -1,6 +1,9 @@
 var Layout = /** @class */ (function () {
     function Layout() {
     }
+    /**
+     * initialization
+     */
     Layout.init = function () {
         console.log("Layout.init()");
         Layout._initModeResize();

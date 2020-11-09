@@ -1,5 +1,8 @@
 var SERVERADRESS = 'ws://tableaunoir.irisa.fr:8080';
 var DEFAULTADRESS = "http://tableaunoir.irisa.fr";
+/**
+ * the class that enables to share the board
+ */
 var Share = /** @class */ (function () {
     function Share() {
     }
@@ -20,6 +23,9 @@ var Share = /** @class */ (function () {
             Share._treatReceivedMessage(JSON.parse(msg.data));
         };
     };
+    /**
+     * initialization
+     */
     Share.init = function () {
         document.getElementById("shareButton").onclick = function () {
             if (!Share.isShared())
@@ -59,6 +65,9 @@ var Share = /** @class */ (function () {
             document.getElementById("shareUrlCopied").hidden = false;
         };
     };
+    /**
+     * @description ask for privilege (root)
+     */
     Share.askPrivilege = function () {
         var passwordCandidate = document.getElementById("passwordCandidate").value;
         Share.send({ type: "askprivilege", password: passwordCandidate });
@@ -163,6 +172,9 @@ var Share = /** @class */ (function () {
             case "execute": eval("ShareEvent." + msg.event).apply(void 0, msg.params);
         }
     };
+    /**
+     * modify the interface to say that the current user is root (all privileges)
+     */
     Share.setRoot = function () {
         document.getElementById("askPrivilege").hidden = true;
         document.getElementById("shareMode").hidden = false;
@@ -186,6 +198,11 @@ var Share = /** @class */ (function () {
     Share.sendFullCanvas = function (blob, to) {
         Share.send({ type: "fullCanvas", data: getCanvas().toDataURL(), to: to }); // at some point send the blob directly
     };
+    /**
+     *
+     * @param to
+     * @description send all the magnets to to. If to is undefined, send to all.
+     */
     Share.sendMagnets = function (to) {
         if (Share.isShared()) {
             if (to)
@@ -194,10 +211,20 @@ var Share = /** @class */ (function () {
                 Share.send({ type: "magnets", magnets: document.getElementById("magnets").innerHTML }); // send the html code for all the magnets
         }
     };
+    /**
+     *
+     * @param element
+     * @description send the fact that there is a new magnet
+     */
     Share.sendNewMagnet = function (element) {
         console.log("new magnet sent!");
         Share.send({ type: "newmagnet", data: element.outerHTML });
     };
+    /**
+     *
+     * @param element
+     * @description send the new information about an existing magnet
+     */
     Share.sendMagnetChanged = function (element) {
         Share.send({ type: "magnetChanged", magnetid: element.id, data: element.outerHTML });
     };
@@ -232,6 +259,11 @@ var Share = /** @class */ (function () {
         if (Share.isShared())
             Share.send({ type: "execute", event: event, params: params.map(function (param) { return adapt(param); }) });
     };
+    /**
+     *
+     * @param id
+     * @description set the ID of the current board
+     */
     Share._setTableauID = function (id) {
         Share.id = id;
         var url = document.location.href;
@@ -242,10 +274,16 @@ var Share = /** @class */ (function () {
         document.getElementById("shareUrl").value = url.startsWith("file://") ? DEFAULTADRESS + "?id=" + id : newUrl;
         //document.getElementById("canvas").toBlob((blob) => Share.sendFullCanvas(blob));
     };
+    /**
+     * @returns yes if the current URL is an URL of a shared board
+     */
     Share.isSharedURL = function () {
         var params = (new URL(document.location)).searchParams;
         return params.get('id') != null;
     };
+    /**
+     * @returns the current tableaunoir ID
+     */
     Share.getTableauNoirID = function () {
         if (Share.isSharedURL()) {
             return Share.getIDInSharedURL();
@@ -253,22 +291,35 @@ var Share = /** @class */ (function () {
         else
             return "local";
     };
+    /**
+     * @returns the current tableaunoir ID
+     */
     Share.getIDInSharedURL = function () {
         var params = (new URL(document.location)).searchParams;
         return params.get('id');
     };
+    /**
+     *
+     * @param id
+     * @description say that the current user wants to join the tableaunoir id
+     */
     Share.join = function (id) {
         Share.send({ type: "join", id: id });
     };
-    Share.setCanWriteForAllExceptMeAndByDefault = function (bool) {
-        document.getElementById("imgWritePermission" + bool).hidden = false;
-        document.getElementById("imgWritePermission" + !bool).hidden = true;
-        document.getElementById("sharePermissionWrite").checked = bool;
+    /**
+     *
+     * @param canWrite
+     * @description if canWrite == true, makes that everybody can draw, otherwise only you can
+     */
+    Share.setCanWriteForAllExceptMeAndByDefault = function (canWrite) {
+        document.getElementById("imgWritePermission" + canWrite).hidden = false;
+        document.getElementById("imgWritePermission" + !canWrite).hidden = true;
+        document.getElementById("sharePermissionWrite").checked = canWrite;
         for (var userid in UserManager.users) {
             if (UserManager.users[userid] != UserManager.me)
-                Share.execute("setUserCanWrite", [userid, bool]);
+                Share.execute("setUserCanWrite", [userid, canWrite]);
         }
-        Share.canWriteValueByDefault = bool;
+        Share.canWriteValueByDefault = canWrite;
         Share.execute("setUserCanWrite", [UserManager.me.userID, true]);
     };
     Share.ws = undefined;

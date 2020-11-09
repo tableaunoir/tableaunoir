@@ -1,10 +1,19 @@
 var Menu = /** @class */ (function () {
     function Menu() {
     }
+    /**
+     * initialization
+     */
     Menu.init = function () {
         // Get the element with id="defaultOpen" and click on it
         document.getElementById("defaultOpen").click();
     };
+    /**
+     *
+     * @param pageName
+     * @param elmnt
+     * @description open the page of name pageName
+     */
     Menu.openPage = function (pageName, elmnt) {
         // Hide all elements with class="tabcontent" by default */
         var i, tabcontent, tablinks;
@@ -33,17 +42,29 @@ var Menu = /** @class */ (function () {
             Menu.show();
         }
     };
+    /**
+     * @return the menu panel
+     */
     Menu.getMenu = function () {
         return document.getElementById("menu");
     };
+    /**
+     * @description hide
+     */
     Menu.hide = function () {
         Menu.getMenu().classList.remove("menuShow");
         Menu.getMenu().classList.add("menuHide");
     };
+    /**
+    * @description show
+    */
     Menu.show = function () {
         Menu.getMenu().classList.add("menuShow");
         Menu.getMenu().classList.remove("menuHide");
     };
+    /**
+     * @returns true iff the menu is shown
+     */
     Menu.isShown = function () { return Menu.getMenu().classList.contains("menuShow"); };
     return Menu;
 }());

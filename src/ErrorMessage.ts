@@ -1,5 +1,11 @@
 class ErrorMessage {
 
+    /**
+     * 
+     * @param msg 
+     * @param msgplus 
+     * @description show a message error. The message msg is shown. msgplus is shown in the console.
+     */
     static show(msg, msgplus?) {
         console.log("error: " + msg);
         if (msgplus) console.log(msgplus);
