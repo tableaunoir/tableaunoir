@@ -139,28 +139,28 @@
 				<div class="explanation">
 					<img src="img/welcome_tableaunoir.png" />
 					<span>Tableaunoir is an <em>online blackboard</em>. It is ideally used with a <em>graphics
-						tablet</em>. Your audience is <em>concentrated
-						on the content</em> if you hide the toolbar and use keyboard shortcuts.</span>
+							tablet</em>. Your audience is <em>concentrated
+							on the content</em> if you hide the toolbar and use keyboard shortcuts.</span>
 
 				</div>
 
 				<div class="explanation">
 					<img src="img/welcome_magnets.png" />
 					<span>You may create <em>magnets</em> (think of them as fridge magnets) for making
-					<em>interactive
-						courses</em>,
-					presentations and discussions with students.</em></span></div>
+						<em>interactive
+							courses</em>,
+						presentations and discussions with students.</em></span></div>
 
 				<div class="explanation">
 					<img src="img/shareInEverybodyWritesMode.png" />
 					<span>Blackboards are sharable in order to <em>collaborate</em> with your friends (feature still in
-					development). Open the menu!</span>
+						development). Open the menu!</span>
 				</div>
 				<div class="explanation">
 					<img src="img/welcome_open.png" />
 					<span>Work
-					best on
-					Firefox, Chrome or Chromium, last versions.</span>
+						best on
+						Firefox, Chrome or Chromium, last versions.</span>
 
 
 					<span>The project is <em>open source</em>. See:</span>
@@ -334,7 +334,7 @@
 			<div id="Share" class="tabcontent">
 				<div class="warning" id="ShareGithub">Warning: tableaunoir.github.io is
 					a showcase!For sharing, please try <a
-					href="http://tableaunoir.irisa.fr">http://tableaunoir.irisa.fr</a> instead.</div>
+						href="http://tableaunoir.irisa.fr">http://tableaunoir.irisa.fr</a> instead.</div>
 				<div class="warning">Warning: this functionnality is still under development and may not work perfectly.
 				</div>
 				<div class="warning">Warning: The server will not save your board.
@@ -343,10 +343,11 @@
 				<div id="shareAndJoin">
 					<h2>Make a shared board</h2>
 
-					
 
 
-					If you want some of your friends to see and modify your board, make a <em>shared</em> board. You may use a <em>password</em> to keep your sharer privileges.<br/>
+
+					If you want some of your friends to see and modify your board, make a <em>shared</em> board. You may
+					use a <em>password</em> to keep your sharer privileges.<br />
 					Password (optional): <input type="password" id="password"></input>
 					<button id="shareButton">Make a shared board</button>
 
@@ -364,14 +365,24 @@
 					In order to <em>share</em> the board with your friends, give them the following URL:<br />
 					<input id="shareUrl" value=""></input>
 
+
+					<div id="askPrivilege">
+						<h2>Get privileges</h2>
+						<input id="passwordCandidate" type="password"></input><button id="buttonAskPrivilege">Ask
+							Privilege</button>
+					</div>
+
+
 					<div hidden id="shareMode">
-						<h2>Share mode</h2>
-						<input type="radio" id="shareInTeacherMode" name="shareMode" value="shareInTeacherMode">
-						<label for="shareInTeacherMode"><img src="img/shareInTeacherMode.png" />You write and the
-							other users only see</label><br />
-						<input type="radio" id="shareInEverybodyWritesMode" name="shareMode" value="shareInEverybodyWritesMode">
-						<label for="shareInEverybodyWritesMode"><img
-							src="img/shareInEverybodyWritesMode.png" />All users can write</label>
+						<h2>Permissions</h2>
+
+						<div>You have all the <em>privileges</em> to modify the permissions on this board.</div>
+
+						<input type="checkbox" id="sharePermissionWrite" name="shareMode" value="shareInTeacherMode">
+						<label for="shareInTeacherMode">All users can write</label>
+						<img hidden id="imgWritePermissionfalse" src="img/shareInTeacherMode.png" />
+						<img hidden id="imgWritePermissiontrue" src="img/shareInEverybodyWritesMode.png" />
+
 					</div>
 
 					<div id="users"></div>

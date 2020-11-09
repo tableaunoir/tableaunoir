@@ -28,8 +28,9 @@ var Share = /** @class */ (function () {
         document.getElementById("joinButton").onclick = function () {
             window.open(window.location, "_self");
         };
-        document.getElementById("shareInEverybodyWritesMode").onclick = Share.everybodyWritesMode;
-        document.getElementById("shareInTeacherMode").onclick = Share.teacherMode;
+        var checkboxSharePermissionWrite = document.getElementById("sharePermissionWrite");
+        checkboxSharePermissionWrite.onclick =
+            function () { return Share.setCanWriteForAllExceptMeAndByDefault(checkboxSharePermissionWrite.checked); };
         if (window.location.origin.indexOf("github") < 0)
             document.getElementById('ShareGithub').hidden = true;
         if (Share.isSharedURL()) {
@@ -48,6 +49,10 @@ var Share = /** @class */ (function () {
             };
             Share.tryConnect(tryJoin);
         }
+        document.getElementById("buttonAskPrivilege").onclick = Share.askPrivilege;
+    };
+    Share.askPrivilege = function () {
+        Share.send({ type: "askprivilege", password: document.getElementById("passwordCandidate") });
     };
     /**
      * @returns true iff the board is shared with others
@@ -56,13 +61,26 @@ var Share = /** @class */ (function () {
         return Share.id != undefined;
     };
     /**
+     * @returns true iff the current user is root
+     */
+    Share.isRoot = function () {
+        return document.getElementById("askPrivilege").hidden;
+    };
+    /**
      * @description tries to connect the server to make a shared board
      */
     Share.share = function () {
         try {
-            Share.tryConnect(function () { return Share.send({ type: "share", password: document.getElementById("password") }); });
+            var password_1 = document.getElementById("password").value;
+            Share.tryConnect(function () { return Share.send({ type: "share", password: password_1 }); });
             document.getElementById("shareInfo").hidden = false;
             document.getElementById("join").hidden = true;
+            if (password_1 == "") {
+                Share.setCanWriteForAllExceptMeAndByDefault(true);
+            }
+            else
+                Share.setCanWriteForAllExceptMeAndByDefault(false);
+            Share.setRoot();
         }
         catch (e) {
             Share.ws = undefined;
@@ -87,13 +105,16 @@ var Share = /** @class */ (function () {
                 UserManager.setMyUserID(msg.userid);
                 document.getElementById("shareAndJoin").hidden = true;
                 document.getElementById("shareInfo").hidden = false;
-                document.getElementById("shareMode").hidden = false;
                 break;
             case "user": //there is an existing user
                 console.log("existing user: ", msg.userid);
                 if (msg.userid == UserManager.me.userID)
                     throw "oops... an already existing user has the same name than me";
                 UserManager.add(msg.userid);
+                break;
+            case "root": //you obtained root permission and the server tells you that
+                console.log("I am root.");
+                Share.setRoot();
                 break;
             case "join": //a new user joins the group
                 console.log("a new user is joining: ", msg.userid);
@@ -129,6 +150,10 @@ var Share = /** @class */ (function () {
                 break;
             case "execute": eval("ShareEvent." + msg.event).apply(void 0, msg.params);
         }
+    };
+    Share.setRoot = function () {
+        document.getElementById("askPrivilege").hidden = true;
+        document.getElementById("shareMode").hidden = false;
     };
     /**
      *
@@ -223,19 +248,16 @@ var Share = /** @class */ (function () {
     Share.join = function (id) {
         Share.send({ type: "join", id: id });
     };
-    Share.teacherMode = function () {
-        Share.setCanWriteForAllExceptMeAndByDefault(false);
-    };
     Share.setCanWriteForAllExceptMeAndByDefault = function (bool) {
+        document.getElementById("imgWritePermission" + bool).hidden = false;
+        document.getElementById("imgWritePermission" + !bool).hidden = true;
+        document.getElementById("sharePermissionWrite").checked = bool;
         for (var userid in UserManager.users) {
             if (UserManager.users[userid] != UserManager.me)
                 Share.execute("setUserCanWrite", [userid, bool]);
         }
         Share.canWriteValueByDefault = bool;
         Share.execute("setUserCanWrite", [UserManager.me.userID, true]);
-    };
-    Share.everybodyWritesMode = function () {
-        Share.setCanWriteForAllExceptMeAndByDefault(true);
     };
     Share.ws = undefined;
     Share.id = undefined;

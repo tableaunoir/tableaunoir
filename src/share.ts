@@ -36,8 +36,9 @@ class Share {
 			window.open(<any>window.location, "_self")
 		}
 
-		document.getElementById("shareInEverybodyWritesMode").onclick = Share.everybodyWritesMode;
-		document.getElementById("shareInTeacherMode").onclick = Share.teacherMode;
+		const checkboxSharePermissionWrite = <HTMLInputElement>document.getElementById("sharePermissionWrite");
+		checkboxSharePermissionWrite.onclick =
+			() => Share.setCanWriteForAllExceptMeAndByDefault(checkboxSharePermissionWrite.checked);
 
 		if (window.location.origin.indexOf("github") < 0)
 			document.getElementById('ShareGithub').hidden = true;
@@ -61,10 +62,16 @@ class Share {
 			Share.tryConnect(tryJoin);
 		}
 
-
+		document.getElementById("buttonAskPrivilege").onclick = Share.askPrivilege;
 
 	}
 
+
+
+
+	static askPrivilege() {
+		Share.send({ type: "askprivilege", password: document.getElementById("passwordCandidate") })
+	}
 
 	/**
 	 * @returns true iff the board is shared with others
@@ -75,14 +82,31 @@ class Share {
 
 
 	/**
+	 * @returns true iff the current user is root
+	 */
+	static isRoot() {
+		return document.getElementById("askPrivilege").hidden;
+	}
+
+	/**
 	 * @description tries to connect the server to make a shared board
 	 */
 	static share() {
 		try {
-			Share.tryConnect(() => Share.send({ type: "share", password: document.getElementById("password") }));
+			const password = (<HTMLInputElement>document.getElementById("password")).value;
+
+			Share.tryConnect(() => Share.send({ type: "share", password: password }));
 
 			document.getElementById("shareInfo").hidden = false;
 			document.getElementById("join").hidden = true;
+
+			if (password == "") {
+				Share.setCanWriteForAllExceptMeAndByDefault(true);
+			}
+			else
+				Share.setCanWriteForAllExceptMeAndByDefault(false);
+
+			Share.setRoot();
 
 		}
 		catch (e) {
@@ -112,7 +136,6 @@ class Share {
 
 				document.getElementById("shareAndJoin").hidden = true;
 				document.getElementById("shareInfo").hidden = false;
-				document.getElementById("shareMode").hidden = false;
 
 				break;
 			case "user": //there is an existing user
@@ -121,6 +144,10 @@ class Share {
 					throw "oops... an already existing user has the same name than me";
 
 				UserManager.add(msg.userid);
+				break;
+			case "root": //you obtained root permission and the server tells you that
+				console.log("I am root.")
+				Share.setRoot();
 				break;
 
 			case "join": //a new user joins the group
@@ -160,6 +187,10 @@ class Share {
 				break;
 			case "execute": eval("ShareEvent." + msg.event)(...msg.params);
 		}
+	}
+	static setRoot() {
+		document.getElementById("askPrivilege").hidden = true;
+		document.getElementById("shareMode").hidden = false;
 	}
 
 	/**
@@ -216,7 +247,7 @@ class Share {
 	static execute(event, params) {
 		function adapt(obj) {
 			if (obj instanceof MouseEvent) {
-				return {pressure: (<any> obj).pressure, offsetX: obj.offsetX, offsetY: obj.offsetY};
+				return { pressure: (<any>obj).pressure, offsetX: obj.offsetX, offsetY: obj.offsetY };
 			}
 			else
 				return obj;
@@ -244,8 +275,8 @@ class Share {
 		Share.id = id;
 
 		const url = document.location.href;
-	/*	if (url.startsWith("file://"))
-			url = DEFAULTADRESS;*/
+		/*	if (url.startsWith("file://"))
+				url = DEFAULTADRESS;*/
 
 		const newUrl = url + "?id=" + id;
 		history.pushState({}, null, newUrl);
@@ -295,12 +326,12 @@ class Share {
 
 
 
-	static teacherMode() {
-		Share.setCanWriteForAllExceptMeAndByDefault(false);
-	}
-
-
 	static setCanWriteForAllExceptMeAndByDefault(bool) {
+		document.getElementById("imgWritePermission" + bool).hidden = false;
+		document.getElementById("imgWritePermission" + !bool).hidden = true;
+
+		(<HTMLInputElement> document.getElementById("sharePermissionWrite")).checked = bool;
+
 		for (let userid in UserManager.users) {
 			if (UserManager.users[userid] != UserManager.me)
 				Share.execute("setUserCanWrite", [userid, bool]);
@@ -309,9 +340,7 @@ class Share {
 		Share.execute("setUserCanWrite", [UserManager.me.userID, true]);
 	}
 
-	static everybodyWritesMode() {
-		Share.setCanWriteForAllExceptMeAndByDefault(true);
-	}
+
 }
 
 
