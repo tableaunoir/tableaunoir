@@ -70,7 +70,7 @@ class Translation {
                     if (element.children.length > 0)
                         console.log("I refuse to translate because the element has some children.");
 
-                    element.outerHTML = dict[key];
+                    element.innerHTML = dict[key];
                 }
             }
 
