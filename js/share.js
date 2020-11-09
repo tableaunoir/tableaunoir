@@ -122,6 +122,7 @@ var Share = /** @class */ (function () {
                 UserManager.setMyUserID(msg.userid);
                 document.getElementById("shareAndJoin").hidden = true;
                 document.getElementById("shareInfo").hidden = false;
+                document.getElementById("buttonShare").innerHTML = document.getElementById('sharecopytext').innerHTML;
                 break;
             case "user": //there is an existing user
                 console.log("existing user: ", msg.userid);
