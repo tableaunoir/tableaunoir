@@ -362,8 +362,7 @@ button img {
 }
 
 
-label img {
-	height: 64px;
+img {
 	vertical-align: middle;
 }
 
@@ -614,6 +613,7 @@ h1 {
 	right: 0px;
 	bottom: 0px;
 	width: 100%;
+	max-height: 64px;
 	background-color: rgb(199, 199, 255);
 }
 

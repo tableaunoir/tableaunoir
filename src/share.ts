@@ -64,13 +64,26 @@ class Share {
 
 		document.getElementById("buttonAskPrivilege").onclick = Share.askPrivilege;
 
+		document.getElementById("buttonCopyShareUrl").onclick = () => {
+			const inputElement = <HTMLInputElement> document.getElementById("shareUrl");
+			inputElement.select();
+			inputElement.setSelectionRange(0, 99999); /*For mobile devices*/
+
+			/* Copy the text inside the text field */
+			document.execCommand("copy");
+
+			document.getElementById("shareUrlCopied").hidden = false;
+		}
+
+
+
 	}
 
 
 
 
 	static askPrivilege() {
-		const passwordCandidate = (<HTMLInputElement> document.getElementById("passwordCandidate")).value;
+		const passwordCandidate = (<HTMLInputElement>document.getElementById("passwordCandidate")).value;
 		Share.send({ type: "askprivilege", password: passwordCandidate })
 	}
 
@@ -150,7 +163,9 @@ class Share {
 				console.log("I am root.")
 				Share.setRoot();
 				break;
-
+			case "accessdenied":
+				ErrorMessage.show("Access denied");
+				break;
 			case "join": //a new user joins the group
 				console.log("a new user is joining: ", msg.userid)
 				// the leader is the user with the smallest ID
@@ -331,7 +346,7 @@ class Share {
 		document.getElementById("imgWritePermission" + bool).hidden = false;
 		document.getElementById("imgWritePermission" + !bool).hidden = true;
 
-		(<HTMLInputElement> document.getElementById("sharePermissionWrite")).checked = bool;
+		(<HTMLInputElement>document.getElementById("sharePermissionWrite")).checked = bool;
 
 		for (let userid in UserManager.users) {
 			if (UserManager.users[userid] != UserManager.me)

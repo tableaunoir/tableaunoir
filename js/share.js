@@ -50,6 +50,14 @@ var Share = /** @class */ (function () {
             Share.tryConnect(tryJoin);
         }
         document.getElementById("buttonAskPrivilege").onclick = Share.askPrivilege;
+        document.getElementById("buttonCopyShareUrl").onclick = function () {
+            var inputElement = document.getElementById("shareUrl");
+            inputElement.select();
+            inputElement.setSelectionRange(0, 99999); /*For mobile devices*/
+            /* Copy the text inside the text field */
+            document.execCommand("copy");
+            document.getElementById("shareUrlCopied").hidden = false;
+        };
     };
     Share.askPrivilege = function () {
         var passwordCandidate = document.getElementById("passwordCandidate").value;
@@ -116,6 +124,9 @@ var Share = /** @class */ (function () {
             case "root": //you obtained root permission and the server tells you that
                 console.log("I am root.");
                 Share.setRoot();
+                break;
+            case "accessdenied":
+                ErrorMessage.show("Access denied");
                 break;
             case "join": //a new user joins the group
                 console.log("a new user is joining: ", msg.userid);
