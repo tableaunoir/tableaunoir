@@ -173,6 +173,11 @@ function load() {
             evt.preventDefault();
             Share.execute("mouseup", [UserManager.me.userID, evt]);
         };
+        //onpointerleave: stop the drawing to prevent bugs (like it draws a small line)
+        document.getElementById("canvas").onpointerleave = function (evt) {
+            evt.preventDefault();
+            Share.execute("mouseup", [UserManager.me.userID, evt]);
+        };
         //document.getElementById("canvas").onmousedown = mousedown;
         TouchScreen.addTouchEvents(document.getElementById("canvas"));
         //	document.getElementById("canvas").onmouseleave = function (evt) { isDrawing = false; }
