@@ -132,6 +132,11 @@ class TableauNoir {
     return this.password == candidate;
   }
 
+
+  isProtected() {
+    return this.password != "";
+  }
+
   /**
    * 
    * @param {*} socket 
@@ -144,6 +149,11 @@ class TableauNoir {
   }
 
 
+  /**
+   * 
+   * @param {*} msg 
+   * @description send the msg to the user given in msg.to
+   */
   sendTo(msg) {
     delete msg.socket;
 
@@ -292,6 +302,10 @@ function treatReceivedMessageFromClient(msg) {
       }
       msg.socket.id = tableaunoirID;
       tableaunoirs[tableaunoirID].addSocket(msg.socket);
+
+      if (!tableaunoirs[tableaunoirID].isProtected())
+        tableaunoirs[tableaunoirID].sendTo({ type: "root", to: msg.socket.userid });
+
       break;
 
     case "fullCanvas":
