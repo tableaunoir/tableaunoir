@@ -98,7 +98,7 @@ class Share {
 
 
 	static copyShareUrl() {
-		var sharelink = (<HTMLInputElement>document.getElementById("shareUrl")).value;
+		const sharelink = (<HTMLInputElement>document.getElementById("shareUrl")).value;
 		navigator.clipboard.writeText(sharelink).
 			then(function () { document.getElementById("shareUrlCopied").hidden = false; },
         /* else */ function () { document.getElementById("shareUrlCopied").hidden = false; });
