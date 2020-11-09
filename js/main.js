@@ -73,7 +73,6 @@ function load() {
         for (var i = 0; i < buttons.length; i++)
             if (buttons[i] instanceof HTMLButtonElement)
                 buttons[i].onfocus = document.activeElement.blur; //to be improved
-        Welcome.init();
         BlackVSWhiteBoard.init();
         palette.onchange = function () {
             Share.execute("switchChalk", [UserManager.me.userID]);
@@ -84,14 +83,12 @@ function load() {
             if (evt.key == "Backspace" && !(document.activeElement instanceof HTMLInputElement))
                 evt.preventDefault();
             if (evt.key == "Escape" || evt.key == "F1") { //escape => show menu
-                if (Welcome.isShown())
-                    Welcome.hide();
-                else if (palette.isShown())
+                if (palette.isShown())
                     palette.hide();
                 else
                     Menu.toggle();
             }
-            if (Menu.isShown() || Welcome.isShown())
+            if (Menu.isShown())
                 return;
             if (!evt.ctrlKey && !evt.shiftKey && evt.key == "c") // c => change color
                 changeColor_1();
@@ -164,8 +161,6 @@ function load() {
             }
         };
         document.getElementById("canvas").onpointerdown = function (evt) {
-            if (Welcome.isShown())
-                Welcome.hide();
             evt.preventDefault();
             Share.execute("mousedown", [UserManager.me.userID, evt]);
         };
