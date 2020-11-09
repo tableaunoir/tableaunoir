@@ -53,6 +53,7 @@
 		<button id="buttonCloseControls" title="Hide this toolbar (it can be shown again in the menu)"
 			onclick="controls.hidden = true; welcome.hidden = true;">Hide toolbar</button><span
 			class="keyboardkeyhelp">h</span>
+		<button id="buttonShare" title="share and copy link to clipboard if possible">Share</button>
 		<div id="users"></div>
 	</div>
 	<div id="content">
@@ -341,6 +342,7 @@
 					<h2>Share with others</h2>
 					In order to <em>share</em> the board with your friends, give them the following URL:<br />
 					<input id="shareUrl" value=""></input>
+					<span id='sharecopytext' style='display: none;'>Share link</span>
 
 					<div hidden id="shareMode">
 						<h2>Share mode</h2>

@@ -24,6 +24,16 @@ var Share = /** @class */ (function () {
             if (!Share.isShared())
                 Share.share();
         };
+        document.getElementById("buttonShare").onclick = function () {
+            if (!Share.isShared()) {
+                Share.share();
+            } else {
+                var sharelink = document.location.href + "?id=" + Share.id;
+                navigator.clipboard.writeText(sharelink).
+                  then(function() { },
+                    /* else */ function() {});
+            }
+        }
         document.getElementById("joinButton").onclick = function () {
             window.open(window.location, "_self");
         };
@@ -60,6 +70,7 @@ var Share = /** @class */ (function () {
     Share.share = function () {
         try {
             Share.tryConnect(function () { return Share.send({ type: "share" }); });
+            document.getElementById("buttonShare").innerHTML = document.getElementById('sharecopytext').innerHTML;
             document.getElementById("shareInfo").hidden = false;
             document.getElementById("join").hidden = true;
         }
