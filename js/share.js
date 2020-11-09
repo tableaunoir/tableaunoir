@@ -34,10 +34,11 @@ var Share = /** @class */ (function () {
         document.getElementById("buttonShare").onclick = function () {
             if (!Share.isShared()) {
                 Share.share();
-            } else {
+            }
+            else {
                 Share.copyShareUrl();
             }
-        }
+        };
         document.getElementById("joinButton").onclick = function () {
             window.open(window.location, "_self");
         };
@@ -75,9 +76,10 @@ var Share = /** @class */ (function () {
     Share.copyShareUrl = function () {
         var sharelink = document.getElementById("shareUrl").value;
         navigator.clipboard.writeText(sharelink).
-        then(function() { document.getElementById("shareUrlCopied").hidden = false; },
-        /* else */ function() { document.getElementById("shareUrlCopied").hidden = false; });
+            then(function () { document.getElementById("shareUrlCopied").hidden = false; }, 
+        /* else */ function () { document.getElementById("shareUrlCopied").hidden = false; });
     };
+    ;
     /**
      * @returns true iff the board is shared with others
      */

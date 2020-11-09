@@ -42,6 +42,14 @@ class Share {
 				Share.share();
 		};
 
+		document.getElementById("buttonShare").onclick = function () {
+            if (!Share.isShared()) {
+                Share.share();
+            } else {
+                Share.copyShareUrl();
+            }
+		}
+		
 		document.getElementById("joinButton").onclick = () => {
 			window.open(<any>window.location, "_self")
 		}
@@ -74,20 +82,9 @@ class Share {
 
 		document.getElementById("buttonAskPrivilege").onclick = Share.askPrivilege;
 
-		document.getElementById("buttonCopyShareUrl").onclick = () => {
-			const inputElement = <HTMLInputElement>document.getElementById("shareUrl");
-			inputElement.select();
-			inputElement.setSelectionRange(0, 99999); /*For mobile devices*/
-
-			/* Copy the text inside the text field */
-			document.execCommand("copy");
-
-			document.getElementById("shareUrlCopied").hidden = false;
-		}
-
-
-
+		document.getElementById("buttonCopyShareUrl").onclick = Share.copyShareUrl;
 	}
+
 
 
 
@@ -98,6 +95,15 @@ class Share {
 		const passwordCandidate = (<HTMLInputElement>document.getElementById("passwordCandidate")).value;
 		Share.send({ type: "askprivilege", password: passwordCandidate })
 	}
+
+
+	static copyShareUrl() {
+		var sharelink = (<HTMLInputElement>document.getElementById("shareUrl")).value;
+		navigator.clipboard.writeText(sharelink).
+			then(function () { document.getElementById("shareUrlCopied").hidden = false; },
+        /* else */ function () { document.getElementById("shareUrlCopied").hidden = false; });
+	};
+
 
 	/**
 	 * @returns true iff the board is shared with others
@@ -124,6 +130,7 @@ class Share {
 			Share.tryConnect(() => Share.send({ type: "share", password: password }));
 
 			document.getElementById("shareInfo").hidden = false;
+			document.getElementById("buttonShare").innerHTML = document.getElementById('sharecopytext').innerHTML;
 			document.getElementById("join").hidden = true;
 
 			if (password == "") {
@@ -162,6 +169,8 @@ class Share {
 
 				document.getElementById("shareAndJoin").hidden = true;
 				document.getElementById("shareInfo").hidden = false;
+
+				document.getElementById("buttonShare").innerHTML = document.getElementById('sharecopytext').innerHTML;
 
 				break;
 			case "user": //there is an existing user
