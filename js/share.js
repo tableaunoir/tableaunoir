@@ -29,7 +29,7 @@ var Share = /** @class */ (function () {
             if (!Share.isShared()) {
                 Share.share();
             } else {
-                document.getElementById("buttonCopyShareUrl").onclick()
+                Share.copyShareUrl();
             }
         }
         document.getElementById("joinButton").onclick = function () {
@@ -57,18 +57,17 @@ var Share = /** @class */ (function () {
             Share.tryConnect(tryJoin);
         }
         document.getElementById("buttonAskPrivilege").onclick = Share.askPrivilege;
-        document.getElementById("buttonCopyShareUrl").onclick = function () {
-            var inputElement = document.getElementById("shareUrl");
-            inputElement.select();
-            inputElement.setSelectionRange(0, 99999); /*For mobile devices*/
-            /* Copy the text inside the text field */
-            document.execCommand("copy");
-            document.getElementById("shareUrlCopied").hidden = false;
-        };
+        document.getElementById("buttonCopyShareUrl").onclick = Share.copyShareUrl;
     };
     Share.askPrivilege = function () {
         var passwordCandidate = document.getElementById("passwordCandidate").value;
         Share.send({ type: "askprivilege", password: passwordCandidate });
+    };
+    Share.copyShareUrl = function () {
+        var sharelink = document.getElementById("shareUrl").value;
+        navigator.clipboard.writeText(sharelink).
+        then(function() { document.getElementById("shareUrlCopied").hidden = false; },
+        /* else */ function() { document.getElementById("shareUrlCopied").hidden = false; });
     };
     /**
      * @returns true iff the board is shared with others
