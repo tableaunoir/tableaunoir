@@ -51,7 +51,7 @@ var Translation = /** @class */ (function () {
                         console.log("Element " + key + " not found. I can translate..");
                     if (element.children.length > 0)
                         console.log("I refuse to translate because the element has some children.");
-                    element.outerHTML = dict[key];
+                    element.innerHTML = dict[key];
                 }
             }
         });
