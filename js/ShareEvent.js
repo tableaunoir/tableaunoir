@@ -46,8 +46,8 @@ var ShareEvent = /** @class */ (function () {
         BoardManager.save();
         Menu.hide();
     };
-    ShareEvent.questionAdd = function (userID, question) {
-        Discussion.addQuestion(userID, question);
+    ShareEvent.questionAdd = function (userID, idquestion, question) {
+        Discussion.addQuestion(userID, idquestion, question);
     };
     ShareEvent.questionRemove = function (questionID) {
         Discussion.removeQuestion(questionID);
