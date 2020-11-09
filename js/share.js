@@ -52,7 +52,8 @@ var Share = /** @class */ (function () {
         document.getElementById("buttonAskPrivilege").onclick = Share.askPrivilege;
     };
     Share.askPrivilege = function () {
-        Share.send({ type: "askprivilege", password: document.getElementById("passwordCandidate") });
+        var passwordCandidate = document.getElementById("passwordCandidate").value;
+        Share.send({ type: "askprivilege", password: passwordCandidate });
     };
     /**
      * @returns true iff the board is shared with others
