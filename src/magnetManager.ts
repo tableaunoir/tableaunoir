@@ -50,7 +50,9 @@ class MagnetManager {
 	}
 
 
-
+	/**
+	 * @returns the top Y when a set of magnets is automatically arranged
+	 */
 	static getYTopWhenNewMagnets() {
 		return 64;
 	}
