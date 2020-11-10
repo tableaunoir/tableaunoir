@@ -33,6 +33,9 @@ var MagnetManager = /** @class */ (function () {
     MagnetManager.getMagnets = function () {
         return document.getElementsByClassName("magnet");
     };
+    /**
+     * @returns the top Y when a set of magnets is automatically arranged
+     */
     MagnetManager.getYTopWhenNewMagnets = function () {
         return 64;
     };
