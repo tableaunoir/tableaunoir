@@ -17,6 +17,11 @@ body {
 	background-color: rgb(194, 123, 31);
 }
 
+.icon {
+	height: 38px;
+	margin: 0px;
+}
+
 canvas {
 	margin: 0px;
 	padding: 0px;
@@ -63,13 +68,10 @@ canvas {
 }
 
 .keyboardkeyhelp {
-	margin-right: 24px;
+	margin-right: 16px;
+	margin-left: 3px;
 }
 
-
-#controls button {
-	height: 48px;
-}
 
 #container {
 	overflow: hidden;
@@ -360,10 +362,34 @@ button {
 	min-width: 48px;
 }
 
-button img {
-	height: 64px;
+
+#controls button {
+	padding: 0px;
+	margin-top: 4px;
+	margin-bottom: 4px;
+	margin-left: 0px;
+	margin-right: 0px;
+	height: 52px;
+	padding-top: 4px;
+	padding-bottom: 4px;
+	padding-left: 8px;
+	padding-right: 12px;
 }
 
+
+
+
+button img {
+	height: 64px;
+	padding: 0px;
+	margin: 0px;
+}
+
+
+.toolbargroup {
+	display: inline;
+	margin-right: 16px;
+}
 
 img {
 	vertical-align: middle;
@@ -586,7 +612,7 @@ h1 {
 
 
 #buttonCloseControls {
-	background-color: rgb(22, 114, 200);
+	background-color: rgb(145, 70, 20);
 }
 
 #users {
@@ -648,10 +674,4 @@ h1 {
 }
 
 
-.illustration {
-
-
-}
-
-
-
+.illustration {}
