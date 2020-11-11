@@ -1,0 +1,6 @@
+{
+  "server": {
+    "websocket": "ws://tableaunoir.irisa.fr:8080",
+    "frontend": "http://tableaunoir.irisa.fr"
+  }
+}

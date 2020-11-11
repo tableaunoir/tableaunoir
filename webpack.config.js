@@ -1,4 +1,4 @@
-const { CleanWebpackPlugin } = require('clean-webpack-plugin');
+const CleanWebpackPlugin = require('clean-webpack-plugin');
 const CopyPlugin = require('copy-webpack-plugin');
 const webpack = require('webpack');
 
@@ -33,7 +33,7 @@ module.exports = {
         { from: 'index.html', to: 'index.html' }, // Use html webpack ?
         { from: 'style.css', to: 'style.css' }, // Use css loader ?
         { from: 'img', to: 'img' }, // Use image loader ?
-        { from: 'lib', to: 'lib' },
+        { from: 'lib', to: 'lib' }, // Use imports ;)
       ],
     })
   ]
