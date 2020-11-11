@@ -307,7 +307,7 @@ function clearLine(x1, y1, x2, y2, lineWidth = 10) {
 
 function divideScreen() {
 	console.log("divide the screen")
-	let x = document.getElementById("container").scrollLeft + Layout.getWindowWidth() / 2;
+	let x = Layout.getXMiddle();
 	drawLine(getCanvas().getContext("2d"), x, 0, x, Layout.getWindowHeight(), 1, BoardManager.getDefaultChalkColor());
 	BoardManager.saveCurrentScreen();
 }

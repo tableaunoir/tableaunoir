@@ -1,6 +1,9 @@
 var Layout = /** @class */ (function () {
     function Layout() {
     }
+    Layout.getXMiddle = function () {
+        return document.getElementById("container").scrollLeft + Layout.getWindowWidth() / 2;
+    };
     /**
      * initialization
      */

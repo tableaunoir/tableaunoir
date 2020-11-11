@@ -674,4 +674,20 @@ h1 {
 }
 
 
-.illustration {}
+@keyframes divideLineHelp  {
+	from {
+		height: 0px;
+	}
+
+	to {
+		height: 100%
+	}
+}
+
+
+.divideLineHelp {
+	position: absolute;
+	background-color: grey;
+	width: 2px;
+	animation: divideLineHelp 2000ms infinite;
+}

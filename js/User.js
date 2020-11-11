@@ -106,14 +106,13 @@ var User = /** @class */ (function () {
                 this.lastDelineation.addPoint({ x: this.x, y: this.y });
             }
         }
-        palette.hide();
+        if (this.isCurrentUser())
+            palette.hide();
     };
     User.prototype.mousemove = function (evt) {
         var evtX = evt.offsetX;
         var evtY = evt.offsetY;
-        console.log("mousemove");
         if (!this.isCurrentUser()) {
-            console.log("aze");
             this.cursor.style.left = evtX - 8;
             this.cursor.style.top = evtY - 8;
         }
