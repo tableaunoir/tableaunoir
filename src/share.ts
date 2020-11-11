@@ -1,5 +1,5 @@
-const SERVERADRESS = 'ws://tableaunoir.irisa.fr:8080';
-const DEFAULTADRESS = "http://tableaunoir.irisa.fr";
+const SERVERADDRESS = 'ws://tableaunoir.irisa.fr:8080';
+const DEFAULTADDRESS = "http://tableaunoir.irisa.fr";
 
 import { getCanvas } from './main';
 import { MagnetManager } from './magnetManager';
@@ -25,7 +25,7 @@ export class Share {
 		if (Share.ws != undefined)
 			return;
 
-		Share.ws = new WebSocket(SERVERADRESS);
+		Share.ws = new WebSocket(SERVERADDRESS);
 		Share.ws.binaryType = "arraybuffer";
 
 		Share.ws.onerror = () => { ErrorMessage.show("Impossible to connect to the server.") };
@@ -359,12 +359,12 @@ export class Share {
 
 		const url = document.location.href;
 		/*	if (url.startsWith("file://"))
-				url = DEFAULTADRESS;*/
+				url = DEFAULTADDRESS;*/
 
 		const newUrl = url + "?id=" + id;
 		history.pushState({}, null, newUrl);
 
-		(<HTMLInputElement>document.getElementById("shareUrl")).value = url.startsWith("file://") ? DEFAULTADRESS + "?id=" + id : newUrl;
+		(<HTMLInputElement>document.getElementById("shareUrl")).value = url.startsWith("file://") ? DEFAULTADDRESS + "?id=" + id : newUrl;
 
 		//document.getElementById("canvas").toBlob((blob) => Share.sendFullCanvas(blob));
 
