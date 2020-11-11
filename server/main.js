@@ -292,7 +292,9 @@ function treatReceivedMessageFromClient(msg) {
       tableaunoirs[tableaunoirID].addSocket(msg.socket);
       tableaunoirs[tableaunoirID].setRoot(msg.socket);
       tableaunoirs[tableaunoirID].setPassWord(msg.password);
-      msg.socket.send(JSON.stringify({ type: "id", id: tableaunoirID }));
+      
+      tableaunoirs[tableaunoirID].sendTo({ type: "id", id: tableaunoirID, to: msg.socket.userid });
+      //msg.socket.send(JSON.stringify({ type: "id", id: tableaunoirID }));
       break;
 
     case "join":
