@@ -160,7 +160,7 @@ class TableauNoir {
     this.sockets.forEach(s => {
       if (s.userid == msg.to) {
         s.send(JSON.stringify(msg))
-        print("  > " + s.userid);
+        print( messageToString(msg) + "  > " + s.userid);
       }
     });
 
