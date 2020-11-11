@@ -43,6 +43,11 @@ You can teach online by sharing the screen with Discord, Zoom, Teams, etc, or by
 
 ---
 
+
+### Build Tableaunoir
+
+Run `tsc` (the Typescript compiler) in the root folder.
+
 ## Offline version
 
 If you prefer to use an offline version, it is possible. You have to install [Electron](https://www.electronjs.org/) and then the application can be launched as follows (from the main directory):
@@ -65,3 +70,5 @@ This software is open-source under [the GPLv3.0 license](https://github.com/tabl
 
 ## Credits
 - Some pictures come from [@nicholas-ochoa/OpenSC2K](https://github.com/nicholas-ochoa/OpenSC2K), an open-source clone of Sim City 2000.
+- [https://openmoji.org/]
+- Some CC0 icons from [https://www.svgrepo.com/]
