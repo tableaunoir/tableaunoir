@@ -2,10 +2,10 @@
 
 const PORT = 8080;
 
-const https = require('https'); //https library (I can make it work properly)
+const https = require('https'); //https library (I cannot make it work properly)
 const WebSocket = require('ws'); //websocket library
 const fs = require('fs'); //filesystem
-const uuid = require('small-uuid');
+const uuid = require('small-uuid'); //for generating small IDs
 
 class UserManager {
   /**
