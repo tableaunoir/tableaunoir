@@ -144,8 +144,8 @@ class User {
 
         }
 
-
-        palette.hide();
+        if (this.isCurrentUser())
+            palette.hide();
     }
 
 
