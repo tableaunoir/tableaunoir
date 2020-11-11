@@ -1,4 +1,7 @@
 class Layout {
+    static getXMiddle() {
+        return document.getElementById("container").scrollLeft + Layout.getWindowWidth() / 2;
+    }
 
     static STANDARDHEIGHT = 1000;
 
