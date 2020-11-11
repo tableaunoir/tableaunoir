@@ -22,6 +22,7 @@ var Share = /** @class */ (function () {
             console.log("I received the message: ");
             Share._treatReceivedMessage(JSON.parse(msg.data));
         };
+        document.getElementById("buttonAskQuestion").hidden = false;
     };
     /**
      * @returns true iff we are on github.io
@@ -64,10 +65,7 @@ var Share = /** @class */ (function () {
                 }
                 catch (e) {
                     Share.ws = undefined;
-                    if (Share.isOnGitHub())
-                        ErrorMessage.show("Impossible to share from tableaunoir.github.io. Go to menu/share to have explanations.", e);
-                    else
-                        ErrorMessage.show("Impossible to connect to the server", e);
+                    Share.showConnectionError();
                 }
             };
             Share.tryConnect(tryJoin);
@@ -95,6 +93,12 @@ var Share = /** @class */ (function () {
     Share.isShared = function () {
         return Share.id != undefined;
     };
+    Share.showConnectionError = function () {
+        if (Share.isOnGitHub())
+            ErrorMessage.show("For sharing, first go to a deployed server. Go to menu/share for more information.");
+        else
+            ErrorMessage.show("Impossible to connect to the server");
+    };
     /**
      * @returns true iff the current user is root
      */
@@ -120,7 +124,7 @@ var Share = /** @class */ (function () {
         }
         catch (e) {
             Share.ws = undefined;
-            ErrorMessage.show("Impossible to connect to the server", e);
+            Share.showConnectionError();
         }
     };
     /**

@@ -28,7 +28,7 @@ var UserManager = /** @class */ (function () {
     UserManager.leave = function (userid) {
         UserManager.users[userid].destroy();
         delete UserManager.users[userid];
-        UserManager.updateUsers();
+        UserManager.updateGUIUsers();
     };
     /**
      *
@@ -37,7 +37,7 @@ var UserManager = /** @class */ (function () {
      */
     UserManager.add = function (userid) {
         UserManager.users[userid] = new User(false);
-        UserManager.updateUsers();
+        UserManager.updateGUIUsers();
     };
     /**
      *
@@ -51,7 +51,7 @@ var UserManager = /** @class */ (function () {
         }
         UserManager.users[userid] = UserManager.me;
         UserManager.me.setUserID(userid);
-        UserManager.updateUsers();
+        UserManager.updateGUIUsers();
     };
     UserManager.getUserImage = function (userid) {
         var img = new Image();
@@ -67,20 +67,31 @@ var UserManager = /** @class */ (function () {
         return userDOM;
     };
     /**
-     * @description update the GUI
+     * @returns the number of connected users to the current baord
      */
-    UserManager.updateUsers = function () {
-        document.getElementById("users").innerHTML = "";
+    UserManager.getNumberOfUsers = function () {
         var i = 0;
         for (var key in UserManager.users) {
-            var el = UserManager.userIdToDom(key);
+            i++;
+        }
+        return i;
+    };
+    /**
+     * @description update the GUI
+     */
+    UserManager.updateGUIUsers = function () {
+        document.getElementById("users").innerHTML = "";
+        /**let i = 0;
+        for (var key in UserManager.users) {
+            let el = UserManager.userIdToDom(key);
             if (key == UserManager.me.userID)
                 el.classList.add("me");
             document.getElementById("users").appendChild(el);
             i++;
-        }
+        }*/
+        document.getElementById("users").innerHTML = UserManager.getUserImage("u0").outerHTML + " × " + UserManager.getNumberOfUsers();
     };
-    UserManager.me = undefined;
+    UserManager.me = undefined; // the current user 
     UserManager.users = {};
     UserManager.usersImageFileNames = ['1F9D1-200D-1F384.svg', '1F9D9.svg', '1F9DA-200D-2640-FE0F.svg', '1F9DD.svg'];
     return UserManager;

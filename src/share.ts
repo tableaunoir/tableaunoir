@@ -31,6 +31,8 @@ class Share {
 			Share._treatReceivedMessage(JSON.parse(msg.data));
 		};
 
+		document.getElementById("buttonAskQuestion").hidden = false;
+
 	}
 
 
