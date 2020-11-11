@@ -208,6 +208,7 @@ function load() {
 			Share.execute("mousedown", [UserManager.me.userID, evt])
 		};
 		document.getElementById("canvasBackground").onpointermove = (evt) => { console.log("mousemove on the background should not occur") };
+		
 		document.getElementById("canvas").onpointermove = (evt) => {
 			evt.preventDefault();
 			Share.execute("mousemove", [UserManager.me.userID, evt])

@@ -111,7 +111,9 @@ var User = /** @class */ (function () {
     User.prototype.mousemove = function (evt) {
         var evtX = evt.offsetX;
         var evtY = evt.offsetY;
-        if (!this.isCurrentUser) {
+        console.log("mousemove");
+        if (!this.isCurrentUser()) {
+            console.log("aze");
             this.cursor.style.left = evtX - 8;
             this.cursor.style.top = evtY - 8;
         }

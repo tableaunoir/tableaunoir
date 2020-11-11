@@ -51,6 +51,7 @@ class User {
 
         if (isCurrentUser)
             this.cursor.hidden = true;
+
         if (!isCurrentUser)
             this.toolCursor.hidden = true;
 
@@ -154,7 +155,7 @@ class User {
         const evtX = evt.offsetX;
         const evtY = evt.offsetY;
 
-        if (!this.isCurrentUser) {
+        if (!this.isCurrentUser()) {
             this.cursor.style.left = evtX - 8;
             this.cursor.style.top = evtY - 8;
         }
