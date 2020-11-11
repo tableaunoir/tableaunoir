@@ -1,8 +1,14 @@
-/** 
- * this class contains the events that are shared with other users connected to the same tableaunoir 
+import { MagnetManager } from './magnetManager';
+import { BoardManager } from './boardManager';
+import { UserManager } from './UserManager';
+import { Discussion } from './Discussion';
+import { Menu } from './Menu';
+
+/**
+ * this class contains the events that are shared with other users connected to the same tableaunoir
  * */
 
-class ShareEvent {
+export class ShareEvent {
     static mousedown(userId, evt) {
         UserManager.users[userId].mousedown(evt);
     }

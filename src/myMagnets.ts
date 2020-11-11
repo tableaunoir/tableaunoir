@@ -1,5 +1,8 @@
 /** Gale-Shapley */
 
+import { Share } from './share';
+import { MagnetManager } from './magnetManager';
+
 function createMagnet(content) {
     let o = document.createElement("div");
     o.innerHTML = content;
@@ -145,7 +148,7 @@ function magnetTilings() {
 
 
 /**
- * 
+ *
  */
 function magnetUnionFind() {
     MagnetManager.clearMagnet();
@@ -165,7 +168,7 @@ function magnetGo() {
         for (let i = 0; i < 20; i++) {
             MagnetManager.addMagnetImage("go/" + color + ".png",
             (img) => Share.execute("magnetMove", [img.id, x, 10 + i * 5]));
-            
+
         }
     }
 
@@ -173,10 +176,10 @@ function magnetGo() {
     f("white", 50);
 
     MagnetManager.addMagnetImage("go/goban.png", (img) => Share.execute("magnetMove", [img.id, 110, 20]));
-    
+
 }
 
-function loadMagnets() {
+export function loadMagnets() {
     MagnetManager.register("magnetGS");
     MagnetManager.register("magnetSorting");
     MagnetManager.register("magnetBTrees");
@@ -187,7 +190,3 @@ function loadMagnets() {
     MagnetManager.register("magnetFloydsAlgorithm");
     MagnetManager.register("magnetGo");
 }
-
-
-
-

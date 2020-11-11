@@ -1,6 +1,15 @@
+import { BoardManager } from './boardManager';
+import { drawDot, getCanvas, drawLine, clearLine, palette } from './main';
+import { MagnetManager } from './magnetManager';
+import { UserManager } from './UserManager';
+import { Layout } from './Layout';
+import { EraserCursor } from "./EraserCursor";
+import { Delineation } from './Delineation';
+import { ChalkCursor } from './ChalkCursor';
+
 const ERASEMODEDEFAULTSIZE = 10;
 
-class User {
+export class User {
     xInit = 0;
     yInit = 0;
 
@@ -36,9 +45,9 @@ class User {
     }
 
     /**
-     * 
+     *
      * @param {*} isCurrentUser that tells whether the user is the current one
-     * @description create the user. 
+     * @description create the user.
      */
     constructor(isCurrentUser) {
         this.cursor = document.createElement("div");

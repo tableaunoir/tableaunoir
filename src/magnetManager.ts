@@ -1,6 +1,11 @@
+import { getCanvas, drawLine } from "./main";
+import { Share } from "./share";
+import { BoardManager } from './boardManager';
+import { Layout } from './Layout';
+import { Menu } from './Menu';
+import { TouchScreen } from './TouchScreen';
 
-
-class MagnetManager {
+export class MagnetManager {
 
 	static magnetX = 0;
 	static magnetY = 64;
@@ -27,8 +32,8 @@ class MagnetManager {
 	}
 
 	/**
-	 * 
-	 * @param {boolean} b 
+	 *
+	 * @param {boolean} b
 	 * @description if b == true, makes all the magnets interactable with the mouse/pointer
 	 *  if b == false, the magnets cannot be moved
 	 */
@@ -75,8 +80,8 @@ class MagnetManager {
 	}
 
 	/**
-	 * 
-	 * @param {*} element 
+	 *
+	 * @param {*} element
 	 * @description add the DOM element element to the list of magnets
 	 */
 	static addMagnet(element, callback = (el) => { }) {
@@ -266,8 +271,8 @@ class MagnetManager {
 	}
 
 	/**
-	 * 
-	 * @param element 
+	 *
+	 * @param element
 	 * @description adds the event mousedown etc. to the magnet. Call LaTEX
 	 */
 	static _installMagnet(element) {
@@ -307,9 +312,9 @@ class MagnetManager {
 				drag = true;
 				MagnetManager.currentMagnet = e.target;
 				/**
-				 * 
-				 * @param {*} el 
-				 * @param {*} bigel 
+				 *
+				 * @param {*} el
+				 * @param {*} bigel
 				 * @returns true if el is inside bigel
 				 */
 				function inside(el, bigel) {
@@ -394,9 +399,9 @@ class MagnetManager {
 
 
 	/**
-	 * 
-	 * @param filename 
-	 * @param callback 
+	 *
+	 * @param filename
+	 * @param callback
 	 * @description adds a image magnet where the file is already on the server
 	 */
 	static addMagnetImage(filename, callback = (el) => { }) {
@@ -409,8 +414,8 @@ class MagnetManager {
 
 
 	/**
-	 * 
-	 * @param element 
+	 *
+	 * @param element
 	 * @description set up the text magnet: add the mouse event, key event for editing the text magnet
 	 */
 	static installMagnetText(element) {
@@ -463,9 +468,9 @@ class MagnetManager {
 
 
 	/**
-	 * 
-	 * @param {*} x 
-	 * @param {*} y 
+	 *
+	 * @param {*} x
+	 * @param {*} y
 	 * @description adds a new magnet text at position x and y
 	 */
 	static addMagnetText(x, y) {
@@ -502,8 +507,8 @@ class MagnetManager {
 	}
 
 	/**
-	 * 
-	 * @param {*} id 
+	 *
+	 * @param {*} id
 	 * @description remove the magnet of id
 	 */
 	static magnetRemove(id) {
@@ -558,8 +563,8 @@ class MagnetManager {
 	}
 
 	/**
-	 * 
-	 * @param magnetSetName 
+	 *
+	 * @param magnetSetName
 	 * @description register a set of magnets. Add it to the magnet menu.
 	 */
 	static register(magnetSetName) {
@@ -568,5 +573,3 @@ class MagnetManager {
 
 
 }
-
-

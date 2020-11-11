@@ -1,8 +1,8 @@
+import { User } from "./User";
 
+export class UserManager {
 
-class UserManager {
-
-    static me: User = undefined; // the current user 
+    static me: User = undefined; // the current user
     static users = {};
 
     static readonly usersImageFileNames = ['1F9D1-200D-1F384.svg', '1F9D9.svg', '1F9DA-200D-2640-FE0F.svg', '1F9DD.svg'];
@@ -32,8 +32,8 @@ class UserManager {
     }
 
     /**
-     * 
-     * @param {*} userid 
+     *
+     * @param {*} userid
      * @description userid leaves
      */
     static leave(userid) {
@@ -43,8 +43,8 @@ class UserManager {
     }
 
     /**
-     * 
-     * @param {*} userid 
+     *
+     * @param {*} userid
      * @description add a new user of ID userid
      */
     static add(userid) {
@@ -53,8 +53,8 @@ class UserManager {
     }
 
     /**
-     * 
-     * @param {*} userid 
+     *
+     * @param {*} userid
      * @description renaUserManager.me the current user (UserManager.me) as userid
      */
     static setMyUserID(userid) {

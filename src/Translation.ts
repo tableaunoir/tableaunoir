@@ -1,8 +1,9 @@
+import { ErrorMessage } from './ErrorMessage';
 
 /**
  * This class enables to translate Tableaunoir in other languages (french for instance)
  */
-class Translation {
+export class Translation {
 
     /**
      * initialization
@@ -41,9 +42,9 @@ class Translation {
     }
 
     /**
-     * 
+     *
      * @param element HTML element
-     * @param dict 
+     * @param dict
      * @description translate the HTML element
      */
     static translateElement(element: Element, dict) {
@@ -68,8 +69,8 @@ class Translation {
 
 
     /**
-     * 
-     * @param dict 
+     *
+     * @param dict
      * @description translates the element by the IDs
      */
     static translateFromIDs(dict) {

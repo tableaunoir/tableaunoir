@@ -1,8 +1,10 @@
-class EraserCursor {
+import { BoardManager } from './boardManager';
+
+export class EraserCursor {
 
     /**
-    * 
-    * @param {*} size 
+    *
+    * @param {*} size
     * @returns the .style.cursor of the canvas if you want to have a cursor that looks like an eraser of size size
     */
     static getStyleCursor(size = 20) {
@@ -11,8 +13,8 @@ class EraserCursor {
     }
 
     /**
-     * 
-     * @param size 
+     *
+     * @param size
      * @returns the URL of the image of the cursor
      */
     static getCursorURL(size) {

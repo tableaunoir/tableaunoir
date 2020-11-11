@@ -1,7 +1,12 @@
+import { Layout } from './Layout';
+import { BoardManager } from './boardManager';
+import { drawDot, getCanvas, drawLine, clearLine, palette } from './main';
+import { MagnetManager } from './magnetManager';
+
 /**
  * This class represents a polyline drawn by a user
  */
-class Delineation {
+export class Delineation {
 
     points = [];
     lastpoints = [];
@@ -89,9 +94,9 @@ class Delineation {
     }
 
     /**
-     * 
-     * @param {*} point 
-     * @param {*} polygon 
+     *
+     * @param {*} point
+     * @param {*} polygon
      * @returns true iff the point is inside the polygon
      */
     static inPolygon(point, polygon) {

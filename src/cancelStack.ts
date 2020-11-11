@@ -1,7 +1,7 @@
 /**
  * data structure stack for cancel/redo
  */
-class CancelStack {
+export class CancelStack {
     stack = [];
     currentIndex = -1;
     n = 0;
@@ -16,8 +16,8 @@ class CancelStack {
     }
 
     /**
-     * 
-     * @param {*} data 
+     *
+     * @param {*} data
      */
     push(data) {
         this.currentIndex++;

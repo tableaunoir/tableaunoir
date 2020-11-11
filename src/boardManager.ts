@@ -1,7 +1,12 @@
+import { getCanvas, getContainer } from "./main";
+import { Share } from "./share";
+import { Layout } from './Layout';
+import { CancelStack } from './cancelStack';
+
 /**
  * Manage the board
  */
-class BoardManager {
+export class BoardManager {
 
     /** name of the board. Default is 0 (this name is used for storing in localStorage) */
     static boardName = "0";
@@ -57,7 +62,7 @@ class BoardManager {
 
 
     /**
-     * 
+     *
      * @param {*} r a rectangle {x1, y1, x2, y2}
      * @description call the callback when the blob of the rectangle is created
      */
@@ -68,7 +73,7 @@ class BoardManager {
 
 
     /**
-  * 
+  *
   * @param {*} r a rectangle {x1, y1, x2, y2}
   * @returns the content as a string of the image
   */
@@ -101,7 +106,7 @@ class BoardManager {
                   rectangle.blob = blob;
                   BoardManager.cancelStack.push(rectangle);
               });
-    
+
               document.getElementById("canvas").toBlob((blob) => {
                   console.log("save that blob: " + blob)
                   localStorage.setItem(BoardManager.boardName, blob);
@@ -262,8 +267,8 @@ class BoardManager {
     }
 
     /**
-     * 
-     * @param {*} level 
+     *
+     * @param {*} level
      */
     static _loadCurrentCancellationStackData(data) {
         let image = new Image();
@@ -294,7 +299,7 @@ class BoardManager {
     }
 
     /**
-     * 
+     *
      */
     static cancel() {
         if (BoardManager.isCancelRedoActivated())
@@ -304,7 +309,7 @@ class BoardManager {
 
 
     /**
-     * 
+     *
      */
     static redo() {
         if (BoardManager.isCancelRedoActivated())

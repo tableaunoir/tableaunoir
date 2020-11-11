@@ -1,4 +1,7 @@
-class Toolbar {
+import { Layout } from './Layout';
+import { ErrorMessage } from './ErrorMessage';
+
+export class Toolbar {
 
 
     /**

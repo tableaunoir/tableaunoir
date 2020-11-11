@@ -1,9 +1,9 @@
-class ErrorMessage {
+export class ErrorMessage {
 
     /**
-     * 
-     * @param msg 
-     * @param msgplus 
+     *
+     * @param msg
+     * @param msgplus
      * @description show a message error. The message msg is shown. msgplus is shown in the console.
      */
     static show(msg, msgplus?) {

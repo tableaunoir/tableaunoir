@@ -1,11 +1,30 @@
-
+import { Palette } from "./Palette";
+import { Share } from "./share";
+import { loadMagnets } from "./myMagnets";
+import { MagnetManager } from './magnetManager';
+import { BoardManager } from './boardManager';
+import { UserManager } from './UserManager';
+import { LoadSave } from './LoadSave';
+import { Layout } from './Layout';
+import { Toolbar } from './Toolbar';
+import { Discussion } from './Discussion';
+import { Delineation } from './Delineation';
+import { ChalkCursor } from './ChalkCursor';
+import { BlackVSWhiteBoard } from './BlackVSWhiteBoard';
+import { Background } from './Background';
+import { ErrorMessage } from './ErrorMessage';
+import { Translation } from './Translation';
+import { Menu } from './Menu';
+import { TouchScreen } from './TouchScreen';
+import { ShareEvent } from './ShareEvent';
 
 window.onload = load;
+window['Menu'] = Menu;
+window['ShareEvent'] = ShareEvent;
 
+export let palette = new Palette();
 
-let palette = new Palette();
 let loaded = false;
-
 
 /**
  * this function sets the document.body scrolls to 0
@@ -155,7 +174,7 @@ function load() {
 				BoardManager.redo();
 				evt.preventDefault();
 			}
-			else if (evt.ctrlKey && evt.key == "z") {// ctrl + z = undo 
+			else if (evt.ctrlKey && evt.key == "z") {// ctrl + z = undo
 				BoardManager.cancel();
 				evt.preventDefault();
 			}
@@ -164,7 +183,7 @@ function load() {
 				switchChalkEraser();
 			else if (evt.key == "h")
 				Toolbar.toggle();
-			else if (evt.ctrlKey && evt.key == 'x') {//Ctrl + x 
+			else if (evt.ctrlKey && evt.key == 'x') {//Ctrl + x
 				palette.hide();
 				if (UserManager.me.lastDelineation.containsPolygonToMagnetize())
 					UserManager.me.lastDelineation.cutAndMagnetize();
@@ -208,7 +227,7 @@ function load() {
 			Share.execute("mousedown", [UserManager.me.userID, evt])
 		};
 		document.getElementById("canvasBackground").onpointermove = (evt) => { console.log("mousemove on the background should not occur") };
-		
+
 		document.getElementById("canvas").onpointermove = (evt) => {
 			evt.preventDefault();
 			Share.execute("mousemove", [UserManager.me.userID, evt])
@@ -246,22 +265,22 @@ function load() {
 
 
 
-function getCanvas(): HTMLCanvasElement {
+export function getCanvas(): HTMLCanvasElement {
 	return <HTMLCanvasElement>document.getElementById("canvas");
 }
 
 
-function getCanvasBackground(): HTMLCanvasElement {
+export function getCanvasBackground(): HTMLCanvasElement {
 	return <HTMLCanvasElement>document.getElementById("canvasBackground");
 }
 
 
 
-function getContainer() {
+export function getContainer() {
 	return document.getElementById("container");
 }
 
-function drawLine(context, x1, y1, x2, y2, pressure = 1.0, color = UserManager.me.getCurrentColor()) {
+export function drawLine(context, x1, y1, x2, y2, pressure = 1.0, color = UserManager.me.getCurrentColor()) {
 	//console.log(pressure)
 	context.beginPath();
 	context.strokeStyle = color;
@@ -277,7 +296,7 @@ function drawLine(context, x1, y1, x2, y2, pressure = 1.0, color = UserManager.m
 }
 
 
-function drawDot(x, y, color) {
+export function drawDot(x, y, color) {
 	const context = getCanvas().getContext("2d");
 	context.beginPath();
 	context.fillStyle = color;
@@ -288,7 +307,7 @@ function drawDot(x, y, color) {
 }
 
 
-function clearLine(x1, y1, x2, y2, lineWidth = 10) {
+export function clearLine(x1, y1, x2, y2, lineWidth = 10) {
 	const context = getCanvas().getContext("2d");
 	context.beginPath();
 	//context.strokeStyle = BACKGROUND_COLOR;

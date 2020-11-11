@@ -1,11 +1,11 @@
 /**
  * This class makes that the mouse event also works for touch screens.
  **/
-class TouchScreen {
+export class TouchScreen {
 
     /**
-     * 
-     * @param {*} element 
+     *
+     * @param {*} element
      * @description makes that an element with events for the mouse, can be used on a smartphone/tablet
      */
     static addTouchEvents(element) {
@@ -15,8 +15,8 @@ class TouchScreen {
         element.ontouchcancel = TouchScreen._touchHandler;
     }
     /**
-     * 
-     * @param {*} event 
+     *
+     * @param {*} event
      * @description converts a touch event into a mouse event
      */
     static _touchHandler(event) {
@@ -30,8 +30,8 @@ class TouchScreen {
             default: return;
         }
 
-        // initMouseEvent(type, canBubble, cancelable, view, clickCount, 
-        //                screenX, screenY, clientX, clientY, ctrlKey, 
+        // initMouseEvent(type, canBubble, cancelable, view, clickCount,
+        //                screenX, screenY, clientX, clientY, ctrlKey,
         //                altKey, shiftKey, metaKey, button, relatedTarget);
 
         var simulatedEvent = document.createEvent("MouseEvent");

@@ -1,4 +1,10 @@
-class Background {
+import { BoardManager } from './boardManager';
+import { drawDot, getCanvas, getCanvasBackground, drawLine, clearLine, palette } from './main';
+import { Layout } from './Layout';
+import { LoadSave } from './LoadSave';
+import { Menu } from './Menu';
+
+export class Background {
     static init() {
         document.getElementById("buttonNoBackground").onclick = () => { Background.clear(); Menu.hide(); };
         document.getElementById("buttonMusicScore").onclick = () => { Background.musicScore(); Menu.hide(); };

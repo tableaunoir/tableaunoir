@@ -1,4 +1,4 @@
-class Menu {
+export class Menu {
 
     /**
      * initialization
@@ -10,9 +10,9 @@ class Menu {
 
 
     /**
-     * 
-     * @param pageName 
-     * @param elmnt 
+     *
+     * @param pageName
+     * @param elmnt
      * @description open the page of name pageName
      */
     static openPage(pageName: string, elmnt) {

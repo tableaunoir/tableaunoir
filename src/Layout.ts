@@ -1,4 +1,6 @@
-class Layout {
+import { getCanvas, getCanvasBackground } from './main';
+
+export class Layout {
     static getXMiddle() {
         return document.getElementById("container").scrollLeft + Layout.getWindowWidth() / 2;
     }
@@ -157,4 +159,3 @@ class Layout {
 
 
 }
-

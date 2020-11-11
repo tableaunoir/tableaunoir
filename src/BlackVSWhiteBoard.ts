@@ -1,7 +1,9 @@
+import { drawDot, getCanvas, drawLine, clearLine, palette } from './main';
+
 /**
  * This class implements the switch between whiteboard and blackboard
  */
-class BlackVSWhiteBoard {
+export class BlackVSWhiteBoard {
 
     static init() {
         document.getElementById("canvasBackground").style.backgroundColor = "black";

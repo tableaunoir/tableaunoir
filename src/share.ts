@@ -1,19 +1,24 @@
 const SERVERADRESS = 'ws://tableaunoir.irisa.fr:8080';
 const DEFAULTADRESS = "http://tableaunoir.irisa.fr";
 
-
+import { getCanvas } from './main';
+import { MagnetManager } from './magnetManager';
+import { BoardManager } from './boardManager';
+import { UserManager } from './UserManager';
+import { ErrorMessage } from './ErrorMessage';
+import { ShareEvent } from './ShareEvent';
 
 /**
  * the class that enables to share the board
  */
-class Share {
+export class Share {
 	static ws: WebSocket = undefined;
 	static id: string = undefined;
 	static canWriteValueByDefault: boolean = true;
 
 	/**
-	 * 
-	 * @param {*} a function f 
+	 *
+	 * @param {*} a function f
 	 * @description tries to connect to the server, when the connection is made, it executes f
 	 */
 	static tryConnect(f) {
@@ -168,7 +173,7 @@ class Share {
 
 
 	/**
-	 * 
+	 *
 	 * @param {*} msg as an object
 	 * @description treats the msg received from the server
 	 */
@@ -237,7 +242,9 @@ class Share {
 					document.getElementById("magnets").innerHTML + (msg.data); //a bit crazy
 				MagnetManager.installMagnets();
 				break;
-			case "execute": eval("ShareEvent." + msg.event)(...msg.params);
+		        case "execute":
+				eval("ShareEvent." + msg.event)(...msg.params);
+			        break;
 		}
 	}
 
@@ -251,10 +258,10 @@ class Share {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param {*} msg as an object
 	 * @description send the message to server
-	 * 
+	 *
 	 */
 	static send(msg) {
 		msg.id = Share.id;
@@ -262,9 +269,9 @@ class Share {
 	}
 
 	/**
-	 * 
-	 * @param {*} blob 
-	 * @param {*} to 
+	 *
+	 * @param {*} blob
+	 * @param {*} to
 	 * @description send the blob of the canvas to the user to
 	 */
 	static sendFullCanvas(blob, to?) {
@@ -273,8 +280,8 @@ class Share {
 
 
 	/**
-	 * 
-	 * @param to 
+	 *
+	 * @param to
 	 * @description send all the magnets to to. If to is undefined, send to all.
 	 */
 	static sendMagnets(to?) {
@@ -288,8 +295,8 @@ class Share {
 	}
 
 	/**
-	 * 
-	 * @param element 
+	 *
+	 * @param element
 	 * @description send the fact that there is a new magnet
 	 */
 	static sendNewMagnet(element) {
@@ -299,8 +306,8 @@ class Share {
 
 
 	/**
-	 * 
-	 * @param element 
+	 *
+	 * @param element
 	 * @description send the new information about an existing magnet
 	 */
 	static sendMagnetChanged(element) {
@@ -309,7 +316,7 @@ class Share {
 
 
 	/**
-	 * 
+	 *
 	 * @param {*} event, an event name (string), that is a method of the class ShareEvent
 	 * @param {*} params an array of parameters
 	 * @description executes the event with the params, that is execute the method event of the class ShareEvent
@@ -322,7 +329,7 @@ class Share {
 			}
 			else
 				return obj;
-			/*	let props = [//'target', 'clientX', 'clientY', 'layerX', 'layerY', 
+			/*	let props = [//'target', 'clientX', 'clientY', 'layerX', 'layerY',
 					'pressure', 'offsetX', 'offsetY'];
 				props.forEach(prop => {
 					Object.defineProperty(obj, prop, {
@@ -343,8 +350,8 @@ class Share {
 
 
 	/**
-	 * 
-	 * @param id 
+	 *
+	 * @param id
 	 * @description set the ID of the current board
 	 */
 	static _setTableauID(id) {
@@ -403,8 +410,8 @@ class Share {
 
 
 	/**
-	 * 
-	 * @param id 
+	 *
+	 * @param id
 	 * @description say that the current user wants to join the tableaunoir id
 	 */
 	static join(id) {
@@ -413,8 +420,8 @@ class Share {
 
 
 	/**
-	 * 
-	 * @param canWrite 
+	 *
+	 * @param canWrite
 	 * @description if canWrite == true, makes that everybody can draw, otherwise only you can
 	 */
 	static setCanWriteForAllExceptMeAndByDefault(canWrite) {
@@ -433,11 +440,3 @@ class Share {
 
 
 }
-
-
-
-
-
-
-
-
