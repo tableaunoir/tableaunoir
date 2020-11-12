@@ -29,11 +29,11 @@ jobs:
     - run: npm run lint
     - name: Compress action step
       id: tarball
-      run: tar czf tableaunoir-${default-branch}.tar.gz --transform s,^dist/,tableaunoir/, dist
+      run: tar czf tableaunoir-master.tar.gz --transform s,^dist/,tableaunoir/, dist
       if: ${{ always() && steps.build.outcome == 'success' }}
     - name: upload tableaunoir bundle
       if: ${{ always() && steps.tarball.outcome == 'success' }}
       uses: actions/upload-artifact@v2
       with:
         name: tableaunoir current version
-        path: tableaunoir-${default-branch}.tar.gz
+        path: tableaunoir-master.tar.gz
