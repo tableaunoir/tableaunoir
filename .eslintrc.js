@@ -17,7 +17,6 @@ module.exports = {
     ],
     "rules": {
       "no-mixed-spaces-and-tabs": "warn",
-      "no-irregular-whitespace": "warn",
       "no-self-assign": "warn",
       "no-empty": "warn",
       "@typescript-eslint/ban-types": "warn",

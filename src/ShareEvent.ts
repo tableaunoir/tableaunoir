@@ -54,7 +54,7 @@ export class ShareEvent {
         MagnetManager.magnetRemove(idMagnet);
     }
 
-    static magnetChange(idMagnet, outerHTML) {
+    static magnetChange(idMagnet, outerHTML) {
         document.getElementById(idMagnet).outerHTML = outerHTML;
     }
 
