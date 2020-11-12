@@ -26,6 +26,11 @@ class MagnetManager {
 		return MagnetManager.magnetUnderCursor;
 	}
 
+
+	static getCurrentMagnetID(): string {
+		return MagnetManager.currentMagnet.id;
+	}
+
 	/**
 	 * 
 	 * @param {boolean} b 
@@ -514,10 +519,10 @@ class MagnetManager {
 
 
 	/**
+	 * @param img
 	 * @description draw the current magnet to the canvas
 	 */
-	static printCurrentMagnet() {
-		const img = MagnetManager.currentMagnet;
+	static printMagnet(img) {
 
 		if (!(img instanceof Image)) {
 			console.log("the current image is not an image! Could not be printed!")

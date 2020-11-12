@@ -73,6 +73,8 @@ class LoadSave {
                     MagnetManager.addMagnet(img);
                 }
             }
+
+            Menu.hide(); //hide the menu after loading
         }
     }
 

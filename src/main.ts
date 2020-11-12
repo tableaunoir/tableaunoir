@@ -176,20 +176,20 @@ function load() {
 			}
 			else if (evt.ctrlKey && evt.key == "v") { //Ctrl + v = print the current magnet
 				palette.hide();
-				MagnetManager.printCurrentMagnet();
+				Share.execute("printMagnet", [MagnetManager.getCurrentMagnetID()]);
 			}
 			else if (evt.key == "m") { //m = make new magnets
 				palette.hide();
 				if (UserManager.me.lastDelineation.containsPolygonToMagnetize())
 					UserManager.me.lastDelineation.cutAndMagnetize();
 				else {
-					MagnetManager.printCurrentMagnet();
+					Share.execute("printMagnet", [MagnetManager.getCurrentMagnetID()]);
 					MagnetManager.removeCurrentMagnet();
 				}
 			}
 			else if (evt.key == "p") { //p = print the current magnet
 				palette.hide();
-				MagnetManager.printCurrentMagnet();
+				Share.execute("printMagnet", [MagnetManager.getCurrentMagnetID()]);
 			}
 			else if (evt.key == "Delete" || evt.key == "x" || evt.key == "Backspace") { //supr = delete the current magnet
 				palette.hide();

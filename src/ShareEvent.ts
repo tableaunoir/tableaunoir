@@ -66,4 +66,17 @@ class ShareEvent {
     static questionRemove(questionID) {
         Discussion.removeQuestion(questionID);
     }
+
+
+    static removeContour(points) {
+        Drawing.removeContour(points);
+    }
+
+    static clearPolygon(points) {
+        Drawing.clearPolygon(points);
+    }
+
+    static printMagnet(magnetID) {
+        MagnetManager.printMagnet(document.getElementById(magnetID));
+    }
 }
