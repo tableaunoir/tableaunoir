@@ -27,9 +27,9 @@ jobs:
       run: npm run build
     - run: npm lint
     - name: Compress action step
-        id: make-tarball
-        run: tar czf tableaunoir-$default-branch.tar.gz --trasnform s,^dist/,tableaunoir/, dist
-        if: ${{ always() && steps.build.outcome == 'success' }}
+      id: make-tarball
+      run: tar czf tableaunoir-$default-branch.tar.gz --trasnform s,^dist/,tableaunoir/, dist
+      if: ${{ always() && steps.build.outcome == 'success' }}
     - name: upload tableaunoir bundle
       if: ${{ always() && steps.make-tarball.outcome == 'success' }}
       uses: actions/upload-artifact@v2
