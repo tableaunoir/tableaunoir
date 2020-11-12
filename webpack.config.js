@@ -2,7 +2,7 @@ const CleanWebpackPlugin = require('clean-webpack-plugin');
 const CopyPlugin = require('copy-webpack-plugin');
 const webpack = require('webpack');
 
-const path = require('path')
+const path = require('path');
 
 module.exports = {
   entry: {
