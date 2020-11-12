@@ -1,8 +1,11 @@
 {
   "devDependencies": {
+    "@typescript-eslint/eslint-plugin": "^4.7.0",
+    "@typescript-eslint/parser": "^4.7.0",
     "clean-webpack-plugin": "^3.0.0",
     "copy-webpack-plugin": "^6.3.0",
     "css-loader": "^5.0.1",
+    "eslint": "^7.13.0",
     "ts-loader": "^8.0.11",
     "typescript": "^4.0.5",
     "webpack": "^5.4.0",
@@ -10,9 +13,9 @@
   },
   "scripts": {
     "webpack": "webpack",
-    "lint": "tslint -c tslint.json src/**.ts"
+    "lint": "eslint src/**.ts"
   },
   "dependencies": {
-    "tslint": "^6.1.3"
+    "typescript-eslint": "^0.0.1-alpha.0"
   }
 }
