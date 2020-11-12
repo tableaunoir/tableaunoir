@@ -1,10 +1,16 @@
 const SERVERADRESS = 'ws://tableaunoir.irisa.fr:8080';
+const DEFAULTADRESS = "http://tableaunoir.irisa.fr";
 
 
+
+/**
+ * the class that enables to share the board
+ */
 class Share {
-	static ws = undefined;
-	static id = undefined;
-	static canWriteValueByDefault = true;
+	static ws: WebSocket = undefined;
+	static id: string = undefined;
+	static canWriteValueByDefault: boolean = true;
+
 	/**
 	 * 
 	 * @param {*} a function f 
@@ -25,21 +31,43 @@ class Share {
 			Share._treatReceivedMessage(JSON.parse(msg.data));
 		};
 
+		document.getElementById("buttonAskQuestion").hidden = false;
+
 	}
+
+
+	/**
+	 * @returns true iff we are on github.io
+	 */
+	static isOnGitHub() {
+		return window.location.origin.indexOf("github") >= 0;
+	}
+	/**
+	 * initialization
+	 */
 	static init() {
 		document.getElementById("shareButton").onclick = () => {
 			if (!Share.isShared())
 				Share.share();
 		};
 
-		document.getElementById("joinButton").onclick = () => {
-			window.open(window.location, "_self")
+		document.getElementById("buttonShare").onclick = function () {
+			if (!Share.isShared()) {
+				Share.share();
+			} else {
+				Share.copyShareUrl();
+			}
 		}
 
-		document.getElementById("shareInEverybodyWritesMode").onclick = Share.everybodyWritesMode;
-		document.getElementById("shareInTeacherMode").onclick = Share.teacherMode;
+		document.getElementById("joinButton").onclick = () => {
+			window.open(<any>window.location, "_self")
+		}
 
-		if (window.location.origin.indexOf("github") < 0)
+		const checkboxSharePermissionWrite = <HTMLInputElement>document.getElementById("sharePermissionWrite");
+		checkboxSharePermissionWrite.onclick =
+			() => Share.setCanWriteForAllExceptMeAndByDefault(checkboxSharePermissionWrite.checked);
+
+		if (!Share.isOnGitHub())
 			document.getElementById('ShareGithub').hidden = true;
 
 		if (Share.isSharedURL()) {
@@ -48,12 +76,12 @@ class Share {
 					Share.id = Share.getIDInSharedURL();
 					if (Share.id != null) {
 						Share.join(Share.id);
-						document.getElementById("shareUrl").value = document.location;
+						(<HTMLInputElement>document.getElementById("shareUrl")).value = <any>document.location;
 					}
 				}
 				catch (e) {
 					Share.ws = undefined;
-					ErrorMessage.show("Impossible to connect to the server", e);
+					Share.showConnectionError();
 				}
 
 			}
@@ -61,9 +89,29 @@ class Share {
 			Share.tryConnect(tryJoin);
 		}
 
+		document.getElementById("buttonAskPrivilege").onclick = Share.askPrivilege;
 
-
+		document.getElementById("buttonCopyShareUrl").onclick = Share.copyShareUrl;
 	}
+
+
+
+
+	/**
+	 * @description ask for privilege (root)
+	 */
+	static askPrivilege() {
+		const passwordCandidate = (<HTMLInputElement>document.getElementById("passwordCandidate")).value;
+		Share.send({ type: "askprivilege", password: passwordCandidate })
+	}
+
+
+	static copyShareUrl() {
+		const sharelink = (<HTMLInputElement>document.getElementById("shareUrl")).value;
+		navigator.clipboard.writeText(sharelink).
+			then(function () { document.getElementById("shareUrlCopied").hidden = false; },
+        /* else */ function () { document.getElementById("shareUrlCopied").hidden = false; });
+	};
 
 
 	/**
@@ -74,20 +122,44 @@ class Share {
 	}
 
 
+	static showConnectionError() {
+		if (Share.isOnGitHub())
+			ErrorMessage.show("For sharing, first go to a deployed server. Go to menu/share for more information.");
+		else
+			ErrorMessage.show("Impossible to connect to the server");
+	}
+	/**
+	 * @returns true iff the current user is root
+	 */
+	static isRoot() {
+		return document.getElementById("askPrivilege").hidden;
+	}
+
 	/**
 	 * @description tries to connect the server to make a shared board
 	 */
 	static share() {
 		try {
-			Share.tryConnect(() => Share.send({ type: "share" }));
+			const password = (<HTMLInputElement>document.getElementById("password")).value;
+
+			Share.tryConnect(() => Share.send({ type: "share", password: password }));
 
 			document.getElementById("shareInfo").hidden = false;
+			document.getElementById("buttonShare").innerHTML = document.getElementById('sharecopytext').innerHTML;
 			document.getElementById("join").hidden = true;
+
+			if (password == "") {
+				Share.setCanWriteForAllExceptMeAndByDefault(true);
+			}
+			else
+				Share.setCanWriteForAllExceptMeAndByDefault(false);
+
+			Share.setRoot();
 
 		}
 		catch (e) {
 			Share.ws = undefined;
-			ErrorMessage.show("Impossible to connect to the server", e);
+			Share.showConnectionError();
 		}
 
 	}
@@ -112,7 +184,8 @@ class Share {
 
 				document.getElementById("shareAndJoin").hidden = true;
 				document.getElementById("shareInfo").hidden = false;
-				document.getElementById("shareMode").hidden = false;
+
+				document.getElementById("buttonShare").innerHTML = document.getElementById('sharecopytext').innerHTML;
 
 				break;
 			case "user": //there is an existing user
@@ -122,7 +195,13 @@ class Share {
 
 				UserManager.add(msg.userid);
 				break;
-
+			case "root": //you obtained root permission and the server tells you that
+				console.log("I am root.")
+				Share.setRoot();
+				break;
+			case "accessdenied":
+				ErrorMessage.show("Access denied");
+				break;
 			case "join": //a new user joins the group
 				console.log("a new user is joining: ", msg.userid)
 				// the leader is the user with the smallest ID
@@ -130,7 +209,7 @@ class Share {
 				UserManager.add(msg.userid);
 
 				if (UserManager.isSmallestUserID()) {
-					canvas.toBlob((blob) => Share.sendFullCanvas(blob, msg.userid));
+					getCanvas().toBlob((blob) => Share.sendFullCanvas(blob, msg.userid));
 					Share.sendFullCanvas(msg.userid);
 					Share.sendMagnets(msg.userid);
 					Share.execute("setUserCanWrite", [msg.userid, Share.canWriteValueByDefault]);
@@ -162,6 +241,15 @@ class Share {
 		}
 	}
 
+
+	/**
+	 * modify the interface to say that the current user is root (all privileges)
+	 */
+	static setRoot() {
+		document.getElementById("askPrivilege").hidden = true;
+		document.getElementById("shareMode").hidden = false;
+	}
+
 	/**
 	 * 
 	 * @param {*} msg as an object
@@ -179,12 +267,17 @@ class Share {
 	 * @param {*} to 
 	 * @description send the blob of the canvas to the user to
 	 */
-	static sendFullCanvas(blob, to) {
-		Share.send({ type: "fullCanvas", data: canvas.toDataURL(), to: to }); // at some point send the blob directly
+	static sendFullCanvas(blob, to?) {
+		Share.send({ type: "fullCanvas", data: getCanvas().toDataURL(), to: to }); // at some point send the blob directly
 	}
 
 
-	static sendMagnets(to) {
+	/**
+	 * 
+	 * @param to 
+	 * @description send all the magnets to to. If to is undefined, send to all.
+	 */
+	static sendMagnets(to?) {
 		if (Share.isShared()) {
 			if (to)
 				Share.send({ type: "magnets", magnets: document.getElementById("magnets").innerHTML, to: to }); // send the html code for all the magnets
@@ -194,18 +287,27 @@ class Share {
 
 	}
 
-
-
+	/**
+	 * 
+	 * @param element 
+	 * @description send the fact that there is a new magnet
+	 */
 	static sendNewMagnet(element) {
 		console.log("new magnet sent!")
-		Share.send({type: "newmagnet", data: element.outerHTML });
+		Share.send({ type: "newmagnet", data: element.outerHTML });
 	}
 
 
-
+	/**
+	 * 
+	 * @param element 
+	 * @description send the new information about an existing magnet
+	 */
 	static sendMagnetChanged(element) {
-		Share.send({type: "magnetChanged", magnetid: element.id, data: element.outerHTML });
+		Share.send({ type: "magnetChanged", magnetid: element.id, data: element.outerHTML });
 	}
+
+
 	/**
 	 * 
 	 * @param {*} event, an event name (string), that is a method of the class ShareEvent
@@ -216,7 +318,11 @@ class Share {
 	static execute(event, params) {
 		function adapt(obj) {
 			if (obj instanceof MouseEvent) {
-				let props = [//'target', 'clientX', 'clientY', 'layerX', 'layerY', 
+				return { pressure: (<any>obj).pressure, offsetX: obj.offsetX, offsetY: obj.offsetY };
+			}
+			else
+				return obj;
+			/*	let props = [//'target', 'clientX', 'clientY', 'layerX', 'layerY', 
 					'pressure', 'offsetX', 'offsetY'];
 				props.forEach(prop => {
 					Object.defineProperty(obj, prop, {
@@ -227,7 +333,8 @@ class Share {
 				});
 			}
 
-			return obj;
+			return obj;*/
+
 		}
 		eval("ShareEvent." + event)(...params);
 		if (Share.isShared())
@@ -235,11 +342,22 @@ class Share {
 	}
 
 
+	/**
+	 * 
+	 * @param id 
+	 * @description set the ID of the current board
+	 */
 	static _setTableauID(id) {
 		Share.id = id;
-		let newUrl = document.location.href + "?id=" + id;
+
+		const url = document.location.href;
+		/*	if (url.startsWith("file://"))
+				url = DEFAULTADRESS;*/
+
+		const newUrl = url + "?id=" + id;
 		history.pushState({}, null, newUrl);
-		document.getElementById("shareUrl").value = newUrl;
+
+		(<HTMLInputElement>document.getElementById("shareUrl")).value = url.startsWith("file://") ? DEFAULTADRESS + "?id=" + id : newUrl;
 
 		//document.getElementById("canvas").toBlob((blob) => Share.sendFullCanvas(blob));
 
@@ -254,13 +372,18 @@ class Share {
 
 
 
-
+	/**
+	 * @returns yes if the current URL is an URL of a shared board
+	 */
 	static isSharedURL() {
-		let params = (new URL(document.location)).searchParams;
+		let params = (new URL(<any>document.location)).searchParams;
 		return params.get('id') != null;
 	}
 
 
+	/**
+	 * @returns the current tableaunoir ID
+	 */
 	static getTableauNoirID() {
 		if (Share.isSharedURL()) {
 			return Share.getIDInSharedURL();
@@ -269,38 +392,46 @@ class Share {
 			return "local";
 	}
 
-
+	/**
+	 * @returns the current tableaunoir ID
+	 */
 	static getIDInSharedURL() {
-		let params = (new URL(document.location)).searchParams;
+		let params = (new URL(<any>document.location)).searchParams;
 		return params.get('id');
 	}
 
 
 
-
+	/**
+	 * 
+	 * @param id 
+	 * @description say that the current user wants to join the tableaunoir id
+	 */
 	static join(id) {
 		Share.send({ type: "join", id: id });
 	}
 
 
+	/**
+	 * 
+	 * @param canWrite 
+	 * @description if canWrite == true, makes that everybody can draw, otherwise only you can
+	 */
+	static setCanWriteForAllExceptMeAndByDefault(canWrite) {
+		document.getElementById("imgWritePermission" + canWrite).hidden = false;
+		document.getElementById("imgWritePermission" + !canWrite).hidden = true;
 
-	static teacherMode() {
-		Share.setCanWriteForAllExceptMeAndByDefault(false);
-	}
+		(<HTMLInputElement>document.getElementById("sharePermissionWrite")).checked = canWrite;
 
-
-	static setCanWriteForAllExceptMeAndByDefault(bool) {
 		for (let userid in UserManager.users) {
 			if (UserManager.users[userid] != UserManager.me)
-				Share.execute("setUserCanWrite", [userid, bool]);
+				Share.execute("setUserCanWrite", [userid, canWrite]);
 		}
-		Share.canWriteValueByDefault = bool;
+		Share.canWriteValueByDefault = canWrite;
 		Share.execute("setUserCanWrite", [UserManager.me.userID, true]);
 	}
 
-	static everybodyWritesMode() {
-		Share.setCanWriteForAllExceptMeAndByDefault(true);
-	}
+
 }
 
 

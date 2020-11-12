@@ -94,25 +94,25 @@ function magnetGraphSimCity() {
 
 /** Tilings */
 
-function createTiling(leftColor, upColor, rightColor, bottomColor, leftText, upText, rightText, bottomText) {
+function createTiling(leftColor, upColor, rightColor, bottomColor) {
     let xmlns = "http://www.w3.org/2000/svg";
     var div = document.createElement("div");
     let size = 100;
-    var svgElem = document.createElementNS(xmlns, "svg");
+    var svgElem = <SVGElement> document.createElementNS(xmlns, "svg");
     svgElem.setAttributeNS(null, "viewBox", "0 0 " + size + " " + size);
-    svgElem.setAttributeNS(null, "width", size);
-    svgElem.setAttributeNS(null, "height", size);
+    svgElem.setAttributeNS(null, "width", ""+size);
+    svgElem.setAttributeNS(null, "height", ""+size);
     svgElem.style.display = "block";
 
 
     function createPath(pathDesc, color) {
         var path = document.createElementNS(xmlns, "path");
         path.setAttributeNS(null, 'stroke', "#333333");
-        path.setAttributeNS(null, 'stroke-width', 10);
+        path.setAttributeNS(null, 'stroke-width', ""+10);
         path.setAttributeNS(null, 'stroke-linejoin', "round");
         path.setAttributeNS(null, 'd', pathDesc);
         path.setAttributeNS(null, 'fill', color);
-        path.setAttributeNS(null, 'opacity', 1.0);
+        path.setAttributeNS(null, 'opacity', ""+1.0);
         return path;
     }
 

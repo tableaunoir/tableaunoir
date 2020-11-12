@@ -27,14 +27,14 @@ class BlackVSWhiteBoard {
         document.getElementById("canvasBackground").style.backgroundColor = backgroundColor;
 
         if (backgroundColor == "black") {
-            jCSSRule(".magnetText div", "background-color", "rgba(27, 27, 27, 0.9)");
-            jCSSRule("div.magnetText", "background-color", "rgba(64, 64, 64, 0.9)");
-            jCSSRule(".magnetText div", "color", "white");
+            modifyCSSRule(".magnetText div", "background-color", "rgba(27, 27, 27, 0.9)");
+            modifyCSSRule("div.magnetText", "background-color", "rgba(64, 64, 64, 0.9)");
+            modifyCSSRule(".magnetText div", "color", "white");
         }
         else {
-            jCSSRule(".magnetText div", "background-color", "rgba(247, 247, 247, 0.9)");
-            jCSSRule("div.magnetText", "background-color", "rgba(227, 227, 227, 0.9)");
-            jCSSRule(".magnetText div", "color", "black");
+            modifyCSSRule(".magnetText div", "background-color", "rgba(247, 247, 247, 0.9)");
+            modifyCSSRule("div.magnetText", "background-color", "rgba(227, 227, 227, 0.9)");
+            modifyCSSRule(".magnetText div", "color", "black");
         }
 
         BlackVSWhiteBoard._invertCanvas();
@@ -45,7 +45,7 @@ class BlackVSWhiteBoard {
      * @dsecription invert the colors of the canvas (black becomes white, white becomes black, red becomes...)
      */
     static _invertCanvas() {
-        const canvas = document.getElementById('canvas');
+        const canvas = getCanvas();
         const context = canvas.getContext('2d');
 
         const imageData = context.getImageData(0, 0, canvas.width, canvas.height);
@@ -64,4 +64,11 @@ class BlackVSWhiteBoard {
         context.putImageData(imageData, 0, 0);
     }
 
+}
+
+
+
+
+function modifyCSSRule(selector, property, value) { //a bit ugly but I do not know how to call external libs in TypeScript
+    eval(`jCSSRule("${selector}", "${property}", "${value}")`);
 }

@@ -18,8 +18,8 @@ class ChalkCursor {
             Menu.hide();
         }
 
-        buttonLefthanded.onclick = () => { change(true); }
-        buttonRighthanded.onclick = () => { change(false); }
+        document.getElementById("buttonLefthanded").onclick = () => { change(true); }
+        document.getElementById("buttonRighthanded").onclick = () => { change(false); }
     }
 
     /**

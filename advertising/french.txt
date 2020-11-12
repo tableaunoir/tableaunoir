@@ -46,5 +46,26 @@ François
 PS : je rappelle le lien vers la vidéo qui montre l'utilisation de tableaunoir :
 https://www.youtube.com/watch?v=P6_lhqiPBow
 
+==================================================
+
+
+Bonjour,
+
+l'enseignement à distance devient un vrai challenge. Tableaunoir continue à évoluer grâce à vous. Donc tout d'abord, merci pour vos commentaires et suggestions. Merci aussi aux contributeur.rices (voir la page du projet sur github).
+
+La page officielle de l'outil est https://tableaunoir.github.io/
+Mais, il y a des serveurs qui permettent de partager des tableaux :
+- http://tableaunoir.irisa.fr/
+- https://tableaunoir.wkerl.me 
+
+Les nouveautés sont :
+- l'outil fonctionne sur iPad et tablette Android
+- craie pour droitier et gaucher
+- mettre une image de fond
+- tableau collaboratif
+- les personnes connectées peuvent poser des questions,faire des remarques pendant la séance
+- le tableaunoir est traduit en français
+
+
 
 

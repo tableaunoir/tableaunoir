@@ -201,7 +201,7 @@ server {
 server {
   listen 80;
   listen [::]:80;
-  server_name tableaunoir.example.com, ws.tableaunoir.example.com;
+  server_name tableaunoir.example.com ws.tableaunoir.example.com;
   return 301 https://$host$request_uri;
 }
 ```

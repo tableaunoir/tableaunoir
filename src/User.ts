@@ -19,7 +19,7 @@ class User {
     cursor = undefined;
     toolCursor = undefined;
 
-    userID = 0;
+    userID: string = "0";
 
     setUserID(userID) {
         this.userID = userID;
@@ -51,6 +51,7 @@ class User {
 
         if (isCurrentUser)
             this.cursor.hidden = true;
+
         if (!isCurrentUser)
             this.toolCursor.hidden = true;
 
@@ -85,16 +86,6 @@ class User {
         return this.color;
     }
 
-    switchChalkEraser() {
-        this.eraseMode = !this.eraseMode;
-
-        if (this.eraseMode) {
-
-        }
-        else {
-
-        }
-    }
 
 
     switchChalk() {
@@ -102,7 +93,8 @@ class User {
 
         if (this.isCurrentUser()) {
             this.updateCursor();
-            buttonEraser.innerHTML = "⌫ Eraser";
+            document.getElementById("buttonEraser").hidden = false;
+            document.getElementById("buttonChalk").hidden = true;
         }
 
     }
@@ -120,7 +112,8 @@ class User {
         if (this.isCurrentUser()) {
             palette.hide();
             this.setToolCursorImage(EraserCursor.getStyleCursor(this.eraseLineWidth));
-            buttonEraser.innerHTML = "🖊 Chalk";
+            document.getElementById("buttonEraser").hidden = true;
+            document.getElementById("buttonChalk").hidden = false;
         }
     }
 
@@ -129,7 +122,7 @@ class User {
         MagnetManager.setInteractable(false);
 
         //unselect the selected element (e.g. a text in edit mode)
-        document.activeElement.blur();
+        (<any>document.activeElement).blur();
 
 
         //console.log("mousedown")
@@ -142,7 +135,7 @@ class User {
 
         if (this.canWrite) {
             if (this.eraseMode) {
-                clearLine(this.x, this.y, this.x, this.y, ERASEMODEDEFAULTSIZE);
+                Drawing.clearLine(this.x, this.y, this.x, this.y, ERASEMODEDEFAULTSIZE);
             }
             else {
                 this.lastDelineation.reset();
@@ -151,31 +144,32 @@ class User {
 
         }
 
-
-        palette.hide();
+        if (this.isCurrentUser())
+            palette.hide();
     }
 
 
 
     mousemove(evt) {
 
-        let evtX = evt.offsetX;
-        let evtY = evt.offsetY;
+        const evtX = evt.offsetX;
+        const evtY = evt.offsetY;
 
-        this.cursor.style.left = evtX - 8;
-        this.cursor.style.top = evtY - 8;
-
-
+        if (!this.isCurrentUser()) {
+            this.cursor.style.left = evtX - 8;
+            this.cursor.style.top = evtY - 8;
+        }
 
         if (this.canWrite) {
             if (this.isDrawing) {//} && this.lastDelineation.isDrawing()) {
                 palette.hide();
                 if (this.eraseMode) {
-                    this.eraseLineWidth = 10;
+                    //this.eraseLineWidth = 10;
 
                     this.eraseLineWidth = 10 + 30 * evt.pressure;
 
-                    if (Math.abs(this.x - this.xInit) > Layout.getWindowWidth() / 4 || Math.abs(this.y - this.yInit) > Layout.getWindowHeight() / 4)
+                    if (Math.abs(this.x - this.xInit) > Layout.getWindowWidth() / 4 ||
+                        Math.abs(this.y - this.yInit) > Layout.getWindowHeight() / 4)
                         this.eraseModeBig = true;
 
                     if (this.eraseModeBig) {
@@ -186,12 +180,12 @@ class User {
                         this.setToolCursorImage(EraserCursor.getStyleCursor(this.eraseLineWidth));
                     }
 
-                    clearLine(this.x, this.y, evtX, evtY, this.eraseLineWidth);
+                    Drawing.clearLine(this.x, this.y, evtX, evtY, this.eraseLineWidth);
                 }
                 else {
 
                     if (this.lastDelineation.isDrawing()) {//this guard is because, when a magnet is created the user does not know the drawing stopped.
-                        drawLine(document.getElementById("canvas").getContext("2d"), this.x, this.y, evtX, evtY, evt.pressure, this.color);
+                        Drawing.drawLine(getCanvas().getContext("2d"), this.x, this.y, evtX, evtY, evt.pressure, this.color);
                         this.lastDelineation.addPoint({ x: evtX, y: evtY });
                     }
 
@@ -228,7 +222,7 @@ class User {
 
             //console.log("mouseup")
             if (this.isDrawing && !this.eraseMode && !this.alreadyDrawnSth) {
-                drawDot(this.x, this.y, this.color);
+                Drawing.drawDot(this.x, this.y, this.color);
             }
 
             if (this.isCurrentUser()) {

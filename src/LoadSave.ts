@@ -11,7 +11,7 @@ class LoadSave {
          * load a file from the <input type="file"...>
          */
         document.getElementById("file").onchange = function (evt) {
-            LoadSave.loadFile(this.files[0]);
+            LoadSave.loadFile((<any>this).files[0]);
         };
 
 
@@ -62,20 +62,40 @@ class LoadSave {
             /** load a .tableaunoir file, that is, a file containing the blackboard + some magnets */
             if (file.name.endsWith(".tableaunoir")) {
                 reader.readAsText(file, "UTF-8");
-                reader.onload = function (evt) { LoadSave.loadJSON(JSON.parse(evt.target.result)); }
+                reader.onload = function (evt) { LoadSave.loadJSON(JSON.parse(<any>evt.target.result)); }
             }
             else {
                 /** load an image and add it as a magnet */
                 reader.readAsDataURL(file);
                 reader.onload = function (evt) {
                     let img = new Image();
-                    img.src = evt.target.result;
+                    img.src = <string>evt.target.result;
                     MagnetManager.addMagnet(img);
                 }
             }
+
+            Menu.hide(); //hide the menu after loading
         }
     }
 
+
+
+    /**
+     * 
+     * @param file 
+     * @param callback 
+     * @descrption load the image in the file, once the file is loaded. Call the callback function.
+     */
+    static fetchImageFromFile(file, callback) {
+        let reader = new FileReader();
+        reader.onerror = function (evt) { }
+        reader.readAsDataURL(file);
+        reader.onload = function (evt) {
+            let img = new Image();
+            img.src = <string>evt.target.result;
+            img.onload = () => callback(img);
+        }
+    }
 
 
     /**
@@ -92,12 +112,15 @@ class LoadSave {
     }
 
 
+    /**
+     * @description export the board as a .png image file
+     */
     static exportPng() {
         const node = document.getElementById("content");
-
-        html2canvas(node).then(canvas => {
+        alert("to be implemented. Do screenshots.");
+        /*html2canvas(node).then(canvas => {
             LoadSave.downloadDataURL(document.getElementById("exportPngName").value + ".png", canvas.toDataURL());
-        });
+        });*/
 
 
     }
@@ -108,9 +131,9 @@ class LoadSave {
      */
     static save() {
         let magnets = document.getElementById("magnets").innerHTML;
-        let canvasDataURL = document.getElementById("canvas").toDataURL();
+        let canvasDataURL = getCanvas().toDataURL();
         let obj = { magnets: magnets, canvasDataURL: canvasDataURL };
-        LoadSave.download(document.getElementById("name").value + ".tableaunoir", JSON.stringify(obj));
+        LoadSave.download((<HTMLInputElement>document.getElementById("name")).value + ".tableaunoir", JSON.stringify(obj));
     }
 
     /**
@@ -120,7 +143,7 @@ class LoadSave {
      * @description propose to download a file called filename that contains the text text
      */
     static download(filename, text) {
-       LoadSave.downloadDataURL(filename, 'data:text/plain;charset=utf-8,' + encodeURIComponent(text))
+        LoadSave.downloadDataURL(filename, 'data:text/plain;charset=utf-8,' + encodeURIComponent(text))
 
     }
 

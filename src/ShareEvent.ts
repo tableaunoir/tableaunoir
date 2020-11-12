@@ -57,4 +57,26 @@ class ShareEvent {
         BoardManager.save();
         Menu.hide();
     }
+
+    static questionAdd(userID, idquestion, question) {
+        Discussion.addQuestion(userID, idquestion, question);
+    }
+
+
+    static questionRemove(questionID) {
+        Discussion.removeQuestion(questionID);
+    }
+
+
+    static removeContour(points) {
+        Drawing.removeContour(points);
+    }
+
+    static clearPolygon(points) {
+        Drawing.clearPolygon(points);
+    }
+
+    static printMagnet(magnetID) {
+        MagnetManager.printMagnet(document.getElementById(magnetID));
+    }
 }

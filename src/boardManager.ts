@@ -4,7 +4,7 @@
 class BoardManager {
 
     /** name of the board. Default is 0 (this name is used for storing in localStorage) */
-    static boardName = 0;
+    static boardName = "0";
 
     /** stack to store the cancel/redo actions */
     static cancelStack = new CancelStack();
@@ -16,7 +16,7 @@ class BoardManager {
    */
     static init() {
         document.getElementById("blackboardClear").onclick = () => {
-           Share.execute("boardClear", []);
+            Share.execute("boardClear", []);
         }
 
     }
@@ -30,7 +30,8 @@ class BoardManager {
         * erase the board
         */
     static _clear() {
-        document.getElementById("canvas").width = document.getElementById("canvas").width; //clear
+        const canvas = getCanvas();
+        canvas.width = canvas.width; //clear
         BoardManager.cancelStack.clear();
     }
 
@@ -48,7 +49,7 @@ class BoardManager {
         C.width = r.x2 - r.x1;
         C.height = r.y2 - r.y1;
         let ctx = C.getContext("2d");
-        ctx.drawImage(document.getElementById("canvas"),
+        ctx.drawImage(getCanvas(),
             r.x1, r.y1, r.x2 - r.x1, r.y2 - r.y1, //coordinates in the canvas
             0, 0, r.x2 - r.x1, r.y2 - r.y1); //coordinates in the magnet
         return C;
@@ -66,11 +67,11 @@ class BoardManager {
 
 
 
-       /**
-     * 
-     * @param {*} r a rectangle {x1, y1, x2, y2}
-     * @returns the content as a string of the image
-     */
+    /**
+  * 
+  * @param {*} r a rectangle {x1, y1, x2, y2}
+  * @returns the content as a string of the image
+  */
     static getDataURLOfRectangle(r) {
         return BoardManager._createCanvasForRectangle(r).toDataURL();
     }
@@ -84,10 +85,10 @@ class BoardManager {
     /**
      * save the current board into the cancel/redo stack but also in the localStorage of the browser
      */
-    static save(rectangle) {
+    static save() {
         // if (rectangle == undefined) {
         if (BoardManager.isCancelRedoActivated())
-            document.getElementById("canvas").toBlob((blob) => {
+            getCanvas().toBlob((blob) => {
                 console.log("save that blob: " + blob)
                 //  localStorage.setItem(Share.getTableauNoirID(), canvas.toDataURL());
                 BoardManager.cancelStack.push(blob);
@@ -116,6 +117,7 @@ class BoardManager {
 
 
     static getCurrentScreenRectangle() {
+        const container = document.getElementById("container");
         const x1 = container.scrollLeft;
         const y1 = container.scrollTop;
         const x2 = x1 + Layout.getWindowWidth();
@@ -124,7 +126,7 @@ class BoardManager {
     }
 
     static saveCurrentScreen() {
-        BoardManager.save(BoardManager.getCurrentScreenRectangle());
+        BoardManager.save();
     }
 
     /**
@@ -139,9 +141,10 @@ class BoardManager {
                 let image = new Image();
                 image.src = data;
                 image.onload = function () {
-                    document.getElementById("canvas").width = image.width;
-                    document.getElementById("canvas").height = image.height;
-                    document.getElementById("canvas").getContext("2d").drawImage(image, 0, 0);
+                    const canvas = getCanvas();
+                    canvas.width = image.width;
+                    canvas.height = image.height;
+                    canvas.getContext("2d").drawImage(image, 0, 0);
                     BoardManager.save();
                     console.log("loaded!")
                 }
@@ -172,9 +175,10 @@ class BoardManager {
             let image = new Image();
             image.src = data;
             image.onload = function () {
-                document.getElementById("canvas").width = image.width;
-                document.getElementById("canvas").height = image.height;
-                document.getElementById("canvas").getContext("2d").drawImage(image, 0, 0);
+                const canvas = getCanvas();
+                canvas.width = image.width;
+                canvas.height = image.height;
+                canvas.getContext("2d").drawImage(image, 0, 0);
                 console.log("loaded!")
             }
         }
@@ -188,13 +192,16 @@ class BoardManager {
      * @returns the number of pixels when scrolling
      */
     static scrollQuantity() {
-        return Layout.getWindowWidth() / 2;
+        const THESHOLD = 1500;
+        const middle = Layout.getWindowWidth() / 2;
+        return Math.min(middle, THESHOLD);
     }
 
     /**
      * go left
      */
     static left() {
+        const container = getContainer();
         const x = container.scrollLeft - BoardManager.scrollQuantity();
 
         if (x < 0) {
@@ -211,7 +218,8 @@ class BoardManager {
      */
     static right() {
         const MAXCANVASWIDTH = 20000;
-
+        const container = getContainer();
+        const canvas = getCanvas();
         if (container.scrollLeft >= MAXCANVASWIDTH - Layout.getWindowWidth()) {
             container.scrollLeft = MAXCANVASWIDTH - Layout.getWindowWidth();
             return;
@@ -222,7 +230,7 @@ class BoardManager {
             image.src = canvas.toDataURL();
             console.log("extension: canvas width " + canvas.width + " to " + (container.scrollLeft + Layout.getWindowWidth()))
             canvas.width = ((canvas.width / BoardManager.scrollQuantity()) + 1) * BoardManager.scrollQuantity();
-            const context = document.getElementById("canvas").getContext("2d");
+            const context = canvas.getContext("2d");
             context.globalCompositeOperation = "source-over";
             context.globalAlpha = 1.0;
             image.onload = function () {
@@ -238,6 +246,9 @@ class BoardManager {
 
 
     static showPageNumber(x) {
+        const pageNumber = document.getElementById("pageNumber");
+        const canvas = getCanvas();
+        const container = getContainer();
 
         pageNumber.classList.remove("pageNumberHidden");
         pageNumber.classList.remove("pageNumber");
@@ -256,16 +267,17 @@ class BoardManager {
      */
     static _loadCurrentCancellationStackData(data) {
         let image = new Image();
+        const canvas = getCanvas();
 
-        const context = document.getElementById("canvas").getContext("2d");
+        const context = canvas.getContext("2d");
         context.globalCompositeOperation = "source-over";
         context.globalAlpha = 1.0;
 
         //  if (data instanceof Blob) {
         image.src = URL.createObjectURL(data);
         image.onload = function () {
-            document.getElementById("canvas").width = image.width;
-            document.getElementById("canvas").height = image.height;
+            canvas.width = image.width;
+            canvas.height = image.height;
             context.drawImage(image, 0, 0);
         }
         /*  }

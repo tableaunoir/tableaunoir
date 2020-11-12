@@ -5,11 +5,15 @@ class Delineation {
 
     points = [];
     lastpoints = [];
+    drawing: boolean;
+    maybeJustAPoint = true; //memoisation for getDot
+
 
     reset() {
         this.drawing = true;
         this.lastpoints = this.points;
         this.points = [];
+        this.maybeJustAPoint = true;
     }
 
     finish() {
@@ -33,7 +37,7 @@ class Delineation {
 
         let polyline = document.createElementNS('http://www.w3.org/2000/svg', 'polyline');
         polyline.id = "magnetCreationPolygon";
-        svg.appendChild(polyline);
+        document.getElementById("svg").appendChild(polyline);
 
         points.push(points[0]);
         polyline.setAttribute("points", points.map((p) => p.x + ", " + p.y).join(" "));
@@ -41,7 +45,7 @@ class Delineation {
 
     removePolygon() {
         if (document.getElementById("magnetCreationPolygon"))
-            svg.removeChild(document.getElementById("magnetCreationPolygon"));
+            document.getElementById("svg").removeChild(document.getElementById("magnetCreationPolygon"));
     }
 
 
@@ -54,7 +58,7 @@ class Delineation {
             window.setTimeout(() => {
                 if (this.drawing && this.isDot() && this.dotInPreviousPolygon()) {
                     this.removePolygon();
-                    this._removeContour(); //remove the dot
+                    Share.execute("removeContour", [this.points]); //remove the dot
                     this.points = this.lastpoints;
                     this.lastpoints = [];
                     this.cutAndMagnetize();
@@ -70,12 +74,16 @@ class Delineation {
      * @returns true if the current drawing is just a point
      */
     isDot() {
+        if (!this.maybeJustAPoint)
+            return false;
         if (this.points.length == 0)
             return false;
 
         for (let point of this.points)
-            if (Math.abs(point.x - this.points[0].x) > 2 && Math.abs(point.y - this.points[0].y) > 2)
+            if (Math.abs(point.x - this.points[0].x) > 2 && Math.abs(point.y - this.points[0].y) > 2) {
+                this.maybeJustAPoint = false;
                 return false;
+            }
 
         return true;
     }
@@ -113,8 +121,9 @@ class Delineation {
         if (!this.isSuitable())
             return;
 
-        this._removeContour();
-        this._clearBehindMagnet();
+        Share.execute("removeContour", [this.points]);
+        Share.execute("clearPolygon", [this.points]);
+        this.reset();
         BoardManager.save();
     }
 
@@ -126,9 +135,10 @@ class Delineation {
         if (!this.isSuitable())
             return;
 
-        this._removeContour();
+        Share.execute("removeContour", [this.points]);
         this._createMagnetFromImg();
-        this._clearBehindMagnet();
+        Share.execute("clearPolygon", [this.points]);
+        this.reset();
         BoardManager.save();
     }
 
@@ -140,7 +150,7 @@ class Delineation {
         if (!this.isSuitable())
             return;
 
-        this._removeContour();
+        Share.execute("removeContour", [this.points]);
         this._createMagnetFromImg();
         BoardManager.save();
     }
@@ -157,22 +167,10 @@ class Delineation {
         return false;
     }
 
-    _removeContour = () => {
-        const context = document.getElementById("canvas").getContext("2d");
-        context.globalCompositeOperation = "destination-out";
-        context.strokeStyle = "rgba(255, 255, 255, 1)";
-        context.lineWidth = 6;
-        context.globalAlpha = 1.0;
 
-
-        context.moveTo(this.points[0].x, this.points[0].y);
-        for (let point of this.points) {
-            context.lineTo(point.x, point.y);
-        }
-        context.stroke();
-    }
 
     _getRectangle() {
+        const canvas = getCanvas();
         let r = { x1: canvas.width, y1: canvas.height, x2: 0, y2: 0 };
 
         for (let point of this.points) {
@@ -200,20 +198,7 @@ class Delineation {
         img.style.top = rectangle.y1 + "px";
     }
 
-    _clearBehindMagnet = () => {
-        const context = document.getElementById("canvas").getContext("2d");
-        context.save();
-        context.beginPath();
-        context.moveTo(this.points[0].x, this.points[0].y);
-        for (let point of this.points) {
-            context.lineTo(point.x, point.y);
-        }
-        context.clip();
-        context.clearRect(0, 0, Layout.getWindowWidth(), Layout.getWindowHeight());
-        context.restore();
-        context.globalCompositeOperation = "source-over";
-        this.reset();
-    }
+
 
 
 

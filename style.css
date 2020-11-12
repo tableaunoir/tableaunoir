@@ -3,7 +3,7 @@
 html {
 	overscroll-behavior-x: none;
 	width: 100%;
-	height:100%;
+	height: 100%;
 }
 
 body {
@@ -14,7 +14,12 @@ body {
 	overscroll-behavior-x: none;
 	height: 100%;
 	width: 100%;
-	background-color: rgb(44, 25, 0);
+	background-color: rgb(194, 123, 31);
+}
+
+.icon {
+	height: 38px;
+	margin: 0px;
 }
 
 canvas {
@@ -38,9 +43,11 @@ canvas {
 
 #content {
 	transform-origin: left top;
-	position: relative;
+	position: absolute;
 	margin: 0px;
 	padding: 0px;
+	top: 0px;
+	left: 0px;
 }
 
 
@@ -57,16 +64,14 @@ canvas {
 	width: 100%;
 	background-color: rgb(68, 68, 68);
 	color: white;
+	z-index: 1;
 }
 
 .keyboardkeyhelp {
-	margin-right: 24px;
+	margin-right: 16px;
+	margin-left: 3px;
 }
 
-
-#controls button {
-	height: 48px;
-}
 
 #container {
 	overflow: hidden;
@@ -189,9 +194,7 @@ img.magnet.backgroundTransparent {
 }
 
 
-img.magnet:hover {
-	
-}
+img.magnet:hover {}
 
 
 @keyframes magnetCreationPolygon {
@@ -359,8 +362,37 @@ button {
 	min-width: 48px;
 }
 
+
+#controls button {
+	padding: 0px;
+	margin-top: 4px;
+	margin-bottom: 4px;
+	margin-left: 0px;
+	margin-right: 0px;
+	height: 52px;
+	padding-top: 4px;
+	padding-bottom: 4px;
+	padding-left: 8px;
+	padding-right: 12px;
+}
+
+
+
+
 button img {
 	height: 64px;
+	padding: 0px;
+	margin: 0px;
+}
+
+
+.toolbargroup {
+	display: inline;
+	margin-right: 16px;
+}
+
+img {
+	vertical-align: middle;
 }
 
 .magnetCollectionButton {
@@ -546,7 +578,7 @@ h1 {
 	top: 0px;
 	left: 0px;
 	opacity: 0.8;
-	font-size: 64px;
+	font-size: 32px;
 	background-color: white;
 	padding: 16px;
 	color: red;
@@ -580,7 +612,7 @@ h1 {
 
 
 #buttonCloseControls {
-	background-color: rgb(22, 114, 200);
+	background-color: rgb(145, 70, 20);
 }
 
 #users {
@@ -589,11 +621,73 @@ h1 {
 
 .user {
 	margin-right: 1px;
-	padding:0px;
+	padding: 0px;
 	margin-left: 1px;
 
 }
 
 .me {
 	font-weight: bold;
+	border: white 2px solid;
+}
+
+
+#questions::before {
+	content: "Questions/comments: ";
+}
+
+#questions {
+	position: absolute;
+	left: 0px;
+	right: 0px;
+	bottom: 0px;
+	width: 100%;
+	max-height: 64px;
+	background-color: rgb(199, 199, 255);
+}
+
+
+@keyframes newQuestion {
+	from {
+		filter: blur(10px);
+	}
+
+	to {}
+}
+
+
+.question {
+	display: inline-block;
+	color: rgb(12, 78, 78);
+	font-size: 24;
+	padding: 8px;
+	margin-right: 32px;
+	animation: newQuestion 2000ms forwards;
+
+}
+
+
+.userImage {
+	width: 48px;
+	height: 48px;
+	vertical-align: middle;
+}
+
+
+@keyframes divideLineHelp  {
+	from {
+		height: 0px;
+	}
+
+	to {
+		height: 100%
+	}
+}
+
+
+.divideLineHelp {
+	position: absolute;
+	background-color: grey;
+	width: 2px;
+	animation: divideLineHelp 2000ms infinite;
 }
