@@ -3,6 +3,7 @@ import { BoardManager } from './boardManager';
 import { UserManager } from './UserManager';
 import { Discussion } from './Discussion';
 import { Menu } from './Menu';
+import { Drawing } from './Drawing';
 
 /**
  * this class contains the events that are shared with other users connected to the same tableaunoir
@@ -71,5 +72,17 @@ export class ShareEvent {
 
     static questionRemove(questionID) {
         Discussion.removeQuestion(questionID);
+    }
+
+    static removeContour(points) {
+        Drawing.removeContour(points);
+    }
+
+    static clearPolygon(points) {
+        Drawing.clearPolygon(points);
+    }
+
+    static printMagnet(magnetID) {
+        MagnetManager.printMagnet(document.getElementById(magnetID));
     }
 }

@@ -1,6 +1,7 @@
 import { drawDot, getCanvas, drawLine, clearLine, palette } from './main';
 import { MagnetManager } from './magnetManager';
 import { BoardManager } from './boardManager';
+import { Menu } from './Menu'
 
 /**
  * this class contains the code for loading/saving a tableaunoir. Also for importing images as magnets.
@@ -77,6 +78,8 @@ export class LoadSave {
                     MagnetManager.addMagnet(img);
                 }
             }
+
+            Menu.hide(); //hide the menu after loading
         }
     }
 

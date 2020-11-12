@@ -17,6 +17,7 @@ import { Translation } from './Translation';
 import { Menu } from './Menu';
 import { TouchScreen } from './TouchScreen';
 import { ShareEvent } from './ShareEvent';
+import { Drawing } from './Drawing'
 
 window.onload = load;
 window['Menu'] = Menu;
@@ -108,7 +109,7 @@ function load() {
 		document.getElementById("buttonEraser").onclick = switchChalkEraser;
 
 		document.getElementById("buttonText").onclick = () => MagnetManager.addMagnetText(UserManager.me.x, UserManager.me.y);
-		document.getElementById("buttonDivide").onclick = divideScreen;
+		document.getElementById("buttonDivide").onclick = Drawing.divideScreen;
 
 		document.getElementById("buttonLeft").onclick = BoardManager.left;
 		document.getElementById("buttonRight").onclick = BoardManager.right;
@@ -169,7 +170,7 @@ function load() {
 				BoardManager.right();
 			}
 			else if (evt.key == "d")  //d = divide screen
-				divideScreen();
+				Drawing.divideScreen();
 			else if ((evt.ctrlKey && evt.shiftKey && evt.key == "Z") || (evt.ctrlKey && evt.key == "y")) { //ctrl + shift + z OR Ctrl + Y = redo
 				BoardManager.redo();
 				evt.preventDefault();
@@ -195,20 +196,20 @@ function load() {
 			}
 			else if (evt.ctrlKey && evt.key == "v") { //Ctrl + v = print the current magnet
 				palette.hide();
-				MagnetManager.printCurrentMagnet();
+				Share.execute("printMagnet", [MagnetManager.getCurrentMagnetID()]);
 			}
 			else if (evt.key == "m") { //m = make new magnets
 				palette.hide();
 				if (UserManager.me.lastDelineation.containsPolygonToMagnetize())
 					UserManager.me.lastDelineation.cutAndMagnetize();
 				else {
-					MagnetManager.printCurrentMagnet();
+					Share.execute("printMagnet", [MagnetManager.getCurrentMagnetID()]);
 					MagnetManager.removeCurrentMagnet();
 				}
 			}
 			else if (evt.key == "p") { //p = print the current magnet
 				palette.hide();
-				MagnetManager.printCurrentMagnet();
+				Share.execute("printMagnet", [MagnetManager.getCurrentMagnetID()]);
 			}
 			else if (evt.key == "Delete" || evt.key == "x" || evt.key == "Backspace") { //supr = delete the current magnet
 				palette.hide();
@@ -330,8 +331,6 @@ function divideScreen() {
 	drawLine(getCanvas().getContext("2d"), x, 0, x, Layout.getWindowHeight(), 1, BoardManager.getDefaultChalkColor());
 	BoardManager.saveCurrentScreen();
 }
-
-
 
 const magnetColors = ['', 'rgb(255, 128, 0)', 'rgb(0, 128, 0)', 'rgb(192, 0, 0)', 'rgb(0, 0, 255)'];
 

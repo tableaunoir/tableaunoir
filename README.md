@@ -11,15 +11,25 @@ The online version is available here: [https://tableaunoir.github.io/] ([another
 
 ## Examples of use
 
-Tableaunoir is used for teaching at ENS Rennes. The main advantage is that the screen is fully black: there are no buttons that annoy or distract the students (in my personal use, I simply hide the toolbar). Tableaunoir is controlled by a graphic tablet and by the keyboard of the computer (7 keys!). It makes it very interactive compared to fixed slides. 
 
-### Photos in a lecture hall
+
+### Give a lecture
+
+Tableaunoir is used for teaching at ENS Rennes. The main advantage is that the screen is fully black: there are no buttons that annoy or distract the students (in my personal use, I simply hide the toolbar). Tableaunoir is controlled by a graphic tablet and by the keyboard of the computer (7 keys!). It makes it very interactive compared to fixed slides. 
 
 <img src="./photos/tableaunoir_amphi.jpg" title="A photo showcasing the use of tableaunoir in a real course taught in an amphitheater (1/3)" alt="A photo showcasing the use of tableaunoir in a real course taught in an amphitheater (1/3)" width="300"/> <img src="./photos/tableaunoir_amphi2.jpg" title="A photo showcasing the use of tableaunoir in a real course taught in an amphitheater (2/3)" alt="A photo showcasing the use of tableaunoir in a real course taught in an amphitheater (2/3)" width="300"/> <img src="./photos/tableaunoir_amphi3.jpg" title="A photo showcasing the use of tableaunoir in a real course taught in an amphitheater (3/3)" alt="A photo showcasing the use of tableaunoir in a real course taught in an amphitheater (3/3)" width="300"/>
 
-### Example of a course
 
 <img src="./img/coursparcourslargeur.gif" alt="A small gif video showcasing the use of tableaunoir in a course on breadth-first search" width="680"/>
+
+
+### Share ideas
+
+An idea to explain and share? Tableaunoir enables to write together on shared collaborative boards.
+
+### Draw pictures
+
+Tableaunoir can simply be used to draw pictures: [https://team.inria.fr/erable/en/marie-france-sagot/blog/silly-things/]
 
 ## Features
 
@@ -43,6 +53,11 @@ You can teach online by sharing the screen with Discord, Zoom, Teams, etc, or by
 
 ---
 
+
+### Build the Tableaunoir project
+
+Run `tsc` (the Typescript compiler) in the root folder.
+
 ## Offline version
 
 If you prefer to use an offline version, it is possible. You have to install [Electron](https://www.electronjs.org/) and then the application can be launched as follows (from the main directory):
@@ -65,3 +80,5 @@ This software is open-source under [the GPLv3.0 license](https://github.com/tabl
 
 ## Credits
 - Some pictures come from [@nicholas-ochoa/OpenSC2K](https://github.com/nicholas-ochoa/OpenSC2K), an open-source clone of Sim City 2000.
+- [https://openmoji.org/]
+- Some CC0 icons from [https://www.svgrepo.com/]

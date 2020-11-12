@@ -4,6 +4,7 @@ import { BoardManager } from './boardManager';
 import { Layout } from './Layout';
 import { Menu } from './Menu';
 import { TouchScreen } from './TouchScreen';
+import { Drawing } from './Drawing';
 
 export class MagnetManager {
 
@@ -29,6 +30,11 @@ export class MagnetManager {
 	 */
 	static getMagnetUnderCursor() {
 		return MagnetManager.magnetUnderCursor;
+	}
+
+
+	static getCurrentMagnetID(): string {
+		return MagnetManager.currentMagnet.id;
 	}
 
 	/**
@@ -249,7 +255,7 @@ export class MagnetManager {
 			for (let j = 0; j < nodes.length; j++) {
 				if (Math.abs(nodes[i].x - nodes[j].x) + Math.abs(nodes[i].y - nodes[j].y) < 400 && !isCrossing(i, j)) {
 					edges[i][j] = 1;
-					drawLine(context, nodes[i].x, nodes[i].y, nodes[j].x, nodes[j].y);
+					Drawing.drawLine(context, nodes[i].x, nodes[i].y, nodes[j].x, nodes[j].y);
 				}
 			}
 
@@ -519,10 +525,10 @@ export class MagnetManager {
 
 
 	/**
+	 * @param img
 	 * @description draw the current magnet to the canvas
 	 */
-	static printCurrentMagnet() {
-		const img = MagnetManager.currentMagnet;
+	static printMagnet(img) {
 
 		if (!(img instanceof Image)) {
 			console.log("the current image is not an image! Could not be printed!")

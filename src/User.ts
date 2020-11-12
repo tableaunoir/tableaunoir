@@ -1,5 +1,6 @@
 import { BoardManager } from './boardManager';
-import { drawDot, getCanvas, drawLine, clearLine, palette } from './main';
+import { getCanvas, palette } from './main';
+import { Drawing } from './Drawing'
 import { MagnetManager } from './magnetManager';
 import { UserManager } from './UserManager';
 import { Layout } from './Layout';
@@ -144,7 +145,7 @@ export class User {
 
         if (this.canWrite) {
             if (this.eraseMode) {
-                clearLine(this.x, this.y, this.x, this.y, ERASEMODEDEFAULTSIZE);
+                Drawing.clearLine(this.x, this.y, this.x, this.y, ERASEMODEDEFAULTSIZE);
             }
             else {
                 this.lastDelineation.reset();
@@ -189,12 +190,12 @@ export class User {
                         this.setToolCursorImage(EraserCursor.getStyleCursor(this.eraseLineWidth));
                     }
 
-                    clearLine(this.x, this.y, evtX, evtY, this.eraseLineWidth);
+                    Drawing.clearLine(this.x, this.y, evtX, evtY, this.eraseLineWidth);
                 }
                 else {
 
                     if (this.lastDelineation.isDrawing()) {//this guard is because, when a magnet is created the user does not know the drawing stopped.
-                        drawLine(getCanvas().getContext("2d"), this.x, this.y, evtX, evtY, evt.pressure, this.color);
+                        Drawing.drawLine(getCanvas().getContext("2d"), this.x, this.y, evtX, evtY, evt.pressure, this.color);
                         this.lastDelineation.addPoint({ x: evtX, y: evtY });
                     }
 
@@ -231,7 +232,7 @@ export class User {
 
             //console.log("mouseup")
             if (this.isDrawing && !this.eraseMode && !this.alreadyDrawnSth) {
-                drawDot(this.x, this.y, this.color);
+                Drawing.drawDot(this.x, this.y, this.color);
             }
 
             if (this.isCurrentUser()) {

@@ -1,8 +1,9 @@
 import { BoardManager } from './boardManager';
-import { drawDot, getCanvas, getCanvasBackground, drawLine, clearLine, palette } from './main';
+import { getCanvasBackground } from './main';
 import { Layout } from './Layout';
 import { LoadSave } from './LoadSave';
 import { Menu } from './Menu';
+import { Drawing } from './Drawing'
 
 export class Background {
     static init() {
@@ -46,7 +47,7 @@ export class Background {
 
             for (let i = -2; i <= 2; i++) {
                 const y = ymiddle + i * space;
-                drawLine(canvasBackground.getContext("2d"), x, y, x2, y, 1.0, COLORSTAFF);
+                Drawing.drawLine(canvasBackground.getContext("2d"), x, y, x2, y, 1.0, COLORSTAFF);
             }
         }
 

@@ -2,6 +2,7 @@ import { Layout } from './Layout';
 import { BoardManager } from './boardManager';
 import { drawDot, getCanvas, drawLine, clearLine, palette } from './main';
 import { MagnetManager } from './magnetManager';
+import { Share } from './share';
 
 /**
  * This class represents a polyline drawn by a user
@@ -63,7 +64,7 @@ export class Delineation {
             window.setTimeout(() => {
                 if (this.drawing && this.isDot() && this.dotInPreviousPolygon()) {
                     this.removePolygon();
-                    this._removeContour(); //remove the dot
+                    Share.execute("removeContour", [this.points]); //remove the dot
                     this.points = this.lastpoints;
                     this.lastpoints = [];
                     this.cutAndMagnetize();
@@ -79,8 +80,8 @@ export class Delineation {
      * @returns true if the current drawing is just a point
      */
     isDot() {
-        if(!this.maybeJustAPoint)
-        return false;
+        if (!this.maybeJustAPoint)
+            return false;
         if (this.points.length == 0)
             return false;
 
@@ -126,8 +127,9 @@ export class Delineation {
         if (!this.isSuitable())
             return;
 
-        this._removeContour();
-        this._clearBehindMagnet();
+        Share.execute("removeContour", [this.points]);
+        Share.execute("clearPolygon", [this.points]);
+        this.reset();
         BoardManager.save();
     }
 
@@ -139,9 +141,10 @@ export class Delineation {
         if (!this.isSuitable())
             return;
 
-        this._removeContour();
+        Share.execute("removeContour", [this.points]);
         this._createMagnetFromImg();
-        this._clearBehindMagnet();
+        Share.execute("clearPolygon", [this.points]);
+        this.reset();
         BoardManager.save();
     }
 
@@ -153,7 +156,7 @@ export class Delineation {
         if (!this.isSuitable())
             return;
 
-        this._removeContour();
+        Share.execute("removeContour", [this.points]);
         this._createMagnetFromImg();
         BoardManager.save();
     }
@@ -170,21 +173,6 @@ export class Delineation {
         return false;
     }
 
-    _removeContour = () => {
-        const canvas = getCanvas();
-        const context = canvas.getContext("2d");
-        context.globalCompositeOperation = "destination-out";
-        context.strokeStyle = "rgba(255, 255, 255, 1)";
-        context.lineWidth = 6;
-        context.globalAlpha = 1.0;
-
-
-        context.moveTo(this.points[0].x, this.points[0].y);
-        for (const point of this.points) {
-            context.lineTo(point.x, point.y);
-        }
-        context.stroke();
-    }
 
     _getRectangle() {
         const canvas = getCanvas();
@@ -214,22 +202,5 @@ export class Delineation {
         img.style.left = rectangle.x1 + "px";
         img.style.top = rectangle.y1 + "px";
     }
-
-    _clearBehindMagnet = () => {
-        const context = getCanvas().getContext("2d");
-        context.save();
-        context.beginPath();
-        context.moveTo(this.points[0].x, this.points[0].y);
-        for (const point of this.points) {
-            context.lineTo(point.x, point.y);
-        }
-        context.clip();
-        context.clearRect(0, 0, Layout.getWindowWidth(), Layout.getWindowHeight());
-        context.restore();
-        context.globalCompositeOperation = "source-over";
-        this.reset();
-    }
-
-
 
 }
