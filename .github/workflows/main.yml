@@ -29,7 +29,7 @@ jobs:
     - run: npm run lint
     - name: Compress action step
       id: tarball
-      run: tar czf tableaunoir-${default-branch}.tar.gz --trasnform s,^dist/,tableaunoir/, dist
+      run: tar czf tableaunoir-${default-branch}.tar.gz --transform s,^dist/,tableaunoir/, dist
       if: ${{ always() && steps.build.outcome == 'success' }}
     - name: upload tableaunoir bundle
       if: ${{ always() && steps.tarball.outcome == 'success' }}
