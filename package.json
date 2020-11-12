@@ -13,9 +13,7 @@
   },
   "scripts": {
     "build": "webpack",
-    "lint": "eslint src/**.ts"
-  },
-  "dependencies": {
-    "typescript-eslint": "^0.0.1-alpha.0"
+    "lint": "eslint src/**.ts",
+    "serve": "node server/main.js"
   }
 }

@@ -10,6 +10,7 @@ module.exports = {
       "./src/main.ts",
     ]
   },
+  devtool: 'inline-source-map',
   output: {
     path: path.resolve(__dirname, 'dist'),
     filename: "tableaunoir.js",
@@ -30,9 +31,10 @@ module.exports = {
     new CleanWebpackPlugin(),
     new CopyPlugin({
       patterns: [
-        { from: 'index.html', to: 'index.html' }, // Use html webpack ?
+        { from: 'src/index.html', to: 'index.html' },
         { from: 'style.css', to: 'style.css' }, // Use css loader ?
-        { from: 'img', to: 'img' }, // Use image loader ?
+        { from: 'img', to: 'img', // Use image loader ?
+          globOptions: { ignore: [ "**/img/*.jpg", "**/img/*.gif", "**/simcitygraph.png" ]}}, // remove from repository
         { from: 'lib', to: 'lib' }, // Use imports ;)
       ],
     })

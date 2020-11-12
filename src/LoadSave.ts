@@ -120,11 +120,12 @@ export class LoadSave {
     static exportPng() {
         const node = document.getElementById("content");
         alert("to be implemented. Do screenshots.");
-        /*html2canvas(node).then(canvas => {
+        /*
+         * `npm install --save-deps html2canvas`
+         * import html2canvas from 'html2canvas';
+         * html2canvas(node).then(canvas => {
             LoadSave.downloadDataURL(document.getElementById("exportPngName").value + ".png", canvas.toDataURL());
         });*/
-
-
     }
 
 
