@@ -40,7 +40,7 @@ export class MagnetManager {
 	static setInteractable(b) {
 		const v = b ? "auto" : "none";
 
-		let magnets = MagnetManager.getMagnets();
+		const magnets = MagnetManager.getMagnets();
 
 		for (let i = 0; i < magnets.length; i++)
 			(<any>magnets[i]).style.pointerEvents = v;
@@ -69,7 +69,7 @@ export class MagnetManager {
 		MagnetManager.currentMagnet = undefined;
 		MagnetManager.magnetX = BoardManager.getCurrentScreenRectangle().x1;
 		MagnetManager.magnetY = MagnetManager.getYTopWhenNewMagnets();
-		let magnets = MagnetManager.getMagnets();
+		const magnets = MagnetManager.getMagnets();
 
 		while (magnets.length > 0)
 			magnets[0].remove();
@@ -99,7 +99,7 @@ export class MagnetManager {
 		element.classList.add("magnet");
 		document.getElementById("magnets").appendChild(element);
 
-		let f = () => {
+		const f = () => {
 			if (Share.isShared())
 				Share.sendNewMagnet(element);
 			callback(element);
@@ -120,20 +120,20 @@ export class MagnetManager {
 	 * @description put the existing magnets on the current screen
 	 */
 	static arrange() {
-		let magnets = MagnetManager.getMagnets();
+		const magnets = MagnetManager.getMagnets();
 
 		for (let i = 0; i < magnets.length; i++) {
-			let magnet = magnets[i];
+			const magnet = magnets[i];
 			let x = undefined;
 			let y = undefined;
 
-			let magnetContains = (m, x, y) => {
+			const magnetContains = (m, x, y) => {
 				return (parseInt(m.style.left) <= x && parseInt(m.style.top) <= y &&
 					x <= parseInt(m.style.left) + parseInt(m.clientWidth) &&
 					y <= parseInt(m.style.top) + parseInt(m.clientHeight));
 			}
 
-			let dist = () => {
+			const dist = () => {
 				let minDist = 100000;
 				for (let j = 0; j < magnets.length; j++) {
 					minDist = Math.min(minDist,
@@ -142,7 +142,7 @@ export class MagnetManager {
 				return minDist;
 
 			}
-			let contains = () => {
+			const contains = () => {
 				for (let j = 0; j < magnets.length; j++) {
 					if (magnetContains(magnets[j], x, y) ||
 						magnetContains(magnets[j], x + magnet.clientWidth, y + magnet.clientHeight))
@@ -153,7 +153,7 @@ export class MagnetManager {
 
 			const rect = BoardManager.getCurrentScreenRectangle();
 
-			let generatePosition = () => {
+			const generatePosition = () => {
 				let count = 0;
 				const margin = 32;
 				do {
@@ -197,10 +197,10 @@ export class MagnetManager {
 	 * @returns the array of center points of existing magnets
 	 */
 	static getNodes() {
-		let magnets = MagnetManager.getMagnets();
-		let nodes = [];
+		const magnets = MagnetManager.getMagnets();
+		const nodes = [];
 		for (let i = 0; i < magnets.length; i++) {
-			let m = magnets[i];
+			const m = magnets[i];
 			nodes.push({ x: parseInt(m.style.left) + m.clientWidth / 2, y: parseInt(m.style.top) + m.clientHeight / 2 });
 		}
 		console.log(nodes)
@@ -213,10 +213,10 @@ export class MagnetManager {
 	static drawGraph() {
 		MagnetManager.arrange();
 
-		let nodes = MagnetManager.getNodes();
+		const nodes = MagnetManager.getNodes();
 		const canvas = getCanvas();
-		let context = canvas.getContext("2d");
-		let edges = [];
+		const context = canvas.getContext("2d");
+		const edges = [];
 		for (let i = 0; i < nodes.length; i++) {
 			edges[i] = [];
 			for (let j = 0; j < nodes.length; j++) { edges[i][j] = 0; }
@@ -224,7 +224,7 @@ export class MagnetManager {
 
 		// returns true iff the line from (a,b)->(c,d) intersects with (p,q)->(r,s)
 		function intersects(a, b, c, d, p, q, r, s) {
-			var det, gamma, lambda;
+			let det, gamma, lambda;
 			det = (c - a) * (s - q) - (r - p) * (d - b);
 			if (det === 0) {
 				return false;
@@ -233,9 +233,9 @@ export class MagnetManager {
 				gamma = ((b - d) * (r - a) + (c - a) * (s - b)) / det;
 				return (0 < lambda && lambda < 1) && (0 < gamma && gamma < 1);
 			}
-		};
+		}
 
-		let isCrossing = (i, j) => {
+		const isCrossing = (i, j) => {
 			for (let k = 0; k < nodes.length; k++)
 				for (let l = 0; l < nodes.length; l++)
 					if (edges[k][l]) {
@@ -261,7 +261,7 @@ export class MagnetManager {
 	 * @description adds the event mousedown etc. to the magnets. Call LaTEX
 	 */
 	static installMagnets() {
-		let magnets = MagnetManager.getMagnets();
+		const magnets = MagnetManager.getMagnets();
 
 		for (let i = 0; i < magnets.length; i++)
 			MagnetManager._installMagnet(magnets[i]);
@@ -284,7 +284,7 @@ export class MagnetManager {
 
 
 
-		let f = () => { const LARGENUMBER = 10000; element.style.zIndex = LARGENUMBER - element.clientWidth; };
+		const f = () => { const LARGENUMBER = 10000; element.style.zIndex = LARGENUMBER - element.clientWidth; };
 		if (element.tagName == "IMG") {
 			element.addEventListener("load", f);
 		}
@@ -298,7 +298,7 @@ export class MagnetManager {
 		element.onmouseleave = () => { MagnetManager.magnetUnderCursor = undefined };
 
 		function makeDraggableElement(element) {
-			var pos1 = 0, pos2 = 0, pos3 = 0, pos4 = 0;
+			let pos1 = 0, pos2 = 0, pos3 = 0, pos4 = 0;
 
 			element.addEventListener("pointerdown", dragMouseDown);
 
@@ -336,7 +336,7 @@ export class MagnetManager {
 				// call a function whenever the cursor moves:
 				document.onpointermove = elementDrag;
 
-				let magnets = MagnetManager.getMagnets();
+				const magnets = MagnetManager.getMagnets();
 				otherElementsToMove = [];
 
 				//if(elmt.style.clipPath == undefined) //if not an image (otherwise bug)
@@ -372,7 +372,7 @@ export class MagnetManager {
 				// set the element's new position:
 				Share.execute("magnetMove", [element.id, element.offsetLeft - pos1, element.offsetTop - pos2]);
 
-				for (let el of otherElementsToMove) {
+				for (const el of otherElementsToMove) {
 					Share.execute("magnetMove", [el.id, el.offsetLeft - pos1, el.offsetTop - pos2]);
 				}
 			}
@@ -405,7 +405,7 @@ export class MagnetManager {
 	 * @description adds a image magnet where the file is already on the server
 	 */
 	static addMagnetImage(filename, callback = (el) => { }) {
-		let img = new Image();
+		const img = new Image();
 		img.src = "magnets/" + filename;
 		img.classList.add("backgroundTransparent");
 		MagnetManager.addMagnet(img, callback);
@@ -426,9 +426,9 @@ export class MagnetManager {
 		divText.onpointermove = (e) => { e.stopPropagation(); }
 		divText.onpointerup = (e) => { e.stopPropagation(); }
 		divText.onkeydown = (e) => {
-			let setFontSize = (size) => {
+			const setFontSize = (size) => {
 				divText.style.fontSize = size + "px";
-				for (let o of divText.children) {
+				for (const o of divText.children) {
 					o.style.fontSize = size + "px";
 				}
 			}
@@ -529,10 +529,10 @@ export class MagnetManager {
 			return;
 		}
 
-		let context = getCanvas().getContext("2d");
+		const context = getCanvas().getContext("2d");
 
-		let x = parseInt(img.style.left);
-		let y = parseInt(img.style.top);
+		const x = parseInt(img.style.left);
+		const y = parseInt(img.style.top);
 		let s = img.style.clipPath;
 
 		s = s.substr("polygon(".length, s.length - "polygon(".length - ")".length);
@@ -543,7 +543,7 @@ export class MagnetManager {
 		let begin = true;
 		for (let pointStr of s.split(",")) {
 			pointStr = pointStr.trim();
-			let a = pointStr.split(" ");
+			const a = pointStr.split(" ");
 			if (begin)
 				context.moveTo(x + parseInt(a[0]), y + parseInt(a[1]));
 			else

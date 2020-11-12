@@ -11,7 +11,7 @@ export class ChalkCursor {
      * @description adds clicks on buttons in the menu for left- and right-handed options
      */
     static init() {
-        let change = (param) => {
+        const change = (param) => {
             ChalkCursor.leftHanded = param;
             if (!param)
                 localStorage.removeItem("leftHanded");

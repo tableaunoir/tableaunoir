@@ -12,7 +12,7 @@ import config from './config.json'
 export class Share {
 	static ws: WebSocket = undefined;
 	static id: string = undefined;
-	static canWriteValueByDefault: boolean = true;
+	static canWriteValueByDefault = true;
 
 	/**
 	 *
@@ -74,7 +74,7 @@ export class Share {
 			document.getElementById('ShareGithub').hidden = true;
 
 		if (Share.isSharedURL()) {
-			let tryJoin = () => {
+			const tryJoin = () => {
 				try {
 					Share.id = Share.getIDInSharedURL();
 					if (Share.id != null) {
@@ -114,7 +114,7 @@ export class Share {
 		navigator.clipboard.writeText(sharelink).
 			then(function () { document.getElementById("shareUrlCopied").hidden = false; },
         /* else */ function () { document.getElementById("shareUrlCopied").hidden = false; });
-	};
+	}
 
 
 	/**
@@ -381,7 +381,7 @@ export class Share {
 	 * @returns yes if the current URL is an URL of a shared board
 	 */
 	static isSharedURL() {
-		let params = (new URL(<any>document.location)).searchParams;
+		const params = (new URL(<any>document.location)).searchParams;
 		return params.get('id') != null;
 	}
 
@@ -401,7 +401,7 @@ export class Share {
 	 * @returns the current tableaunoir ID
 	 */
 	static getIDInSharedURL() {
-		let params = (new URL(<any>document.location)).searchParams;
+		const params = (new URL(<any>document.location)).searchParams;
 		return params.get('id');
 	}
 
@@ -428,7 +428,7 @@ export class Share {
 
 		(<HTMLInputElement>document.getElementById("sharePermissionWrite")).checked = canWrite;
 
-		for (let userid in UserManager.users) {
+		for (const userid in UserManager.users) {
 			if (UserManager.users[userid] != UserManager.me)
 				Share.execute("setUserCanWrite", [userid, canWrite]);
 		}

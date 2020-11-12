@@ -22,7 +22,7 @@ window.onload = load;
 window['Menu'] = Menu;
 window['ShareEvent'] = ShareEvent;
 
-export let palette = new Palette();
+export const palette = new Palette();
 
 let loaded = false;
 
@@ -65,19 +65,19 @@ function load() {
 
 
 
-		let changeColor = () => {
+		const changeColor = () => {
 			if (MagnetManager.getMagnetUnderCursor() == undefined) { //if no magnet under the cursor, change the color of the chalk
 				//if (!isDrawing)
 				palette.show({ x: UserManager.me.x, y: UserManager.me.y });
 				palette.next();
 			}
 			else { // if there is a magnet change the background of the magnet
-				let magnet = MagnetManager.getMagnetUnderCursor();
+				const magnet = MagnetManager.getMagnetUnderCursor();
 				magnet.style.backgroundColor = nextBackgroundColor(magnet.style.backgroundColor);
 			}
 		}
 
-		let previousColor = () => {
+		const previousColor = () => {
 			if (MagnetManager.getMagnetUnderCursor() == undefined) { //if no magnet under the cursor, change the color of the chalk
 				UserManager.me.eraseMode = false;
 
@@ -86,12 +86,12 @@ function load() {
 				palette.previous();
 			}
 			else { // if there is a magnet change the background of the magnet
-				let magnet = MagnetManager.getMagnetUnderCursor();
+				const magnet = MagnetManager.getMagnetUnderCursor();
 				magnet.style.backgroundColor = previousBackgroundColor(magnet.style.backgroundColor);
 			}
 		}
 
-		let switchChalkEraser = () => {
+		const switchChalkEraser = () => {
 			if (UserManager.me.eraseMode)
 				Share.execute("switchChalk", [UserManager.me.userID]);
 			else
@@ -119,7 +119,7 @@ function load() {
 
 
 
-		let buttons = document.getElementById("controls").children;
+		const buttons = document.getElementById("controls").children;
 
 		for (let i = 0; i < buttons.length; i++)
 			if (buttons[i] instanceof HTMLButtonElement)
@@ -326,14 +326,14 @@ export function clearLine(x1, y1, x2, y2, lineWidth = 10) {
 
 function divideScreen() {
 	console.log("divide the screen")
-	let x = Layout.getXMiddle();
+	const x = Layout.getXMiddle();
 	drawLine(getCanvas().getContext("2d"), x, 0, x, Layout.getWindowHeight(), 1, BoardManager.getDefaultChalkColor());
 	BoardManager.saveCurrentScreen();
 }
 
 
 
-let magnetColors = ['', 'rgb(255, 128, 0)', 'rgb(0, 128, 0)', 'rgb(192, 0, 0)', 'rgb(0, 0, 255)'];
+const magnetColors = ['', 'rgb(255, 128, 0)', 'rgb(0, 128, 0)', 'rgb(192, 0, 0)', 'rgb(0, 0, 255)'];
 
 function nextBackgroundColor(color) {
 	for (let i = 0; i < magnetColors.length; i++) {

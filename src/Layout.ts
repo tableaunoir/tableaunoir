@@ -40,8 +40,8 @@ export class Layout {
 
 
     static initClassic() {
-        let WIDTH = 4800;
-        let HEIGHT = 1500;
+        const WIDTH = 4800;
+        const HEIGHT = 1500;
 
         const canvas = getCanvas();
 

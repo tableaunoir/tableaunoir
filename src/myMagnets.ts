@@ -4,7 +4,7 @@ import { Share } from './share';
 import { MagnetManager } from './magnetManager';
 
 function createMagnet(content) {
-    let o = document.createElement("div");
+    const o = document.createElement("div");
     o.innerHTML = content;
     return o;
 }
@@ -15,7 +15,7 @@ function magnetsClear() {
 }
 
 function createMagnetGS_B(content) {
-    let o = document.createElement("div");
+    const o = document.createElement("div");
     o.innerHTML = content;
     o.classList.add("GS_B")
     return o;
@@ -36,8 +36,8 @@ function magnetGS() {
 /** Sorting */
 
 function createMagnetRainbow(content) {
-    let o = createMagnet(content);
-    let colors = ['rgb(139, 97, 195)', 'rgb(115, 97, 195)', 'rgb(93, 105, 214)', 'rgb(40, 167, 226)', 'rgb(40, 204, 226)', 'rgb(40, 226, 201)', 'rgb(40, 226, 148)',
+    const o = createMagnet(content);
+    const colors = ['rgb(139, 97, 195)', 'rgb(115, 97, 195)', 'rgb(93, 105, 214)', 'rgb(40, 167, 226)', 'rgb(40, 204, 226)', 'rgb(40, 226, 201)', 'rgb(40, 226, 148)',
         'rgb(40, 226, 102)', 'rgb(130, 226, 40)', 'rgb(170, 226, 40)', 'rgb(223, 226, 40)', 'rgb(226, 183, 40)',
         'rgb(226, 152, 40)', 'rgb(226, 124, 40)', 'rgb(226, 77, 40)', 'rgb(255, 0, 0)', 'rgb(144, 24, 24)'];
     o.style.backgroundColor = colors[content - 1];
@@ -68,7 +68,7 @@ function magnetBTrees() {
 
 function magnetGraphNodes() {
     //MagnetManager.clearMagnet();
-    for (let i of ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O'])
+    for (const i of ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O'])
         MagnetManager.addMagnet(createMagnet(i))
 }
 
@@ -89,7 +89,7 @@ function magnetGraphSimCity() {
         "citerne.png", "parc.png", "stade.png"
     ];
 
-    for (let name of simCityPictures) {
+    for (const name of simCityPictures) {
         MagnetManager.addMagnetImage("simCityGraph/" + name);
     }
 
@@ -98,10 +98,10 @@ function magnetGraphSimCity() {
 /** Tilings */
 
 function createTiling(leftColor, upColor, rightColor, bottomColor) {
-    let xmlns = "http://www.w3.org/2000/svg";
-    var div = document.createElement("div");
-    let size = 100;
-    var svgElem = <SVGElement> document.createElementNS(xmlns, "svg");
+    const xmlns = "http://www.w3.org/2000/svg";
+    const div = document.createElement("div");
+    const size = 100;
+    const svgElem = <SVGElement> document.createElementNS(xmlns, "svg");
     svgElem.setAttributeNS(null, "viewBox", "0 0 " + size + " " + size);
     svgElem.setAttributeNS(null, "width", ""+size);
     svgElem.setAttributeNS(null, "height", ""+size);
@@ -109,7 +109,7 @@ function createTiling(leftColor, upColor, rightColor, bottomColor) {
 
 
     function createPath(pathDesc, color) {
-        var path = document.createElementNS(xmlns, "path");
+        const path = document.createElementNS(xmlns, "path");
         path.setAttributeNS(null, 'stroke', "#333333");
         path.setAttributeNS(null, 'stroke-width', ""+10);
         path.setAttributeNS(null, 'stroke-linejoin', "round");
@@ -164,7 +164,7 @@ function magnetUnionFind() {
 function magnetGo() {
     MagnetManager.clearMagnet();
 
-    let f = (color, x) => {
+    const f = (color, x) => {
         for (let i = 0; i < 20; i++) {
             MagnetManager.addMagnetImage("go/" + color + ".png",
             (img) => Share.execute("magnetMove", [img.id, x, 10 + i * 5]));

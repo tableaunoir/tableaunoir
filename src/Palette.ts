@@ -20,7 +20,7 @@ export class Palette {
      */
     _createPalette() {
         const div = document.getElementById("palette");
-        for (let i in this.colors) {
+        for (const i in this.colors) {
             this.buttons[i] = this._createColorButton(i);
             div.appendChild(this.buttons[i]);
         }
@@ -44,7 +44,7 @@ export class Palette {
         img.src = ChalkCursor.getCursorURL(this.colors[i]);
         img.classList.add("paletteColorButton");
 
-        let angle = -Math.PI / 2 + 2 * Math.PI * i / this.colors.length;
+        const angle = -Math.PI / 2 + 2 * Math.PI * i / this.colors.length;
 
         img.style.top = (Palette.radius * Math.sin(angle) - 22) + "px";
         img.style.left = (Palette.radius * Math.cos(angle) - 16) + "px";

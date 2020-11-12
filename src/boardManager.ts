@@ -50,10 +50,10 @@ export class BoardManager {
 
 
     static _createCanvasForRectangle(r) {
-        let C = document.createElement("canvas");
+        const C = document.createElement("canvas");
         C.width = r.x2 - r.x1;
         C.height = r.y2 - r.y1;
-        let ctx = C.getContext("2d");
+        const ctx = C.getContext("2d");
         ctx.drawImage(getCanvas(),
             r.x1, r.y1, r.x2 - r.x1, r.y2 - r.y1, //coordinates in the canvas
             0, 0, r.x2 - r.x1, r.y2 - r.y1); //coordinates in the magnet
@@ -143,7 +143,7 @@ export class BoardManager {
         if (data != undefined) {
             BoardManager._clear();
             try {
-                let image = new Image();
+                const image = new Image();
                 image.src = data;
                 image.onload = function () {
                     const canvas = getCanvas();
@@ -177,7 +177,7 @@ export class BoardManager {
 
         if (data != undefined) {
             BoardManager._clear();
-            let image = new Image();
+            const image = new Image();
             image.src = data;
             image.onload = function () {
                 const canvas = getCanvas();
@@ -231,7 +231,7 @@ export class BoardManager {
         }
 
         if ((container.scrollLeft >= canvas.width - Layout.getWindowWidth() - BoardManager.scrollQuantity()) && BoardManager._rightExtendCanvasEnable) {
-            let image = new Image();
+            const image = new Image();
             image.src = canvas.toDataURL();
             console.log("extension: canvas width " + canvas.width + " to " + (container.scrollLeft + Layout.getWindowWidth()))
             canvas.width = ((canvas.width / BoardManager.scrollQuantity()) + 1) * BoardManager.scrollQuantity();
@@ -271,7 +271,7 @@ export class BoardManager {
      * @param {*} level
      */
     static _loadCurrentCancellationStackData(data) {
-        let image = new Image();
+        const image = new Image();
         const canvas = getCanvas();
 
         const context = canvas.getContext("2d");

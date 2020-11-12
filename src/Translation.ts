@@ -22,7 +22,7 @@ export class Translation {
      * @returns the language written in the URL (for instance "fr"), or null if none is provided
      */
     static getLanguage() {
-        let params = (new URL(<any>document.location)).searchParams;
+        const params = (new URL(<any>document.location)).searchParams;
         return params.get('lang');
     }
 
@@ -60,7 +60,7 @@ export class Translation {
             if (dict[element.innerHTML])
                 element.innerHTML = dict[element.innerHTML];
         } else {
-            for (let i in element.children)
+            for (const i in element.children)
                 Translation.translateElement(element.children[i], dict);
 
         }
@@ -74,7 +74,7 @@ export class Translation {
      * @description translates the element by the IDs
      */
     static translateFromIDs(dict) {
-        for (let key in dict) {
+        for (const key in dict) {
             if (key.startsWith('#')) {
                 const element = document.getElementById(key.substr(1));
 

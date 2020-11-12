@@ -20,7 +20,7 @@ export class TouchScreen {
      * @description converts a touch event into a mouse event
      */
     static _touchHandler(event) {
-        var touches = event.changedTouches,
+        let touches = event.changedTouches,
             first = touches[0],
             type = "";
         switch (event.type) {
@@ -34,7 +34,7 @@ export class TouchScreen {
         //                screenX, screenY, clientX, clientY, ctrlKey,
         //                altKey, shiftKey, metaKey, button, relatedTarget);
 
-        var simulatedEvent = document.createEvent("MouseEvent");
+        const simulatedEvent = document.createEvent("MouseEvent");
         simulatedEvent.initMouseEvent(type, true, true, window, 1,
             first.screenX, first.screenY,
             first.clientX, first.clientY, false,

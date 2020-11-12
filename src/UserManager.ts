@@ -24,7 +24,7 @@ export class UserManager {
      */
     static isSmallestUserID() {
         let minkey = "zzzzzzzzzzzzzzzz";
-        for (let key in UserManager.users) {
+        for (const key in UserManager.users) {
             if (key < minkey)
                 minkey = key;
         }
@@ -58,7 +58,7 @@ export class UserManager {
      * @description renaUserManager.me the current user (UserManager.me) as userid
      */
     static setMyUserID(userid) {
-        for (let key in UserManager.users) {
+        for (const key in UserManager.users) {
             if (UserManager.users[key] == UserManager.me)
                 delete UserManager.users[key];
         }
@@ -83,7 +83,7 @@ export class UserManager {
 
     static userIdToDom(userID) {
 
-        let userDOM = UserManager.getUserImage(userID);
+        const userDOM = UserManager.getUserImage(userID);
         userDOM.classList.add("user");
         userDOM.title = "user " + userID;
         return userDOM;
@@ -96,7 +96,7 @@ export class UserManager {
      */
     static getNumberOfUsers() {
         let i = 0;
-        for (var key in UserManager.users) {
+        for (const key in UserManager.users) {
             i++;
         }
         return i;

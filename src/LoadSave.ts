@@ -60,7 +60,7 @@ export class LoadSave {
      */
     static loadFile(file) {
         if (file) {
-            let reader = new FileReader();
+            const reader = new FileReader();
             reader.onerror = function (evt) { }
 
             /** load a .tableaunoir file, that is, a file containing the blackboard + some magnets */
@@ -72,7 +72,7 @@ export class LoadSave {
                 /** load an image and add it as a magnet */
                 reader.readAsDataURL(file);
                 reader.onload = function (evt) {
-                    let img = new Image();
+                    const img = new Image();
                     img.src = <string>evt.target.result;
                     MagnetManager.addMagnet(img);
                 }
@@ -89,11 +89,11 @@ export class LoadSave {
      * @descrption load the image in the file, once the file is loaded. Call the callback function.
      */
     static fetchImageFromFile(file, callback) {
-        let reader = new FileReader();
+        const reader = new FileReader();
         reader.onerror = function (evt) { }
         reader.readAsDataURL(file);
         reader.onload = function (evt) {
-            let img = new Image();
+            const img = new Image();
             img.src = <string>evt.target.result;
             img.onload = () => callback(img);
         }
@@ -132,9 +132,9 @@ export class LoadSave {
      * @description save the blackboard and the magnets
      */
     static save() {
-        let magnets = document.getElementById("magnets").innerHTML;
-        let canvasDataURL = getCanvas().toDataURL();
-        let obj = { magnets: magnets, canvasDataURL: canvasDataURL };
+        const magnets = document.getElementById("magnets").innerHTML;
+        const canvasDataURL = getCanvas().toDataURL();
+        const obj = { magnets: magnets, canvasDataURL: canvasDataURL };
         LoadSave.download((<HTMLInputElement>document.getElementById("name")).value + ".tableaunoir", JSON.stringify(obj));
     }
 
@@ -158,7 +158,7 @@ export class LoadSave {
  * @description propose to download a file with the content
  */
     static downloadDataURL(filename, dataURL) {
-        let element = document.createElement('a');
+        const element = document.createElement('a');
         element.setAttribute('href', dataURL);
         element.setAttribute('download', filename);
 

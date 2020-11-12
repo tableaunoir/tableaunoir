@@ -28,7 +28,7 @@ export class User {
     cursor = undefined;
     toolCursor = undefined;
 
-    userID: string = "0";
+    userID = "0";
 
     setUserID(userID) {
         this.userID = userID;
