@@ -32,7 +32,7 @@ class Background {
         const canvasBackground = getCanvasBackground();
 
         let x = 0;
-        let x2 = 2*Layout.getWindowWidth();
+        let x2 = 2 * Layout.getWindowWidth();
         let ymiddleScreen = fullHeight / 2;
         let yshift = fullHeight / 7;
         let drawStaff = (ymiddle) => {
@@ -40,7 +40,7 @@ class Background {
 
             for (let i = -2; i <= 2; i++) {
                 let y = ymiddle + i * space;
-                drawLine(canvasBackground.getContext("2d"), x, y, x2, y, 1.0, COLORSTAFF);
+                Drawing.drawLine(canvasBackground.getContext("2d"), x, y, x2, y, 1.0, COLORSTAFF);
             }
         }
 

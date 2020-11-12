@@ -89,7 +89,7 @@ function load() {
 		document.getElementById("buttonEraser").onclick = switchChalkEraser;
 
 		document.getElementById("buttonText").onclick = () => MagnetManager.addMagnetText(UserManager.me.x, UserManager.me.y);
-		document.getElementById("buttonDivide").onclick = divideScreen;
+		document.getElementById("buttonDivide").onclick = Drawing.divideScreen;
 
 		document.getElementById("buttonLeft").onclick = BoardManager.left;
 		document.getElementById("buttonRight").onclick = BoardManager.right;
@@ -150,7 +150,7 @@ function load() {
 				BoardManager.right();
 			}
 			else if (evt.key == "d")  //d = divide screen
-				divideScreen();
+				Drawing.divideScreen();
 			else if ((evt.ctrlKey && evt.shiftKey && evt.key == "Z") || (evt.ctrlKey && evt.key == "y")) { //ctrl + shift + z OR Ctrl + Y = redo
 				BoardManager.redo();
 				evt.preventDefault();
@@ -208,7 +208,7 @@ function load() {
 			Share.execute("mousedown", [UserManager.me.userID, evt])
 		};
 		document.getElementById("canvasBackground").onpointermove = (evt) => { console.log("mousemove on the background should not occur") };
-		
+
 		document.getElementById("canvas").onpointermove = (evt) => {
 			evt.preventDefault();
 			Share.execute("mousemove", [UserManager.me.userID, evt])
@@ -261,56 +261,6 @@ function getContainer() {
 	return document.getElementById("container");
 }
 
-function drawLine(context, x1, y1, x2, y2, pressure = 1.0, color = UserManager.me.getCurrentColor()) {
-	//console.log(pressure)
-	context.beginPath();
-	context.strokeStyle = color;
-	context.globalCompositeOperation = "source-over";
-	context.globalAlpha = 0.9 + 0.1 * pressure;
-	context.lineWidth = 1.5 + 3 * pressure;
-	context.moveTo(x1, y1);
-	context.lineTo(x2, y2);
-	/*context.moveTo(Math.round(x1), Math.round(y1));
-	context.lineTo(Math.round(x2), Math.round(y2));*/
-	context.stroke();
-	context.closePath();
-}
-
-
-function drawDot(x, y, color) {
-	const context = getCanvas().getContext("2d");
-	context.beginPath();
-	context.fillStyle = color;
-	context.lineWidth = 2.5;
-	context.arc(x, y, 2, 0, 2 * Math.PI);
-	context.fill();
-	context.closePath();
-}
-
-
-function clearLine(x1, y1, x2, y2, lineWidth = 10) {
-	const context = getCanvas().getContext("2d");
-	context.beginPath();
-	//context.strokeStyle = BACKGROUND_COLOR;
-	context.globalCompositeOperation = "destination-out";
-	context.strokeStyle = "rgba(255,255,255,1)";
-
-	context.lineWidth = lineWidth;
-	context.moveTo(x1, y1);
-	context.lineTo(x2, y2);
-	context.lineCap = "round";
-	context.stroke();
-	context.closePath();
-}
-
-
-
-function divideScreen() {
-	console.log("divide the screen")
-	let x = Layout.getXMiddle();
-	drawLine(getCanvas().getContext("2d"), x, 0, x, Layout.getWindowHeight(), 1, BoardManager.getDefaultChalkColor());
-	BoardManager.saveCurrentScreen();
-}
 
 
 
