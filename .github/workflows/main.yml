@@ -35,5 +35,5 @@ jobs:
       if: ${{ always() && steps.tarball.outcome == 'success' }}
       uses: actions/upload-artifact@v2
       with:
-        name: tableaunoir
-        path: tableaunoir.zip
+        name: tableaunoir current version
+        path: tableaunoir-${default-branch}.tar.gz
