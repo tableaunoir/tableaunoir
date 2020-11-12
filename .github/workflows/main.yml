@@ -22,5 +22,17 @@ jobs:
       with:
         node-version: ${{ matrix.node-version }}
     - run: npm clean-install
-    - run: npm run build --if-present
+    - name: build
+      id: build
+      run: npm run build
     - run: npm lint
+    - name: Compress action step
+        id: make-tarball
+        run: tar czf tableaunoir-$default-branch.tar.gz --trasnform s,^dist/,tableaunoir/, dist
+        if: ${{ always() && steps.build.outcome == 'success' }}
+    - name: upload tableaunoir bundle
+      if: ${{ always() && steps.make-tarball.outcome == 'success' }}
+      uses: actions/upload-artifact@v2
+      with:
+        name: tableaunoir tarball
+        path: tableaunoir.zip
