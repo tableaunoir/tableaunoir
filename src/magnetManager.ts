@@ -280,7 +280,7 @@ export class MagnetManager {
 				}
 			}
 
-		BoardManager.save();
+		BoardManager.save(undefined);
 	}
 
 
@@ -620,9 +620,7 @@ export class MagnetManager {
 
 		context.restore();
 
-
-
-		BoardManager.save();
+		BoardManager.save({x1: x, y1: y, x2: x + img.width, y2: y + img.height});
 	}
 
 

@@ -84,37 +84,24 @@ export class BoardManager {
 
 
     static isCancelRedoActivated() {
-        return !Share.isShared();//(!Share.isShared() && !Layout.isTactileDevice());
+        return true;//!Share.isShared();//(!Share.isShared() && !Layout.isTactileDevice());
     }
 
     /**
      * save the current board into the cancel/redo stack but also in the localStorage of the browser
      */
-    static save() {
-        // if (rectangle == undefined) {
-        if (BoardManager.isCancelRedoActivated())
-            getCanvas().toBlob((blob) => {
-                console.log("save that blob: " + blob)
-                //  localStorage.setItem(Share.getTableauNoirID(), canvas.toDataURL());
-                BoardManager.cancelStack.push(blob);
-                //Share.sendFullCanvas(blob);
-            }
-            );
-        /*}
-          else {
-              BoardManager._toBlobOfRectangle(rectangle, (blob) => {
-                  rectangle.blob = blob;
-                  BoardManager.cancelStack.push(rectangle);
-              });
+    static save(rectangle: { x1: number, y1: number, x2: number, y2: number } | undefined) {
+        let canvas = getCanvas();
+        if (rectangle == undefined)
+            rectangle = { x1: 0, y1: 0, x2: canvas.width, y2: canvas.height };
 
-              document.getElementById("canvas").toBlob((blob) => {
-                  console.log("save that blob: " + blob)
-                  localStorage.setItem(BoardManager.boardName, blob);
-              }
-              );
-          }
-    */
-
+        canvas.toBlob((blob) => {
+            console.log("save that blob: " + blob)
+            //  localStorage.setItem(Share.getTableauNoirID(), canvas.toDataURL());
+            rectangle = { x1: 0, y1: 0, x2: canvas.width, y2: canvas.height };
+            BoardManager.cancelStack.push({ x1: rectangle.x1, y1: rectangle.y1, x2: rectangle.x2, y2: rectangle.y2, blob: blob });
+            //Share.sendFullCanvas(blob);
+        });
 
     }
 
@@ -131,7 +118,7 @@ export class BoardManager {
     }
 
     static saveCurrentScreen() {
-        BoardManager.save();
+        BoardManager.save({ x1: Layout.getWindowLeft(), y1: 0, x2: Layout.getWindowRight(), y2: Layout.getWindowHeight() });
     }
 
     /**
@@ -150,7 +137,7 @@ export class BoardManager {
                     canvas.width = image.width;
                     canvas.height = image.height;
                     canvas.getContext("2d").drawImage(image, 0, 0);
-                    BoardManager.save();
+                    BoardManager.save(undefined);
                     console.log("loaded!")
                 }
             }
@@ -161,7 +148,7 @@ export class BoardManager {
         }
         else {
             BoardManager._clear();
-            BoardManager.save();
+            BoardManager.save(undefined);
         }
 
     }
@@ -270,7 +257,7 @@ export class BoardManager {
      *
      * @param {*} level
      */
-    static _loadCurrentCancellationStackData(data) {
+    static _loadCurrentCancellationStackData(data: CanvasModificationRectangle, rectangle: CanvasModificationRectangle) {
         const image = new Image();
         const canvas = getCanvas();
 
@@ -279,11 +266,13 @@ export class BoardManager {
         context.globalAlpha = 1.0;
 
         //  if (data instanceof Blob) {
-        image.src = URL.createObjectURL(data);
+        image.src = URL.createObjectURL(data.blob);
         image.onload = function () {
             canvas.width = image.width;
             canvas.height = image.height;
-            context.drawImage(image, 0, 0);
+            //context.drawImage(image, 0, 0);
+            context.drawImage(image, rectangle.x1, rectangle.y1, rectangle.x2 - rectangle.x1, rectangle.y2 - rectangle.y1,
+                rectangle.x1, rectangle.y1, rectangle.x2 - rectangle.x1, rectangle.y2 - rectangle.y1);
         }
         /*  }
           else {
@@ -302,8 +291,12 @@ export class BoardManager {
      *
      */
     static cancel() {
-        if (BoardManager.isCancelRedoActivated())
-            BoardManager._loadCurrentCancellationStackData(BoardManager.cancelStack.back());
+        if (BoardManager.isCancelRedoActivated()) {
+            let top = BoardManager.cancelStack.top();
+            let previous = BoardManager.cancelStack.back();
+            BoardManager._loadCurrentCancellationStackData(previous, top);
+        }
+
     }
 
 
@@ -312,7 +305,10 @@ export class BoardManager {
      *
      */
     static redo() {
-        if (BoardManager.isCancelRedoActivated())
-            BoardManager._loadCurrentCancellationStackData(BoardManager.cancelStack.forward());
+        if (BoardManager.isCancelRedoActivated()) {
+            let c = BoardManager.cancelStack.forward();
+            BoardManager._loadCurrentCancellationStackData(c, c);
+        }
+
     }
 }

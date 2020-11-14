@@ -1,8 +1,18 @@
 import { getCanvas, getCanvasBackground } from './main';
 
 export class Layout {
-    static getXMiddle() {
+    static getXMiddle(): number {
         return document.getElementById("container").scrollLeft + Layout.getWindowWidth() / 2;
+    }
+
+
+    static getWindowLeft(): number {
+        return document.getElementById("container").scrollLeft;
+    }
+
+
+    static getWindowRight(): number {
+        return document.getElementById("container").scrollLeft + Layout.getWindowWidth();
     }
 
     static STANDARDHEIGHT = 1000;

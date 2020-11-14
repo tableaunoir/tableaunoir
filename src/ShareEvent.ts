@@ -63,7 +63,7 @@ export class ShareEvent {
 
     static boardClear() {
         BoardManager._clear();
-        BoardManager.save();
+        BoardManager.save(undefined);
         Menu.hide();
     }
 
@@ -86,5 +86,13 @@ export class ShareEvent {
 
     static printMagnet(magnetID) {
         MagnetManager.printMagnet(document.getElementById(magnetID));
+    }
+
+    static cancel() {
+        BoardManager.cancel();
+    }
+
+    static redo() {
+        BoardManager.redo();
     }
 }

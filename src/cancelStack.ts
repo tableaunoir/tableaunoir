@@ -19,14 +19,14 @@ export class CancelStack {
      *
      * @param {*} data
      */
-    push(data) {
+    push(data: CanvasModificationRectangle) {
         this.currentIndex++;
         this.stack[this.currentIndex] = data;
         this.n = this.currentIndex + 1;
     }
 
 
-    back() {
+    back(): CanvasModificationRectangle {
         if (this.currentIndex <= 0)
             return this.stack[this.currentIndex];
 
@@ -34,7 +34,7 @@ export class CancelStack {
         return this.stack[this.currentIndex];
     }
 
-    forward() {
+    forward(): CanvasModificationRectangle {
         if (this.currentIndex >= this.n - 1)
             return this.stack[this.currentIndex];
 
@@ -42,4 +42,9 @@ export class CancelStack {
         return this.stack[this.currentIndex];
     }
 
+
+
+    top(): CanvasModificationRectangle {
+        return this.stack[this.currentIndex];
+    }
 }

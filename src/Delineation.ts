@@ -36,7 +36,7 @@ export class Delineation {
         return this.points.length > 0;
     }
 
-    drawPolygon(points :{x, y}[]): void {
+    drawPolygon(points: { x, y }[]): void {
         if (document.getElementById("magnetCreationPolygon"))
             return;
 
@@ -54,7 +54,7 @@ export class Delineation {
     }
 
 
-    addPoint(point: {x,y}): void {
+    addPoint(point: { x, y }): void {
         this.points.push(point);
 
         if (this.isDot() && this.dotInPreviousPolygon()) {
@@ -129,7 +129,7 @@ export class Delineation {
         Share.execute("removeContour", [this.points]);
         Share.execute("clearPolygon", [this.points]);
         this.reset();
-        BoardManager.save();
+        BoardManager.save(undefined);
     }
 
 
@@ -144,7 +144,7 @@ export class Delineation {
         this._createMagnetFromImg();
         Share.execute("clearPolygon", [this.points]);
         this.reset();
-        BoardManager.save();
+        BoardManager.save(undefined);
     }
 
 
@@ -157,7 +157,7 @@ export class Delineation {
 
         Share.execute("removeContour", [this.points]);
         this._createMagnetFromImg();
-        BoardManager.save();
+        BoardManager.save(undefined);
     }
 
 

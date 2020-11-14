@@ -113,8 +113,8 @@ function load() {
 
 		document.getElementById("buttonLeft").onclick = BoardManager.left;
 		document.getElementById("buttonRight").onclick = BoardManager.right;
-		document.getElementById("buttonCancel").onclick = BoardManager.cancel;
-		document.getElementById("buttonRedo").onclick = BoardManager.redo;
+		document.getElementById("buttonCancel").onclick = () => Share.execute("cancel", []);
+		document.getElementById("buttonRedo").onclick = () => Share.execute("redo", []);
 
 		document.getElementById("buttonAskQuestion").onclick = Discussion.askQuestion;
 
@@ -172,11 +172,11 @@ function load() {
 			else if (evt.key == "d")  //d = divide screen
 				Drawing.divideScreen();
 			else if ((evt.ctrlKey && evt.shiftKey && evt.key == "Z") || (evt.ctrlKey && evt.key == "y")) { //ctrl + shift + z OR Ctrl + Y = redo
-				BoardManager.redo();
+				Share.execute("redo", []);
 				evt.preventDefault();
 			}
 			else if (evt.ctrlKey && evt.key == "z") {// ctrl + z = undo
-				BoardManager.cancel();
+				Share.execute("cancel", []);
 				evt.preventDefault();
 			}
 

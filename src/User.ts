@@ -247,7 +247,7 @@ export class User {
 
             }
 
-            BoardManager.saveCurrentScreen();
+            BoardManager.save(this.lastDelineation._getRectangle());
         }
         this.alreadyDrawnSth = false;
         this.isDrawing = false;
