@@ -32,72 +32,75 @@ const WebSocket = require('ws'); //websocket library
 const fs = require('fs'); //filesystem
 const uuid = require('small-uuid'); //for generating small IDs
 
+console.log("WELCOME TO TABLEAUNOIR!");
 
 
+class ServerCreation {
+  /**
+   * Create a web socket server at a Unix socket.
+   */
+  static _createWebSocketServerUnix(path) {
+    console.log("unix server");
+    const httpServer = http.createServer();
+    const wsServer = new WebSocket.Server({ server: httpServer });
 
-/**
- * Create a web socket server at a Unix socket.
- */
-function createWebSocketServerUnix(path) {
-  console.log("unix server");
-  const httpServer = http.createServer();
-  const wsServer = new WebSocket.Server({ server: httpServer });
+    // The socket must be world readable and world writable.
+    httpServer.listen(path, () => {
+      fs.chmod(path, 0o777, (err) => { if (err) throw err; });
+    });
 
-  // The socket must be world readable and world writable.
-  httpServer.listen(path, () => {
-    fs.chmod(path, 0o777, (err) => { if (err) throw err; });
-  });
+    // Remove the socket before exiting.
+    process.on('SIGINT', () => {
+      fs.unlink(path, (err) => { if (err) throw err; });
+      process.exit();
+    });
 
-  // Remove the socket before exiting.
-  process.on('SIGINT', () => {
-    fs.unlink(path, (err) => { if (err) throw err; });
-    process.exit();
-  });
-
-  return wsServer;
-}
-
-/**
- * Create a simple web socket server at an internet domain socket.
- */
-function createWebSocketServerInet(addr, port) {
-  console.log("Inet server");
-  const httpServer = http.createServer();
-  const wsServer = new WebSocket.Server({ server: httpServer });
-  httpServer.listen(port, addr);
-  return wsServer;
-}
-
-
-
-
-function createWebSocketServerNormal(port) {
-  console.log(`normal server on port ${port}`);
-  return new WebSocket.Server({
-    port: port
-  });
-}
-
-
-
-/**
- * Create a simple web socket at the address specified in SOCKET_ADDR.
- */
-function createWebSocketServer(SOCKET_ADDR) {
-  console.log("creation of the socket server")
-  if (SOCKET_ADDR.hasOwnProperty('addr') && SOCKET_ADDR.hasOwnProperty('port')) {
-    return createWebSocketServerInet(SOCKET_ADDR.addr, SOCKET_ADDR.port);
+    return wsServer;
   }
-  else if (SOCKET_ADDR.hasOwnProperty('port')) {
-    return createWebSocketServerNormal(SOCKET_ADDR.port)
+
+  /**
+   * Create a simple web socket server at an internet domain socket.
+   */
+  static _createWebSocketServerInet(addr, port) {
+    console.log("Inet server");
+    const httpServer = http.createServer();
+    const wsServer = new WebSocket.Server({ server: httpServer });
+    httpServer.listen(port, addr);
+    return wsServer;
   }
-  else if (SOCKET_ADDR.hasOwnProperty('unix')) {
-    return createWebSocketServerUnix(SOCKET_ADDR.unix);
+
+
+
+
+  static _createWebSocketServerNormal(port) {
+    console.log(`normal server on port ${port}`);
+    return new WebSocket.Server({
+      port: port
+    });
   }
-  throw 'Invalid SOCKET_ADDR';
+
+
+
+  /**
+   * Create a simple web socket at the address specified in SOCKET_ADDR.
+   */
+  static createWebSocketServer(SOCKET_ADDR) {
+    console.log("creation of the socket server...");
+    if (SOCKET_ADDR.hasOwnProperty('addr') && SOCKET_ADDR.hasOwnProperty('port'))
+      return ServerCreation._createWebSocketServerInet(SOCKET_ADDR.addr, SOCKET_ADDR.port);
+    else if (SOCKET_ADDR.hasOwnProperty('port'))
+      return ServerCreation._createWebSocketServerNormal(SOCKET_ADDR.port)
+    else if (SOCKET_ADDR.hasOwnProperty('unix'))
+      return ServerCreation._createWebSocketServerUnix(SOCKET_ADDR.unix);
+
+    console.log("Invalid SOCKET_ADDR");
+    throw 'Invalid SOCKET_ADDR';
+  }
+
+
 }
 
-const server = createWebSocketServer(SOCKET_ADDR);
+const server = ServerCreation.createWebSocketServer(SOCKET_ADDR);
 
 
 
