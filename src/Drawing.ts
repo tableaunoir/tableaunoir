@@ -11,7 +11,8 @@ export class Drawing {
      * @description clear (erase) the inside of the polygon
      */
     static clearPolygon(points) {
-        const context = getCanvas().getContext("2d");
+        const canvas = getCanvas();
+        const context = canvas.getContext("2d");
         context.save();
         context.beginPath();
         context.moveTo(points[0].x, points[0].y);
@@ -19,7 +20,7 @@ export class Drawing {
             context.lineTo(point.x, point.y);
         }
         context.clip();
-        context.clearRect(0, 0, Layout.getWindowWidth(), Layout.getWindowHeight());
+        context.clearRect(0, 0, canvas.width, canvas.height);
         context.restore();
         context.globalCompositeOperation = "source-over";
 
