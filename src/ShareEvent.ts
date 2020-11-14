@@ -41,6 +41,8 @@ export class ShareEvent {
     }
 
     static magnetMove(idMagnet, x, y) {
+        x = parseInt(x);
+        y = parseInt(y);
         const el = document.getElementById(idMagnet);
         el.style.top = y + "px";
         el.style.left = x + "px";
