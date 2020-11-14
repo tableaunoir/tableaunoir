@@ -300,7 +300,7 @@ export class MagnetManager {
 
 
 
-	 * 
+	/**
 	 * @param element 
 	 * @description set the z-index of the element depending on the size of the element
 	 */

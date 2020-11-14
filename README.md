@@ -54,9 +54,25 @@ You can teach online by sharing the screen with Discord, Zoom, Teams, etc, or by
 ---
 
 
-### Build the Tableaunoir project
+### Commands for the Tableaunoir project
 
-Run `tsc` (the Typescript compiler) in the root folder.
+
+#### remove all node_modules and install back again
+
+`npm ci` 
+
+#### Build everything to dist
+
+`npm run build`
+
+#### See linter warning/errors
+`npm run lint`
+
+#### Starts a local node server
+
+`npm run serve`
+
+
 
 ## Offline version
 
