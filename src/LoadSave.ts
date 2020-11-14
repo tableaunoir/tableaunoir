@@ -1,7 +1,12 @@
+import { drawDot, getCanvas, drawLine, clearLine, palette } from './main';
+import { MagnetManager } from './magnetManager';
+import { BoardManager } from './boardManager';
+import { Menu } from './Menu'
+
 /**
  * this class contains the code for loading/saving a tableaunoir. Also for importing images as magnets.
  */
-class LoadSave {
+export class LoadSave {
 
     /**
      * @description initialize the button Save and the drag and drop of files
@@ -50,13 +55,13 @@ class LoadSave {
     }
 
     /**
-     * 
-     * @param {File} file 
+     *
+     * @param {File} file
      * @description load the file file
      */
     static loadFile(file) {
         if (file) {
-            let reader = new FileReader();
+            const reader = new FileReader();
             reader.onerror = function (evt) { }
 
             /** load a .tableaunoir file, that is, a file containing the blackboard + some magnets */
@@ -68,7 +73,7 @@ class LoadSave {
                 /** load an image and add it as a magnet */
                 reader.readAsDataURL(file);
                 reader.onload = function (evt) {
-                    let img = new Image();
+                    const img = new Image();
                     img.src = <string>evt.target.result;
                     MagnetManager.addMagnet(img);
                 }
@@ -81,17 +86,17 @@ class LoadSave {
 
 
     /**
-     * 
-     * @param file 
-     * @param callback 
+     *
+     * @param file
+     * @param callback
      * @descrption load the image in the file, once the file is loaded. Call the callback function.
      */
     static fetchImageFromFile(file, callback) {
-        let reader = new FileReader();
+        const reader = new FileReader();
         reader.onerror = function (evt) { }
         reader.readAsDataURL(file);
         reader.onload = function (evt) {
-            let img = new Image();
+            const img = new Image();
             img.src = <string>evt.target.result;
             img.onload = () => callback(img);
         }
@@ -99,8 +104,8 @@ class LoadSave {
 
 
     /**
-     * 
-     * @param {*} obj 
+     *
+     * @param {*} obj
      * @description load the JSON object:
      * obj.canvasDataURL is the content of the canvas
      * obj.magnets is the HTML code of the magnets
@@ -118,11 +123,12 @@ class LoadSave {
     static exportPng() {
         const node = document.getElementById("content");
         alert("to be implemented. Do screenshots.");
-        /*html2canvas(node).then(canvas => {
+        /*
+         * `npm install --save-deps html2canvas`
+         * import html2canvas from 'html2canvas';
+         * html2canvas(node).then(canvas => {
             LoadSave.downloadDataURL(document.getElementById("exportPngName").value + ".png", canvas.toDataURL());
         });*/
-
-
     }
 
 
@@ -130,16 +136,16 @@ class LoadSave {
      * @description save the blackboard and the magnets
      */
     static save() {
-        let magnets = document.getElementById("magnets").innerHTML;
-        let canvasDataURL = getCanvas().toDataURL();
-        let obj = { magnets: magnets, canvasDataURL: canvasDataURL };
+        const magnets = document.getElementById("magnets").innerHTML;
+        const canvasDataURL = getCanvas().toDataURL();
+        const obj = { magnets: magnets, canvasDataURL: canvasDataURL };
         LoadSave.download((<HTMLInputElement>document.getElementById("name")).value + ".tableaunoir", JSON.stringify(obj));
     }
 
     /**
-     * 
-     * @param {*} filename 
-     * @param {*} text 
+     *
+     * @param {*} filename
+     * @param {*} text
      * @description propose to download a file called filename that contains the text text
      */
     static download(filename, text) {
@@ -150,13 +156,13 @@ class LoadSave {
 
 
     /**
- * 
- * @param {*} filename 
- * @param {*} dataURL 
+ *
+ * @param {*} filename
+ * @param {*} dataURL
  * @description propose to download a file with the content
  */
     static downloadDataURL(filename, dataURL) {
-        let element = document.createElement('a');
+        const element = document.createElement('a');
         element.setAttribute('href', dataURL);
         element.setAttribute('download', filename);
 
@@ -169,4 +175,3 @@ class LoadSave {
     }
 
 }
-

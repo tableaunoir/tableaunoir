@@ -1,7 +1,13 @@
+import { Layout } from './Layout';
+import { BoardManager } from './boardManager';
+import { drawDot, getCanvas, drawLine, clearLine, palette } from './main';
+import { MagnetManager } from './magnetManager';
+import { Share } from './share';
+
 /**
  * This class represents a polyline drawn by a user
  */
-class Delineation {
+export class Delineation {
 
     points = [];
     lastpoints = [];
@@ -35,7 +41,7 @@ class Delineation {
         if (document.getElementById("magnetCreationPolygon"))
             return;
 
-        let polyline = document.createElementNS('http://www.w3.org/2000/svg', 'polyline');
+        const polyline = document.createElementNS('http://www.w3.org/2000/svg', 'polyline');
         polyline.id = "magnetCreationPolygon";
         document.getElementById("svg").appendChild(polyline);
 
@@ -79,7 +85,7 @@ class Delineation {
         if (this.points.length == 0)
             return false;
 
-        for (let point of this.points)
+        for (const point of this.points)
             if (Math.abs(point.x - this.points[0].x) > 2 && Math.abs(point.y - this.points[0].y) > 2) {
                 this.maybeJustAPoint = false;
                 return false;
@@ -89,23 +95,23 @@ class Delineation {
     }
 
     /**
-     * 
-     * @param {*} point 
-     * @param {*} polygon 
+     *
+     * @param {*} point
+     * @param {*} polygon
      * @returns true iff the point is inside the polygon
      */
     static inPolygon(point, polygon) {
         // ray-casting algorithm based on
         // https://wrf.ecse.rpi.edu/Research/Short_Notes/pnpoly.html/pnpoly.html
 
-        var x = point.x, y = point.y;
+        const x = point.x, y = point.y;
 
-        var inside = false;
-        for (var i = 0, j = polygon.length - 1; i < polygon.length; j = i++) {
-            var xi = polygon[i].x, yi = polygon[i].y;
-            var xj = polygon[j].x, yj = polygon[j].y;
+        let inside = false;
+        for (let i = 0, j = polygon.length - 1; i < polygon.length; j = i++) {
+            const xi = polygon[i].x, yi = polygon[i].y;
+            const xj = polygon[j].x, yj = polygon[j].y;
 
-            var intersect = ((yi > y) != (yj > y))
+            const intersect = ((yi > y) != (yj > y))
                 && (x < (xj - xi) * (y - yi) / (yj - yi) + xi);
             if (intersect) inside = !inside;
         }
@@ -159,7 +165,7 @@ class Delineation {
 
 
     isSuitable() {
-        for (let point of this.points) {
+        for (const point of this.points) {
             if (Math.abs(point.x - this.points[0].x) > 16 &&
                 Math.abs(point.x - this.points[0].x) > 16)
                 return true;
@@ -168,12 +174,11 @@ class Delineation {
     }
 
 
-
     _getRectangle() {
         const canvas = getCanvas();
-        let r = { x1: canvas.width, y1: canvas.height, x2: 0, y2: 0 };
+        const r = { x1: canvas.width, y1: canvas.height, x2: 0, y2: 0 };
 
-        for (let point of this.points) {
+        for (const point of this.points) {
             r.x1 = Math.min(r.x1, point.x);
             r.y1 = Math.min(r.y1, point.y);
             r.x2 = Math.max(r.x2, point.x);
@@ -187,7 +192,7 @@ class Delineation {
 
 
     _createMagnetFromImg = () => {
-        let img = new Image();
+        const img = new Image();
         const rectangle = this._getRectangle();
         console.log(rectangle)
         //BoardManager._toBlobOfRectangle(rectangle, (blob) => img.src = URL.createObjectURL(blob));
@@ -197,9 +202,5 @@ class Delineation {
         img.style.left = rectangle.x1 + "px";
         img.style.top = rectangle.y1 + "px";
     }
-
-
-
-
 
 }

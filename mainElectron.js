@@ -3,7 +3,7 @@
  * The command line "electron <nameofthisfile>" will launch this file
  */
 
-const { app, BrowserWindow } = require('electron')
+const { app, BrowserWindow } = require('electron');
 
 
 let win = null;
@@ -18,10 +18,5 @@ app.on('ready', () => {
         title: 'Tableaunoir',
         movable: false
     });
-
-
-    win.loadFile('index.html')
-
-
-
+    win.loadFile('index.html');
 });

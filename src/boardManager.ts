@@ -1,7 +1,12 @@
+import { getCanvas, getContainer } from "./main";
+import { Share } from "./share";
+import { Layout } from './Layout';
+import { CancelStack } from './cancelStack';
+
 /**
  * Manage the board
  */
-class BoardManager {
+export class BoardManager {
 
     /** name of the board. Default is 0 (this name is used for storing in localStorage) */
     static boardName = "0";
@@ -45,10 +50,10 @@ class BoardManager {
 
 
     static _createCanvasForRectangle(r) {
-        let C = document.createElement("canvas");
+        const C = document.createElement("canvas");
         C.width = r.x2 - r.x1;
         C.height = r.y2 - r.y1;
-        let ctx = C.getContext("2d");
+        const ctx = C.getContext("2d");
         ctx.drawImage(getCanvas(),
             r.x1, r.y1, r.x2 - r.x1, r.y2 - r.y1, //coordinates in the canvas
             0, 0, r.x2 - r.x1, r.y2 - r.y1); //coordinates in the magnet
@@ -57,7 +62,7 @@ class BoardManager {
 
 
     /**
-     * 
+     *
      * @param {*} r a rectangle {x1, y1, x2, y2}
      * @description call the callback when the blob of the rectangle is created
      */
@@ -68,7 +73,7 @@ class BoardManager {
 
 
     /**
-  * 
+  *
   * @param {*} r a rectangle {x1, y1, x2, y2}
   * @returns the content as a string of the image
   */
@@ -101,7 +106,7 @@ class BoardManager {
                   rectangle.blob = blob;
                   BoardManager.cancelStack.push(rectangle);
               });
-    
+
               document.getElementById("canvas").toBlob((blob) => {
                   console.log("save that blob: " + blob)
                   localStorage.setItem(BoardManager.boardName, blob);
@@ -138,7 +143,7 @@ class BoardManager {
         if (data != undefined) {
             BoardManager._clear();
             try {
-                let image = new Image();
+                const image = new Image();
                 image.src = data;
                 image.onload = function () {
                     const canvas = getCanvas();
@@ -172,7 +177,7 @@ class BoardManager {
 
         if (data != undefined) {
             BoardManager._clear();
-            let image = new Image();
+            const image = new Image();
             image.src = data;
             image.onload = function () {
                 const canvas = getCanvas();
@@ -226,7 +231,7 @@ class BoardManager {
         }
 
         if ((container.scrollLeft >= canvas.width - Layout.getWindowWidth() - BoardManager.scrollQuantity()) && BoardManager._rightExtendCanvasEnable) {
-            let image = new Image();
+            const image = new Image();
             image.src = canvas.toDataURL();
             console.log("extension: canvas width " + canvas.width + " to " + (container.scrollLeft + Layout.getWindowWidth()))
             canvas.width = ((canvas.width / BoardManager.scrollQuantity()) + 1) * BoardManager.scrollQuantity();
@@ -262,11 +267,11 @@ class BoardManager {
     }
 
     /**
-     * 
-     * @param {*} level 
+     *
+     * @param {*} level
      */
     static _loadCurrentCancellationStackData(data) {
-        let image = new Image();
+        const image = new Image();
         const canvas = getCanvas();
 
         const context = canvas.getContext("2d");
@@ -294,7 +299,7 @@ class BoardManager {
     }
 
     /**
-     * 
+     *
      */
     static cancel() {
         if (BoardManager.isCancelRedoActivated())
@@ -304,7 +309,7 @@ class BoardManager {
 
 
     /**
-     * 
+     *
      */
     static redo() {
         if (BoardManager.isCancelRedoActivated())

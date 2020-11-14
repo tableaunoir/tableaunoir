@@ -1,7 +1,9 @@
+import { ChalkCursor } from './ChalkCursor';
+
 /**
  * the circular palette
  */
-class Palette {
+export class Palette {
     /** colors that can have a chalk. The first color *must* be white */
     colors = ["white", "yellow", "orange", "rgb(100, 172, 255)", "Crimson", "Plum", "LimeGreen"];
 
@@ -9,16 +11,16 @@ class Palette {
     buttons = [];
     currentColorID = 0;
     onchange = () => { };
-   
+
 
     static radius = 96;
 
     /**
-     * @descrition create (the DOM elements of) the palette 
+     * @descrition create (the DOM elements of) the palette
      */
     _createPalette() {
         const div = document.getElementById("palette");
-        for (let i in this.colors) {
+        for (const i in this.colors) {
             this.buttons[i] = this._createColorButton(i);
             div.appendChild(this.buttons[i]);
         }
@@ -33,7 +35,7 @@ class Palette {
     }
 
     /**
-     * 
+     *
      * @param {*} i  an index between 0 and this.colors.length - 1
      * @description create the button for the color of index i
      */
@@ -42,7 +44,7 @@ class Palette {
         img.src = ChalkCursor.getCursorURL(this.colors[i]);
         img.classList.add("paletteColorButton");
 
-        let angle = -Math.PI / 2 + 2 * Math.PI * i / this.colors.length;
+        const angle = -Math.PI / 2 + 2 * Math.PI * i / this.colors.length;
 
         img.style.top = (Palette.radius * Math.sin(angle) - 22) + "px";
         img.style.left = (Palette.radius * Math.cos(angle) - 16) + "px";

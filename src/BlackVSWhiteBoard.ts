@@ -1,7 +1,10 @@
+import { drawDot, getCanvas, drawLine, clearLine, palette } from './main';
+import { jCSSRule } from "../lib/jcssrule.js"
+
 /**
  * This class implements the switch between whiteboard and blackboard
  */
-class BlackVSWhiteBoard {
+export class BlackVSWhiteBoard {
 
     static init() {
         document.getElementById("canvasBackground").style.backgroundColor = "black";
@@ -66,9 +69,6 @@ class BlackVSWhiteBoard {
 
 }
 
-
-
-
-function modifyCSSRule(selector, property, value) { //a bit ugly but I do not know how to call external libs in TypeScript
-    eval(`jCSSRule("${selector}", "${property}", "${value}")`);
+function modifyCSSRule(selector, property, value) {
+    jCSSRule(selector, property, value);
 }

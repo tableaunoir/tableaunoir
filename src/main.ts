@@ -1,11 +1,31 @@
-
+import { Palette } from "./Palette";
+import { Share } from "./share";
+import { loadMagnets } from "./myMagnets";
+import { MagnetManager } from './magnetManager';
+import { BoardManager } from './boardManager';
+import { UserManager } from './UserManager';
+import { LoadSave } from './LoadSave';
+import { Layout } from './Layout';
+import { Toolbar } from './Toolbar';
+import { Discussion } from './Discussion';
+import { Delineation } from './Delineation';
+import { ChalkCursor } from './ChalkCursor';
+import { BlackVSWhiteBoard } from './BlackVSWhiteBoard';
+import { Background } from './Background';
+import { ErrorMessage } from './ErrorMessage';
+import { Translation } from './Translation';
+import { Menu } from './Menu';
+import { TouchScreen } from './TouchScreen';
+import { ShareEvent } from './ShareEvent';
+import { Drawing } from './Drawing'
 
 window.onload = load;
+window['Menu'] = Menu;
+window['ShareEvent'] = ShareEvent;
 
+export const palette = new Palette();
 
-let palette = new Palette();
 let loaded = false;
-
 
 /**
  * this function sets the document.body scrolls to 0
@@ -46,19 +66,19 @@ function load() {
 
 
 
-		let changeColor = () => {
+		const changeColor = () => {
 			if (MagnetManager.getMagnetUnderCursor() == undefined) { //if no magnet under the cursor, change the color of the chalk
 				//if (!isDrawing)
 				palette.show({ x: UserManager.me.x, y: UserManager.me.y });
 				palette.next();
 			}
 			else { // if there is a magnet change the background of the magnet
-				let magnet = MagnetManager.getMagnetUnderCursor();
+				const magnet = MagnetManager.getMagnetUnderCursor();
 				magnet.style.backgroundColor = nextBackgroundColor(magnet.style.backgroundColor);
 			}
 		}
 
-		let previousColor = () => {
+		const previousColor = () => {
 			if (MagnetManager.getMagnetUnderCursor() == undefined) { //if no magnet under the cursor, change the color of the chalk
 				UserManager.me.eraseMode = false;
 
@@ -67,12 +87,12 @@ function load() {
 				palette.previous();
 			}
 			else { // if there is a magnet change the background of the magnet
-				let magnet = MagnetManager.getMagnetUnderCursor();
+				const magnet = MagnetManager.getMagnetUnderCursor();
 				magnet.style.backgroundColor = previousBackgroundColor(magnet.style.backgroundColor);
 			}
 		}
 
-		let switchChalkEraser = () => {
+		const switchChalkEraser = () => {
 			if (UserManager.me.eraseMode)
 				Share.execute("switchChalk", [UserManager.me.userID]);
 			else
@@ -100,7 +120,7 @@ function load() {
 
 
 
-		let buttons = document.getElementById("controls").children;
+		const buttons = document.getElementById("controls").children;
 
 		for (let i = 0; i < buttons.length; i++)
 			if (buttons[i] instanceof HTMLButtonElement)
@@ -155,7 +175,7 @@ function load() {
 				BoardManager.redo();
 				evt.preventDefault();
 			}
-			else if (evt.ctrlKey && evt.key == "z") {// ctrl + z = undo 
+			else if (evt.ctrlKey && evt.key == "z") {// ctrl + z = undo
 				BoardManager.cancel();
 				evt.preventDefault();
 			}
@@ -164,7 +184,7 @@ function load() {
 				switchChalkEraser();
 			else if (evt.key == "h")
 				Toolbar.toggle();
-			else if (evt.ctrlKey && evt.key == 'x') {//Ctrl + x 
+			else if (evt.ctrlKey && evt.key == 'x') {//Ctrl + x
 				palette.hide();
 				if (UserManager.me.lastDelineation.containsPolygonToMagnetize())
 					UserManager.me.lastDelineation.cutAndMagnetize();
@@ -246,25 +266,73 @@ function load() {
 
 
 
-function getCanvas(): HTMLCanvasElement {
+export function getCanvas(): HTMLCanvasElement {
 	return <HTMLCanvasElement>document.getElementById("canvas");
 }
 
 
-function getCanvasBackground(): HTMLCanvasElement {
+export function getCanvasBackground(): HTMLCanvasElement {
 	return <HTMLCanvasElement>document.getElementById("canvasBackground");
 }
 
 
 
-function getContainer() {
+export function getContainer() {
 	return document.getElementById("container");
+}
+
+export function drawLine(context, x1, y1, x2, y2, pressure = 1.0, color = UserManager.me.getCurrentColor()) {
+	//console.log(pressure)
+	context.beginPath();
+	context.strokeStyle = color;
+	context.globalCompositeOperation = "source-over";
+	context.globalAlpha = 0.9 + 0.1 * pressure;
+	context.lineWidth = 1.5 + 3 * pressure;
+	context.moveTo(x1, y1);
+	context.lineTo(x2, y2);
+	/*context.moveTo(Math.round(x1), Math.round(y1));
+	context.lineTo(Math.round(x2), Math.round(y2));*/
+	context.stroke();
+	context.closePath();
+}
+
+
+export function drawDot(x, y, color) {
+	const context = getCanvas().getContext("2d");
+	context.beginPath();
+	context.fillStyle = color;
+	context.lineWidth = 2.5;
+	context.arc(x, y, 2, 0, 2 * Math.PI);
+	context.fill();
+	context.closePath();
+}
+
+
+export function clearLine(x1, y1, x2, y2, lineWidth = 10) {
+	const context = getCanvas().getContext("2d");
+	context.beginPath();
+	//context.strokeStyle = BACKGROUND_COLOR;
+	context.globalCompositeOperation = "destination-out";
+	context.strokeStyle = "rgba(255,255,255,1)";
+
+	context.lineWidth = lineWidth;
+	context.moveTo(x1, y1);
+	context.lineTo(x2, y2);
+	context.lineCap = "round";
+	context.stroke();
+	context.closePath();
 }
 
 
 
+function divideScreen() {
+	console.log("divide the screen")
+	const x = Layout.getXMiddle();
+	drawLine(getCanvas().getContext("2d"), x, 0, x, Layout.getWindowHeight(), 1, BoardManager.getDefaultChalkColor());
+	BoardManager.saveCurrentScreen();
+}
 
-let magnetColors = ['', 'rgb(255, 128, 0)', 'rgb(0, 128, 0)', 'rgb(192, 0, 0)', 'rgb(0, 0, 255)'];
+const magnetColors = ['', 'rgb(255, 128, 0)', 'rgb(0, 128, 0)', 'rgb(192, 0, 0)', 'rgb(0, 0, 255)'];
 
 function nextBackgroundColor(color) {
 	for (let i = 0; i < magnetColors.length; i++) {

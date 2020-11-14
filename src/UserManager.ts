@@ -1,8 +1,8 @@
+import { User } from "./User";
 
+export class UserManager {
 
-class UserManager {
-
-    static me: User = undefined; // the current user 
+    static me: User = undefined; // the current user
     static users = {};
 
     static readonly usersImageFileNames = ['1F9D1-200D-1F384.svg', '1F9D9.svg', '1F9DA-200D-2640-FE0F.svg', '1F9DD.svg'];
@@ -24,7 +24,7 @@ class UserManager {
      */
     static isSmallestUserID() {
         let minkey = "zzzzzzzzzzzzzzzz";
-        for (let key in UserManager.users) {
+        for (const key in UserManager.users) {
             if (key < minkey)
                 minkey = key;
         }
@@ -32,8 +32,8 @@ class UserManager {
     }
 
     /**
-     * 
-     * @param {*} userid 
+     *
+     * @param {*} userid
      * @description userid leaves
      */
     static leave(userid) {
@@ -43,8 +43,8 @@ class UserManager {
     }
 
     /**
-     * 
-     * @param {*} userid 
+     *
+     * @param {*} userid
      * @description add a new user of ID userid
      */
     static add(userid) {
@@ -53,12 +53,12 @@ class UserManager {
     }
 
     /**
-     * 
-     * @param {*} userid 
+     *
+     * @param {*} userid
      * @description renaUserManager.me the current user (UserManager.me) as userid
      */
     static setMyUserID(userid) {
-        for (let key in UserManager.users) {
+        for (const key in UserManager.users) {
             if (UserManager.users[key] == UserManager.me)
                 delete UserManager.users[key];
         }
@@ -83,7 +83,7 @@ class UserManager {
 
     static userIdToDom(userID) {
 
-        let userDOM = UserManager.getUserImage(userID);
+        const userDOM = UserManager.getUserImage(userID);
         userDOM.classList.add("user");
         userDOM.title = "user " + userID;
         return userDOM;
@@ -96,7 +96,7 @@ class UserManager {
      */
     static getNumberOfUsers() {
         let i = 0;
-        for (var key in UserManager.users) {
+        for (const key in UserManager.users) {
             i++;
         }
         return i;

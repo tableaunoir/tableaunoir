@@ -1,8 +1,11 @@
+import { Share } from "./share";
+import { UserManager } from './UserManager';
+
 /**
  * Discussion (students that can ask questions, make comments)
  * The message appears at the bottom of the page
  */
-class Discussion {
+export class Discussion {
 
     /**
      * generate an ID for a message
@@ -39,8 +42,8 @@ class Discussion {
 
 
     /**
-     * 
-     * @param questionID 
+     *
+     * @param questionID
      * @descrption removes the question of ID questionID
      */
     static removeQuestion(questionID: string) {
@@ -51,10 +54,10 @@ class Discussion {
 
 
     /**
-     * 
-     * @param userID 
-     * @param idquestion 
-     * @param question 
+     *
+     * @param userID
+     * @param idquestion
+     * @param question
      * @description add a question in the pipe.
      */
     static addQuestion(userID: string, idquestion: string, question: string) {

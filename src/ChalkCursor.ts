@@ -1,4 +1,7 @@
-class ChalkCursor {
+import { UserManager } from './UserManager';
+import { Menu } from './Menu';
+
+export class ChalkCursor {
 
     /** undefined for right-handed, "true" for left-handed */
     static leftHanded = localStorage.getItem("leftHanded");
@@ -8,7 +11,7 @@ class ChalkCursor {
      * @description adds clicks on buttons in the menu for left- and right-handed options
      */
     static init() {
-        let change = (param) => {
+        const change = (param) => {
             ChalkCursor.leftHanded = param;
             if (!param)
                 localStorage.removeItem("leftHanded");
@@ -23,8 +26,8 @@ class ChalkCursor {
     }
 
     /**
-     * 
-     * @param {*} color 
+     *
+     * @param {*} color
      * @returns the .style.cursor of the canvas if you want to have a cursor that looks like a chalk with the color color.
      * The cursor is an objet {data: dataofimage, x: position where to click, y: position where to click}
      */
@@ -34,8 +37,8 @@ class ChalkCursor {
 
 
     /**
-     * 
-     * @param {*} color 
+     *
+     * @param {*} color
      * @returns the image information of the chalk of a specific color
      */
     static getCursorURL(color) {

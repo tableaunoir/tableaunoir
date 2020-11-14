@@ -1,8 +1,13 @@
-class Drawing {
+import { BoardManager } from './boardManager';
+import { UserManager } from './UserManager';
+import { getCanvas } from './main';
+import { Layout } from './Layout';
+
+export class Drawing {
 
     /**
-     * 
-     * @param points 
+     *
+     * @param points
      * @description clear (erase) the inside of the polygon
      */
     static clearPolygon(points) {
@@ -57,8 +62,8 @@ class Drawing {
         context.stroke();
         context.closePath();
     }
-    
-    
+
+
     static drawDot(x, y, color) {
         const context = getCanvas().getContext("2d");
         context.beginPath();
@@ -68,15 +73,15 @@ class Drawing {
         context.fill();
         context.closePath();
     }
-    
-    
+
+
     static clearLine(x1, y1, x2, y2, lineWidth = 10) {
         const context = getCanvas().getContext("2d");
         context.beginPath();
         //context.strokeStyle = BACKGROUND_COLOR;
         context.globalCompositeOperation = "destination-out";
         context.strokeStyle = "rgba(255,255,255,1)";
-    
+
         context.lineWidth = lineWidth;
         context.moveTo(x1, y1);
         context.lineTo(x2, y2);
@@ -84,14 +89,14 @@ class Drawing {
         context.stroke();
         context.closePath();
     }
-    
-    
-    
+
+
+
     static divideScreen() {
         console.log("divide the screen")
         let x = Layout.getXMiddle();
         Drawing.drawLine(getCanvas().getContext("2d"), x, 0, x, Layout.getWindowHeight(), 1, BoardManager.getDefaultChalkColor());
         BoardManager.saveCurrentScreen();
     }
-    
+
 }

@@ -1,8 +1,15 @@
-/** 
- * this class contains the events that are shared with other users connected to the same tableaunoir 
+import { MagnetManager } from './magnetManager';
+import { BoardManager } from './boardManager';
+import { UserManager } from './UserManager';
+import { Discussion } from './Discussion';
+import { Menu } from './Menu';
+import { Drawing } from './Drawing';
+
+/**
+ * this class contains the events that are shared with other users connected to the same tableaunoir
  * */
 
-class ShareEvent {
+export class ShareEvent {
     static mousedown(userId, evt) {
         UserManager.users[userId].mousedown(evt);
     }
@@ -50,7 +57,7 @@ class ShareEvent {
         MagnetManager.magnetRemove(idMagnet);
     }
 
-    static magnetChange(idMagnet, outerHTML) {
+    static magnetChange(idMagnet, outerHTML) {
         document.getElementById(idMagnet).outerHTML = outerHTML;
     }
 
@@ -68,7 +75,6 @@ class ShareEvent {
     static questionRemove(questionID) {
         Discussion.removeQuestion(questionID);
     }
-
 
     static removeContour(points) {
         Drawing.removeContour(points);

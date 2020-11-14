@@ -5,34 +5,10 @@
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
 	<link rel="stylesheet" type="text/css" href="style.css" />
-	<script src="lib/html2canvas.min.js"></script>
 	<script src="lib/jcssrule.js"></script>
 	<script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
 	<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
-	<script src="js/Drawing.js"></script>
-	<script src="js/Delineation.js"></script>
-	<script src="js/Palette.js"></script>
-	<script src="js/UserManager.js"></script>
-	<script src="js/User.js"></script>
-	<script src="js/magnetManager.js"></script>
-	<script src="js/myMagnets.js"></script>
-	<script src="js/cancelStack.js"></script>
-	<script src="js/boardManager.js"></script>
-	<script src="js/ChalkCursor.js"></script>
-	<script src="js/EraserCursor.js"></script>
-	<script src="js/LoadSave.js"></script>
-	<script src="js/Menu.js"></script>
-	<script src="js/BlackVSWhiteBoard.js"></script>
-	<script src="js/TouchScreen.js"></script>
-	<script src="js/share.js"></script>
-	<script src="js/ShareEvent.js"></script>
-	<script src="js/ErrorMessage.js"></script>
-	<script src="js/Toolbar.js"></script>
-	<script src="js/Layout.js"></script>
-	<script src="js/Discussion.js"></script>
-	<script src="js/Background.js"></script>
-	<script src="js/Translation.js"></script>
-	<script src="js/main.js"></script>
+	<script src="tableaunoir.js"></script>
 </head>
 
 <body>
@@ -91,7 +67,6 @@
 	<div class="pageNumberHidden" id="pageNumber">1</div>
 
 
-
 	<div id="menu" class="menuHide MenuPanel">
 		<div class="tabs">
 			<button class="tablink" id="defaultOpen" onclick="Menu.openPage('MyBlackboard', this)">⎕ My Board</button>
@@ -122,9 +97,8 @@
 				<div class="explanation">
 					<img src="img/welcome_magnets.png" />
 					<span>You may create <em>magnets</em> (think of them as fridge magnets) for making
-						<em>interactive
-							courses</em>,
-						presentations and discussions with students.</em></span></div>
+						<em>interactive courses</em>,
+						presentations and discussions with students.</span></div>
 
 				<div class="explanation">
 					<img src="img/shareInEverybodyWritesMode.png" />
@@ -175,7 +149,7 @@
 				<div>
 					You may save your board in a <em>.tableaunoir file</em> for using it later:</div>
 				<div class="menuDiv">
-					Name: <input id="name" value="myblackboard"></input><button id="save">Save</button>
+					Name: <input id="name" value="myblackboard" /><button id="save">Save</button>
 				</div>
 
 				<div hidden>
@@ -188,7 +162,7 @@
 						image.
 					</div>
 					<div class="menuDiv">
-						Name: <input id="exportPngName" value="myblackboard"></input><button id="exportPng">Get an image
+						Name: <input id="exportPngName" value="myblackboard" /><button id="exportPng">Get an image
 							of
 							my board</button>
 					</div>
@@ -210,7 +184,7 @@
 				<h2>Your own background</h2>
 				<div>You can also import your own background:</div>
 
-				<input type="file" accept="image/png, image/jpeg image/svg" id="inputBackground"></input>
+				<input type="file" accept="image/png, image/jpeg image/svg" id="inputBackground"/>
 			</div>
 
 
@@ -339,13 +313,13 @@
 					Password (optional): <input type="password" id="password"></input>
 					<button id="shareButton">Make a shared board</button>
 
-					</br />
+					<br />
 					<div id="join">
 						<h2>Join an existing board</h2>
 						<img class="illustration" height="128px" src="img/illustrations/join.png" />
 						<div>
 							In order to <em>join</em> an existing shared board, type its URL:</div>
-						<input id="joinUrl" value=""></input>
+						<input id="joinUrl" value="" />
 						<button id="joinButton">Join</button>
 					</div>
 				</div>
@@ -354,7 +328,7 @@
 					<h2>Share with others</h2>
 					<div>
 						In order to <em>share</em> the board with your friends, give them the following URL:</div>
-					<input id="shareUrl" value=""></input><button id="buttonCopyShareUrl">Copy</button><span
+					<input id="shareUrl" value="" /><button id="buttonCopyShareUrl">Copy</button><span
 						id="shareUrlCopied" hidden="true">Copied!</span>
 					<span id='sharecopytext' style='display: none;'>copy link</span>
 
@@ -364,7 +338,7 @@
 
 						<div>Actually, you do not have any privileges, and this board is <em>protected</em>. To obtain
 							them, type the correct <em>password</em>.</div>
-						<input id="passwordCandidate" type="password"></input><button id="buttonAskPrivilege">Ask
+						<input id="passwordCandidate" type="password" /><button id="buttonAskPrivilege">Ask
 							Privilege</button>
 					</div>
 
@@ -449,3 +423,5 @@
 	</div>
 	<div id="error" hidden></div>
 </body>
+
+</html>

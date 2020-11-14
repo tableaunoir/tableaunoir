@@ -1,4 +1,11 @@
-class Background {
+import { BoardManager } from './boardManager';
+import { getCanvasBackground } from './main';
+import { Layout } from './Layout';
+import { LoadSave } from './LoadSave';
+import { Menu } from './Menu';
+import { Drawing } from './Drawing'
+
+export class Background {
     static init() {
         document.getElementById("buttonNoBackground").onclick = () => { Background.clear(); Menu.hide(); };
         document.getElementById("buttonMusicScore").onclick = () => { Background.musicScore(); Menu.hide(); };
@@ -26,20 +33,20 @@ class Background {
 
     static musicScore() {
         Background.clear();
-        let COLORSTAFF = "rgb(128, 128, 255)";
-        let fullHeight = Layout.getWindowHeight() - 32;
+        const COLORSTAFF = "rgb(128, 128, 255)";
+        const fullHeight = Layout.getWindowHeight() - 32;
         const container = document.getElementById("container");
         const canvasBackground = getCanvasBackground();
 
-        let x = 0;
-        let x2 = 2 * Layout.getWindowWidth();
-        let ymiddleScreen = fullHeight / 2;
-        let yshift = fullHeight / 7;
-        let drawStaff = (ymiddle) => {
-            let space = fullHeight / 30;
+        const x = 0;
+        const x2 = 2*Layout.getWindowWidth();
+        const ymiddleScreen = fullHeight / 2;
+        const yshift = fullHeight / 7;
+        const drawStaff = (ymiddle) => {
+            const space = fullHeight / 30;
 
             for (let i = -2; i <= 2; i++) {
-                let y = ymiddle + i * space;
+                const y = ymiddle + i * space;
                 Drawing.drawLine(canvasBackground.getContext("2d"), x, y, x2, y, 1.0, COLORSTAFF);
             }
         }

@@ -1,8 +1,9 @@
+import { ErrorMessage } from './ErrorMessage';
 
 /**
  * This class enables to translate Tableaunoir in other languages (french for instance)
  */
-class Translation {
+export class Translation {
 
     /**
      * initialization
@@ -21,7 +22,7 @@ class Translation {
      * @returns the language written in the URL (for instance "fr"), or null if none is provided
      */
     static getLanguage() {
-        let params = (new URL(<any>document.location)).searchParams;
+        const params = (new URL(<any>document.location)).searchParams;
         return params.get('lang');
     }
 
@@ -41,9 +42,9 @@ class Translation {
     }
 
     /**
-     * 
+     *
      * @param element HTML element
-     * @param dict 
+     * @param dict
      * @description translate the HTML element
      */
     static translateElement(element: Element, dict) {
@@ -59,7 +60,7 @@ class Translation {
             if (dict[element.innerHTML])
                 element.innerHTML = dict[element.innerHTML];
         } else {
-            for (let i in element.children)
+            for (const i in element.children)
                 Translation.translateElement(element.children[i], dict);
 
         }
@@ -68,12 +69,12 @@ class Translation {
 
 
     /**
-     * 
-     * @param dict 
+     *
+     * @param dict
      * @description translates the element by the IDs
      */
     static translateFromIDs(dict) {
-        for (let key in dict) {
+        for (const key in dict) {
             if (key.startsWith('#')) {
                 const element = document.getElementById(key.substr(1));
 
