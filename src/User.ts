@@ -10,6 +10,10 @@ import { ChalkCursor } from './ChalkCursor';
 
 const ERASEMODEDEFAULTSIZE = 10;
 
+
+/**
+ * Represents a user (maybe you?)
+ */
 export class User {
     xInit = 0;
     yInit = 0;

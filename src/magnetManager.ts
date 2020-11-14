@@ -426,8 +426,11 @@ export class MagnetManager {
 			drag = false;
 			console.log("close drag")
 
-			if (e.target.classList != undefined) //it is undefined = dropped outside the screen. TODO: delete the magnets?
-				e.target.classList.remove("magnetDrag");
+			let magnets = MagnetManager.getMagnets();
+
+			for(let i in magnets) {
+				magnets[i].classList.remove("magnetDrag");
+			}
 
 			getCanvas().style.cursor = canvasCursorStore;
 
