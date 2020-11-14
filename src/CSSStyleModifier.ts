@@ -1,6 +1,9 @@
 /**
  * by François Schwarzentruber
  * inspired from a code called jcssrule.js from Jean-Marc VIGLINO.
+ * 
+ * The class CSSStyleModifier enables to add new CSS rules on the fly.
+ * In Tableaunoir, it is used for modifying the colors of many objects when switching from black/whiteboard. 
  */
 
 
@@ -9,7 +12,9 @@ export class CSSStyleModifier {
     static stylesheet;
     static rules = [];
 
-
+    /**
+     * @description add a new style part in the html
+     */
     static init() {
         CSSStyleModifier.stylesheet = document.createElement('style');
         CSSStyleModifier.stylesheet.setAttribute('type', 'text/css');
@@ -18,6 +23,9 @@ export class CSSStyleModifier {
     }
 
 
+    /**
+     * update the html with the new rules
+     */
     static update() {
         let css = '\n';
         CSSStyleModifier.rules.forEach(function (r) {
@@ -28,6 +36,10 @@ export class CSSStyleModifier {
     }
 
     /**
+     * @param selector
+     * @param property
+     * @param value
+     * @desription add a new rule for elements matching the selector. The property is assigned to the value.
      * @example 
      * setRule("body", "background","red");  // Change background color of the body
      */
