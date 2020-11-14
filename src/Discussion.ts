@@ -10,14 +10,14 @@ export class Discussion {
     /**
      * generate an ID for a message
      */
-    static generateID() {
+    static generateID(): string {
         return "d" + Math.random();
     }
 
     /**
      * initialization
      */
-    static init() {
+    static init(): void {
         document.getElementById("questions").hidden = true;
     }
 
@@ -26,7 +26,7 @@ export class Discussion {
     /**
      * @description show a dialog box where the user can ask a question
      */
-    static askQuestion() {
+    static askQuestion(): void {
         let question = prompt("Type your question/comment:");
 
         if (question == null) //if cancel
@@ -46,7 +46,7 @@ export class Discussion {
      * @param questionID
      * @descrption removes the question of ID questionID
      */
-    static removeQuestion(questionID: string) {
+    static removeQuestion(questionID: string): void {
         document.getElementById(questionID).remove();
         if (document.getElementById("questions").children.length == 0)
             document.getElementById("questions").hidden = true;
@@ -60,7 +60,7 @@ export class Discussion {
      * @param question
      * @description add a question in the pipe.
      */
-    static addQuestion(userID: string, idquestion: string, question: string) {
+    static addQuestion(userID: string, idquestion: string, question: string): void {
         const questionElement = document.createElement("div");
         questionElement.classList.add("question");
         questionElement.id = idquestion;

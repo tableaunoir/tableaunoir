@@ -6,11 +6,11 @@ import { Menu } from './Menu';
 import { Drawing } from './Drawing'
 
 export class Background {
-    static init() {
+    static init(): void {
         document.getElementById("buttonNoBackground").onclick = () => { Background.clear(); Menu.hide(); };
         document.getElementById("buttonMusicScore").onclick = () => { Background.musicScore(); Menu.hide(); };
 
-        document.getElementById("inputBackground").onchange = function (evt) {
+        document.getElementById("inputBackground").onchange = function () {
             LoadSave.fetchImageFromFile((<any>this).files[0],
                 (img) => {
                     Background.clear();
@@ -35,7 +35,6 @@ export class Background {
         Background.clear();
         const COLORSTAFF = "rgb(128, 128, 255)";
         const fullHeight = Layout.getWindowHeight() - 32;
-        const container = document.getElementById("container");
         const canvasBackground = getCanvasBackground();
 
         const x = 0;

@@ -11,7 +11,7 @@ export class UserManager {
     /**
      * initialisation: creation of myself :)
      */
-    static init() {
+    static init(): void {
         UserManager.me = new User(true);
         UserManager.users['root'] = UserManager.me;
         UserManager.me.setUserID('root');
@@ -22,7 +22,7 @@ export class UserManager {
     /**
      * @returns true if the userID of the current user is the minimum of all participants
      */
-    static isSmallestUserID() {
+    static isSmallestUserID(): boolean {
         let minkey = "zzzzzzzzzzzzzzzz";
         for (const key in UserManager.users) {
             if (key < minkey)
@@ -36,7 +36,7 @@ export class UserManager {
      * @param {*} userid
      * @description userid leaves
      */
-    static leave(userid) {
+    static leave(userid: string): void {
         UserManager.users[userid].destroy();
         delete UserManager.users[userid];
         UserManager.updateGUIUsers();
@@ -47,7 +47,7 @@ export class UserManager {
      * @param {*} userid
      * @description add a new user of ID userid
      */
-    static add(userid) {
+    static add(userid: string): void {
         UserManager.users[userid] = new User(false);
         UserManager.updateGUIUsers();
     }
@@ -57,7 +57,7 @@ export class UserManager {
      * @param {*} userid
      * @description renaUserManager.me the current user (UserManager.me) as userid
      */
-    static setMyUserID(userid) {
+    static setMyUserID(userid: string): void {
         for (const key in UserManager.users) {
             if (UserManager.users[key] == UserManager.me)
                 delete UserManager.users[key];
@@ -81,7 +81,7 @@ export class UserManager {
 
 
 
-    static userIdToDom(userID) {
+    static userIdToDom(userID: string): HTMLImageElement {
 
         const userDOM = UserManager.getUserImage(userID);
         userDOM.classList.add("user");
@@ -94,7 +94,7 @@ export class UserManager {
     /**
      * @returns the number of connected users to the current baord
      */
-    static getNumberOfUsers() {
+    static getNumberOfUsers(): number {
         let i = 0;
         for (const key in UserManager.users) {
             i++;
@@ -105,7 +105,7 @@ export class UserManager {
     /**
      * @description update the GUI
      */
-    static updateGUIUsers() {
+    static updateGUIUsers(): void {
         document.getElementById("users").innerHTML = "";
 
         /**let i = 0;

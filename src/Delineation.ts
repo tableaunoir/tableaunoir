@@ -14,29 +14,29 @@ export class Delineation {
     maybeJustAPoint = true; //memoisation for getDot
 
 
-    reset() {
+    reset(): void {
         this.drawing = true;
         this.lastpoints = this.points;
         this.points = [];
         this.maybeJustAPoint = true;
     }
 
-    finish() {
+    finish(): void {
         this.drawing = false;
         this.removePolygon();
     }
     /**
      * @returns true if the set of current points is non-empty
      */
-    isDrawing() {
+    isDrawing(): boolean {
         return this.points.length > 0;
     }
 
-    containsPolygonToMagnetize() {
+    containsPolygonToMagnetize(): boolean {
         return this.points.length > 0;
     }
 
-    drawPolygon(points) {
+    drawPolygon(points): void {
         if (document.getElementById("magnetCreationPolygon"))
             return;
 
@@ -48,13 +48,13 @@ export class Delineation {
         polyline.setAttribute("points", points.map((p) => p.x + ", " + p.y).join(" "));
     }
 
-    removePolygon() {
+    removePolygon(): void {
         if (document.getElementById("magnetCreationPolygon"))
             document.getElementById("svg").removeChild(document.getElementById("magnetCreationPolygon"));
     }
 
 
-    addPoint(point) {
+    addPoint(point): void {
         this.points.push(point);
 
         if (this.isDot() && this.dotInPreviousPolygon()) {
@@ -78,7 +78,7 @@ export class Delineation {
     /**
      * @returns true if the current drawing is just a point
      */
-    isDot() {
+    isDot(): boolean {
         if (!this.maybeJustAPoint)
             return false;
         if (this.points.length == 0)
@@ -99,7 +99,7 @@ export class Delineation {
      * @param {*} polygon
      * @returns true iff the point is inside the polygon
      */
-    static inPolygon(point, polygon) {
+    static inPolygon(point, polygon): boolean {
         // ray-casting algorithm based on
         // https://wrf.ecse.rpi.edu/Research/Short_Notes/pnpoly.html/pnpoly.html
 
@@ -118,11 +118,11 @@ export class Delineation {
         return inside;
     }
 
-    dotInPreviousPolygon() {
+    dotInPreviousPolygon(): boolean {
         return Delineation.inPolygon(this.points[0], this.lastpoints);
     }
 
-    erase() {
+    erase(): void {
         if (!this.isSuitable())
             return;
 
@@ -136,7 +136,7 @@ export class Delineation {
     /**
      * @description magnetize the "selected" part of the blackboard. The selected part is also removed.
      */
-    cutAndMagnetize() {
+    cutAndMagnetize(): void {
         if (!this.isSuitable())
             return;
 
@@ -151,7 +151,7 @@ export class Delineation {
     /**
     * @description magnetize the "selected" part of the blackboard.
     */
-    copyAndMagnetize() {
+    copyAndMagnetize(): void {
         if (!this.isSuitable())
             return;
 
@@ -163,7 +163,7 @@ export class Delineation {
 
 
 
-    isSuitable() {
+    isSuitable(): boolean {
         for (const point of this.points) {
             if (Math.abs(point.x - this.points[0].x) > 16 &&
                 Math.abs(point.x - this.points[0].x) > 16)

@@ -15,7 +15,7 @@ export class CSSStyleModifier {
     /**
      * @description add a new style part in the html
      */
-    static init() {
+    static init(): void {
         CSSStyleModifier.stylesheet = document.createElement('style');
         CSSStyleModifier.stylesheet.setAttribute('type', 'text/css');
         if (document.body) document.body.appendChild(CSSStyleModifier.stylesheet);
@@ -26,7 +26,7 @@ export class CSSStyleModifier {
     /**
      * update the html with the new rules
      */
-    static update() {
+    static update(): void {
         let css = '\n';
         CSSStyleModifier.rules.forEach(function (r) {
             css += r.selector + ' {' + r.property + ':' + r.value + '; }\n';
@@ -43,7 +43,7 @@ export class CSSStyleModifier {
      * @example 
      * setRule("body", "background","red");  // Change background color of the body
      */
-    static setRule(selector, property, value) {
+    static setRule(selector: string, property: string, value: string): void {
         for (let rule of CSSStyleModifier.rules)
             if (rule.selector == selector && rule.property == property) {
                 rule.value = value;

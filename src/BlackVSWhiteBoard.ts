@@ -6,7 +6,7 @@ import { CSSStyleModifier } from './CSSStyleModifier';
  */
 export class BlackVSWhiteBoard {
 
-    static init() {
+    static init(): void {
         document.getElementById("canvasBackground").style.backgroundColor = "black";
         document.getElementById("whiteBoardSwitch").onclick = BlackVSWhiteBoard.switch;
         document.getElementById("blackBoardSwitch").onclick = BlackVSWhiteBoard.switch;
@@ -16,7 +16,7 @@ export class BlackVSWhiteBoard {
     /**
      * switch between whiteboard and blackboard
      */
-    static switch() {
+    static switch(): void {
         const previousBackgroundColor = document.getElementById("canvasBackground").style.backgroundColor;
         const backgroundColor = previousBackgroundColor == "white" ? "black" : "white";
 
@@ -47,7 +47,7 @@ export class BlackVSWhiteBoard {
     /**
      * @dsecription invert the colors of the canvas (black becomes white, white becomes black, red becomes...)
      */
-    static _invertCanvas() {
+    static _invertCanvas(): void {
         const canvas = getCanvas();
         const context = canvas.getContext('2d');
 
