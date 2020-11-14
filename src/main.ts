@@ -1,6 +1,6 @@
 import { Palette } from "./Palette";
 import { Share } from "./share";
-import { loadMagnets } from "./myMagnets";
+import { MyMagnets } from "./myMagnets";
 import { MagnetManager } from './magnetManager';
 import { BoardManager } from './boardManager';
 import { UserManager } from './UserManager';
@@ -253,7 +253,7 @@ function load() {
 		//	document.getElementById("canvas").onmouseleave = function (evt) { isDrawing = false; }
 
 		MagnetManager.init();
-		loadMagnets();
+		MyMagnets.loadMagnets();
 
 		BoardManager.load();
 		loaded = true;

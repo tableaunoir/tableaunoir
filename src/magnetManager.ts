@@ -622,14 +622,7 @@ export class MagnetManager {
 		BoardManager.save();
 	}
 
-	/**
-	 *
-	 * @param magnetSetName
-	 * @description register a set of magnets. Add it to the magnet menu.
-	 */
-	static register(magnetSetName) {
-		document.getElementById(magnetSetName).onclick = eval(magnetSetName);
-	}
+
 
 
 }
