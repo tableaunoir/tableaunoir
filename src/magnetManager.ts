@@ -352,7 +352,7 @@ export class MagnetManager {
 				/**makes a copy. The copy does not move. */
 				const copy = MagnetManager.createCopyMagnet(element);
 				MagnetManager.addMagnet(copy);
-				Share.execute("magnetMove", [copy.id, element.style.left,  element.style.top]);
+				Share.execute("magnetMove", [copy.id, element.style.left, element.style.top]);
 			}
 			/**
 			 * 
