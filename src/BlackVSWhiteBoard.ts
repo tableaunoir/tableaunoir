@@ -1,5 +1,5 @@
-import { drawDot, getCanvas, drawLine, clearLine, palette } from './main';
-import { jCSSRule } from "../lib/jcssrule.js"
+import { getCanvas, palette } from './main';
+import { CSSStyleModifier } from './CSSStyleModifier';
 
 /**
  * This class implements the switch between whiteboard and blackboard
@@ -30,14 +30,14 @@ export class BlackVSWhiteBoard {
         document.getElementById("canvasBackground").style.backgroundColor = backgroundColor;
 
         if (backgroundColor == "black") {
-            modifyCSSRule(".magnetText div", "background-color", "rgba(27, 27, 27, 0.9)");
-            modifyCSSRule("div.magnetText", "background-color", "rgba(64, 64, 64, 0.9)");
-            modifyCSSRule(".magnetText div", "color", "white");
+            CSSStyleModifier.setRule(".magnetText div", "background-color", "rgba(27, 27, 27, 0.9)");
+            CSSStyleModifier.setRule("div.magnetText", "background-color", "rgba(64, 64, 64, 0.9)");
+            CSSStyleModifier.setRule(".magnetText div", "color", "white");
         }
         else {
-            modifyCSSRule(".magnetText div", "background-color", "rgba(247, 247, 247, 0.9)");
-            modifyCSSRule("div.magnetText", "background-color", "rgba(227, 227, 227, 0.9)");
-            modifyCSSRule(".magnetText div", "color", "black");
+            CSSStyleModifier.setRule(".magnetText div", "background-color", "rgba(247, 247, 247, 0.9)");
+            CSSStyleModifier.setRule("div.magnetText", "background-color", "rgba(227, 227, 227, 0.9)");
+            CSSStyleModifier.setRule(".magnetText div", "color", "black");
         }
 
         BlackVSWhiteBoard._invertCanvas();
@@ -69,6 +69,4 @@ export class BlackVSWhiteBoard {
 
 }
 
-function modifyCSSRule(selector, property, value) {
-    jCSSRule(selector, property, value);
-}
+
