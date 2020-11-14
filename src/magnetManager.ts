@@ -428,7 +428,7 @@ export class MagnetManager {
 
 			let magnets = MagnetManager.getMagnets();
 
-			for(let i in magnets) {
+			for(let i = 0; i < magnets.length; i++) {
 				magnets[i].classList.remove("magnetDrag");
 			}
 

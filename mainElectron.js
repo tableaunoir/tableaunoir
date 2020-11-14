@@ -18,5 +18,5 @@ app.on('ready', () => {
         title: 'Tableaunoir',
         movable: false
     });
-    win.loadFile('index.html');
+    win.loadFile('dist/index.html');
 });
