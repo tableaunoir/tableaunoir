@@ -1,12 +1,30 @@
 'use strict';
 
+/**********************************************************************************
+ * Different possibility for creating the socket
+ */
+
+//For a normal server listening on a given port:
+
+const SOCKET_ADDR = { port: 8080 };
+
+
 // For the server to listen on a regular internet domain socket, set SOCKET_ADDR
 // to a record of the form { addr: addr, port: port }, for instance:
-const SOCKET_ADDR = { addr: 'localhost', port: 8080 };
+
+//const SOCKET_ADDR = { addr: 'localhost', port: 8080 };
+
+
+
+
+
 // If you prefer Unix domain sockets, set SOCKET_ADDR to a record containing the
 // path of the socket, for instance:
+
 // const SOCKET_ADDR = { unix: '/run/tableaunoir.sock' };
 
+
+/********************************************************************************* */
 const http = require('http');
 
 const WebSocket = require('ws'); //websocket library
@@ -166,7 +184,7 @@ class TableauNoir {
     this.sockets.forEach(s => {
       if (s.userid == msg.to) {
         s.send(JSON.stringify(msg))
-        print( messageToString(msg) + "  > " + s.userid);
+        print(messageToString(msg) + "  > " + s.userid);
       }
     });
 
@@ -199,6 +217,7 @@ class TableauNoir {
  * Create a web socket server at a Unix socket.
  */
 function createWebSocketServerUnix(path) {
+  console.log("unix server");
   const httpServer = http.createServer();
   const wsServer = new WebSocket.Server({ server: httpServer });
 
@@ -220,26 +239,43 @@ function createWebSocketServerUnix(path) {
  * Create a simple web socket server at an internet domain socket.
  */
 function createWebSocketServerInet(addr, port) {
+  console.log("Inet server");
   const httpServer = http.createServer();
   const wsServer = new WebSocket.Server({ server: httpServer });
   httpServer.listen(port, addr);
   return wsServer;
 }
 
+
+
+
+function createWebSocketServerNormal(port) {
+  console.log(`normal server on port ${port}`);
+  return new WebSocket.Server({
+    port: port
+  });
+}
+
+
+
 /**
  * Create a simple web socket at the address specified in SOCKET_ADDR.
  */
-function createWebSocketServer() {
+function createWebSocketServer(SOCKET_ADDR) {
+
   if (SOCKET_ADDR.hasOwnProperty('addr') && SOCKET_ADDR.hasOwnProperty('port')) {
     return createWebSocketServerInet(SOCKET_ADDR.addr, SOCKET_ADDR.port);
   }
-  if (SOCKET_ADDR.hasOwnProperty('unix')) {
+  else if (SOCKET_ADDR.hasOwnProperty('port')) {
+    return createWebSocketServerNormal(SOCKET_ADDR.port)
+  }
+  else if (SOCKET_ADDR.hasOwnProperty('unix')) {
     return createWebSocketServerUnix(SOCKET_ADDR.unix);
   }
   throw 'Invalid SOCKET_ADDR';
 }
 
-const server = createWebSocketServer();
+const server = createWebSocketServer(SOCKET_ADDR);
 
 let sockets = [];
 
@@ -282,7 +318,7 @@ function treatReceivedMessageFromClient(msg) {
       tableaunoirs[tableaunoirID].addSocket(msg.socket);
       tableaunoirs[tableaunoirID].setRoot(msg.socket);
       tableaunoirs[tableaunoirID].setPassWord(msg.password);
-      
+
       tableaunoirs[tableaunoirID].sendTo({ type: "id", id: tableaunoirID, to: msg.socket.userid });
       //msg.socket.send(JSON.stringify({ type: "id", id: tableaunoirID }));
       break;
