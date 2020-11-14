@@ -1,4 +1,4 @@
-import { getCanvas, drawLine } from "./main";
+import { getCanvas } from "./main";
 import { Share } from "./share";
 import { BoardManager } from './boardManager';
 import { Layout } from './Layout';

@@ -1,4 +1,4 @@
-import { drawDot, getCanvas, drawLine, clearLine, palette } from './main';
+import { getCanvas } from './main';
 import { MagnetManager } from './magnetManager';
 import { BoardManager } from './boardManager';
 import { Menu } from './Menu'

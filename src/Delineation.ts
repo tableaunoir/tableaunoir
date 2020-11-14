@@ -1,6 +1,5 @@
-import { Layout } from './Layout';
 import { BoardManager } from './boardManager';
-import { drawDot, getCanvas, drawLine, clearLine, palette } from './main';
+import { getCanvas } from './main';
 import { MagnetManager } from './magnetManager';
 import { Share } from './share';
 
