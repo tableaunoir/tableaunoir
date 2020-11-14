@@ -18,9 +18,9 @@ export class Palette {
     /**
      * @descrition create (the DOM elements of) the palette
      */
-    _createPalette() {
+    _createPalette(): void {
         const div = document.getElementById("palette");
-        for (const i in this.colors) {
+        for (let i = 0; i < this.colors.length; i++) {
             this.buttons[i] = this._createColorButton(i);
             div.appendChild(this.buttons[i]);
         }
@@ -29,7 +29,7 @@ export class Palette {
     /**
      * @description switch the first color (white <=> black)
      */
-    switchBlackAndWhite() {
+    switchBlackAndWhite(): void {
         this.colors[0] = (this.colors[0] == "white") ? "black" : "white";
         this.onchange();
     }
@@ -39,7 +39,7 @@ export class Palette {
      * @param {*} i  an index between 0 and this.colors.length - 1
      * @description create the button for the color of index i
      */
-    _createColorButton(i) {
+    _createColorButton(i: number): HTMLImageElement {
         const img = new Image();
         img.src = ChalkCursor.getCursorURL(this.colors[i]);
         img.classList.add("paletteColorButton");
@@ -50,7 +50,7 @@ export class Palette {
         img.style.left = (Palette.radius * Math.cos(angle) - 16) + "px";
         img.style.borderColor = this.colors[i];
 
-        img.onmousedown = (evt) => {evt.preventDefault();} //to prevent the drag and drop of the image of the chalk
+        img.onmousedown = (evt) => { evt.preventDefault(); } //to prevent the drag and drop of the image of the chalk
 
         img.onclick = () => {
             this.buttons[this.currentColorID].classList.remove("selected");
@@ -65,7 +65,7 @@ export class Palette {
     /**
      * @description select the next color
      */
-    next() {
+    next(): void {
         this.buttons[this.currentColorID].classList.remove("selected");
         this.currentColorID++;
         this.currentColorID = this.currentColorID % this.colors.length;
@@ -76,7 +76,7 @@ export class Palette {
     /**
      * @description select the previous color
      */
-    previous() {
+    previous(): void {
         this.buttons[this.currentColorID].classList.remove("selected");
         this.currentColorID--;
         if (this.currentColorID < 0)
@@ -89,7 +89,7 @@ export class Palette {
      * @param position a point {x: ..., y: ...}
      * @description show the palette at position position
      */
-    show(position) {
+    show(position: { x, y }): void {
         const div = document.getElementById("palette");
         div.innerHTML = "";
         this._createPalette();
@@ -106,7 +106,7 @@ export class Palette {
     /**
      * @description hide the palette
      */
-    hide() {
+    hide(): void {
         const div = document.getElementById("palette");
         div.classList.remove("PaletteShow");
         div.classList.add("PaletteHide");
@@ -115,14 +115,14 @@ export class Palette {
     /**
      * @returns true iff the palette is shown
      */
-    isShown() {
+    isShown(): boolean {
         return document.getElementById("palette").classList.contains("PaletteShow");
     }
 
     /**
      * @returns the selected color
      */
-    getCurrentColor() {
+    getCurrentColor(): string {
         return this.colors[this.currentColorID];
     }
 }

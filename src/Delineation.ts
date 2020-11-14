@@ -36,7 +36,7 @@ export class Delineation {
         return this.points.length > 0;
     }
 
-    drawPolygon(points): void {
+    drawPolygon(points :{x, y}[]): void {
         if (document.getElementById("magnetCreationPolygon"))
             return;
 
@@ -54,7 +54,7 @@ export class Delineation {
     }
 
 
-    addPoint(point): void {
+    addPoint(point: {x,y}): void {
         this.points.push(point);
 
         if (this.isDot() && this.dotInPreviousPolygon()) {

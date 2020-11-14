@@ -10,7 +10,7 @@ export class ChalkCursor {
     /**
      * @description adds clicks on buttons in the menu for left- and right-handed options
      */
-    static init() {
+    static init(): void {
         const change = (param) => {
             ChalkCursor.leftHanded = param;
             if (!param)
@@ -31,7 +31,7 @@ export class ChalkCursor {
      * @returns the .style.cursor of the canvas if you want to have a cursor that looks like a chalk with the color color.
      * The cursor is an objet {data: dataofimage, x: position where to click, y: position where to click}
      */
-    static getStyleCursor(color) {
+    static getStyleCursor(color): {data, x, y} {
         return { data: ChalkCursor.getCursorURL(color), x: ChalkCursor.leftHanded ? 32 : 0, y: 0 };
     }
 
@@ -41,7 +41,7 @@ export class ChalkCursor {
      * @param {*} color
      * @returns the image information of the chalk of a specific color
      */
-    static getCursorURL(color) {
+    static getCursorURL(color): string {
         const sizeX = 32;
         const sizeY = 44;
         const angleOpening = 0.3;

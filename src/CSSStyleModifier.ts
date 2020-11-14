@@ -44,7 +44,7 @@ export class CSSStyleModifier {
      * setRule("body", "background","red");  // Change background color of the body
      */
     static setRule(selector: string, property: string, value: string): void {
-        for (let rule of CSSStyleModifier.rules)
+        for (const rule of CSSStyleModifier.rules)
             if (rule.selector == selector && rule.property == property) {
                 rule.value = value;
                 CSSStyleModifier.update();

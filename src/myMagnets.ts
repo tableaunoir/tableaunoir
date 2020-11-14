@@ -7,18 +7,18 @@ import { MagnetManager } from './magnetManager';
 
 export class MyMagnets {
 
-    static createMagnet(content) {
+    static createMagnet(content: string): HTMLElement {
         const o = document.createElement("div");
         o.innerHTML = content;
         return o;
     }
 
 
-    static magnetsClear() {
+    static magnetsClear(): void {
         Share.execute("magnetsClear", []);
     }
 
-    static createMagnetGS_B(content) {
+    static createMagnetGS_B(content: string): HTMLElement {
         const o = document.createElement("div");
         o.innerHTML = content;
         o.classList.add("GS_B")
@@ -26,21 +26,21 @@ export class MyMagnets {
     }
 
 
-    static magnetGS() {
+    static magnetGS(): void {
         MyMagnets.magnetsClear();
-        MagnetManager.addMagnet(MyMagnets.createMagnet(1))
-        MagnetManager.addMagnet(MyMagnets.createMagnet(2))
-        MagnetManager.addMagnet(MyMagnets.createMagnet(3))
-        MagnetManager.addMagnet(MyMagnets.createMagnetGS_B(1))
-        MagnetManager.addMagnet(MyMagnets.createMagnetGS_B(2))
-        MagnetManager.addMagnet(MyMagnets.createMagnetGS_B(3))
+        MagnetManager.addMagnet(MyMagnets.createMagnet("1"))
+        MagnetManager.addMagnet(MyMagnets.createMagnet("2"))
+        MagnetManager.addMagnet(MyMagnets.createMagnet("3"))
+        MagnetManager.addMagnet(MyMagnets.createMagnetGS_B("1"))
+        MagnetManager.addMagnet(MyMagnets.createMagnetGS_B("2"))
+        MagnetManager.addMagnet(MyMagnets.createMagnetGS_B("3"))
 
     }
 
     /** Sorting */
 
-    static createMagnetRainbow(content) {
-        const o = MyMagnets.createMagnet(content);
+    static createMagnetRainbow(content: number): HTMLElement {
+        const o = MyMagnets.createMagnet("" + content);
         const colors = ['rgb(139, 97, 195)', 'rgb(115, 97, 195)', 'rgb(93, 105, 214)', 'rgb(40, 167, 226)', 'rgb(40, 204, 226)', 'rgb(40, 226, 201)', 'rgb(40, 226, 148)',
             'rgb(40, 226, 102)', 'rgb(130, 226, 40)', 'rgb(170, 226, 40)', 'rgb(223, 226, 40)', 'rgb(226, 183, 40)',
             'rgb(226, 152, 40)', 'rgb(226, 124, 40)', 'rgb(226, 77, 40)', 'rgb(255, 0, 0)', 'rgb(144, 24, 24)'];
@@ -49,7 +49,7 @@ export class MyMagnets {
     }
 
 
-    static magnetSorting() {
+    static magnetSorting(): void {
         MagnetManager.clearMagnet();
         for (let i = 1; i <= 17; i++)
             MagnetManager.addMagnet(MyMagnets.createMagnetRainbow(i))
@@ -57,7 +57,7 @@ export class MyMagnets {
 
     /** B-trees */
 
-    static magnetBTrees() {
+    static magnetBTrees(): void {
         MagnetManager.clearMagnet();
         for (let i = 1; i <= 17; i++)
             MagnetManager.addMagnet(MyMagnets.createMagnetRainbow(i))
@@ -70,20 +70,20 @@ export class MyMagnets {
 
     /** Graphs */
 
-    static magnetGraphNodes() {
+    static magnetGraphNodes(): void {
         //MagnetManager.clearMagnet();
         for (const i of ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O'])
             MagnetManager.addMagnet(MyMagnets.createMagnet(i))
     }
 
 
-    static magnetFloydsAlgorithm() {
+    static magnetFloydsAlgorithm(): void {
         MagnetManager.addMagnetImage("turtlerabbit/turtle.png");
         MagnetManager.addMagnetImage("turtlerabbit/rabbit.png");
 
     }
 
-    static magnetGraphSimCity() {
+    static magnetGraphSimCity(): void {
         //MagnetManager.clearMagnet();
 
         const simCityPictures = ["antenne.png", "commerce.png", "parking.png", "tour.png",
@@ -101,7 +101,7 @@ export class MyMagnets {
 
     /** Tilings */
 
-    static createTiling(leftColor, upColor, rightColor, bottomColor) {
+    static createTiling(leftColor, upColor, rightColor, bottomColor): HTMLElement {
         const xmlns = "http://www.w3.org/2000/svg";
         const div = document.createElement("div");
         const size = 100;
@@ -134,7 +134,7 @@ export class MyMagnets {
     }
 
 
-    static magnetTilings() {
+    static magnetTilings(): void {
         MagnetManager.clearMagnet();
         MagnetManager.addMagnet(MyMagnets.createTiling("yellow", "red", "green", "red"));
         MagnetManager.addMagnet(MyMagnets.createTiling("green", "red", "green", "yellow"));
@@ -154,7 +154,7 @@ export class MyMagnets {
     /**
      *
      */
-    static magnetUnionFind() {
+    static magnetUnionFind(): void {
         MagnetManager.clearMagnet();
         MagnetManager.addMagnetImage("unionfind0.png");
     }
@@ -165,7 +165,7 @@ export class MyMagnets {
 
 
 
-    static magnetGo() {
+    static magnetGo(): void {
         MagnetManager.clearMagnet();
 
         const f = (color, x) => {
@@ -189,14 +189,14 @@ export class MyMagnets {
  * @param magnetSetName
  * @description register a set of magnets. Add it to the magnet menu.
  */
-    static register(magnetSetName) {
+    static register(magnetSetName: string): void {
         document.getElementById(magnetSetName).onclick = MyMagnets[magnetSetName];
     }
 
 
 
 
-    static loadMagnets() {
+    static loadMagnets(): void {
         MyMagnets.register("magnetGS");
         MyMagnets.register("magnetSorting");
         MyMagnets.register("magnetBTrees");

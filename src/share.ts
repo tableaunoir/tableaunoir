@@ -19,7 +19,7 @@ export class Share {
 	 * @param {*} a function f
 	 * @description tries to connect to the server, when the connection is made, it executes f
 	 */
-	static tryConnect(f) {
+	static tryConnect(f: () => void): void {
 		if (Share.ws != undefined)
 			return;
 
@@ -42,13 +42,13 @@ export class Share {
 	/**
 	 * @returns true iff we are on github.io
 	 */
-	static isOnGitHub() {
+	static isOnGitHub(): boolean {
 		return window.location.origin.indexOf("github") >= 0;
 	}
 	/**
 	 * initialization
 	 */
-	static init() {
+	static init(): void {
 		document.getElementById("shareButton").onclick = () => {
 			if (!Share.isShared())
 				Share.share();
@@ -103,13 +103,13 @@ export class Share {
 	/**
 	 * @description ask for privilege (root)
 	 */
-	static askPrivilege() {
+	static askPrivilege(): void {
 		const passwordCandidate = (<HTMLInputElement>document.getElementById("passwordCandidate")).value;
 		Share.send({ type: "askprivilege", password: passwordCandidate })
 	}
 
 
-	static copyShareUrl() {
+	static copyShareUrl(): void {
 		const sharelink = (<HTMLInputElement>document.getElementById("shareUrl")).value;
 		navigator.clipboard.writeText(sharelink).
 			then(function () { document.getElementById("shareUrlCopied").hidden = false; },
@@ -120,12 +120,12 @@ export class Share {
 	/**
 	 * @returns true iff the board is shared with others
 	 */
-	static isShared() {
+	static isShared(): boolean {
 		return Share.id != undefined;
 	}
 
 
-	static showConnectionError() {
+	static showConnectionError(): void {
 		if (Share.isOnGitHub())
 			ErrorMessage.show("For sharing, first go to a deployed server. Go to menu/share for more information.");
 		else
@@ -134,14 +134,14 @@ export class Share {
 	/**
 	 * @returns true iff the current user is root
 	 */
-	static isRoot() {
+	static isRoot(): boolean {
 		return document.getElementById("askPrivilege").hidden;
 	}
 
 	/**
 	 * @description tries to connect the server to make a shared board
 	 */
-	static share() {
+	static share(): void {
 		try {
 			const password = (<HTMLInputElement>document.getElementById("password")).value;
 
@@ -175,7 +175,7 @@ export class Share {
 	 * @param {*} msg as an object
 	 * @description treats the msg received from the server
 	 */
-	static _treatReceivedMessage(msg) {
+	static _treatReceivedMessage(msg: any): void {
 		if (msg.type != "fullCanvas" && msg.type != "magnets" && msg.type != "execute")
 			console.log("Server -> me: " + JSON.stringify(msg));
 		else
@@ -212,7 +212,7 @@ export class Share {
 				UserManager.add(msg.userid);
 
 				if (UserManager.isSmallestUserID()) {
-					getCanvas().toBlob((blob) => Share.sendFullCanvas(blob, msg.userid));
+					//getCanvas().toBlob((blob) => Share.sendFullCanvas(blob, msg.userid));
 					Share.sendFullCanvas(msg.userid);
 					Share.sendMagnets(msg.userid);
 					Share.execute("setUserCanWrite", [msg.userid, Share.canWriteValueByDefault]);
@@ -240,9 +240,9 @@ export class Share {
 					document.getElementById("magnets").innerHTML + (msg.data); //a bit crazy
 				MagnetManager.installMagnets();
 				break;
-		        case "execute":
-				eval("ShareEvent." + msg.event)(...msg.params);
-			        break;
+			case "execute":
+				ShareEvent[msg.event](...msg.params);
+				break;
 		}
 	}
 
@@ -250,7 +250,7 @@ export class Share {
 	/**
 	 * modify the interface to say that the current user is root (all privileges)
 	 */
-	static setRoot() {
+	static setRoot(): void {
 		document.getElementById("askPrivilege").hidden = true;
 		document.getElementById("shareMode").hidden = false;
 	}
@@ -261,7 +261,7 @@ export class Share {
 	 * @description send the message to server
 	 *
 	 */
-	static send(msg) {
+	static send(msg: any): void {
 		msg.id = Share.id;
 		this.ws.send(JSON.stringify(msg));
 	}
@@ -272,7 +272,7 @@ export class Share {
 	 * @param {*} to
 	 * @description send the blob of the canvas to the user to
 	 */
-	static sendFullCanvas(blob, to?) {
+	static sendFullCanvas(to?: string): void {
 		Share.send({ type: "fullCanvas", data: getCanvas().toDataURL(), to: to }); // at some point send the blob directly
 	}
 
@@ -282,7 +282,7 @@ export class Share {
 	 * @param to
 	 * @description send all the magnets to to. If to is undefined, send to all.
 	 */
-	static sendMagnets(to?) {
+	static sendMagnets(to?: string): void {
 		if (Share.isShared()) {
 			if (to)
 				Share.send({ type: "magnets", magnets: document.getElementById("magnets").innerHTML, to: to }); // send the html code for all the magnets
@@ -297,7 +297,7 @@ export class Share {
 	 * @param element
 	 * @description send the fact that there is a new magnet
 	 */
-	static sendNewMagnet(element) {
+	static sendNewMagnet(element: HTMLElement): void {
 		console.log("new magnet sent!")
 		Share.send({ type: "newmagnet", data: element.outerHTML });
 	}
@@ -308,7 +308,7 @@ export class Share {
 	 * @param element
 	 * @description send the new information about an existing magnet
 	 */
-	static sendMagnetChanged(element) {
+	static sendMagnetChanged(element: HTMLElement): void {
 		Share.send({ type: "magnetChanged", magnetid: element.id, data: element.outerHTML });
 	}
 
@@ -320,7 +320,7 @@ export class Share {
 	 * @description executes the event with the params, that is execute the method event of the class ShareEvent
 	 * with the params. Then send a message to server that this event should be executed for the other users as well
 	 */
-	static execute(event, params) {
+	static execute(event: string, params: any[]): void {
 		function adapt(obj) {
 			if (obj instanceof MouseEvent) {
 				return { pressure: (<any>obj).pressure, offsetX: obj.offsetX, offsetY: obj.offsetY };
@@ -352,7 +352,7 @@ export class Share {
 	 * @param id
 	 * @description set the ID of the current board
 	 */
-	static _setTableauID(id) {
+	static _setTableauID(id: string): void {
 		Share.id = id;
 
 		const url = document.location.href;
@@ -380,7 +380,7 @@ export class Share {
 	/**
 	 * @returns yes if the current URL is an URL of a shared board
 	 */
-	static isSharedURL() {
+	static isSharedURL(): boolean {
 		const params = (new URL(<any>document.location)).searchParams;
 		return params.get('id') != null;
 	}
@@ -389,7 +389,7 @@ export class Share {
 	/**
 	 * @returns the current tableaunoir ID
 	 */
-	static getTableauNoirID() {
+	static getTableauNoirID(): string {
 		if (Share.isSharedURL()) {
 			return Share.getIDInSharedURL();
 		}
@@ -400,7 +400,7 @@ export class Share {
 	/**
 	 * @returns the current tableaunoir ID
 	 */
-	static getIDInSharedURL() {
+	static getIDInSharedURL(): string {
 		const params = (new URL(<any>document.location)).searchParams;
 		return params.get('id');
 	}
@@ -412,7 +412,7 @@ export class Share {
 	 * @param id
 	 * @description say that the current user wants to join the tableaunoir id
 	 */
-	static join(id) {
+	static join(id: string): void {
 		Share.send({ type: "join", id: id });
 	}
 
@@ -422,7 +422,7 @@ export class Share {
 	 * @param canWrite
 	 * @description if canWrite == true, makes that everybody can draw, otherwise only you can
 	 */
-	static setCanWriteForAllExceptMeAndByDefault(canWrite) {
+	static setCanWriteForAllExceptMeAndByDefault(canWrite: boolean): void {
 		document.getElementById("imgWritePermission" + canWrite).hidden = false;
 		document.getElementById("imgWritePermission" + !canWrite).hidden = true;
 

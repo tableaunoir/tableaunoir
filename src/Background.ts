@@ -25,20 +25,20 @@ export class Background {
         };
 
     }
-    static clear() {
+    static clear(): void {
         const canvasBackground = getCanvasBackground();
         canvasBackground.getContext("2d").clearRect(0, 0, canvasBackground.width, canvasBackground.height);
     }
 
 
-    static musicScore() {
+    static musicScore(): void {
         Background.clear();
         const COLORSTAFF = "rgb(128, 128, 255)";
         const fullHeight = Layout.getWindowHeight() - 32;
         const canvasBackground = getCanvasBackground();
 
         const x = 0;
-        const x2 = 2*Layout.getWindowWidth();
+        const x2 = 2 * Layout.getWindowWidth();
         const ymiddleScreen = fullHeight / 2;
         const yshift = fullHeight / 7;
         const drawStaff = (ymiddle) => {
