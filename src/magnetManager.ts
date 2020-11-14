@@ -466,7 +466,7 @@ export class MagnetManager {
 	 */
 	static addMagnetImage(filename, callback = (el) => { }) {
 		const img = new Image();
-		img.src = "magnets/" + filename;
+		img.src = "img/magnets/" + filename;
 		img.classList.add("backgroundTransparent");
 		MagnetManager.addMagnet(img, callback);
 		return img;
