@@ -1,0 +1,44 @@
+# This is a basic workflow to deploy the project to the website
+
+name: Deploy to Github Pages
+
+# Triggers the workflow on push or pull request but only for the master branch
+on:
+  push:
+    branches: [ master ]
+    tags:
+      - v*
+
+jobs:
+  # Build the project
+  build:
+    runs-on: ubuntu-latest
+    
+    strategy:
+      matrix:
+        node-version: [10.x, 12.x, 14.x]
+
+    # Steps represent a sequence of tasks that will be executed as part of the job
+    steps:
+      - name: Using Node.js ${{ matrix.node-version }}
+      - uses: actions/checkout@v2
+        with:
+          persist-credentials: false
+          node-version: ${{ matrix.node-version }}
+        
+      - name: Build
+        run: |
+          npm clean-install
+          npm run build
+         
+      # Deploy
+      - name: Deploy
+        uses: JamesIves/github-pages-deploy-action@releases/v3
+        with:
+          # Deployed to the organisation website
+          REPOSITORY_NAME: tableaunoir/tableaunoir.github.io
+          ACCESS_TOKEN: ${{ secrets.ACCESS_TOKEN }}
+          BRANCH: master
+          # This is the folder the website is generated
+          FOLDER: dist
+          CLEAN: true
