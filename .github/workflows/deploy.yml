@@ -25,10 +25,7 @@ jobs:
         with:
           persist-credentials: false
           node-version: ${{ matrix.node-version }}
-
-      # Build the website from the source code
-      - name: Build
-        run: |
+      - run: |
           npm clean-install
           npm run build
          
