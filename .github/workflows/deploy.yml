@@ -25,7 +25,9 @@ jobs:
         with:
           persist-credentials: false
           node-version: ${{ matrix.node-version }}
-      - run: |
+        
+      - name: Build
+        run: |
           npm clean-install
           npm run build
          
