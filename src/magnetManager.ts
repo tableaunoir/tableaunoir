@@ -18,7 +18,7 @@ export class MagnetManager {
 	/**
 	 * initialization
 	 */
-	static init() {
+	static init(): void {
 		document.getElementById("clearMagnet").onclick = MagnetManager.clearMagnet;
 		document.getElementById("magnetsArrange").onclick = MagnetManager.arrange;
 		document.getElementById("magnetsCreateGraph").onclick = MagnetManager.drawGraph;
@@ -28,7 +28,7 @@ export class MagnetManager {
 	/**
 	 * @returns the magnet under the cursor
 	 */
-	static getMagnetUnderCursor() {
+	static getMagnetUnderCursor(): HTMLElement {
 		return MagnetManager.magnetUnderCursor;
 	}
 
@@ -36,7 +36,7 @@ export class MagnetManager {
 	/**
 	 * @returns true iff there is a current magnet
 	 */
-	static hasCurrentMagnet() {
+	static hasCurrentMagnet(): boolean {
 		return MagnetManager.currentMagnet == undefined;
 	}
 
@@ -44,7 +44,7 @@ export class MagnetManager {
 	/**
 	 * @description set that there is no current magnet
 	 */
-	static noCurrentMagnet() {
+	static noCurrentMagnet(): void {
 		MagnetManager.currentMagnet = undefined;
 	}
 
@@ -64,7 +64,7 @@ export class MagnetManager {
 	 * @description if b == true, makes all the magnets interactable with the mouse/pointer
 	 *  if b == false, the magnets cannot be moved
 	 */
-	static setInteractable(b) {
+	static setInteractable(b: boolean): void {
 		const v = b ? "auto" : "none";
 
 		const magnets = MagnetManager.getMagnets();
@@ -85,14 +85,14 @@ export class MagnetManager {
 	/**
 	 * @returns the top Y when a set of magnets is automatically arranged
 	 */
-	static getYTopWhenNewMagnets() {
+	static getYTopWhenNewMagnets(): number {
 		return 64;
 	}
 
 	/**
 	 * delete all the magnets
 	 */
-	static clearMagnet() {
+	static clearMagnet(): void {
 		MagnetManager.currentMagnet = undefined;
 		MagnetManager.magnetX = BoardManager.getCurrentScreenRectangle().x1;
 		MagnetManager.magnetY = MagnetManager.getYTopWhenNewMagnets();
@@ -111,7 +111,7 @@ export class MagnetManager {
 	 * @param {*} element
 	 * @description add the DOM element element to the list of magnets
 	 */
-	static addMagnet(element, callback = (el) => { }) {
+	static addMagnet(element: HTMLElement, callback: (HTMLElement) => void = () => { }): void {
 		if (MagnetManager.magnetX > BoardManager.getCurrentScreenRectangle().x2 - 10) {
 			MagnetManager.magnetX = BoardManager.getCurrentScreenRectangle().x1;
 			MagnetManager.magnetY += 64;
@@ -146,7 +146,7 @@ export class MagnetManager {
 	/**
 	 * @description put the existing magnets on the current screen
 	 */
-	static arrange() {
+	static arrange(): void {
 		const magnets = MagnetManager.getMagnets();
 
 		for (let i = 0; i < magnets.length; i++) {
@@ -223,7 +223,7 @@ export class MagnetManager {
 	/**
 	 * @returns the array of center points of existing magnets
 	 */
-	static getNodes() {
+	static getNodes(): { x: number, y: number }[] {
 		const magnets = MagnetManager.getMagnets();
 		const nodes = [];
 		for (let i = 0; i < magnets.length; i++) {
@@ -237,7 +237,7 @@ export class MagnetManager {
 	/**
 	 * @description make a graph where the nodes are the magnets
 	 */
-	static drawGraph() {
+	static drawGraph(): void {
 		MagnetManager.arrange();
 
 		const nodes = MagnetManager.getNodes();
@@ -250,19 +250,18 @@ export class MagnetManager {
 		}
 
 		// returns true iff the line from (a,b)->(c,d) intersects with (p,q)->(r,s)
-		function intersects(a, b, c, d, p, q, r, s) {
-			let det, gamma, lambda;
-			det = (c - a) * (s - q) - (r - p) * (d - b);
+		function intersects(a: number, b: number, c: number, d: number, p: number, q: number, r: number, s: number) {
+			const det = (c - a) * (s - q) - (r - p) * (d - b);
 			if (det === 0) {
 				return false;
 			} else {
-				lambda = ((s - q) * (r - a) + (p - r) * (s - b)) / det;
-				gamma = ((b - d) * (r - a) + (c - a) * (s - b)) / det;
+				const lambda = ((s - q) * (r - a) + (p - r) * (s - b)) / det;
+				const gamma = ((b - d) * (r - a) + (c - a) * (s - b)) / det;
 				return (0 < lambda && lambda < 1) && (0 < gamma && gamma < 1);
 			}
 		}
 
-		const isCrossing = (i, j) => {
+		const isCrossing = (i: number, j: number) => {
 			for (let k = 0; k < nodes.length; k++)
 				for (let l = 0; l < nodes.length; l++)
 					if (edges[k][l]) {
@@ -287,7 +286,7 @@ export class MagnetManager {
 	/**
 	 * @description adds the event mousedown etc. to the magnets. Call LaTEX
 	 */
-	static installMagnets() {
+	static installMagnets(): void {
 		const magnets = MagnetManager.getMagnets();
 
 		for (let i = 0; i < magnets.length; i++)
@@ -304,8 +303,8 @@ export class MagnetManager {
 	 * @param element 
 	 * @description set the z-index of the element depending on the size of the element
 	 */
-	static setZIndex(element) {
-		let f = () => { const LARGENUMBER = 10000; element.style.zIndex = LARGENUMBER - element.clientWidth; };
+	static setZIndex(element: HTMLElement): void {
+		const f = () => { const LARGENUMBER = 10000; element.style.zIndex = "" + (LARGENUMBER - element.clientWidth); };
 
 		if (element.tagName == "IMG") {
 			element.addEventListener("load", f);
@@ -332,7 +331,7 @@ export class MagnetManager {
 	 * @param element 
 	 * @description makes that the magnet is draggable
 	 */
-	private static makeDraggableElement(element) {
+	private static makeDraggableElement(element: HTMLElement): void {
 		let dx = 0, dy = 0, x = 0, y = 0;
 
 		element.addEventListener("pointerdown", dragMouseDown);
@@ -379,7 +378,7 @@ export class MagnetManager {
 			document.onmouseup = closeDragElement;
 			document.onpointermove = elementDrag;
 
-			let magnets = MagnetManager.getMagnets();
+			const magnets = MagnetManager.getMagnets();
 			otherElementsToMove = [];
 
 			//if(elmt.style.clipPath == undefined) //if not an image (otherwise bug)
@@ -414,21 +413,21 @@ export class MagnetManager {
 			// set the element's new position:
 			Share.execute("magnetMove", [element.id, element.offsetLeft - dx, element.offsetTop - dy]);
 
-			for (let el of otherElementsToMove) {
+			for (const el of otherElementsToMove) {
 				Share.execute("magnetMove", [el.id, el.offsetLeft - dx, el.offsetTop - dy]);
 			}
 		}
 
-		function closeDragElement(e) {
+		function closeDragElement() {
 			if (!drag)
 				return;
 
 			drag = false;
 			console.log("close drag")
 
-			let magnets = MagnetManager.getMagnets();
+			const magnets = MagnetManager.getMagnets();
 
-			for(let i = 0; i < magnets.length; i++) {
+			for (let i = 0; i < magnets.length; i++) {
 				magnets[i].classList.remove("magnetDrag");
 			}
 
@@ -447,7 +446,7 @@ export class MagnetManager {
 	 * @param element 
 	 * @description adds the event mousedown etc. to the magnet. Call LaTEX
 	 */
-	static _installMagnet(element) {
+	static _installMagnet(element: HTMLElement): void {
 		if (element.classList.contains("magnetText"))
 			MagnetManager.installMagnetText(element);
 
@@ -467,7 +466,7 @@ export class MagnetManager {
 	 * @param callback
 	 * @description adds a image magnet where the file is already on the server
 	 */
-	static addMagnetImage(filename, callback = (el) => { }) {
+	static addMagnetImage(filename: string, callback: (el: HTMLImageElement) => void = () => { }): HTMLImageElement {
 		const img = new Image();
 		img.src = "img/magnets/" + filename;
 		img.classList.add("backgroundTransparent");
@@ -481,9 +480,9 @@ export class MagnetManager {
 	 * @param element
 	 * @description set up the text magnet: add the mouse event, key event for editing the text magnet
 	 */
-	static installMagnetText(element) {
+	static installMagnetText(element: HTMLElement): void {
 
-		const divText = element.children[0];
+		const divText = <HTMLElement>element.children[0];
 
 		divText.onpointerdown = (e) => { e.stopPropagation(); }
 		divText.onpointermove = (e) => { e.stopPropagation(); }
@@ -491,8 +490,8 @@ export class MagnetManager {
 		divText.onkeydown = (e) => {
 			const setFontSize = (size) => {
 				divText.style.fontSize = size + "px";
-				for (const o of divText.children) {
-					o.style.fontSize = size + "px";
+				for (const i in divText.children) {
+					(<HTMLElement>divText.children[i]).style.fontSize = size + "px";
 				}
 			}
 
@@ -536,7 +535,7 @@ export class MagnetManager {
 	 * @param {*} y
 	 * @description adds a new magnet text at position x and y
 	 */
-	static addMagnetText(x, y) {
+	static addMagnetText(x: number, y: number): void {
 		const div = document.createElement("div");
 		const divText = document.createElement("div");
 
@@ -563,7 +562,7 @@ export class MagnetManager {
 	/**
 	 * @description remove the current magnet
 	 */
-	static removeCurrentMagnet() {
+	static removeCurrentMagnet(): void {
 		if (MagnetManager.currentMagnet == undefined)
 			return;
 		Share.execute("magnetRemove", [MagnetManager.currentMagnet.id]);
@@ -574,7 +573,7 @@ export class MagnetManager {
 	 * @param {*} id
 	 * @description remove the magnet of id
 	 */
-	static magnetRemove(id) {
+	static magnetRemove(id: string): void {
 		document.getElementById(id).remove();
 		MagnetManager.currentMagnet == undefined;
 		MagnetManager.magnetUnderCursor = undefined;
@@ -585,7 +584,7 @@ export class MagnetManager {
 	 * @param img
 	 * @description draw the current magnet to the canvas
 	 */
-	static printMagnet(img) {
+	static printMagnet(img: HTMLElement): void {
 
 		if (!(img instanceof Image)) {
 			console.log("the current image is not an image! Could not be printed!")
@@ -620,7 +619,7 @@ export class MagnetManager {
 
 		context.restore();
 
-		BoardManager.save({x1: x, y1: y, x2: x + img.width, y2: y + img.height});
+		BoardManager.save({ x1: x, y1: y, x2: x + img.width, y2: y + img.height });
 	}
 
 

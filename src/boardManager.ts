@@ -19,7 +19,7 @@ export class BoardManager {
     /**
    * initialization (button)
    */
-    static init() {
+    static init(): void {
         document.getElementById("blackboardClear").onclick = () => {
             Share.execute("boardClear", []);
         }
@@ -27,14 +27,14 @@ export class BoardManager {
     }
 
 
-    static getBackgroundColor() {
+    static getBackgroundColor(): string {
         return document.getElementById("canvasBackground").style.backgroundColor;
     }
 
     /**
         * erase the board
         */
-    static _clear() {
+    static _clear(): void {
         const canvas = getCanvas();
         canvas.width = canvas.width; //clear
         BoardManager.cancelStack.clear();
@@ -44,12 +44,12 @@ export class BoardManager {
 
 
 
-    static getDefaultChalkColor() {
+    static getDefaultChalkColor(): string {
         return (document.getElementById("canvasBackground").style.backgroundColor == "black") ? "white" : "black";
     }
 
 
-    static _createCanvasForRectangle(r) {
+    static _createCanvasForRectangle(r: { x1: number, y1: number, x2: number, y2: number }): HTMLCanvasElement {
         const C = document.createElement("canvas");
         C.width = r.x2 - r.x1;
         C.height = r.y2 - r.y1;
@@ -66,7 +66,7 @@ export class BoardManager {
      * @param {*} r a rectangle {x1, y1, x2, y2}
      * @description call the callback when the blob of the rectangle is created
      */
-    static _toBlobOfRectangle(r, callback) {
+    static _toBlobOfRectangle(r: { x1: number, y1: number, x2: number, y2: number }, callback: BlobCallback): void {
         BoardManager._createCanvasForRectangle(r).toBlob(callback);
     }
 
@@ -77,21 +77,17 @@ export class BoardManager {
   * @param {*} r a rectangle {x1, y1, x2, y2}
   * @returns the content as a string of the image
   */
-    static getDataURLOfRectangle(r) {
+    static getDataURLOfRectangle(r: { x1: number, y1: number, x2: number, y2: number }): string {
         return BoardManager._createCanvasForRectangle(r).toDataURL();
     }
 
 
 
-    static isCancelRedoActivated() {
-        return true;//!Share.isShared();//(!Share.isShared() && !Layout.isTactileDevice());
-    }
-
     /**
      * save the current board into the cancel/redo stack but also in the localStorage of the browser
      */
-    static save(rectangle: { x1: number, y1: number, x2: number, y2: number } | undefined) {
-        let canvas = getCanvas();
+    static save(rectangle: { x1: number, y1: number, x2: number, y2: number } | undefined): void {
+        const canvas = getCanvas();
         if (rectangle == undefined)
             rectangle = { x1: 0, y1: 0, x2: canvas.width, y2: canvas.height };
 
@@ -108,7 +104,7 @@ export class BoardManager {
 
 
 
-    static getCurrentScreenRectangle() {
+    static getCurrentScreenRectangle(): {x1: number, y1: number, x2: number, y2: number} {
         const container = document.getElementById("container");
         const x1 = container.scrollLeft;
         const y1 = container.scrollTop;
@@ -117,14 +113,14 @@ export class BoardManager {
         return { x1: x1, y1: y1, x2: x2, y2: y2 };
     }
 
-    static saveCurrentScreen() {
+    static saveCurrentScreen(): void {
         BoardManager.save({ x1: Layout.getWindowLeft(), y1: 0, x2: Layout.getWindowRight(), y2: Layout.getWindowHeight() });
     }
 
     /**
      * load the board from the local storage
      */
-    static load(data = localStorage.getItem(Share.getTableauNoirID())) {
+    static load(data = localStorage.getItem(Share.getTableauNoirID())): void {
         // let data = localStorage.getItem(BoardManager.boardName);
 
         if (data != undefined) {
@@ -159,7 +155,7 @@ export class BoardManager {
     /**
      * load the board from the local storage
      */
-    static loadWithoutSave(data = localStorage.getItem(BoardManager.boardName)) {
+    static loadWithoutSave(data = localStorage.getItem(BoardManager.boardName)): void {
         // let data = localStorage.getItem(BoardManager.boardName);
 
         if (data != undefined) {
@@ -183,7 +179,7 @@ export class BoardManager {
     /**
      * @returns the number of pixels when scrolling
      */
-    static scrollQuantity() {
+    static scrollQuantity(): number {
         const THESHOLD = 1500;
         const middle = Layout.getWindowWidth() / 2;
         return Math.min(middle, THESHOLD);
@@ -192,7 +188,7 @@ export class BoardManager {
     /**
      * go left
      */
-    static left() {
+    static left(): void {
         const container = getContainer();
         const x = container.scrollLeft - BoardManager.scrollQuantity();
 
@@ -208,7 +204,7 @@ export class BoardManager {
     /**
      * go right (and extend the board if necessary)
      */
-    static right() {
+    static right(): void {
         const MAXCANVASWIDTH = 20000;
         const container = getContainer();
         const canvas = getCanvas();
@@ -237,7 +233,7 @@ export class BoardManager {
     }
 
 
-    static showPageNumber(x) {
+    static showPageNumber(x: number): void {
         const pageNumber = document.getElementById("pageNumber");
         const canvas = getCanvas();
         const container = getContainer();
@@ -257,7 +253,7 @@ export class BoardManager {
      *
      * @param {*} level
      */
-    static _loadCurrentCancellationStackData(data: CanvasModificationRectangle, rectangle: CanvasModificationRectangle) {
+    static _loadCurrentCancellationStackData(data: CanvasModificationRectangle, rectangle: CanvasModificationRectangle): void {
         const image = new Image();
         const canvas = getCanvas();
 
@@ -290,12 +286,10 @@ export class BoardManager {
     /**
      *
      */
-    static cancel() {
-        if (BoardManager.isCancelRedoActivated()) {
-            let top = BoardManager.cancelStack.top();
-            let previous = BoardManager.cancelStack.back();
-            BoardManager._loadCurrentCancellationStackData(previous, top);
-        }
+    static cancel(): void {
+        const top = BoardManager.cancelStack.top();
+        const previous = BoardManager.cancelStack.back();
+        BoardManager._loadCurrentCancellationStackData(previous, top);
 
     }
 
@@ -304,11 +298,9 @@ export class BoardManager {
     /**
      *
      */
-    static redo() {
-        if (BoardManager.isCancelRedoActivated()) {
-            let c = BoardManager.cancelStack.forward();
-            BoardManager._loadCurrentCancellationStackData(c, c);
-        }
+    static redo(): void {
+        const c = BoardManager.cancelStack.forward();
+        BoardManager._loadCurrentCancellationStackData(c, c);
 
     }
 }

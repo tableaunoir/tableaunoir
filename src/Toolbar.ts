@@ -7,7 +7,7 @@ export class Toolbar {
     /**
      * initialization
      */
-    static init() {
+    static init(): void {
         if (Layout.isTactileDevice()) {
             try {
                 document.getElementById("buttonCloseControls").hidden = true; //on phone or tablet, we can not remove the toolbar, therefore the button is hidden
@@ -35,7 +35,7 @@ export class Toolbar {
     /**
      * help animation for hiding the toolbar
      */
-    static helpForButtonCloseControls() {
+    static helpForButtonCloseControls(): void {
         document.getElementById("buttonCloseControls").onmouseenter = () => { Toolbar.getToolbar().style.opacity = "0.5" };
         document.getElementById("buttonCloseControls").onmouseleave = () => { Toolbar.getToolbar().style.opacity = "1" };
     }
@@ -43,7 +43,7 @@ export class Toolbar {
     /**
      * help animation for divide the screen
      */
-    static helpButtonDivide() {
+    static helpButtonDivide(): void {
         const divideLine = document.createElement("div");
         divideLine.className = "divideLineHelp";
 
@@ -58,14 +58,14 @@ export class Toolbar {
 
 
 
-    static getToolbar() {
+    static getToolbar(): HTMLElement {
         return document.getElementById("controls");
     }
 
     /**
      * @description toogle the visibility of the toolbar
      */
-    static toggle() {
+    static toggle(): void {
         const controls = Toolbar.getToolbar();
         controls.hidden = !controls.hidden;
         Layout._resize();

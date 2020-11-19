@@ -24,7 +24,7 @@ export class Layout {
     /**
      * initialization
      */
-    static init() {
+    static init(): void {
         console.log("Layout.init()")
         Layout.initWorWT();
 
@@ -34,7 +34,7 @@ export class Layout {
     /**
      * @returns true if the device is a smartphone or tablet, false if it is a computer
      */
-    static isTactileDevice() {
+    static isTactileDevice(): RegExpMatchArray {
         return navigator.userAgent.match(/Android/i)
             || navigator.userAgent.match(/webOS/i)
             || navigator.userAgent.match(/iPhone/i)
@@ -49,7 +49,7 @@ export class Layout {
 
 
 
-    static initClassic() {
+    static initClassic(): void {
         const WIDTH = 4800;
         const HEIGHT = 1500;
 
@@ -72,7 +72,7 @@ export class Layout {
     /**
      * rescaling with the screen
      */
-    static initS() {
+    static initS(): void {
         const canvas = getCanvas();
         const canvasBackground = getCanvasBackground();
         canvas.height = Layout.STANDARDHEIGHT;
@@ -93,7 +93,7 @@ export class Layout {
     /**
         * rescaling with the screen
         */
-    static initW() {
+    static initW() : void {
         const canvas = getCanvas();
         const canvasBackground = getCanvasBackground();
         canvas.height = Layout.STANDARDHEIGHT;
@@ -118,7 +118,7 @@ export class Layout {
     /**
      * rescaling with the screen
      */
-    static initWorWT() {
+    static initWorWT(): void {
         const canvas = getCanvas();
         const canvasBackground = getCanvasBackground();
         const content = document.getElementById("content");
@@ -156,7 +156,7 @@ export class Layout {
 
 
 
-    static _resize() {
+    static _resize(): void {
         console.log("resize");
         //if(window.innerHeight > Layout.STANDARDHEIGHT)
         const zoom = Layout.getZoom();

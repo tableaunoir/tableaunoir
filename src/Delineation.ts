@@ -99,7 +99,7 @@ export class Delineation {
      * @param {*} polygon
      * @returns true iff the point is inside the polygon
      */
-    static inPolygon(point, polygon): boolean {
+    static inPolygon(point: {x:number, y: number}, polygon: {x:number, y: number}[]): boolean {
         // ray-casting algorithm based on
         // https://wrf.ecse.rpi.edu/Research/Short_Notes/pnpoly.html/pnpoly.html
 
@@ -173,7 +173,7 @@ export class Delineation {
     }
 
 
-    _getRectangle() {
+    _getRectangle(): {x1: number, y1: number, x2: number, y2: number} {
         const canvas = getCanvas();
         const r = { x1: canvas.width, y1: canvas.height, x2: 0, y2: 0 };
 
@@ -190,7 +190,7 @@ export class Delineation {
 
 
 
-    _createMagnetFromImg = () => {
+    _createMagnetFromImg: () => void = () => {
         const img = new Image();
         const rectangle = this._getRectangle();
         console.log(rectangle)

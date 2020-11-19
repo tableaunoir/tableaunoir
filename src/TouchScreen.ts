@@ -8,7 +8,7 @@ export class TouchScreen {
      * @param {*} element
      * @description makes that an element with events for the mouse, can be used on a smartphone/tablet
      */
-    static addTouchEvents(element) {
+    static addTouchEvents(element: HTMLElement): void {
         element.ontouchstart = TouchScreen._touchHandler;
         element.ontouchmove = TouchScreen._touchHandler;
         element.ontouchend = TouchScreen._touchHandler;
@@ -19,10 +19,10 @@ export class TouchScreen {
      * @param {*} event
      * @description converts a touch event into a mouse event
      */
-    static _touchHandler(event) {
-        let touches = event.changedTouches,
-            first = touches[0],
-            type = "";
+    static _touchHandler(event): void {
+        const touches = event.changedTouches;
+        const first = touches[0];
+        let type = "";
         switch (event.type) {
             case "touchstart": type = "mousedown"; break;
             case "touchmove": type = "mousemove"; break;

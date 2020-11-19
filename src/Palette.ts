@@ -10,7 +10,7 @@ export class Palette {
 
     buttons = [];
     currentColorID = 0;
-    onchange = () => { };
+    onchange: () => void = () => { };
 
 
     static radius = 96;

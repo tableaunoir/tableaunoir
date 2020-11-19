@@ -11,7 +11,7 @@ export class LoadSave {
     /**
      * @description initialize the button Save and the drag and drop of files
      */
-    static init() {
+    static init(): void {
         /**
          * load a file from the <input type="file"...>
          */
@@ -37,16 +37,17 @@ export class LoadSave {
 
             if (event.dataTransfer.items) {
                 // Use DataTransferItemList interface to access the file(s)
-                for (var i = 0; i < event.dataTransfer.items.length; i++) {
+                for (let i = 0; i < event.dataTransfer.items.length; i++) {
                     // If dropped items aren't files, reject them
                     if (event.dataTransfer.items[i].kind === 'file') {
-                        var file = event.dataTransfer.items[i].getAsFile();
+                        const file = event.dataTransfer.items[i].getAsFile();
                         LoadSave.loadFile(file);
                     }
                 }
             } else {
                 // Use DataTransfer interface to access the file(s)
-                for (var i = 0; i < event.dataTransfer.files.length; i++) {
+                for (let i = 0; i < event.dataTransfer.files.length; i++) {
+                    const file = event.dataTransfer.items[i].getAsFile();
                     LoadSave.loadFile(file[i]);
                 }
             }
@@ -59,10 +60,10 @@ export class LoadSave {
      * @param {File} file
      * @description load the file file
      */
-    static loadFile(file) {
+    static loadFile(file: File): void {
         if (file) {
             const reader = new FileReader();
-            reader.onerror = function (evt) { }
+            reader.onerror = () => { };
 
             /** load a .tableaunoir file, that is, a file containing the blackboard + some magnets */
             if (file.name.endsWith(".tableaunoir")) {
@@ -91,7 +92,7 @@ export class LoadSave {
      * @param callback
      * @descrption load the image in the file, once the file is loaded. Call the callback function.
      */
-    static fetchImageFromFile(file, callback) {
+    static fetchImageFromFile(file: File, callback: (HTMLImageElement) => void): void {
         const reader = new FileReader();
         reader.onerror = function (evt) { }
         reader.readAsDataURL(file);
@@ -110,7 +111,7 @@ export class LoadSave {
      * obj.canvasDataURL is the content of the canvas
      * obj.magnets is the HTML code of the magnets
      */
-    static loadJSON(obj) {
+    static loadJSON(obj: {canvasDataURL: string, magnets: string}): void {
         BoardManager.load(obj.canvasDataURL);
         document.getElementById("magnets").innerHTML = obj.magnets;
         MagnetManager.installMagnets();
@@ -120,7 +121,7 @@ export class LoadSave {
     /**
      * @description export the board as a .png image file
      */
-    static exportPng() {
+    static exportPng(): void {
         const node = document.getElementById("content");
         alert("to be implemented. Do screenshots.");
         /*
@@ -135,7 +136,7 @@ export class LoadSave {
     /**
      * @description save the blackboard and the magnets
      */
-    static save() {
+    static save(): void {
         const magnets = document.getElementById("magnets").innerHTML;
         const canvasDataURL = getCanvas().toDataURL();
         const obj = { magnets: magnets, canvasDataURL: canvasDataURL };
@@ -148,7 +149,7 @@ export class LoadSave {
      * @param {*} text
      * @description propose to download a file called filename that contains the text text
      */
-    static download(filename, text) {
+    static download(filename: string, text: string): void {
         LoadSave.downloadDataURL(filename, 'data:text/plain;charset=utf-8,' + encodeURIComponent(text))
 
     }
@@ -161,7 +162,7 @@ export class LoadSave {
  * @param {*} dataURL
  * @description propose to download a file with the content
  */
-    static downloadDataURL(filename, dataURL) {
+    static downloadDataURL(filename: string, dataURL: string): void {
         const element = document.createElement('a');
         element.setAttribute('href', dataURL);
         element.setAttribute('download', filename);

@@ -35,16 +35,16 @@ export class User {
 
     userID = "0";
 
-    setUserID(userID) {
+    setUserID(userID: string): void {
         this.userID = userID;
     }
 
-    setCanWrite(bool) {
+    setCanWrite(bool: boolean): void {
         this.canWrite = bool;
     }
 
 
-    setToolCursorImage(srcImage) {
+    setToolCursorImage(srcImage: { data: string, x: number, y: number }): void {
         document.getElementById("canvas").style.cursor = `url(${srcImage.data}) ${srcImage.x} ${srcImage.y}, auto`;
         // this.toolCursor.src = srcImage;
     }
@@ -54,7 +54,7 @@ export class User {
      * @param {*} isCurrentUser that tells whether the user is the current one
      * @description create the user.
      */
-    constructor(isCurrentUser) {
+    constructor(isCurrentUser: boolean) {
         this.cursor = document.createElement("div");
         this.cursor.classList.add("cursor");
 
@@ -77,7 +77,17 @@ export class User {
 
 
 
-    updateCursor() {
+    /**
+     * @returns true iff the user is the current user (the one that controls the mouse)
+     */
+    isCurrentUser(): boolean {
+        return (this == UserManager.me);
+    }
+
+
+
+
+    updateCursor(): void {
         if (this.isCurrentUser()) {
             this.setToolCursorImage(ChalkCursor.getStyleCursor(this.color));
         }
@@ -86,23 +96,23 @@ export class User {
     /**
      * tells that the user has disconnected
      */
-    destroy() {
+    destroy(): void {
         document.getElementById("cursors").removeChild(this.cursor);
         document.getElementById("cursors").removeChild(this.toolCursor);
     }
 
-    setCurrentColor(color) {
+    setCurrentColor(color: string): void {
         this.color = color;
         this.updateCursor();
     }
 
-    getCurrentColor() {
+    getCurrentColor(): string {
         return this.color;
     }
 
 
 
-    switchChalk() {
+    switchChalk(): void {
         this.eraseMode = false;
 
         if (this.isCurrentUser()) {
@@ -113,14 +123,8 @@ export class User {
 
     }
 
-    /**
-     * @returns true iff the user is the current user (the one that controls the mouse)
-     */
-    isCurrentUser() {
-        return (this == UserManager.me);
-    }
 
-    switchErase() {
+    switchErase(): void {
         this.eraseMode = true;
 
         if (this.isCurrentUser()) {
@@ -132,7 +136,7 @@ export class User {
     }
 
 
-    mousedown(evt) {
+    mousedown(evt): void {
         MagnetManager.setInteractable(false);
 
         //unselect the selected element (e.g. a text in edit mode)
@@ -164,8 +168,7 @@ export class User {
 
 
 
-    mousemove(evt) {
-
+    mousemove(evt): void {
         const evtX = evt.offsetX;
         const evtY = evt.offsetY;
 
@@ -227,7 +230,7 @@ export class User {
     }
 
 
-    mouseup(evt) {
+    mouseup(evt): void {
         MagnetManager.setInteractable(true);
 
         if (this.canWrite) {

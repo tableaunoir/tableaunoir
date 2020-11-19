@@ -6,7 +6,7 @@ export class ErrorMessage {
      * @param msgplus
      * @description show a message error. The message msg is shown. msgplus is shown in the console.
      */
-    static show(msg, msgplus?) {
+    static show(msg: string, msgplus?: string): void {
         console.log("error: " + msg);
         if (msgplus) console.log(msgplus);
         document.getElementById("error").hidden = false;

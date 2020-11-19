@@ -10,89 +10,89 @@ import { Drawing } from './Drawing';
  * */
 
 export class ShareEvent {
-    static mousedown(userId, evt) {
+    static mousedown(userId: string, evt): void {
         UserManager.users[userId].mousedown(evt);
     }
 
-    static mousemove(userId, evt) {
+    static mousemove(userId: string, evt): void {
         if (UserManager.users[userId] == undefined)
             console.log("why is " + userId + " not declared?");
         UserManager.users[userId].mousemove(evt);
     }
 
-    static mouseup(userId, evt) {
+    static mouseup(userId: string, evt): void {
         UserManager.users[userId].mouseup(evt);
     }
 
-    static setCurrentColor(userId, color) {
+    static setCurrentColor(userId: string, color: string): void {
         UserManager.users[userId].setCurrentColor(color);
     }
 
-    static switchErase(userId) {
+    static switchErase(userId: string): void {
         UserManager.users[userId].switchErase();
     }
 
-    static switchChalk(userId) {
+    static switchChalk(userId: string): void {
         UserManager.users[userId].switchChalk();
     }
 
-    static setUserCanWrite(userId, bool) {
+    static setUserCanWrite(userId: string, bool: boolean): void {
         UserManager.users[userId].setCanWrite(bool);
     }
 
-    static magnetMove(idMagnet, x, y) {
-        x = parseInt(x);
-        y = parseInt(y);
+    static magnetMove(idMagnet: string, x: string, y: string): void {
+        const ix = parseInt(x);
+        const iy = parseInt(y);
         const el = document.getElementById(idMagnet);
-        el.style.top = y + "px";
-        el.style.left = x + "px";
+        el.style.top = iy + "px";
+        el.style.left = ix + "px";
     }
 
 
-    static magnetsClear() {
+    static magnetsClear(): void {
         MagnetManager.clearMagnet();
     }
 
-    static magnetRemove(idMagnet) {
+    static magnetRemove(idMagnet: string): void {
         MagnetManager.magnetRemove(idMagnet);
     }
 
-    static magnetChange(idMagnet, outerHTML) {
+    static magnetChange(idMagnet: string, outerHTML: string): void {
         document.getElementById(idMagnet).outerHTML = outerHTML;
     }
 
-    static boardClear() {
+    static boardClear(): void {
         BoardManager._clear();
         BoardManager.save(undefined);
         Menu.hide();
     }
 
-    static questionAdd(userID, idquestion, question) {
+    static questionAdd(userID: string, idquestion: string, question: string): void {
         Discussion.addQuestion(userID, idquestion, question);
     }
 
 
-    static questionRemove(questionID) {
+    static questionRemove(questionID: string): void {
         Discussion.removeQuestion(questionID);
     }
 
-    static removeContour(points) {
+    static removeContour(points: {x:number, y:number}[]): void {
         Drawing.removeContour(points);
     }
 
-    static clearPolygon(points) {
+    static clearPolygon(points: {x:number, y:number}[]): void {
         Drawing.clearPolygon(points);
     }
 
-    static printMagnet(magnetID) {
+    static printMagnet(magnetID: string): void {
         MagnetManager.printMagnet(document.getElementById(magnetID));
     }
 
-    static cancel() {
+    static cancel(): void {
         BoardManager.cancel();
     }
 
-    static redo() {
+    static redo(): void {
         BoardManager.redo();
     }
 }

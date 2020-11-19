@@ -10,8 +10,8 @@ export class Background {
         document.getElementById("buttonNoBackground").onclick = () => { Background.clear(); Menu.hide(); };
         document.getElementById("buttonMusicScore").onclick = () => { Background.musicScore(); Menu.hide(); };
 
-        document.getElementById("inputBackground").onchange = function () {
-            LoadSave.fetchImageFromFile((<any>this).files[0],
+        (<HTMLInputElement> document.getElementById("inputBackground")).onchange = function (evt) {
+            LoadSave.fetchImageFromFile((<HTMLInputElement> evt.target).files[0],
                 (img) => {
                     Background.clear();
                     const canvasBackground = getCanvasBackground();

@@ -3,7 +3,7 @@ export class Menu {
     /**
      * initialization
      */
-    static init() {
+    static init(): void {
         // Get the element with id="defaultOpen" and click on it
         document.getElementById("defaultOpen").click();
     }
@@ -15,17 +15,16 @@ export class Menu {
      * @param elmnt
      * @description open the page of name pageName
      */
-    static openPage(pageName: string, elmnt) {
+    static openPage(pageName: string, elmnt: HTMLElement): void {
         // Hide all elements with class="tabcontent" by default */
-        let i, tabcontent, tablinks;
-        tabcontent = document.getElementsByClassName("tabcontent");
-        for (i = 0; i < tabcontent.length; i++) {
-            tabcontent[i].style.display = "none";
+        const tabcontent = document.getElementsByClassName("tabcontent");
+        for (let i = 0; i < tabcontent.length; i++) {
+            (<HTMLElement> tabcontent[i]).style.display = "none";
         }
 
         // Remove the background color of all tablinks/buttons
-        tablinks = document.getElementsByClassName("tablink");
-        for (i = 0; i < tablinks.length; i++) {
+        const tablinks = document.getElementsByClassName("tablink");
+        for (let i = 0; i < tablinks.length; i++) {
             tablinks[i].classList.remove("selected");
         }
 
@@ -39,7 +38,7 @@ export class Menu {
     /**
      * @description if the menu is shown, hide it. If it is invisible, show it!
      */
-    static toggle() {
+    static toggle(): void {
         if (Menu.isShown()) {
             Menu.hide();
         }
@@ -52,7 +51,7 @@ export class Menu {
     /**
      * @return the menu panel
      */
-    static getMenu() {
+    static getMenu(): HTMLElement {
         return document.getElementById("menu");
     }
 
@@ -60,7 +59,7 @@ export class Menu {
     /**
      * @description hide
      */
-    static hide() {
+    static hide(): void {
         Menu.getMenu().classList.remove("menuShow");
         Menu.getMenu().classList.add("menuHide");
     }
@@ -68,7 +67,7 @@ export class Menu {
     /**
     * @description show
     */
-    static show() {
+    static show(): void {
         Menu.getMenu().classList.add("menuShow");
         Menu.getMenu().classList.remove("menuHide");
     }
@@ -77,5 +76,5 @@ export class Menu {
     /**
      * @returns true iff the menu is shown
      */
-    static isShown() { return Menu.getMenu().classList.contains("menuShow"); }
+    static isShown(): boolean { return Menu.getMenu().classList.contains("menuShow"); }
 }

@@ -8,7 +8,6 @@ import { LoadSave } from './LoadSave';
 import { Layout } from './Layout';
 import { Toolbar } from './Toolbar';
 import { Discussion } from './Discussion';
-import { Delineation } from './Delineation';
 import { ChalkCursor } from './ChalkCursor';
 import { BlackVSWhiteBoard } from './BlackVSWhiteBoard';
 import { Background } from './Background';
@@ -124,7 +123,7 @@ function load() {
 
 		for (let i = 0; i < buttons.length; i++)
 			if (buttons[i] instanceof HTMLButtonElement)
-				(<HTMLButtonElement>buttons[i]).onfocus = (<any>document.activeElement).blur; //to be improved
+				(<HTMLButtonElement>buttons[i]).onfocus = (<HTMLElement>document.activeElement).blur; //to be improved
 
 		BlackVSWhiteBoard.init();
 
@@ -227,7 +226,7 @@ function load() {
 			evt.preventDefault();
 			Share.execute("mousedown", [UserManager.me.userID, evt])
 		};
-		document.getElementById("canvasBackground").onpointermove = (evt) => { console.log("mousemove on the background should not occur") };
+		document.getElementById("canvasBackground").onpointermove = () => { console.log("mousemove on the background should not occur") };
 
 		document.getElementById("canvas").onpointermove = (evt) => {
 			evt.preventDefault();
@@ -277,7 +276,7 @@ export function getCanvasBackground(): HTMLCanvasElement {
 
 
 
-export function getContainer() {
+export function getContainer():HTMLElement {
 	return document.getElementById("container");
 }
 

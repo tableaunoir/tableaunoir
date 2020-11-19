@@ -101,7 +101,7 @@ export class MyMagnets {
 
     /** Tilings */
 
-    static createTiling(leftColor, upColor, rightColor, bottomColor): HTMLElement {
+    static createTiling(leftColor: string, upColor: string, rightColor: string, bottomColor: string): HTMLElement {
         const xmlns = "http://www.w3.org/2000/svg";
         const div = document.createElement("div");
         const size = 100;

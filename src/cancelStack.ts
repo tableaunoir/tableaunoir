@@ -9,7 +9,7 @@ export class CancelStack {
     /**
      * empty the stack
      */
-    clear() {
+    clear(): void {
         this.stack = [];
         this.currentIndex = -1;
         this.n = 0;
@@ -19,7 +19,7 @@ export class CancelStack {
      *
      * @param {*} data
      */
-    push(data: CanvasModificationRectangle) {
+    push(data: CanvasModificationRectangle): void {
         this.currentIndex++;
         this.stack[this.currentIndex] = data;
         this.n = this.currentIndex + 1;

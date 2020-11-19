@@ -8,7 +8,7 @@ export class Translation {
     /**
      * initialization
      */
-    static init() {
+    static init(): void {
         try {
             Translation.translate();
         }
@@ -21,7 +21,7 @@ export class Translation {
     /**
      * @returns the language written in the URL (for instance "fr"), or null if none is provided
      */
-    static getLanguage() {
+    static getLanguage(): string {
         const params = (new URL(<any>document.location)).searchParams;
         return params.get('lang');
     }
@@ -30,7 +30,7 @@ export class Translation {
     /**
      * @returns a promise on the dictionnary of the selected language
      */
-    static fetchDictionary(): Promise<{}> {
+    static fetchDictionary(): Promise<{ [index: string]: string }> {
         const language = Translation.getLanguage();
 
         if (language == null)
@@ -47,7 +47,7 @@ export class Translation {
      * @param dict
      * @description translate the HTML element
      */
-    static translateElement(element: Element, dict) {
+    static translateElement(element: Element, dict: { [index: string]: string }): void {
         if (element.children == undefined)
             return;
 
@@ -73,7 +73,7 @@ export class Translation {
      * @param dict
      * @description translates the element by the IDs
      */
-    static translateFromIDs(dict) {
+    static translateFromIDs(dict: { [index: string]: string }): void {
         for (const key in dict) {
             if (key.startsWith('#')) {
                 const element = document.getElementById(key.substr(1));
@@ -91,7 +91,7 @@ export class Translation {
     /**
      * big translation procedure
      */
-    static translate() {
+    static translate(): void {
         const dictionnary = Translation.fetchDictionary();
         dictionnary.then(dict => {
             Translation.translateElement(document.getElementById("controls"), dict);

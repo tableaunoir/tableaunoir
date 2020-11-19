@@ -95,11 +95,7 @@ export class UserManager {
      * @returns the number of connected users to the current baord
      */
     static getNumberOfUsers(): number {
-        let i = 0;
-        for (const key in UserManager.users) {
-            i++;
-        }
-        return i;
+        return Object.keys(UserManager.users).length;
     }
 
     /**
