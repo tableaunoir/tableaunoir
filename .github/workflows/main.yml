@@ -16,23 +16,32 @@ jobs:
         node-version: [10.x, 12.x, 14.x]
 
     steps:
-    - uses: actions/checkout@v2
-    - name: Use Node.js ${{ matrix.node-version }}
-      uses: actions/setup-node@v1
-      with:
-        node-version: ${{ matrix.node-version }}
-    - run: npm clean-install
-    - name: build
-      id: build
-      run: npm run build
-    - run: npm run lint | tee dist/status.txt
-    - name: Compress action step
-      id: compress_zip
-      run: zip tableaunoir.zip dist
-      if: ${{ always() && steps.build.outcome == 'success' }}
-    - name: upload tableaunoir bundle
-      if: ${{ always() && steps.compress_zip.outcome == 'success' }}
-      uses: actions/upload-artifact@v2
-      with:
-        name: tableaunoir current version
-        path: tableaunoir-master.zip
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v1
+        with:
+          node-version: ${{ matrix.node-version }
+    
+      - name: Install dependancies
+        run: npm clean-install
+      
+      - name: Build
+        id: build
+        run: npm run build
+      
+      - name: Lint
+        run: npm run lint | tee dist/status.txt
+      
+      - name: Compress action step
+        id: compress_zip
+        run: zip tableaunoir.zip dist
+        if: ${{ always() && steps.build.outcome == 'success' }}
+      
+      - name: Upload tableaunoir bundle
+        if: ${{ always() && steps.compress_zip.outcome == 'success' }}
+        uses: actions/upload-artifact@v2
+        with:
+          name: tableaunoir current version
+          path: tableaunoir-master.zip
