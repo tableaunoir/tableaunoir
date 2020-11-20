@@ -1,4 +1,5 @@
-import { getCanvas, getCanvasBackground } from './main';
+import { OptionManager } from './OptionManager';
+import { getCanvas, getCanvasBackground, getContainer } from './main';
 
 export class Layout {
     static getXMiddle(): number {
@@ -27,6 +28,14 @@ export class Layout {
     static init(): void {
         console.log("Layout.init()")
         Layout.initWorWT();
+
+        OptionManager.boolean({
+            name: "horizontalScrollbar",
+            defaultValue: false,
+            onChange: (isScrollbar) => {
+                getContainer().style.overflowX = isScrollbar ? "scroll" : "hidden";
+            }
+        });
 
     }
 

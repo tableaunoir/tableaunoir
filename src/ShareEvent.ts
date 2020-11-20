@@ -76,11 +76,11 @@ export class ShareEvent {
         Discussion.removeQuestion(questionID);
     }
 
-    static removeContour(points: {x:number, y:number}[]): void {
+    static removeContour(points: { x: number, y: number }[]): void {
         Drawing.removeContour(points);
     }
 
-    static clearPolygon(points: {x:number, y:number}[]): void {
+    static clearPolygon(points: { x: number, y: number }[]): void {
         Drawing.clearPolygon(points);
     }
 
@@ -94,5 +94,9 @@ export class ShareEvent {
 
     static redo(): void {
         BoardManager.redo();
+    }
+
+    static setUserName(userid: string, name: string): void {
+        UserManager.users[userid].name = name;
     }
 }

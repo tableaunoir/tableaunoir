@@ -1,9 +1,11 @@
+import { OptionManager } from "./OptionManager";
+import { Share } from "./share";
 import { User } from "./User";
 
 export class UserManager {
 
     static me: User = undefined; // the current user
-    static users = {};
+    static users: {} = {};
 
     static readonly usersImageFileNames = ['1F9D1-200D-1F384.svg', '1F9D9.svg', '1F9DA-200D-2640-FE0F.svg', '1F9DD.svg'];
 
@@ -15,6 +17,14 @@ export class UserManager {
         UserManager.me = new User(true);
         UserManager.users['root'] = UserManager.me;
         UserManager.me.setUserID('root');
+
+        OptionManager.string({
+            name: "userName",
+            defaultValue: "me",
+            onChange: (userName) => {
+                Share.execute("setUserName", [UserManager.me.userID, userName]);
+            }
+        });
     }
 
 

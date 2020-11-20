@@ -34,7 +34,7 @@ export class Share {
 			Share._treatReceivedMessage(JSON.parse(msg.data));
 		};
 
-		
+
 
 	}
 
@@ -216,6 +216,9 @@ export class Share {
 					Share.sendFullCanvas(msg.userid);
 					Share.sendMagnets(msg.userid);
 					Share.execute("setUserCanWrite", [msg.userid, Share.canWriteValueByDefault]);
+
+					for (const userid in UserManager.users)
+						Share.execute("setUserName", [userid, UserManager.users[userid].name]);
 				}
 
 				break;

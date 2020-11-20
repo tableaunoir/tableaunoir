@@ -28,7 +28,7 @@ export class OptionManager {
      * Also that boolean is implicitely connected with an HTMLInputElement called "input" + name, that should be a checkbox 
      */
     //static boolean({name: string, onChangeCallBack: (boolean) => void}): void {
-        static boolean({name, defaultValue, onChange}: {name: string, defaultValue: boolean, onChange: (boolean) => void}) {
+    static boolean({ name, defaultValue, onChange }: { name: string, defaultValue: boolean, onChange: (boolean) => void }) {
         const el = OptionManager.getInputElement(name);
         const initialValue = (localStorage[name] == undefined) ? defaultValue : parseBoolean(localStorage[name]);
         //console.log(`reading option ${name}: ${localStorage[name]}`)
@@ -39,6 +39,18 @@ export class OptionManager {
             onChange(el.checked);
         };
     }
+
+static string({ name, defaultValue, onChange }: { name: string, defaultValue: string, onChange: (string) => void }) {
+    const el = OptionManager.getInputElement(name);
+    const initialValue = (localStorage[name] == undefined) ? defaultValue : localStorage[name];
+    //console.log(`reading option ${name}: ${localStorage[name]}`)
+    el.value = initialValue;
+    onChange(el.value);
+    el.onchange = () => {
+        localStorage[name] = el.value;
+        onChange(el.value);
+    };
+}
 
 }
 

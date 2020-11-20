@@ -32,9 +32,21 @@ export class User {
 
     cursor = undefined;
     toolCursor = undefined;
+    elementName = undefined;
 
     userID = "0";
+    private _name = "";
 
+
+    set name(newName) {
+        this._name = newName;
+        if (!this.isCurrentUser())
+            this.elementName.innerHTML = this._name;
+    }
+
+    get name() {
+        return this._name;
+    }
     setUserID(userID: string): void {
         this.userID = userID;
     }
@@ -55,22 +67,26 @@ export class User {
      * @description create the user.
      */
     constructor(isCurrentUser: boolean) {
-        this.cursor = document.createElement("div");
-        this.cursor.classList.add("cursor");
+        
 
         this.toolCursor = document.createElement("img");
         this.toolCursor.classList.add("toolcursor");
 
-
-
-        if (isCurrentUser)
-            this.cursor.hidden = true;
+        if(!isCurrentUser) {
+            this.cursor = document.createElement("div");
+            this.cursor.classList.add("cursor");
+            this.elementName = document.createElement("div");
+            this.elementName.classList.add("userNameCursor");
+            document.getElementById("cursors").appendChild(this.cursor);
+            document.getElementById("cursors").appendChild(this.toolCursor);
+            document.getElementById("cursors").appendChild(this.elementName);
+        }
+        
 
         if (!isCurrentUser)
             this.toolCursor.hidden = true;
 
-        document.getElementById("cursors").appendChild(this.cursor);
-        document.getElementById("cursors").appendChild(this.toolCursor);
+        
         if (isCurrentUser)
             this.setToolCursorImage(ChalkCursor.getStyleCursor(this.color));
     }
@@ -99,6 +115,7 @@ export class User {
     destroy(): void {
         document.getElementById("cursors").removeChild(this.cursor);
         document.getElementById("cursors").removeChild(this.toolCursor);
+        this.elementName.remove();
     }
 
     setCurrentColor(color: string): void {
@@ -175,6 +192,8 @@ export class User {
         if (!this.isCurrentUser()) {
             this.cursor.style.left = evtX - 8;
             this.cursor.style.top = evtY - 8;
+            this.elementName.style.left = evtX - 8;
+            this.elementName.style.top = evtY + 8;
         }
 
         if (this.canWrite) {
