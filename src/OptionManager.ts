@@ -46,7 +46,7 @@ static string({ name, defaultValue, onChange }: { name: string, defaultValue: st
     //console.log(`reading option ${name}: ${localStorage[name]}`)
     el.value = initialValue;
     onChange(el.value);
-    el.onchange = () => {
+    el.oninput = () => {
         localStorage[name] = el.value;
         onChange(el.value);
     };

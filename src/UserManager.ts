@@ -22,7 +22,8 @@ export class UserManager {
             name: "userName",
             defaultValue: "me",
             onChange: (userName) => {
-                Share.execute("setUserName", [UserManager.me.userID, userName]);
+                //the timeout should be removed at some point
+                setTimeout(() => Share.execute("setUserName", [UserManager.me.userID, userName]), 1000);
             }
         });
     }
@@ -91,11 +92,17 @@ export class UserManager {
 
 
 
-    static userIdToDom(userID: string): HTMLImageElement {
-
-        const userDOM = UserManager.getUserImage(userID);
+    static userIdToDom(userID: string): HTMLElement {
+        const userDOM = document.createElement("div");
         userDOM.classList.add("user");
-        userDOM.title = "user " + userID;
+
+        const userImgDOM = UserManager.getUserImage(userID);
+        const userNameDOM = document.createElement("span");
+        userNameDOM.innerHTML = UserManager.users[userID].name;
+
+        userDOM.appendChild(userImgDOM);
+        userDOM.appendChild(userNameDOM);
+
         return userDOM;
     }
 
@@ -112,19 +119,19 @@ export class UserManager {
      * @description update the GUI
      */
     static updateGUIUsers(): void {
-        document.getElementById("users").innerHTML = "";
+        document.getElementById("userList").innerHTML = "";
 
-        /**let i = 0;
+        let i = 0;
         for (var key in UserManager.users) {
             let el = UserManager.userIdToDom(key);
             if (key == UserManager.me.userID)
                 el.classList.add("me");
-            document.getElementById("users").appendChild(el);
+            document.getElementById("userList").appendChild(el);
             i++;
-        }*/
+        }
 
 
-        document.getElementById("users").innerHTML = UserManager.getUserImage("u0").outerHTML + " × " + UserManager.getNumberOfUsers();
+        document.getElementById("numberOfUsers").innerHTML = UserManager.getUserImage("u0").outerHTML + " × " + UserManager.getNumberOfUsers();
 
     }
 

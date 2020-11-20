@@ -41,7 +41,7 @@ function installBodyNoScroll() {
 
 
 function load() {
-	try {
+//	try {
 
 		installBodyNoScroll();
 
@@ -262,11 +262,11 @@ function load() {
 
 		BoardManager.load();
 		loaded = true;
-	}
-	catch (e) {
+//}
+	/*catch (e) {
 		ErrorMessage.show(e);
 		loaded = false;
-	}
+	}*/
 }
 
 

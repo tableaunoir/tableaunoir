@@ -98,5 +98,6 @@ export class ShareEvent {
 
     static setUserName(userid: string, name: string): void {
         UserManager.users[userid].name = name;
+        UserManager.updateGUIUsers();
     }
 }
