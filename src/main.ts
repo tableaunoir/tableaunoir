@@ -24,7 +24,7 @@ window['ShareEvent'] = ShareEvent;
 
 export const palette = new Palette();
 
-let loaded = false;
+//let loaded = false;
 
 /**
  * this function sets the document.body scrolls to 0
@@ -45,8 +45,8 @@ function load() {
 
 		installBodyNoScroll();
 
-		if (loaded)
-			return;
+	/*	if (loaded)
+			return;*/
 
 		UserManager.init();
 
@@ -73,7 +73,7 @@ function load() {
 			}
 			else { // if there is a magnet change the background of the magnet
 				const magnet = MagnetManager.getMagnetUnderCursor();
-				magnet.style.backgroundColor = nextBackgroundColor(magnet.style.backgroundColor);
+				magnet.style.backgroundColor = MagnetManager.nextBackgroundColor(magnet.style.backgroundColor);
 			}
 		}
 
@@ -87,7 +87,7 @@ function load() {
 			}
 			else { // if there is a magnet change the background of the magnet
 				const magnet = MagnetManager.getMagnetUnderCursor();
-				magnet.style.backgroundColor = previousBackgroundColor(magnet.style.backgroundColor);
+				magnet.style.backgroundColor = MagnetManager.previousBackgroundColor(magnet.style.backgroundColor);
 			}
 		}
 
@@ -261,7 +261,7 @@ function load() {
 		MyMagnets.loadMagnets();
 
 		BoardManager.load();
-		loaded = true;
+		//loaded = true;
 //}
 	/*catch (e) {
 		ErrorMessage.show(e);
@@ -287,24 +287,3 @@ export function getContainer():HTMLElement {
 }
 
 
-
-const magnetColors = ['', 'rgb(255, 128, 0)', 'rgb(0, 128, 0)', 'rgb(192, 0, 0)', 'rgb(0, 0, 255)'];
-
-function nextBackgroundColor(color) {
-	for (let i = 0; i < magnetColors.length; i++) {
-		if (magnetColors[i] == color) {
-			return magnetColors[(i + 1) % magnetColors.length];
-		}
-	}
-	return magnetColors[0];
-}
-
-
-function previousBackgroundColor(color) {
-	for (let i = 0; i < magnetColors.length; i++) {
-		if (magnetColors[i] == color) {
-			return magnetColors[(i - 1) % magnetColors.length];
-		}
-	}
-	return magnetColors[0];
-}
