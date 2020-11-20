@@ -110,7 +110,7 @@ function load() {
 		document.getElementById("buttonText").onclick = () => MagnetManager.addMagnetText(UserManager.me.x, UserManager.me.y);
 		document.getElementById("buttonDivide").onclick = Drawing.divideScreen;
 
-		document.getElementById("buttonLeft").onclick = BoardManager.left;
+		document.getElementById("buttonLeft").onclick = BoardManager.leftPreviousPage;
 		document.getElementById("buttonRight").onclick = BoardManager.right;
 		document.getElementById("buttonCancel").onclick = () => Share.execute("cancel", []);
 		document.getElementById("buttonRedo").onclick = () => Share.execute("redo", []);
@@ -161,6 +161,12 @@ function load() {
 			else if (evt.key == "Enter") {
 				MagnetManager.addMagnetText(UserManager.me.x, UserManager.me.y);
 				evt.preventDefault(); //so that it will not add "new line" in the text element
+			}
+			else if (evt.ctrlKey && evt.key == "ArrowLeft") {
+				BoardManager.leftPreviousPage();
+			}
+			else if (evt.ctrlKey && evt.key == "ArrowRight") {
+				BoardManager.rightNextPage();
 			}
 			else if (evt.key == "ArrowLeft") {
 				BoardManager.left();

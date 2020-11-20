@@ -111,7 +111,7 @@ export class LoadSave {
      * obj.canvasDataURL is the content of the canvas
      * obj.magnets is the HTML code of the magnets
      */
-    static loadJSON(obj: {canvasDataURL: string, magnets: string}): void {
+    static loadJSON(obj: { canvasDataURL: string, magnets: string }): void {
         BoardManager.load(obj.canvasDataURL);
         document.getElementById("magnets").innerHTML = obj.magnets;
         MagnetManager.installMagnets();

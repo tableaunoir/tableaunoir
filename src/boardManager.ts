@@ -104,7 +104,7 @@ export class BoardManager {
 
 
 
-    static getCurrentScreenRectangle(): {x1: number, y1: number, x2: number, y2: number} {
+    static getCurrentScreenRectangle(): { x1: number, y1: number, x2: number, y2: number } {
         const container = document.getElementById("container");
         const x1 = container.scrollLeft;
         const y1 = container.scrollTop;
@@ -179,18 +179,34 @@ export class BoardManager {
     /**
      * @returns the number of pixels when scrolling
      */
-    static scrollQuantity(): number {
+    static scrollQuantityHalfPage(): number {
         const THESHOLD = 1500;
         const middle = Layout.getWindowWidth() / 2;
         return Math.min(middle, THESHOLD);
     }
 
+
+    /**
+     * @returns the number of pixels when scrolling
+     */
+    static scrollQuantity(): number {
+        return 100;
+    }
+
     /**
      * go left
      */
-    static left(): void {
+    static leftPreviousPage(): void {
         const container = getContainer();
-        const x = container.scrollLeft - BoardManager.scrollQuantity();
+        const x = container.scrollLeft - BoardManager.scrollQuantityHalfPage();
+        BoardManager._left(BoardManager.scrollQuantityHalfPage());
+        BoardManager.showPageNumber(x);
+    }
+
+
+    private static _left(dx): void {
+        const container = getContainer();
+        const x = container.scrollLeft - dx;
 
         if (x < 0) {
             BoardManager.showPageNumber(0);
@@ -198,13 +214,20 @@ export class BoardManager {
         }
 
         container.scrollTo({ top: 0, left: x, behavior: 'smooth' });
-        BoardManager.showPageNumber(x);
     }
 
+
     /**
-     * go right (and extend the board if necessary)
+     * go left
      */
-    static right(): void {
+    static left(): void {
+        BoardManager._left(BoardManager.scrollQuantity());
+    }
+
+
+
+
+    private static _right(dx): void {
         const MAXCANVASWIDTH = 20000;
         const container = getContainer();
         const canvas = getCanvas();
@@ -213,11 +236,11 @@ export class BoardManager {
             return;
         }
 
-        if ((container.scrollLeft >= canvas.width - Layout.getWindowWidth() - BoardManager.scrollQuantity()) && BoardManager._rightExtendCanvasEnable) {
+        if ((container.scrollLeft >= canvas.width - Layout.getWindowWidth() - BoardManager.scrollQuantityHalfPage()) && BoardManager._rightExtendCanvasEnable) {
             const image = new Image();
             image.src = canvas.toDataURL();
             console.log("extension: canvas width " + canvas.width + " to " + (container.scrollLeft + Layout.getWindowWidth()))
-            canvas.width = ((canvas.width / BoardManager.scrollQuantity()) + 1) * BoardManager.scrollQuantity();
+            canvas.width = ((canvas.width / BoardManager.scrollQuantityHalfPage()) + 1) * BoardManager.scrollQuantityHalfPage();
             const context = canvas.getContext("2d");
             context.globalCompositeOperation = "source-over";
             context.globalAlpha = 1.0;
@@ -227,8 +250,25 @@ export class BoardManager {
             BoardManager._rightExtendCanvasEnable = false;
             setTimeout(() => { BoardManager._rightExtendCanvasEnable = true }, 1000);//prevent to extend the canvas too many times
         }
-        const x = container.scrollLeft + BoardManager.scrollQuantity();
+        const x = container.scrollLeft + dx;
         container.scrollTo({ top: 0, left: x, behavior: 'smooth' });
+
+    }
+    /**
+     * go right (and extend the board if necessary)
+     */
+    static right(): void {
+        BoardManager._right(BoardManager.scrollQuantity())
+    }
+
+
+    /**
+    * go right (and extend the board if necessary)
+    */
+    static rightNextPage(): void {
+        const container = getContainer();
+        const x = container.scrollLeft + BoardManager.scrollQuantityHalfPage();
+        BoardManager._right(BoardManager.scrollQuantityHalfPage())
         BoardManager.showPageNumber(x);
     }
 
@@ -241,9 +281,9 @@ export class BoardManager {
         pageNumber.classList.remove("pageNumberHidden");
         pageNumber.classList.remove("pageNumber");
         setTimeout(() => {
-            const n = Math.round(x / BoardManager.scrollQuantity());
-            const total = Math.round(canvas.width / BoardManager.scrollQuantity());
-            container.scrollLeft = (n) * BoardManager.scrollQuantity();
+            const n = Math.round(x / BoardManager.scrollQuantityHalfPage());
+            const total = Math.round(canvas.width / BoardManager.scrollQuantityHalfPage());
+            container.scrollLeft = (n) * BoardManager.scrollQuantityHalfPage();
             pageNumber.innerHTML = (n + 1) + "/" + (total); pageNumber.classList.add("pageNumber");
         }, 300)
 
