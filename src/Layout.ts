@@ -15,7 +15,7 @@ export class Layout {
         return document.getElementById("container").scrollLeft + Layout.getWindowWidth();
     }
 
-    static STANDARDHEIGHT = 600;
+    static STANDARDHEIGHT = 1000;
 
     static getWindowWidth: () => number;
     static getWindowHeight: () => number;
