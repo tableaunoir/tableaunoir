@@ -1,5 +1,6 @@
 import { UserManager } from './UserManager';
 import { Menu } from './Menu';
+import { OptionManager } from './OptionManager';
 
 export class ChalkCursor {
 
@@ -11,18 +12,11 @@ export class ChalkCursor {
      * @description adds clicks on buttons in the menu for left- and right-handed options
      */
     static init(): void {
-        const change = (param) => {
-            ChalkCursor.leftHanded = param;
-            if (!param)
-                localStorage.removeItem("leftHanded");
-            else
-                localStorage.setItem("leftHanded", "true");
+        OptionManager.boolean("leftHanded", (leftHanded) => {
+            ChalkCursor.leftHanded = leftHanded;
             UserManager.me.updateCursor();
             Menu.hide();
-        }
-
-        document.getElementById("buttonLefthanded").onclick = () => { change(true); }
-        document.getElementById("buttonRighthanded").onclick = () => { change(false); }
+        });
     }
 
     /**
@@ -31,7 +25,7 @@ export class ChalkCursor {
      * @returns the .style.cursor of the canvas if you want to have a cursor that looks like a chalk with the color color.
      * The cursor is an objet {data: dataofimage, x: position where to click, y: position where to click}
      */
-    static getStyleCursor(color: string): {data: string, x: number, y: number} {
+    static getStyleCursor(color: string): { data: string, x: number, y: number } {
         return { data: ChalkCursor.getCursorURL(color), x: ChalkCursor.leftHanded ? 32 : 0, y: 0 };
     }
 
