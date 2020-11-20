@@ -15,5 +15,8 @@
     "build": "webpack",
     "lint": "eslint src/**.ts",
     "serve": "node server/main.js"
+  },
+  "dependencies": {
+    "html2canvas": "^1.0.0-rc.7"
   }
 }

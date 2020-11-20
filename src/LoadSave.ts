@@ -2,6 +2,7 @@ import { getCanvas } from './main';
 import { MagnetManager } from './magnetManager';
 import { BoardManager } from './boardManager';
 import { Menu } from './Menu'
+import html2canvas from 'html2canvas'
 
 /**
  * this class contains the code for loading/saving a tableaunoir. Also for importing images as magnets.
@@ -123,13 +124,9 @@ export class LoadSave {
      */
     static exportPng(): void {
         const node = document.getElementById("content");
-        alert("to be implemented. Do screenshots.");
-        /*
-         * `npm install --save-deps html2canvas`
-         * import html2canvas from 'html2canvas';
-         * html2canvas(node).then(canvas => {
-            LoadSave.downloadDataURL(document.getElementById("exportPngName").value + ".png", canvas.toDataURL());
-        });*/
+        html2canvas(node).then(canvas => {
+            LoadSave.downloadDataURL((<HTMLInputElement> document.getElementById("exportPngName")).value + ".png", canvas.toDataURL());
+        });
     }
 
 

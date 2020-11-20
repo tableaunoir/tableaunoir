@@ -1,5 +1,6 @@
 import { Layout } from './Layout';
 import { ErrorMessage } from './ErrorMessage';
+import { OptionManager } from './OptionManager';
 
 export class Toolbar {
 
@@ -10,7 +11,7 @@ export class Toolbar {
     static init(): void {
         if (Layout.isTactileDevice()) {
             try {
-                document.getElementById("buttonCloseControls").hidden = true; //on phone or tablet, we can not remove the toolbar, therefore the button is hidden
+                document.getElementById("inputToolbar").hidden = true; //on phone or tablet, we can not remove the toolbar, therefore the button is hidden
 
                 const spans = <NodeListOf<HTMLSpanElement>>document.querySelectorAll("#controls > span");
                 for (let i = 0; i < spans.length; i++) {
@@ -22,6 +23,14 @@ export class Toolbar {
             }
 
         }
+
+        OptionManager.boolean({
+            name: "toolbar",
+            defaultValue: true,
+            onChange: (isToolbar) => {
+                Toolbar.getToolbar().hidden = !isToolbar;
+            }
+        });
 
         Toolbar.helpButtonDivide();
         Toolbar.helpForButtonCloseControls();

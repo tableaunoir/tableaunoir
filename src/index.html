@@ -119,7 +119,7 @@
 			</div>
 
 			<div id="MyBlackboard" class="tabcontent">
-				<h2>Cleaning</h2>
+				<h2>Clear</h2>
 				<div class="menuDiv">
 					<button class="buttonClear" id="blackboardClear">
 						<img src="img/clearboard.png" /><br />clear the board</button>
@@ -129,7 +129,7 @@
 
 				<h2>Load</h2>
 				<div class="menuDiv">
-					<img class="illustration" height="128px" src="img/illustrations/loading.png" />
+					<img align="right" class="illustration" height="128px" src="img/illustrations/loading.png" />
 					<div class="menuDiv">
 						<label for="file">
 							To open an existing board, drag and drop your <em>.tableaunoir file</em> in the application
@@ -141,22 +141,17 @@
 
 				</div>
 				<h2>Save</h2>
-				<img class="illustration" height="128px" src="img/illustrations/saving.png" />
+				<img align="right" class="illustration" height="128px" src="img/illustrations/saving.png" />
 				<div>
 					You may save your board in a <em>.tableaunoir file</em> for using it later:</div>
 				<div class="menuDiv">
 					Name: <input id="name" value="myblackboard" /><button id="save">Save</button>
 				</div>
 
-				<div hidden>
+				<div>
 					<h2>Export</h2>
-					You may export your board as an <em>image .png file</em> for showing it with other people.
-					<div class="warning">
-						You can take a "screenshot" of the current view of the board. You will not be able to import
-						that
-						file again. All magnets will be "flatten" in the resulting
-						image.
-					</div>
+					<div>You may export your board as an <em>image .png file</em> for showing it with other people. All magnets will be "flatten" in the resulting
+					image.</div>
 					<div class="menuDiv">
 						Name: <input id="exportPngName" value="myblackboard" /><button id="exportPng">Get an image
 							of
@@ -189,8 +184,9 @@
 					blackboard</button>
 				<button id="whiteBoardSwitch"><img src="img/switchblackwhite.png" /><br />Switch to
 					whiteboard</button>
-				<button id="controlsToggle" onclick="controls.hidden = !controls.hidden; Menu.hide()">
-					<img src="img/showbuttons.png" /><br />Show/hide toolbar</button>
+				
+				<h2>Interface</h2>
+				<input type="checkbox" id="inputToolbar">Show the toolbar (h)</input>
 				<h2>Cursor</h2>
 				<input type="checkbox" id="inputLeftHanded">Left-handed</input>
 

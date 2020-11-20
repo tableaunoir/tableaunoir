@@ -27,15 +27,16 @@ export class OptionManager {
      * @description declares a boolean option of name name. At initialization, and when changed call onChangeCallBack.
      * Also that boolean is implicitely connected with an HTMLInputElement called "input" + name, that should be a checkbox 
      */
-    static boolean(name: string, onChangeCallBack: (boolean) => void): void {
+    //static boolean({name: string, onChangeCallBack: (boolean) => void}): void {
+        static boolean({name, defaultValue, onChange}: {name: string, defaultValue: boolean, onChange: (boolean) => void}) {
         const el = OptionManager.getInputElement(name);
-        const initialValue = (localStorage[name] == undefined) ? false : parseBoolean(localStorage[name]);
+        const initialValue = (localStorage[name] == undefined) ? defaultValue : parseBoolean(localStorage[name]);
         //console.log(`reading option ${name}: ${localStorage[name]}`)
         el.checked = initialValue;
-        onChangeCallBack(el.checked);
+        onChange(el.checked);
         el.onchange = () => {
             localStorage[name] = el.checked;
-            onChangeCallBack(el.checked);
+            onChange(el.checked);
         };
     }
 

@@ -12,10 +12,14 @@ export class ChalkCursor {
      * @description adds clicks on buttons in the menu for left- and right-handed options
      */
     static init(): void {
-        OptionManager.boolean("leftHanded", (leftHanded) => {
-            ChalkCursor.leftHanded = leftHanded;
-            UserManager.me.updateCursor();
-            Menu.hide();
+        OptionManager.boolean({
+            name: "leftHanded",
+            defaultValue: false,
+            onChange: (leftHanded) => {
+                ChalkCursor.leftHanded = leftHanded;
+                UserManager.me.updateCursor();
+                Menu.hide();
+            }
         });
     }
 
