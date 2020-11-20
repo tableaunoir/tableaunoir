@@ -193,41 +193,25 @@ export class BoardManager {
         return 100;
     }
 
-    /**
-     * go left
-     */
-    static leftPreviousPage(): void {
-        const container = getContainer();
-        const x = container.scrollLeft - BoardManager.scrollQuantityHalfPage();
-        BoardManager._left(BoardManager.scrollQuantityHalfPage());
-        BoardManager.showPageNumber(x);
-    }
 
 
-    private static _left(dx): void {
-        const container = getContainer();
-        const x = container.scrollLeft - dx;
 
+    private static _left(x): void {
         if (x < 0) {
             BoardManager.showPageNumber(0);
             return;
         }
 
-        container.scrollTo({ top: 0, left: x, behavior: 'smooth' });
-    }
-
-
-    /**
-     * go left
-     */
-    static left(): void {
-        BoardManager._left(BoardManager.scrollQuantity());
+        getContainer().scrollTo({ top: 0, left: x, behavior: 'smooth' });
     }
 
 
 
 
-    private static _right(dx): void {
+
+
+
+    private static _right(x): void {
         const MAXCANVASWIDTH = 20000;
         const container = getContainer();
         const canvas = getCanvas();
@@ -236,7 +220,7 @@ export class BoardManager {
             return;
         }
 
-        if ((container.scrollLeft >= canvas.width - Layout.getWindowWidth() - BoardManager.scrollQuantityHalfPage()) && BoardManager._rightExtendCanvasEnable) {
+        if ((x >= canvas.width - Layout.getWindowWidth()) && BoardManager._rightExtendCanvasEnable) {
             const image = new Image();
             image.src = canvas.toDataURL();
             console.log("extension: canvas width " + canvas.width + " to " + (container.scrollLeft + Layout.getWindowWidth()))
@@ -250,26 +234,62 @@ export class BoardManager {
             BoardManager._rightExtendCanvasEnable = false;
             setTimeout(() => { BoardManager._rightExtendCanvasEnable = true }, 1000);//prevent to extend the canvas too many times
         }
-        const x = container.scrollLeft + dx;
+
         container.scrollTo({ top: 0, left: x, behavior: 'smooth' });
 
     }
+
+
+    /**
+     * go left
+     */
+    static left(): void {
+        BoardManager._left(getContainer().scrollLeft - BoardManager.scrollQuantity());
+    }
+
+
     /**
      * go right (and extend the board if necessary)
      */
     static right(): void {
-        BoardManager._right(BoardManager.scrollQuantity())
+        const x = getContainer().scrollLeft + BoardManager.scrollQuantity();
+        BoardManager._right(x);
     }
 
+
+
+    static isCalibratedHalfPage(): boolean {
+        return getContainer().scrollLeft % BoardManager.scrollQuantityHalfPage() == 0;
+    }
+
+    static correctOnLeft(x) {
+        return Math.floor(x / BoardManager.scrollQuantityHalfPage()) * BoardManager.scrollQuantityHalfPage();
+    }
+
+    static correctOnRight(x) {
+        return Math.ceil((x + 1) / BoardManager.scrollQuantityHalfPage()) * BoardManager.scrollQuantityHalfPage();
+    }
+
+    /**
+ * go left
+ */
+    static leftPreviousPage(): void {
+        const container = getContainer();
+        const xCorrected = BoardManager.isCalibratedHalfPage() ? Math.max(0, container.scrollLeft - BoardManager.scrollQuantityHalfPage()) :
+            BoardManager.correctOnLeft(container.scrollLeft);
+
+        BoardManager._left(xCorrected);
+        BoardManager.showPageNumber(xCorrected);
+    }
 
     /**
     * go right (and extend the board if necessary)
     */
     static rightNextPage(): void {
-        const container = getContainer();
-        const x = container.scrollLeft + BoardManager.scrollQuantityHalfPage();
-        BoardManager._right(BoardManager.scrollQuantityHalfPage())
-        BoardManager.showPageNumber(x);
+        const xCorrected = BoardManager.isCalibratedHalfPage() ? getContainer().scrollLeft + BoardManager.scrollQuantityHalfPage() :
+            BoardManager.correctOnRight(getContainer().scrollLeft);
+        BoardManager._right(xCorrected);
+        BoardManager.showPageNumber(xCorrected);
     }
 
 

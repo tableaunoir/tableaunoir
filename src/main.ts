@@ -111,7 +111,7 @@ function load() {
 		document.getElementById("buttonDivide").onclick = Drawing.divideScreen;
 
 		document.getElementById("buttonLeft").onclick = BoardManager.leftPreviousPage;
-		document.getElementById("buttonRight").onclick = BoardManager.right;
+		document.getElementById("buttonRight").onclick = BoardManager.rightNextPage;
 		document.getElementById("buttonCancel").onclick = () => Share.execute("cancel", []);
 		document.getElementById("buttonRedo").onclick = () => Share.execute("redo", []);
 
@@ -162,17 +162,17 @@ function load() {
 				MagnetManager.addMagnetText(UserManager.me.x, UserManager.me.y);
 				evt.preventDefault(); //so that it will not add "new line" in the text element
 			}
-			else if (evt.ctrlKey && evt.key == "ArrowLeft") {
-				BoardManager.leftPreviousPage();
-			}
-			else if (evt.ctrlKey && evt.key == "ArrowRight") {
-				BoardManager.rightNextPage();
-			}
-			else if (evt.key == "ArrowLeft") {
+			else if (evt.shiftKey && evt.key == "ArrowLeft") {
 				BoardManager.left();
 			}
-			else if (evt.key == "ArrowRight") {
+			else if (evt.shiftKey && evt.key == "ArrowRight") {
 				BoardManager.right();
+			}
+			else if (evt.key == "ArrowLeft") {
+				BoardManager.leftPreviousPage();
+			}
+			else if (evt.key == "ArrowRight") {
+				BoardManager.rightNextPage();
 			}
 			else if (evt.key == "d")  //d = divide screen
 				Drawing.divideScreen();
