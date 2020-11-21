@@ -38,7 +38,7 @@ jobs:
           # Deployed to the organisation website
           REPOSITORY_NAME: tableaunoir/tableaunoir.github.io
           ACCESS_TOKEN: ${{ secrets.ACCESS_TOKEN }}
-          BRANCH: master
+          BRANCH: main
           # This is the folder the website is generated
           FOLDER: dist
           CLEAN: true
