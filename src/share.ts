@@ -359,14 +359,13 @@ export class Share {
 		Share.id = id;
 
 		const url = document.location.href;
-		/*	if (url.startsWith("file://"))
-				url = DEFAULTADDRESS;*/
 
 		const newUrl = url + "?id=" + id;
 		history.pushState({}, null, newUrl);
 
 		(<HTMLInputElement>document.getElementById("shareUrl")).value = url.startsWith("file://") ? config.server.frontend + "?id=" + id : newUrl;
 
+		UserManager.updateGUIUsers(); //update the user because now the tableau is shared
 		//document.getElementById("canvas").toBlob((blob) => Share.sendFullCanvas(blob));
 
 	}

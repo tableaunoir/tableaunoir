@@ -73,6 +73,11 @@ export class Menu {
     }
 
 
+    static openPageShare(): void {
+        Menu.openPage("Share", document.getElementById("tabShare"));
+    }
+
+
     /**
      * @returns true iff the menu is shown
      */

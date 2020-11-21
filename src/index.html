@@ -66,7 +66,7 @@
 	<div id="menu" class="menuHide MenuPanel">
 		<div class="tabs">
 			<button class="tablink" id="defaultOpen" onclick="Menu.openPage('MyBlackboard', this)">⎕ My Board</button>
-			<button class="tablink" onclick="Menu.openPage('Share', this)">🔗 Share</button>
+			<button class="tablink" id="tabShare" onclick="Menu.openPage('Share', this)">🔗 Share</button>
 			<button class="tablink" onclick="Menu.openPage('Background', this)">🖼 Background</button>
 			<button class="tablink" onclick="Menu.openPage('Magnets', this)">🎊 Magnets</button>
 
@@ -326,7 +326,7 @@
 					<h2>Users</h2>
 					<div id="userList"></div>
 
-					
+
 					<h2>Discussion</h2>
 					<button id="buttonAskQuestion" title="Ask a question because you do not understand the course">
 						<img class="icon" src="img/icons/say.svg" /></button>

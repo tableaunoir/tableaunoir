@@ -1,3 +1,4 @@
+import { Menu } from "./Menu";
 import { OptionManager } from "./OptionManager";
 import { Share } from "./share";
 import { User } from "./User";
@@ -26,6 +27,11 @@ export class UserManager {
                 setTimeout(() => Share.execute("setUserName", [UserManager.me.userID, userName]), 1000);
             }
         });
+
+        document.getElementById("numberOfUsers").onclick = () => {
+            Menu.show();
+            Menu.openPageShare();
+        }
     }
 
 
