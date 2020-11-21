@@ -130,8 +130,8 @@ export class UserManager {
             i++;
         }
 
-
-        document.getElementById("numberOfUsers").innerHTML = UserManager.getUserImage("u0").outerHTML + " × " + UserManager.getNumberOfUsers();
+        if (Share.isShared())
+            document.getElementById("numberOfUsers").innerHTML = UserManager.getUserImage("u0").outerHTML + " × " + UserManager.getNumberOfUsers();
 
     }
 
