@@ -344,11 +344,12 @@ function treatReceivedMessageFromClient(msg) {
       tableaunoirs[tableaunoirID].setPassWord(msg.password);
 
       tableaunoirs[tableaunoirID].sendTo({ type: "id", id: tableaunoirID, to: msg.socket.userid });
-      //msg.socket.send(JSON.stringify({ type: "id", id: tableaunoirID }));
       break;
 
     case "join":
+      let joinButCreator = false;
       if (tableaunoirs[tableaunoirID] == undefined) {
+        joinButCreator = true;
         print("automatic creation of a tableaunoir of id " + msg.id)
         tableaunoirs[tableaunoirID] = new TableauNoir();
       }
@@ -357,6 +358,9 @@ function treatReceivedMessageFromClient(msg) {
 
       if (!tableaunoirs[tableaunoirID].isProtected())
         tableaunoirs[tableaunoirID].sendTo({ type: "root", to: msg.socket.userid });
+
+      if (joinButCreator)
+        tableaunoirs[tableaunoirID].sendTo({ type: "ready", to: msg.socket.userid });
 
       break;
 

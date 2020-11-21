@@ -1,3 +1,4 @@
+import { Loading } from './Loading';
 import { getCanvas } from './main';
 import { MagnetManager } from './magnetManager';
 import { BoardManager } from './boardManager';
@@ -30,7 +31,7 @@ export class Share {
 
 		Share.ws.onopen = f;
 		Share.ws.onmessage = (msg) => {
-			console.log("I received the message: ");
+		//	console.log("I received the message: ");
 			Share._treatReceivedMessage(JSON.parse(msg.data));
 		};
 
@@ -74,6 +75,7 @@ export class Share {
 			document.getElementById('ShareGithub').hidden = true;
 
 		if (Share.isSharedURL()) {
+			Loading.show();
 			const tryJoin = () => {
 				try {
 					Share.id = Share.getIDInSharedURL();
@@ -176,10 +178,10 @@ export class Share {
 	 * @description treats the msg received from the server
 	 */
 	static _treatReceivedMessage(msg: any): void {
-		if (msg.type != "fullCanvas" && msg.type != "magnets" && msg.type != "execute")
+		/*if (msg.type != "fullCanvas" && msg.type != "magnets" && msg.type != "execute")
 			console.log("Server -> me: " + JSON.stringify(msg));
 		else
-			console.log("Server -> me: " + msg.type);
+			console.log("Server -> me: " + msg.type);*/
 		switch (msg.type) {
 			case "id": Share._setTableauID(msg.id); break;
 			case "youruserid": // "your name is ..."
@@ -198,6 +200,8 @@ export class Share {
 
 				UserManager.add(msg.userid);
 				break;
+			case "ready": //oh you are ready to participate!
+				break;
 			case "root": //you obtained root permission and the server tells you that
 				console.log("I am root.")
 				Share.setRoot();
@@ -215,6 +219,7 @@ export class Share {
 					//getCanvas().toBlob((blob) => Share.sendFullCanvas(blob, msg.userid));
 					Share.sendFullCanvas(msg.userid);
 					Share.sendMagnets(msg.userid);
+					Share.send({ type: "ready", to: msg.userid });
 					Share.execute("setUserCanWrite", [msg.userid, Share.canWriteValueByDefault]);
 
 					for (const userid in UserManager.users)
@@ -226,6 +231,7 @@ export class Share {
 				UserManager.leave(msg.userid);
 				break;
 			case "fullCanvas":
+				Loading.hide();
 				BoardManager.loadWithoutSave(msg.data);
 				break;
 			case "magnets":

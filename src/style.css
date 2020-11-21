@@ -700,3 +700,29 @@ h1 {
 	pointer-events: none;
 	color: grey;
 }
+
+
+#loading {
+	z-index: 10000;
+	padding: 96px;
+	background-repeat: repeat;
+	text-align: center;
+	vertical-align: middle;
+	left: 0px;
+	top: 0px;
+	font-size: 24px;
+	color: white;
+	position: absolute;
+}
+
+@keyframes loadingAnimation  {
+	from {
+		top: 0px;
+	}
+
+	to {
+		top: -100%;
+	}
+}
+
+
