@@ -2,8 +2,36 @@ import { OptionManager } from './OptionManager';
 import { getCanvas, getCanvasBackground, getContainer } from './main';
 
 export class Layout {
+
+    /**
+ * @returns the number of pixels when scrolling
+ */
+    static scrollQuantityHalfPage(): number {
+        const THESHOLD = 1500;
+        const middle = Layout.getWindowWidth() / 2;
+        return Math.min(middle, THESHOLD);
+    }
+
+
+    static isCalibratedHalfPage(): boolean {
+        return getContainer().scrollLeft % Layout.scrollQuantityHalfPage() == 0;
+    }
+
+    static correctOnLeft(x) {
+        return Math.floor(x / Layout.scrollQuantityHalfPage()) * Layout.scrollQuantityHalfPage();
+    }
+
+    static correctRound(x) {
+        return Math.round(x / Layout.scrollQuantityHalfPage()) * Layout.scrollQuantityHalfPage();
+    }
+ 
+    static correctOnRight(x) {
+        return Math.ceil((x + 1) / Layout.scrollQuantityHalfPage()) * Layout.scrollQuantityHalfPage();
+    }
+
+
     static getXMiddle(): number {
-        return document.getElementById("container").scrollLeft + Layout.getWindowWidth() / 2;
+        return Layout.correctRound(document.getElementById("container").scrollLeft) + Layout.getWindowWidth() / 2;
     }
 
 
@@ -102,7 +130,7 @@ export class Layout {
     /**
         * rescaling with the screen
         */
-    static initW() : void {
+    static initW(): void {
         const canvas = getCanvas();
         const canvasBackground = getCanvasBackground();
         canvas.height = Layout.STANDARDHEIGHT;

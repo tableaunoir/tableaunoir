@@ -176,14 +176,7 @@ export class BoardManager {
 
     }
 
-    /**
-     * @returns the number of pixels when scrolling
-     */
-    static scrollQuantityHalfPage(): number {
-        const THESHOLD = 1500;
-        const middle = Layout.getWindowWidth() / 2;
-        return Math.min(middle, THESHOLD);
-    }
+
 
 
     /**
@@ -224,7 +217,7 @@ export class BoardManager {
             const image = new Image();
             image.src = canvas.toDataURL();
             console.log("extension: canvas width " + canvas.width + " to " + (container.scrollLeft + Layout.getWindowWidth()))
-            canvas.width = ((canvas.width / BoardManager.scrollQuantityHalfPage()) + 1) * BoardManager.scrollQuantityHalfPage();
+            canvas.width = ((canvas.width / Layout.scrollQuantityHalfPage()) + 1) * Layout.scrollQuantityHalfPage();
             const context = canvas.getContext("2d");
             context.globalCompositeOperation = "source-over";
             context.globalAlpha = 1.0;
@@ -258,25 +251,14 @@ export class BoardManager {
 
 
 
-    static isCalibratedHalfPage(): boolean {
-        return getContainer().scrollLeft % BoardManager.scrollQuantityHalfPage() == 0;
-    }
-
-    static correctOnLeft(x) {
-        return Math.floor(x / BoardManager.scrollQuantityHalfPage()) * BoardManager.scrollQuantityHalfPage();
-    }
-
-    static correctOnRight(x) {
-        return Math.ceil((x + 1) / BoardManager.scrollQuantityHalfPage()) * BoardManager.scrollQuantityHalfPage();
-    }
 
     /**
  * go left
  */
     static leftPreviousPage(): void {
         const container = getContainer();
-        const xCorrected = BoardManager.isCalibratedHalfPage() ? Math.max(0, container.scrollLeft - BoardManager.scrollQuantityHalfPage()) :
-            BoardManager.correctOnLeft(container.scrollLeft);
+        const xCorrected = Layout.isCalibratedHalfPage() ? Math.max(0, container.scrollLeft - Layout.scrollQuantityHalfPage()) :
+            Layout.correctOnLeft(container.scrollLeft);
 
         BoardManager._left(xCorrected);
         BoardManager.showPageNumber(xCorrected);
@@ -286,8 +268,8 @@ export class BoardManager {
     * go right (and extend the board if necessary)
     */
     static rightNextPage(): void {
-        const xCorrected = BoardManager.isCalibratedHalfPage() ? getContainer().scrollLeft + BoardManager.scrollQuantityHalfPage() :
-            BoardManager.correctOnRight(getContainer().scrollLeft);
+        const xCorrected = Layout.isCalibratedHalfPage() ? getContainer().scrollLeft + Layout.scrollQuantityHalfPage() :
+            Layout.correctOnRight(getContainer().scrollLeft);
         BoardManager._right(xCorrected);
         BoardManager.showPageNumber(xCorrected);
     }
@@ -301,9 +283,9 @@ export class BoardManager {
         pageNumber.classList.remove("pageNumberHidden");
         pageNumber.classList.remove("pageNumber");
         setTimeout(() => {
-            const n = Math.round(x / BoardManager.scrollQuantityHalfPage());
-            const total = Math.round(canvas.width / BoardManager.scrollQuantityHalfPage());
-            container.scrollLeft = (n) * BoardManager.scrollQuantityHalfPage();
+            const n = Math.round(x / Layout.scrollQuantityHalfPage());
+            const total = Math.round(canvas.width / Layout.scrollQuantityHalfPage());
+            container.scrollLeft = (n) * Layout.scrollQuantityHalfPage();
             pageNumber.innerHTML = (n + 1) + "/" + (total); pageNumber.classList.add("pageNumber");
         }, 300)
 
