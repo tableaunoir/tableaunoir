@@ -18,38 +18,20 @@ import { UserManager } from './UserManager';
  * Represents a user (maybe you?)
  */
 export class User {
-    isToolDraw(): boolean {
-        return this.tool instanceof ToolDraw;
-    }
+    isToolDraw(): boolean { return this.tool instanceof ToolDraw; }
+    get isToolErase(): boolean { return this.tool instanceof ToolEraser; }
 
-    get isToolErase(): boolean {
-        return this.tool instanceof ToolEraser;
-    }
-
-
-    get x(): number {
-        return this.tool.x;
-    }
-
-    get y(): number {
-        return this.tool.y;
-    }
+    get x(): number { return this.tool.x; }
+    get y(): number { return this.tool.y; }
 
     alreadyDrawnSth = false; // true if something visible has been drawn (If still false, draw a dot)
-
-
     canWrite = true;
-
     color = "white";
-
     cursor = undefined;
-
     tool = undefined;
     elementName = undefined;
-
     userID = "0";
     private _name = "";
-
 
     set name(newName) {
         this._name = newName;
@@ -57,19 +39,11 @@ export class User {
             this.elementName.innerHTML = this._name;
     }
 
-    get name() {
-        return this._name;
-    }
-    setUserID(userID: string): void {
-        this.userID = userID;
-    }
+    get name() { return this._name; }
 
-    setCanWrite(bool: boolean): void {
-        this.canWrite = bool;
-    }
+    setUserID(userID: string): void { this.userID = userID; }
 
-
-
+    setCanWrite(bool: boolean): void { this.canWrite = bool; }
 
     /**
      *
@@ -77,8 +51,6 @@ export class User {
      * @description create the user.
      */
     constructor(isCurrentUser: boolean) {
-
-
         if (!isCurrentUser) {
             this.cursor = document.createElement("div");
             this.cursor.classList.add("cursor");
@@ -96,14 +68,7 @@ export class User {
     /**
      * @returns true iff the user is the current user (the one that controls the mouse)
      */
-    get isCurrentUser(): boolean {
-        return (this == UserManager.me);
-    }
-
-
-
-
-
+    get isCurrentUser(): boolean { return (this == UserManager.me); }
 
     /**
      * tells that the user has disconnected
@@ -124,38 +89,19 @@ export class User {
 
 
 
-    switchChalk(): void {
-        this.tool = new ToolDraw(this);
-    }
-
-
-    switchErase(): void {
-        this.tool = new ToolEraser(this);
-    }
-
-    switchLine(): void {
-        this.tool = new ToolLine(this);
-    }
-
-    switchRectangle(): void {
-        this.tool = new ToolRectangle(this);
-    }
-
-    switchEllipseByBorder(): void {
-        this.tool = new ToolEllipseByBorder(this);
-    }
-
-
-    switchEllipseByCenter(): void {
-        this.tool = new ToolEllipseByCenter(this);
-    }
+    switchChalk(): void { this.tool = new ToolDraw(this); }
+    switchErase(): void { this.tool = new ToolEraser(this); }
+    switchLine(): void { this.tool = new ToolLine(this); }
+    switchRectangle(): void { this.tool = new ToolRectangle(this); }
+    switchEllipseByBorder(): void { this.tool = new ToolEllipseByBorder(this); }
+    switchEllipseByCenter(): void { this.tool = new ToolEllipseByCenter(this); }
 
 
     mousedown(evt): void {
         MagnetManager.setInteractable(false);
 
         //unselect the selected element (e.g. a text in edit mode)
-        (<any>document.activeElement).blur();
+        (<HTMLElement>document.activeElement).blur();
 
         this.tool.isDrawing = true;
 
@@ -186,9 +132,6 @@ export class User {
         }
 
         if (this.canWrite) {
-            if (this.isCurrentUser && this.tool.isDrawing)
-                CircularMenu.hide();
-
             this.tool.mousemove(evt);
         }
 
@@ -200,9 +143,8 @@ export class User {
     mouseup(evt): void {
         MagnetManager.setInteractable(true);
 
-        if (this.canWrite) {
+        if (this.canWrite)
             this.tool.mouseup(evt);
-        }
 
         this.tool.isDrawing = false;
     }
