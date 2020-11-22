@@ -1,3 +1,4 @@
+import { MagnetManager } from './magnetManager';
 import { Share } from './share';
 import { ToolEllipse } from './ToolEllipse';
 import { ToolRectangle } from './ToolRectangle';
@@ -7,6 +8,12 @@ import { CircularMenu } from './CircularMenu';
 export class ToolMenu extends CircularMenu {
     constructor() {
         super();
+
+        let buttonMagnetize = new Image();
+        buttonMagnetize.src = "img/icons/magnetize.svg";
+        buttonMagnetize.title = "Magnetize the last drawn shape (Ctrl + X)";
+
+
         let buttonFreeDraw = new Image();
         buttonFreeDraw.src = "img/icons/free.svg";
         buttonFreeDraw.title = "Draw and write freely";
@@ -26,13 +33,21 @@ export class ToolMenu extends CircularMenu {
         let buttonEllipseByCenter = new Image();
         buttonEllipseByCenter.src = "img/icons/26AAcenter.svg";
         buttonEllipseByCenter.title = "Draw an ellipse (center then radius)";
-        
 
+        this.addButton(buttonMagnetize);
         this.addButton(buttonFreeDraw);
         this.addButton(buttonLine);
         this.addButton(buttonRectangle);
         this.addButton(buttonEllipseByBorder);
         this.addButton(buttonEllipseByCenter);
+
+
+        buttonMagnetize.onclick = () => {
+            if (UserManager.me.tool.lastDelineation.containsPolygonToMagnetize())
+                UserManager.me.tool.lastDelineation.cutAndMagnetize();
+            CircularMenu.hide();
+        };
+
 
         buttonFreeDraw.onclick = () => {
             Share.execute("switchChalk", [UserManager.me.userID]);
