@@ -16,7 +16,7 @@ export abstract class ToolEllipse extends ToolAbstractShape {
 
     abstract compute = undefined;
 
-    
+
     getShape = (evt) => {
         const svgns = "http://www.w3.org/2000/svg";
         const shape = <SVGEllipseElement>document.createElementNS(svgns, 'ellipse');
@@ -38,18 +38,16 @@ export abstract class ToolEllipse extends ToolAbstractShape {
     }
 
 
-
+    /**
+     * the contour for making a magnet of the shape of an ellipse
+     */
     fillDelineation = (evt) => {
-        const x1 = Math.min(this.xInit, this.x);
-        const y1 = Math.min(this.yInit, this.y);
-        const x2 = Math.max(this.xInit, this.x);
-        const y2 = Math.max(this.yInit, this.y);
+        const precision = 200;
 
-        this.lastDelineation.addPoint({ x: x1, y: y1 });
-        this.lastDelineation.addPoint({ x: x2, y: y1 });
-        this.lastDelineation.addPoint({ x: x2, y: y2 });
-        this.lastDelineation.addPoint({ x: x1, y: y2 });
-        this.lastDelineation.addPoint({ x: x1, y: y1 });
+        for (let i = 0; i < precision; i++) {
+            const angle = 2 * Math.PI * i / precision;
+            this.lastDelineation.addPoint({ x: this.cx + this.rx * Math.cos(angle), y: this.cy + this.ry * Math.sin(angle) });
+        }
     }
 
 
