@@ -22,6 +22,10 @@ export class User {
         return this.tool instanceof ToolDraw;
     }
 
+    get isToolErase(): boolean {
+        return this.tool instanceof ToolEraser;
+    }
+
 
     get x(): number {
         return this.tool.x;

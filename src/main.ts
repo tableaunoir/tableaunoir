@@ -135,7 +135,8 @@ function load() {
 	BlackVSWhiteBoard.init();
 
 	palette.onchange = () => {
-		Share.execute("switchChalk", [UserManager.me.userID]);
+		if (UserManager.me.isToolErase)
+			Share.execute("switchChalk", [UserManager.me.userID]);
 		Share.execute("setCurrentColor", [UserManager.me.userID, palette.getCurrentColor()]);
 	}
 

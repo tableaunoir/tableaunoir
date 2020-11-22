@@ -62,7 +62,7 @@ export abstract class ToolAbstractShape extends Tool {
 
     updateCursor(): void {
         if (this.user.isCurrentUser) {
-            this.setToolCursorImage(ChalkCursor.getStyleCursor(this.user.color));
+            //at some point reflect the color in the cursor for drawing shapes ;)
         }
     }
 

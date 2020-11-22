@@ -41,6 +41,7 @@ export class CircularMenu {
  * @description show the palette at position position
  */
     show(position: { x: number, y: number }): void {
+        CircularMenu.hide();
 
         position.y = Math.max(position.y, CircularMenu.radius + 32 + 48);
         position.x = Math.max(position.x, CircularMenu.radius + 32 + 48);
