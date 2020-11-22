@@ -110,6 +110,10 @@ function load() {
 	document.getElementById("buttonChalk").onclick = switchChalkEraser;
 	document.getElementById("buttonEraser").onclick = switchChalkEraser;
 
+	document.getElementById("buttonTools").onclick = () => {
+		toolmenu.show({ x: UserManager.me.x, y: UserManager.me.y });
+	}
+
 	document.getElementById("buttonText").onclick = () => MagnetManager.addMagnetText(UserManager.me.x, UserManager.me.y);
 	document.getElementById("buttonDivide").onclick = Drawing.divideScreen;
 

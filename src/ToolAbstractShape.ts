@@ -9,11 +9,17 @@ export abstract class ToolAbstractShape extends Tool {
     lastDelineation = new Delineation();
     shape: SVGRectElement = undefined;
 
-    getShape = undefined;
+    //to be implemented for a concrete shape
+    abstract compute = undefined; 
 
-    drawShape = undefined;
+    //to be implemented for a concrete shape
+    abstract getShape = undefined; 
 
-    fillDelineation = undefined;
+    //to be implemented for a concrete shape
+    abstract drawShape = undefined;
+
+    //to be implemented for a concrete shape
+    abstract fillDelineation = undefined;
 
 
     constructor(user: User) {
@@ -21,7 +27,7 @@ export abstract class ToolAbstractShape extends Tool {
         if (this.user.isCurrentUser) {
             document.getElementById("buttonEraser").hidden = false;
             document.getElementById("buttonChalk").hidden = true;
-            this.setToolCursorImage(ChalkCursor.getStyleCursor(this.user.color));
+            document.getElementById("canvas").style.cursor = "crosshair";
         }
     }
 
@@ -35,6 +41,7 @@ export abstract class ToolAbstractShape extends Tool {
     mousemove(evt: any): void {
         if (this.isDrawing) {
             this.shape.remove();
+            this.compute(evt);
             this.shape = this.getShape(evt);
             document.getElementById("svg").appendChild(this.shape);
         }

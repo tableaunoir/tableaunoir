@@ -21,6 +21,8 @@
 				src="img/icons/270F.svg" /></button>
 		<button id="buttonEraser" title="Switch between erase and draw"><img class="icon"
 				src="img/icons/eraser-svgrepo-com.svg" /></button><span class="keyboardkeyhelp">e</span>
+		<button id="buttonTools" title="Open a menu with a lot of tools"><img class="icon"
+				src="img/icons/tools.svg" /></button><span class="keyboardkeyhelp">t</span>
 		<button id="buttonText" title="Add text (and/or LaTeX) written with the keyboard"><img class="icon"
 				src="img/icons/text-svgrepo-com.svg" /></button><span class="keyboardkeyhelp">Enter</span>
 		<button id="buttonDivide" title="Divide the screen vertically in two"><img class="icon"
@@ -39,12 +41,12 @@
 
 		<button id="buttonShare" title="share and copy link to clipboard if possible"><img class="icon"
 				src="img/icons/E253.svg" /></button>
-		<button id="buttonCloseControls" title="Hide this toolbar (it can be shown again in the menu)"
-			onclick="controls.hidden = true; welcome.hidden = true;"><img class="icon" src="img/icons/hidetoolbar.svg" /></button><span
-			class="keyboardkeyhelp">h</span>
+		<button hidden id="buttonCloseControls" title="Hide this toolbar (it can be shown again in the menu)"
+			onclick="controls.hidden = true; welcome.hidden = true;"><img class="icon"
+				src="img/icons/hidetoolbar.svg" /></button><span class="keyboardkeyhelp">hide toolbar = h</span>
 		<div id="numberOfUsers"></div>
 	</div>
-	
+
 	<div id="content">
 		<canvas id="canvasBackground" width=2000 height=1200></canvas>
 		<div id="container">
@@ -61,7 +63,7 @@
 
 	<div hidden id="loading">
 		<div>Welcome to tableaunoir. The shared board you are trying to reach will appear soon. Please wait...</div>
-		<img src="https://upload.wikimedia.org/wikipedia/commons/2/27/Dots_Glitch.gif"/>
+		<img src="https://upload.wikimedia.org/wikipedia/commons/2/27/Dots_Glitch.gif" />
 	</div>
 	<div class="pageNumberHidden" id="pageNumber">1</div>
 
@@ -153,8 +155,9 @@
 
 				<div>
 					<h2>Export</h2>
-					<div>You may export your board as an <em>image .png file</em> for showing it with other people. All magnets will be "flatten" in the resulting
-					image.</div>
+					<div>You may export your board as an <em>image .png file</em> for showing it with other people. All
+						magnets will be "flatten" in the resulting
+						image.</div>
 					<div class="menuDiv">
 						Name: <input id="exportPngName" value="myblackboard" /><button id="exportPng">Get an image
 							of
@@ -178,7 +181,7 @@
 				<h2>Your own background</h2>
 				<div>You can also import your own background:</div>
 
-				<input type="file" accept="image/png, image/jpeg image/svg" id="inputBackground"/>
+				<input type="file" accept="image/png, image/jpeg image/svg" id="inputBackground" />
 			</div>
 
 
@@ -187,13 +190,13 @@
 					blackboard</button>
 				<button id="whiteBoardSwitch"><img src="img/switchblackwhite.png" /><br />Switch to
 					whiteboard</button>
-				
+
 				<h2>Interface</h2>
 				<input type="checkbox" id="inputToolbar">Show the toolbar (h)</input>
 				<h2>Cursor</h2>
 				<input type="checkbox" id="inputLeftHanded">Left-handed</input>
 				<input hidden type="checkbox" id="inputHorizontalScrollbar">Show a horizontal scrollbar</input>
-				
+
 
 			</div>
 
@@ -367,7 +370,7 @@
 					</div>
 
 
-					
+
 
 				</div>
 			</div>
@@ -424,7 +427,8 @@
 				<img src="img/help/latex.gif" />
 				<ul>
 					<li>Create a text magnet by pressing <span class="keyboardkey">Enter</span></li>
-					<li>Type your LaTeX code between <code>\[</code> and <code>\]</code> ($..$ dollars not supported)</li>
+					<li>Type your LaTeX code between <code>\[</code> and <code>\]</code> ($..$ dollars not supported)
+					</li>
 					<li>Press <span class="keyboardkey">Esc.</span> to get the output</li>
 				</ul>
 			</div>

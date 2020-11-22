@@ -40,10 +40,10 @@ export class CircularMenu {
  * @param position a point {x: ..., y: ...}
  * @description show the palette at position position
  */
-    show(position: { x, y }): void {
+    show(position: { x: number, y: number }): void {
 
-        position.y = Math.max(position.y, CircularMenu.radius + 16 + 48);
-        position.x = Math.max(position.x, CircularMenu.radius + 16 + 48);
+        position.y = Math.max(position.y, CircularMenu.radius + 32 + 48);
+        position.x = Math.max(position.x, CircularMenu.radius + 32 + 48);
 
         this.container.style.left = position.x + "px";
         this.container.style.top = position.y + "px";

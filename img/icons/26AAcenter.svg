@@ -10,7 +10,7 @@
    id="emoji"
    viewBox="0 0 72 72"
    version="1.1"
-   sodipodi:docname="26AA.svg"
+   sodipodi:docname="26AAcenter.svg"
    inkscape:version="0.92.4 (unknown)">
   <metadata
      id="metadata13">
@@ -39,8 +39,8 @@
      id="namedview9"
      showgrid="false"
      inkscape:zoom="3.2777778"
-     inkscape:cx="4.5762712"
-     inkscape:cy="36"
+     inkscape:cx="-61.779661"
+     inkscape:cy="34.779661"
      inkscape:window-x="0"
      inkscape:window-y="27"
      inkscape:window-maximized="1"
@@ -69,13 +69,13 @@
   <circle
      style="opacity:1;fill:#0000ff;fill-opacity:1;stroke:#ffffff;stroke-width:0.40711251;stroke-miterlimit:4;stroke-dasharray:0, 0.40711249, 0.81422498, 1.22133747, 1.62844996, 2.03556246, 2.44267497, 2.84978746, 3.25689995, 3.66401244, 4.07112493, 4.47823742, 4.88534991, 5.2924624, 5.6995749;stroke-dashoffset:37.79527664;stroke-opacity:1"
      id="path822"
-     cx="10.237288"
-     cy="9.6271191"
+     cx="35.559322"
+     cy="36.169491"
      r="5.652308" />
   <circle
      style="opacity:1;fill:#0000ff;fill-opacity:1;stroke:#ffffff;stroke-width:0.40711251;stroke-miterlimit:4;stroke-dasharray:0, 0.40711249, 0.81422498, 1.22133747, 1.62844996, 2.03556246, 2.44267497, 2.84978746, 3.25689995, 3.66401244, 4.07112493, 4.47823742, 4.88534991, 5.2924624, 5.6995749;stroke-dashoffset:37.79527664;stroke-opacity:1"
      id="path822-3"
-     cx="63.593224"
-     cy="62.847458"
+     cx="60.847462"
+     cy="21.355932"
      r="5.652308" />
 </svg>

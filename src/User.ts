@@ -1,3 +1,4 @@
+import { ToolLine } from './ToolLine';
 import { CircularMenu } from './CircularMenu';
 import { ToolRectangle } from './ToolRectangle';
 import { ToolEllipse } from './ToolEllipse';
@@ -20,11 +21,11 @@ export class User {
     }
 
 
-    get x() {
+    get x(): number {
         return this.tool.x;
     }
 
-    get y() {
+    get y(): number {
         return this.tool.y;
     }
 
@@ -126,6 +127,9 @@ export class User {
         this.tool = new ToolEraser(this);
     }
 
+    switchLine(): void {
+        this.tool = new ToolLine(this);
+    }
 
     switchRectangle(): void {
         this.tool = new ToolRectangle(this);

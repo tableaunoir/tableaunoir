@@ -36,6 +36,10 @@ export class ShareEvent {
         UserManager.users[userId].switchChalk();
     }
 
+    static switchLine(userId: string): void {
+        UserManager.users[userId].switchLine();
+    }
+
     static switchRectangle(userId: string): void {
         UserManager.users[userId].switchRectangle();
     }
