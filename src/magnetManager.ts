@@ -28,33 +28,25 @@ export class MagnetManager {
 	/**
 	 * @returns the magnet under the cursor
 	 */
-	static getMagnetUnderCursor(): HTMLElement {
-		return MagnetManager.magnetUnderCursor;
-	}
+	static getMagnetUnderCursor(): HTMLElement {		return MagnetManager.magnetUnderCursor;	}
 
 
 	/**
 	 * @returns true iff there is a current magnet
 	 */
-	static hasCurrentMagnet(): boolean {
-		return MagnetManager.currentMagnet == undefined;
-	}
+	static hasCurrentMagnet(): boolean {		return MagnetManager.currentMagnet == undefined;	}
 
 
 	/**
 	 * @description set that there is no current magnet
 	 */
-	static noCurrentMagnet(): void {
-		MagnetManager.currentMagnet = undefined;
-	}
+	static noCurrentMagnet(): void {		MagnetManager.currentMagnet = undefined;	}
 
 
 	/**
 	 * @returns the ID of the current magnet
 	 */
-	static getCurrentMagnetID(): string {
-		return MagnetManager.currentMagnet.id;
-	}
+	static getCurrentMagnetID(): string {		return MagnetManager.currentMagnet.id;	}
 
 
 
@@ -85,9 +77,7 @@ export class MagnetManager {
 	/**
 	 * @returns the top Y when a set of magnets is automatically arranged
 	 */
-	static getYTopWhenNewMagnets(): number {
-		return 64;
-	}
+	static getYTopWhenNewMagnets(): number {		return 64;	}
 
 	/**
 	 * delete all the magnets
@@ -133,12 +123,10 @@ export class MagnetManager {
 		}
 
 
-		if (element.tagName == "IMG") {
+		if (element.tagName == "IMG")
 			element.addEventListener("load", f);
-		}
-		else {
+		else 
 			f();
-		}
 
 		MagnetManager._installMagnet(element);
 	}
@@ -306,12 +294,11 @@ export class MagnetManager {
 	static setZIndex(element: HTMLElement): void {
 		const f = () => { const LARGENUMBER = 10000; element.style.zIndex = "" + (LARGENUMBER - element.clientWidth); };
 
-		if (element.tagName == "IMG") {
+		if (element.tagName == "IMG")
 			element.addEventListener("load", f);
-		}
-		else {
+		else 
 			f();
-		}
+		
 	}
 
 
