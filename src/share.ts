@@ -271,7 +271,7 @@ export class Share {
 	 *
 	 */
 	static send(msg: any): void {
-		msg.id = Share.id;
+		msg.id = Share.id; //adds the ID of the current board to the message
 		this.ws.send(JSON.stringify(msg));
 	}
 

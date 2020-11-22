@@ -1,5 +1,11 @@
 'use strict';
 
+const http = require('http');
+const WebSocket = require('ws'); //websocket library
+const fs = require('fs'); //filesystem
+const uuid = require('small-uuid'); //for generating small IDs
+
+
 /**********************************************************************************
  * Different possibilities for creating the socket
  */
@@ -27,13 +33,10 @@ const SOCKET_ADDR = { port: 8080 };
 /********************************************************************************* */
 
 
-const http = require('http');
-const WebSocket = require('ws'); //websocket library
-const fs = require('fs'); //filesystem
-const uuid = require('small-uuid'); //for generating small IDs
-
 console.log("WELCOME TO TABLEAUNOIR!");
 
+
+/** this should be in a different file but import/export does not work */
 
 class ServerCreation {
   /**
@@ -99,6 +102,9 @@ class ServerCreation {
 
 
 }
+
+
+
 
 const server = ServerCreation.createWebSocketServer(SOCKET_ADDR);
 
@@ -256,6 +262,7 @@ class TableauNoir {
   removeSocket(socket) {
     print(socket.userid + " leaves.");
     this.sockets = this.sockets.filter(s => s !== socket);
+    this.rootSockets = this.rootSockets.filter(s => s !== socket);
     this.dispatch({ type: "leave", userid: socket.userid }, socket); //tells the others that socket leaved
   }
 

@@ -31,6 +31,8 @@ export class User {
     color = "white";
 
     cursor = undefined;
+
+    tool = new ToolDraw();
     toolCursor = undefined;
     elementName = undefined;
 
