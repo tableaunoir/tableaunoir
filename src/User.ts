@@ -1,3 +1,5 @@
+import { ToolEllipseByCenter } from './ToolEllipseByCenter';
+import { ToolEllipseByBorder } from './ToolEllipseByBorder';
 import { ToolLine } from './ToolLine';
 import { CircularMenu } from './CircularMenu';
 import { ToolRectangle } from './ToolRectangle';
@@ -135,9 +137,16 @@ export class User {
         this.tool = new ToolRectangle(this);
     }
 
-    switchEllipse(): void {
-        this.tool = new ToolEllipse(this);
+    switchEllipseByBorder(): void {
+        this.tool = new ToolEllipseByBorder(this);
     }
+
+
+    switchEllipseByCenter(): void {
+        this.tool = new ToolEllipseByCenter(this);
+    }
+
+
     mousedown(evt): void {
         MagnetManager.setInteractable(false);
 

@@ -332,7 +332,7 @@ export class Share {
 	static execute(event: string, params: any[]): void {
 		function adapt(obj) {
 			if (obj instanceof MouseEvent) {
-				return { pressure: (<any>obj).pressure, offsetX: obj.offsetX, offsetY: obj.offsetY };
+				return { pressure: (<any>obj).pressure, offsetX: obj.offsetX, offsetY: obj.offsetY, shiftKey: obj.shiftKey };
 			}
 			else
 				return obj;

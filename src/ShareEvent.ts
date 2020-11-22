@@ -44,8 +44,12 @@ export class ShareEvent {
         UserManager.users[userId].switchRectangle();
     }
 
-    static switchEllipse(userId: string): void {
-        UserManager.users[userId].switchEllipse();
+    static switchEllipseByBorder(userId: string): void {
+        UserManager.users[userId].switchEllipseByBorder();
+    }
+
+    static switchEllipseByCenter(userId: string): void {
+        UserManager.users[userId].switchEllipseByCenter();
     }
 
     static setUserCanWrite(userId: string, bool: boolean): void {

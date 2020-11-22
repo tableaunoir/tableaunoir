@@ -7,30 +7,16 @@ import { getCanvas } from './main';
 import { Tool } from './Tool';
 import { ToolAbstractShape } from './ToolAbstractShape';
 
-export class ToolEllipse extends ToolAbstractShape {
+export abstract class ToolEllipse extends ToolAbstractShape {
 
     cx;
     cy;
     rx;
     ry;
 
-    compute = (evt) => {
-        const x1 = Math.min(this.xInit, this.x);
-        const y1 = Math.min(this.yInit, this.y);
-        const x2 = Math.max(this.xInit, this.x);
-        const y2 = Math.max(this.yInit, this.y);
+    abstract compute = undefined;
 
-        this.cx = (x1 + x2) / 2;
-        this.cy = (y1 + y2) / 2;
-        this.rx = (x2 - x1) / 2;
-        this.ry = (y2 - y1) / 2;
-
-        if(evt.shiftKey) {
-            this.rx = Math.min(this.rx, this.ry);
-            this.ry = Math.min(this.rx, this.ry);
-        }
-
-    }
+    
     getShape = (evt) => {
         const svgns = "http://www.w3.org/2000/svg";
         const shape = <SVGEllipseElement>document.createElementNS(svgns, 'ellipse');

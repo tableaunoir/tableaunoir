@@ -19,15 +19,20 @@ export class ToolMenu extends CircularMenu {
         buttonRectangle.src = "img/icons/25AD.svg";
         buttonRectangle.title = "Draw a rectangle";
 
-        let buttonEllipse = new Image();
-        buttonEllipse.src = "img/icons/26AA.svg";
-        buttonEllipse.title = "Draw an ellipse";
+        let buttonEllipseByBorder = new Image();
+        buttonEllipseByBorder.src = "img/icons/26AA.svg";
+        buttonEllipseByBorder.title = "Draw an ellipse (draw its bounding box)";
 
+        let buttonEllipseByCenter = new Image();
+        buttonEllipseByCenter.src = "img/icons/26AAcenter.svg";
+        buttonEllipseByCenter.title = "Draw an ellipse (center then radius)";
+        
 
         this.addButton(buttonFreeDraw);
         this.addButton(buttonLine);
         this.addButton(buttonRectangle);
-        this.addButton(buttonEllipse);
+        this.addButton(buttonEllipseByBorder);
+        this.addButton(buttonEllipseByCenter);
 
         buttonFreeDraw.onclick = () => {
             Share.execute("switchChalk", [UserManager.me.userID]);
@@ -44,11 +49,15 @@ export class ToolMenu extends CircularMenu {
             CircularMenu.hide();
         };
 
-        buttonEllipse.onclick = () => {
-            Share.execute("switchEllipse", [UserManager.me.userID]);
+        buttonEllipseByBorder.onclick = () => {
+            Share.execute("switchEllipseByBorder", [UserManager.me.userID]);
             CircularMenu.hide();
         };
 
+        buttonEllipseByCenter.onclick = () => {
+            Share.execute("switchEllipseByCenter", [UserManager.me.userID]);
+            CircularMenu.hide();
+        };
 
         this.layout();
     }
