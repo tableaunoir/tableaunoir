@@ -17,7 +17,7 @@ export class ChalkCursor {
             defaultValue: false,
             onChange: (leftHanded) => {
                 ChalkCursor.leftHanded = leftHanded;
-                UserManager.me.updateCursor();
+                UserManager.me.tool.updateCursor();
                 Menu.hide();
             }
         });

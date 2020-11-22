@@ -1,39 +1,40 @@
-import { BoardManager } from './boardManager';
-import { getCanvas, palette } from './main';
-import { Drawing } from './Drawing'
+import { ToolDraw } from './ToolDraw';
+import { ToolEraser } from './ToolEraser';
+import { palette } from './main';
 import { MagnetManager } from './magnetManager';
 import { UserManager } from './UserManager';
-import { Layout } from './Layout';
-import { EraserCursor } from "./EraserCursor";
-import { Delineation } from './Delineation';
-import { ChalkCursor } from './ChalkCursor';
 
-const ERASEMODEDEFAULTSIZE = 10;
+
+
 
 
 /**
  * Represents a user (maybe you?)
  */
 export class User {
-    xInit = 0;
-    yInit = 0;
+    isToolDraw(): boolean {
+        return this.tool instanceof ToolDraw;
+    }
 
-    x = 0;
-    y = 0;
-    isDrawing = false;
+
+    get x() {
+        return this.tool.x;
+    }
+
+    get y() {
+        return this.tool.y;
+    }
+
     alreadyDrawnSth = false; // true if something visible has been drawn (If still false, draw a dot)
-    eraseMode = false;
-    eraseModeBig = false;
-    lastDelineation = new Delineation();
+
+
     canWrite = true;
-    eraseLineWidth = ERASEMODEDEFAULTSIZE;
 
     color = "white";
 
     cursor = undefined;
 
-    tool = new ToolDraw();
-    toolCursor = undefined;
+    tool = undefined;
     elementName = undefined;
 
     userID = "0";
@@ -58,10 +59,7 @@ export class User {
     }
 
 
-    setToolCursorImage(srcImage: { data: string, x: number, y: number }): void {
-        document.getElementById("canvas").style.cursor = `url(${srcImage.data}) ${srcImage.x} ${srcImage.y}, auto`;
-        // this.toolCursor.src = srcImage;
-    }
+
 
     /**
      *
@@ -69,28 +67,18 @@ export class User {
      * @description create the user.
      */
     constructor(isCurrentUser: boolean) {
-        
 
-        this.toolCursor = document.createElement("img");
-        this.toolCursor.classList.add("toolcursor");
 
-        if(!isCurrentUser) {
+        if (!isCurrentUser) {
             this.cursor = document.createElement("div");
             this.cursor.classList.add("cursor");
             this.elementName = document.createElement("div");
             this.elementName.classList.add("userNameCursor");
             document.getElementById("cursors").appendChild(this.cursor);
-            document.getElementById("cursors").appendChild(this.toolCursor);
             document.getElementById("cursors").appendChild(this.elementName);
         }
-        
 
-        if (!isCurrentUser)
-            this.toolCursor.hidden = true;
-
-        
-        if (isCurrentUser)
-            this.setToolCursorImage(ChalkCursor.getStyleCursor(this.color));
+        this.tool = new ToolDraw(this);
     }
 
 
@@ -105,24 +93,19 @@ export class User {
 
 
 
-    updateCursor(): void {
-        if (this.isCurrentUser()) {
-            this.setToolCursorImage(ChalkCursor.getStyleCursor(this.color));
-        }
-    }
+
 
     /**
      * tells that the user has disconnected
      */
     destroy(): void {
         document.getElementById("cursors").removeChild(this.cursor);
-        document.getElementById("cursors").removeChild(this.toolCursor);
         this.elementName.remove();
     }
 
     setCurrentColor(color: string): void {
         this.color = color;
-        this.updateCursor();
+        this.tool.updateCursor();
     }
 
     getCurrentColor(): string {
@@ -132,25 +115,21 @@ export class User {
 
 
     switchChalk(): void {
-        this.eraseMode = false;
+        this.tool = new ToolDraw(this);
 
         if (this.isCurrentUser()) {
-            this.updateCursor();
-            document.getElementById("buttonEraser").hidden = false;
-            document.getElementById("buttonChalk").hidden = true;
+            this.tool.updateCursor();
         }
 
     }
 
 
     switchErase(): void {
-        this.eraseMode = true;
+        this.tool = new ToolEraser(this);
 
         if (this.isCurrentUser()) {
-            palette.hide();
-            this.setToolCursorImage(EraserCursor.getStyleCursor(this.eraseLineWidth));
-            document.getElementById("buttonEraser").hidden = true;
-            document.getElementById("buttonChalk").hidden = false;
+            this.tool.init();
+
         }
     }
 
@@ -161,25 +140,17 @@ export class User {
         //unselect the selected element (e.g. a text in edit mode)
         (<any>document.activeElement).blur();
 
+        this.tool.isDrawing = true;
 
         //console.log("mousedown")
-        this.x = evt.offsetX;
-        this.y = evt.offsetY;
-        this.xInit = this.x;
-        this.yInit = this.y;
-        this.isDrawing = true;
-        this.eraseModeBig = false;
+        this.tool.x = evt.offsetX;
+        this.tool.y = evt.offsetY;
+        this.tool.xInit = this.tool.x;
+        this.tool.yInit = this.tool.y;
 
-        if (this.canWrite) {
-            if (this.eraseMode) {
-                Drawing.clearLine(this.x, this.y, this.x, this.y, ERASEMODEDEFAULTSIZE);
-            }
-            else {
-                this.lastDelineation.reset();
-                this.lastDelineation.addPoint({ x: this.x, y: this.y });
-            }
+        if (this.canWrite)
+            this.tool.mousedown(evt);
 
-        }
 
         if (this.isCurrentUser())
             palette.hide();
@@ -199,55 +170,14 @@ export class User {
         }
 
         if (this.canWrite) {
-            if (this.isDrawing) {//} && this.lastDelineation.isDrawing()) {
+            if (this.isCurrentUser && this.tool.isDrawing)
                 palette.hide();
-                if (this.eraseMode) {
-                    //this.eraseLineWidth = 10;
 
-                    this.eraseLineWidth = 10 + 30 * evt.pressure;
-
-                    if (Math.abs(this.x - this.xInit) > Layout.getWindowWidth() / 4 ||
-                        Math.abs(this.y - this.yInit) > Layout.getWindowHeight() / 4)
-                        this.eraseModeBig = true;
-
-                    if (this.eraseModeBig) {
-                        this.eraseLineWidth = 128;
-                    }
-
-                    if (this.isCurrentUser()) {
-                        this.setToolCursorImage(EraserCursor.getStyleCursor(this.eraseLineWidth));
-                    }
-
-                    Drawing.clearLine(this.x, this.y, evtX, evtY, this.eraseLineWidth);
-                }
-                else {
-
-                    if (this.lastDelineation.isDrawing()) {//this guard is because, when a magnet is created the user does not know the drawing stopped.
-                        Drawing.drawLine(getCanvas().getContext("2d"), this.x, this.y, evtX, evtY, evt.pressure, this.color);
-                        this.lastDelineation.addPoint({ x: evtX, y: evtY });
-                    }
-
-
-
-
-                }
-
-                if (Math.abs(this.x - this.xInit) > 1 || Math.abs(this.y - this.yInit) > 1)
-                    this.alreadyDrawnSth = true;
-            }
+            this.tool.mousemove(evt);
         }
 
-        if (this.eraseMode) {
-            this.toolCursor.style.left = evtX - this.eraseLineWidth / 2;
-            this.toolCursor.style.top = evtY - this.eraseLineWidth / 2;
-        }
-        else {
-            this.toolCursor.style.left = evtX;
-            this.toolCursor.style.top = evtY
-        }
-
-        this.x = evtX;
-        this.y = evtY;
+        this.tool.x = evtX;
+        this.tool.y = evtY;
     }
 
 
@@ -255,25 +185,9 @@ export class User {
         MagnetManager.setInteractable(true);
 
         if (this.canWrite) {
-            this.lastDelineation.finish();
-
-
-            //console.log("mouseup")
-            if (this.isDrawing && !this.eraseMode && !this.alreadyDrawnSth) {
-                Drawing.drawDot(this.x, this.y, this.color);
-            }
-
-            if (this.isCurrentUser()) {
-                if (this.eraseMode) {//restore the eraser to the original size {
-                    this.eraseLineWidth = ERASEMODEDEFAULTSIZE;
-                    this.setToolCursorImage(EraserCursor.getStyleCursor(this.eraseLineWidth));
-                }
-
-            }
-
-            BoardManager.save(this.lastDelineation._getRectangle());
+            this.tool.mouseup(evt);
         }
-        this.alreadyDrawnSth = false;
-        this.isDrawing = false;
+
+        this.tool.isDrawing = false;
     }
 }
