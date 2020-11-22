@@ -36,6 +36,14 @@ export class ShareEvent {
         UserManager.users[userId].switchChalk();
     }
 
+    static switchRectangle(userId: string): void {
+        UserManager.users[userId].switchRectangle();
+    }
+
+    static switchEllipse(userId: string): void {
+        UserManager.users[userId].switchEllipse();
+    }
+
     static setUserCanWrite(userId: string, bool: boolean): void {
         UserManager.users[userId].setCanWrite(bool);
     }

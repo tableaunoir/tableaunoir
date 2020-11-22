@@ -1,3 +1,5 @@
+import { CircularMenu } from './CircularMenu';
+import { ToolMenu } from './ToolMenu';
 import { Palette } from "./Palette";
 import { Share } from "./share";
 import { MyMagnets } from "./myMagnets";
@@ -23,6 +25,7 @@ window['Menu'] = Menu;
 window['ShareEvent'] = ShareEvent;
 
 export const palette = new Palette();
+const toolmenu = new ToolMenu();
 
 //let loaded = false;
 
@@ -139,8 +142,8 @@ function load() {
 			evt.preventDefault();
 
 		if (evt.key == "Escape" || evt.key == "F1") {//escape => show menu
-			if (palette.isShown())
-				palette.hide();
+			if (CircularMenu.isShown())
+				CircularMenu.hide();
 			else
 				Menu.toggle();
 		}
@@ -152,11 +155,14 @@ function load() {
 			changeColor();
 		else if (!evt.ctrlKey && evt.shiftKey && evt.key == "C")
 			previousColor();
-		else if (evt.key == "Enter" && palette.isShown())
-			palette.hide();
-		else if (evt.key == "ArrowLeft" && palette.isShown())
+		else if (!evt.ctrlKey && !evt.shiftKey && evt.key == "t") { // t => tool menu 
+			toolmenu.show({ x: UserManager.me.x, y: UserManager.me.y });
+		}
+		else if (evt.key == "Enter" && CircularMenu.isShown())
+			CircularMenu.hide();
+		else if (evt.key == "ArrowLeft" && CircularMenu.isShown())
 			palette.previous();
-		else if (evt.key == "ArrowRight" && palette.isShown())
+		else if (evt.key == "ArrowRight" && CircularMenu.isShown())
 			palette.next();
 		else if (evt.key == "Enter") {
 			MagnetManager.addMagnetText(UserManager.me.x, UserManager.me.y);
@@ -190,21 +196,21 @@ function load() {
 		else if (evt.key == "h")
 			Toolbar.toggle();
 		else if (evt.ctrlKey && evt.key == 'x') {//Ctrl + x
-			palette.hide();
+			CircularMenu.hide();
 			if (UserManager.me.tool.lastDelineation.containsPolygonToMagnetize())
 				UserManager.me.tool.lastDelineation.cutAndMagnetize();
 		}
 		else if (evt.ctrlKey && evt.key == 'c') {//Ctrl + c
-			palette.hide();
+			CircularMenu.hide();
 			if (UserManager.me.tool.lastDelineation.containsPolygonToMagnetize())
 				UserManager.me.tool.lastDelineation.copyAndMagnetize();
 		}
 		else if (evt.ctrlKey && evt.key == "v") { //Ctrl + v = print the current magnet
-			palette.hide();
+			CircularMenu.hide();
 			Share.execute("printMagnet", [MagnetManager.getCurrentMagnetID()]);
 		}
 		else if (evt.key == "m") { //m = make new magnets
-			palette.hide();
+			CircularMenu.hide();
 			if (UserManager.me.tool.lastDelineation.containsPolygonToMagnetize())
 				UserManager.me.tool.lastDelineation.cutAndMagnetize();
 			else {
@@ -213,11 +219,11 @@ function load() {
 			}
 		}
 		else if (evt.key == "p") { //p = print the current magnet
-			palette.hide();
+			CircularMenu.hide();
 			Share.execute("printMagnet", [MagnetManager.getCurrentMagnetID()]);
 		}
 		else if (evt.key == "Delete" || evt.key == "x" || evt.key == "Backspace") { //supr = delete the current magnet
-			palette.hide();
+			CircularMenu.hide();
 			/*if (lastDelineation.containsPolygonToMagnetize())
 				lastDelineation.erase();
 			else*/

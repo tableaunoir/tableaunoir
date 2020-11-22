@@ -9,12 +9,12 @@ import { Tool } from './Tool';
 export class ToolDraw extends Tool {
 
     lastDelineation = new Delineation();
-    alreadyDrawnSth = false;
+    private alreadyDrawnSth = false;
 
 
     constructor(user: User) {
         super(user);
-        if (this.user.isCurrentUser()) {
+        if (this.user.isCurrentUser) {
             document.getElementById("buttonEraser").hidden = false;
             document.getElementById("buttonChalk").hidden = true;
             this.setToolCursorImage(ChalkCursor.getStyleCursor(this.user.color));
@@ -56,7 +56,7 @@ export class ToolDraw extends Tool {
     
 
     updateCursor(): void {
-        if (this.user.isCurrentUser()) {
+        if (this.user.isCurrentUser) {
             this.setToolCursorImage(ChalkCursor.getStyleCursor(this.user.color));
         }
     }

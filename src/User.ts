@@ -1,3 +1,6 @@
+import { CircularMenu } from './CircularMenu';
+import { ToolRectangle } from './ToolRectangle';
+import { ToolEllipse } from './ToolEllipse';
 import { ToolDraw } from './ToolDraw';
 import { ToolEraser } from './ToolEraser';
 import { palette } from './main';
@@ -43,7 +46,7 @@ export class User {
 
     set name(newName) {
         this._name = newName;
-        if (!this.isCurrentUser())
+        if (!this.isCurrentUser)
             this.elementName.innerHTML = this._name;
     }
 
@@ -86,7 +89,7 @@ export class User {
     /**
      * @returns true iff the user is the current user (the one that controls the mouse)
      */
-    isCurrentUser(): boolean {
+    get isCurrentUser(): boolean {
         return (this == UserManager.me);
     }
 
@@ -116,24 +119,21 @@ export class User {
 
     switchChalk(): void {
         this.tool = new ToolDraw(this);
-
-        if (this.isCurrentUser()) {
-            this.tool.updateCursor();
-        }
-
     }
 
 
     switchErase(): void {
         this.tool = new ToolEraser(this);
-
-        if (this.isCurrentUser()) {
-            this.tool.init();
-
-        }
     }
 
 
+    switchRectangle(): void {
+        this.tool = new ToolRectangle(this);
+    }
+
+    switchEllipse(): void {
+        this.tool = new ToolEllipse(this);
+    }
     mousedown(evt): void {
         MagnetManager.setInteractable(false);
 
@@ -151,9 +151,8 @@ export class User {
         if (this.canWrite)
             this.tool.mousedown(evt);
 
-
-        if (this.isCurrentUser())
-            palette.hide();
+        if (this.isCurrentUser)
+            CircularMenu.hide();
     }
 
 
@@ -162,7 +161,7 @@ export class User {
         const evtX = evt.offsetX;
         const evtY = evt.offsetY;
 
-        if (!this.isCurrentUser()) {
+        if (!this.isCurrentUser) {
             this.cursor.style.left = evtX - 8;
             this.cursor.style.top = evtY - 8;
             this.elementName.style.left = evtX - 8;
@@ -171,7 +170,7 @@ export class User {
 
         if (this.canWrite) {
             if (this.isCurrentUser && this.tool.isDrawing)
-                palette.hide();
+                CircularMenu.hide();
 
             this.tool.mousemove(evt);
         }

@@ -1,7 +1,7 @@
+import { User } from './User';
 import { BoardManager } from './boardManager';
 import { EraserCursor } from './EraserCursor';
 import { Layout } from './Layout';
-import { palette } from './main';
 import { Drawing } from './Drawing';
 import { Tool } from './Tool';
 
@@ -9,17 +9,17 @@ const ERASEMODEDEFAULTSIZE = 10;
 
 export class ToolEraser extends Tool {
 
-    eraseModeBig = false;
-    eraseLineWidth = ERASEMODEDEFAULTSIZE;
+    private eraseModeBig = false;
+    private eraseLineWidth = ERASEMODEDEFAULTSIZE;
 
 
-    mousedown(evt) {
+    mousedown(evt): void {
         this.eraseModeBig = false;
         Drawing.clearLine(this.x, this.y, this.x, this.y, ERASEMODEDEFAULTSIZE);
     }
 
 
-    mousemove(evt) {
+    mousemove(evt): void {
         const evtX = evt.offsetX;
         const evtY = evt.offsetY;
 
@@ -36,7 +36,7 @@ export class ToolEraser extends Tool {
                 this.eraseLineWidth = 128;
             }
 
-            if (this.user.isCurrentUser()) {
+            if (this.user.isCurrentUser) {
                 this.setToolCursorImage(EraserCursor.getStyleCursor(this.eraseLineWidth));
             }
 
@@ -47,8 +47,8 @@ export class ToolEraser extends Tool {
         this.toolCursor.style.top = evtY - this.eraseLineWidth / 2;*/
     }
 
-    mouseup(evt) {
-        if (this.user.isCurrentUser()) {
+    mouseup(evt): void {
+        if (this.user.isCurrentUser) {
             //restore the eraser to the original size {
             this.eraseLineWidth = ERASEMODEDEFAULTSIZE;
             this.setToolCursorImage(EraserCursor.getStyleCursor(this.eraseLineWidth));
@@ -57,10 +57,14 @@ export class ToolEraser extends Tool {
         BoardManager.saveCurrentScreen();
     }
 
-    init() {
-        palette.hide();
-        this.setToolCursorImage(EraserCursor.getStyleCursor(this.eraseLineWidth));
-        document.getElementById("buttonEraser").hidden = true;
-        document.getElementById("buttonChalk").hidden = false;
+    constructor(user: User) {
+        super(user);
+        if (this.user.isCurrentUser) {
+            document.getElementById("buttonEraser").hidden = true;
+            document.getElementById("buttonChalk").hidden = false;
+            this.setToolCursorImage(EraserCursor.getStyleCursor(this.eraseLineWidth));
+        }
     }
+
+
 }

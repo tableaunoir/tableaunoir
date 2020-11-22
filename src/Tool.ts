@@ -2,7 +2,7 @@ import { User } from './User';
 
 
 /**
- * This is an abstract tool (like erasing, drawing, drawing a line, srectangle, drawing a circle)
+ * This is an abstract tool (like erasing, drawing, drawing a line, rectangle, drawing a circle)
  */
 export abstract class Tool {
     xInit = 0;
@@ -18,7 +18,6 @@ export abstract class Tool {
         this.user = user;
     }
 
-    abstract init(): void;
     abstract mousedown(evt): void;
     abstract mousemove(evt): void;
     abstract mouseup(evt): void;

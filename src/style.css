@@ -501,7 +501,7 @@ h1 {
 	text-align: center;
 }
 
-#palette {
+.CircularMenu {
 	position: absolute;
 	z-index: 10000;
 	transition: 400ms;
@@ -510,7 +510,7 @@ h1 {
 
 
 
-.PaletteShow {
+.CircularMenuShow {
 	opacity: 1;
 	transform: rotate(0deg), scale(1);
 	visibility: visible;
@@ -518,7 +518,7 @@ h1 {
 }
 
 
-.PaletteHide {
+.CircularMenuHide {
 	opacity: 0;
 	transform: rotate(180deg) scale(10);
 	visibility: hidden;

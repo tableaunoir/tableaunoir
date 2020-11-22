@@ -36,7 +36,7 @@ export class Delineation {
         return this.points.length > 0;
     }
 
-    drawPolygon(points: { x, y }[]): void {
+    private drawPolygon(points: { x, y }[]): void {
         if (document.getElementById("magnetCreationPolygon"))
             return;
 
@@ -48,7 +48,7 @@ export class Delineation {
         polyline.setAttribute("points", points.map((p) => p.x + ", " + p.y).join(" "));
     }
 
-    removePolygon(): void {
+    private removePolygon(): void {
         if (document.getElementById("magnetCreationPolygon"))
             document.getElementById("svg").removeChild(document.getElementById("magnetCreationPolygon"));
     }

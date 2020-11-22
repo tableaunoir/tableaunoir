@@ -94,6 +94,30 @@ export class Drawing {
     }
 
 
+    static drawRectangle({x1, y1, x2, y2}, color: string) {
+        const context = getCanvas().getContext("2d");
+        context.beginPath();
+        context.strokeStyle = color;
+        context.globalCompositeOperation = "source-over";
+        context.globalAlpha = 1;
+        context.lineWidth = 1.5;
+        context.rect(x1, y1, x2-x1, y2-y1);
+        context.stroke();
+    }
+
+
+
+    static drawEllipse({cx, cy, rx, ry}, color: string) {
+        const context = getCanvas().getContext("2d");
+        context.beginPath();
+        context.strokeStyle = color;
+        context.globalCompositeOperation = "source-over";
+        context.globalAlpha = 1;
+        context.lineWidth = 1.5;
+        context.ellipse(cx, cy, rx, ry, 0, 0, 2*Math.PI, false);
+        context.stroke();
+    }
+
 
     static divideScreen(): void {
         console.log("divide the screen")
