@@ -28,7 +28,10 @@ export class Toolbar {
             name: "toolbar",
             defaultValue: true,
             onChange: (isToolbar) => {
-                Toolbar.getToolbar().hidden = !isToolbar;
+                if (Layout.isTactileDevice()) //on android etc. the toolbar is ALWAYS visible
+                    Toolbar.getToolbar().hidden = false;
+                else
+                    Toolbar.getToolbar().hidden = !isToolbar;
             }
         });
 
