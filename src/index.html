@@ -191,11 +191,18 @@
 				<button id="whiteBoardSwitch"><img src="img/switchblackwhite.png" /><br />Switch to
 					whiteboard</button>
 
+				<h2>Drawing</h2>
+				<label for="lineWidth">Line width: </label>
+				<input type="number" id="inputLineWidth" name="lineWidth" min="1" max="40" step="0.5">
+
 				<h2>Interface</h2>
 				<input type="checkbox" id="inputToolbar">Show the toolbar (h)</input>
+
 				<h2>Cursor</h2>
 				<input type="checkbox" id="inputLeftHanded">Left-handed</input>
-				<input hidden type="checkbox" id="inputHorizontalScrollbar">Show a horizontal scrollbar</input>
+
+				<label hidden>Show a horizontal scrollbar</label>
+				<input hidden type="checkbox" id="inputHorizontalScrollbar"/>
 
 
 			</div>

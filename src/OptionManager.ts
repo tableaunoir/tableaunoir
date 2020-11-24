@@ -40,17 +40,30 @@ export class OptionManager {
         };
     }
 
-static string({ name, defaultValue, onChange }: { name: string, defaultValue: string, onChange: (string) => void }) {
-    const el = OptionManager.getInputElement(name);
-    const initialValue = (localStorage[name] == undefined) ? defaultValue : localStorage[name];
-    //console.log(`reading option ${name}: ${localStorage[name]}`)
-    el.value = initialValue;
-    onChange(el.value);
-    el.oninput = () => {
-        localStorage[name] = el.value;
+    static string({ name, defaultValue, onChange }: { name: string, defaultValue: string, onChange: (string) => void }) {
+        const el = OptionManager.getInputElement(name);
+        const initialValue: string = (localStorage[name] == undefined) ? defaultValue : localStorage[name];
+        //console.log(`reading option ${name}: ${localStorage[name]}`)
+        el.value = initialValue;
         onChange(el.value);
-    };
-}
+        el.oninput = () => {
+            localStorage[name] = el.value;
+            onChange(el.value);
+        };
+    }
+
+
+    static number({ name, defaultValue, onChange }: { name: string, defaultValue: number, onChange: (number) => void }) {
+        const el = OptionManager.getInputElement(name);
+        const initialValue = (localStorage[name] == undefined) ? defaultValue : localStorage[name];
+        //console.log(`reading option ${name}: ${localStorage[name]}`)
+        el.value = ""+initialValue;
+        onChange(el.value);
+        el.oninput = () => {
+            localStorage[name] = el.value;
+            onChange(el.value);
+        };
+    }
 
 }
 

@@ -1,3 +1,4 @@
+import { OptionManager } from './OptionManager';
 import { BoardManager } from './boardManager';
 import { UserManager } from './UserManager';
 import { getCanvas } from './main';
@@ -5,6 +6,16 @@ import { Layout } from './Layout';
 
 export class Drawing {
 
+    static lineWidth: number;
+
+
+    static init() {
+        OptionManager.number({
+            name: "lineWidth",
+            defaultValue: 1.5,
+            onChange: (lineWidth) => this.lineWidth = lineWidth
+        });
+    }
     /**
      *
      * @param points
@@ -57,7 +68,7 @@ export class Drawing {
         context.strokeStyle = color;
         context.globalCompositeOperation = "source-over";
         context.globalAlpha = 0.9 + 0.1 * pressure;
-        context.lineWidth = 1.5 + 3 * pressure;
+        context.lineWidth = this.lineWidth*(1 + 2 * pressure);
         context.moveTo(x1, y1);
         context.lineTo(x2, y2);
         /*context.moveTo(Math.round(x1), Math.round(y1));
@@ -71,7 +82,7 @@ export class Drawing {
         const context = getCanvas().getContext("2d");
         context.beginPath();
         context.fillStyle = color;
-        context.lineWidth = 2.5;
+        context.lineWidth = this.lineWidth*2;
         context.arc(x, y, 2, 0, 2 * Math.PI);
         context.fill();
         context.closePath();
@@ -85,7 +96,7 @@ export class Drawing {
         context.globalCompositeOperation = "destination-out";
         context.strokeStyle = "rgba(255,255,255,1)";
 
-        context.lineWidth = lineWidth;
+        context.lineWidth = this.lineWidth*lineWidth;
         context.moveTo(x1, y1);
         context.lineTo(x2, y2);
         context.lineCap = "round";
@@ -94,27 +105,27 @@ export class Drawing {
     }
 
 
-    static drawRectangle({x1, y1, x2, y2}, color: string) {
+    static drawRectangle({ x1, y1, x2, y2 }, color: string) {
         const context = getCanvas().getContext("2d");
         context.beginPath();
         context.strokeStyle = color;
         context.globalCompositeOperation = "source-over";
         context.globalAlpha = 1;
-        context.lineWidth = 1.5;
-        context.rect(x1, y1, x2-x1, y2-y1);
+        context.lineWidth = this.lineWidth;
+        context.rect(x1, y1, x2 - x1, y2 - y1);
         context.stroke();
     }
 
 
 
-    static drawEllipse({cx, cy, rx, ry}, color: string) {
+    static drawEllipse({ cx, cy, rx, ry }, color: string) {
         const context = getCanvas().getContext("2d");
         context.beginPath();
         context.strokeStyle = color;
         context.globalCompositeOperation = "source-over";
         context.globalAlpha = 1;
-        context.lineWidth = 1.5;
-        context.ellipse(cx, cy, rx, ry, 0, 0, 2*Math.PI, false);
+        context.lineWidth = this.lineWidth;
+        context.ellipse(cx, cy, rx, ry, 0, 0, 2 * Math.PI, false);
         context.stroke();
     }
 

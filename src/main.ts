@@ -62,7 +62,7 @@ function load() {
 	Toolbar.init();
 	Discussion.init();
 	CSSStyleModifier.init();
-
+	Drawing.init();
 
 	const changeColor = () => {
 		if (MagnetManager.getMagnetUnderCursor() == undefined) { //if no magnet under the cursor, change the color of the chalk
