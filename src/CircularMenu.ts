@@ -22,6 +22,7 @@ export class CircularMenu {
     addButton(button: HTMLElement) {
         this.buttons.push(button);
         this.container.appendChild(button);
+        button.onmousedown = (evt) => { evt.preventDefault(); } //to prevent the drag and drop of the image
         button.classList.add("paletteColorButton");
     }
 

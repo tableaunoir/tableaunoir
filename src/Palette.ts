@@ -50,8 +50,6 @@ export class Palette extends CircularMenu {
 
         img.style.borderColor = this.colors[i];
 
-        img.onmousedown = (evt) => { evt.preventDefault(); } //to prevent the drag and drop of the image of the chalk
-
         img.onclick = () => {
             this.buttons[this.currentColorID].classList.remove("selected");
             this.currentColorID = i;

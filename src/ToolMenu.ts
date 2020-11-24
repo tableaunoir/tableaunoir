@@ -1,7 +1,4 @@
-import { MagnetManager } from './magnetManager';
 import { Share } from './share';
-import { ToolEllipse } from './ToolEllipse';
-import { ToolRectangle } from './ToolRectangle';
 import { UserManager } from './UserManager';
 import { CircularMenu } from './CircularMenu';
 

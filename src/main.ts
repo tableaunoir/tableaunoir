@@ -1,3 +1,4 @@
+import { BoardNavigation } from './BoardNavigation';
 import { CircularMenu } from './CircularMenu';
 import { ToolMenu } from './ToolMenu';
 import { Palette } from "./Palette";
@@ -44,12 +45,7 @@ function installBodyNoScroll() {
 
 
 function load() {
-	//	try {
-
 	installBodyNoScroll();
-
-	/*	if (loaded)
-			return;*/
 
 	UserManager.init();
 
@@ -117,8 +113,8 @@ function load() {
 	document.getElementById("buttonText").onclick = () => MagnetManager.addMagnetText(UserManager.me.x, UserManager.me.y);
 	document.getElementById("buttonDivide").onclick = Drawing.divideScreen;
 
-	document.getElementById("buttonLeft").onclick = BoardManager.leftPreviousPage;
-	document.getElementById("buttonRight").onclick = BoardManager.rightNextPage;
+	document.getElementById("buttonLeft").onclick = BoardNavigation.leftPreviousPage;
+	document.getElementById("buttonRight").onclick = BoardNavigation.rightNextPage;
 	document.getElementById("buttonCancel").onclick = () => Share.execute("cancel", []);
 	document.getElementById("buttonRedo").onclick = () => Share.execute("redo", []);
 
@@ -174,16 +170,16 @@ function load() {
 			evt.preventDefault(); //so that it will not add "new line" in the text element
 		}
 		else if (evt.shiftKey && evt.key == "ArrowLeft") {
-			BoardManager.left();
+			BoardNavigation.left();
 		}
 		else if (evt.shiftKey && evt.key == "ArrowRight") {
-			BoardManager.right();
+			BoardNavigation.right();
 		}
 		else if (evt.key == "ArrowLeft") {
-			BoardManager.leftPreviousPage();
+			BoardNavigation.leftPreviousPage();
 		}
 		else if (evt.key == "ArrowRight") {
-			BoardManager.rightNextPage();
+			BoardNavigation.rightNextPage();
 		}
 		else if (evt.key == "d")  //d = divide screen
 			Drawing.divideScreen();

@@ -14,7 +14,8 @@ export class Layout {
 
 
     static isCalibratedHalfPage(): boolean {
-        return getContainer().scrollLeft % Layout.scrollQuantityHalfPage() == 0;
+        const x = getContainer().scrollLeft;
+        return Math.abs(Layout.correctRound(x) - x) < 2;//getContainer().scrollLeft % Layout.scrollQuantityHalfPage() == 0;
     }
 
     static correctOnLeft(x) {
