@@ -1,3 +1,4 @@
+import { CSSStyleModifier } from './CSSStyleModifier';
 import { BoardNavigation } from './BoardNavigation';
 import { CircularMenu } from './CircularMenu';
 import { ToolMenu } from './ToolMenu';
@@ -14,7 +15,6 @@ import { Discussion } from './Discussion';
 import { ChalkCursor } from './ChalkCursor';
 import { BlackVSWhiteBoard } from './BlackVSWhiteBoard';
 import { Background } from './Background';
-import { ErrorMessage } from './ErrorMessage';
 import { Translation } from './Translation';
 import { Menu } from './Menu';
 import { TouchScreen } from './TouchScreen';
@@ -61,7 +61,7 @@ function load() {
 	Share.init();
 	Toolbar.init();
 	Discussion.init();
-
+	CSSStyleModifier.init();
 
 
 	const changeColor = () => {

@@ -9,7 +9,7 @@
 
 export class CSSStyleModifier {
 
-    static stylesheet;
+    static stylesheet = undefined;
     static rules = [];
 
     /**

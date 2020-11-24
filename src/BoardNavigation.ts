@@ -19,7 +19,7 @@ export class BoardNavigation {
 
 
 
-    private static _left(x): void {
+    private static _left(x: number): void {
         if (x < 0) {
             BoardNavigation.showPageNumber(0);
             return;
@@ -34,7 +34,7 @@ export class BoardNavigation {
 
 
 
-    private static _right(x): void {
+    private static _right(x: number): void {
         const MAXCANVASWIDTH = 20000;
         const container = getContainer();
         const canvas = getCanvas();

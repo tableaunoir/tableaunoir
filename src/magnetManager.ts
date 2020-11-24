@@ -453,7 +453,7 @@ export class MagnetManager {
 	 * @param callback
 	 * @description adds a image magnet where the file is already on the server
 	 */
-	static addMagnetImage(filename: string, callback: (el: HTMLImageElement) => void = () => { }): HTMLImageElement {
+	static addMagnetImage(filename: string, callback: (el: HTMLImageElement) => void = () => {return;}): HTMLImageElement {
 		const img = new Image();
 		img.src = "img/magnets/" + filename;
 		img.classList.add("backgroundTransparent");
@@ -613,7 +613,7 @@ export class MagnetManager {
 
 	static magnetColors = ['', 'rgb(255, 128, 0)', 'rgb(0, 128, 0)', 'rgb(192, 0, 0)', 'rgb(0, 0, 255)'];
 
-	static nextBackgroundColor(color) {
+	static nextBackgroundColor(color: string): string {
 		for (let i = 0; i < MagnetManager.magnetColors.length; i++) {
 			if (MagnetManager.magnetColors[i] == color) {
 				return MagnetManager.magnetColors[(i + 1) % MagnetManager.magnetColors.length];
@@ -623,7 +623,7 @@ export class MagnetManager {
 	}
 	
 	
-	static previousBackgroundColor(color) {
+	static previousBackgroundColor(color: string): string {
 		for (let i = 0; i < MagnetManager.magnetColors.length; i++) {
 			if (MagnetManager.magnetColors[i] == color) {
 				return MagnetManager.magnetColors[(i - 1) % MagnetManager.magnetColors.length];
