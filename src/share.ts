@@ -150,7 +150,7 @@ export class Share {
 			Share.tryConnect(() => Share.send({ type: "share", password: password }));
 
 			document.getElementById("shareInfo").hidden = false;
-			document.getElementById("buttonShare").innerHTML = document.getElementById('sharecopytext').innerHTML;
+			document.getElementById("buttonShare").classList.add("alreadyShared");
 			document.getElementById("join").hidden = true;
 
 			if (password == "") {
@@ -190,7 +190,7 @@ export class Share {
 				document.getElementById("shareAndJoin").hidden = true;
 				document.getElementById("shareInfo").hidden = false;
 
-				document.getElementById("buttonShare").innerHTML = document.getElementById('sharecopytext').innerHTML;
+				document.getElementById("buttonShare").classList.add("alreadyShared");
 
 				break;
 			case "user": //there is an existing user
