@@ -14,7 +14,7 @@ body {
 	overscroll-behavior-x: none;
 	height: 100%;
 	width: 100%;
-	background-color: rgb(194, 123, 31);
+	background-color: black;
 }
 
 .icon {
@@ -368,6 +368,7 @@ button {
 	margin-left: 0px;
 	margin-right: 0px;
 	height: 52px;
+	width: 60px;
 	padding-top: 4px;
 	padding-bottom: 4px;
 	padding-left: 8px;
