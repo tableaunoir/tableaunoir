@@ -1,3 +1,4 @@
+import { ErrorMessage } from './ErrorMessage';
 import { getCanvas } from "./main";
 import { Share } from "./share";
 import { BoardManager } from './boardManager';
@@ -28,25 +29,25 @@ export class MagnetManager {
 	/**
 	 * @returns the magnet under the cursor
 	 */
-	static getMagnetUnderCursor(): HTMLElement {		return MagnetManager.magnetUnderCursor;	}
+	static getMagnetUnderCursor(): HTMLElement { return MagnetManager.magnetUnderCursor; }
 
 
 	/**
 	 * @returns true iff there is a current magnet
 	 */
-	static hasCurrentMagnet(): boolean {		return MagnetManager.currentMagnet == undefined;	}
+	static hasCurrentMagnet(): boolean { return MagnetManager.currentMagnet == undefined; }
 
 
 	/**
 	 * @description set that there is no current magnet
 	 */
-	static noCurrentMagnet(): void {		MagnetManager.currentMagnet = undefined;	}
+	static noCurrentMagnet(): void { MagnetManager.currentMagnet = undefined; }
 
 
 	/**
 	 * @returns the ID of the current magnet
 	 */
-	static getCurrentMagnetID(): string {		return MagnetManager.currentMagnet.id;	}
+	static getCurrentMagnetID(): string { return MagnetManager.currentMagnet.id; }
 
 
 
@@ -77,7 +78,7 @@ export class MagnetManager {
 	/**
 	 * @returns the top Y when a set of magnets is automatically arranged
 	 */
-	static getYTopWhenNewMagnets(): number {		return 64;	}
+	static getYTopWhenNewMagnets(): number { return 64; }
 
 	/**
 	 * delete all the magnets
@@ -125,7 +126,7 @@ export class MagnetManager {
 
 		if (element.tagName == "IMG")
 			element.addEventListener("load", f);
-		else 
+		else
 			f();
 
 		MagnetManager._installMagnet(element);
@@ -296,9 +297,9 @@ export class MagnetManager {
 
 		if (element.tagName == "IMG")
 			element.addEventListener("load", f);
-		else 
+		else
 			f();
-		
+
 	}
 
 
@@ -332,7 +333,7 @@ export class MagnetManager {
 
 		function dragMouseDown(evt) {
 			drag = true;
-			MagnetManager.currentMagnet = evt.target;
+			MagnetManager.currentMagnet = element;
 
 			if (evt.ctrlKey) {
 				/**makes a copy. The copy does not move. */
@@ -382,7 +383,7 @@ export class MagnetManager {
 		function elementDrag(e) {
 			if (!drag) return;
 
-			MagnetManager.currentMagnet = e.target;
+			MagnetManager.currentMagnet = element;
 			e.target.classList.add("magnetDrag");
 			const canvas = getCanvas();
 
@@ -453,7 +454,7 @@ export class MagnetManager {
 	 * @param callback
 	 * @description adds a image magnet where the file is already on the server
 	 */
-	static addMagnetImage(filename: string, callback: (el: HTMLImageElement) => void = () => {return;}): HTMLImageElement {
+	static addMagnetImage(filename: string, callback: (el: HTMLImageElement) => void = () => { return; }): HTMLImageElement {
 		const img = new Image();
 		img.src = "img/magnets/" + filename;
 		img.classList.add("backgroundTransparent");
@@ -552,6 +553,9 @@ export class MagnetManager {
 	static removeCurrentMagnet(): void {
 		if (MagnetManager.currentMagnet == undefined)
 			return;
+		if (!MagnetManager.currentMagnet.classList.contains("magnet"))
+			ErrorMessage.show("oups, important bug. The application wanted to delete something else than a magnet!");
+
 		Share.execute("magnetRemove", [MagnetManager.currentMagnet.id]);
 	}
 
@@ -621,8 +625,8 @@ export class MagnetManager {
 		}
 		return MagnetManager.magnetColors[0];
 	}
-	
-	
+
+
 	static previousBackgroundColor(color: string): string {
 		for (let i = 0; i < MagnetManager.magnetColors.length; i++) {
 			if (MagnetManager.magnetColors[i] == color) {
@@ -631,6 +635,6 @@ export class MagnetManager {
 		}
 		return MagnetManager.magnetColors[0];
 	}
-	
+
 
 }
