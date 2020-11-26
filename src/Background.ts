@@ -8,7 +8,10 @@ import { Drawing } from './Drawing'
 
 export class Background {
 
-    static dataURL = undefined;
+    /**
+     * stores the current img in binary (to be sent later for instance)
+     */
+    static dataURL: string = undefined;
 
     /**
      * @returns yes iff there is a background
@@ -17,6 +20,9 @@ export class Background {
         return Background.dataURL != undefined;
     }
 
+    /**
+     * initialize the interface
+     */
     static init(): void {
         document.getElementById("buttonNoBackground").onclick = () => {
             Share.execute("backgroundClear", []); Menu.hide();
@@ -32,7 +38,11 @@ export class Background {
         }
     }
 
-
+    /**
+     * 
+     * @param dataURL 
+     * @description set the background to be the image described in dataURL
+     */
     static set(dataURL: string): void {
         Background.clear(); //before assigning Background.dataURL
 
@@ -51,14 +61,18 @@ export class Background {
     }
 
 
-
+    /**
+     * @description delete the background
+     */
     static clear(): void {
         const canvasBackground = getCanvasBackground();
         Background.dataURL = undefined;
         canvasBackground.getContext("2d").clearRect(0, 0, canvasBackground.width, canvasBackground.height);
     }
 
-
+    /**
+     * @description draw a music score thing as a background
+     */
     static musicScore(): void {
         Background.clear();
         const COLORSTAFF = "rgb(128, 128, 255)";
