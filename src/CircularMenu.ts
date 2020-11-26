@@ -49,6 +49,7 @@ export class CircularMenu {
 
         this.container.style.left = position.x + "px";
         this.container.style.top = position.y + "px";
+        this.container.hidden = false;
         this.container.classList.remove("CircularMenuHide");
         this.container.classList.add("CircularMenuShow");
     }
@@ -64,8 +65,19 @@ export class CircularMenu {
             menus[i].classList.remove("CircularMenuShow");
             menus[i].classList.add("CircularMenuHide");
         }
+    }
 
 
+    /**
+     * @description hide the palette
+     */
+    static hideAndRemove(): void {
+        const menus = document.getElementsByClassName("CircularMenu");
+        for (let i = 0; i < menus.length; i++) {
+            menus[i].classList.remove("CircularMenuShow");
+            menus[i].classList.add("CircularMenuHide");
+            (<HTMLElement> menus[i]).hidden = true;
+        }
     }
 
 

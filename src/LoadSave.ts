@@ -1,3 +1,5 @@
+import { Layout } from './Layout';
+import { CircularMenu } from './CircularMenu';
 import { getCanvas } from './main';
 import { MagnetManager } from './magnetManager';
 import { BoardManager } from './boardManager';
@@ -123,10 +125,13 @@ export class LoadSave {
      * @description export the board as a .png image file
      */
     static exportPng(): void {
-        const node = document.getElementById("content");
-        html2canvas(node).then(canvas => {
+        CircularMenu.hideAndRemove();
+        const nodeContent = document.getElementById("content");
+        Layout.setForExportPng();
+        html2canvas(nodeContent).then(canvas => {
             LoadSave.downloadDataURL((<HTMLInputElement> document.getElementById("exportPngName")).value + ".png", canvas.toDataURL());
         });
+        Layout.restoreForUse();
     }
 
 

@@ -7,7 +7,8 @@ import { CSSStyleModifier } from './CSSStyleModifier';
 export class BlackVSWhiteBoard {
 
     static init(): void {
-        document.getElementById("canvasBackground").style.backgroundColor = "black";
+        document.getElementById("content").style.backgroundColor = "black";
+        //document.getElementById("canvasBackground").style.backgroundColor = "black";
         document.getElementById("whiteBoardSwitch").onclick = BlackVSWhiteBoard.switch;
         document.getElementById("blackBoardSwitch").onclick = BlackVSWhiteBoard.switch;
     }
@@ -17,7 +18,7 @@ export class BlackVSWhiteBoard {
      * switch between whiteboard and blackboard
      */
     static switch(): void {
-        const previousBackgroundColor = document.getElementById("canvasBackground").style.backgroundColor;
+        const previousBackgroundColor = document.getElementById("content").style.backgroundColor;
         const backgroundColor = previousBackgroundColor == "white" ? "black" : "white";
 
         document.getElementById(backgroundColor + "BoardSwitch").hidden = true;
@@ -27,7 +28,7 @@ export class BlackVSWhiteBoard {
         console.log("previous background color was " + previousBackgroundColor);
         console.log("switch to " + backgroundColor + "board")
         palette.switchBlackAndWhite();
-        document.getElementById("canvasBackground").style.backgroundColor = backgroundColor;
+        document.getElementById("content").style.backgroundColor = backgroundColor;
 
         if (backgroundColor == "black") {
             CSSStyleModifier.setRule(".magnetText div", "background-color", "rgba(27, 27, 27, 0.9)");

@@ -25,7 +25,7 @@ export class Layout {
     static correctRound(x) {
         return Math.round(x / Layout.scrollQuantityHalfPage()) * Layout.scrollQuantityHalfPage();
     }
- 
+
     static correctOnRight(x) {
         return Math.ceil((x + 1) / Layout.scrollQuantityHalfPage()) * Layout.scrollQuantityHalfPage();
     }
@@ -205,5 +205,28 @@ export class Layout {
 
     }
 
+
+
+
+
+    /**
+     * @description modifies the CSS width of some HTMLElement so that the rendering with html2canvas works well
+     */
+    static setForExportPng() {
+        const nodeContent = document.getElementById("content");
+        const nodeBoard = document.getElementById("board");
+        nodeContent.style.width = "" + getCanvas().width;
+        nodeBoard.style.width = "" + getCanvas().width;
+    }
+
+
+
+    /**
+     * @description after the use of html2canvas, this function restores the CSS width of the elements 
+     * that were modified.
+     */
+    static restoreForUse() {
+        Layout._resize();
+    }
 
 }
