@@ -226,6 +226,7 @@ export class Share {
 					for (const userid in UserManager.users)
 						Share.execute("setUserName", [userid, UserManager.users[userid].name]);
 
+					console.log("background? " + Background.is);
 					if(Background.is)
 						Share.execute("setBackground", [Background.dataURL]);
 				}
@@ -239,7 +240,7 @@ export class Share {
 				BoardManager.loadWithoutSave(msg.data);
 				break;
 			case "magnets":
-				console.log(msg.magnets)
+				console.log(msg.magnets);
 				document.getElementById("magnets").innerHTML = msg.magnets;
 				MagnetManager.installMagnets();
 				break;

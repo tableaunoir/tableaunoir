@@ -10,6 +10,9 @@ export class Background {
 
     static dataURL = undefined;
 
+    /**
+     * @returns yes iff there is a background
+     */
     static get is(): boolean {
         return Background.dataURL != undefined;
     }
@@ -18,24 +21,10 @@ export class Background {
         document.getElementById("buttonNoBackground").onclick = () => {
             Share.execute("backgroundClear", []); Menu.hide();
         };
-        document.getElementById("buttonMusicScore").onclick = () => { 
-            Share.execute("backgroundMusicScore", []); 
-            Menu.hide(); };
-
-        /*  (<HTMLInputElement> document.getElementById("inputBackground")).onchange = function (evt) {
-              LoadSave.fetchImageFromFile((<HTMLInputElement> evt.target).files[0],
-                  (img) => {
-                      Background.clear();
-                      const canvasBackground = getCanvasBackground();
-                      const height = Layout.getWindowHeight();
-                      const scaleWidth = img.width * height / img.height;
-                      const x = (Layout.getWindowWidth() - scaleWidth) / 2;
-                      console.log(img)
-                      canvasBackground.getContext("2d").drawImage(img, x, 0, scaleWidth, height);
-                  });
-  
-          };
-  */
+        document.getElementById("buttonMusicScore").onclick = () => {
+            Share.execute("backgroundMusicScore", []);
+            Menu.hide();
+        };
 
         (<HTMLInputElement>document.getElementById("inputBackground")).onchange = function (evt) {
             LoadSave.fetchFromFile((<HTMLInputElement>evt.target).files[0],
@@ -44,25 +33,28 @@ export class Background {
     }
 
 
-    static set(dataURL): void {
+    static set(dataURL: string): void {
+        Background.clear(); //before assigning Background.dataURL
+
+        console.log("set background");
         const img = new Image();
         Background.dataURL = dataURL;
         img.src = dataURL;
-        Background.clear();
         const canvasBackground = getCanvasBackground();
         const height = Layout.getWindowHeight();
         const scaleWidth = img.width * height / img.height;
         //const x = (Layout.getWindowWidth() - scaleWidth) / 2;
         const x = 0;
-        console.log(img)
-        canvasBackground.getContext("2d").drawImage(img, x, 0, scaleWidth, height);
+        //console.log(img)
+        img.onload = () =>
+            canvasBackground.getContext("2d").drawImage(img, x, 0, scaleWidth, height);
     }
 
 
 
     static clear(): void {
         const canvasBackground = getCanvasBackground();
-        this.dataURL = undefined;
+        Background.dataURL = undefined;
         canvasBackground.getContext("2d").clearRect(0, 0, canvasBackground.width, canvasBackground.height);
     }
 
