@@ -71,7 +71,7 @@ export class ChalkCursor {
         context.lineTo(0, 0);
 
         context.lineWidth = 1;
-        context.strokeStyle = "black";
+        context.strokeStyle = color != "black" ? "black" : "grey"; //the border of the chalk should be visible
         context.stroke();
         context.fillStyle = color;
         context.fill();
