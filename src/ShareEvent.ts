@@ -1,3 +1,4 @@
+import { Background } from './Background';
 import { MagnetManager } from './magnetManager';
 import { BoardManager } from './boardManager';
 import { UserManager } from './UserManager';
@@ -115,5 +116,17 @@ export class ShareEvent {
     static setUserName(userid: string, name: string): void {
         UserManager.users[userid].name = name;
         UserManager.updateGUIUsers();
+    }
+
+    static setBackground(dataURL: string): void {
+        Background.set(dataURL);
+    }
+
+    static backgroundClear(): void {
+        Background.clear();
+    }
+
+    static backgroundMusicScore():void {
+        Background.musicScore();
     }
 }

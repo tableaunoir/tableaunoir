@@ -1,3 +1,4 @@
+import { Background } from './Background';
 import { Loading } from './Loading';
 import { getCanvas } from './main';
 import { MagnetManager } from './magnetManager';
@@ -224,6 +225,9 @@ export class Share {
 
 					for (const userid in UserManager.users)
 						Share.execute("setUserName", [userid, UserManager.users[userid].name]);
+
+					if(Background.is)
+						Share.execute("setBackground", [Background.dataURL]);
 				}
 
 				break;

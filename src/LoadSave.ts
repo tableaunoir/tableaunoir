@@ -106,6 +106,21 @@ export class LoadSave {
         }
     }
 
+    /**
+         *
+         * @param file
+         * @param callback
+         * @descrption load the image in the file, once the file is loaded. Call the callback function.
+         */
+    static fetchFromFile(file: File, callback: (string) => void): void {
+        const reader = new FileReader();
+        reader.onerror = function (evt) { }
+        reader.readAsDataURL(file);
+        reader.onload = function (evt) {
+            callback(<string>evt.target.result);
+        }
+    }
+
 
     /**
      *
@@ -129,7 +144,7 @@ export class LoadSave {
         const nodeContent = document.getElementById("content");
         Layout.setForExportPng();
         html2canvas(nodeContent).then(canvas => {
-            LoadSave.downloadDataURL((<HTMLInputElement> document.getElementById("exportPngName")).value + ".png", canvas.toDataURL());
+            LoadSave.downloadDataURL((<HTMLInputElement>document.getElementById("exportPngName")).value + ".png", canvas.toDataURL());
         });
         Layout.restoreForUse();
     }

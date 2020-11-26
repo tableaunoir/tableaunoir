@@ -68,6 +68,23 @@ export class BlackVSWhiteBoard {
         context.putImageData(imageData, 0, 0);
     }
 
+
+    /**
+     * @returns "black" if it is a blackboard
+     *          "white" if it is a whiteboard
+     */
+    static getBackgroundColor(): string {
+        return document.getElementById("content").style.backgroundColor;
+    }
+
+    /**
+     * @returns the default chalk color, "white" if it is a blackboard
+     *                                   "black" if it is a whiteboard
+     */
+    static getDefaultChalkColor(): string {
+        return BlackVSWhiteBoard.getBackgroundColor() == "white" ? "black" : "white";
+    }
+
 }
 
 

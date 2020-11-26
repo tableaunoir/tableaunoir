@@ -1,3 +1,4 @@
+import { BlackVSWhiteBoard } from './BlackVSWhiteBoard';
 import { getCanvas, getContainer } from "./main";
 import { Share } from "./share";
 import { Layout } from './Layout';
@@ -43,9 +44,7 @@ export class BoardManager {
 
 
 
-    static getDefaultChalkColor(): string {
-        return (document.getElementById("canvasBackground").style.backgroundColor == "black") ? "white" : "black";
-    }
+
 
 
     static _createCanvasForRectangle(r: { x1: number, y1: number, x2: number, y2: number }): HTMLCanvasElement {

@@ -1,3 +1,4 @@
+import { BlackVSWhiteBoard } from './BlackVSWhiteBoard';
 import { OptionManager } from './OptionManager';
 import { BoardManager } from './boardManager';
 import { UserManager } from './UserManager';
@@ -133,7 +134,8 @@ export class Drawing {
     static divideScreen(): void {
         console.log("divide the screen")
         const x = Layout.getXMiddle();
-        Drawing.drawLine(getCanvas().getContext("2d"), x, 0, x, Layout.getWindowHeight(), 1, BoardManager.getDefaultChalkColor());
+        Drawing.drawLine(getCanvas().getContext("2d"), x, 0, x, Layout.getWindowHeight(), 1, 
+        BlackVSWhiteBoard.getDefaultChalkColor());
         BoardManager.saveCurrentScreen();
     }
 
