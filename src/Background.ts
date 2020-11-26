@@ -6,6 +6,10 @@ import { LoadSave } from './LoadSave';
 import { Menu } from './Menu';
 import { Drawing } from './Drawing'
 
+
+/**
+ * this class is for the background (image) to be added behind your board
+ */
 export class Background {
 
     /**
