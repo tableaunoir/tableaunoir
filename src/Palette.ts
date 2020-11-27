@@ -6,10 +6,10 @@ import { ChalkCursor } from './ChalkCursor';
  */
 export class Palette extends CircularMenu {
     /** colors that can have a chalk. The first color *must* be white */
-    colors = ["white", "yellow", "orange", "rgb(100, 172, 255)", "Crimson", "Plum", "LimeGreen", "black"];
+    private colors = ["white", "yellow", "orange", "rgb(100, 172, 255)", "Crimson", "Plum", "LimeGreen", "black"];
     //colors = ["white", "yellow", "orange", "red", "rgb(100, 172, 255)", "Celeste", "Teal", "Alien Green", "Crimson", "Plum", "LimeGreen", "grey", "black", "Pistachio Green", "Goldenrod", "Cantaloupe", "Bronze", "Sandstone", "Coffee", "Rust", "Maroon", "Rose"];
 
-    currentColorID = 0;
+    private currentColorID = 0;
     onchange: () => void = () => { };
 
 
@@ -21,7 +21,7 @@ export class Palette extends CircularMenu {
     /**
      * @descrition create (the DOM elements of) the palette
      */
-    _createPalette(): void {
+    private _createPalette(): void {
         this.clear();
         for (let i = 0; i < this.colors.length; i++) {
             this.addButton(this._createColorButton(i));
@@ -86,7 +86,11 @@ export class Palette extends CircularMenu {
     }
 
 
-
+    /**
+     * 
+     * @param position 
+     * @description show the palette
+     */
     show(position: {x:number, y:number}): void {
         super.show(position);
         this._createPalette(); //we recreate the palette because we do not know the leftHanded thing

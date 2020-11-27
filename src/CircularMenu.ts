@@ -1,7 +1,7 @@
 export class CircularMenu {
 
     private container = document.createElement("div");
-    public buttons = [];
+    protected buttons = [];
     static radius = 96;
 
 
@@ -13,7 +13,9 @@ export class CircularMenu {
             document.getElementById("board").appendChild(this.container), 1000);
     }
 
-
+    /**
+     * @description removes all the buttons in this circular menu
+     */
     clear(): void {
         this.container.innerHTML = "";
         this.buttons = [];
@@ -38,25 +40,28 @@ export class CircularMenu {
      * the function to execute when you click
      * 
      */
-    addButtonImage({src, title, onclick}: {src: string, title: string, onclick: () => void}) : void {
+    addButtonImage({ src, title, onclick }: { src: string, title: string, onclick: () => void }): void {
         const buttonImage = new Image();
         buttonImage.src = src;
         buttonImage.title = title;
         this.addButton(buttonImage);
         buttonImage.onclick = onclick;
     }
-        
 
 
 
+    /**
+     * @description computes the layout of the buttons that are in the circular menu (should be called after
+     * having added all the buttons)
+     */
     layout(): void {
 
         for (let i = 0; i < this.buttons.length; i++) {
             const button = this.buttons[i];
             const r = this.buttons.length <= 8 ? CircularMenu.radius : CircularMenu.radius + i * 48 / 8;
             const angle = this.buttons.length <= 8 ? -Math.PI / 2 + 2 * Math.PI * i / this.buttons.length
-                                                  : -Math.PI / 2 + 2 * Math.PI * Math.pow(i, 0.8) / 8;
-            
+                : -Math.PI / 2 + 2 * Math.PI * Math.pow(i, 0.8) / 8;
+
             button.style.top = (r * Math.sin(angle) - 22) + "px";
             button.style.left = (r * Math.cos(angle) - 16) + "px";
         }
@@ -64,9 +69,9 @@ export class CircularMenu {
     }
 
     /**
- * @param position a point {x: ..., y: ...}
- * @description show the palette at position position
- */
+     * @param position a point {x: ..., y: ...}
+     * @description show the palette at position position
+     */
     show(position: { x: number, y: number }): void {
         CircularMenu.hide();
 
@@ -102,11 +107,13 @@ export class CircularMenu {
         for (let i = 0; i < menus.length; i++) {
             menus[i].classList.remove("CircularMenuShow");
             menus[i].classList.add("CircularMenuHide");
-            (<HTMLElement> menus[i]).hidden = true;
+            (<HTMLElement>menus[i]).hidden = true;
         }
     }
 
-
+    /**
+     * @description hide this circular menu
+     */
     hide(): void {
         this.container.classList.remove("CircularMenuShow");
         this.container.classList.add("CircularMenuHide");

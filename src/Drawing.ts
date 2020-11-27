@@ -10,7 +10,7 @@ export class Drawing {
     static lineWidth: number;
 
 
-    static init() {
+    static init(): void {
         OptionManager.number({
             name: "lineWidth",
             defaultValue: 1.5,
@@ -106,7 +106,7 @@ export class Drawing {
     }
 
 
-    static drawRectangle({ x1, y1, x2, y2 }, color: string) {
+    static drawRectangle({ x1, y1, x2, y2 }: {x1: number, y1: number, x2: number, y2: number}, color: string): void {
         const context = getCanvas().getContext("2d");
         context.beginPath();
         context.strokeStyle = color;
@@ -119,7 +119,7 @@ export class Drawing {
 
 
 
-    static drawEllipse({ cx, cy, rx, ry }, color: string) {
+    static drawEllipse({ cx, cy, rx, ry }: {cx: number, cy: number, rx: number, ry: number}, color: string): void {
         const context = getCanvas().getContext("2d");
         context.beginPath();
         context.strokeStyle = color;

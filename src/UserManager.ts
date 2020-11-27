@@ -6,7 +6,7 @@ import { User } from "./User";
 export class UserManager {
 
     static me: User = undefined; // the current user
-    static users: {} = {};
+    static users: { [id: string] : User }  = {};
 
     static readonly usersImageFileNames = ['1F9D1-200D-1F384.svg', '1F9D9.svg', '1F9DA-200D-2640-FE0F.svg', '1F9DD.svg'];
 
@@ -128,8 +128,8 @@ export class UserManager {
         document.getElementById("userList").innerHTML = "";
 
         let i = 0;
-        for (var key in UserManager.users) {
-            let el = UserManager.userIdToDom(key);
+        for (const key in UserManager.users) {
+            const el = UserManager.userIdToDom(key);
             if (key == UserManager.me.userID)
                 el.classList.add("me");
             document.getElementById("userList").appendChild(el);
