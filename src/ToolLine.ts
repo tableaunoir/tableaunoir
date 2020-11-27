@@ -4,19 +4,33 @@ import { ToolAbstractShape } from './ToolAbstractShape';
 
 export class ToolLine extends ToolAbstractShape {
 
+    x1: number;
+    y1: number;
+    x2: number;
+    y2: number;
 
-    compute: () => void = () => {
+    compute: (evt) => void = (evt) => {
+        this.x1 = this.xInit;
+        this.y1 = this.yInit;
+        this.x2 = this.x;
+        this.y2 = this.y;
 
+        if (evt.shiftKey) {
+            if(Math.abs(this.x1 - this.x2) > Math.abs(this.y1 - this.y2))
+                this.y2 = this.y1;
+            else
+                this.x2 = this.x1;
+        }
     }
 
     getShape: () => SVGLineElement = () => {
         const svgns = "http://www.w3.org/2000/svg";
         const shape = <SVGLineElement>document.createElementNS(svgns, 'line');
 
-        shape.setAttributeNS(null, 'x1', "" + this.xInit);
-        shape.setAttributeNS(null, 'y1', "" + this.yInit);
-        shape.setAttributeNS(null, 'x2', "" + (this.x));
-        shape.setAttributeNS(null, 'y2', "" + (this.y));
+        shape.setAttributeNS(null, 'x1', "" + this.x1);
+        shape.setAttributeNS(null, 'y1', "" + this.y1);
+        shape.setAttributeNS(null, 'x2', "" + (this.x2));
+        shape.setAttributeNS(null, 'y2', "" + (this.y2));
         shape.setAttributeNS(null, 'stroke', this.user.color);
         shape.setAttributeNS(null, 'fill', "#FFFFFFFF");
         return shape;
@@ -24,14 +38,14 @@ export class ToolLine extends ToolAbstractShape {
 
 
     drawShape: () => void = () => {
-        Drawing.drawLine(getCanvas().getContext("2d"), this.xInit, this.yInit, this.x, this.y, 1.0, this.user.color);
+        Drawing.drawLine(getCanvas().getContext("2d"), this.x1, this.y1, this.x2, this.y2, 1.0, this.user.color);
     }
 
 
 
     fillDelineation: () => void = () => {
-        this.lastDelineation.addPoint({ x: this.xInit, y: this.yInit });
-        this.lastDelineation.addPoint({ x: this.x, y: this.y });
+        this.lastDelineation.addPoint({ x: this.x1, y: this.y1 });
+        this.lastDelineation.addPoint({ x: this.x2, y: this.y2 });
     }
 
 
