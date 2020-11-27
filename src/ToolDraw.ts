@@ -21,8 +21,6 @@ export class ToolDraw extends Tool {
         }
     }
 
-    init(): void {
-    }
 
     mousedown(evt: any): void {
         this.lastDelineation.reset();

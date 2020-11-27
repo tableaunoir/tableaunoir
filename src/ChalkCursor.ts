@@ -1,5 +1,4 @@
 import { UserManager } from './UserManager';
-import { Menu } from './Menu';
 import { OptionManager } from './OptionManager';
 
 export class ChalkCursor {

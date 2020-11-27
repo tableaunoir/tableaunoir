@@ -1,5 +1,4 @@
-import { BlackVSWhiteBoard } from './BlackVSWhiteBoard';
-import { getCanvas, getContainer } from "./main";
+import { getCanvas } from "./main";
 import { Share } from "./share";
 import { Layout } from './Layout';
 import { CancelStack } from './cancelStack';

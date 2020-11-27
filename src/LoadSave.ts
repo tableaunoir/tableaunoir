@@ -114,7 +114,7 @@ export class LoadSave {
          */
     static fetchFromFile(file: File, callback: (string) => void): void {
         const reader = new FileReader();
-        reader.onerror = function (evt) { }
+        reader.onerror = function () { }
         reader.readAsDataURL(file);
         reader.onload = function (evt) {
             callback(<string>evt.target.result);

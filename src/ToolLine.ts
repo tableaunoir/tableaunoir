@@ -5,11 +5,11 @@ import { ToolAbstractShape } from './ToolAbstractShape';
 export class ToolLine extends ToolAbstractShape {
 
 
-    compute = () => {
+    compute: () => void = () => {
 
     }
 
-    getShape = () => {
+    getShape: () => SVGLineElement = () => {
         const svgns = "http://www.w3.org/2000/svg";
         const shape = <SVGLineElement>document.createElementNS(svgns, 'line');
 
@@ -23,13 +23,13 @@ export class ToolLine extends ToolAbstractShape {
     }
 
 
-    drawShape = () => {
+    drawShape: () => void = () => {
         Drawing.drawLine(getCanvas().getContext("2d"), this.xInit, this.yInit, this.x, this.y, 1.0, this.user.color);
     }
 
 
 
-    fillDelineation = () => {
+    fillDelineation: () => void = () => {
         this.lastDelineation.addPoint({ x: this.xInit, y: this.yInit });
         this.lastDelineation.addPoint({ x: this.x, y: this.y });
     }

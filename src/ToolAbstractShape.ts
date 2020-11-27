@@ -1,5 +1,4 @@
 import { User } from './User';
-import { ChalkCursor } from './ChalkCursor';
 import { BoardManager } from './boardManager';
 import { Delineation } from './Delineation';
 import { Tool } from './Tool';

@@ -1,23 +1,17 @@
-import { User } from './User';
-import { ChalkCursor } from './ChalkCursor';
-import { BoardManager } from './boardManager';
-import { Delineation } from './Delineation';
 import { Drawing } from './Drawing';
-import { getCanvas } from './main';
-import { Tool } from './Tool';
 import { ToolAbstractShape } from './ToolAbstractShape';
 
 export abstract class ToolEllipse extends ToolAbstractShape {
 
-    cx;
-    cy;
-    rx;
-    ry;
+    cx: number;
+    cy: number;
+    rx: number;
+    ry: number;
 
     abstract compute = undefined;
 
 
-    getShape = (evt) => {
+    getShape: () => SVGEllipseElement = () => {
         const svgns = "http://www.w3.org/2000/svg";
         const shape = <SVGEllipseElement>document.createElementNS(svgns, 'ellipse');
 
@@ -33,7 +27,7 @@ export abstract class ToolEllipse extends ToolAbstractShape {
     }
 
 
-    drawShape = (evt) => {
+    drawShape: () => void = () => {
         Drawing.drawEllipse({ cx: this.cx, cy: this.cy, rx: this.rx, ry: this.ry }, this.user.color);
     }
 
@@ -41,7 +35,7 @@ export abstract class ToolEllipse extends ToolAbstractShape {
     /**
      * the contour for making a magnet of the shape of an ellipse
      */
-    fillDelineation = (evt) => {
+    fillDelineation: () => void = () => {
         const precision = 200;
 
         for (let i = 0; i < precision; i++) {

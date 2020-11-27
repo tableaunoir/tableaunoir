@@ -29,6 +29,6 @@ export abstract class Tool {
         // this.toolCursor.src = srcImage;
     }
 
-    updateCursor() {
+    updateCursor(): void {
     }
 }

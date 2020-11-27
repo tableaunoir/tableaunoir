@@ -1,5 +1,5 @@
 import { BlackVSWhiteBoard } from './BlackVSWhiteBoard';
-import { BoardManager } from './boardManager';
+
 
 export class EraserCursor {
 

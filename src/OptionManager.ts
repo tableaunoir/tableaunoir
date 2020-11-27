@@ -3,9 +3,6 @@
  */
 
 export class OptionManager {
-    static init(): void {
-
-    }
 
     /**
      * 
@@ -28,7 +25,7 @@ export class OptionManager {
      * Also that boolean is implicitely connected with an HTMLInputElement called "input" + name, that should be a checkbox 
      */
     //static boolean({name: string, onChangeCallBack: (boolean) => void}): void {
-    static boolean({ name, defaultValue, onChange }: { name: string, defaultValue: boolean, onChange: (boolean) => void }) {
+    static boolean({ name, defaultValue, onChange }: { name: string, defaultValue: boolean, onChange: (boolean) => void }): void {
         const el = OptionManager.getInputElement(name);
         const initialValue = (localStorage[name] == undefined) ? defaultValue : parseBoolean(localStorage[name]);
         //console.log(`reading option ${name}: ${localStorage[name]}`)
@@ -40,7 +37,7 @@ export class OptionManager {
         };
     }
 
-    static string({ name, defaultValue, onChange }: { name: string, defaultValue: string, onChange: (string) => void }) {
+    static string({ name, defaultValue, onChange }: { name: string, defaultValue: string, onChange: (string) => void }): void {
         const el = OptionManager.getInputElement(name);
         const initialValue: string = (localStorage[name] == undefined) ? defaultValue : localStorage[name];
         //console.log(`reading option ${name}: ${localStorage[name]}`)
@@ -53,7 +50,7 @@ export class OptionManager {
     }
 
 
-    static number({ name, defaultValue, onChange }: { name: string, defaultValue: number, onChange: (number) => void }) {
+    static number({ name, defaultValue, onChange }: { name: string, defaultValue: number, onChange: (number) => void }): void {
         const el = OptionManager.getInputElement(name);
         const initialValue = (localStorage[name] == undefined) ? defaultValue : localStorage[name];
         //console.log(`reading option ${name}: ${localStorage[name]}`)

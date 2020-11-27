@@ -3,10 +3,8 @@ import { ToolEllipseByBorder } from './ToolEllipseByBorder';
 import { ToolLine } from './ToolLine';
 import { CircularMenu } from './CircularMenu';
 import { ToolRectangle } from './ToolRectangle';
-import { ToolEllipse } from './ToolEllipse';
 import { ToolDraw } from './ToolDraw';
 import { ToolEraser } from './ToolEraser';
-import { palette } from './main';
 import { MagnetManager } from './magnetManager';
 import { UserManager } from './UserManager';
 
@@ -33,13 +31,13 @@ export class User {
     userID = "0";
     private _name = "";
 
-    set name(newName) {
+    set name(newName: string) {
         this._name = newName;
         if (!this.isCurrentUser)
             this.elementName.innerHTML = this._name;
     }
 
-    get name() { return this._name; }
+    get name(): string { return this._name; }
 
     setUserID(userID: string): void { this.userID = userID; }
 

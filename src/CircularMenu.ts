@@ -14,7 +14,7 @@ export class CircularMenu {
     }
 
 
-    clear() {
+    clear(): void {
         this.container.innerHTML = "";
         this.buttons = [];
     }
@@ -24,7 +24,7 @@ export class CircularMenu {
      * @param button 
      * @description add a button to the circular menu
      */
-    addButton(button: HTMLElement) {
+    addButton(button: HTMLElement): void {
         this.buttons.push(button);
         this.container.appendChild(button);
         button.onmousedown = (evt) => { evt.preventDefault(); } //to prevent the drag and drop of the image
@@ -49,7 +49,7 @@ export class CircularMenu {
 
 
 
-    layout() {
+    layout(): void {
 
         for (let i = 0; i < this.buttons.length; i++) {
             const button = this.buttons[i];

@@ -8,7 +8,7 @@ export class ToolRectangle extends ToolAbstractShape {
     x2: number;
     y2: number;
 
-    compute = (evt) => {
+    compute: (evt) => void = (evt) => {
         this.x1 = Math.min(this.xInit, this.x);
         this.y1 = Math.min(this.yInit, this.y);
         this.x2 = Math.max(this.xInit, this.x);
@@ -23,7 +23,7 @@ export class ToolRectangle extends ToolAbstractShape {
         }
     }
 
-    getShape = () => {
+    getShape: () => SVGRectElement = () => {
         const svgns = "http://www.w3.org/2000/svg";
         const shape = <SVGRectElement>document.createElementNS(svgns, 'rect');
 
@@ -39,13 +39,13 @@ export class ToolRectangle extends ToolAbstractShape {
     }
 
 
-    drawShape = () => {
+    drawShape: () => void = () => {
         Drawing.drawRectangle({ x1: this.x1, y1: this.y1, x2: this.x2, y2: this.y2 }, this.user.color);
     }
 
 
 
-    fillDelineation = () => {
+    fillDelineation: () => void = () => {
         this.lastDelineation.addPoint({ x: this.x1, y: this.y1 });
         this.lastDelineation.addPoint({ x: this.x2, y: this.y1 });
         this.lastDelineation.addPoint({ x: this.x2, y: this.y2 });
