@@ -33,6 +33,7 @@ export abstract class ToolAbstractShape extends Tool {
 
     mousedown(evt: any): void {
         this.lastDelineation.reset();
+        this.compute(evt);
         this.shape = this.getShape(evt);
         document.getElementById("svg").appendChild(this.shape);
     }
