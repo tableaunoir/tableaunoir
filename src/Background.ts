@@ -35,6 +35,11 @@ export class Background {
             Share.execute("backgroundMusicScore", []);
             Menu.hide();
         };
+        document.getElementById("buttonGrid").onclick = () => {
+            Share.execute("backgroundGrid", []);
+            Menu.hide();
+        };
+
 
         (<HTMLInputElement>document.getElementById("inputBackground")).onchange = function (evt) {
             LoadSave.fetchFromFile((<HTMLInputElement>evt.target).files[0],
@@ -105,6 +110,30 @@ export class Background {
         BoardManager.saveCurrentScreen();
 
         Background.dataURL = canvasBackground.toDataURL();
+    }
+    static grid(): void {
+        Background.clear();
+        const gridy = 18;
+
+        const COLORSTAFF = "rgb(50, 50, 50)";
+        const fullHeight = Layout.getWindowHeight();
+        const fullWidth = Layout.getWindowWidth();
+        const canvasBackground = getCanvasBackground();
+        const x2 = 2 * Layout.getWindowWidth();
+        const yshift = fullHeight / gridy;
+        const gridx = 2 * Math.round(fullWidth / (2*yshift));
+        const xshift = fullWidth / gridx;
+
+
+        for (let i = 0 ; i <= gridy; i++) {
+            const y =  i * yshift;
+            Drawing.drawLine(canvasBackground.getContext("2d"), 0, y, x2, y, 0.1, COLORSTAFF);
+        }
+        for (let j = 0 ; j <= 2*gridx; j++) {
+            const x =  j * xshift;
+            Drawing.drawLine(canvasBackground.getContext("2d"), x, 0, x, fullHeight, 0.1, COLORSTAFF);
+        }
+        BoardManager.saveCurrentScreen();
     }
 
 }
