@@ -129,4 +129,8 @@ export class ShareEvent {
     static backgroundMusicScore():void {
         Background.musicScore();
     }
+
+    static backgroundGrid():void {
+        Background.grid();
+    }
 }
