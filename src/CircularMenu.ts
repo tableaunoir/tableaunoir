@@ -28,11 +28,15 @@ export class CircularMenu {
 
 
     layout() {
+
         for (let i = 0; i < this.buttons.length; i++) {
             const button = this.buttons[i];
-            const angle = -Math.PI / 2 + 2 * Math.PI * i / this.buttons.length;
-            button.style.top = (CircularMenu.radius * Math.sin(angle) - 22) + "px";
-            button.style.left = (CircularMenu.radius * Math.cos(angle) - 16) + "px";
+            const r = this.buttons.length <= 8 ? CircularMenu.radius : CircularMenu.radius + i * 48 / 8;
+            const angle = this.buttons.length <= 8 ? -Math.PI / 2 + 2 * Math.PI * i / this.buttons.length
+                                                  : -Math.PI / 2 + 2 * Math.PI * Math.pow(i, 0.8) / 8;
+            
+            button.style.top = (r * Math.sin(angle) - 22) + "px";
+            button.style.left = (r * Math.cos(angle) - 16) + "px";
         }
 
     }

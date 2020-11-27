@@ -7,7 +7,7 @@ import { ChalkCursor } from './ChalkCursor';
 export class Palette extends CircularMenu {
     /** colors that can have a chalk. The first color *must* be white */
     colors = ["white", "yellow", "orange", "rgb(100, 172, 255)", "Crimson", "Plum", "LimeGreen", "black"];
-
+    //colors = ["white", "yellow", "orange", "red", "rgb(100, 172, 255)", "Celeste", "Teal", "Alien Green", "Crimson", "Plum", "LimeGreen", "grey", "black", "Pistachio Green", "Goldenrod", "Cantaloupe", "Bronze", "Sandstone", "Coffee", "Rust", "Maroon", "Rose"];
 
     currentColorID = 0;
     onchange: () => void = () => { };
@@ -35,7 +35,7 @@ export class Palette extends CircularMenu {
     switchBlackAndWhite(): void {
         this.colors = this.colors.map((color) => color == "white" ? "black" : color == "black" ? "white" : color);
         //exchange white and black in the colors
-        
+
         this._createPalette();
         this.onchange();
     }
