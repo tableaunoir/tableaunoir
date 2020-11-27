@@ -1,17 +1,12 @@
-import { User } from './User';
-import { ChalkCursor } from './ChalkCursor';
-import { BoardManager } from './boardManager';
-import { Delineation } from './Delineation';
 import { Drawing } from './Drawing';
-import { getCanvas } from './main';
 import { ToolAbstractShape } from './ToolAbstractShape';
 
 export class ToolRectangle extends ToolAbstractShape {
 
-    x1;
-    y1;
-    x2;
-    y2;
+    x1: number;
+    y1: number;
+    x2: number;
+    y2: number;
 
     compute = (evt) => {
         this.x1 = Math.min(this.xInit, this.x);
@@ -28,7 +23,7 @@ export class ToolRectangle extends ToolAbstractShape {
         }
     }
 
-    getShape = (evt) => {
+    getShape = () => {
         const svgns = "http://www.w3.org/2000/svg";
         const shape = <SVGRectElement>document.createElementNS(svgns, 'rect');
 
@@ -44,13 +39,13 @@ export class ToolRectangle extends ToolAbstractShape {
     }
 
 
-    drawShape = (evt) => {
+    drawShape = () => {
         Drawing.drawRectangle({ x1: this.x1, y1: this.y1, x2: this.x2, y2: this.y2 }, this.user.color);
     }
 
 
 
-    fillDelineation = (evt) => {
+    fillDelineation = () => {
         this.lastDelineation.addPoint({ x: this.x1, y: this.y1 });
         this.lastDelineation.addPoint({ x: this.x2, y: this.y1 });
         this.lastDelineation.addPoint({ x: this.x2, y: this.y2 });

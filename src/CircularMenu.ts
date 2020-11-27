@@ -19,12 +19,34 @@ export class CircularMenu {
         this.buttons = [];
     }
 
+    /**
+     * 
+     * @param button 
+     * @description add a button to the circular menu
+     */
     addButton(button: HTMLElement) {
         this.buttons.push(button);
         this.container.appendChild(button);
         button.onmousedown = (evt) => { evt.preventDefault(); } //to prevent the drag and drop of the image
         button.classList.add("paletteColorButton");
     }
+
+    /**
+     * 
+     * @param {src, title, onclick}
+     * @description add a image button whose image is given by its source src, the hint is title, and onclick is
+     * the function to execute when you click
+     * 
+     */
+    addButtonImage({src, title, onclick}: {src: string, title: string, onclick: () => void}) : void {
+        const buttonImage = new Image();
+        buttonImage.src = src;
+        buttonImage.title = title;
+        this.addButton(buttonImage);
+        buttonImage.onclick = onclick;
+    }
+        
+
 
 
     layout() {

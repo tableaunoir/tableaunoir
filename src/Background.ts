@@ -55,7 +55,6 @@ export class Background {
         Background.dataURL = dataURL;
         img.src = dataURL;
         
-        
         img.onload = () => {
             const canvasBackground = getCanvasBackground();
             //const x = (Layout.getWindowWidth() - scaleWidth) / 2;

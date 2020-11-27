@@ -27,10 +27,6 @@ export class BoardManager {
     }
 
 
-    static getBackgroundColor(): string {
-        return document.getElementById("canvasBackground").style.backgroundColor;
-    }
-
     /**
         * erase the board
         */
