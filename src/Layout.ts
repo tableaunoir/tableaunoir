@@ -1,5 +1,6 @@
 import { OptionManager } from './OptionManager';
 import { getCanvas, getCanvasBackground, getContainer } from './main';
+import { Toolbar } from './Toolbar';
 
 export class Layout {
 
@@ -102,7 +103,7 @@ export class Layout {
         Layout.getWindowWidth = () => { return window.innerWidth; };
         Layout.getWindowHeight = () => { return window.innerHeight; };
         Layout.getZoom = () => { return 1; }
-        Layout._resize();
+        Layout.layout();
 
     }
 
@@ -119,12 +120,12 @@ export class Layout {
         canvasBackground.height = Layout.STANDARDHEIGHT;
         canvasBackground.width = 4800;
 
-        window.addEventListener("resize", Layout._resize);
+        window.addEventListener("resize", Layout.layout);
 
         Layout.getWindowHeight = () => { return Layout.STANDARDHEIGHT; };
         Layout.getWindowWidth = () => { return window.innerWidth * Layout.getZoom(); };
         Layout.getZoom = () => { return Layout.STANDARDHEIGHT / screen.height; };
-        Layout._resize();
+        Layout.layout();
     }
 
 
@@ -140,7 +141,7 @@ export class Layout {
         canvasBackground.height = Layout.STANDARDHEIGHT;
         canvasBackground.width = 4800;
 
-        window.addEventListener("resize", Layout._resize);
+        window.addEventListener("resize", Layout.layout);
 
         Layout.getWindowHeight = () => { return Layout.STANDARDHEIGHT; };
         Layout.getWindowWidth = () => { return window.innerWidth * Layout.getZoom(); };
@@ -149,7 +150,7 @@ export class Layout {
 
             return Layout.STANDARDHEIGHT / innerHeight;
         };
-        Layout._resize();
+        Layout.layout();
     }
 
 
@@ -166,35 +167,40 @@ export class Layout {
         canvasBackground.height = Layout.STANDARDHEIGHT;
         canvasBackground.width = 4800;
 
-        window.addEventListener("resize", Layout._resize);
+        window.addEventListener("resize", Layout.layout);
 
         Layout.getWindowHeight = () => { return Layout.STANDARDHEIGHT; };
         Layout.getWindowWidth = () => { return window.innerWidth * Layout.getZoom(); };
         Layout.getZoom = () => {
-            const toolbar = document.getElementById("controls");
+            const toolbar = Toolbar.getToolbar();
             const innerHeight = window.innerHeight - (toolbar.hidden ? 0 : toolbar.clientHeight);
             let heightused;
-            if (toolbar.clientHeight < window.innerHeight / 10) {
+            if (toolbar.clientHeight < window.innerHeight / 10 || Toolbar.left || Toolbar.right) {
                 heightused = window.innerHeight;
-                content.style.position = "absolute";
-
+                content.style.top = "0px";
+                if(Toolbar.left)
+                    content.style.left = ""+toolbar.clientWidth;
 
             }
             else {
                 heightused = innerHeight;
-                content.style.position = "relative";
+                content.style.left = "0px";
+                if(Toolbar.bottom)
+                    content.style.top = "0px";
+                else if(Toolbar.top)
+                    content.style.top = "" + toolbar.clientHeight;
 
             }
 
 
             return Layout.STANDARDHEIGHT / heightused;
         };
-        Layout._resize();
+        Layout.layout();
     }
 
 
 
-    static _resize(): void {
+    static layout(): void {
         console.log("resize");
         //if(window.innerHeight > Layout.STANDARDHEIGHT)
         const zoom = Layout.getZoom();
@@ -226,7 +232,7 @@ export class Layout {
      * that were modified.
      */
     static restoreForUse(): void {
-        Layout._resize();
+        Layout.layout();
     }
 
 }

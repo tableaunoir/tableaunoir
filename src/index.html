@@ -167,31 +167,33 @@
 			</div>
 
 			<div id="Background" class="tabcontent">
-				<div>Behind the board, there is a <em>background</em> composed of a <em>background color</em> and a <em>background image.</em></div>
+				<div>Behind the board, there is a <em>background</em> composed of a <em>background color</em> and a
+					<em>background image.</em></div>
 
 				<div id="backgroundSnapshot">
 					<div id="backgroundSnapshotBackgroundColor"></div>
-					<img id="backgroundSnapshotBackgroundImage"/>
-					<img id="backgroundSnapshotCanvas" src="img/animatedsmiley.gif"/>
+					<img id="backgroundSnapshotBackgroundImage" />
+					<img id="backgroundSnapshotCanvas" src="img/animatedsmiley.gif" />
 				</div>
-				
+
 				<h2>1. Background color</h2>
-				
+
 				<button id="blackBoardSwitch"><img src="img/switchblack.png" /><br />Blackboard</button>
 				<button id="whiteBoardSwitch"><img src="img/switchwhite.png" /><br />Whiteboard</button>
 
-				
+
 				<h2>2. Background image</h2>
 
-				<div>If you need to teach music, or do geometry, or present some ideas with an image, use a background image.</div>
+				<div>If you need to teach music, or do geometry, or present some ideas with an image, use a background
+					image.</div>
 
 				<button class="buttonClear" id="buttonNoBackground">
 					<img src="img/nobackground.png" /><br />No background</button>
 				<button class="buttonMusicScore" id="buttonMusicScore">
 					<img src="img/backgroundmusicscore.png" /><br />Music score</button>
 				<button class="buttonGrid" id="buttonGrid">
-						<img src="img/grid.png" /><br />Grid</button>
-				            
+					<img src="img/grid.png" /><br />Grid</button>
+
 
 				<h2>2'. Or use your own background</h2>
 
@@ -205,7 +207,18 @@
 				<input type="number" id="inputLineWidth" name="lineWidth" min="1" max="40" step="0.5">
 
 				<h2>Interface</h2>
-				<input type="checkbox" id="inputToolbar">Show the toolbar (h)</input>
+				<input type="checkbox" id="inputToolbar"></input><label for="inputToolbar">Show the toolbar (h)</label>
+
+				<br /><br />
+
+				<input type="radio" id="inputToolbarPositionLeft" name="inputToolbarPosition" value="left">
+				<label for="inputToolbarPositionLeft">Left</label><br />
+				<input type="radio" id="inputToolbarPositionTop" name="inputToolbarPosition" value="top">
+				<label for="inputToolbarPositionTop">Top</label><br />
+				<input type="radio" id="inputToolbarPositionRight" name="inputToolbarPosition" value="right">
+				<label for="inputToolbarPositionRight">Right</label><br />
+				<input type="radio" id="inputToolbarPositionBottom" name="inputToolbarPosition" value="bottom">
+				<label for="inputToolbarPositionBottom">Bottom</label>
 
 				<h2>Cursor</h2>
 				<input type="checkbox" id="inputLeftHanded">Left-handed</input>

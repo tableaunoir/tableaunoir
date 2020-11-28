@@ -47,9 +47,9 @@ canvas {
 	position: absolute;
 	margin: 0px;
 	padding: 0px;
-	top: 0px;
-	left: 0px;
+	
 }
+
 
 
 .pageNumberHidden {
@@ -58,14 +58,38 @@ canvas {
 
 
 #controls {
-	position: sticky;
+	position: absolute;
+	background-color: rgb(68, 68, 68);
+	color: white;
+	z-index: 1;
+}
+
+.toolbarTop {
 	top: 0px;
 	left: 0px;
 	right: 0px;
 	width: 100%;
-	background-color: rgb(68, 68, 68);
-	color: white;
-	z-index: 1;
+}
+
+.toolbarBottom {
+	bottom: 0px;
+	left: 0px;
+	right: 0px;
+	width: 100%;
+}
+
+.toolbarLeft {
+	top: 0px;
+	left: 0px;
+	width: 64px;
+	height: 100%;
+}
+
+.toolbarRight {
+	top: 0px;
+	right: 0px;
+	width: 64px;
+	height: 100%;
 }
 
 .keyboardkeyhelp {
