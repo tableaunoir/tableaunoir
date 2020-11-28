@@ -12,6 +12,7 @@ import { Drawing } from './Drawing'
  */
 export class Background {
 
+    static readonly emptyImage: string = "";
     /**
      * stores the current img in binary (to be sent later for instance)
      */
@@ -29,15 +30,13 @@ export class Background {
      */
     static init(): void {
         document.getElementById("buttonNoBackground").onclick = () => {
-            Share.execute("backgroundClear", []); Menu.hide();
+            Share.execute("backgroundClear", []);
         };
         document.getElementById("buttonMusicScore").onclick = () => {
             Share.execute("backgroundMusicScore", []);
-            Menu.hide();
         };
         document.getElementById("buttonGrid").onclick = () => {
             Share.execute("backgroundGrid", []);
-            Menu.hide();
         };
 
 
@@ -47,6 +46,19 @@ export class Background {
         }
     }
 
+
+
+    static storeDataURL(dataURL: string): void {
+        const snapshotImg = (<HTMLImageElement>document.getElementById("backgroundSnapshotBackgroundImage"));
+        if ((dataURL == undefined) || (dataURL == "undefined")) {
+            Background.dataURL = undefined;
+            snapshotImg.src = Background.emptyImage;
+        }
+        else {
+            Background.dataURL = dataURL;
+            snapshotImg.src = dataURL;
+        }
+    }
     /**
      * 
      * @param dataURL 
@@ -57,9 +69,10 @@ export class Background {
 
         console.log("set background");
         const img = new Image();
-        Background.dataURL = dataURL;
+        Background.storeDataURL(dataURL);
+
         img.src = dataURL;
-        
+
         img.onload = () => {
             const canvasBackground = getCanvasBackground();
             //const x = (Layout.getWindowWidth() - scaleWidth) / 2;
@@ -69,7 +82,7 @@ export class Background {
             canvasBackground.getContext("2d").drawImage(img, x, 0, scaleWidth, height);
             console.log("background displayed");
         }
-            
+
     }
 
 
@@ -78,7 +91,8 @@ export class Background {
      */
     static clear(): void {
         const canvasBackground = getCanvasBackground();
-        Background.dataURL = undefined;
+        Background.storeDataURL(undefined);
+
         canvasBackground.getContext("2d").clearRect(0, 0, canvasBackground.width, canvasBackground.height);
     }
 
@@ -109,31 +123,36 @@ export class Background {
 
         BoardManager.saveCurrentScreen();
 
-        Background.dataURL = canvasBackground.toDataURL();
+        Background.storeDataURL(canvasBackground.toDataURL());
     }
+
+
+
     static grid(): void {
         Background.clear();
         const gridy = 18;
 
-        const COLORSTAFF = "rgb(50, 50, 50)";
+        const COLORGRID = "rgb(50, 50, 50)";
+        const PRESSURE = 0.1;
         const fullHeight = Layout.getWindowHeight();
         const fullWidth = Layout.getWindowWidth();
         const canvasBackground = getCanvasBackground();
         const x2 = 2 * Layout.getWindowWidth();
         const yshift = fullHeight / gridy;
-        const gridx = 2 * Math.round(fullWidth / (2*yshift));
+        const gridx = 2 * Math.round(fullWidth / (2 * yshift));
         const xshift = fullWidth / gridx;
 
 
-        for (let i = 0 ; i <= gridy; i++) {
-            const y =  i * yshift;
-            Drawing.drawLine(canvasBackground.getContext("2d"), 0, y, x2, y, 0.1, COLORSTAFF);
+        for (let i = 0; i <= gridy; i++) {
+            const y = i * yshift;
+            Drawing.drawLine(canvasBackground.getContext("2d"), 0, y, x2, y, PRESSURE, COLORGRID);
         }
-        for (let j = 0 ; j <= 2*gridx; j++) {
-            const x =  j * xshift;
-            Drawing.drawLine(canvasBackground.getContext("2d"), x, 0, x, fullHeight, 0.1, COLORSTAFF);
+        for (let j = 0; j <= 2 * gridx; j++) {
+            const x = j * xshift;
+            Drawing.drawLine(canvasBackground.getContext("2d"), x, 0, x, fullHeight, PRESSURE, COLORGRID);
         }
         BoardManager.saveCurrentScreen();
+        Background.storeDataURL(canvasBackground.toDataURL());
     }
 
 }

@@ -361,6 +361,11 @@ button {
 	min-width: 48px;
 }
 
+
+.buttonselected {
+	border: 8px rgb(29, 108, 255) solid;
+}
+
 .alreadyShared {
 	background-color: rgb(127, 127, 206);
 }
@@ -731,3 +736,32 @@ h1 {
 }
 
 
+#backgroundSnapshot {
+	position: relative;
+	overflow: hidden;
+	height: 128px;
+	width: 192px;
+}
+
+
+#backgroundSnapshotBackgroundColor {
+	position: relative;
+	width: 192px;
+	height: 128px;
+}
+
+#backgroundSnapshotBackgroundImage {
+	position: absolute;
+	height: 128px;
+	left:0px;
+	top: 0px;
+	filter: contrast(0.5);
+}
+
+#backgroundSnapshotCanvas {
+	position: absolute;
+	width: 192px;
+	height: 128px;
+	left:0px;
+	top: 0px;
+}

@@ -33,8 +33,9 @@ module.exports = {
       patterns: [
         { from: 'src/index.html', to: 'index.html' },
         { from: 'src/style.css', to: 'style.css' }, // Use css loader ?
-        { from: 'img', to: 'img', // Use image loader ?
-          globOptions: { ignore: [ "**/img/*.jpg", "**/img/*.gif", "**/simcitygraph.png" ]}} // remove from repository
+        { from: 'img', to: 'img'//, // Use image loader ?
+         // globOptions: { ignore: [ "**/img/*.jpg", "**/img/*.gif", "**/simcitygraph.png" ]}} // remove from repository
+        }
       ],
     })
   ]

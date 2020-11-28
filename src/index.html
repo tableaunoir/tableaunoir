@@ -6,9 +6,9 @@
 	<meta name="viewport"
 		content="width=device-width, target-densitydpi=device-dpi, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
 	<link rel="stylesheet" type="text/css" href="style.css" />
-	<script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
-	<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+	<!--<script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>-->
 	<script src="tableaunoir.js"></script>
+	<!--<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>-->
 </head>
 
 <body>
@@ -167,33 +167,39 @@
 			</div>
 
 			<div id="Background" class="tabcontent">
+				<div>Behind the board, there is a <em>background</em> composed of a <em>background color</em> and a <em>background image.</em></div>
+
+				<div id="backgroundSnapshot">
+					<div id="backgroundSnapshotBackgroundColor"></div>
+					<img id="backgroundSnapshotBackgroundImage"/>
+					<img id="backgroundSnapshotCanvas" src="img/animatedsmiley.gif"/>
+				</div>
+				
+				<h2>1. Background color</h2>
+				
+				<button id="blackBoardSwitch"><img src="img/switchblack.png" /><br />Blackboard</button>
+				<button id="whiteBoardSwitch"><img src="img/switchwhite.png" /><br />Whiteboard</button>
+
+				
+				<h2>2. Background image</h2>
+
+				<div>If you need to teach music, or do geometry, or present some ideas with an image, use a background image.</div>
+
 				<button class="buttonClear" id="buttonNoBackground">
 					<img src="img/nobackground.png" /><br />No background</button>
-
-				<h2>Predefined Background</h2>
-
-				<div>You may add a background to your board. For instance, you can teach music by adding a music score
-					background:</div>
-
 				<button class="buttonMusicScore" id="buttonMusicScore">
-					  <img src="img/backgroundmusicscore.png" /><br />Music score</button>
+					<img src="img/backgroundmusicscore.png" /><br />Music score</button>
+				<button class="buttonGrid" id="buttonGrid">
+						<img src="img/grid.png" /><br />Grid</button>
+				            
 
-            <button class="buttonGrid" id="buttonGrid">
-					      <img src="img/grid.png" /><br />Grid</button>
-
-				<h2>Your own background</h2>
-				<div>You can also import your own background:</div>
+				<h2>2'. Or use your own background</h2>
 
 				<input type="file" accept="image/png, image/jpeg image/svg" id="inputBackground" />
 			</div>
 
 
 			<div id="Options" class="tabcontent">
-				<button id="blackBoardSwitch" hidden><img src="img/switchblackwhite.png" /><br />Switch to
-					blackboard</button>
-				<button id="whiteBoardSwitch"><img src="img/switchblackwhite.png" /><br />Switch to
-					whiteboard</button>
-
 				<h2>Drawing</h2>
 				<label for="lineWidth">Line width: </label>
 				<input type="number" id="inputLineWidth" name="lineWidth" min="1" max="40" step="0.5">
