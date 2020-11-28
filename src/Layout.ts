@@ -178,16 +178,18 @@ export class Layout {
             if (toolbar.clientHeight < window.innerHeight / 10 || Toolbar.left || Toolbar.right) {
                 heightused = window.innerHeight;
                 content.style.top = "0px";
-                if(Toolbar.left)
-                    content.style.left = ""+toolbar.clientWidth;
+                if (Toolbar.left)
+                    content.style.left = "" + toolbar.clientWidth;
+                else
+                    content.style.left = "0px";
 
             }
             else {
                 heightused = innerHeight;
                 content.style.left = "0px";
-                if(Toolbar.bottom)
+                if (Toolbar.bottom)
                     content.style.top = "0px";
-                else if(Toolbar.top)
+                else if (Toolbar.top)
                     content.style.top = "" + toolbar.clientHeight;
 
             }
