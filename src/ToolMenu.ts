@@ -10,8 +10,10 @@ export class ToolMenu extends CircularMenu {
             src: "img/icons/magnetize.svg",
             title: "Magnetize the last drawn shape (Ctrl + X)",
             onclick: () => {
-                if (UserManager.me.tool.lastDelineation.containsPolygonToMagnetize())
-                    UserManager.me.tool.lastDelineation.cutAndMagnetize();
+                if (!UserManager.me.isDelineation)
+                    return;
+                if (UserManager.me.lastDelineation.containsPolygonToMagnetize())
+                    UserManager.me.lastDelineation.cutAndMagnetize();
                 CircularMenu.hide();
             }
         });

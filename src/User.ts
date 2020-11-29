@@ -7,7 +7,8 @@ import { ToolDraw } from './ToolDraw';
 import { ToolEraser } from './ToolEraser';
 import { MagnetManager } from './magnetManager';
 import { UserManager } from './UserManager';
-
+import { Tool } from './Tool';
+import { ToolAbstractShape } from './ToolAbstractShape';
 
 
 
@@ -26,7 +27,7 @@ export class User {
     canWrite = true;
     color = "white";
     cursor = undefined;
-    tool = undefined;
+    tool: Tool = undefined;
     elementName = undefined;
     userID = "0";
     private _name = "";
@@ -35,6 +36,14 @@ export class User {
         this._name = newName;
         if (!this.isCurrentUser)
             this.elementName.innerHTML = this._name;
+    }
+
+    get isDelineation(): boolean {
+        return this.tool instanceof ToolDraw || this.tool instanceof ToolAbstractShape;
+    }
+
+    get lastDelineation() {
+        return (<ToolDraw | ToolAbstractShape>this.tool).lastDelineation;
     }
 
     get name(): string { return this._name; }

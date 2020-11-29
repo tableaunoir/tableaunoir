@@ -23,7 +23,7 @@ import { Drawing } from './Drawing'
 
 window.onload = load;
 window['Menu'] = Menu;
-window['ShareEvent'] = ShareEvent;
+//window['ShareEvent'] = ShareEvent;
 
 export const palette = new Palette();
 const toolmenu = new ToolMenu();
@@ -198,13 +198,19 @@ function load() {
 			Toolbar.toggle();
 		else if (evt.ctrlKey && evt.key == 'x') {//Ctrl + x
 			CircularMenu.hide();
-			if (UserManager.me.tool.lastDelineation.containsPolygonToMagnetize())
-				UserManager.me.tool.lastDelineation.cutAndMagnetize();
+			if (!UserManager.me.isDelineation)
+				return;
+			const deli = UserManager.me.lastDelineation;
+			if (deli.containsPolygonToMagnetize())
+				deli.cutAndMagnetize();
 		}
 		else if (evt.ctrlKey && evt.key == 'c') {//Ctrl + c
 			CircularMenu.hide();
-			if (UserManager.me.tool.lastDelineation.containsPolygonToMagnetize())
-				UserManager.me.tool.lastDelineation.copyAndMagnetize();
+			if (!UserManager.me.isDelineation)
+				return;
+			const deli = UserManager.me.lastDelineation;
+			if (deli.containsPolygonToMagnetize())
+				deli.copyAndMagnetize();
 		}
 		else if (evt.ctrlKey && evt.key == "v") { //Ctrl + v = print the current magnet
 			CircularMenu.hide();
@@ -212,11 +218,19 @@ function load() {
 		}
 		else if (evt.key == "m") { //m = make new magnets
 			CircularMenu.hide();
-			if (UserManager.me.tool.lastDelineation.containsPolygonToMagnetize())
-				UserManager.me.tool.lastDelineation.cutAndMagnetize();
-			else {
+			if (!UserManager.me.isDelineation) {
 				Share.execute("printMagnet", [MagnetManager.getCurrentMagnetID()]);
 				MagnetManager.removeCurrentMagnet();
+			}
+			else {
+				const deli = UserManager.me.lastDelineation;
+				if (deli.containsPolygonToMagnetize()) {
+					deli.cutAndMagnetize();
+				}
+				else {
+					Share.execute("printMagnet", [MagnetManager.getCurrentMagnetID()]);
+					MagnetManager.removeCurrentMagnet();
+				}
 			}
 		}
 		else if (evt.key == "p") { //p = print the current magnet

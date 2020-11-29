@@ -355,7 +355,8 @@ export class Share {
 			return obj;*/
 
 		}
-		eval("ShareEvent." + event)(...params);
+		//eval("ShareEvent." + event)(...params);
+		ShareEvent[event](...params);
 		if (Share.isShared())
 			Share.send({ type: "execute", event: event, params: params.map((param) => adapt(param)) });
 	}
