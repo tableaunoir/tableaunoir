@@ -23,9 +23,9 @@ export abstract class Tool {
         //empty destructur
      }
 
-    abstract mousedown(evt): void;
-    abstract mousemove(evt): void;
-    abstract mouseup(evt): void;
+    abstract mousedown(evt: MouseEvent): void;
+    abstract mousemove(evt: MouseEvent): void;
+    abstract mouseup(evt: MouseEvent): void;
 
 
 

@@ -10,7 +10,6 @@ import { Tool } from './Tool';
 export class ToolArc extends Tool {
 
     lastDelineation = new Delineation();
-    private alreadyDrawnSth = false;
     elementCenter: HTMLElement;
     elementRadius: HTMLElement;
     elementCircle: SVGEllipseElement;
@@ -112,13 +111,12 @@ export class ToolArc extends Tool {
         };
 
 
-        const elementDrag = (e) => {
+        const elementDrag = (e: PointerEvent) => {
             if (!drag) return;
 
             const canvas = getCanvas();
 
             canvas.style.cursor = "none";
-            e = e || window.event;
             e.preventDefault();
             // calculate the new cursor position:
             const dx = x - e.clientX * Layout.getZoom();
@@ -155,13 +153,13 @@ export class ToolArc extends Tool {
 
 
 
-    mousedown(evt: any): void {
+    mousedown(): void {
         this.isDrawing = true;
         BoardManager.saveCurrentScreen();
         this.elementRadius.style.visibility = "hidden";
     }
 
-    mousemove(evt: any): void {
+    mousemove(evt: PointerEvent): void {
         if (this.isDrawing) {
             const evtX = evt.offsetX;
             const evtY = evt.offsetY;
@@ -171,7 +169,7 @@ export class ToolArc extends Tool {
         }
 
     }
-    mouseup(evt: any): void {
+    mouseup(): void {
         this.isDrawing = false;
         this.elementRadius.style.visibility = "visible";
     }

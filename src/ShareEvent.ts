@@ -11,17 +11,17 @@ import { Drawing } from './Drawing';
  * */
 
 export class ShareEvent {
-    static mousedown(userId: string, evt): void {
+    static mousedown(userId: string, evt: MouseEvent): void {
         UserManager.users[userId].mousedown(evt);
     }
 
-    static mousemove(userId: string, evt): void {
+    static mousemove(userId: string, evt: MouseEvent): void {
         if (UserManager.users[userId] == undefined)
             console.log("why is " + userId + " not declared?");
         UserManager.users[userId].mousemove(evt);
     }
 
-    static mouseup(userId: string, evt): void {
+    static mouseup(userId: string, evt: MouseEvent): void {
         UserManager.users[userId].mouseup(evt);
     }
 

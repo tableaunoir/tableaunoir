@@ -19,7 +19,7 @@ export class TouchScreen {
      * @param {*} event
      * @description converts a touch event into a mouse event
      */
-    static _touchHandler(event): void {
+    static _touchHandler(event: TouchEvent): void {
         const touches = event.changedTouches;
         const first = touches[0];
         let type = "";

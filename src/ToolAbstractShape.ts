@@ -31,14 +31,14 @@ export abstract class ToolAbstractShape extends Tool {
     }
 
 
-    mousedown(evt: any): void {
+    mousedown(evt: PointerEvent): void {
         this.lastDelineation.reset();
         this.compute(evt);
         this.shape = this.getShape(evt);
         document.getElementById("svg").appendChild(this.shape);
     }
 
-    mousemove(evt: any): void {
+    mousemove(evt: PointerEvent): void {
         if (this.isDrawing) {
             this.shape.remove();
             this.compute(evt);
@@ -47,7 +47,7 @@ export abstract class ToolAbstractShape extends Tool {
         }
 
     }
-    mouseup(evt: any): void {
+    mouseup(evt: PointerEvent): void {
         if (this.isDrawing) {
             this.fillDelineation(evt);
             this.lastDelineation.finish();

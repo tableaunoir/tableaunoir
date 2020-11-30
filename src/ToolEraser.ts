@@ -13,13 +13,13 @@ export class ToolEraser extends Tool {
     private eraseLineWidth = ERASEMODEDEFAULTSIZE;
 
 
-    mousedown(evt): void {
+    mousedown(): void {
         this.eraseModeBig = false;
         Drawing.clearLine(this.x, this.y, this.x, this.y, ERASEMODEDEFAULTSIZE);
     }
 
 
-    mousemove(evt): void {
+    mousemove(evt: PointerEvent): void {
         const evtX = evt.offsetX;
         const evtY = evt.offsetY;
 
@@ -47,7 +47,7 @@ export class ToolEraser extends Tool {
         this.toolCursor.style.top = evtY - this.eraseLineWidth / 2;*/
     }
 
-    mouseup(evt): void {
+    mouseup(): void {
         if (this.user.isCurrentUser) {
             //restore the eraser to the original size {
             this.eraseLineWidth = ERASEMODEDEFAULTSIZE;

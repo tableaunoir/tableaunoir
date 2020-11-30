@@ -109,7 +109,7 @@ export class User {
     switchArc(): void { this.tool.destructor(); this.tool = new ToolArc(this); }
 
 
-    mousedown(evt): void {
+    mousedown(evt: MouseEvent): void {
         MagnetManager.setInteractable(false);
 
         //unselect the selected element (e.g. a text in edit mode)
@@ -132,7 +132,7 @@ export class User {
 
 
 
-    mousemove(evt): void {
+    mousemove(evt: MouseEvent): void {
         const evtX = evt.offsetX;
         const evtY = evt.offsetY;
 
@@ -152,7 +152,7 @@ export class User {
     }
 
 
-    mouseup(evt): void {
+    mouseup(evt: MouseEvent): void {
         MagnetManager.setInteractable(true);
 
         if (this.canWrite)

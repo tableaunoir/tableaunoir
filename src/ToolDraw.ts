@@ -22,12 +22,12 @@ export class ToolDraw extends Tool {
     }
 
 
-    mousedown(evt: any): void {
+    mousedown(): void {
         this.lastDelineation.reset();
         this.lastDelineation.addPoint({ x: this.x, y: this.y });
     }
 
-    mousemove(evt: any): void {
+    mousemove(evt: PointerEvent): void {
         if (this.isDrawing) {
             const evtX = evt.offsetX;
             const evtY = evt.offsetY;
@@ -42,7 +42,7 @@ export class ToolDraw extends Tool {
         }
 
     }
-    mouseup(evt: any): void {
+    mouseup(): void {
         this.lastDelineation.finish();
         if (this.isDrawing && !this.alreadyDrawnSth) {
             Drawing.drawDot(this.x, this.y, this.user.color);
