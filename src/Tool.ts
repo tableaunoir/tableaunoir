@@ -18,10 +18,13 @@ export abstract class Tool {
         this.user = user;
     }
 
+
+    destructor() { }
+
     abstract mousedown(evt): void;
     abstract mousemove(evt): void;
     abstract mouseup(evt): void;
-    
+
 
 
     setToolCursorImage(srcImage: { data: string, x: number, y: number }): void {

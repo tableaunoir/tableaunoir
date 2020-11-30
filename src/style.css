@@ -789,3 +789,22 @@ h1 {
 	left:0px;
 	top: 0px;
 }
+
+
+.handle {
+	position: absolute;
+	width: 32px;
+	height: 32px;
+}
+
+.handle:hover {
+	filter: brightness(150%);
+}
+
+.handleCenter {
+	background-image: url(img/center.svg);
+}
+
+.handleRadius {
+	background-image: url(img/radius.svg);
+}

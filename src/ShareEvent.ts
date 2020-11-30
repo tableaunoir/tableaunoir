@@ -52,6 +52,10 @@ export class ShareEvent {
     static switchEllipseByCenter(userId: string): void {
         UserManager.users[userId].switchEllipseByCenter();
     }
+    
+    static switchArc(userId: string): void {
+        UserManager.users[userId].switchArc();
+    }
 
     static setUserCanWrite(userId: string, bool: boolean): void {
         UserManager.users[userId].setCanWrite(bool);

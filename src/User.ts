@@ -9,6 +9,7 @@ import { MagnetManager } from './magnetManager';
 import { UserManager } from './UserManager';
 import { Tool } from './Tool';
 import { ToolAbstractShape } from './ToolAbstractShape';
+import { ToolArc } from './ToolArc';
 
 
 
@@ -96,12 +97,13 @@ export class User {
 
 
 
-    switchChalk(): void { this.tool = new ToolDraw(this); }
-    switchErase(): void { this.tool = new ToolEraser(this); }
-    switchLine(): void { this.tool = new ToolLine(this); }
-    switchRectangle(): void { this.tool = new ToolRectangle(this); }
-    switchEllipseByBorder(): void { this.tool = new ToolEllipseByBorder(this); }
-    switchEllipseByCenter(): void { this.tool = new ToolEllipseByCenter(this); }
+    switchChalk(): void { this.tool.destructor(); this.tool = new ToolDraw(this); }
+    switchErase(): void { this.tool.destructor(); this.tool = new ToolEraser(this); }
+    switchLine(): void { this.tool.destructor(); this.tool = new ToolLine(this); }
+    switchRectangle(): void { this.tool.destructor(); this.tool = new ToolRectangle(this); }
+    switchEllipseByBorder(): void { this.tool.destructor(); this.tool = new ToolEllipseByBorder(this); }
+    switchEllipseByCenter(): void { this.tool.destructor(); this.tool = new ToolEllipseByCenter(this); }
+    switchArc(): void { this.tool.destructor(); this.tool = new ToolArc(this); }
 
 
     mousedown(evt): void {

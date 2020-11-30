@@ -64,6 +64,15 @@ export class ToolMenu extends CircularMenu {
             }
         });
 
+        this.addButtonImage({
+            src: "img/icons/arc.svg",
+            title: "Draw arcs (with a compass)",
+            onclick: () => {
+                Share.execute("switchArc", [UserManager.me.userID]);
+                CircularMenu.hide();
+            }
+        });
+
         this.layout();
     }
 
