@@ -63,7 +63,7 @@ export class MagnetManager {
 		const magnets = MagnetManager.getMagnets();
 
 		for (let i = 0; i < magnets.length; i++)
-			(<any>magnets[i]).style.pointerEvents = v;
+			(<HTMLElement>magnets[i]).style.pointerEvents = v;
 
 	}
 
@@ -102,7 +102,9 @@ export class MagnetManager {
 	 * @param {*} element
 	 * @description add the DOM element element to the list of magnets
 	 */
-	static addMagnet(element: HTMLElement, callback: (HTMLElement) => void = () => { }): void {
+	static addMagnet(element: HTMLElement, callback: (element: HTMLElement) => void = () => {
+		/* by defaut: do nothing*/
+	}): void {
 		if (MagnetManager.magnetX > BoardManager.getCurrentScreenRectangle().x2 - 10) {
 			MagnetManager.magnetX = BoardManager.getCurrentScreenRectangle().x1;
 			MagnetManager.magnetY += 64;
@@ -153,7 +155,7 @@ export class MagnetManager {
 				let minDist = 100000;
 				for (let j = 0; j < magnets.length; j++) {
 					minDist = Math.min(minDist,
-						Math.abs(x - parseInt((<any>magnets[j]).style.left)) + Math.abs(y - parseInt((<any>magnets[j]).style.top)));
+						Math.abs(x - parseInt((<HTMLElement>magnets[j]).style.left)) + Math.abs(y - parseInt((<HTMLElement>magnets[j]).style.top)));
 				}
 				return minDist;
 

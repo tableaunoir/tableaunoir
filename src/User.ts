@@ -1,3 +1,4 @@
+import { Delineation } from './Delineation';
 import { ToolEllipseByCenter } from './ToolEllipseByCenter';
 import { ToolEllipseByBorder } from './ToolEllipseByBorder';
 import { ToolLine } from './ToolLine';
@@ -33,6 +34,8 @@ export class User {
     userID = "0";
     private _name = "";
 
+    get name(): string { return this._name; }
+
     set name(newName: string) {
         this._name = newName;
         if (!this.isCurrentUser)
@@ -43,11 +46,11 @@ export class User {
         return this.tool instanceof ToolDraw || this.tool instanceof ToolAbstractShape;
     }
 
-    get lastDelineation() {
+    get lastDelineation(): Delineation {
         return (<ToolDraw | ToolAbstractShape>this.tool).lastDelineation;
     }
 
-    get name(): string { return this._name; }
+    
 
     setUserID(userID: string): void { this.userID = userID; }
 

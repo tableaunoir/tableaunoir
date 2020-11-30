@@ -131,7 +131,7 @@ export class BoardManager {
                 }
             }
             catch (e) {
-
+                //TODO: handle error?
             }
 
         }

@@ -19,7 +19,9 @@ export abstract class Tool {
     }
 
 
-    destructor() { }
+    destructor(): void {
+        //empty destructur
+     }
 
     abstract mousedown(evt): void;
     abstract mousemove(evt): void;
@@ -33,5 +35,6 @@ export abstract class Tool {
     }
 
     updateCursor(): void {
+        //by defaut: do nothing
     }
 }

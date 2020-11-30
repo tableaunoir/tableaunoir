@@ -10,7 +10,9 @@ export class Palette extends CircularMenu {
     //colors = ["white", "yellow", "orange", "red", "rgb(100, 172, 255)", "Celeste", "Teal", "Alien Green", "Crimson", "Plum", "LimeGreen", "grey", "black", "Pistachio Green", "Goldenrod", "Cantaloupe", "Bronze", "Sandstone", "Coffee", "Rust", "Maroon", "Rose"];
 
     private currentColorID = 0;
-    onchange: () => void = () => { };
+    onchange: () => void = () => { 
+        //empty function
+    };
 
 
     constructor() {

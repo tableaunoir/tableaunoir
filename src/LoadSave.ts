@@ -18,8 +18,8 @@ export class LoadSave {
         /**
          * load a file from the <input type="file"...>
          */
-        document.getElementById("file").onchange = function (evt) {
-            LoadSave.loadFile((<any>this).files[0]);
+        (<HTMLInputElement> document.getElementById("file")).onchange = function () {
+            LoadSave.loadFile((<HTMLInputElement>this).files[0]);
         };
 
 
@@ -66,12 +66,14 @@ export class LoadSave {
     static loadFile(file: File): void {
         if (file) {
             const reader = new FileReader();
-            reader.onerror = () => { };
+            reader.onerror = () => { 
+                    //TODO: handle error
+            };
 
             /** load a .tableaunoir file, that is, a file containing the blackboard + some magnets */
             if (file.name.endsWith(".tableaunoir")) {
                 reader.readAsText(file, "UTF-8");
-                reader.onload = function (evt) { LoadSave.loadJSON(JSON.parse(<any>evt.target.result)); }
+                reader.onload = function (evt) { LoadSave.loadJSON(JSON.parse(<string>evt.target.result)); }
             }
             else {
                 /** load an image and add it as a magnet */
@@ -95,9 +97,11 @@ export class LoadSave {
      * @param callback
      * @descrption load the image in the file, once the file is loaded. Call the callback function.
      */
-    static fetchImageFromFile(file: File, callback: (HTMLImageElement) => void): void {
+    static fetchImageFromFile(file: File, callback: (img: HTMLImageElement) => void): void {
         const reader = new FileReader();
-        reader.onerror = function (evt) { }
+        reader.onerror = function () { 
+            //TODO: handle error
+        }
         reader.readAsDataURL(file);
         reader.onload = function (evt) {
             const img = new Image();
@@ -114,7 +118,9 @@ export class LoadSave {
          */
     static fetchFromFile(file: File, callback: (string) => void): void {
         const reader = new FileReader();
-        reader.onerror = function () { }
+        reader.onerror = function () { 
+            //TODO: error
+        }
         reader.readAsDataURL(file);
         reader.onload = function (evt) {
             callback(<string>evt.target.result);

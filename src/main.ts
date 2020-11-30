@@ -18,7 +18,6 @@ import { Background } from './Background';
 import { Translation } from './Translation';
 import { Menu } from './Menu';
 import { TouchScreen } from './TouchScreen';
-import { ShareEvent } from './ShareEvent';
 import { Drawing } from './Drawing'
 
 window.onload = load;

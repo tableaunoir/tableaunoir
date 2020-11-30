@@ -14,7 +14,7 @@ export class ToolArc extends Tool {
     elementCenter: HTMLElement;
     elementRadius: HTMLElement;
     elementCircle: SVGEllipseElement;
-    isDrawing: boolean = false;
+    isDrawing = false;
 
 
     constructor(user: User) {
@@ -68,13 +68,13 @@ export class ToolArc extends Tool {
     }
 
 
-    get radiusHandleAngle() : number {
+    get radiusHandleAngle(): number {
         const C = this.center;
         const D = this.radiusHandlePosition;
         return Math.atan2(D.y - C.y, D.x - C.x);
     }
 
-    update() {
+    update(): void {
         const C = this.center;
         const r = this.radius;
         this.elementCircle.setAttributeNS(null, 'cx', "" + C.x);
@@ -88,14 +88,14 @@ export class ToolArc extends Tool {
         this.elementRadius.style.rotate = `${this.radiusHandleAngle}rad`;
     }
 
-    destructor() {
+    destructor(): void {
         this.elementCenter.remove();
         this.elementRadius.remove();
         this.elementCircle.remove();
     }
 
 
-    private makeDraggable(element, callback) {
+    private makeDraggable(element: HTMLElement, callback: () => void): void {
         let drag = false;
         let x = 0;
         let y = 0;
@@ -112,7 +112,7 @@ export class ToolArc extends Tool {
         };
 
 
-        let elementDrag = (e) => {
+        const elementDrag = (e) => {
             if (!drag) return;
 
             const canvas = getCanvas();
@@ -126,8 +126,8 @@ export class ToolArc extends Tool {
             x = e.clientX * Layout.getZoom();
             y = e.clientY * Layout.getZoom();
 
-            element.style.left = element.offsetLeft - dx;
-            element.style.top = element.offsetTop - dy;
+            element.style.left = "" + (element.offsetLeft - dx);
+            element.style.top = "" + (element.offsetTop - dy);
 
             //from the center, we drag all the compass
             if (element == this.elementCenter) {
@@ -138,7 +138,7 @@ export class ToolArc extends Tool {
         }
 
 
-        let closeDragElement = () => {
+        const closeDragElement = () => {
             if (!drag)
                 return;
 
