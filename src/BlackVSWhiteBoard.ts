@@ -9,7 +9,6 @@ export class BlackVSWhiteBoard {
     static init(): void {
         document.getElementById("content").style.backgroundColor = "black";
         BlackVSWhiteBoard.switchTo("black");
-        //document.getElementById("canvasBackground").style.backgroundColor = "black";
         document.getElementById("whiteBoardSwitch").onclick = () => BlackVSWhiteBoard.switchTo("white");
         document.getElementById("blackBoardSwitch").onclick = () => BlackVSWhiteBoard.switchTo("black");
     }
@@ -25,7 +24,6 @@ export class BlackVSWhiteBoard {
         document.getElementById("backgroundSnapshotBackgroundColor").style.backgroundColor = backgroundColor;
         if (previousBackgroundColor == backgroundColor)
             return;
-        //const backgroundColor = previousBackgroundColor == "white" ? "black" : "white";
 
         document.getElementById(previousBackgroundColor + "BoardSwitch").classList.remove("buttonselected");
 

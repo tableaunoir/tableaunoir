@@ -22,8 +22,7 @@ import { ShareEvent } from './ShareEvent';
 import { Drawing } from './Drawing'
 
 window.onload = load;
-window['Menu'] = Menu;
-//window['ShareEvent'] = ShareEvent;
+window['Menu'] = Menu; //for Menu to be used in index.html
 
 export const palette = new Palette();
 const toolmenu = new ToolMenu();
@@ -196,27 +195,28 @@ function load() {
 			switchChalkEraser();
 		else if (evt.key == "h")
 			Toolbar.toggle();
-		else if (evt.ctrlKey && evt.key == 'x') {//Ctrl + x
+		else if (evt.ctrlKey && evt.key.toLowerCase() == 'x') {//Ctrl + x
 			CircularMenu.hide();
 			if (!UserManager.me.isDelineation)
 				return;
 			const deli = UserManager.me.lastDelineation;
 			if (deli.containsPolygonToMagnetize())
-				deli.cutAndMagnetize();
+				deli.magnetize({ cut: true, removeContour: evt.key == "x" });
 		}
-		else if (evt.ctrlKey && evt.key == 'c') {//Ctrl + c
+		else if (evt.ctrlKey && evt.key.toLowerCase() == 'c') {//Ctrl + c
 			CircularMenu.hide();
 			if (!UserManager.me.isDelineation)
 				return;
 			const deli = UserManager.me.lastDelineation;
 			if (deli.containsPolygonToMagnetize())
-				deli.copyAndMagnetize();
+				deli.magnetize({ cut: false, removeContour: evt.key == "c" });
+			evt.preventDefault();
 		}
 		else if (evt.ctrlKey && evt.key == "v") { //Ctrl + v = print the current magnet
 			CircularMenu.hide();
 			Share.execute("printMagnet", [MagnetManager.getCurrentMagnetID()]);
 		}
-		else if (evt.key == "m") { //m = make new magnets
+		else if (evt.key.toLowerCase() == "m") { //m = make new magnets
 			CircularMenu.hide();
 			if (!UserManager.me.isDelineation) {
 				Share.execute("printMagnet", [MagnetManager.getCurrentMagnetID()]);
@@ -225,7 +225,7 @@ function load() {
 			else {
 				const deli = UserManager.me.lastDelineation;
 				if (deli.containsPolygonToMagnetize()) {
-					deli.cutAndMagnetize();
+					deli.magnetize({ cut: true, removeContour: evt.key == "m" });
 				}
 				else {
 					Share.execute("printMagnet", [MagnetManager.getCurrentMagnetID()]);

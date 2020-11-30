@@ -66,7 +66,7 @@ export class Delineation {
                     Share.execute("removeContour", [this.points]); //remove the dot
                     this.points = this.lastpoints;
                     this.lastpoints = [];
-                    this.cutAndMagnetize();
+                    this.magnetize({ cut: true, removeContour: true });
                 }
             }, 1000);
         }
@@ -99,7 +99,7 @@ export class Delineation {
      * @param {*} polygon
      * @returns true iff the point is inside the polygon
      */
-    static inPolygon(point: {x:number, y: number}, polygon: {x:number, y: number}[]): boolean {
+    static inPolygon(point: { x: number, y: number }, polygon: { x: number, y: number }[]): boolean {
         // ray-casting algorithm based on
         // https://wrf.ecse.rpi.edu/Research/Short_Notes/pnpoly.html/pnpoly.html
 
@@ -134,32 +134,30 @@ export class Delineation {
 
 
     /**
-     * @description magnetize the "selected" part of the blackboard. The selected part is also removed.
+     * @param options
+     * @description magnetize the "selected" part of the blackboard.
+     * 
+     * If cut is true: the selected part is also removed.
+     * If removeContour is true: the contour will not be part of the magnet
      */
-    cutAndMagnetize(): void {
+    magnetize({ cut, removeContour }: { cut: boolean, removeContour: boolean }): void {
         if (!this.isSuitable())
             return;
 
-        Share.execute("removeContour", [this.points]);
+        if (removeContour)
+            Share.execute("removeContour", [this.points]);
+
         this._createMagnetFromImg();
-        Share.execute("clearPolygon", [this.points]);
+
+        if (cut && removeContour) //if cut, remove the contour after having baked the magnet
+            Share.execute("removeContour", [this.points]);
+
+        if (cut)
+            Share.execute("clearPolygon", [this.points]);
+
         this.reset();
         BoardManager.save(undefined);
     }
-
-
-    /**
-    * @description magnetize the "selected" part of the blackboard.
-    */
-    copyAndMagnetize(): void {
-        if (!this.isSuitable())
-            return;
-
-        Share.execute("removeContour", [this.points]);
-        this._createMagnetFromImg();
-        BoardManager.save(undefined);
-    }
-
 
 
 
@@ -173,7 +171,7 @@ export class Delineation {
     }
 
 
-    _getRectangle(): {x1: number, y1: number, x2: number, y2: number} {
+    _getRectangle(): { x1: number, y1: number, x2: number, y2: number } {
         const canvas = getCanvas();
         const r = { x1: canvas.width, y1: canvas.height, x2: 0, y2: 0 };
 
