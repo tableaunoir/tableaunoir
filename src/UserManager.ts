@@ -127,13 +127,11 @@ export class UserManager {
     static updateGUIUsers(): void {
         document.getElementById("userList").innerHTML = "";
 
-        let i = 0;
         for (const key in UserManager.users) {
             const el = UserManager.userIdToDom(key);
             if (key == UserManager.me.userID)
                 el.classList.add("me");
             document.getElementById("userList").appendChild(el);
-            i++;
         }
 
         if (Share.isShared())

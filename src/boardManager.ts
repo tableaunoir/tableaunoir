@@ -1,3 +1,4 @@
+import { CanvasModificationRectangle } from './CanvasModificationRectangle';
 import { getCanvas } from "./main";
 import { Share } from "./share";
 import { Layout } from './Layout';
@@ -31,7 +32,7 @@ export class BoardManager {
         */
     static _clear(): void {
         const canvas = getCanvas();
-        canvas.width = canvas.width; //clear
+        canvas.width = canvas.width + 0; //clear
         BoardManager.cancelStack.clear();
     }
 

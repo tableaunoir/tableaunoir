@@ -1,10 +1,11 @@
+import { CanvasModificationRectangle } from './CanvasModificationRectangle';
 /**
  * data structure stack for cancel/redo
  */
 export class CancelStack {
-    stack = [];
-    currentIndex = -1;
-    n = 0;
+    private stack = [];
+    private currentIndex = -1;
+    private n = 0;
 
     /**
      * empty the stack
@@ -43,7 +44,9 @@ export class CancelStack {
     }
 
 
-
+    /**
+     * @returns the top of the stack
+     */
     top(): CanvasModificationRectangle {
         return this.stack[this.currentIndex];
     }

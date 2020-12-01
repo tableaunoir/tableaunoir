@@ -1,3 +1,4 @@
+import { ShareMessage, Parameter } from './ShareMessage';
 import { Background } from './Background';
 import { Loading } from './Loading';
 import { getCanvas } from './main';
@@ -65,7 +66,7 @@ export class Share {
 		}
 
 		document.getElementById("joinButton").onclick = () => {
-			window.open(<any>window.location, "_self")
+			window.open(window.location.href, "_self")
 		}
 
 		const checkboxSharePermissionWrite = <HTMLInputElement>document.getElementById("sharePermissionWrite");
@@ -82,7 +83,7 @@ export class Share {
 					Share.id = Share.getIDInSharedURL();
 					if (Share.id != null) {
 						Share.join(Share.id);
-						(<HTMLInputElement>document.getElementById("shareUrl")).value = <any>document.location;
+						(<HTMLInputElement>document.getElementById("shareUrl")).value = document.location.href;
 					}
 				}
 				catch (e) {
@@ -178,7 +179,7 @@ export class Share {
 	 * @param {*} msg as an object
 	 * @description treats the msg received from the server
 	 */
-	static _treatReceivedMessage(msg: any): void {
+	static _treatReceivedMessage(msg: ShareMessage): void {
 		/*if (msg.type != "fullCanvas" && msg.type != "magnets" && msg.type != "execute")
 			console.log("Server -> me: " + JSON.stringify(msg));
 		else
@@ -275,7 +276,7 @@ export class Share {
 	 * @description send the message to server
 	 *
 	 */
-	static send(msg: any): void {
+	static send(msg: ShareMessage): void {
 		msg.id = Share.id; //adds the ID of the current board to the message
 		this.ws.send(JSON.stringify(msg));
 	}
@@ -334,10 +335,10 @@ export class Share {
 	 * @description executes the event with the params, that is execute the method event of the class ShareEvent
 	 * with the params. Then send a message to server that this event should be executed for the other users as well
 	 */
-	static execute(event: string, params: any[]): void {
+	static execute(event: string, params: Parameter[]): void {
 		function adapt(obj) {
 			if (obj instanceof MouseEvent) {
-				return { pressure: (<any>obj).pressure, offsetX: obj.offsetX, offsetY: obj.offsetY, shiftKey: obj.shiftKey };
+				return { pressure: (<PointerEvent>obj).pressure, offsetX: obj.offsetX, offsetY: obj.offsetY, shiftKey: obj.shiftKey };
 			}
 			else
 				return obj;
@@ -358,7 +359,7 @@ export class Share {
 		//eval("ShareEvent." + event)(...params);
 		ShareEvent[event](...params);
 		if (Share.isShared())
-			Share.send({ type: "execute", event: event, params: params.map((param) => adapt(param)) });
+			Share.send(<ShareMessage> { type: "execute", event: event, params: params.map((param) => adapt(param)) });
 	}
 
 
@@ -395,7 +396,7 @@ export class Share {
 	 * @returns yes if the current URL is an URL of a shared board
 	 */
 	static isSharedURL(): boolean {
-		const params = (new URL(<any>document.location)).searchParams;
+		const params = (new URL(document.location.href)).searchParams;
 		return params.get('id') != null;
 	}
 
@@ -415,7 +416,7 @@ export class Share {
 	 * @returns the current tableaunoir ID
 	 */
 	static getIDInSharedURL(): string {
-		const params = (new URL(<any>document.location)).searchParams;
+		const params = (new URL(document.location.href)).searchParams;
 		return params.get('id');
 	}
 

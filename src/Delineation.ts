@@ -8,7 +8,7 @@ import { Share } from './share';
  */
 export class Delineation {
 
-    points = [];
+    points: {x:number, y:number}[] = [];
     lastpoints = [];
     drawing: boolean;
     maybeJustAPoint = true; //memoisation for getDot

@@ -22,7 +22,7 @@ export class Translation {
      * @returns the language written in the URL (for instance "fr"), or null if none is provided
      */
     static getLanguage(): string {
-        const params = (new URL(<any>document.location)).searchParams;
+        const params = (new URL(document.location.href)).searchParams;
         return params.get('lang');
     }
 
@@ -34,7 +34,9 @@ export class Translation {
         const language = Translation.getLanguage();
 
         if (language == null)
-            return new Promise(() => { });
+            return new Promise(() => {
+                //TODO:
+             });
 
         return fetch("src/" + language + ".json")
             .then(txt => txt.json())
@@ -51,9 +53,9 @@ export class Translation {
         if (element.children == undefined)
             return;
 
-        if ((<any>element).title == undefined) {
-            if (dict[(<any>element).title])
-                (<any>element).title = dict[(<any>element).title];
+        if ((<HTMLElement>element).title == undefined) {
+            if (dict[(<HTMLElement>element).title])
+                (<HTMLElement>element).title = dict[(<HTMLElement>element).title];
         }
 
         if (element.children.length == 0) {

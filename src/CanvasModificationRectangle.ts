@@ -1,4 +1,4 @@
-interface CanvasModificationRectangle {
+export interface CanvasModificationRectangle {
     x1: number;
     y1: number;
     x2: number;
