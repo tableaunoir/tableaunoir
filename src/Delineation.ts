@@ -8,7 +8,7 @@ import { Share } from './share';
  */
 export class Delineation {
 
-    points: {x:number, y:number}[] = [];
+    points: { x: number, y: number }[] = [];
     lastpoints = [];
     drawing: boolean;
     maybeJustAPoint = true; //memoisation for getDot
@@ -56,22 +56,23 @@ export class Delineation {
 
     addPoint(point: { x, y }): void {
         this.points.push(point);
-
-        if (this.isDot() && this.dotInPreviousPolygon()) {
-            this.drawPolygon(this.lastpoints);
-
-            window.setTimeout(() => {
-                if (this.drawing && this.isDot() && this.dotInPreviousPolygon()) {
-                    this.removePolygon();
-                    Share.execute("removeContour", [this.points]); //remove the dot
-                    this.points = this.lastpoints;
-                    this.lastpoints = [];
-                    this.magnetize({ cut: true, removeContour: true });
+        
+        /* this code is responsible for bug of issue #71
+                if (this.isDot() && this.dotInPreviousPolygon()) {
+                    this.drawPolygon(this.lastpoints);
+        
+                   window.setTimeout(() => {
+                        if (this.drawing && this.isDot() && this.dotInPreviousPolygon()) {
+                            this.removePolygon();
+                            Share.execute("removeContour", [this.points]); //remove the dot
+                            this.points = this.lastpoints;
+                            this.lastpoints = [];
+                            this.magnetize({ cut: true, removeContour: true });
+                        }
+                    }, 1000);
                 }
-            }, 1000);
-        }
-        else
-            this.removePolygon();
+                else
+                    this.removePolygon();*/
 
     }
 

@@ -3,7 +3,7 @@
 */
 
 export interface ShareMessage {
-    type: string;
+    type: "share" | "askprivilege" | "id" | "youruserid" | "user" | "ready" | "root" | "accessdenied" | "join" | "leave" | "fullCanvas" | "magnets" | "magnetChanged" | "newmagnet" | "execute"; //type of the message (for instance, there is a new user, or here is the content of the canvas etc.)
     id?: string; // id of the board
     userid?: string;
     data?: string;
@@ -22,4 +22,4 @@ export interface ShareMessage {
 /**
  * parameters that an be sent to the server and/or received
  */
-export type Parameter = boolean|number|string|PointerEvent|{x:number, y:number}[];
+export type Parameter = boolean | number | string | PointerEvent | { x: number, y: number }[];
