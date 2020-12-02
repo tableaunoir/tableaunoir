@@ -1,10 +1,10 @@
 # tableaunoir
 
-Tableaunoir is an online blackboard tool. It can be used as a traditional blackboard but you can also create interactive animations via the use of "fridge magnets".
+Tableaunoir is an **online blackboard** tool. It can be used as a traditional blackboard but you can also create **interactive animations** via the use of "**fridge magnets**".
 ["Tableau noir" means blackboard in french](https://www.deepl.com/translator#fr/en/Tableau%20noir).
 The online version is available here: [https://tableaunoir.github.io/] ([another one](http://tableaunoir.irisa.fr))
 
-The tool is collaborative and does not require an account for sharing boards.
+The tool is **collaborative** and **does not require an account** for sharing boards.
 
 ## Videos
 
@@ -20,7 +20,7 @@ The tool is collaborative and does not require an account for sharing boards.
 
 ### Give a lecture
 
-Tableaunoir is used for teaching at ENS Rennes. The main advantage is that the screen is fully black: there are no buttons that annoy or distract the students (in my personal use, I simply hide the toolbar). Tableaunoir is controlled by a graphic tablet and by the keyboard of the computer (7 keys!). It makes it very interactive compared to fixed slides. 
+Tableaunoir is **used for teaching** at ENS Rennes. The main advantage is that, by hiding the toolbar, the **screen is fully black**: there are no buttons that annoy or distract the students (in my personal use, I simply hide the toolbar). Tableaunoir is controlled by a graphic tablet and by the keyboard of the computer (7 keys!). It makes it very interactive compared to fixed slides. 
 
 <img src="./photos/tableaunoir_amphi.jpg" title="A photo showcasing the use of tableaunoir in a real course taught in an amphitheater (1/3)" alt="A photo showcasing the use of tableaunoir in a real course taught in an amphitheater (1/3)" width="300"/> <img src="./photos/tableaunoir_amphi2.jpg" title="A photo showcasing the use of tableaunoir in a real course taught in an amphitheater (2/3)" alt="A photo showcasing the use of tableaunoir in a real course taught in an amphitheater (2/3)" width="300"/> <img src="./photos/tableaunoir_amphi3.jpg" title="A photo showcasing the use of tableaunoir in a real course taught in an amphitheater (3/3)" alt="A photo showcasing the use of tableaunoir in a real course taught in an amphitheater (3/3)" width="300"/>
 
@@ -38,17 +38,18 @@ Tableaunoir can simply be used to draw pictures: [https://team.inria.fr/erable/e
 
 ## Features
 
-* Of course, you can draw and erase, with your mouse or a graphic tablet.
-* You can also use kind of predefined fridge magnets that you can move on the board, to make animation e.g. for illustrating sorting algorithms, graphs algorithms etc (and even playing Go!).
-* Create your own customized "fridge magnets" for interactive courses, by importing any image.
+* Of course, you can draw and erase, with your mouse or a graphic tablet. You can draw shapes.
+* Backgrounds: staffs for **teaching music**, grid or use your own background (maps, etc.)
+* You can also use kind of **predefined fridge magnets** that you can move on the board, to make animation e.g. for illustrating sorting algorithms, graphs algorithms etc (and even playing Go!).
+* **Create your own fridge magnets** for interactive courses, by importing any image, or by transforming a part of the board (Ctrl + X).
 * Color palette for chalk (`c`, 7 colors  black/white ![#000000](https://placehold.it/15/000000/000000?text=+), yellow ![#FFFF00](https://placehold.it/15/FFFF00/000000?text=+), orange ![#FFA500](https://placehold.it/15/FFA500/000000?text=+), blue ![#64ACFF](https://placehold.it/15/64ACFF/000000?text=+), red ![#DC143C](https://placehold.it/15/DC143C/000000?text=+), pink ![#DDA0DD](https://placehold.it/15/DDA0DD/000000?text=+), green ![#32CD32](https://placehold.it/15/32CD32/000000?text=+)),
 * Change the color of magnets' background,
 * Load/Save the current board,
-* Add texts (`Enter` and type), and move texts. Supports LaTeX (using [MathJax](https://www.mathjax.org/))!
+* Add texts (`Enter` and type), and move texts. Supports **LaTeX** (using [MathJax](https://www.mathjax.org/))!
 * Switch to a whiteboard instead of a blackboard,
-* Collaborate and edit the same board at the same time (need a server for that),
-* Change from right-handed (default) to left-handed cursor,
-* Add as many new half-board as you need, going right with `→` and then left/right with `←/→` keyboard arrows,
+* **Collaborate** and edit the same board at the same time (need a server for that),
+* Change from right-handed (default) to **left-handed** cursor,
+* **Divide yourboard in half**. Ideal for teaching. Add as many new half-board as you need, going right with `→` and then left/right with `←/→` keyboard arrows,
 
 You can teach online by sharing the screen with Discord, Zoom, Teams, etc, or by sharing a link (need a server for that).
 
