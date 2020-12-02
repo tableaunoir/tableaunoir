@@ -552,7 +552,7 @@ h1 {
 
 .CircularMenuHide {
 	opacity: 0;
-	transform: rotate(180deg) scale(10);
+	transform: rotate(180deg) scale(0);
 	visibility: hidden;
 }
 

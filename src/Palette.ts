@@ -1,22 +1,34 @@
 import { CircularMenu } from './CircularMenu';
 import { ChalkCursor } from './ChalkCursor';
+import { OptionManager } from './OptionManager';
 
 /**
  * the circular palette
  */
 export class Palette extends CircularMenu {
+
+    private static defaultColorSet = '["white", "yellow", "orange", "rgb(100, 172, 255)", "Crimson", "Plum", "LimeGreen", "black"]'
+
     /** colors that can have a chalk. The first color *must* be white */
-    private colors = ["white", "yellow", "orange", "rgb(100, 172, 255)", "Crimson", "Plum", "LimeGreen", "black"];
-    //colors = ["white", "yellow", "orange", "red", "rgb(100, 172, 255)", "Celeste", "Teal", "Alien Green", "Crimson", "Plum", "LimeGreen", "grey", "black", "Pistachio Green", "Goldenrod", "Cantaloupe", "Bronze", "Sandstone", "Coffee", "Rust", "Maroon", "Rose"];
+    private colors: string[] = eval(Palette.defaultColorSet);
 
     private currentColorID = 0;
-    onchange: () => void = () => { 
+    onchange: () => void = () => {
         //empty function
     };
 
 
     constructor() {
         super();
+        setTimeout(() => OptionManager.string({
+            name: "palette",
+            defaultValue: Palette.defaultColorSet,
+            onChange: (s) => {
+                this.colors = eval(s); 
+                this._createPalette();
+                console.log("change colors of the palette")
+            }
+        }), 1000);
         this._createPalette();
     }
 
@@ -93,7 +105,7 @@ export class Palette extends CircularMenu {
      * @param position 
      * @description show the palette
      */
-    show(position: {x:number, y:number}): void {
+    show(position: { x: number, y: number }): void {
         super.show(position);
         this._createPalette(); //we recreate the palette because we do not know the leftHanded thing
     }
