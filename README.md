@@ -4,10 +4,15 @@ Tableaunoir is an online blackboard tool. It can be used as a traditional blackb
 ["Tableau noir" means blackboard in french](https://www.deepl.com/translator#fr/en/Tableau%20noir).
 The online version is available here: [https://tableaunoir.github.io/] ([another one](http://tableaunoir.irisa.fr))
 
-## Video
+The tool is collaborative and does not require an account for sharing boards.
 
-[https://www.youtube.com/watch?v=P6_lhqiPBow] (in French)
-<img src="./photos/snapshot_from_1st_YouTube_video.png" alt="Showing the first image of the YouTube video https://www.youtube.com/watch?v=P6_lhqiPBow" width="300"/>
+## Videos
+
+- Video in english: [https://www.youtube.com/watch?v=BtLaNBOuSHc]
+- First video in french:
+[https://www.youtube.com/watch?v=P6_lhqiPBow]
+<img src="./photos/snapshot_from_1st_YouTube_video.png" alt="Showing the first image of the YouTube video https://www.youtube.com/watch?v=P6_lhqiPBow" width="200"/>
+
 
 ## Examples of use
 
