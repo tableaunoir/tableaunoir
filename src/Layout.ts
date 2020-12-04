@@ -214,13 +214,15 @@ export class Layout {
     }
 
 
-
+    private static saveValueForContainerScrollleft = 0;
 
 
     /**
      * @description modifies the CSS width of some HTMLElement so that the rendering with html2canvas works well
      */
     static setForExportPng(): void {
+        Layout.saveValueForContainerScrollleft = getContainer().scrollLeft;
+        getContainer().scrollLeft = 0;
         const nodeContent = document.getElementById("content");
         const nodeBoard = document.getElementById("board");
         nodeContent.style.width = "" + getCanvas().width;
@@ -236,6 +238,7 @@ export class Layout {
      */
     static restoreForUse(): void {
         Layout.layout();
+        getContainer().scrollLeft = Layout.saveValueForContainerScrollleft;
     }
 
 }
