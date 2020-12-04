@@ -16,10 +16,10 @@ import { ToolArc } from './ToolArc';
 
 
 /**
- * Represents a user (maybe you?)
+ * Represents a user (maybe you? ;) )
  */
 export class User {
-    isToolDraw(): boolean { return this.tool instanceof ToolDraw; }
+    get isToolDraw(): boolean { return this.tool instanceof ToolDraw; }
     get isToolErase(): boolean { return this.tool instanceof ToolEraser; }
 
     get x(): number { return this.tool.x; }
@@ -28,9 +28,9 @@ export class User {
     alreadyDrawnSth = false; // true if something visible has been drawn (If still false, draw a dot)
     canWrite = true;
     color = "white";
-    cursor = undefined;
+    private cursor = undefined;
     tool: Tool = undefined;
-    elementName = undefined;
+    private elementName = undefined;
     userID = "0";
     private _name = "";
 
@@ -110,11 +110,12 @@ export class User {
 
 
     mousedown(evt: MouseEvent): void {
-        if (this.isCurrentUser)
+        if (this.isCurrentUser) {
             MagnetManager.setInteractable(false);
-
         //unselect the selected element (e.g. a text in edit mode)
-        (<HTMLElement>document.activeElement).blur();
+            (<HTMLElement>document.activeElement).blur();
+            CircularMenu.hide();
+        }
 
         this.tool.isDrawing = true;
 
@@ -125,10 +126,7 @@ export class User {
         this.tool.yInit = this.tool.y;
 
         if (this.canWrite)
-            this.tool.mousedown(evt);
-
-        if (this.isCurrentUser)
-            CircularMenu.hide();
+            this.tool.mousedown(evt);            
     }
 
 

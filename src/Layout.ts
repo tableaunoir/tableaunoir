@@ -225,6 +225,7 @@ export class Layout {
         const nodeBoard = document.getElementById("board");
         nodeContent.style.width = "" + getCanvas().width;
         nodeBoard.style.width = "" + getCanvas().width;
+        nodeContent.style.transform = "scale(1)";
     }
 
 

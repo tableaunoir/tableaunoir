@@ -89,7 +89,7 @@ function load() {
 	}
 
 	const switchChalkEraser = () => {
-		if (!UserManager.me.isToolDraw())
+		if (!UserManager.me.isToolDraw)
 			Share.execute("switchChalk", [UserManager.me.userID]);
 		else
 			Share.execute("switchErase", [UserManager.me.userID]);
