@@ -50,7 +50,7 @@ export class User {
         return (<ToolDraw | ToolAbstractShape>this.tool).lastDelineation;
     }
 
-    
+
 
     setUserID(userID: string): void { this.userID = userID; }
 
@@ -110,7 +110,8 @@ export class User {
 
 
     mousedown(evt: MouseEvent): void {
-        MagnetManager.setInteractable(false);
+        if (this.isCurrentUser)
+            MagnetManager.setInteractable(false);
 
         //unselect the selected element (e.g. a text in edit mode)
         (<HTMLElement>document.activeElement).blur();
@@ -153,7 +154,8 @@ export class User {
 
 
     mouseup(evt: MouseEvent): void {
-        MagnetManager.setInteractable(true);
+        if (this.isCurrentUser)
+            MagnetManager.setInteractable(true);
 
         if (this.canWrite)
             this.tool.mouseup(evt);
