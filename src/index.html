@@ -119,18 +119,22 @@
 				<a target="_blank" rel="noopener noreferrer" href="https://www.youtube.com/watch?v=P6_lhqiPBow">Video of
 					that presents tableaunoir (in french)</a>
 
-					<a target="_blank" rel="noopener noreferrer" href="https://www.youtube.com/watch?v=BtLaNBOuSHc">Video of
-						that presents tableaunoir (in english)</a>
+				<a target="_blank" rel="noopener noreferrer" href="https://www.youtube.com/watch?v=BtLaNBOuSHc">Video of
+					that presents tableaunoir (in english)</a>
 
 
-					<h2>Privacy policy</h2>
+				<h2>Privacy policy</h2>
 
-					<ul>
-						<li>All data may be sent to the server you are connected at, and be dispatched to other users connected to the same board. Some instances of tableaunoir are http, others are https. Data means: the board itself, the magnets, options in the menu.</li>
-						<li>You own your own data. The server does not store the boards: they are ephemeral. Do not forget to the boards you like.</li>
-						<li>Some options (right-handed or left-handed, toolbar visible or not, etc.) are local and stored in <code>localStorage</code>.</li>
-					</ul>
-					
+				<ul>
+					<li>All data may be sent to the server you are connected at, and be dispatched to other users
+						connected to the same board. Some instances of tableaunoir are http, others are https. Data
+						means: the board itself, the magnets, options in the menu.</li>
+					<li>You own your own data. The server does not store the boards: they are ephemeral. Do not forget
+						to the boards you like.</li>
+					<li>Some options (right-handed or left-handed, toolbar visible or not, etc.) are local and stored in
+						<code>localStorage</code>.</li>
+				</ul>
+
 
 
 			</div>
@@ -179,12 +183,14 @@
 			</div>
 
 			<div id="Background" class="tabcontent">
-				<div>Behind the board, there is a <em>background</em> composed of a <em>background color</em> and a
-					<em>background image.</em></div>
+				<div>A board is composed of a <em>background color</em>, a
+					<em>background image</em>, the surface you can write/draw on, and the magnets.</div>
 
 				<div id="backgroundSnapshot">
 					<div id="backgroundSnapshotBackgroundColor"></div>
-					<img id="backgroundSnapshotBackgroundImage" />
+					<div id="backgroundSnapshotBackgroundImageDiv">
+						<img id="backgroundSnapshotBackgroundImage" />
+					</div>
 					<img id="backgroundSnapshotCanvas" src="img/animatedsmiley.gif" />
 				</div>
 
@@ -234,7 +240,9 @@
 
 
 				<h2>Palette</h2>
-				<input type="radio" id="inputPaletteStandard" name="inputPalette" value='["white", "yellow", "orange", "rgb(100, 172, 255)", "Crimson", "Plum", "LimeGreen", "black"]'><label for="inputPaletteCrazy">standard 8 color palette</label><br />
+				<input type="radio" id="inputPaletteStandard" name="inputPalette"
+					value='["white", "yellow", "orange", "rgb(100, 172, 255)", "Crimson", "Plum", "LimeGreen", "black"]'><label
+					for="inputPaletteCrazy">standard 8 color palette</label><br />
 				<input type="radio" id="inputPaletteCrazy" name="inputPalette" value='["white", 
     "#BBBBBB",
     "#888888",
@@ -326,11 +334,13 @@
 						</tr>
 						<tr>
 							<td><span class="keyboardkey">Ctrl+Shift+x</span></td>
-							<td><em>cut</em> the content inside the drawn contour into a magnet, but keep the contour</td>
+							<td><em>cut</em> the content inside the drawn contour into a magnet, but keep the contour
+							</td>
 						</tr>
 						<tr>
 							<td><span class="keyboardkey">Ctrl+Shift+c</span></td>
-							<td><em>copy</em> the content inside the drawn contour into a magnet, and keep the contour</td>
+							<td><em>copy</em> the content inside the drawn contour into a magnet, and keep the contour
+							</td>
 						</tr>
 						<tr>
 							<td><span class="keyboardkey">m</span></td>
@@ -340,7 +350,8 @@
 						</tr>
 						<tr>
 							<td><span class="keyboardkey">Shift+m</span></td>
-							<td><em>cut</em> the content inside the drawn contour into a magnet and keep the contour</td>
+							<td><em>cut</em> the content inside the drawn contour into a magnet and keep the contour
+							</td>
 						</tr>
 						<tr>
 							<td><span class="keyboardkey">Ctrl+v</span> or <span class="keyboardkey">p</span></td>
