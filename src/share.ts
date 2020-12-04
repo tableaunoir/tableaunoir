@@ -33,7 +33,7 @@ export class Share {
 
 		Share.ws.onopen = f;
 		Share.ws.onmessage = (msg) => {
-		//	console.log("I received the message: ");
+			//	console.log("I received the message: ");
 			Share._treatReceivedMessage(JSON.parse(msg.data));
 		};
 
@@ -77,7 +77,6 @@ export class Share {
 			document.getElementById('ShareGithub').hidden = true;
 
 		if (Share.isSharedURL()) {
-			Loading.show();
 			const tryJoin = () => {
 				try {
 					Share.id = Share.getIDInSharedURL();
@@ -202,7 +201,11 @@ export class Share {
 
 				UserManager.add(msg.userid);
 				break;
+			case "wait":
+				Loading.show();
+				break;
 			case "ready": //oh you are ready to participate!
+				Loading.hide();
 				break;
 			case "root": //you obtained root permission and the server tells you that
 				console.log("I am root.")
@@ -219,6 +222,7 @@ export class Share {
 
 				if (UserManager.isSmallestUserID()) {
 					//getCanvas().toBlob((blob) => Share.sendFullCanvas(blob, msg.userid));
+					Share.send({ type: "wait", to: msg.userid });
 					Share.sendFullCanvas(msg.userid);
 					Share.sendMagnets(msg.userid);
 					Share.send({ type: "ready", to: msg.userid });
@@ -227,8 +231,7 @@ export class Share {
 					for (const userid in UserManager.users)
 						Share.execute("setUserName", [userid, UserManager.users[userid].name]);
 
-					console.log("background? " + Background.is);
-					if(Background.is)
+					if (Background.is)
 						Share.execute("setBackground", [Background.dataURL]);
 				}
 
@@ -359,7 +362,7 @@ export class Share {
 		//eval("ShareEvent." + event)(...params);
 		ShareEvent[event](...params);
 		if (Share.isShared())
-			Share.send(<ShareMessage> { type: "execute", event: event, params: params.map((param) => adapt(param)) });
+			Share.send(<ShareMessage>{ type: "execute", event: event, params: params.map((param) => adapt(param)) });
 	}
 
 

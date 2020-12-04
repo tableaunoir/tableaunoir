@@ -3,7 +3,7 @@
 */
 
 export interface ShareMessage {
-    type: "share" | "askprivilege" | "id" | "youruserid" | "user" | "ready" | "root" | "accessdenied" | "join" | "leave" | "fullCanvas" | "magnets" | "magnetChanged" | "newmagnet" | "execute"; 
+    type: "share" | "askprivilege" | "id" | "youruserid" | "user" | "wait" | "ready" | "root" | "accessdenied" | "join" | "leave" | "fullCanvas" | "magnets" | "magnetChanged" | "newmagnet" | "execute"; 
     /** type of the message (for instance, there is a new user, or here is the content of the canvas etc.)
 
     //    client -------------------> server
@@ -17,16 +17,25 @@ export interface ShareMessage {
 
     - id: meaning that the id of the board is id!
     - youruserid: the client receives its user id userid
-
+    - accessdenied: access denied. You typed a wrong password
 
 
 
     // client -------------server---------------> client
 
-
-
-    
+    - user: there is a user of id userid
+    - wait: please wait, there are some data that you need to have before starting drawing
+    - ready: ok! you are ready now to draw!
+    - root: you are root!
+    - join: a new user joins!
+    - leave: a user leaved the board, bybye!
+    - fullCanvas: here is the image of the board
+    - magnets: here are the magnets
+    - magnetChanged: the magnet of ID magnetid has changed
+    - newmagnet: there is a new magnet! Its ID is magnetid
+    - execute: please, execute the event event with the parameters params. The event are defined in the class SharedEvent
     **/
+   
     id?: string; // id of the board
     userid?: string;
     data?: string;
