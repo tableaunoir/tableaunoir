@@ -768,25 +768,7 @@ h1 {
 	border: black 1px solid;
 }
 
-@keyframes backgroundSnapshotBackgroundImageDiv {
-	from {
-		left: 0px;
-		top: 0px;
-		opacity: 1;
-	}
 
-	50% {
-		left: 12px;
-		top: 12px;
-		opacity: 0.7;
-	}
-
-	to {
-		left: 0px;
-		top: 0px;
-		opacity: 1;
-	}
-}
 
 
 #backgroundSnapshotBackgroundImageDiv {
@@ -794,9 +776,9 @@ h1 {
 	height: 128px;
 	width: 192px;
 	overflow: hidden;
-	animation: backgroundSnapshotBackgroundImageDiv 5000ms infinite;
+	left: 0px;
+	top: 0px;
 	border: gray 1px solid;
-	animation-timing-function: cubic-bezier(1,0,0,1);
 }
 
 
@@ -805,31 +787,14 @@ h1 {
 }
 
 
-@keyframes backgroundSnapshotCanvas {
-	from {
-		left: 0px;
-		top: 0px;
-	}
-
-	50% {
-		left: 24px;
-		top: 24px;
-		opacity: 0.7;
-	}
-
-	to {
-		left: 0px;
-		top: 0px;
-	}
-}
 
 #backgroundSnapshotCanvas {
 	position: absolute;
 	width: 192px;
 	height: 128px;
-	animation: backgroundSnapshotCanvas 5000ms infinite;
+	left: 0px;
+	top: 0px;
 	border: gray 1px solid;
-	animation-timing-function: cubic-bezier(1,0,0,1);
 }
 
 
