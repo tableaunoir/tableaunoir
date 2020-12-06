@@ -2,13 +2,13 @@ import { getCanvas } from './main';
 import { Action } from './Action';
 
 export class ActionModificationCanvas implements Action {
-    blobPrevious: Blob;
-    blobCurrent: Blob;
+    blobBefore: Blob;
+    blobAfter: Blob;
     r: { x1: number, y1: number, x2: number, y2: number };
 
     constructor(blobPrevious: Blob, blobCurrent: Blob, r: { x1: number, y1: number, x2: number, y2: number }) {
-        this.blobPrevious = blobPrevious;
-        this.blobCurrent = blobCurrent;
+        this.blobBefore = blobPrevious;
+        this.blobAfter = blobCurrent;
         this.r = r;
     }
 
@@ -44,10 +44,10 @@ export class ActionModificationCanvas implements Action {
 
 
     async undo(): Promise<void> {
-        await ActionModificationCanvas.replaceRectangleImage(this.blobPrevious, this.r);
+        await ActionModificationCanvas.replaceRectangleImage(this.blobBefore, this.r);
     }
     async redo(): Promise<void> {
-        await ActionModificationCanvas.replaceRectangleImage(this.blobCurrent, this.r);
+        await ActionModificationCanvas.replaceRectangleImage(this.blobAfter, this.r);
     }
 
 }
