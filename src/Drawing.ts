@@ -69,9 +69,16 @@ export class Drawing {
         context.strokeStyle = color;
         context.globalCompositeOperation = "source-over";
         context.globalAlpha = 0.9 + 0.1 * pressure;
-        context.lineWidth = this.lineWidth*(1 + 2 * pressure);
+        context.lineWidth = this.lineWidth * (1 + 2 * pressure);
         context.moveTo(x1, y1);
         context.lineTo(x2, y2);
+        /*context.bezierCurveTo(
+            x1 + (x2 - x1) / 2,
+            y1,
+            x1,
+            y1 + (y2 - y1) / 2,
+            x2,
+            y2);*/
         /*context.moveTo(Math.round(x1), Math.round(y1));
         context.lineTo(Math.round(x2), Math.round(y2));*/
         context.stroke();
@@ -83,7 +90,7 @@ export class Drawing {
         const context = getCanvas().getContext("2d");
         context.beginPath();
         context.fillStyle = color;
-        context.lineWidth = this.lineWidth*2;
+        context.lineWidth = this.lineWidth * 2;
         context.arc(x, y, 2, 0, 2 * Math.PI);
         context.fill();
         context.closePath();
@@ -97,7 +104,7 @@ export class Drawing {
         context.globalCompositeOperation = "destination-out";
         context.strokeStyle = "rgba(255,255,255,1)";
 
-        context.lineWidth = this.lineWidth*lineWidth;
+        context.lineWidth = this.lineWidth * lineWidth;
         context.moveTo(x1, y1);
         context.lineTo(x2, y2);
         context.lineCap = "round";
@@ -106,7 +113,7 @@ export class Drawing {
     }
 
 
-    static drawRectangle({ x1, y1, x2, y2 }: {x1: number, y1: number, x2: number, y2: number}, color: string): void {
+    static drawRectangle({ x1, y1, x2, y2 }: { x1: number, y1: number, x2: number, y2: number }, color: string): void {
         const context = getCanvas().getContext("2d");
         context.beginPath();
         context.strokeStyle = color;
@@ -119,7 +126,7 @@ export class Drawing {
 
 
 
-    static drawEllipse({ cx, cy, rx, ry }: {cx: number, cy: number, rx: number, ry: number}, color: string): void {
+    static drawEllipse({ cx, cy, rx, ry }: { cx: number, cy: number, rx: number, ry: number }, color: string): void {
         const context = getCanvas().getContext("2d");
         context.beginPath();
         context.strokeStyle = color;
@@ -134,8 +141,8 @@ export class Drawing {
     static divideScreen(): void {
         console.log("divide the screen")
         const x = Layout.getXMiddle();
-        Drawing.drawLine(getCanvas().getContext("2d"), x, 0, x, Layout.getWindowHeight(), 1, 
-        BlackVSWhiteBoard.getDefaultChalkColor());
+        Drawing.drawLine(getCanvas().getContext("2d"), x, 0, x, Layout.getWindowHeight(), 1,
+            BlackVSWhiteBoard.getDefaultChalkColor());
         BoardManager.saveCurrentScreen();
     }
 
