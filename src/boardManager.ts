@@ -1,3 +1,4 @@
+import { ActionModificationCanvas } from './ActionModificationCanvas';
 import { CanvasModificationRectangle } from './CanvasModificationRectangle';
 import { getCanvas } from "./main";
 import { Share } from "./share";
@@ -15,6 +16,7 @@ export class BoardManager {
     /** stack to store the cancel/redo actions */
     static cancelStack = new CancelStack();
 
+    static currentBlob = undefined;
 
     /**
    * initialization (button)
@@ -28,11 +30,12 @@ export class BoardManager {
 
 
     /**
-        * erase the board
-        */
+    * erase the board
+    */
     static _clear(): void {
         const canvas = getCanvas();
         canvas.width = canvas.width + 0; //clear
+        this.currentBlob = undefined;
         BoardManager.cancelStack.clear();
     }
 
@@ -42,7 +45,10 @@ export class BoardManager {
 
 
 
-
+    /**
+     * @param a rectangle r 
+     * @returns a canvas of width r.x2 - r.x1 and height r.y2 - r.y1 containing the content of the canvas
+     */
     static _createCanvasForRectangle(r: { x1: number, y1: number, x2: number, y2: number }): HTMLCanvasElement {
         const C = document.createElement("canvas");
         C.width = r.x2 - r.x1;
@@ -89,7 +95,8 @@ export class BoardManager {
             console.log("save that blob: " + blob)
             //  localStorage.setItem(Share.getTableauNoirID(), canvas.toDataURL());
             rectangle = { x1: 0, y1: 0, x2: canvas.width, y2: canvas.height };
-            BoardManager.cancelStack.push({ x1: rectangle.x1, y1: rectangle.y1, x2: rectangle.x2, y2: rectangle.y2, blob: blob });
+            BoardManager.cancelStack.push(new ActionModificationCanvas(this.currentBlob, blob, rectangle));
+            this.currentBlob = blob;
             //Share.sendFullCanvas(blob);
         });
 
@@ -121,15 +128,14 @@ export class BoardManager {
             BoardManager._clear();
             try {
                 const image = new Image();
-                image.src = data;
                 image.onload = function () {
                     const canvas = getCanvas();
                     canvas.width = image.width;
                     canvas.height = image.height;
                     canvas.getContext("2d").drawImage(image, 0, 0);
-                    BoardManager.save(undefined);
                     console.log("loaded!")
                 }
+                image.src = data;
             }
             catch (e) {
                 //TODO: handle error?
@@ -138,12 +144,9 @@ export class BoardManager {
         }
         else {
             BoardManager._clear();
-            BoardManager.save(undefined);
         }
 
     }
-
-
 
 
     /**
@@ -155,7 +158,6 @@ export class BoardManager {
         if (data != undefined) {
             BoardManager._clear();
             const image = new Image();
-            image.src = data;
             image.onload = function () {
                 const canvas = getCanvas();
                 canvas.width = image.width;
@@ -163,6 +165,7 @@ export class BoardManager {
                 canvas.getContext("2d").drawImage(image, 0, 0);
                 console.log("loaded!")
             }
+            image.src = data;
         }
         else {
             BoardManager._clear();
@@ -173,53 +176,15 @@ export class BoardManager {
 
 
 
-
-
-
-  
-
-    /**
-     *
-     * @param {*} level
-     */
-    static _loadCurrentCancellationStackData(data: CanvasModificationRectangle, rectangle: CanvasModificationRectangle): void {
-        const image = new Image();
-        const canvas = getCanvas();
-
-        const context = canvas.getContext("2d");
-        context.globalCompositeOperation = "source-over";
-        context.globalAlpha = 1.0;
-
-        //  if (data instanceof Blob) {
-        image.src = URL.createObjectURL(data.blob);
-        image.onload = function () {
-            canvas.width = image.width;
-            canvas.height = image.height;
-            //context.drawImage(image, 0, 0);
-            context.drawImage(image, rectangle.x1, rectangle.y1, rectangle.x2 - rectangle.x1, rectangle.y2 - rectangle.y1,
-                rectangle.x1, rectangle.y1, rectangle.x2 - rectangle.x1, rectangle.y2 - rectangle.y1);
-        }
-        /*  }
-          else {
-              console.log("_loadCurrentCancellationStackData with rectangle at " + data.x1)
-              image.src = URL.createObjectURL(data.blob);
-              image.onload = function () {
-                  context.clearRect(data.x1, data.y1, data.x2 - data.x1, data.y2 - data.y1);
-                  context.drawImage(image, data.x1, data.y1);
-              }
-          }*/ //still bugy
-
-
-    }
-
     /**
      *
      */
-    static cancel(): void {
-        const top = BoardManager.cancelStack.top();
-        const previous = BoardManager.cancelStack.back();
-        BoardManager._loadCurrentCancellationStackData(previous, top);
+    static async cancel(): Promise<void> {
+        if (!BoardManager.cancelStack.canUndo)
+            return;
 
+        await BoardManager.cancelStack.undo();
+        getCanvas().toBlob((blob) => { this.currentBlob = blob });
     }
 
 
@@ -227,9 +192,11 @@ export class BoardManager {
     /**
      *
      */
-    static redo(): void {
-        const c = BoardManager.cancelStack.forward();
-        BoardManager._loadCurrentCancellationStackData(c, c);
+    static async redo(): Promise<void> {
+        if (!BoardManager.cancelStack.canRedo)
+            return;
 
+        await BoardManager.cancelStack.redo();
+        getCanvas().toBlob((blob) => { this.currentBlob = blob });
     }
 }

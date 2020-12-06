@@ -1,9 +1,13 @@
 import { CanvasModificationRectangle } from './CanvasModificationRectangle';
+import { Action } from './Action';
+import { backgroundRepeat } from 'html2canvas/dist/types/css/property-descriptors/background-repeat';
+
+
 /**
  * data structure stack for cancel/redo
  */
 export class CancelStack {
-    private stack = [];
+    private stack: Action[] = [];
     private currentIndex = -1;
     private n = 0;
 
@@ -20,34 +24,40 @@ export class CancelStack {
      *
      * @param {*} data
      */
-    push(data: CanvasModificationRectangle): void {
+    push(action: Action): void {
         this.currentIndex++;
-        this.stack[this.currentIndex] = data;
+        this.stack[this.currentIndex] = action;
         this.n = this.currentIndex + 1;
     }
 
 
-    back(): CanvasModificationRectangle {
-        if (this.currentIndex <= 0)
-            return this.stack[this.currentIndex];
+    async undo(): Promise<void> {
+        if (this.currentIndex < 0) {
+            return;
+        }
+            
 
+        await this.stack[this.currentIndex].undo();
         this.currentIndex--;
-        return this.stack[this.currentIndex];
     }
 
-    forward(): CanvasModificationRectangle {
+
+    async redo(): Promise<void> {
         if (this.currentIndex >= this.n - 1)
-            return this.stack[this.currentIndex];
+            return;
 
         this.currentIndex++;
-        return this.stack[this.currentIndex];
+        await this.stack[this.currentIndex].redo();
     }
 
 
-    /**
-     * @returns the top of the stack
-     */
-    top(): CanvasModificationRectangle {
-        return this.stack[this.currentIndex];
+
+    get canUndo(): boolean {
+        return this.currentIndex >= 0;
     }
+
+    get canRedo(): boolean {
+        return this.currentIndex < this.n - 1;
+    }
+   
 }

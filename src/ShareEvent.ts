@@ -84,7 +84,6 @@ export class ShareEvent {
 
     static boardClear(): void {
         BoardManager._clear();
-        BoardManager.save(undefined);
         Menu.hide();
     }
 

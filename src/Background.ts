@@ -120,8 +120,6 @@ export class Background {
         drawStaff(ymiddleScreen - yshift);
         drawStaff(ymiddleScreen + yshift);
 
-        BoardManager.saveCurrentScreen();
-
         Background.storeDataURL(canvasBackground.toDataURL());
     }
 
@@ -150,7 +148,6 @@ export class Background {
             const x = j * xshift;
             Drawing.drawLine(canvasBackground.getContext("2d"), x, 0, x, fullHeight, PRESSURE, COLORGRID);
         }
-        BoardManager.saveCurrentScreen();
         Background.storeDataURL(canvasBackground.toDataURL());
     }
 

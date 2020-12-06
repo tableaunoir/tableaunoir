@@ -44,14 +44,18 @@ export class ToolDraw extends Tool {
     }
     mouseup(): void {
         this.lastDelineation.finish();
-        if (this.isDrawing && !this.alreadyDrawnSth) {
-            Drawing.drawDot(this.x, this.y, this.user.color);
+        if (this.isDrawing) {
+            if (!this.alreadyDrawnSth)
+                Drawing.drawDot(this.x, this.y, this.user.color);
+            BoardManager.save(this.lastDelineation._getRectangle());
         }
-        BoardManager.save(this.lastDelineation._getRectangle());
         this.alreadyDrawnSth = false;
     }
 
-    
+
+
+
+
 
     updateCursor(): void {
         if (this.user.isCurrentUser) {
