@@ -1,6 +1,4 @@
-import { CanvasModificationRectangle } from './CanvasModificationRectangle';
 import { Action } from './Action';
-import { backgroundRepeat } from 'html2canvas/dist/types/css/property-descriptors/background-repeat';
 
 
 /**

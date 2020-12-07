@@ -1,5 +1,4 @@
 import { ActionModificationCanvas } from './ActionModificationCanvas';
-import { CanvasModificationRectangle } from './CanvasModificationRectangle';
 import { getCanvas } from "./main";
 import { Share } from "./share";
 import { Layout } from './Layout';

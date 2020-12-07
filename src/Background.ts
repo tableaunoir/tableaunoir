@@ -1,5 +1,4 @@
 import { Share } from './share';
-import { BoardManager } from './boardManager';
 import { getCanvasBackground } from './main';
 import { Layout } from './Layout';
 import { LoadSave } from './LoadSave';
