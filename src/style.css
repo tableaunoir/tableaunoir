@@ -815,3 +815,11 @@ h1 {
 .handleRadius {
 	background-image: url(img/radius.svg);
 }
+
+.eraser {
+	position: absolute;
+	background-color: #888888aa;
+	border: 1px solid #888888;
+	border-radius: 50%;
+	pointer-events: none;
+}

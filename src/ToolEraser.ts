@@ -1,21 +1,37 @@
 import { User } from './User';
 import { BoardManager } from './boardManager';
 import { EraserCursor } from './EraserCursor';
-import { Layout } from './Layout';
 import { Drawing } from './Drawing';
 import { Tool } from './Tool';
 
-const ERASEMODEDEFAULTSIZE = 10;
 
 export class ToolEraser extends Tool {
 
-    private eraseModeBig = false;
-    private eraseLineWidth = ERASEMODEDEFAULTSIZE;
+    private temperature = 0;
+    private iMode = 0;
+    private readonly modeSizes = [10, 25, 50, 128];
+    private readonly modeTheshold = [2, 4, 6, 100000];
+    private eraseLineWidth = this.modeSizes[0];
+    static readonly temperatureThreshold = 15;
+
+    constructor(user: User) {
+        super(user);
+        if (this.user.isCurrentUser) {
+            document.getElementById("buttonEraser").hidden = true;
+            document.getElementById("buttonChalk").hidden = false;
+            this.updateEraserCursor();
+
+        }
+    }
+    updateEraserCursor() {
+        this.setToolCursorImage(EraserCursor.getStyleCursor(this.eraseLineWidth, this.temperature));
+    }
 
 
     mousedown(): void {
-        this.eraseModeBig = false;
-        Drawing.clearLine(this.x, this.y, this.x, this.y, ERASEMODEDEFAULTSIZE);
+        this.iMode = 0;
+        this.eraseLineWidth = this.modeSizes[this.iMode];
+        Drawing.clearLine(this.x, this.y, this.x, this.y, this.eraseLineWidth);
     }
 
 
@@ -23,48 +39,47 @@ export class ToolEraser extends Tool {
         const evtX = evt.offsetX;
         const evtY = evt.offsetY;
 
+        const THESHOLD = this.modeTheshold[this.iMode];
         //this.eraseLineWidth = 10;
         if (this.isDrawing) {
 
-            this.eraseLineWidth = 10 + 30 * evt.pressure;
+            if (Math.abs(this.x - evtX) < THESHOLD &&
+                Math.abs(this.y - evtY) < THESHOLD)
+                this.temperature = Math.max(this.temperature - 1, 0);
 
-            if (Math.abs(this.x - this.xInit) > Layout.getWindowWidth() / 4 ||
-                Math.abs(this.y - this.yInit) > Layout.getWindowHeight() / 4)
-                this.eraseModeBig = true;
+            if (Math.abs(this.x - evtX) > THESHOLD ||
+                Math.abs(this.y - evtY) > THESHOLD)
+                this.temperature++;
 
-            if (this.eraseModeBig) {
-                this.eraseLineWidth = 128;
+            if (this.temperature > ToolEraser.temperatureThreshold) {
+                this.iMode = Math.min(this.modeSizes.length - 1, this.iMode + 1);
+                this.temperature = 0;
             }
 
+
+            this.eraseLineWidth = this.modeSizes[this.iMode] + 5 * 2 * (evt.pressure - 0.5);
+
+
             if (this.user.isCurrentUser) {
-                this.setToolCursorImage(EraserCursor.getStyleCursor(this.eraseLineWidth));
+                this.updateEraserCursor();
             }
 
             Drawing.clearLine(this.x, this.y, evtX, evtY, this.eraseLineWidth);
 
         }
-        /*this.toolCursor.style.left = evtX - this.eraseLineWidth / 2;
-        this.toolCursor.style.top = evtY - this.eraseLineWidth / 2;*/
     }
 
     mouseup(): void {
+        this.iMode = 0;
+        this.eraseLineWidth = this.modeSizes[0];
+        this.temperature = 0;
+
         if (this.user.isCurrentUser) {
             //restore the eraser to the original size {
-            this.eraseLineWidth = ERASEMODEDEFAULTSIZE;
-            this.setToolCursorImage(EraserCursor.getStyleCursor(this.eraseLineWidth));
+            this.updateEraserCursor();
 
         }
         BoardManager.saveCurrentScreen();
     }
-
-    constructor(user: User) {
-        super(user);
-        if (this.user.isCurrentUser) {
-            document.getElementById("buttonEraser").hidden = true;
-            document.getElementById("buttonChalk").hidden = false;
-            this.setToolCursorImage(EraserCursor.getStyleCursor(this.eraseLineWidth));
-        }
-    }
-
 
 }

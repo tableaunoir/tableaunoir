@@ -69,8 +69,6 @@ export class Background {
         const img = new Image();
         Background.storeDataURL(dataURL);
 
-        img.src = dataURL;
-
         img.onload = () => {
             const canvasBackground = getCanvasBackground();
             //const x = (Layout.getWindowWidth() - scaleWidth) / 2;
@@ -80,6 +78,8 @@ export class Background {
             canvasBackground.getContext("2d").drawImage(img, x, 0, scaleWidth, height);
             console.log("background displayed");
         }
+
+        img.src = dataURL;
 
     }
 
