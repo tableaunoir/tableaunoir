@@ -104,7 +104,7 @@ export class Drawing {
         context.globalCompositeOperation = "destination-out";
         context.strokeStyle = "rgba(255,255,255,1)";
 
-        context.lineWidth = this.lineWidth * lineWidth;
+        context.lineWidth = lineWidth;
         context.moveTo(x1, y1);
         context.lineTo(x2, y2);
         context.lineCap = "round";

@@ -9,8 +9,8 @@ export class ToolEraser extends Tool {
 
     private temperature = 0;
     private iMode = 0;
-    private readonly modeSizes = [10, 25, 50, 128];
-    private readonly modeTheshold = [2, 4, 6, 100000];
+    private readonly modeSizes = [4, 8, 16, 32, 64];
+    private readonly modeTheshold = [4, 4, 4, 6, 100000];
     private eraseLineWidth = this.modeSizes[0];
     static readonly temperatureThreshold = 15;
 
@@ -53,11 +53,10 @@ export class ToolEraser extends Tool {
 
             if (this.temperature > ToolEraser.temperatureThreshold) {
                 this.iMode = Math.min(this.modeSizes.length - 1, this.iMode + 1);
-                this.temperature = 0;
+                this.temperature = -ToolEraser.temperatureThreshold;
             }
 
-
-            this.eraseLineWidth = this.modeSizes[this.iMode] + 5 * 2 * (evt.pressure - 0.5);
+            this.eraseLineWidth = Math.max(2, this.modeSizes[this.iMode] + 5 * 2 * (evt.pressure - 0.5));
 
 
             if (this.user.isCurrentUser) {
@@ -74,11 +73,9 @@ export class ToolEraser extends Tool {
         this.eraseLineWidth = this.modeSizes[0];
         this.temperature = 0;
 
-        if (this.user.isCurrentUser) {
-            //restore the eraser to the original size {
+        if (this.user.isCurrentUser)
             this.updateEraserCursor();
 
-        }
         BoardManager.saveCurrentScreen();
     }
 
