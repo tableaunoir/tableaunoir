@@ -62,6 +62,7 @@ export class CancelStack {
         throw "there is no initial state?";
     }
 
+    
     /**
      * @description undo the last action
      */
