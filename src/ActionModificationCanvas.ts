@@ -23,7 +23,7 @@ export class ActionModificationCanvas implements Action {
      * @param rectangle 
      * @description extract the rectangle portion of the blob and blit it at the rectangle
      */
-    static async replaceRectangleImage(blob: Blob | undefined, rectangle: { x1: number, y1: number, x2: number, y2: number }): Promise<void> {
+    static async replaceRectangleImage(blob: Blob, rectangle: { x1: number, y1: number, x2: number, y2: number }): Promise<void> {
         return new Promise(resolve => {
             const image = new Image();
             const canvas = getCanvas();
@@ -32,20 +32,11 @@ export class ActionModificationCanvas implements Action {
             context.globalCompositeOperation = "source-over";
             context.globalAlpha = 1.0;
 
-            if (blob == undefined) {
-                context.clearRect(rectangle.x1, rectangle.y1, rectangle.x2 - rectangle.x1, rectangle.y2 - rectangle.y1);
+            image.onload = function () {
+                context.drawImage(image, rectangle.x1, rectangle.y1, rectangle.x2 - rectangle.x1, rectangle.y2 - rectangle.y1, rectangle.x1, rectangle.y1, rectangle.x2 - rectangle.x1, rectangle.y2 - rectangle.y1);
                 resolve();
             }
-            else {
-                image.onload = function () {
-                    canvas.width = image.width;
-                    canvas.height = image.height;
-                    //context.drawImage(image, 0, 0);
-                    context.drawImage(image, rectangle.x1, rectangle.y1, rectangle.x2 - rectangle.x1, rectangle.y2 - rectangle.y1, rectangle.x1, rectangle.y1, rectangle.x2 - rectangle.x1, rectangle.y2 - rectangle.y1);
-                    resolve();
-                }
-                image.src = URL.createObjectURL(blob);
-            }
+            image.src = URL.createObjectURL(blob);
         });
     }
 

@@ -93,7 +93,7 @@ export class BoardManager {
         canvas.toBlob((blob) => {
             console.log("save that blob: " + blob)
             //  localStorage.setItem(Share.getTableauNoirID(), canvas.toDataURL());
-            rectangle = { x1: 0, y1: 0, x2: canvas.width, y2: canvas.height };
+            //rectangle = { x1: 0, y1: 0, x2: canvas.width, y2: canvas.height };
             BoardManager.cancelStack.push(new ActionModificationCanvas(blob, rectangle));
             //Share.sendFullCanvas(blob);
         });
