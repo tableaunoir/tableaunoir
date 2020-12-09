@@ -1,10 +1,18 @@
 import { Drawing } from './Drawing';
 import { Action } from './Action';
 
+/**
+ * Action for erasing
+ */
 export class ActionErase extends Action {
 
     private points: { x: number; y: number; lineWidth: number }[] = [];
 
+    /**
+     * 
+     * @param pt 
+     * @description add a new point in the path to be erased
+     */
     addPoint(pt: { x: number; y: number; lineWidth: number }): void {
         this.points.push(pt);
 
@@ -17,4 +25,4 @@ export class ActionErase extends Action {
 
     }
 
-}
+}f
