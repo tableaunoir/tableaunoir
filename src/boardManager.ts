@@ -3,11 +3,13 @@ import { getCanvas } from "./main";
 import { Share } from "./share";
 import { Layout } from './Layout';
 import { CancelStack } from './cancelStack';
+import { Action } from './Action';
 
 /**
  * Manage the board
  */
 export class BoardManager {
+
 
     /** name of the board. Default is 0 (this name is used for storing in localStorage) */
     static boardName = "0";
@@ -99,6 +101,11 @@ export class BoardManager {
             //Share.sendFullCanvas(blob);
         });
 
+    }
+
+
+    static addAction(action: Action) {
+        BoardManager.cancelStack.push(action);
     }
 
 

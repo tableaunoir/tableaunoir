@@ -1,3 +1,4 @@
+import { ActionFreeDraw } from './ActionFreeDraw';
 import { User } from './User';
 import { ChalkCursor } from './ChalkCursor';
 import { BoardManager } from './boardManager';
@@ -9,6 +10,7 @@ import { Tool } from './Tool';
 export class ToolDraw extends Tool {
 
     lastDelineation = new Delineation();
+    private action = new ActionFreeDraw();
     private alreadyDrawnSth = false;
 
 
@@ -25,6 +27,9 @@ export class ToolDraw extends Tool {
     mousedown(): void {
         this.lastDelineation.reset();
         this.lastDelineation.addPoint({ x: this.x, y: this.y });
+
+        this.action = new ActionFreeDraw();
+        this.action.addPoint({ x: this.x, y: this.y, pressure: 0, color: this.user.color });
     }
 
     mousemove(evt: PointerEvent): void {
@@ -33,6 +38,7 @@ export class ToolDraw extends Tool {
             const evtY = evt.offsetY;
 
             if (this.lastDelineation.isDrawing()) {//this guard is because, when a magnet is created the user does not know the drawing stopped.
+                this.action.addPoint({ x: evtX, y: evtY, pressure: evt.pressure, color: this.user.color });
                 Drawing.drawLine(getCanvas().getContext("2d"), this.x, this.y, evtX, evtY, evt.pressure, this.user.color);
                 this.lastDelineation.addPoint({ x: evtX, y: evtY });
             }
@@ -47,6 +53,7 @@ export class ToolDraw extends Tool {
         if (this.isDrawing) {
             if (!this.alreadyDrawnSth)
                 Drawing.drawDot(this.x, this.y, this.user.color);
+            // BoardManager.addAction(this.action);
             BoardManager.save(this.lastDelineation._getRectangle());
         }
         this.alreadyDrawnSth = false;
