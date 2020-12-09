@@ -1,5 +1,4 @@
 import { State } from './State';
-import { getCanvas } from './main';
 import { Action } from './Action';
 
 
@@ -24,9 +23,16 @@ export class CancelStack {
      */
     clear(): void {
         this.stack = [];
-        this.currentIndex = 0;
-        this.stack[this.currentIndex] = State.createCurrentState();
-        this.n = 1;
+        this.currentIndex = -1;
+        this._push(State.createCurrentState());
+    }
+
+
+
+    private _push(actionOrState: Action | State): void {
+        this.currentIndex++;
+        this.stack[this.currentIndex] = actionOrState;
+        this.n = this.currentIndex + 1;
     }
 
     /**
@@ -34,13 +40,12 @@ export class CancelStack {
      * @param {*} data
      */
     push(action: Action): void {
-        this.currentIndex++;
-        this.stack[this.currentIndex] = action;
+        this._push(action);
 
-        this.currentIndex++;
-        this.stack[this.currentIndex] = State.createCurrentState();
+        //sometimes, add the current state at the end of the action
+        if (Math.floor(100 * Math.random()) < 30)
+            this._push(State.createCurrentState());
 
-        this.n = this.currentIndex + 1;
     }
 
 
@@ -61,11 +66,13 @@ export class CancelStack {
      * @description undo the last action
      */
     async undo(): Promise<void> {
-        if (!this.canUndo) {
+        if (!this.canUndo)
             return;
-        }
 
-        this.currentIndex -= 2;
+        if (this.stack[this.currentIndex] instanceof State)
+            this.currentIndex -= 1;
+
+        this.currentIndex -= 1;
         for (let i = this.lastStateIndex; i <= this.currentIndex; i++)
             await this.stack[i].redo();
     }
@@ -86,13 +93,15 @@ export class CancelStack {
     }
 
 
+    /**
+     * @returns true if there is some previous action to undo
+     */
+    get canUndo(): boolean { return this.currentIndex >= 1; }
 
-    get canUndo(): boolean {
-        return this.currentIndex >= 1;
-    }
 
-    get canRedo(): boolean {
-        return this.currentIndex < this.n - 1;
-    }
+    /**
+     * @returns true if there is some next action to redo
+     */
+    get canRedo(): boolean { return this.currentIndex < this.n - 1; }
 
 }

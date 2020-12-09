@@ -102,7 +102,7 @@ export class BoardManager {
     }
 
 
-    static addAction(action: Action) {
+    static addAction(action: Action): void {
         BoardManager.cancelStack.push(action);
     }
 

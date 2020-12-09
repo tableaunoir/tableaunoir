@@ -1,9 +1,7 @@
-import { DrawingSVG } from './DrawingSVG';
 import { DrawingCanvas } from './DrawingCanvas';
 import { BlackVSWhiteBoard } from './BlackVSWhiteBoard';
 import { OptionManager } from './OptionManager';
 import { BoardManager } from './boardManager';
-import { UserManager } from './UserManager';
 import { getCanvas } from './main';
 import { Layout } from './Layout';
 

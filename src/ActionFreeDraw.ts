@@ -6,7 +6,7 @@ export class ActionFreeDraw extends Action {
     public alreadyDrawnSth = false;
     private points: { x: number; y: number; pressure: number; color: string; }[] = [];
 
-    addPoint(pt: { x: number; y: number; pressure: number; color: string; }) {
+    addPoint(pt: { x: number; y: number; pressure: number; color: string; }):void {
         this.points.push(pt);
         if (Math.abs(pt.x - this.points[0].x) > 1 || Math.abs(pt.y - this.points[0].y) > 1)
             this.alreadyDrawnSth = true;

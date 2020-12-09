@@ -25,7 +25,7 @@ export class ToolEraser extends Tool {
 
         }
     }
-    updateEraserCursor() {
+    updateEraserCursor(): void {
         this.setToolCursorImage(EraserCursor.getStyleCursor(this.eraseLineWidth, this.temperature));
     }
 
