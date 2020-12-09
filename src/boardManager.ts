@@ -43,7 +43,6 @@ export class BoardManager {
 
 
 
-
     /**
      * @param a rectangle r 
      * @returns a canvas of width r.x2 - r.x1 and height r.y2 - r.y1 containing the content of the canvas
@@ -87,17 +86,19 @@ export class BoardManager {
      */
     static save(rectangle: { x1: number, y1: number, x2: number, y2: number } | undefined): void {
         const canvas = getCanvas();
-        if (rectangle == undefined)
-            rectangle = { x1: 0, y1: 0, x2: canvas.width, y2: canvas.height };
-
         canvas.toBlob((blob) => {
             console.log("save that blob: " + blob)
             //  localStorage.setItem(Share.getTableauNoirID(), canvas.toDataURL());
             //rectangle = { x1: 0, y1: 0, x2: canvas.width, y2: canvas.height };
-            BoardManager.cancelStack.push(new ActionModificationCanvas(blob, rectangle));
+            BoardManager.cancelStack.push(new ActionModificationCanvas("", blob, rectangle)); // a correct userid should be given
             //Share.sendFullCanvas(blob);
         });
 
+    }
+
+    static saveFullScreen(): void {
+        const canvas = getCanvas();
+        BoardManager.save({ x1: 0, y1: 0, x2: canvas.width, y2: canvas.height });
     }
 
 
@@ -136,6 +137,7 @@ export class BoardManager {
                     canvas.width = image.width;
                     canvas.height = image.height;
                     canvas.getContext("2d").drawImage(image, 0, 0);
+                    BoardManager.cancelStack.clear();
                     console.log("loaded!")
                 }
                 image.src = data;
@@ -144,31 +146,6 @@ export class BoardManager {
                 //TODO: handle error?
             }
 
-        }
-        else {
-            BoardManager._clear();
-        }
-
-    }
-
-
-    /**
-     * load the board from the local storage
-     */
-    static loadWithoutSave(data = localStorage.getItem(BoardManager.boardName)): void {
-        // let data = localStorage.getItem(BoardManager.boardName);
-
-        if (data != undefined) {
-            BoardManager._clear();
-            const image = new Image();
-            image.onload = function () {
-                const canvas = getCanvas();
-                canvas.width = image.width;
-                canvas.height = image.height;
-                canvas.getContext("2d").drawImage(image, 0, 0);
-                console.log("loaded!")
-            }
-            image.src = data;
         }
         else {
             BoardManager._clear();

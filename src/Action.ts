@@ -1,7 +1,12 @@
-export interface Action {
+export abstract class Action {
 
+    public userid: string;
+
+    constructor(userid: string) {
+        this.userid = userid;
+    }
     /**
      * redo the action
      */
-    redo(): Promise<void>;
+    abstract redo(): Promise<void>;
 }

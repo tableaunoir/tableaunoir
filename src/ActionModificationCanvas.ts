@@ -1,7 +1,7 @@
 import { getCanvas } from './main';
 import { Action } from './Action';
 
-export class ActionModificationCanvas implements Action {
+export class ActionModificationCanvas extends Action {
     private readonly blobAfter: Blob;
     private readonly r: { x1: number, y1: number, x2: number, y2: number };
 
@@ -12,7 +12,8 @@ export class ActionModificationCanvas implements Action {
      * @param r 
      * @description adds a modification of the canvas located in the rectangle r. The blobs correspond to the FULL canvas (this has to be improved for efficiency!)
      */
-    constructor(blobCurrent: Blob, r: { x1: number, y1: number, x2: number, y2: number }) {
+    constructor(userid: string, blobCurrent: Blob, r: { x1: number, y1: number, x2: number, y2: number }) {
+        super(userid);
         this.blobAfter = blobCurrent;
         this.r = r;
     }
@@ -33,6 +34,7 @@ export class ActionModificationCanvas implements Action {
             context.globalAlpha = 1.0;
 
             image.onload = function () {
+                context.clearRect(rectangle.x1, rectangle.y1, rectangle.x2 - rectangle.x1, rectangle.y2 - rectangle.y1);
                 context.drawImage(image, rectangle.x1, rectangle.y1, rectangle.x2 - rectangle.x1, rectangle.y2 - rectangle.y1, rectangle.x1, rectangle.y1, rectangle.x2 - rectangle.x1, rectangle.y2 - rectangle.y1);
                 resolve();
             }

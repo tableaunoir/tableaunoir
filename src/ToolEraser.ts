@@ -9,7 +9,7 @@ import { Tool } from './Tool';
 export class ToolEraser extends Tool {
 
     private temperature = 0;
-    private action = new ActionErase();
+    private action: ActionErase;
     private iMode = 0;
     private readonly modeSizes = [4, 8, 16, 32, 64];
     private readonly modeTheshold = [4, 4, 4, 6, 100000];
@@ -33,6 +33,7 @@ export class ToolEraser extends Tool {
     mousedown(): void {
         this.iMode = 0;
         this.eraseLineWidth = this.modeSizes[this.iMode];
+        this.action = new ActionErase(this.user.userID);
         this.action.addPoint({ x: this.x, y: this.y, lineWidth: this.eraseLineWidth });
         this.action.addPoint({ x: this.x, y: this.y, lineWidth: this.eraseLineWidth });//double
         Drawing.clearLine(this.x, this.y, this.x, this.y, this.eraseLineWidth);

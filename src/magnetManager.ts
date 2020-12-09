@@ -270,7 +270,7 @@ export class MagnetManager {
 				}
 			}
 
-		BoardManager.save(undefined);
+		BoardManager.saveFullScreen();
 	}
 
 

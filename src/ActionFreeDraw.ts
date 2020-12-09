@@ -2,7 +2,7 @@ import { Drawing } from './Drawing';
 import { getCanvas } from './main';
 import { Action } from './Action';
 
-export class ActionFreeDraw implements Action {
+export class ActionFreeDraw extends Action {
     public alreadyDrawnSth = false;
     private points: { x: number; y: number; pressure: number; color: string; }[] = [];
 

@@ -131,7 +131,7 @@ export class LoadSave {
     /**
      *
      * @param {*} obj
-     * @description load the JSON object:
+     * @description load the JSON object of a .tableaunoir file:
      * obj.canvasDataURL is the content of the canvas
      * obj.magnets is the HTML code of the magnets
      */

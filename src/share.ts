@@ -241,7 +241,7 @@ export class Share {
 				break;
 			case "fullCanvas":
 				Loading.hide();
-				BoardManager.loadWithoutSave(msg.data);
+				BoardManager.load(msg.data);
 				break;
 			case "magnets":
 				console.log(msg.magnets);
