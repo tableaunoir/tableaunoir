@@ -17,7 +17,6 @@ export class BoardManager {
     /** stack to store the cancel/redo actions */
     static cancelStack = new CancelStack();
 
-    static currentBlob = undefined;
 
     /**
    * initialization (button)
@@ -36,7 +35,6 @@ export class BoardManager {
     static _clear(): void {
         const canvas = getCanvas();
         canvas.width = canvas.width + 0; //clear
-        this.currentBlob = undefined;
         BoardManager.cancelStack.clear();
     }
 
@@ -96,8 +94,7 @@ export class BoardManager {
             console.log("save that blob: " + blob)
             //  localStorage.setItem(Share.getTableauNoirID(), canvas.toDataURL());
             rectangle = { x1: 0, y1: 0, x2: canvas.width, y2: canvas.height };
-            BoardManager.cancelStack.push(new ActionModificationCanvas(this.currentBlob, blob, rectangle));
-            this.currentBlob = blob;
+            BoardManager.cancelStack.push(new ActionModificationCanvas(blob, rectangle));
             //Share.sendFullCanvas(blob);
         });
 
@@ -190,7 +187,6 @@ export class BoardManager {
             return;
 
         await BoardManager.cancelStack.undo();
-        getCanvas().toBlob((blob) => { this.currentBlob = blob });
     }
 
 
@@ -203,6 +199,5 @@ export class BoardManager {
             return;
 
         await BoardManager.cancelStack.redo();
-        getCanvas().toBlob((blob) => { this.currentBlob = blob });
     }
 }

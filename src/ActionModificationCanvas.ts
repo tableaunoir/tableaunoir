@@ -2,7 +2,6 @@ import { getCanvas } from './main';
 import { Action } from './Action';
 
 export class ActionModificationCanvas implements Action {
-    private readonly blobBefore: Blob;
     private readonly blobAfter: Blob;
     private readonly r: { x1: number, y1: number, x2: number, y2: number };
 
@@ -13,8 +12,7 @@ export class ActionModificationCanvas implements Action {
      * @param r 
      * @description adds a modification of the canvas located in the rectangle r. The blobs correspond to the FULL canvas (this has to be improved for efficiency!)
      */
-    constructor(blobPrevious: Blob, blobCurrent: Blob, r: { x1: number, y1: number, x2: number, y2: number }) {
-        this.blobBefore = blobPrevious;
+    constructor(blobCurrent: Blob, r: { x1: number, y1: number, x2: number, y2: number }) {
         this.blobAfter = blobCurrent;
         this.r = r;
     }
@@ -53,10 +51,6 @@ export class ActionModificationCanvas implements Action {
 
 
 
-    async undo(): Promise<void> {
-        await ActionModificationCanvas.replaceRectangleImage(this.blobBefore, this.r);
-    }
-    
     async redo(): Promise<void> {
         await ActionModificationCanvas.replaceRectangleImage(this.blobAfter, this.r);
     }

@@ -53,8 +53,7 @@ export class ToolDraw extends Tool {
         if (this.isDrawing) {
             if (!this.alreadyDrawnSth)
                 Drawing.drawDot(this.x, this.y, this.user.color);
-            // BoardManager.addAction(this.action);
-            BoardManager.save(this.lastDelineation._getRectangle());
+            BoardManager.addAction(this.action);
         }
         this.alreadyDrawnSth = false;
     }

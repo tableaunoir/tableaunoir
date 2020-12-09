@@ -1,3 +1,4 @@
+import { getCanvas } from './main';
 import { Action } from './Action';
 
 
@@ -33,10 +34,13 @@ export class CancelStack {
         if (this.currentIndex < 0) {
             return;
         }
-            
 
-        await this.stack[this.currentIndex].undo();
+        getCanvas().getContext("2d").clearRect(0, 0, getCanvas().width, getCanvas().height);
+
+
         this.currentIndex--;
+        for (let i = 0; i <= this.currentIndex; i++)
+            await this.stack[i].redo();
     }
 
 
@@ -57,5 +61,5 @@ export class CancelStack {
     get canRedo(): boolean {
         return this.currentIndex < this.n - 1;
     }
-   
+
 }
