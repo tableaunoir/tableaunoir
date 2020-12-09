@@ -1,13 +1,15 @@
-export interface Action {
+export abstract class Action {
 
     /**
-     * undo the action
+     * the user that has performed the action
      */
-    undo(): Promise<void>;
+    public userid: string;
 
-
+    constructor(userid: string) {
+        this.userid = userid;
+    }
     /**
      * redo the action
      */
-    redo(): Promise<void>;
+    abstract redo(): Promise<void>;
 }

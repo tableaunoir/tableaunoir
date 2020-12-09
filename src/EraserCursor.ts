@@ -10,7 +10,7 @@ export class EraserCursor {
     * @param {*} lineWidth
     * @returns the .style.cursor of the canvas if you want to have a cursor that looks like an eraser of size size
     */
-    static getStyleCursor(lineWidth, temperature): { data: string, x: number, y: number } {
+    static getStyleCursor(lineWidth: number, temperature: number): { data: string, x: number, y: number } {
         const radius = EraserCursor.getRadius(lineWidth);
         return { data: EraserCursor.getCursorURL(radius, temperature), x: lineWidth / 2, y: lineWidth / 2 };
     }
@@ -28,7 +28,7 @@ export class EraserCursor {
      * @param size
      * @returns the URL of the image of the cursor
      */
-    static getCursorURL(radius: number, temperature): string {
+    static getCursorURL(radius: number, temperature: number): string {
         const canvas = document.createElement('canvas');
         canvas.width = 2 * radius;
         canvas.height = 2 * radius;

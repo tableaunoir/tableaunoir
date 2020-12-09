@@ -10,8 +10,8 @@ import { Tool } from './Tool';
 export class ToolDraw extends Tool {
 
     lastDelineation = new Delineation();
-    private action = new ActionFreeDraw();
-    private alreadyDrawnSth = false;
+    private action: ActionFreeDraw;
+    
 
 
     constructor(user: User) {
@@ -28,7 +28,7 @@ export class ToolDraw extends Tool {
         this.lastDelineation.reset();
         this.lastDelineation.addPoint({ x: this.x, y: this.y });
 
-        this.action = new ActionFreeDraw();
+        this.action = new ActionFreeDraw(this.user.userID);
         this.action.addPoint({ x: this.x, y: this.y, pressure: 0, color: this.user.color });
     }
 
@@ -43,20 +43,17 @@ export class ToolDraw extends Tool {
                 this.lastDelineation.addPoint({ x: evtX, y: evtY });
             }
 
-            if (Math.abs(this.x - this.xInit) > 1 || Math.abs(this.y - this.yInit) > 1)
-                this.alreadyDrawnSth = true;
+            
         }
 
     }
     mouseup(): void {
         this.lastDelineation.finish();
         if (this.isDrawing) {
-            if (!this.alreadyDrawnSth)
+            if (!this.action.alreadyDrawnSth)
                 Drawing.drawDot(this.x, this.y, this.user.color);
-            // BoardManager.addAction(this.action);
-            BoardManager.save(this.lastDelineation._getRectangle());
+            BoardManager.addAction(this.action);
         }
-        this.alreadyDrawnSth = false;
     }
 
 

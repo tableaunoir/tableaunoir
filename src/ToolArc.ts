@@ -6,6 +6,7 @@ import { Delineation } from './Delineation';
 import { Drawing } from './Drawing';
 import { getCanvas } from './main';
 import { Tool } from './Tool';
+import { ActionFreeDraw } from './ActionFreeDraw';
 
 export class ToolArc extends Tool {
 
@@ -14,6 +15,7 @@ export class ToolArc extends Tool {
     elementRadius: HTMLElement;
     elementCircle: SVGEllipseElement;
     isDrawing = false;
+    action: ActionFreeDraw;
 
 
     constructor(user: User) {
@@ -154,9 +156,12 @@ export class ToolArc extends Tool {
 
 
     mousedown(): void {
+        this.action = new ActionFreeDraw(this.user.userID);
         this.isDrawing = true;
         BoardManager.saveCurrentScreen();
         this.elementRadius.style.visibility = "hidden";
+        const A = this.correctPointOnCircle({ x: this.x, y: this.y });
+        this.action.addPoint({x: A.x, y: A.y, pressure: 0, color: this.user.color});
     }
 
     mousemove(evt: PointerEvent): void {
@@ -165,6 +170,7 @@ export class ToolArc extends Tool {
             const evtY = evt.offsetY;
             const A = this.correctPointOnCircle({ x: this.x, y: this.y });
             const B = this.correctPointOnCircle({ x: evtX, y: evtY });
+            this.action.addPoint({x: B.x, y: B.y, pressure: evt.pressure, color: this.user.color});
             Drawing.drawLine(getCanvas().getContext("2d"), A.x, A.y, B.x, B.y, evt.pressure, this.user.color);
         }
 
@@ -172,6 +178,7 @@ export class ToolArc extends Tool {
     mouseup(): void {
         this.isDrawing = false;
         this.elementRadius.style.visibility = "visible";
+        BoardManager.addAction(this.action);
     }
 
 

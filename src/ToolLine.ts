@@ -32,7 +32,6 @@ export class ToolLine extends ToolAbstractShape {
         shape.setAttributeNS(null, 'x2', "" + (this.x2));
         shape.setAttributeNS(null, 'y2', "" + (this.y2));
         shape.setAttributeNS(null, 'stroke', this.user.color);
-        shape.setAttributeNS(null, 'fill', "#FFFFFFFF");
         return shape;
     }
 

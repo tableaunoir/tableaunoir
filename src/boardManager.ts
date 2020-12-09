@@ -17,7 +17,6 @@ export class BoardManager {
     /** stack to store the cancel/redo actions */
     static cancelStack = new CancelStack();
 
-    static currentBlob = undefined;
 
     /**
    * initialization (button)
@@ -36,10 +35,8 @@ export class BoardManager {
     static _clear(): void {
         const canvas = getCanvas();
         canvas.width = canvas.width + 0; //clear
-        this.currentBlob = undefined;
         BoardManager.cancelStack.clear();
     }
-
 
 
 
@@ -89,22 +86,23 @@ export class BoardManager {
      */
     static save(rectangle: { x1: number, y1: number, x2: number, y2: number } | undefined): void {
         const canvas = getCanvas();
-        if (rectangle == undefined)
-            rectangle = { x1: 0, y1: 0, x2: canvas.width, y2: canvas.height };
-
         canvas.toBlob((blob) => {
             console.log("save that blob: " + blob)
             //  localStorage.setItem(Share.getTableauNoirID(), canvas.toDataURL());
-            rectangle = { x1: 0, y1: 0, x2: canvas.width, y2: canvas.height };
-            BoardManager.cancelStack.push(new ActionModificationCanvas(this.currentBlob, blob, rectangle));
-            this.currentBlob = blob;
+            //rectangle = { x1: 0, y1: 0, x2: canvas.width, y2: canvas.height };
+            BoardManager.cancelStack.push(new ActionModificationCanvas("", blob, rectangle)); // a correct userid should be given
             //Share.sendFullCanvas(blob);
         });
 
     }
 
+    static saveFullScreen(): void {
+        const canvas = getCanvas();
+        BoardManager.save({ x1: 0, y1: 0, x2: canvas.width, y2: canvas.height });
+    }
 
-    static addAction(action: Action) {
+
+    static addAction(action: Action): void {
         BoardManager.cancelStack.push(action);
     }
 
@@ -139,6 +137,7 @@ export class BoardManager {
                     canvas.width = image.width;
                     canvas.height = image.height;
                     canvas.getContext("2d").drawImage(image, 0, 0);
+                    BoardManager.cancelStack.clear();
                     console.log("loaded!")
                 }
                 image.src = data;
@@ -147,31 +146,6 @@ export class BoardManager {
                 //TODO: handle error?
             }
 
-        }
-        else {
-            BoardManager._clear();
-        }
-
-    }
-
-
-    /**
-     * load the board from the local storage
-     */
-    static loadWithoutSave(data = localStorage.getItem(BoardManager.boardName)): void {
-        // let data = localStorage.getItem(BoardManager.boardName);
-
-        if (data != undefined) {
-            BoardManager._clear();
-            const image = new Image();
-            image.onload = function () {
-                const canvas = getCanvas();
-                canvas.width = image.width;
-                canvas.height = image.height;
-                canvas.getContext("2d").drawImage(image, 0, 0);
-                console.log("loaded!")
-            }
-            image.src = data;
         }
         else {
             BoardManager._clear();
@@ -190,7 +164,6 @@ export class BoardManager {
             return;
 
         await BoardManager.cancelStack.undo();
-        getCanvas().toBlob((blob) => { this.currentBlob = blob });
     }
 
 
@@ -203,6 +176,5 @@ export class BoardManager {
             return;
 
         await BoardManager.cancelStack.redo();
-        getCanvas().toBlob((blob) => { this.currentBlob = blob });
     }
 }

@@ -130,7 +130,7 @@ export class Delineation {
         Share.execute("removeContour", [this.points]);
         Share.execute("clearPolygon", [this.points]);
         this.reset();
-        BoardManager.save(undefined);
+        BoardManager.saveFullScreen();
     }
 
 
@@ -157,7 +157,7 @@ export class Delineation {
             Share.execute("clearPolygon", [this.points]);
 
         this.reset();
-        BoardManager.save(undefined);
+        BoardManager.saveFullScreen();
     }
 
 
