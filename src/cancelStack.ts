@@ -66,7 +66,7 @@ export class CancelStack {
     /**
      * @description undo the last action
      */
-    async undo(): Promise<void> {
+    async undo(userid: string): Promise<void> {
         if (!this.canUndo)
             return;
 
@@ -81,7 +81,7 @@ export class CancelStack {
     /**
      * @description redo the next action
      */
-    async redo(): Promise<void> {
+    async redo(userid: string): Promise<void> {
         if (!this.canRedo)
             return;
 
@@ -97,12 +97,12 @@ export class CancelStack {
     /**
      * @returns true if there is some previous action to undo
      */
-    get canUndo(): boolean { return this.currentIndex >= 1; }
+    canUndo(userid: string): boolean { return this.currentIndex >= 1; }
 
 
     /**
      * @returns true if there is some next action to redo
      */
-    get canRedo(): boolean { return this.currentIndex < this.n - 1; }
+    canRedo(userid: string): boolean { return this.currentIndex < this.n - 1; }
 
 }

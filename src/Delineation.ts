@@ -123,15 +123,7 @@ export class Delineation {
         return Delineation.inPolygon(this.points[0], this.lastpoints);
     }
 
-    erase(): void {
-        if (!this.isSuitable())
-            return;
 
-        Share.execute("removeContour", [this.points]);
-        Share.execute("clearPolygon", [this.points]);
-        this.reset();
-        BoardManager.saveFullScreen();
-    }
 
 
     /**

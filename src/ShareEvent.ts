@@ -108,12 +108,12 @@ export class ShareEvent {
         MagnetManager.printMagnet(document.getElementById(magnetID));
     }
 
-    static cancel(): void {
-        BoardManager.cancel();
+    static cancel(userID: string): void {
+        BoardManager.cancel(userID);
     }
 
-    static redo(): void {
-        BoardManager.redo();
+    static redo(userID): void {
+        BoardManager.redo(userID);
     }
 
     static setUserName(userid: string, name: string): void {

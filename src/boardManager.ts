@@ -1,3 +1,4 @@
+import { UserManager } from './UserManager';
 import { ActionModificationCanvas } from './ActionModificationCanvas';
 import { getCanvas } from "./main";
 import { Share } from "./share";
@@ -90,7 +91,7 @@ export class BoardManager {
             console.log("save that blob: " + blob)
             //  localStorage.setItem(Share.getTableauNoirID(), canvas.toDataURL());
             //rectangle = { x1: 0, y1: 0, x2: canvas.width, y2: canvas.height };
-            BoardManager.cancelStack.push(new ActionModificationCanvas("", blob, rectangle)); // a correct userid should be given
+            BoardManager.cancelStack.push(new ActionModificationCanvas(UserManager.me.userID, blob, rectangle)); // a correct userid should be given
             //Share.sendFullCanvas(blob);
         });
 
@@ -159,11 +160,11 @@ export class BoardManager {
     /**
      *
      */
-    static async cancel(): Promise<void> {
-        if (!BoardManager.cancelStack.canUndo)
+    static async cancel(userid: string): Promise<void> {
+        if (!BoardManager.cancelStack.canUndo(userid))
             return;
 
-        await BoardManager.cancelStack.undo();
+        await BoardManager.cancelStack.undo(userid);
     }
 
 
@@ -171,10 +172,10 @@ export class BoardManager {
     /**
      *
      */
-    static async redo(): Promise<void> {
-        if (!BoardManager.cancelStack.canRedo)
+    static async redo(userid: string): Promise<void> {
+        if (!BoardManager.cancelStack.canRedo(userid))
             return;
 
-        await BoardManager.cancelStack.redo();
+        await BoardManager.cancelStack.redo(userid);
     }
 }
