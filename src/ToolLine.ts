@@ -1,5 +1,4 @@
-import { Drawing } from './Drawing';
-import { getCanvas } from './main';
+import { ActionLine } from './ActionLine';
 import { ToolAbstractShape } from './ToolAbstractShape';
 
 export class ToolLine extends ToolAbstractShape {
@@ -36,8 +35,8 @@ export class ToolLine extends ToolAbstractShape {
     }
 
 
-    drawShape: () => void = () => {
-        Drawing.drawLine(getCanvas().getContext("2d"), this.x1, this.y1, this.x2, this.y2, 1.0, this.user.color);
+    actionDrawShape: () => ActionLine = () => {
+        return new ActionLine(this.user.userID, this.x1, this.y1, this.x2, this.y2, this.user.color);
     }
 
 

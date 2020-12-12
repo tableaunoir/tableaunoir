@@ -1,21 +1,22 @@
+import { UserManager } from './UserManager';
 import { State } from './State';
 import { Action } from './Action';
+import { ActionInit } from './ActionInit';
 
 
 /**
  * data structure stack for cancel/redo
+ * TODO: for the moment, it is single-user (we do not care who are performing actions)
  */
 export class CancelStack {
 
     /**
-     * stack of states and actions (the first element is a state and then there are some states)
-     * the other states are precomputed 
-     * 
-     * s_0 a_1 a_2 a_3 s_4 a_5 a_6
-     *   => s_4 is precomputed from s_0 and then applying a_1 a_2 a_3
+     * stack of actions
+     * some actions may contain a "poststate" (a full snapshot of the state after executing that action)
+     * remark: the first action is of Type ActionInit and always contains a postState
      */
-    private stack: (Action | State)[] = [];
-    private currentIndex = -1;
+    private stack: (Action)[] = [];
+    private currentIndex = -1; //meaning that stack[currentIndex] is treated
     private n = 0;
 
     /**
@@ -24,14 +25,17 @@ export class CancelStack {
     clear(): void {
         this.stack = [];
         this.currentIndex = -1;
-        this._push(State.createCurrentState());
+
+        const actionInit = new ActionInit(UserManager.me.userID);
+        actionInit.storePostState();
+        this._push(actionInit);
     }
 
 
 
-    private _push(actionOrState: Action | State): void {
+    private _push(action: Action): void {
         this.currentIndex++;
-        this.stack[this.currentIndex] = actionOrState;
+        this.stack[this.currentIndex] = action;
         this.n = this.currentIndex + 1;
     }
 
@@ -40,12 +44,10 @@ export class CancelStack {
      * @param {*} data
      */
     push(action: Action): void {
-        this._push(action);
-
-        //sometimes, add the current state at the end of the action
         if (Math.floor(100 * Math.random()) < 30)
-            this._push(State.createCurrentState());
-
+            action.storePostState();
+        this._push(action);
+        //this.print();
     }
 
 
@@ -55,14 +57,14 @@ export class CancelStack {
     get lastStateIndex(): number {
         let i = this.currentIndex;
         while (i >= 0) {
-            if (this.stack[i] instanceof State)
+            if (this.stack[i].hasPostState)
                 return i;
             i--;
         }
-        throw "there is no initial state?";
+        throw "there is no initial state? are you kidding?";
     }
 
-    
+
     /**
      * @description undo the last action
      */
@@ -70,12 +72,15 @@ export class CancelStack {
         if (!this.canUndo)
             return;
 
-        if (this.stack[this.currentIndex] instanceof State)
-            this.currentIndex -= 1;
+        this.currentIndex--;
 
-        this.currentIndex -= 1;
-        for (let i = this.lastStateIndex; i <= this.currentIndex; i++)
+        const stateIndex = this.lastStateIndex;
+        await this.stack[stateIndex].restoreState();
+
+        for (let i = stateIndex+1; i <= this.currentIndex; i++)
             await this.stack[i].redo();
+
+        //this.print();
     }
 
     /**
@@ -85,12 +90,10 @@ export class CancelStack {
         if (!this.canRedo)
             return;
 
-        if (this.stack[this.currentIndex] instanceof State)
-            this.currentIndex++;
-
+        this.currentIndex++;
         await this.stack[this.currentIndex].redo();
 
-        this.currentIndex++;
+        //this.print();
     }
 
 
@@ -104,5 +107,19 @@ export class CancelStack {
      * @returns true if there is some next action to redo
      */
     canRedo(userid: string): boolean { return this.currentIndex < this.n - 1; }
+
+
+    /**
+     * @description print the stack in the console (for debug)
+     */
+    print(): void {
+        let s = "";
+        for (let i = 0; i < this.stack.length; i++) {
+            s += (i == 0) ? "i" : this.stack[i] instanceof State ? "s" : "a";
+            s += (i == this.currentIndex) ? ". " : "  ";
+        }
+        console.log(s);
+    }
+
 
 }

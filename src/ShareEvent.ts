@@ -112,7 +112,7 @@ export class ShareEvent {
         BoardManager.cancel(userID);
     }
 
-    static redo(userID): void {
+    static redo(userID: string): void {
         BoardManager.redo(userID);
     }
 

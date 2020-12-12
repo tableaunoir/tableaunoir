@@ -1,4 +1,4 @@
-import { Drawing } from './Drawing';
+import { ActionEllipse } from './ActionEllipse';
 import { ToolAbstractShape } from './ToolAbstractShape';
 
 export abstract class ToolEllipse extends ToolAbstractShape {
@@ -27,8 +27,8 @@ export abstract class ToolEllipse extends ToolAbstractShape {
     }
 
 
-    drawShape: () => void = () => {
-        Drawing.drawEllipse({ cx: this.cx, cy: this.cy, rx: this.rx, ry: this.ry }, this.user.color);
+    actionDrawShape: () => ActionEllipse = () => {
+        return new ActionEllipse(this.user.userID, this.cx, this.cy, this.rx, this.ry, this.user.color);
     }
 
 

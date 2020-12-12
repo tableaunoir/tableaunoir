@@ -1,3 +1,4 @@
+import { Action } from './Action';
 import { User } from './User';
 import { BoardManager } from './boardManager';
 import { Delineation } from './Delineation';
@@ -15,7 +16,7 @@ export abstract class ToolAbstractShape extends Tool {
     abstract getShape = undefined; 
 
     //to be implemented for a concrete shape
-    abstract drawShape = undefined;
+    abstract actionDrawShape: (evt) =>Action = undefined;
 
     //to be implemented for a concrete shape
     abstract fillDelineation = undefined;
@@ -51,9 +52,11 @@ export abstract class ToolAbstractShape extends Tool {
         if (this.isDrawing) {
             this.fillDelineation(evt);
             this.lastDelineation.finish();
-            this.drawShape(evt);
+            const action = this.actionDrawShape(evt);
+            action.redo();
+            BoardManager.addAction(action);
             this.shape.remove();
-            BoardManager.save(this.lastDelineation._getRectangle());
+            //BoardManager.save(this.lastDelineation._getRectangle());
         }
 
     }

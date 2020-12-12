@@ -1,4 +1,4 @@
-import { Drawing } from './Drawing';
+import { ActionRectangle } from './ActionRectangle';
 import { ToolAbstractShape } from './ToolAbstractShape';
 
 export class ToolRectangle extends ToolAbstractShape {
@@ -39,8 +39,8 @@ export class ToolRectangle extends ToolAbstractShape {
     }
 
 
-    drawShape: () => void = () => {
-        Drawing.drawRectangle({ x1: this.x1, y1: this.y1, x2: this.x2, y2: this.y2 }, this.user.color);
+    actionDrawShape: () => ActionRectangle = () => {
+        return new ActionRectangle(this.user.userID, this.x1, this.y1, this.x2, this.y2, this.user.color);
     }
 
 
