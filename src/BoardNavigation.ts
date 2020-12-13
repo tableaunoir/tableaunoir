@@ -8,6 +8,15 @@ import { getCanvas, getContainer } from "./main";
  */
 export class BoardNavigation {
 
+    /**
+     * initialize the navigation to be to the most-left part of the canvas (sometimes scrollLeft is not set to 0
+     * because the browser stores its value)
+     */
+    static init() {
+        getContainer().scrollTo({ top: 0, left: 0, behavior: 'smooth' });
+    }
+
+
     static _rightExtendCanvasEnable = true;
 
 
@@ -43,19 +52,23 @@ export class BoardNavigation {
             return;
         }
 
-        if ((x >= canvas.width - Layout.getWindowWidth()) && BoardNavigation._rightExtendCanvasEnable) {
-            const image = new Image();
-            image.src = canvas.toDataURL();
-            console.log("extension: canvas width " + canvas.width + " to " + (container.scrollLeft + Layout.getWindowWidth()))
-            canvas.width = ((canvas.width / Layout.scrollQuantityHalfPage()) + 1) * Layout.scrollQuantityHalfPage();
-            const context = canvas.getContext("2d");
-            context.globalCompositeOperation = "source-over";
-            context.globalAlpha = 1.0;
-            image.onload = function () {
-                context.drawImage(image, 0, 0);
+        if (x >= canvas.width - Layout.getWindowWidth()) {
+            if (BoardNavigation._rightExtendCanvasEnable) {
+                const image = new Image();
+                image.src = canvas.toDataURL();
+                console.log("extension: canvas width " + canvas.width + " to " + (container.scrollLeft + Layout.getWindowWidth()))
+                canvas.width = ((canvas.width / Layout.scrollQuantityHalfPage()) + 1) * Layout.scrollQuantityHalfPage();
+                const context = canvas.getContext("2d");
+                context.globalCompositeOperation = "source-over";
+                context.globalAlpha = 1.0;
+                image.onload = function () {
+                    context.drawImage(image, 0, 0);
+                }
+                BoardNavigation._rightExtendCanvasEnable = false;
+                setTimeout(() => { BoardNavigation._rightExtendCanvasEnable = true }, 1000);//prevent to extend the canvas too many times
             }
-            BoardNavigation._rightExtendCanvasEnable = false;
-            setTimeout(() => { BoardNavigation._rightExtendCanvasEnable = true }, 1000);//prevent to extend the canvas too many times
+
+            x = Math.min(x, canvas.width - Layout.getWindowWidth());
         }
 
         container.scrollTo({ top: 0, left: x, behavior: 'smooth' });
@@ -116,7 +129,6 @@ export class BoardNavigation {
         setTimeout(() => {
             const n = Math.round(x / Layout.scrollQuantityHalfPage());
             const total = Math.round(canvas.width / Layout.scrollQuantityHalfPage());
-            container.scrollLeft = (n) * Layout.scrollQuantityHalfPage();
             pageNumber.innerHTML = (n + 1) + "/" + (total); pageNumber.classList.add("pageNumber");
         }, 300)
 
