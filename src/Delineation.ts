@@ -23,7 +23,6 @@ export class Delineation {
 
     finish(): void {
         this.drawing = false;
-        this.removePolygon();
     }
     /**
      * @returns true if the set of current points is non-empty
@@ -36,22 +35,6 @@ export class Delineation {
         return this.points.length > 0;
     }
 
-    private drawPolygon(points: { x, y }[]): void {
-        if (document.getElementById("magnetCreationPolygon"))
-            return;
-
-        const polyline = document.createElementNS('http://www.w3.org/2000/svg', 'polyline');
-        polyline.id = "magnetCreationPolygon";
-        document.getElementById("svg").appendChild(polyline);
-
-        points.push(points[0]);
-        polyline.setAttribute("points", points.map((p) => p.x + ", " + p.y).join(" "));
-    }
-
-    private removePolygon(): void {
-        if (document.getElementById("magnetCreationPolygon"))
-            document.getElementById("svg").removeChild(document.getElementById("magnetCreationPolygon"));
-    }
 
 
     addPoint(point: { x, y }): void {

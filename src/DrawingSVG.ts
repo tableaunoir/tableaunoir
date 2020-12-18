@@ -55,23 +55,7 @@ export class DrawingSVG {
 
 
 
-    static drawLine(context: CanvasRenderingContext2D,
-        x1: number, y1: number, x2: number, y2: number,
-        pressure = 1.0, color: string = UserManager.me.getCurrentColor()): void {
 
-        const svgns = "http://www.w3.org/2000/svg";
-        const shape = <SVGLineElement>document.createElementNS(svgns, 'line');
-
-        shape.setAttributeNS(null, 'x1', "" + x1);
-        shape.setAttributeNS(null, 'y1', "" + y1);
-        shape.setAttributeNS(null, 'x2', "" + (x2));
-        shape.setAttributeNS(null, 'y2', "" + (y2));
-        shape.setAttributeNS(null, 'stroke', color);
-        shape.setAttributeNS(null, 'stroke-width', ""+this.lineWidth * (1 + 2 * pressure));
-        document.getElementById("svg").appendChild(shape);
-        context.stroke();
-        context.closePath();
-    }
 
 
     static drawDot(x: number, y: number, color: string): void {
@@ -93,8 +77,8 @@ export class DrawingSVG {
         shape.setAttributeNS(null, 'y1', "" + y1);
         shape.setAttributeNS(null, 'x2', "" + (x2));
         shape.setAttributeNS(null, 'y2', "" + (y2));
-        shape.setAttributeNS(null, 'stroke',  "black");
-        shape.setAttributeNS(null, 'stroke-width', ""+lineWidth);
+        shape.setAttributeNS(null, 'stroke', "black");
+        shape.setAttributeNS(null, 'stroke-width', "" + lineWidth);
         document.getElementById("svg").appendChild(shape);
     }
 
