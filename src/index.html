@@ -15,7 +15,7 @@
 	<div id=controls>
 		<button id="buttonMenu"><img class="icon"
 				src="img/icons/menu-three-outlined-bars-svgrepo-com.svg" /></button><span
-			class="keyboardkeyhelp">Esc.</span>
+			class="keyboardkeyhelp">Esc</span>
 		<button id="buttonColors" title="Choose your color"><img class="icon" src="img/icons/1F3A8.svg" /></button><span
 			class="keyboardkeyhelp">c</span>
 		<button hidden id="buttonChalk" title="Switch between erase and draw"><img class="icon"
@@ -87,8 +87,8 @@
 				<div class="explanation">
 					<img src="img/welcome_tableaunoir.png" />
 					<span>Tableaunoir is an <em>online blackboard</em>. It is ideally used with a <em>graphics
-							tablet</em>. Your audience is <em>concentrated
-							on the content</em> if you hide the toolbar and use keyboard shortcuts.</span>
+							tablet</em>. You can help your audience <em>focus
+							on the content</em> by hiding the toolbar and using keyboard shortcuts.</span>
 
 				</div>
 
@@ -100,14 +100,12 @@
 
 				<div class="explanation">
 					<img src="img/shareInEverybodyWritesMode.png" />
-					<span>Blackboards are sharable in order to <em>collaborate</em> with your friends (feature still in
+					<span>Blackboards can be shared in order to <em>collaborate</em> with your friends (feature still in
 						development). Open the menu!</span>
 				</div>
 				<div class="explanation">
 					<img src="img/welcome_open.png" />
-					<span>Work
-						best on
-						Firefox, Chrome or Chromium, last versions.</span>
+					<span>Works best on Firefox, Chrome or Chromium, last versions.</span>
 
 
 					<span>The project is <em>open source</em>. See:</span>
@@ -116,21 +114,21 @@
 				</div>
 
 				<h2>Videos</h2>
-				<a target="_blank" rel="noopener noreferrer" href="https://www.youtube.com/watch?v=P6_lhqiPBow">Video of
-					that presents tableaunoir (in french)</a>
+				<a target="_blank" rel="noopener noreferrer" href="https://www.youtube.com/watch?v=P6_lhqiPBow">Video
+					presentation of tableaunoir (in French)</a>
 
-				<a target="_blank" rel="noopener noreferrer" href="https://www.youtube.com/watch?v=BtLaNBOuSHc">Video of
-					that presents tableaunoir (in english)</a>
+				<a target="_blank" rel="noopener noreferrer" href="https://www.youtube.com/watch?v=BtLaNBOuSHc">Video
+					presentation of tableaunoir (in English)</a>
 
 
 				<h2>Privacy policy</h2>
 
 				<ul>
-					<li>All data may be sent to the server you are connected at, and be dispatched to other users
+					<li>All data may be sent to the server you are connected to, and be dispatched to other users
 						connected to the same board. Some instances of tableaunoir are http, others are https. Data
 						means: the board itself, the magnets, options in the menu.</li>
 					<li>You own your own data. The server does not store the boards: they are ephemeral. Do not forget
-						to save and/or export the boards.</li>
+						to save and/or export boards you wish to keep.</li>
 					<li>Some options (right-handed or left-handed, toolbar visible or not, etc.) are local and stored in
 						<code>localStorage</code> (and do not use cookies 🚫 🍪).</li>
 				</ul>
@@ -143,7 +141,7 @@
 				<h2>Clear</h2>
 				<div class="menuDiv">
 					<button class="buttonClear" id="blackboardClear">
-						<img src="img/clearboard.png" /><br />clear the board</button>
+						<img src="img/clearboard.png" /><br />Clear the board</button>
 					<button class="buttonClear" id="clearMagnet">
 						<img src="img/magnet_delete.png" /><br />Remove all the magnets</button>
 				</div>
@@ -164,20 +162,18 @@
 				<h2>Save</h2>
 				<img align="right" class="illustration" height="128px" src="img/illustrations/saving.png" />
 				<div>
-					You may save your board in a <em>.tableaunoir file</em> for using it later:</div>
+					You may save your board in a <em>.tableaunoir file</em> for later use:</div>
 				<div class="menuDiv">
 					Name: <input id="name" value="myblackboard" /><button id="save">Save</button>
 				</div>
 
 				<div>
 					<h2>Export</h2>
-					<div>You may export your board as an <em>image .png file</em> for showing it with other people. All
-						magnets will be "flatten" in the resulting
-						image.</div>
+					<div>You may export your board as an <em>image .png file</em> to show it to other people. All
+						magnets will be "flattened" in the resulting image.</div>
 					<div class="menuDiv">
 						Name: <input id="exportPngName" value="myblackboard" /><button id="exportPng">Get an image
-							of
-							my board</button>
+							of my board</button>
 					</div>
 				</div>
 			</div>
@@ -272,7 +268,6 @@
 				<label hidden>Show a horizontal scrollbar</label>
 				<input hidden type="checkbox" id="inputHorizontalScrollbar" />
 
-
 			</div>
 
 			<div id="KeyboardShortcuts" class="tabcontent">
@@ -281,7 +276,7 @@
 				<div class="menuDiv">
 					<table>
 						<tr>
-							<td><span class="keyboardkey">Esc.</span> or <span class="keyboardkey">F1</span></td>
+							<td><span class="keyboardkey">Esc</span> or <span class="keyboardkey">F1</span></td>
 							<td>show/hide this <em>menu</em></td>
 						</tr>
 						<tr>
@@ -364,10 +359,10 @@
 					<table>
 						<tr>
 							<td><span class="keyboardkey">Enter</span></td>
-							<td>create a new magnet that contains <em>text</em> (type then the text)</td>
+							<td>create a new magnet that contains <em>text</em> (then type the text)</td>
 						</tr>
 						<tr>
-							<td><span class="keyboardkey">Esc.</span></td>
+							<td><span class="keyboardkey">Esc</span></td>
 							<td><em>exit</em> the text edition in a magnet</td>
 						</tr>
 						<tr>
@@ -387,7 +382,7 @@
 					Pseudo: <input id="inputUserName"></input>
 				</div>
 				<div class="warning" id="ShareGithub">Warning: tableaunoir.github.io is
-					a showcase!For sharing, please try <a
+					a showcase! For sharing, please try <a
 						href="http://tableaunoir.irisa.fr">http://tableaunoir.irisa.fr</a> instead.</div>
 				<div class="warning">Warning: The server will not save your board.
 				</div>
@@ -400,7 +395,7 @@
 
 					<div>If you want some of your friends to see and modify your board, make a <em>shared</em> board.
 						You may
-						use a <em>password</em> to keep your sharer privileges. If no password is given, all
+						set a <em>password</em> to keep your sharer privileges. If no password is set, all
 						participants
 						will have full privileges.</div>
 					Password (optional): <input type="password" id="password"></input>
@@ -465,7 +460,7 @@
 			<div id="Magnets" class="tabcontent">
 
 
-				<h2>Quick magnet manipulations</h2>
+				<h2>Quick magnet manipulation</h2>
 
 				<div class="menuDiv">
 					<button id="magnetsArrange"><img src="img/arrange.png" /><br />Arrange the magnets on the
@@ -494,7 +489,7 @@
 					<button class="magnetCollectionButton" id="magnetSorting">Sorting</button>
 					<button class="magnetCollectionButton" id="magnetBTrees">B trees</button>
 					<button class="magnetCollectionButton" id="magnetGraphNodes">Graph nodes</button>
-					<button class="magnetCollectionButton" id="magnetGraphSimCity">Simcity graph nodes</button>
+					<button class="magnetCollectionButton" id="magnetGraphSimCity">SimCity graph nodes</button>
 					<button class="magnetCollectionButton" id="magnetFloydsAlgorithm">Floyd's algorithm</button>
 					<button class="magnetCollectionButton" id="magnetUnionFind">Union-find</button>
 					<h3>Complexity theory</h3>
@@ -517,7 +512,7 @@
 					<li>Create a text magnet by pressing <span class="keyboardkey">Enter</span></li>
 					<li>Type your LaTeX code between <code>\[</code> and <code>\]</code> ($..$ dollars not supported)
 					</li>
-					<li>Press <span class="keyboardkey">Esc.</span> to get the output</li>
+					<li>Press <span class="keyboardkey">Esc</span> to get the output</li>
 				</ul>
 				<h2>How to draw squares, circles, horizontal/vertical lines?</h2>
 				<ul>
@@ -528,7 +523,7 @@
 				</ul>
 			</div>
 		</div>
-		<div class="divMenuHide"><button onclick="Menu.hide()">X</button>Esc.</div>
+		<div class="divMenuHide"><button onclick="Menu.hide()">X</button>Esc</div>
 	</div>
 	<div id="error" hidden></div>
 </body>
