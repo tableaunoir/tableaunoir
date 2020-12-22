@@ -1,4 +1,3 @@
-import { DrawingSVG } from './DrawingSVG';
 import { UserManager } from './UserManager';
 import { ActionFreeDraw } from './ActionFreeDraw';
 import { User } from './User';
@@ -6,7 +5,6 @@ import { ChalkCursor } from './ChalkCursor';
 import { BoardManager } from './boardManager';
 import { Delineation } from './Delineation';
 import { Drawing } from './Drawing';
-import { getCanvas } from './main';
 import { Tool } from './Tool';
 
 export class ToolDraw extends Tool {

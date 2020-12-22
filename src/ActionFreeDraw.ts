@@ -13,7 +13,7 @@ export class ActionFreeDraw extends Action {
     }
 
 
-    smoothify() {
+    smoothify(): void {
         const newpoints: { x: number; y: number; pressure: number; color: string; }[] = [];
 
         newpoints.push(this.points[0]);
@@ -21,8 +21,8 @@ export class ActionFreeDraw extends Action {
             const a = this.points[i];
             const b = this.points[i + 1];
 
-            newpoints.push({ x: 0.85 * a.x + 0.15 * b.x, y: 0.85 * a.y + 0.15 * b.y, pressure: a.pressure, color:a.color });
-            newpoints.push({ x: 0.15 * a.x + 0.85 * b.x, y: 0.15 * a.y + 0.85 * b.y, pressure: a.pressure, color:a.color });
+            newpoints.push({ x: 0.85 * a.x + 0.15 * b.x, y: 0.85 * a.y + 0.15 * b.y, pressure: a.pressure, color: a.color });
+            newpoints.push({ x: 0.15 * a.x + 0.85 * b.x, y: 0.15 * a.y + 0.85 * b.y, pressure: a.pressure, color: a.color });
         }
 
         newpoints.push(this.points[this.points.length - 1]);

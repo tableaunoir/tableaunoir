@@ -12,7 +12,7 @@ export class BoardNavigation {
      * initialize the navigation to be to the most-left part of the canvas (sometimes scrollLeft is not set to 0
      * because the browser stores its value)
      */
-    static init() {
+    static init(): void {
         getContainer().scrollTo({ top: 0, left: 0, behavior: 'smooth' });
     }
 
@@ -122,7 +122,6 @@ export class BoardNavigation {
     static showPageNumber(x: number): void {
         const pageNumber = document.getElementById("pageNumber");
         const canvas = getCanvas();
-        const container = getContainer();
 
         pageNumber.classList.remove("pageNumberHidden");
         pageNumber.classList.remove("pageNumber");

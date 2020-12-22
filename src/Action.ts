@@ -26,14 +26,14 @@ export abstract class Action {
     /**
      * @description store the current state as the post state
      */
-    storePostState() {
+    storePostState(): void {
         this.postState = State.createCurrentState();
     }
 
     /**
      * @returns true iff there is a post state
      */
-    get hasPostState() {
+    get hasPostState(): boolean {
         return this.postState != undefined;
     }
 
@@ -42,7 +42,7 @@ export abstract class Action {
      * @requires hasPostState to return true
      * @description like redo but restore the state via poststate
      */
-    async restoreState() {
+    async restoreState(): Promise<void> {
         await this.postState.redo();
     }
 }

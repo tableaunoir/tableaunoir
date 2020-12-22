@@ -621,8 +621,6 @@ h1 {
 .warning {
 	color: yellow;
 	padding: 8px;
-	width: 500px;
-	background-color: rgb(109, 109, 25);
 }
 
 .cursor {
