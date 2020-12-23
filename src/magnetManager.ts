@@ -466,6 +466,23 @@ export class MagnetManager {
 
 
 	/**
+	 * 
+	 * @param element 
+	 * @param LaTEXCode 
+	 * @description update the magnet element to be the rendering of the latex code LaTEXCode
+	 */
+	static setLaTEX(element: HTMLElement, LaTEXCode: string) {
+		const divText = <HTMLElement>element.children[0];
+		element.dataset.type = "LaTEX";
+		element.dataset.code = LaTEXCode;
+		divText.contentEditable = "false";
+		divText.innerHTML = `\\[${element.dataset.code}\\]`;
+		eval("MathJax.typeset();");
+
+		if (Share.isShared())
+			Share.sendMagnetChanged(element);
+	}
+	/**
 	 *
 	 * @param element
 	 * @description set up the text magnet: add the mouse event, key event for editing the text magnet
@@ -474,9 +491,19 @@ export class MagnetManager {
 
 		const divText = <HTMLElement>element.children[0];
 
+		element.ondblclick = () => {
+			if (element.dataset.type == "LaTEX") {
+				const answer = prompt("Type the LaTEX code:", element.dataset.code);
+
+				if (answer)
+					MagnetManager.setLaTEX(element, answer);
+			}
+		}
+
 		divText.onpointerdown = (e) => { e.stopPropagation(); }
 		divText.onpointermove = (e) => { e.stopPropagation(); }
 		divText.onpointerup = (e) => { e.stopPropagation(); }
+
 		divText.onkeydown = (e) => {
 			const setFontSize = (size) => {
 				divText.style.fontSize = size + "px";
@@ -488,7 +515,17 @@ export class MagnetManager {
 
 			if (e.key == "Escape") {
 				divText.blur();
-				eval("MathJax.typeset();")
+
+				const text = divText.innerHTML;
+
+				if (text.startsWith("$") && text.endsWith("$")) { //the magnet is transformed into a LaTEX magnet
+					MagnetManager.setLaTEX(element, text.substring(1, text.length - 1));
+				}
+				else if (text.startsWith("\\[") && text.endsWith("\\]")) {
+					MagnetManager.setLaTEX(element, text.substring(2, text.length - 2));
+				}
+				else //else there may be some standard LaTEX "\[...\]" inside the text magnet
+					eval("MathJax.typeset();")
 				window.getSelection().removeAllRanges();
 				/*if(divText.innerHTML == "")
 					MagnetManager.remove(div);*/

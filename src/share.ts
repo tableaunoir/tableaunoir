@@ -111,12 +111,15 @@ export class Share {
 		Share.send({ type: "askprivilege", password: passwordCandidate })
 	}
 
-
+	/**
+	 * @description copy the link to the clipboard
+	 */
 	static copyShareUrl(): void {
 		const sharelink = (<HTMLInputElement>document.getElementById("shareUrl")).value;
+
 		navigator.clipboard.writeText(sharelink).
-			then(function () { document.getElementById("shareUrlCopied").hidden = false; },
-        /* else */ function () { document.getElementById("shareUrlCopied").hidden = false; });
+			then(() => { document.getElementById("shareUrlCopied").hidden = false; },
+        /* else */ () => { document.getElementById("shareUrlCopied").hidden = false; });
 	}
 
 
