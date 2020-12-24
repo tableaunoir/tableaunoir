@@ -104,15 +104,11 @@
 
 				<div class="explanation">
 					<img src="img/shareInEverybodyWritesMode.png" />
-					<span>Blackboards can be shared in order to <em>collaborate</em> with your friends (feature still in
-						development). Open the menu!</span>
+					<span id="aboutShare">Blackboards can be shared in order to <em>collaborate</em> with your friends.</span>
 				</div>
 				<div class="explanation">
 					<img src="img/welcome_open.png" />
-					<span>Works best on Firefox, Chrome or Chromium, last versions.</span>
-
-
-					<span>The project is <em>open source</em>. See:</span>
+					<span id="aboutFree">The project is <em>open source</em>. Feel free to collaborate:</span>
 					<a target="_blank" rel="noopener noreferrer"
 						href="https://github.com/tableaunoir/tableaunoir">https://github.com/tableaunoir/tableaunoir</a>
 				</div>
@@ -155,7 +151,7 @@
 				<div class="menuDiv">
 					<img align="right" class="illustration" height="128px" src="img/illustrations/loading.png" />
 					<div class="menuDiv">
-						<label for="file">
+						<label id="loadExplanation" for="file">
 							To open an existing board, drag and drop your <em>.tableaunoir file</em> in the application
 							or
 							choose a file:</label>
@@ -166,19 +162,20 @@
 				</div>
 				<h2>Save</h2>
 				<img align="right" class="illustration" height="128px" src="img/illustrations/saving.png" />
-				<div>
+				<div id="saveExplanation">
 					You may save your board in a <em>.tableaunoir file</em> for later use:</div>
 				<div class="menuDiv">
-					Name: <input id="name" value="myblackboard" /><button id="save">Save</button>
+					<span>Name:</span> <input id="name" value="myblackboard" /><button id="save">Save</button>
 				</div>
 
 				<div>
 					<h2>Export</h2>
-					<div>You may export your board as an <em>image .png file</em> to show it to other people. All
+					<div id="exportExplanation">You may export your board as an <em>image .png file</em> to show it to
+						other people. All
 						magnets will be "flattened" in the resulting image.</div>
 					<div class="menuDiv">
-						Name: <input id="exportPngName" value="myblackboard" /><button id="exportPng">Get an image
-							of my board</button>
+						<span>Name:</span> <input id="exportPngName" value="myblackboard" />
+						<button id="exportPng">Get an image of my board</button>
 					</div>
 				</div>
 			</div>

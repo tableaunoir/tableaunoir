@@ -27,9 +27,12 @@
 	"Clear the board": "Effacer le tableau",
 	"Remove all the magnets": "Enlever tous les magnets",
 	"Load": "Ouvrir",
+	"#loadExplanation": "Pour ouvrir un tableau existant, glisser-déposer un fichier <em>.tableaunoir</em> ou alors choisir un fichier :",
 	"Save": "Sauvegarder",
+	"#saveExplanation": "Sauvegarder votre tableau dans un fichier <em>.tableaunoir</em> :",
 	"Name:": "Nom :",
 	"Export": "Exporter",
+	"#exportExplanation": "Exporter votre tableau comme une image <em>.png</em>. Les magnets seront 'applatis'.",
 	"Get an image of my board": "Télécharger une image de mon tableau",
 	"Make a shared board": "Faire un tableau partagé",
 	"Password (optional):": "Mot de passe (optionnel) :",
@@ -73,5 +76,9 @@
 
 	"#aboutPresentation": "Tableaunoir est un <em>tableau en ligne</em>. Il s'utilise idéalement avec une <em>tablette graphique</em>. Aidez votre audience à être <em>concentrée</em> en cachant la barre d'outil et en utilisant les raccourcis clavier.",
 
-	"#aboutMagnets": "Créer des <em>magnets</em> (comme sur votre frigo) pour faire des présentations <em>interactives</em>."
+	"#aboutMagnets": "Créer des <em>magnets</em> (comme sur votre frigo) pour faire des présentations <em>interactives</em>.",
+
+	"#aboutShare": "Vous pouvez partager un tableau pour travailler à <em>plusieurs</em>.",
+
+	"#aboutFree": "Le projet tableaunoir est <em>libre</em>. Venez collaborer :"
 }
