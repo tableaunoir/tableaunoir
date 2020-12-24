@@ -1,3 +1,5 @@
+import { ConstraintDrawing } from './ConstraintDrawing';
+import { MagnetManager } from './magnetManager';
 import { UserManager } from './UserManager';
 import { ActionFreeDraw } from './ActionFreeDraw';
 import { User } from './User';
@@ -50,7 +52,7 @@ export class ToolDraw extends Tool {
         shape.setAttributeNS(null, 'stroke-width', "" + (Drawing.lineWidth * (1 + 2 * pressure)));
         shape.setAttributeNS(null, 'opacity', "" + (0.9 + 0.1 * pressure));
 
-        
+
         document.getElementById("svg").appendChild(shape);
         return shape;
     }
@@ -64,7 +66,7 @@ export class ToolDraw extends Tool {
 
             if (this.lastDelineation.isDrawing()) {//this guard is because, when a magnet is created the user does not know the drawing stopped.
                 this.action.addPoint({ x: evtX, y: evtY, pressure: evt.pressure, color: this.user.color });
-               // Drawing.drawLine(getCanvas().getContext("2d"), this.x, this.y, evtX, evtY, evt.pressure, this.user.color);
+                // Drawing.drawLine(getCanvas().getContext("2d"), this.x, this.y, evtX, evtY, evt.pressure, this.user.color);
                 this.svgLines.push(ToolDraw.addSVGLine(this.x, this.y, evtX, evtY, evt.pressure, this.user.color));
             }
 
@@ -75,21 +77,34 @@ export class ToolDraw extends Tool {
     mouseup(): void {
 
         if (this.isDrawing) {
+            const magnet1 = MagnetManager.getMagnetNearPoint(this.action.points[0]);
+            const magnet2 = MagnetManager.getMagnetNearPoint(this.action.points[this.action.points.length - 1]);
+
+
+
             for (const l of this.svgLines)
                 l.remove();
             this.svgLines = [];
-            
-            
-            if (this.action.alreadyDrawnSth)
-                this.action.smoothify();
 
-            for (const p of this.action.points) {
-                this.lastDelineation.addPoint({ x: p.x, y: p.y });
+            if (magnet1 && magnet2) {
+                const p1 = MagnetManager.getMagnetCenter(magnet1);
+                const p2 = MagnetManager.getMagnetCenter(magnet2);
+
+                const line = ToolDraw.addSVGLine(p1.x, p1.y, p2.x, p2.y, this.action.points[this.action.points.length - 1].pressure, this.action.points[this.action.points.length - 1].color);
+                ConstraintDrawing.line(line, magnet1.id, magnet2.id);
             }
-            this.lastDelineation.finish();
+            else {
+                if (this.action.alreadyDrawnSth)
+                    this.action.smoothify();
 
-            this.action.redo();
-            BoardManager.addAction(this.action);
+                for (const p of this.action.points) {
+                    this.lastDelineation.addPoint({ x: p.x, y: p.y });
+                }
+                this.lastDelineation.finish();
+
+                this.action.redo();
+                BoardManager.addAction(this.action);
+            }
         }
     }
 

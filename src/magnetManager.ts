@@ -1,3 +1,4 @@
+import { ConstraintDrawing } from './ConstraintDrawing';
 import { ErrorMessage } from './ErrorMessage';
 import { getCanvas } from "./main";
 import { Share } from "./share";
@@ -13,6 +14,18 @@ export class MagnetManager {
 	static magnetY = 64;
 	static currentMagnet = undefined; // last magnet used
 	static magnetUnderCursor = undefined;
+
+
+	static getMagnetNearPoint({ x, y }: { x: number, y: number }) {
+		const magnets = MagnetManager.getMagnets();
+
+		for (let i = 0; i < magnets.length; i++) {
+			if (MagnetManager.magnetNearContains(magnets[i], x, y))
+				return magnets[i];
+		}
+		return null;
+	}
+
 
 
 
@@ -134,6 +147,20 @@ export class MagnetManager {
 		MagnetManager._installMagnet(element);
 	}
 
+
+	static magnetContains(m: HTMLElement, x: number, y: number) {
+		return (parseInt(m.style.left) <= x && parseInt(m.style.top) <= y &&
+			x <= parseInt(m.style.left) + (m.clientWidth) &&
+			y <= parseInt(m.style.top) + (m.clientHeight));
+	}
+
+	static magnetNearContains(m: HTMLElement, x: number, y: number) {
+		const nbpixelsTheshold = 16;
+		return (parseInt(m.style.left) - nbpixelsTheshold <= x && parseInt(m.style.top) - nbpixelsTheshold <= y &&
+			x <= parseInt(m.style.left) + (m.clientWidth) + nbpixelsTheshold &&
+			y <= parseInt(m.style.top) + (m.clientHeight) + nbpixelsTheshold);
+	}
+
 	/**
 	 * @description put the existing magnets on the current screen
 	 */
@@ -145,11 +172,6 @@ export class MagnetManager {
 			let x = undefined;
 			let y = undefined;
 
-			const magnetContains = (m, x, y) => {
-				return (parseInt(m.style.left) <= x && parseInt(m.style.top) <= y &&
-					x <= parseInt(m.style.left) + parseInt(m.clientWidth) &&
-					y <= parseInt(m.style.top) + parseInt(m.clientHeight));
-			}
 
 			const dist = () => {
 				let minDist = 100000;
@@ -162,8 +184,8 @@ export class MagnetManager {
 			}
 			const contains = () => {
 				for (let j = 0; j < magnets.length; j++) {
-					if (magnetContains(magnets[j], x, y) ||
-						magnetContains(magnets[j], x + magnet.clientWidth, y + magnet.clientHeight))
+					if (MagnetManager.magnetContains(magnets[j], x, y) ||
+						MagnetManager.magnetContains(magnets[j], x + magnet.clientWidth, y + magnet.clientHeight))
 						return true;
 				}
 				return false;
@@ -211,6 +233,11 @@ export class MagnetManager {
 
 	}
 
+
+
+	static getMagnetCenter(m: HTMLElement): { x: number, y: number } {
+		return { x: parseInt(m.style.left) + m.clientWidth / 2, y: parseInt(m.style.top) + m.clientHeight / 2 }
+	}
 	/**
 	 * @returns the array of center points of existing magnets
 	 */
@@ -219,7 +246,7 @@ export class MagnetManager {
 		const nodes = [];
 		for (let i = 0; i < magnets.length; i++) {
 			const m = magnets[i];
-			nodes.push({ x: parseInt(m.style.left) + m.clientWidth / 2, y: parseInt(m.style.top) + m.clientHeight / 2 });
+			nodes.push(MagnetManager.getMagnetCenter(m));
 		}
 		console.log(nodes)
 		return nodes;
@@ -406,6 +433,8 @@ export class MagnetManager {
 			for (const el of otherElementsToMove) {
 				Share.execute("magnetMove", [el.id, el.offsetLeft - dx, el.offsetTop - dy]);
 			}
+
+			ConstraintDrawing.update();
 		}
 
 		function closeDragElement() {

@@ -32,6 +32,8 @@ export class ActionFreeDraw extends Action {
 
 
 
+
+
     async redo(): Promise<void> {
         if (!this.alreadyDrawnSth)
             Drawing.drawDot(this.points[0].x, this.points[0].y, this.points[0].color);
