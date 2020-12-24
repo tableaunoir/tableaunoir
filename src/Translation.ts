@@ -1,3 +1,4 @@
+import { OptionManager } from './OptionManager';
 import { ErrorMessage } from './ErrorMessage';
 
 /**
@@ -5,12 +6,21 @@ import { ErrorMessage } from './ErrorMessage';
  */
 export class Translation {
 
+    private static readonly englishDict = {};
+
     /**
      * initialization
      */
     static init(): void {
         try {
-            Translation.translate();
+            setTimeout(() => OptionManager.string({
+                name: "language",
+                defaultValue: "en",
+                onChange: (s) => {
+                    Translation.translate(s);
+                }
+            }), 1000);
+
         }
         catch (e) {
             ErrorMessage.show(e);
@@ -18,49 +28,45 @@ export class Translation {
 
     }
 
-    /**
-     * @returns the language written in the URL (for instance "fr"), or null if none is provided
-     */
-    static getLanguage(): string {
-        const params = (new URL(document.location.href)).searchParams;
-        return params.get('lang');
-    }
-
 
     /**
      * @returns a promise on the dictionnary of the selected language
      */
-    static fetchDictionary(): Promise<{ [index: string]: string }> {
-        const language = Translation.getLanguage();
-
-        if (language == null)
+    static fetchDictionary(language: string): Promise<{ [index: string]: string }> {
+        if (language == null || language == "en") //English is the by-default language
             return new Promise(() => {
                 //TODO:
-             });
+            });
 
-        return fetch("src/" + language + ".json")
-            .then(txt => txt.json())
-
+        return fetch(language + ".json").then(txt => txt.json());
     }
 
     /**
      *
      * @param element HTML element
      * @param dict
-     * @description translate the HTML element
+     * @description translate the HTML element:
+     *         - translate its title property
+     *         - call itself recursively if the element is not primitive
      */
     static translateElement(element: Element, dict: { [index: string]: string }): void {
         if (element.children == undefined)
             return;
 
-        if ((<HTMLElement>element).title == undefined) {
-            if (dict[(<HTMLElement>element).title])
+        if ((<HTMLElement>element).title != undefined) {
+            if (dict[(<HTMLElement>element).title]) {
+                Translation.setEnglishDictEntry(dict[(<HTMLElement>element).title], (<HTMLElement>element).title);
                 (<HTMLElement>element).title = dict[(<HTMLElement>element).title];
+            }
+
         }
 
         if (element.children.length == 0) {
-            if (dict[element.innerHTML])
+            if (dict[element.innerHTML]) {
+                Translation.setEnglishDictEntry(dict[element.innerHTML], element.innerHTML);
                 element.innerHTML = dict[element.innerHTML];
+            }
+
         } else {
             for (const i in element.children)
                 Translation.translateElement(element.children[i], dict);
@@ -69,7 +75,16 @@ export class Translation {
     }
 
 
-
+    /**
+     * 
+     * @param key 
+     * @param text
+     * @description set the entry (key, text) in the English dictionnary if it is already set up
+     */
+    static setEnglishDictEntry(key: string, text: string) {
+        if (Translation.englishDict[key] == undefined)
+            Translation.englishDict[key] = text;
+    }
     /**
      *
      * @param dict
@@ -81,27 +96,61 @@ export class Translation {
                 const element = document.getElementById(key.substr(1));
 
                 if (element == undefined)
-                    console.log(`Element ${key} not found. I can translate..`);
+                    console.log(`Element ${key} not found. I cannot translate..`);
+                else {
+                    if (element.children.length > 0)
+                        console.log("I refuse to translate because the element has some children.");
 
-                if (element.children.length > 0)
-                    console.log("I refuse to translate because the element has some children.");
-
-                element.innerHTML = dict[key];
+                    Translation.setEnglishDictEntry(key, element.innerHTML);
+                    element.innerHTML = dict[key];
+                }
             }
         }
     }
+
+    /**
+    *
+    * @param dict
+    * @description translates the element by the IDs
+    */
+    static translateFromIDsTitle(dict: { [index: string]: string }): void {
+        for (const key in dict) {
+            if (key.startsWith('#') && key.endsWith(".title")) {
+                const id = key.substr(1, key.length - 7);
+                const element = document.getElementById(id);
+
+                if (element == undefined)
+                    console.log(`Element of id ${id} not found. I cannot translate..`);
+
+                Translation.setEnglishDictEntry(key, element.title);
+
+                element.title = dict[key];
+            }
+        }
+    }
+
+
+
+
+    /**
+     * 
+     * @param dict a dictionnary 
+     */
+    static translateD(dict): void {
+        Translation.translateElement(document.getElementById("controls"), dict);
+        Translation.translateElement(document.getElementById("menu"), dict);
+        Translation.translateFromIDs(dict);
+        Translation.translateFromIDsTitle(dict);
+    }
+
     /**
      * big translation procedure
      */
-    static translate(): void {
-        const dictionnary = Translation.fetchDictionary();
-        dictionnary.then(dict => {
-            Translation.translateElement(document.getElementById("controls"), dict);
-            Translation.translateElement(document.getElementById("menu"), dict);
-            Translation.translateFromIDs(dict);
-
-
+    static translate(language: string): void {
+        Translation.translateD(Translation.englishDict);
+        if (!(language == "en")) {
+            const dictionnary = Translation.fetchDictionary(language);
+            dictionnary.then(Translation.translateD);
         }
-        )
     }
 }

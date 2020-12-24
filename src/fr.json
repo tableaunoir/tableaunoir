@@ -1,6 +1,77 @@
 {
-	"Text": "Texte",
-	"↩ Cancel": "↩ Annuler",
-	"#buttonLeft": "Gauche"
+	"Choose your color": "Choisir une couleur",
+	"#buttonChalk.title": "Utiliser la craie ou l'effaceur",
+	"#buttonEraser.title": "Utiliser la craie ou l'effaceur",
+	"#buttonTools.title": "Menu avec pleins d'outils",
+	"#buttonText.title": "Ajouter du texte (ou du LaTEX $...$)",
+	"#buttonDivide.title": "Diviser le tableau verticalement en deux",
+	"#buttonCancel.title": "Annuler la dernière action",
+	"#buttonRedo.title": "Refaire la dernière action",
+	"#buttonShare.title": "Partager et/ou copier le lien dans le presse-papier",
+	"Go left": "Vers la gauche",
+	"Go right": "Vers la droite",
 
+	"Esc": "Echap",
+	"Enter": "Entrée",
+	"hide toolbar = h": "Cacher la barre d'outil = h",
+
+	"#welcomeMessage": "Bienvenue dans tableaunoir. Le tableau partagé s'affiche bientôt. Veuillez patienter...",
+	"My Board": "Mon tableau",
+	"Share": "Partager",
+	"Background": "Arrière-plan",
+	"Keyboard Shortcuts": "Raccourcis clavier",
+	"Help": "Aide",
+	"About tableaunoir": "A propos de",
+
+	"Clear": "Effacer",
+	"Clear the board": "Effacer le tableau",
+	"Remove all the magnets": "Enlever tous les magnets",
+	"Load": "Ouvrir",
+	"Save": "Sauvegarder",
+	"Name:": "Nom :",
+	"Export": "Exporter",
+	"Get an image of my board": "Télécharger une image de mon tableau",
+	"Make a shared board": "Faire un tableau partagé",
+	"Password (optional):": "Mot de passe (optionnel) :",
+	"Join an existing board": "Rejoindre un tableau existant",
+	"Join": "Rejoindre",
+
+	"Background color": "Couleur de fond",
+	"Blackboard": "Tableau noir",
+	"Whiteboard": "Tableau blanc",
+	"Background image": "Image d'arrière-plan",
+	"No background": "Pas d'arrière-plan",
+	"Music score": "Partition de musique",
+	"Grid": "Grille",
+
+	"Or use your own background": "Ou utiliser votre propre arrière-plan",
+
+	"Using existing images": "Utiliser des images existantes",
+	"Predefined Magnet Collections": "Collections de magnets prédéfinies",
+	"Algorithms": "Algorithmique",
+	"Complexity theory": "Théorie de la complexité",
+
+	"Drawing": "Dessin",
+	"Line width:": "Epaisseur du trait :",
+	"Show the toolbar (h)": "Afficher la barre d'outil (h)",
+
+	"Left": "Gauche",
+	"Right": "Droite",
+	"Top": "En haut",
+	"Bottom": "En bas",
+
+	"Language": "Langue",
+
+	"English": "Anglais",
+	"French": "Français",
+
+	"Standard 8 color palette": "Palette standard de 8 couleurs",
+	"21 color palette": "Palette avec 21 couleurs",
+
+	"Cursor": "Curseur",
+	"Left-handed": "Gaucher",
+
+	"#aboutPresentation": "Tableaunoir est un <em>tableau en ligne</em>. Il s'utilise idéalement avec une <em>tablette graphique</em>. Aidez votre audience à être <em>concentrée</em> en cachant la barre d'outil et en utilisant les raccourcis clavier.",
+
+	"#aboutMagnets": "Créer des <em>magnets</em> (comme sur votre frigo) pour faire des présentations <em>interactives</em>."
 }
