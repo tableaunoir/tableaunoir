@@ -1,3 +1,4 @@
+import { PDFViewer } from './PDFViewer';
 import { ConstraintDrawing } from './ConstraintDrawing';
 import { Background } from './Background';
 import { MagnetManager } from './magnetManager';
@@ -53,7 +54,7 @@ export class ShareEvent {
     static switchEllipseByCenter(userId: string): void {
         UserManager.users[userId].switchEllipseByCenter();
     }
-    
+
     static switchArc(userId: string): void {
         UserManager.users[userId].switchArc();
     }
@@ -127,15 +128,20 @@ export class ShareEvent {
         Background.set(dataURL);
     }
 
+    static setPDF(dataURL: string): void {
+        const pdfviewer = new PDFViewer();
+        pdfviewer.open(dataURL);
+    }
+
     static backgroundClear(): void {
         Background.clear();
     }
 
-    static backgroundMusicScore():void {
+    static backgroundMusicScore(): void {
         Background.musicScore();
     }
 
-    static backgroundGrid():void {
+    static backgroundGrid(): void {
         Background.grid();
     }
 }

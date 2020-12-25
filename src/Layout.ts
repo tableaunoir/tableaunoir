@@ -4,12 +4,16 @@ import { Toolbar } from './Toolbar';
 
 export class Layout {
 
+
+    static isPdf(): boolean {
+        return document.getElementById("pdf").hasChildNodes();
+    }
     /**
  * @returns the number of pixels when scrolling
  */
     static scrollQuantityHalfPage(): number {
-        const THESHOLD = 1500;
-        const middle = Layout.getWindowWidth() / 2;
+        const THESHOLD = window.screen.availWidth;
+        const middle = Layout.isPdf() ? Layout.getWindowWidth() : Layout.getWindowWidth() / 2;
         return Math.min(middle, THESHOLD);
     }
 
