@@ -81,7 +81,7 @@ export class Translation {
      * @param text
      * @description set the entry (key, text) in the English dictionnary if it is already set up
      */
-    static setEnglishDictEntry(key: string, text: string) {
+    static setEnglishDictEntry(key: string, text: string): void {
         if (Translation.englishDict[key] == undefined)
             Translation.englishDict[key] = text;
     }
@@ -136,7 +136,7 @@ export class Translation {
      * 
      * @param dict a dictionnary 
      */
-    static translateD(dict): void {
+    static translateD(dict: { [index: string]: string }): void {
         Translation.translateElement(document.getElementById("controls"), dict);
         Translation.translateElement(document.getElementById("menu"), dict);
         Translation.translateFromIDs(dict);

@@ -82,18 +82,21 @@ export class ToolDraw extends Tool {
 
 
 
-            for (const l of this.svgLines)
-                l.remove();
-            this.svgLines = [];
-
             if (magnet1 && magnet2) {
                 const p1 = MagnetManager.getMagnetCenter(magnet1);
                 const p2 = MagnetManager.getMagnetCenter(magnet2);
 
-                const line = ToolDraw.addSVGLine(p1.x, p1.y, p2.x, p2.y, this.action.points[this.action.points.length - 1].pressure, this.action.points[this.action.points.length - 1].color);
-                ConstraintDrawing.line(line, magnet1.id, magnet2.id);
+                /*const line = ToolDraw.addSVGLine(p1.x, p1.y, p2.x, p2.y, this.action.points[this.action.points.length - 1].pressure, this.action.points[this.action.points.length - 1].color);
+                ConstraintDrawing.line(line, magnet1.id, magnet2.id);*/
+
+                ConstraintDrawing.freeDraw(this.svgLines, magnet1.id, magnet2.id);
+                this.svgLines = [];
             }
             else {
+                for (const l of this.svgLines)
+                    l.remove();
+                this.svgLines = [];
+
                 if (this.action.alreadyDrawnSth)
                     this.action.smoothify();
 

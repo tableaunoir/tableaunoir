@@ -16,7 +16,7 @@ export class MagnetManager {
 	static magnetUnderCursor = undefined;
 
 
-	static getMagnetNearPoint({ x, y }: { x: number, y: number }) {
+	static getMagnetNearPoint({ x, y }: { x: number, y: number }): HTMLElement {
 		const magnets = MagnetManager.getMagnets();
 
 		for (let i = 0; i < magnets.length; i++) {
@@ -148,13 +148,13 @@ export class MagnetManager {
 	}
 
 
-	static magnetContains(m: HTMLElement, x: number, y: number) {
+	static magnetContains(m: HTMLElement, x: number, y: number): boolean {
 		return (parseInt(m.style.left) <= x && parseInt(m.style.top) <= y &&
 			x <= parseInt(m.style.left) + (m.clientWidth) &&
 			y <= parseInt(m.style.top) + (m.clientHeight));
 	}
 
-	static magnetNearContains(m: HTMLElement, x: number, y: number) {
+	static magnetNearContains(m: HTMLElement, x: number, y: number): boolean {
 		const nbpixelsTheshold = 16;
 		return (parseInt(m.style.left) - nbpixelsTheshold <= x && parseInt(m.style.top) - nbpixelsTheshold <= y &&
 			x <= parseInt(m.style.left) + (m.clientWidth) + nbpixelsTheshold &&
@@ -500,7 +500,7 @@ export class MagnetManager {
 	 * @param LaTEXCode 
 	 * @description update the magnet element to be the rendering of the latex code LaTEXCode
 	 */
-	static setLaTEX(element: HTMLElement, LaTEXCode: string) {
+	static setLaTEX(element: HTMLElement, LaTEXCode: string): void {
 		const divText = <HTMLElement>element.children[0];
 		element.dataset.type = "LaTEX";
 		element.dataset.code = LaTEXCode;

@@ -1,3 +1,4 @@
+import { Geometry } from './Geometry';
 import { ActionErase } from './ActionErase';
 import { User } from './User';
 import { BoardManager } from './boardManager';
@@ -71,7 +72,24 @@ export class ToolEraser extends Tool {
             this.action.addPoint({ x: evtX, y: evtY, lineWidth: this.eraseLineWidth });
             Drawing.clearLine(this.x, this.y, evtX, evtY, this.eraseLineWidth);
 
+            this.eraseSVG(this.x, this.y);
         }
+    }
+
+    eraseSVG(x: number, y: number) {
+        const lines = document.getElementsByTagName("line");
+
+        for (let i = 0; i < lines.length; i++) {
+            const svgLine = <SVGLineElement>lines[i];
+            const p1 = { x: parseInt(svgLine.getAttributeNS(null, 'x1')), y: parseInt(svgLine.getAttributeNS(null, 'y1')) };
+            const p2 = { x: parseInt(svgLine.getAttributeNS(null, 'x2')), y: parseInt(svgLine.getAttributeNS(null, 'y2')) };
+
+            const m = Geometry.middle(p1, p2);
+            if (Geometry.distance({ x: x, y: y }, m) < this.eraseLineWidth)
+                svgLine.remove();
+        }
+
+
     }
 
     mouseup(): void {

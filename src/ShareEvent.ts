@@ -1,3 +1,4 @@
+import { ConstraintDrawing } from './ConstraintDrawing';
 import { Background } from './Background';
 import { MagnetManager } from './magnetManager';
 import { BoardManager } from './boardManager';
@@ -67,6 +68,7 @@ export class ShareEvent {
         const el = document.getElementById(idMagnet);
         el.style.top = iy + "px";
         el.style.left = ix + "px";
+        ConstraintDrawing.update();
     }
 
 
