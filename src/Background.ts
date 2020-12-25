@@ -1,3 +1,4 @@
+import { PDFViewer } from './PDFViewer';
 import { Share } from './share';
 import { getCanvasBackground } from './main';
 import { Layout } from './Layout';
@@ -66,6 +67,10 @@ export class Background {
         Background.clear(); //before assigning Background.dataURL
 
         console.log("set background");
+        const pdfviewer = new PDFViewer();
+        pdfviewer.open(dataURL);
+
+        return;
         const img = new Image();
         Background.storeDataURL(dataURL);
 
