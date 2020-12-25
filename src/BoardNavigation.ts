@@ -44,7 +44,7 @@ export class BoardNavigation {
 
 
     private static _right(x: number): void {
-        const MAXCANVASWIDTH = 20000;
+        const MAXCANVASWIDTH = 40000;
         const container = getContainer();
         const canvas = getCanvas();
         if (container.scrollLeft >= MAXCANVASWIDTH - Layout.getWindowWidth()) {

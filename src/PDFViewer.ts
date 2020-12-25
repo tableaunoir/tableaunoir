@@ -8,13 +8,11 @@ pdfjsLib.GlobalWorkerOptions.workerSrc = pdfWorkerSrc;
 export class PDFViewer {
 
     // The workerSrc property shall be specified.
-
-
+    pageCanvas: HTMLCanvasElement[] = [];
     pdfDoc = null;
     pageNum = 1;
     pageRendering = false;
     pageNumPending = null;
-    scale = 0.8;
 
     getCanvasBackground(): HTMLCanvasElement {
         return <HTMLCanvasElement>document.getElementById("canvasBackground");
@@ -26,13 +24,28 @@ export class PDFViewer {
      * @param num Page number.
      */
     renderPage(num) {
-        const canvas = this.getCanvasBackground();
+        if(this.pageCanvas[num] == undefined) {
+            this.pageCanvas[num] = document.createElement("canvas");
+            this.pageCanvas[num].classList.add("pdfPage");
+            document.getElementById("pdf").appendChild(this.pageCanvas[num]);
+        }
+
+        const canvas = this.pageCanvas[num];
         const ctx = canvas.getContext("2d");
-        const scale = 0.8;
         this.pageRendering = true;
         // Using promise to fetch the page
         this.pdfDoc.getPage(num).then((page) => {
-            const scale= Layout.getWindowHeight() / page.getViewport({scale:1.0}).height;
+            const w = page.getViewport({ scale: 1.0 }).width;
+            const h = page.getViewport({ scale: 1.0 }).height;
+            const scale = (w/h > Layout.getWindowWidth() /Layout.getWindowHeight()) ? Layout.getWindowWidth() / w : 
+            Layout.getWindowHeight() / h ;
+
+            const x = (w/h  > Layout.getWindowWidth() /Layout.getWindowHeight()) ? 0 : (Layout.getWindowWidth() - (w * scale)) / 2;
+
+            const y = (w/h  > Layout.getWindowWidth() /Layout.getWindowHeight()) ? (Layout.getWindowHeight() - (h * scale)) / 2 : 0;
+
+            canvas.style.top = y + "px";
+            canvas.style.left = ((num-1)*Layout.getWindowWidth() + x) + "px";
             console.log(scale)
             var viewport = page.getViewport({ scale: scale });
             canvas.height = viewport.height;
@@ -46,7 +59,7 @@ export class PDFViewer {
             var renderTask = page.render(renderContext);
 
             // Wait for rendering to finish
-            renderTask.promise.then( () => {
+            renderTask.promise.then(() => {
                 this.pageRendering = false;
                 if (this.pageNumPending !== null) {
                     // New page rendering is pending
@@ -99,12 +112,13 @@ export class PDFViewer {
     open(url) {
         pdfjsLib.getDocument(url).promise.then((pdfDoc_) => {
             this.pdfDoc = pdfDoc_;
-    
-            // Initial/first page rendering
-            this.renderPage(this.pageNum);
+            document.getElementById("pdf").innerHTML = "";
+            for(let i = 1; i <= this.pdfDoc.numPages; i++) {
+                this.renderPage(i);
+            }
         });
     }
- 
+
 
 
 }

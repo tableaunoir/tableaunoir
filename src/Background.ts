@@ -40,8 +40,16 @@ export class Background {
 
 
         (<HTMLInputElement>document.getElementById("inputBackground")).onchange = function (evt) {
-            LoadSave.fetchFromFile((<HTMLInputElement>evt.target).files[0],
-                (dataURL) => Share.execute("setBackground", [dataURL]));
+            const file = (<HTMLInputElement>evt.target).files[0];
+            if (file.name.endsWith(".pdf")) {
+                const canvasBackground = getCanvasBackground();
+                canvasBackground.width = canvasBackground.width; //clear the background
+                LoadSave.fetchFromFile((<HTMLInputElement>evt.target).files[0],
+                    (dataURL) => Share.execute("setPDF", [dataURL]));
+            }
+            else
+                LoadSave.fetchFromFile((<HTMLInputElement>evt.target).files[0],
+                    (dataURL) => Share.execute("setBackground", [dataURL]));
         }
     }
 
@@ -67,10 +75,6 @@ export class Background {
         Background.clear(); //before assigning Background.dataURL
 
         console.log("set background");
-        const pdfviewer = new PDFViewer();
-        pdfviewer.open(dataURL);
-
-        return;
         const img = new Image();
         Background.storeDataURL(dataURL);
 
