@@ -43,6 +43,7 @@ Tableaunoir can simply be used to draw pictures: [https://team.inria.fr/erable/e
 * You can also use kind of **predefined fridge magnets** that you can move on the board, to make animation e.g. for illustrating sorting algorithms, graphs algorithms etc (and even playing Go!).
 * **Create your own fridge magnets** for interactive courses, by importing any image, or by transforming a part of the board (Ctrl + X).
 * Color palette for chalk (`c`, 7 colors  black/white ![#000000](https://placehold.it/15/000000/000000?text=+), yellow ![#FFFF00](https://placehold.it/15/FFFF00/000000?text=+), orange ![#FFA500](https://placehold.it/15/FFA500/000000?text=+), blue ![#64ACFF](https://placehold.it/15/64ACFF/000000?text=+), red ![#DC143C](https://placehold.it/15/DC143C/000000?text=+), pink ![#DDA0DD](https://placehold.it/15/DDA0DD/000000?text=+), green ![#32CD32](https://placehold.it/15/32CD32/000000?text=+)),
+* **Draw interative graphs** : vertices are magnets, labels of vertices and edges are handwritten but are updated when vertices are moved,
 * Change the color of magnets' background,
 * Load/Save the current board,
 * Add texts (`Enter` and type), and move texts. Supports **LaTeX** (using [MathJax](https://www.mathjax.org/))!
