@@ -1,3 +1,4 @@
+import { ConstraintDrawing } from './ConstraintDrawing';
 import { Layout } from './Layout';
 import { CircularMenu } from './CircularMenu';
 import { getCanvas } from './main';
@@ -135,9 +136,11 @@ export class LoadSave {
      * obj.canvasDataURL is the content of the canvas
      * obj.magnets is the HTML code of the magnets
      */
-    static loadJSON(obj: { canvasDataURL: string, magnets: string }): void {
+    static loadJSON(obj: { canvasDataURL: string, magnets: string, svg: string }): void {
         BoardManager.load(obj.canvasDataURL);
         document.getElementById("magnets").innerHTML = obj.magnets;
+        document.getElementById("svg").innerHTML = obj.svg;
+        ConstraintDrawing.reset();
         MagnetManager.installMagnets();
     }
 
@@ -161,8 +164,9 @@ export class LoadSave {
      */
     static save(): void {
         const magnets = document.getElementById("magnets").innerHTML;
+        const svg = document.getElementById("svg").innerHTML;
         const canvasDataURL = getCanvas().toDataURL();
-        const obj = { magnets: magnets, canvasDataURL: canvasDataURL };
+        const obj = { magnets: magnets, svg: svg, canvasDataURL: canvasDataURL };
         LoadSave.download((<HTMLInputElement>document.getElementById("name")).value + ".tableaunoir", JSON.stringify(obj));
     }
 

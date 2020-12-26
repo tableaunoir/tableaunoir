@@ -57,7 +57,7 @@ export class BoardNavigation {
                 const image = new Image();
                 image.src = canvas.toDataURL();
                 console.log("extension: canvas width " + canvas.width + " to " + (container.scrollLeft + Layout.getWindowWidth()))
-                canvas.width = ((canvas.width / Layout.scrollQuantityHalfPage()) + 1) * Layout.scrollQuantityHalfPage();
+                canvas.width = ((canvas.width / Layout.scrollQuantityPage()) + 1) * Layout.scrollQuantityPage();
                 const context = canvas.getContext("2d");
                 context.globalCompositeOperation = "source-over";
                 context.globalAlpha = 1.0;
@@ -101,7 +101,7 @@ export class BoardNavigation {
  */
     static leftPreviousPage(): void {
         const container = getContainer();
-        const xCorrected = Layout.isCalibratedHalfPage() ? Math.max(0, container.scrollLeft - Layout.scrollQuantityHalfPage()) :
+        const xCorrected = Layout.isCalibratedHalfPage() ? Math.max(0, container.scrollLeft - Layout.scrollQuantityPage()) :
             Layout.correctOnLeft(container.scrollLeft);
 
         BoardNavigation._left(xCorrected);
@@ -112,7 +112,7 @@ export class BoardNavigation {
     * go right (and extend the board if necessary)
     */
     static rightNextPage(): void {
-        const xCorrected = Layout.isCalibratedHalfPage() ? getContainer().scrollLeft + Layout.scrollQuantityHalfPage() :
+        const xCorrected = Layout.isCalibratedHalfPage() ? getContainer().scrollLeft + Layout.scrollQuantityPage() :
             Layout.correctOnRight(getContainer().scrollLeft);
         BoardNavigation._right(xCorrected);
         BoardNavigation.showPageNumber(xCorrected);
@@ -126,8 +126,8 @@ export class BoardNavigation {
         pageNumber.classList.remove("pageNumberHidden");
         pageNumber.classList.remove("pageNumber");
         setTimeout(() => {
-            const n = Math.round(x / Layout.scrollQuantityHalfPage());
-            const total = Math.round(canvas.width / Layout.scrollQuantityHalfPage());
+            const n = Math.round(x / Layout.scrollQuantityPage());
+            const total = Math.round(canvas.width / Layout.scrollQuantityPage());
             pageNumber.innerHTML = (n + 1) + "/" + (total); pageNumber.classList.add("pageNumber");
         }, 300)
 

@@ -40,16 +40,21 @@ export class PDFViewer {
             const scale = (w/h > Layout.getWindowWidth() /Layout.getWindowHeight()) ? Layout.getWindowWidth() / w : 
             Layout.getWindowHeight() / h ;
 
-            const x = (w/h  > Layout.getWindowWidth() /Layout.getWindowHeight()) ? 0 : (Layout.getWindowWidth() - (w * scale)) / 2;
-
-            const y = (w/h  > Layout.getWindowWidth() /Layout.getWindowHeight()) ? (Layout.getWindowHeight() - (h * scale)) / 2 : 0;
-
-            canvas.style.top = y + "px";
-            canvas.style.left = ((num-1)*Layout.getWindowWidth() + x) + "px";
+           
             console.log(scale)
             var viewport = page.getViewport({ scale: scale });
             canvas.height = viewport.height;
             canvas.width = viewport.width;
+
+            /**const x = (w/h  > Layout.getWindowWidth() /Layout.getWindowHeight()) ? 0 : (Layout.getWindowWidth() - (canvas.width)) / 2;
+
+            const y = (w/h  > Layout.getWindowWidth() /Layout.getWindowHeight()) ? (Layout.getWindowHeight() - (canvas.height)) / 2 : 0;*/
+
+            const x = 0;
+            const y = 0;
+
+            canvas.style.top = y + "px";
+            canvas.style.left = ((num-1)*Layout.getWindowWidth() + x) + "px";
 
             // Render PDF page into canvas context
             var renderContext = {

@@ -9,6 +9,7 @@ export class MyMagnets {
 
     static createMagnet(content: string): HTMLElement {
         const o = document.createElement("div");
+        o.style.backgroundColor = "#EEEEEE";
         o.innerHTML = content;
         return o;
     }

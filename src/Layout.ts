@@ -9,10 +9,12 @@ export class Layout {
         return document.getElementById("pdf").hasChildNodes();
     }
     /**
- * @returns the number of pixels when scrolling
+ * @returns the number of pixels when scrolling a page
+ * a page is either halfscreen (when you teach)
+ * or fullscreen when there is a pdf loaded
  */
-    static scrollQuantityHalfPage(): number {
-        const THESHOLD = window.screen.availWidth;
+    static scrollQuantityPage(): number {
+        const THESHOLD = window.screen.availWidth*2;
         const middle = Layout.isPdf() ? Layout.getWindowWidth() : Layout.getWindowWidth() / 2;
         return Math.min(middle, THESHOLD);
     }
@@ -24,15 +26,15 @@ export class Layout {
     }
 
     static correctOnLeft(x: number): number {
-        return Math.floor(x / Layout.scrollQuantityHalfPage()) * Layout.scrollQuantityHalfPage();
+        return Math.floor(x / Layout.scrollQuantityPage()) * Layout.scrollQuantityPage();
     }
 
     static correctRound(x: number): number {
-        return Math.round(x / Layout.scrollQuantityHalfPage()) * Layout.scrollQuantityHalfPage();
+        return Math.round(x / Layout.scrollQuantityPage()) * Layout.scrollQuantityPage();
     }
 
     static correctOnRight(x: number): number {
-        return Math.ceil((x + 1) / Layout.scrollQuantityHalfPage()) * Layout.scrollQuantityHalfPage();
+        return Math.ceil((x + 1) / Layout.scrollQuantityPage()) * Layout.scrollQuantityPage();
     }
 
 
