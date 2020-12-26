@@ -74,21 +74,18 @@ export class ToolDraw extends Tool {
         }
     }
 
-    mouseup(): void {
+    mouseup(evt: MouseEvent): void {
 
         if (this.isDrawing) {
-            const magnet1 = MagnetManager.getMagnetNearPoint(this.action.points[0]);
-            const magnet2 = MagnetManager.getMagnetNearPoint(this.action.points[this.action.points.length - 1]);
+            if(evt.ctrlKey)
+                console.log("ctrl!");
+            const magnet1 = evt.ctrlKey ? MagnetManager.getMagnetNearestFromPoint(this.action.points[0]) : MagnetManager.getMagnetNearPoint(this.action.points[0]);
+            const magnet2 = evt.ctrlKey ? MagnetManager.getMagnetNearestFromPoint(this.action.points[this.action.points.length - 1]) : 
+            MagnetManager.getMagnetNearPoint(this.action.points[this.action.points.length - 1]);
 
 
 
             if (magnet1 && magnet2) {
-                const p1 = MagnetManager.getMagnetCenter(magnet1);
-                const p2 = MagnetManager.getMagnetCenter(magnet2);
-
-                /*const line = ToolDraw.addSVGLine(p1.x, p1.y, p2.x, p2.y, this.action.points[this.action.points.length - 1].pressure, this.action.points[this.action.points.length - 1].color);
-                ConstraintDrawing.line(line, magnet1.id, magnet2.id);*/
-
                 ConstraintDrawing.freeDraw(this.svgLines, magnet1.id, magnet2.id);
                 this.svgLines = [];
             }

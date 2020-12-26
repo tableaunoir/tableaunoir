@@ -23,7 +23,7 @@ export class PDFViewer {
      * Get page info from document, resize canvas accordingly, and render page.
      * @param num Page number.
      */
-    renderPage(num) {
+    renderPage(num: number): void {
         if(this.pageCanvas[num] == undefined) {
             this.pageCanvas[num] = document.createElement("canvas");
             this.pageCanvas[num].classList.add("pdfPage");
@@ -42,7 +42,7 @@ export class PDFViewer {
 
            
             console.log(scale)
-            var viewport = page.getViewport({ scale: scale });
+            const viewport = page.getViewport({ scale: scale });
             canvas.height = viewport.height;
             canvas.width = viewport.width;
 
@@ -57,11 +57,11 @@ export class PDFViewer {
             canvas.style.left = ((num-1)*Layout.getWindowWidth() + x) + "px";
 
             // Render PDF page into canvas context
-            var renderContext = {
+            const renderContext = {
                 canvasContext: ctx,
                 viewport: viewport
             };
-            var renderTask = page.render(renderContext);
+            const renderTask = page.render(renderContext);
 
             // Wait for rendering to finish
             renderTask.promise.then(() => {
@@ -80,7 +80,7 @@ export class PDFViewer {
      * If another page rendering in progress, waits until the rendering is
      * finised. Otherwise, executes rendering immediately.
      */
-    queueRenderPage(num) {
+    queueRenderPage(num: number): void {
         if (this.pageRendering) {
             this.pageNumPending = num;
         } else {
@@ -91,7 +91,7 @@ export class PDFViewer {
     /**
      * Displays previous page.
      */
-    onPrevPage() {
+    onPrevPage(): void {
         if (this.pageNum <= 1) {
             return;
         }
@@ -103,7 +103,7 @@ export class PDFViewer {
     /**
      * Displays next page.
      */
-    onNextPage() {
+    onNextPage(): void {
         if (this.pageNum >= this.pdfDoc.numPages) {
             return;
         }
@@ -114,7 +114,7 @@ export class PDFViewer {
     /**
      * Asynchronously downloads PDF.
      */
-    open(url) {
+    open(url:string): void {
         pdfjsLib.getDocument(url).promise.then((pdfDoc_) => {
             this.pdfDoc = pdfDoc_;
             document.getElementById("pdf").innerHTML = "";

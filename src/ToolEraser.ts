@@ -76,7 +76,7 @@ export class ToolEraser extends Tool {
         }
     }
 
-    eraseSVG(x: number, y: number) {
+    eraseSVG(x: number, y: number): void {
         const lines = document.getElementsByTagName("line");
 
         for (let i = 0; i < lines.length; i++) {

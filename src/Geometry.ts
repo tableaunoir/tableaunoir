@@ -7,7 +7,7 @@ export class Geometry {
         return Math.atan2(p2.y - p1.y, p2.x - p1.x);
     }
 
-    static polar(center: { x: number, y: number }, distance: number, angle: number) {
+    static polar(center: { x: number, y: number }, distance: number, angle: number): { x: number, y: number } {
         return { x: center.x + distance * Math.cos(angle), y: center.y + distance * Math.sin(angle) };
     }
 

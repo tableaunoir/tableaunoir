@@ -1,4 +1,3 @@
-import { PDFViewer } from './PDFViewer';
 import { Share } from './share';
 import { getCanvasBackground } from './main';
 import { Layout } from './Layout';
@@ -43,7 +42,7 @@ export class Background {
             const file = (<HTMLInputElement>evt.target).files[0];
             if (file.name.endsWith(".pdf")) {
                 const canvasBackground = getCanvasBackground();
-                canvasBackground.width = canvasBackground.width; //clear the background
+                canvasBackground.width = /* reinit */ canvasBackground.width; //clear the background
                 LoadSave.fetchFromFile((<HTMLInputElement>evt.target).files[0],
                     (dataURL) => Share.execute("setPDF", [dataURL]));
             }

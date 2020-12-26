@@ -1,3 +1,4 @@
+import { Geometry } from './Geometry';
 import { ConstraintDrawing } from './ConstraintDrawing';
 import { ErrorMessage } from './ErrorMessage';
 import { getCanvas } from "./main";
@@ -26,7 +27,21 @@ export class MagnetManager {
 		return null;
 	}
 
-
+	static getMagnetNearestFromPoint({ x, y }: { x: number, y: number }): HTMLElement {
+		const magnets = MagnetManager.getMagnets();
+		let magnet = null;
+		let d = 99999999;
+		for (let i = 0; i < magnets.length; i++) {
+			const m = MagnetManager.getMagnetCenter(magnets[i]);
+			const dd = Geometry.distance(m, { x: x, y: y });
+			if (dd < d) {
+				magnet = magnets[i];
+				d = dd;
+			}
+				
+		}
+		return magnet;
+	}
 
 
 	/**
