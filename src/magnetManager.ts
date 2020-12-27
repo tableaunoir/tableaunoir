@@ -1,3 +1,5 @@
+import { UserManager } from './UserManager';
+import { ToolDraw } from './ToolDraw';
 import { Geometry } from './Geometry';
 import { ConstraintDrawing } from './ConstraintDrawing';
 import { ErrorMessage } from './ErrorMessage';
@@ -7,7 +9,7 @@ import { BoardManager } from './boardManager';
 import { Layout } from './Layout';
 import { Menu } from './Menu';
 import { TouchScreen } from './TouchScreen';
-import { Drawing } from './Drawing';
+
 
 export class MagnetManager {
 
@@ -38,7 +40,7 @@ export class MagnetManager {
 				magnet = magnets[i];
 				d = dd;
 			}
-				
+
 		}
 		return magnet;
 	}
@@ -256,12 +258,14 @@ export class MagnetManager {
 	/**
 	 * @returns the array of center points of existing magnets
 	 */
-	static getNodes(): { x: number, y: number }[] {
+	static getNodes(): { magnet: HTMLElement, x: number, y: number }[] {
 		const magnets = MagnetManager.getMagnets();
 		const nodes = [];
 		for (let i = 0; i < magnets.length; i++) {
 			const m = magnets[i];
-			nodes.push(MagnetManager.getMagnetCenter(m));
+			const p = MagnetManager.getMagnetCenter(m)
+
+			nodes.push({ magnet: m, x: p.x, y: p.y });
 		}
 		console.log(nodes)
 		return nodes;
@@ -274,8 +278,6 @@ export class MagnetManager {
 		MagnetManager.arrange();
 
 		const nodes = MagnetManager.getNodes();
-		const canvas = getCanvas();
-		const context = canvas.getContext("2d");
 		const edges = [];
 		for (let i = 0; i < nodes.length; i++) {
 			edges[i] = [];
@@ -308,11 +310,12 @@ export class MagnetManager {
 			for (let j = 0; j < nodes.length; j++) {
 				if (Math.abs(nodes[i].x - nodes[j].x) + Math.abs(nodes[i].y - nodes[j].y) < 400 && !isCrossing(i, j)) {
 					edges[i][j] = 1;
-					Drawing.drawLine(context, nodes[i].x, nodes[i].y, nodes[j].x, nodes[j].y);
+					const line = ToolDraw.addSVGLine(nodes[i].x, nodes[i].y, nodes[j].x, nodes[j].y, 2.0, UserManager.me.color);
+					ConstraintDrawing.freeDraw([line], nodes[i].magnet.id, nodes[j].magnet.id);
 				}
 			}
 
-		BoardManager.saveFullScreen();
+
 	}
 
 
@@ -651,6 +654,7 @@ export class MagnetManager {
 		document.getElementById(id).remove();
 		MagnetManager.currentMagnet == undefined;
 		MagnetManager.magnetUnderCursor = undefined;
+		ConstraintDrawing.update();
 	}
 
 
