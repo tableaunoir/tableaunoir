@@ -152,6 +152,8 @@ export class ShareEvent {
     static async setPDF(dataURL: string): Promise<void> {
         Background.pdfdoc = new PDFDocument();
         await Background.pdfdoc.open(dataURL);
+        (<HTMLInputElement> document.getElementById("pdfNumPage")).max = "" + Background.pdfdoc.nbPages;
+        Background.pdfviewer = new PDFViewer(Background.pdfdoc);
     }
 
 

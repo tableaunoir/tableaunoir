@@ -91,14 +91,14 @@
 					<img src="img/welcome_tableaunoir.png" />
 					<span id="aboutPresentation">Tableaunoir is an <em>online blackboard</em>. It is ideally used with a
 						<em>graphics
-							tablet</em>. You can help your audience <em>focus
+							tablet</em>. Help your audience <em>focus
 							on the content</em> by hiding the toolbar and using keyboard shortcuts.</span>
 
 				</div>
 
 				<div class="explanation">
 					<img src="img/welcome_magnets.png" />
-					<span id="aboutMagnets">You may create <em>magnets</em> (think of them as fridge magnets) for making
+					<span id="aboutMagnets">Create <em>magnets</em> (think of them as fridge magnets) for making
 						<em>interactive courses</em>,
 						presentations and discussions with students.</span>
 				</div>
@@ -164,14 +164,14 @@
 				<h2>Save</h2>
 				<img align="right" class="illustration" height="96px" src="img/illustrations/saving.png" />
 				<div id="saveExplanation">
-					You may save your board in a <em>.tableaunoir file</em> for later use:</div>
+					Save your board in a <em>.tableaunoir file</em> for later use:</div>
 				<div class="menuDiv">
 					<span>Name:</span> <input id="name" value="myblackboard" /><button id="save">Save</button>
 				</div>
 
 				<div>
 					<h2>Export</h2>
-					<div id="exportExplanation">You may export your board as an <em>image .png file</em>. All
+					<div id="exportExplanation">Export your board as an <em>image .png file</em>. All
 						magnets will be "flattened" in the resulting image.</div>
 					<div class="menuDiv">
 						<span>Name:</span> <input id="exportPngName" value="myblackboard" />
@@ -215,7 +215,8 @@
 					Choose the page of the PDF to insert.
 					<br />
 					Page number:
-					<input id="pdfNumPage" />
+					<input type="number" id="pdfNumPage" min=1/>
+					<div id="pdfSnapshot"></div>
 					<button id="buttonPDFInsertPage">Insert PDF page</button>
 				</div>
 				<br />

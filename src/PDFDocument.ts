@@ -5,7 +5,7 @@ const pdfWorkerSrc = `https://cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjsLib.v
 pdfjsLib.GlobalWorkerOptions.workerSrc = pdfWorkerSrc;
 
 export class PDFDocument {
-    pdfDoc = null;
+    pdfDoc : pdfjsLib.PDFDocumentProxy = null;
 
     /**
      * Asynchronously downloads PDF.
@@ -71,6 +71,12 @@ export class PDFDocument {
 
         });
 
+    }
+
+
+
+    get nbPages(): number {
+        return this.pdfDoc.numPages;
     }
 
 }

@@ -18,6 +18,7 @@ export class Background {
      */
     static dataURL: string = undefined;
     static pdfdoc: PDFDocument = undefined; // current pdf document loaded
+    static pdfviewer: PDFViewer = undefined;
 
     /**
      * @returns yes iff there is a background
@@ -54,7 +55,7 @@ export class Background {
                     (dataURL) => Share.execute("setPDF", [dataURL]));
 
                 document.getElementById("buttonPDFInsertPage").onclick = () => {
-                    Share.execute("insertPDFPage", [PDFViewer.numPage, Layout.getWindowLeft()]);
+                    Share.execute("insertPDFPage", [Background.pdfviewer.numPage, Layout.getWindowLeft()]);
                 };
 
                 document.getElementById("forpdf").hidden = false;
