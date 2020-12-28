@@ -1,3 +1,5 @@
+import { PDFViewer } from './PDFViewer';
+import { PDFDocument } from './PDFDocument';
 import { Share } from './share';
 import { getCanvasBackground } from './main';
 import { Layout } from './Layout';
@@ -15,6 +17,7 @@ export class Background {
      * stores the current img in binary (to be sent later for instance)
      */
     static dataURL: string = undefined;
+    static pdfdoc: PDFDocument = undefined; // current pdf document loaded
 
     /**
      * @returns yes iff there is a background
@@ -45,10 +48,19 @@ export class Background {
                 canvasBackground.width = /* reinit */ canvasBackground.width; //clear the background
                 LoadSave.fetchFromFile((<HTMLInputElement>evt.target).files[0],
                     (dataURL) => Share.execute("setPDF", [dataURL]));
+
+                document.getElementById("buttonPDFInsertPage").onclick = () => {
+                    Share.execute("insertPDFPage", [PDFViewer.numPage, Layout.getWindowLeft()]);
+                };
+
+                document.getElementById("forpdf").hidden = false;
             }
-            else
+            else {
                 LoadSave.fetchFromFile((<HTMLInputElement>evt.target).files[0],
                     (dataURL) => Share.execute("setBackground", [dataURL]));
+                document.getElementById("forpdf").hidden = true;
+            }
+
         }
     }
 

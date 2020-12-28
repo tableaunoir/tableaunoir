@@ -355,9 +355,11 @@ img.magnet.backgroundTransparent {
 }
 
 h2 {
-	margin: 8px;
-	margin-top: 32px;
+	margin: 4px;
+	margin-top: 48px;
 	padding: 0px;
+	font-size: 16px;
+	font-family:  monospace;
 }
 
 h3 {

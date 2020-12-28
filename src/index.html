@@ -105,7 +105,8 @@
 
 				<div class="explanation">
 					<img src="img/shareInEverybodyWritesMode.png" />
-					<span id="aboutShare">Blackboards can be shared in order to <em>collaborate</em> with your friends.</span>
+					<span id="aboutShare">Blackboards can be shared in order to <em>collaborate</em> with your
+						friends.</span>
 				</div>
 				<div class="explanation">
 					<img src="img/welcome_open.png" />
@@ -216,6 +217,14 @@
 				<h2>2'. <span>Or use your own background</span></h2>
 
 				<input type="file" accept="image/png, image/jpeg, image/svg, application/pdf" id="inputBackground" />
+
+				<div hidden id="forpdf">
+					For PDF, choose a page number to insert it at the bottom-left of the screen.
+					<br />
+					Page number:
+					<input id="pdfNumPage" />
+					<button id="buttonPDFInsertPage">Insert PDF page</button>
+				</div>
 			</div>
 
 
@@ -547,10 +556,13 @@
 						horizontal/vertical lines)</li>
 				</ul>
 				<h2>How to draw interactive graphs?</h2>
-				In Tableaunoir, you can draw interactive graphs, in which vertices are magnets, and when they are moved, edges and vertex labels move accordingly.
+				In Tableaunoir, you can draw interactive graphs, in which vertices are magnets, and when they are moved,
+				edges and vertex labels move accordingly.
 				<ul>
-					<li>To draw an edge between two magnets, or to draw a self loop, just draw it. If it does not work, maintain <span class="keyboardkey">Ctrl</span></li>
-					<li>To add a label to a vertex, press <span class="keyboardkey">Ctrl</span> and draw your label nearby the magnet.</li>
+					<li>To draw an edge between two magnets, or to draw a self loop, just draw it. If it does not work,
+						maintain <span class="keyboardkey">Ctrl</span></li>
+					<li>To add a label to a vertex, press <span class="keyboardkey">Ctrl</span> and draw your label
+						nearby the magnet.</li>
 				</ul>
 			</div>
 		</div>

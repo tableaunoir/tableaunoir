@@ -1,3 +1,4 @@
+import { PDFDocument } from './PDFDocument';
 import { PDFViewer } from './PDFViewer';
 import { ConstraintDrawing } from './ConstraintDrawing';
 import { Background } from './Background';
@@ -128,9 +129,17 @@ export class ShareEvent {
         Background.set(dataURL);
     }
 
-    static setPDF(dataURL: string): void {
-        const pdfviewer = new PDFViewer();
-        pdfviewer.open(dataURL);
+    static async setPDF(dataURL: string): Promise<void> {
+        Background.pdfdoc = new PDFDocument();
+        await Background.pdfdoc.open(dataURL);
+    }
+
+
+    static async insertPDFPage(pagenum: number, x: number): Promise<void> {
+        const canvas = await Background.pdfdoc.getCanvasPage(pagenum);
+        canvas.style.left = x + "px";
+        canvas.style.top = "0px";
+        document.getElementById("pdf").appendChild(canvas);
     }
 
     static backgroundClear(): void {
