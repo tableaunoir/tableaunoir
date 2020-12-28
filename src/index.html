@@ -52,7 +52,7 @@
 		<canvas id="canvasBackground" width=2000 height=1200></canvas>
 		<div id="container">
 			<div id="board">
-				<div id="pdf"></div>
+				<div id="documentPanel"></div>
 				<canvas width=2000 height=1200 id="canvas"></canvas>
 				<div id="magnets"></div>
 				<svg id="svg" width=100000 height=1300></svg>
@@ -183,10 +183,6 @@
 			</div>
 
 			<div id="Background" class="tabcontent">
-				<div>Behind the board, there is a <em>background color</em> and a
-					<em>background image</em>.
-				</div>
-
 				<div id="backgroundSnapshot">
 					<div id="backgroundSnapshotBackgroundColor"></div>
 					<div id="backgroundSnapshotBackgroundImageDiv">
@@ -195,27 +191,29 @@
 					<img id="backgroundSnapshotCanvas" src="img/animatedsmiley.gif" />
 				</div>
 
-				<h2>1. <span>Background color</span></h2>
+				<h2><span>Color</span></h2>
 
 				<button id="blackBoardSwitch"><img src="img/switchblack.png" /><br /><span>Blackboard</span></button>
 				<button id="whiteBoardSwitch"><img src="img/switchwhite.png" /><br /><span>Whiteboard</span></button>
 
 
-				<h2>2. <span>Background image</span></h2>
+				<h2><span>Wallpaper</span></h2>
 
-				<div>If you need to teach music, or do geometry, or present some ideas with an image, use a background
-					image.</div>
+				<div>For teaching music, or geometry.</div>
+
+
+				<button id="buttonMusicScore">
+					<img src="img/backgroundmusicscore.png" /><br /><span>Music score</span></button>
+				<button id="buttonGrid">
+					<img src="img/grid.png" /><br /><span>Grid</span></button>
 
 				<button class="buttonClear" id="buttonNoBackground">
 					<img src="img/nobackground.png" /><br /><span>No background</span></button>
-				<button class="buttonMusicScore" id="buttonMusicScore">
-					<img src="img/backgroundmusicscore.png" /><br /><span>Music score</span></button>
-				<button class="buttonGrid" id="buttonGrid">
-					<img src="img/grid.png" /><br /><span>Grid</span></button>
 
 
-				<h2>2'. <span>Or use your own background</span></h2>
-
+				<h2><span>Insert a document (image or PDF)</span></h2>
+				<div>The document is inserted on the top-left corner.</div>
+				
 				<input type="file" accept="image/png, image/jpeg, image/svg, application/pdf" id="inputBackground" />
 
 				<div hidden id="forpdf">
@@ -225,6 +223,11 @@
 					<input id="pdfNumPage" />
 					<button id="buttonPDFInsertPage">Insert PDF page</button>
 				</div>
+				<br />
+				<br />
+				<button class="buttonClear" id="buttonNoImageBackground">
+					<img src="img/nobackground.png" /><br /><span>Remove all documents</span></button>
+				
 			</div>
 
 

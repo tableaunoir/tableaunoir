@@ -1,3 +1,4 @@
+import { Layout } from './Layout';
 import { PDFDocument } from './PDFDocument';
 import { PDFViewer } from './PDFViewer';
 import { ConstraintDrawing } from './ConstraintDrawing';
@@ -125,22 +126,8 @@ export class ShareEvent {
         UserManager.updateGUIUsers();
     }
 
-    static setBackground(dataURL: string): void {
-        Background.set(dataURL);
-    }
-
-    static async setPDF(dataURL: string): Promise<void> {
-        Background.pdfdoc = new PDFDocument();
-        await Background.pdfdoc.open(dataURL);
-    }
 
 
-    static async insertPDFPage(pagenum: number, x: number): Promise<void> {
-        const canvas = await Background.pdfdoc.getCanvasPage(pagenum);
-        canvas.style.left = x + "px";
-        canvas.style.top = "0px";
-        document.getElementById("pdf").appendChild(canvas);
-    }
 
     static backgroundClear(): void {
         Background.clear();
@@ -153,4 +140,41 @@ export class ShareEvent {
     static backgroundGrid(): void {
         Background.grid();
     }
+
+    static backgroundRemoveAllImages(): void {
+        getDocumentPanel().innerHTML = "";
+    }
+
+    static setBackground(dataURL: string): void {
+        Background.set(dataURL);
+    }
+
+    static async setPDF(dataURL: string): Promise<void> {
+        Background.pdfdoc = new PDFDocument();
+        await Background.pdfdoc.open(dataURL);
+    }
+
+
+    static insertDocumentImage(dataURL: string, x: number): void {
+        const img = document.createElement("img");
+        img.src = dataURL;
+        img.style.position = "absolute";
+        img.style.left = x + "px";
+        img.style.top = "0px";
+        img.style.height = Layout.STANDARDHEIGHT + "px";
+        getDocumentPanel().appendChild(img);
+    }
+
+    static async insertPDFPage(pagenum: number, x: number): Promise<void> {
+        const canvas = await Background.pdfdoc.getCanvasPage(pagenum);
+        canvas.style.left = x + "px";
+        canvas.style.top = "0px";
+        getDocumentPanel().appendChild(canvas);
+    }
+}
+
+
+
+function getDocumentPanel() {
+    return document.getElementById("documentPanel");
 }

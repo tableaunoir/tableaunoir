@@ -5,9 +5,6 @@ import { Toolbar } from './Toolbar';
 export class Layout {
 
 
-    static isPdf(): boolean {
-        return document.getElementById("pdf").hasChildNodes();
-    }
     /**
  * @returns the number of pixels when scrolling a page
  * a page is either halfscreen (when you teach)
@@ -15,7 +12,7 @@ export class Layout {
  */
     static scrollQuantityPage(): number {
         const THESHOLD = window.screen.availWidth*2;
-        const middle = Layout.isPdf() ? Layout.getWindowWidth() : Layout.getWindowWidth() / 2;
+        const middle = Layout.getWindowWidth() / 2;
         return Math.min(middle, THESHOLD);
     }
 

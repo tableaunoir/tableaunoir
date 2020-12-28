@@ -33,6 +33,10 @@ export class Background {
         document.getElementById("buttonNoBackground").onclick = () => {
             Share.execute("backgroundClear", []);
         };
+        document.getElementById("buttonNoImageBackground").onclick = () => {
+            Share.execute("backgroundRemoveAllImages", []);
+        };
+        
         document.getElementById("buttonMusicScore").onclick = () => {
             Share.execute("backgroundMusicScore", []);
         };
@@ -57,7 +61,7 @@ export class Background {
             }
             else {
                 LoadSave.fetchFromFile((<HTMLInputElement>evt.target).files[0],
-                    (dataURL) => Share.execute("setBackground", [dataURL]));
+                    (dataURL) => Share.execute("insertDocumentImage", [dataURL, Layout.getWindowLeft()]));
                 document.getElementById("forpdf").hidden = true;
             }
 
