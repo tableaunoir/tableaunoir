@@ -118,7 +118,7 @@
 				<h2>Videos</h2>
 				<a target="_blank" rel="noopener noreferrer" href="https://www.youtube.com/watch?v=P6_lhqiPBow">Video
 					presentation of tableaunoir (in French)</a>
-
+				<br />
 				<a target="_blank" rel="noopener noreferrer" href="https://www.youtube.com/watch?v=BtLaNBOuSHc">Video
 					presentation of tableaunoir (in English)</a>
 
@@ -141,7 +141,6 @@
 			</div>
 
 			<div id="MyBlackboard" class="tabcontent">
-				<h2>Clear</h2>
 				<div class="menuDiv">
 					<button class="buttonClear" id="blackboardClear">
 						<img src="img/clearboard.png" /><br /><span>Clear the board</span></button>
@@ -172,8 +171,7 @@
 
 				<div>
 					<h2>Export</h2>
-					<div id="exportExplanation">You may export your board as an <em>image .png file</em> to show it to
-						other people. All
+					<div id="exportExplanation">You may export your board as an <em>image .png file</em>. All
 						magnets will be "flattened" in the resulting image.</div>
 					<div class="menuDiv">
 						<span>Name:</span> <input id="exportPngName" value="myblackboard" />
@@ -183,7 +181,7 @@
 			</div>
 
 			<div id="Background" class="tabcontent">
-				<div id="backgroundSnapshot">
+				<div hidden id="backgroundSnapshot">
 					<div id="backgroundSnapshotBackgroundColor"></div>
 					<div id="backgroundSnapshotBackgroundImageDiv">
 						<img id="backgroundSnapshotBackgroundImage" />
@@ -191,7 +189,7 @@
 					<img id="backgroundSnapshotCanvas" src="img/animatedsmiley.gif" />
 				</div>
 
-				<h2><span>Color</span></h2>
+				<h2><span>Background Color</span></h2>
 
 				<button id="blackBoardSwitch"><img src="img/switchblack.png" /><br /><span>Blackboard</span></button>
 				<button id="whiteBoardSwitch"><img src="img/switchwhite.png" /><br /><span>Whiteboard</span></button>
@@ -199,25 +197,22 @@
 
 				<h2><span>Wallpaper</span></h2>
 
-				<div>For teaching music, or geometry.</div>
-
-
 				<button id="buttonMusicScore">
 					<img src="img/backgroundmusicscore.png" /><br /><span>Music score</span></button>
 				<button id="buttonGrid">
 					<img src="img/grid.png" /><br /><span>Grid</span></button>
 
 				<button class="buttonClear" id="buttonNoBackground">
-					<img src="img/nobackground.png" /><br /><span>No background</span></button>
+					<img src="img/nobackground.png" /><br /><span>No wallpaper</span></button>
 
 
 				<h2><span>Insert a document (image or PDF)</span></h2>
-				<div>The document is inserted on the top-left corner.</div>
-				
-				<input type="file" accept="image/png, image/jpeg, image/svg, application/pdf" id="inputBackground" />
+				<div>The document is inserted on the top-left corner of the screen.</div>
 
+				<input type="file" accept="image/png, image/jpeg, image/svg, application/pdf" id="inputBackground" />
+				<br />
 				<div hidden id="forpdf">
-					For PDF, choose a page number to insert it at the bottom-left of the screen.
+					Choose the page of the PDF to insert.
 					<br />
 					Page number:
 					<input id="pdfNumPage" />
@@ -227,7 +222,7 @@
 				<br />
 				<button class="buttonClear" id="buttonNoImageBackground">
 					<img src="img/nobackground.png" /><br /><span>Remove all documents</span></button>
-				
+
 			</div>
 
 
@@ -409,7 +404,6 @@
 
 				<h2>Pseudo</h2>
 				<div>
-					Type your pseudo:
 					<input id="inputUserName"></input>
 				</div>
 
