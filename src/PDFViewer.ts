@@ -2,12 +2,13 @@ import { PDFDocument } from './PDFDocument';
 
 export class PDFViewer {
 
-    constructor(private pdfdoc: PDFDocument) {
+    constructor(pdfdoc: PDFDocument) {
         
         this.inputPDFNumPage.onchange = async (ev) => {
             const i = this.numPage;
             const canvas = await pdfdoc.getCanvasPage(i);
-            canvas.style.height = "200px";
+            canvas.style.height = "300px";
+            canvas.style.position = "relative"; //for the canvas to "take place"
             document.getElementById("pdfSnapshot").innerHTML = "";
             document.getElementById("pdfSnapshot").appendChild(canvas);
         }
