@@ -207,15 +207,15 @@
 
 
 				<h2><span>Insert a document (image or PDF)</span></h2>
-				<div>The document is inserted on the top-left corner of the screen.</div>
+				<div id="backgroundInsertDocumentExplanation">The document is inserted on the <em>top-left corner</em> of the screen.</div>
 
 				<input type="file" accept="image/png, image/jpeg, image/svg, application/pdf" id="inputBackground" />
 				<br />
 				<div hidden id="forpdf">
-					Choose the page of the PDF to insert.
+					<div>Choose the page of the PDF to insert.</div>
 					<br />
-					Page number:
-					<input type="number" id="pdfNumPage" min=1/>
+					<label for="pdfNumPage">Page number:</label>
+					<input type="number" id="pdfNumPage" min=1 />
 					<button id="buttonPDFInsertPage">Insert PDF page</button>
 					<div id="pdfSnapshot"></div>
 				</div>
@@ -400,7 +400,7 @@
 						href="http://tableaunoir.irisa.fr">http://tableaunoir.irisa.fr</a> instead.</div>
 
 
-				<div>For privacy reasons, this board is <em>not stored</em> on the server.
+				<div id="sharePrivacyExplanation">For privacy reasons, this board is <em>not stored</em> on the server.
 					Save the board on your device at the end of the session if needed.</div>
 
 				<h2>Pseudo</h2>
@@ -415,16 +415,12 @@
 					<h2>Make a shared board</h2>
 					<img align="right" class="illustration" height="96px" src="img/illustrations/share.png" />
 					<div>
-						<div>
+						<label for="password">Password (optional):</label> <input type="password" id="password"></input>
+						<button id="shareButton">Make a shared board</button>
+						<div id="sharePasswordExplanation">
 							The <em>password</em> makes you keep your sharer privileges. If no password is set, all
 							participants
 							will have full privileges.</div>
-
-
-
-
-						Password (optional): <input type="password" id="password"></input>
-						<button id="shareButton">Make a shared board</button>
 					</div>
 
 					<br />
@@ -432,7 +428,7 @@
 						<h2>Join an existing board</h2>
 						<img align="right" class="illustration" height="96px" src="img/illustrations/join.png" />
 						<div>
-							<div>
+							<div id="shareJoinExplanation">
 								In order to <em>join</em> an existing shared board, type its URL:</div>
 							<input id="joinUrl" value="" />
 							<button id="joinButton">Join</button>
@@ -510,7 +506,7 @@
 
 				<br />
 
-				<h2>Predefined Magnet collections</h2>
+				<h2>Predefined Magnet Collections</h2>
 
 				<div class="menuDiv">
 					<h3>Algorithms</h3>
@@ -520,7 +516,6 @@
 					<button class="magnetCollectionButton" id="magnetGraphNodes">Graph nodes</button>
 					<button class="magnetCollectionButton" id="magnetGraphSimCity">SimCity graph nodes</button>
 					<button class="magnetCollectionButton" id="magnetFloydsAlgorithm">Floyd's algorithm</button>
-					<button class="magnetCollectionButton" id="magnetUnionFind">Union-find</button>
 					<h3>Complexity theory</h3>
 					<button class="magnetCollectionButton" id="magnetTilings">Tilings</button>
 					<h3>Games</h3>

@@ -152,15 +152,6 @@ export class MyMagnets {
 
 
 
-    /**
-     *
-     */
-    static magnetUnionFind(): void {
-        MagnetManager.clearMagnet();
-        MagnetManager.addMagnetImage("unionfind0.png");
-    }
-
-
 
 
 
@@ -203,7 +194,6 @@ export class MyMagnets {
         MyMagnets.register("magnetBTrees");
         MyMagnets.register("magnetGraphNodes");
         MyMagnets.register("magnetTilings");
-        MyMagnets.register("magnetUnionFind");
         MyMagnets.register("magnetGraphSimCity");
         MyMagnets.register("magnetFloydsAlgorithm");
         MyMagnets.register("magnetGo");

@@ -27,7 +27,6 @@ export class BlackVSWhiteBoard {
 
         document.getElementById(previousBackgroundColor + "BoardSwitch").classList.remove("buttonselected");
 
-
         console.log("previous background color was " + previousBackgroundColor);
         console.log("switch to " + backgroundColor + "board")
         palette.switchBlackAndWhite();
@@ -36,10 +35,12 @@ export class BlackVSWhiteBoard {
         if (backgroundColor == "black") {
             CSSStyleModifier.setRule(".magnetText div", "background-color", "rgba(27, 27, 27, 0.9)");
             CSSStyleModifier.setRule("div.magnetText", "background-color", "rgba(64, 64, 64, 0.9)");
+            CSSStyleModifier.setRule("img.magnet", "background-color", "rgba(64, 64, 64, 0.9)");
             CSSStyleModifier.setRule(".magnetText div", "color", "white");
         }
         else {
             CSSStyleModifier.setRule(".magnetText div", "background-color", "rgba(247, 247, 247, 0.9)");
+            CSSStyleModifier.setRule("img.magnet", "background-color", "rgba(227, 227, 227, 0.9)");
             CSSStyleModifier.setRule("div.magnetText", "background-color", "rgba(227, 227, 227, 0.9)");
             CSSStyleModifier.setRule(".magnetText div", "color", "black");
         }
