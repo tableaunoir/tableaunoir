@@ -11,6 +11,7 @@ import { UserManager } from './UserManager';
 import { Tool } from './Tool';
 import { ToolAbstractShape } from './ToolAbstractShape';
 import { ToolArc } from './ToolArc';
+import { Layout } from './Layout';
 
 
 
@@ -65,6 +66,7 @@ export class User {
         if (!isCurrentUser) {
             this.cursor = document.createElement("div");
             this.cursor.classList.add("cursor");
+            this.cursor.classList.add("cursorinscreen");
             this.elementName = document.createElement("div");
             this.elementName.classList.add("userNameCursor");
             document.getElementById("cursors").appendChild(this.cursor);
@@ -112,7 +114,7 @@ export class User {
     mousedown(evt: MouseEvent): void {
         if (this.isCurrentUser) {
             MagnetManager.setInteractable(false);
-        //unselect the selected element (e.g. a text in edit mode)
+            //unselect the selected element (e.g. a text in edit mode)
             (<HTMLElement>document.activeElement).blur();
             CircularMenu.hide();
         }
@@ -126,20 +128,47 @@ export class User {
         this.tool.yInit = this.tool.y;
 
         if (this.canWrite)
-            this.tool.mousedown(evt);            
+            this.tool.mousedown(evt);
     }
 
 
+
+
+
+    /**
+     * 
+     * @param x 
+     * @param y 
+     * @description set the position of the cursor (for another user than me)
+     */
+    setSymbolCursorPosition(x: number, y: number): void {
+        this.cursor.classList.remove("cursortoleft");
+        this.cursor.classList.remove("cursortoright");
+        this.cursor.classList.remove("cursorinscreen");
+
+        if (x <= Layout.getWindowLeft()) {
+            this.cursor.classList.add("cursortoleft");
+            x = Layout.getWindowLeft() + 24;
+        }
+        else if (x >= Layout.getWindowRight()) {
+            this.cursor.classList.add("cursortoright");
+            x = Layout.getWindowRight() - 24;
+        }
+        else {
+            this.cursor.classList.add("cursorinscreen");
+        }
+        this.cursor.style.left = x - 8;
+        this.cursor.style.top = y - 8;
+        this.elementName.style.left = x - 8;
+        this.elementName.style.top = y + 8;
+    }
 
     mousemove(evt: MouseEvent): void {
         const evtX = evt.offsetX;
         const evtY = evt.offsetY;
 
         if (!this.isCurrentUser) {
-            this.cursor.style.left = evtX - 8;
-            this.cursor.style.top = evtY - 8;
-            this.elementName.style.left = evtX - 8;
-            this.elementName.style.top = evtY + 8;
+            this.setSymbolCursorPosition(evtX, evtY);
         }
 
         if (this.canWrite) {

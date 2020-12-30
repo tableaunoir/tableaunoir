@@ -115,7 +115,7 @@ canvas {
 
 
 #documentPanel {
-	position:absolute;
+	position: absolute;
 	top: 0;
 	left: 0;
 	pointer-events: none;
@@ -124,7 +124,7 @@ canvas {
 
 
 .pdfPage {
-	position:absolute;
+	position: absolute;
 }
 
 
@@ -361,7 +361,7 @@ h2 {
 	margin-top: 48px;
 	padding: 0px;
 	font-size: 16px;
-	font-family:  monospace;
+	font-family: monospace;
 }
 
 h3 {
@@ -644,11 +644,36 @@ h1 {
 .cursor {
 	position: absolute;
 	pointer-events: none;
-	border: 3px solid white;
-	border-radius: 8px;
 	opacity: 0.5;
 	width: 8px;
 	height: 8px;
+}
+
+
+.cursorinscreen {
+	border: 3px solid white;
+	border-radius: 8px;
+	width: 8px;
+	height: 8px;
+}
+
+
+.cursortoleft {
+	font-size: 0px;
+	line-height: 0%;
+	width: 0px;
+	border-top: 10px solid #fff0;
+	border-right: 20px solid white;
+	border-bottom: 10px solid #fff0;
+}
+
+.cursortoright {
+	font-size: 0px;
+	line-height: 0%;
+	width: 0px;
+	border-top: 10px solid #fff0;
+	border-left: 20px solid white;
+	border-bottom: 10px solid #fff0;
 }
 
 .toolcursor {
