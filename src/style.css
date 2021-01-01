@@ -14,7 +14,7 @@ body {
 	overscroll-behavior-x: none;
 	height: 100%;
 	width: 100%;
-	background-color: black;
+	background-color: rgb(68, 68, 68);
 }
 
 
@@ -50,7 +50,24 @@ canvas {
 
 }
 
+#viewport {
+	position: absolute;
+	border: 20px solid brown;
+	background-color: rgb(248, 193, 157);
+	opacity: 0.25;
+	pointer-events: none;
+	cursor: grab;
+}
 
+
+#newviewport {
+	position: absolute;
+	border: 10px solid brown;
+	background-color: rgb(248, 193, 157);
+	opacity: 0.25;
+	pointer-events: none;
+	cursor: grab;
+}
 
 .pageNumberHidden {
 	visibility: hidden;
@@ -190,14 +207,14 @@ a {
 }
 
 .magnetText div {
-	background-color: rgba(27, 27, 27, 0.9);
+	background-color: rgba(16, 16, 16, 0.9);
 	color: white;
 	font-size: 24px;
 	cursor: text;
 }
 
 div.magnetText {
-	background-color: rgba(64, 64, 64, 0.9);
+	background-color: rgba(32, 32, 32, 0.9);
 	color: white;
 }
 
@@ -217,7 +234,7 @@ div.magnet {
 	}
 
 	to {
-		background-color: rgba(64, 64, 64, 0.9);
+		background-color: rgba(32, 32, 32, 0.9);
 		background-image: none;
 	}
 }
@@ -226,7 +243,7 @@ div.magnet {
 
 img.magnet {
 	padding: 0px;
-	background-color: rgba(64, 64, 64, 0.9);
+	background-color: rgba(32, 32, 32, 0.9);
 	animation: magnetCreation 500ms normal;
 }
 

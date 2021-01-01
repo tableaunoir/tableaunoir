@@ -1,17 +1,22 @@
+import { BoardNavigation } from './BoardNavigation';
 import { OptionManager } from './OptionManager';
 import { getCanvas, getCanvasBackground, getContainer } from './main';
 import { Toolbar } from './Toolbar';
 
 export class Layout {
 
+    static isminimap: boolean;
 
+    static get isMinimap(): boolean {
+        return Layout.isminimap;
+    }
     /**
  * @returns the number of pixels when scrolling a page
  * a page is either halfscreen (when you teach)
  * or fullscreen when there is a pdf loaded
  */
     static scrollQuantityPage(): number {
-        const THESHOLD = window.screen.availWidth*2;
+        const THESHOLD = window.screen.availWidth * 2;
         const middle = Layout.getWindowWidth() / 2;
         return Math.min(middle, THESHOLD);
     }
@@ -60,7 +65,16 @@ export class Layout {
      */
     static init(): void {
         console.log("Layout.init()")
+        const canvas = getCanvas();
+        const canvasBackground = getCanvasBackground();
+
+        canvas.height = Layout.STANDARDHEIGHT;
+        canvas.width = 4800;
+        canvasBackground.height = Layout.STANDARDHEIGHT;
+        canvasBackground.width = 4800;
+
         Layout.initWorWT();
+        //Layout.minimap();
 
         OptionManager.boolean({
             name: "horizontalScrollbar",
@@ -70,6 +84,69 @@ export class Layout {
             }
         });
 
+        window.addEventListener("resize", Layout.layout);
+
+    }
+
+    static TRANSITION = "all 350ms ease-out";
+
+
+    static normal() {
+        const contentElement = document.getElementById("content");
+        contentElement.style.transition = Layout.TRANSITION;
+        contentElement.style.top = "0px";
+        Layout.initWorWT();
+        getCanvas().style.pointerEvents = "auto";
+        const viewport = document.getElementById("viewport");
+        viewport.hidden = true;
+        const newviewport = document.getElementById("newviewport");
+        newviewport.hidden = true;
+        BoardNavigation.setScroll(parseInt(newviewport.style.left));
+    }
+
+    static minimap() {
+        console.log("minimap")
+        const contentElement = document.getElementById("content");
+        contentElement.style.transition = Layout.TRANSITION;
+        Layout.isminimap = true;
+        const canvas = getCanvas();
+        getCanvas().style.pointerEvents = "none";
+        const canvasBackground = getCanvasBackground();
+        const content = document.getElementById("content");
+        const x = Layout.getWindowLeft();
+        BoardNavigation.setScroll(0);
+        const viewport = document.getElementById("viewport");
+        viewport.hidden = false;
+        viewport.style.left = x + "";
+        viewport.style.top = "0px";
+        viewport.style.width = Layout.getWindowWidth() + "";
+        viewport.style.height = Layout.getWindowHeight() + "";
+        const newviewport = document.getElementById("newviewport");
+        newviewport.hidden = false;
+        newviewport.style.left = x + "";
+        newviewport.style.top = "0px";
+        newviewport.style.width = Layout.getWindowWidth() + "";
+        newviewport.style.height = Layout.getWindowHeight() + "";
+
+        const nodeBoard = document.getElementById("board");
+
+
+
+        nodeBoard.onmousemove = (evt) => {
+            let x = evt.offsetX - parseInt(viewport.style.width) / 2;
+            if (x < 0) x = 0;
+            x = Math.min(x, getCanvas().width - parseInt(viewport.style.width));
+            newviewport.style.left = x + "";
+        }
+        nodeBoard.onmouseup = (evt) => { Layout.normal();  }
+
+        contentElement.style.top = "100px";
+        Layout.getWindowHeight = () => { return Layout.STANDARDHEIGHT; };
+        Layout.getWindowWidth = () => { return window.innerWidth * Layout.getZoom(); };
+        Layout.getZoom = () => {
+            return canvas.width / window.innerWidth;
+        };
+        Layout.layout();
     }
 
 
@@ -123,7 +200,7 @@ export class Layout {
         canvasBackground.height = Layout.STANDARDHEIGHT;
         canvasBackground.width = 4800;
 
-        window.addEventListener("resize", Layout.layout);
+
 
         Layout.getWindowHeight = () => { return Layout.STANDARDHEIGHT; };
         Layout.getWindowWidth = () => { return window.innerWidth * Layout.getZoom(); };
@@ -144,7 +221,6 @@ export class Layout {
         canvasBackground.height = Layout.STANDARDHEIGHT;
         canvasBackground.width = 4800;
 
-        window.addEventListener("resize", Layout.layout);
 
         Layout.getWindowHeight = () => { return Layout.STANDARDHEIGHT; };
         Layout.getWindowWidth = () => { return window.innerWidth * Layout.getZoom(); };
@@ -161,16 +237,10 @@ export class Layout {
      * rescaling with the screen
      */
     static initWorWT(): void {
+        Layout.isminimap = false;
         const canvas = getCanvas();
         const canvasBackground = getCanvasBackground();
         const content = document.getElementById("content");
-        canvas.height = Layout.STANDARDHEIGHT;
-        canvas.width = 4800;
-
-        canvasBackground.height = Layout.STANDARDHEIGHT;
-        canvasBackground.width = 4800;
-
-        window.addEventListener("resize", Layout.layout);
 
         Layout.getWindowHeight = () => { return Layout.STANDARDHEIGHT; };
         Layout.getWindowWidth = () => { return window.innerWidth * Layout.getZoom(); };
@@ -211,6 +281,7 @@ export class Layout {
         const zoom = Layout.getZoom();
         const contentElement = document.getElementById("content");
         contentElement.style.width = window.innerWidth * zoom + "px";
+        //contentElement.style.transition = `scale(${1 / Layout.getZoom()})`;
         contentElement.style.transform = `scale(${1 / Layout.getZoom()})`;
         //BoardManager.resize(window.innerWidth, window.innerHeight);
 
@@ -230,6 +301,7 @@ export class Layout {
         const nodeBoard = document.getElementById("board");
         nodeContent.style.width = "" + getCanvas().width;
         nodeBoard.style.width = "" + getCanvas().width;
+        nodeContent.style.transition = "";
         nodeContent.style.transform = "scale(1)";
     }
 
@@ -240,6 +312,8 @@ export class Layout {
      * that were modified.
      */
     static restoreForUse(): void {
+        const nodeContent = document.getElementById("content");
+        nodeContent.style.transition = "";
         Layout.layout();
         getContainer().scrollLeft = Layout.saveValueForContainerScrollleft;
     }

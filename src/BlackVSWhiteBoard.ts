@@ -33,9 +33,9 @@ export class BlackVSWhiteBoard {
         document.getElementById("content").style.backgroundColor = backgroundColor;
 
         if (backgroundColor == "black") {
-            CSSStyleModifier.setRule(".magnetText div", "background-color", "rgba(27, 27, 27, 0.9)");
-            CSSStyleModifier.setRule("div.magnetText", "background-color", "rgba(64, 64, 64, 0.9)");
-            CSSStyleModifier.setRule("img.magnet", "background-color", "rgba(64, 64, 64, 0.9)");
+            CSSStyleModifier.setRule(".magnetText div", "background-color", "rgba(16, 16, 16, 0.9)");
+            CSSStyleModifier.setRule("div.magnetText", "background-color", "rgba(32, 32, 32, 0.9)");
+            CSSStyleModifier.setRule("img.magnet", "background-color", "rgba(32, 32, 32, 0.9)");
             CSSStyleModifier.setRule(".magnetText div", "color", "white");
         }
         else {

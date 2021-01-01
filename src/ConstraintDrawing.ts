@@ -12,7 +12,7 @@ export class ConstraintDrawing {
     /**
      * 
      * @param svgLine  
-     * @description add the constraint function for that line
+     * @description add the constraint function for that line (or nothing if there is nothing to add)
      */
     private static line(svgLine: SVGLineElement): void {
         const magnet1id = svgLine.dataset.magnet1id;

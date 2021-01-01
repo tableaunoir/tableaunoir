@@ -26,20 +26,20 @@ window['Menu'] = Menu; //for Menu to be used in index.html
 
 
 window['testSVG'] = () => {
-	for(let x = 0; x < 500; x+=4)
-	for(let y = 0; y < 1000; y+=4) {
-		const svgLine = ToolDraw.addSVGLine(x, y, x+2, y+1, 0.5, "yellow");
-		document.getElementById("svg").appendChild(svgLine);
-	}
-	
+	for (let x = 0; x < 500; x += 4)
+		for (let y = 0; y < 1000; y += 4) {
+			const svgLine = ToolDraw.addSVGLine(x, y, x + 2, y + 1, 0.5, "yellow");
+			document.getElementById("svg").appendChild(svgLine);
+		}
+
 }
 
 window['testCanvas'] = () => {
-	for(let x = 0; x < 500; x+=4)
-	for(let y = 0; y < 1000; y+=4) {
-		Drawing.drawLine(getCanvas().getContext("2d"), x, y, x+2, y+1, 0.5, "yellow");
-	}
-	
+	for (let x = 0; x < 500; x += 4)
+		for (let y = 0; y < 1000; y += 4) {
+			Drawing.drawLine(getCanvas().getContext("2d"), x, y, x + 2, y + 1, 0.5, "yellow");
+		}
+
 }
 
 export const palette = new Palette();
@@ -161,6 +161,8 @@ function load() {
 			evt.preventDefault();
 
 		if (evt.key == "Escape" || evt.key == "F1") {//escape => show menu
+			if(Layout.isMinimap)
+				Layout.normal();
 			if (CircularMenu.isShown())
 				CircularMenu.hide();
 			else
@@ -170,7 +172,13 @@ function load() {
 		if (Menu.isShown())
 			return;
 
-		if (!evt.ctrlKey && !evt.shiftKey && evt.key == "c") // c => change color
+		if (!evt.ctrlKey && !evt.shiftKey && evt.key == "n") { //navigation
+			if (Layout.isMinimap)
+				Layout.normal();
+			else
+				Layout.minimap();
+		}
+		else if (!evt.ctrlKey && !evt.shiftKey && evt.key == "c") // c => change color
 			changeColor();
 		else if (!evt.ctrlKey && evt.shiftKey && evt.key == "C")
 			previousColor();

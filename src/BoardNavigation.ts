@@ -77,6 +77,8 @@ export class BoardNavigation {
 
 
 
+
+
     /**
    * go left
    */
@@ -94,6 +96,9 @@ export class BoardNavigation {
     }
 
 
+    static setScroll(x: number): void {
+        getContainer().scrollTo({ top: 0, left: x, behavior: 'smooth' });
+    }
 
 
     /**
