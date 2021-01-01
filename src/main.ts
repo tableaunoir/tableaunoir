@@ -161,9 +161,9 @@ function load() {
 			evt.preventDefault();
 
 		if (evt.key == "Escape" || evt.key == "F1") {//escape => show menu
-			if(Layout.isMinimap)
+			if (Layout.isMinimap)
 				Layout.normal();
-			if (CircularMenu.isShown())
+			else if (CircularMenu.isShown())
 				CircularMenu.hide();
 			else
 				Menu.toggle();
