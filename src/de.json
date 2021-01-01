@@ -1,0 +1,93 @@
+{
+	"Choose your color": "Choisir une couleur",
+	"#buttonChalk.title": "Utiliser la craie ou l'effaceur",
+	"#buttonEraser.title": "Utiliser la craie ou l'effaceur",
+	"#buttonTools.title": "Menu avec pleins d'outils",
+	"#buttonText.title": "Ajouter du texte (ou du LaTEX $...$)",
+	"#buttonDivide.title": "Diviser le tableau verticalement en deux",
+	"#buttonCancel.title": "Annuler la dernière action",
+	"#buttonRedo.title": "Refaire la dernière action",
+	"#buttonShare.title": "Partager et/ou copier le lien dans le presse-papier",
+	"Go left": "Vers la gauche",
+	"Go right": "Vers la droite",
+
+	"Esc": "Echap",
+	"Enter": "Entrée",
+	"hide toolbar = h": "Cacher la barre d'outil = h",
+
+	"#welcomeMessage": "Bienvenue dans tableaunoir. Le tableau partagé s'affiche bientôt. Veuillez patienter...",
+	"My Board": "Mon tableau",
+	"Share": "Partager",
+	"Background": "Arrière-plan",
+	"Keyboard Shortcuts": "Raccourcis clavier",
+	"Help": "Aide",
+	"About tableaunoir": "A propos de",
+
+	"Clear": "Effacer",
+	"Clear the board": "Effacer le tableau",
+	"Remove all the magnets": "Enlever tous les magnets",
+	"Load": "Ouvrir",
+	"#loadExplanation": "Pour ouvrir un tableau existant, glisser-déposer un fichier <em>.tableaunoir</em> ou alors choisir un fichier :",
+	"Save": "Sauvegarder",
+	"#saveExplanation": "Sauvegarder votre tableau dans un fichier <em>.tableaunoir</em> :",
+	"Name:": "Nom :",
+	"Export": "Exporter",
+	"#exportExplanation": "Exporter votre tableau comme une image <em>.png</em>. Les magnets seront 'applatis'.",
+	"Get an image of my board": "Télécharger une image de mon tableau",
+
+	"#sharePrivacyExplanation": "Pour respecter votre vie privée, rien n'est sauvegardé sur le serveur. Veuillez sauvegarder votre tableau sur votre propre machine.",
+	"Make a shared board": "Faire un tableau partagé",
+	"Password (optional):": "Mot de passe (optionnel) :",
+	"#sharePasswordExplanation": "Un mot de passe vous permet de garder vos privilèges. Si aucun mot de passe n'est renseigné, alors tout le monde a tous les privilèges.",
+	"Join an existing board": "Rejoindre un tableau existant",
+	"#shareJoinExplanation": "Pour rejoindre un tableau existant, tapez l'URL ci-dessous :",
+	"Join": "Rejoindre",
+
+	"Background Color": "Couleur de fond",
+	"Blackboard": "Tableau noir",
+	"Whiteboard": "Tableau blanc",
+	"Wallpaper": "Papier-peint",
+	"No wallpaper": "Pas de papier-peint",
+	"Music score": "Partition de musique",
+	"Grid": "Grille",
+	"Insert a document (image or PDF)": "Insérer un document (image ou PDF)",
+	"#backgroundInsertDocumentExplanation": "Le document sera inséré dans le coin supérieur gauche.",
+	"Page number:": "Numéro de page :",
+	"Choose the page of the PDF to insert.": "Choisissez la page du PDF à insérer.",
+	"Insert PDF page": "Insérer la page PDF",
+	"Remove all documents": "Enlever tous les documents",
+
+	"Using existing images": "Utiliser des images existantes",
+	"Predefined Magnet Collections": "Collections de magnets prédéfinies",
+	"Algorithms": "Algorithmique",
+	"Complexity theory": "Théorie de la complexité",
+	"Games": "Jeux",
+
+	"Drawing": "Dessin",
+	"Line width:": "Epaisseur du trait :",
+	"Show the toolbar (h)": "Afficher la barre d'outil (h)",
+
+	"Left": "Gauche",
+	"Right": "Droite",
+	"Top": "En haut",
+	"Bottom": "En bas",
+
+	"Language": "Langue",
+
+	"English": "Anglais",
+	"French": "Français",
+
+	"Standard 8 color palette": "Palette standard de 8 couleurs",
+	"21 color palette": "Palette avec 21 couleurs",
+
+	"Cursor": "Curseur",
+	"Left-handed": "Gaucher",
+
+	"#aboutPresentation": "Tableaunoir est un <em>tableau en ligne</em>. Il s'utilise idéalement avec une <em>tablette graphique</em>. Aidez votre audience à être <em>concentrée</em> en cachant la barre d'outil et en utilisant les raccourcis clavier.",
+
+	"#aboutMagnets": "Créer des <em>magnets</em> (comme sur votre frigo) pour faire des présentations <em>interactives</em>.",
+
+	"#aboutShare": "Vous pouvez partager un tableau pour travailler à <em>plusieurs</em>.",
+
+	"#aboutFree": "Le projet tableaunoir est <em>libre</em>. Venez collaborer :"
+}
