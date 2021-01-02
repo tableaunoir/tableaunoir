@@ -97,11 +97,18 @@ export class Layout {
         contentElement.style.top = "0px";
         Layout.initWorWT();
         getCanvas().style.pointerEvents = "auto";
+
         const viewport = document.getElementById("viewport");
         viewport.hidden = true;
+
         const newviewport = document.getElementById("newviewport");
         newviewport.hidden = true;
         BoardNavigation.setScroll(parseInt(newviewport.style.left));
+        contentElement.style.transition = "";
+        const nodeBoard = document.getElementById("board");
+        nodeBoard.onmousemove = undefined;
+        nodeBoard.onmouseup = undefined;
+
     }
 
     static minimap() {
@@ -111,16 +118,16 @@ export class Layout {
         Layout.isminimap = true;
         const canvas = getCanvas();
         getCanvas().style.pointerEvents = "none";
-        const canvasBackground = getCanvasBackground();
-        const content = document.getElementById("content");
         const x = Layout.getWindowLeft();
         BoardNavigation.setScroll(0);
+
         const viewport = document.getElementById("viewport");
         viewport.hidden = false;
         viewport.style.left = x + "";
         viewport.style.top = "0px";
         viewport.style.width = Layout.getWindowWidth() + "";
         viewport.style.height = Layout.getWindowHeight() + "";
+
         const newviewport = document.getElementById("newviewport");
         newviewport.hidden = false;
         newviewport.style.left = x + "";
@@ -129,8 +136,6 @@ export class Layout {
         newviewport.style.height = Layout.getWindowHeight() + "";
 
         const nodeBoard = document.getElementById("board");
-
-
 
         nodeBoard.onmousemove = (evt) => {
             let x = evt.offsetX - parseInt(viewport.style.width) / 2;
