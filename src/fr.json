@@ -2,7 +2,7 @@
 	"Choose your color": "Choisir une couleur",
 	"#buttonChalk.title": "Utiliser la craie ou l'effaceur",
 	"#buttonEraser.title": "Utiliser la craie ou l'effaceur",
-	"#buttonTools.title": "Menu avec pleins d'outils",
+	"#buttonTools.title": "Menu avec plein d'outils",
 	"#buttonText.title": "Ajouter du texte (ou du LaTEX $...$)",
 	"#buttonDivide.title": "Diviser le tableau verticalement en deux",
 	"#buttonCancel.title": "Annuler la dernière action",
@@ -32,7 +32,7 @@
 	"#saveExplanation": "Sauvegarder votre tableau dans un fichier <em>.tableaunoir</em> :",
 	"Name:": "Nom :",
 	"Export": "Exporter",
-	"#exportExplanation": "Exporter votre tableau comme une image <em>.png</em>. Les magnets seront 'applatis'.",
+	"#exportExplanation": "Exporter votre tableau comme une image <em>.png</em>. Les magnets seront 'aplatis'.",
 	"Get an image of my board": "Télécharger une image de mon tableau",
 
 	"#sharePrivacyExplanation": "Pour respecter votre vie privée, rien n'est sauvegardé sur le serveur. Veuillez sauvegarder votre tableau sur votre propre machine.",
@@ -65,7 +65,7 @@
 
 	"Drawing": "Dessin",
 	"Line width:": "Epaisseur du trait :",
-	"Show the toolbar (h)": "Afficher la barre d'outil (h)",
+	"Show the toolbar (h)": "Afficher la barre d'outils (h)",
 
 	"Left": "Gauche",
 	"Right": "Droite",

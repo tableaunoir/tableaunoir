@@ -1,0 +1,94 @@
+{
+	"Choose your color": "Farbe wählen",
+	"#buttonChalk.title": "Kreidestift oder Tintenlöscher verwenden",
+	"#buttonEraser.title": "Kreidestift oder Tintenlöscher verwenden",
+	"#buttonTools.title": "Menü voll mit Werkzeug",
+	"#buttonText.title": "Text einfügen (oder LaTEX $...$)",
+	"#buttonDivide.title": "Die Tafel vertikal zweiteilen",
+	"#buttonCancel.title": "Die letzte Aktion rückgängig machen",
+	"#buttonRedo.title": "Die zuletzt ausgefûhrte Aktion wiederholen",
+	"#buttonShare.title": "Link freigeben oder in die Zwischenablage kopieren",
+	"Go left": "Links",
+	"Go right": "Rechts",
+
+	"Esc": "Esc-Taste",
+	"Enter": "Eingabe-Taste",
+	"hide toolbar = h": "die Werkzeugleiste anzeigen oder verbergen= h",
+
+	"#welcomeMessage": "Wilkommen in tableaunoir. Die geteilte Tafel wird bald angezeigt. Bitte warten Sie einen Moment...",
+	"My Board": "Meine Tafel",
+	"Share": "Teilen",
+	"Background": "Hintergrund",
+	"Keyboard Shortcuts": "TastaturKombinationen",
+	"Help": "Support",
+	"About tableaunoir": "Apropos",
+
+	"Clear": "Löschen",
+	"Clear the board": "Die Tafel löschen",
+	"Remove all the magnets": "den Magneten entfernen",
+	"Load": "Öffnen",
+	"#loadExplanation": "Um eine vorhandene Tafel zu öffnen, ziehen Sie eine Datei per Drag & Drop <em>.tableaunoir</em> oder wählen Sie eine Datei :",
+	"Save": "Speichern",
+	"#saveExplanation": "Speichern Sie Ihre Tafel in einer Datei <em>.tableaunoir</em> :",
+	"Name:": "Dateiname :",
+	"Export": "Exportieren",
+	"#exportExplanation": "Exportieren Sie Ihre Tafel als Bild <em>.png</em>. Die Magnete werden 'abgeflacht'.",
+	"Get an image of my board": "Ein Bild von meiner Tafel herunterzuladen",
+
+	"#sharePrivacyExplanation": "Um Ihre Privatsphäre zu respektieren, wird nichts auf dem Server gespeichert. Bitte speichern Sie Ihre Tafel auf Ihrem eigenen Computer",
+	"Make a shared board": "eine Tafel teilen",
+	"Password (optional):": "Passwort (optional) :",
+	"#sharePasswordExplanation": "Mit einem Passwort können Sie Ihre Berechtigungen behalten. Wenn kein Passwort eingegeben wird, hat jeder die vollen Berechtigungen.",
+	"Join an existing board": "einer bestehenden Tafel beitreten",
+	"#shareJoinExplanation": " Um einer bestehenden Tafel beitreten, geben Sie die unten stehende URL ein :",
+	"Join": "Beitreten",
+
+	"Background Color": "Hintergrundfarbe",
+	"Blackboard": "Schwarz Tafel",
+	"Whiteboard": "Weiße Tafel",
+	"Wallpaper": "Tapete",
+	"No wallpaper": "keine Tapete",
+	"Music score": "Musikpartitur",
+	"Grid": "Gitter",
+	"Insert a document (image or PDF)": "Dokument einfügen (Bild oder PDF)",
+	"#backgroundInsertDocumentExplanation": "Das Dokument wird in der oberen linken Ecke eingefügt.",
+	"Page number:": "Seitennummer:",
+	"Choose the page of the PDF to insert.": "Wählen Sie die Seite der PDF-Datei aus, die eingefügt werden soll.",
+	"Insert PDF page": "PDF-Seite einfügen",
+	"Remove all documents": "Alle Dokumente entfernen",
+
+	"Using existing images": "Vorhandene Bilder verwenden",
+	"Predefined Magnet Collections": "Vordefinierte Magnetsammlungen",
+	"Algorithms": "Algorithmen",
+	"Complexity theory": "Komplexitätstheorie",
+	"Games": "Spiele",
+
+	"Drawing": "Zeichnung",
+	"Line width:": "Linienbreite :",
+	"Show the toolbar (h)": "Die Symbolleiste anzuzeigen (h)",
+
+	"Left": "Links",
+	"Right": "Rechts",
+	"Top": "Oben",
+	"Bottom": "Unten",
+
+	"Language": "Sprache",
+
+	"English": "Englisch",
+	"French": "Französich",
+	"German": "Deutsch",
+
+	"Standard 8 color palette": "Standardpalette mit 8 Farben",
+	"21 color palette": "Palette mit 21 Farben",
+
+	"Cursor": "Mauszeiger",
+	"Left-handed": "Linkshändig",
+
+	"#aboutPresentation": "Tableaunoir ist eine <em>online Tafel</em>. Idealerweise wird es mit einem <em>Grafiktablett</em> verwendet. Helfen Sie Ihrem Publikum, <em>konzentriert</em> zu bleiben durch Symbolleiste Ausblendung, und Tastaturkürzeln Verwendung.",
+
+	"#aboutMagnets": " <em>Magnete</em> erstellen (wie auf Ihrem Kühlschrank) um <em>interaktive</em> Präsentationen zu machen.",
+
+	"#aboutShare": "Sie können eine Tafel freigeben, um mit <em>mehreren</em> Personen zusammenzuarbeiten.",
+
+	"#aboutFree": "Das Projekt tableaunoir ist <em>frei</em>. Kommen Sie Mitmachen :"
+}
