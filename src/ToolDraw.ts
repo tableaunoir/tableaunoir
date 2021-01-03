@@ -25,7 +25,7 @@ export class ToolDraw extends Tool {
         super(user);
         OptionManager.boolean({
             name: "smoothing",
-            defaultValue: false,
+            defaultValue: true,
             onChange: (s) => {
                 this.isSmoothing = s;
             }
