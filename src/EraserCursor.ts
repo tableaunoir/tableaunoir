@@ -36,7 +36,7 @@ export class EraserCursor {
 
         let borderColor = undefined;
         if (temperature < ToolEraser.temperatureThreshold / 3)
-            borderColor = "0x4444FF"; //blue because it is really rare to have a document with a blue background (white or black is not good)
+            borderColor = "#9999FF"; //blue because it is really rare to have a document with a blue background (white or black is not good)
         else if (temperature < 2 * ToolEraser.temperatureThreshold / 3)
             borderColor = "orange";
         else
@@ -45,7 +45,7 @@ export class EraserCursor {
         ctx.beginPath();
         ctx.arc(radius, radius, radius, 0, 2 * Math.PI);
         ctx.strokeStyle = borderColor;
-        ctx.lineWidth = 5 * temperature / ToolEraser.temperatureThreshold;
+        ctx.lineWidth = Math.max(1, 5 * temperature / ToolEraser.temperatureThreshold);
         ctx.stroke();
         ctx.fillStyle = BlackVSWhiteBoard.getBackgroundColor() == "black" ? "rgba(255, 255, 255, 0.2)" : "rgba(0, 0, 0, 0.2)";
         ctx.fill();
