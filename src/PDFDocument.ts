@@ -6,11 +6,13 @@ pdfjsLib.GlobalWorkerOptions.workerSrc = pdfWorkerSrc;
 
 export class PDFDocument {
     pdfDoc : pdfjsLib.PDFDocumentProxy = null;
+    dataURL: string = undefined;
 
     /**
      * Asynchronously downloads PDF.
      */
     open(url: string): Promise<void> {
+        this.dataURL = url;
         return new Promise((resolve, reject) => {
         pdfjsLib.getDocument(url).promise.then((pdfDoc_) => {
             this.pdfDoc = pdfDoc_;

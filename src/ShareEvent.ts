@@ -142,14 +142,20 @@ export class ShareEvent {
     }
 
     static backgroundRemoveAllImages(): void {
-        getDocumentPanel().innerHTML = "";
+        Background.getDocumentPanel().innerHTML = "";
     }
 
     static setBackground(dataURL: string): void {
         Background.set(dataURL);
     }
 
+    static setDocuments(innerHTML: string): void {
+        console.log("setDocuments");
+        Background.getDocumentPanel().innerHTML = innerHTML;
+    }
+
     static async setPDF(dataURL: string): Promise<void> {
+        console.log("setpdf");
         Background.pdfdoc = new PDFDocument();
         await Background.pdfdoc.open(dataURL);
         (<HTMLInputElement> document.getElementById("pdfNumPage")).max = "" + Background.pdfdoc.nbPages;
@@ -164,19 +170,21 @@ export class ShareEvent {
         img.style.left = x + "px";
         img.style.top = "0px";
         img.style.height = Layout.STANDARDHEIGHT + "px";
-        getDocumentPanel().appendChild(img);
+        Background.getDocumentPanel().appendChild(img);
     }
 
     static async insertPDFPage(pagenum: number, x: number): Promise<void> {
         const canvas = await Background.pdfdoc.getCanvasPage(pagenum);
-        canvas.style.left = x + "px";
-        canvas.style.top = "0px";
-        getDocumentPanel().appendChild(canvas);
+        const img = document.createElement("img");
+        img.src = canvas.toDataURL();
+        img.style.position = "absolute";
+        img.style.left = x + "px";
+        img.style.top = "0px";
+        img.style.height = Layout.STANDARDHEIGHT + "px";
+    
+        Background.getDocumentPanel().appendChild(img);
     }
 }
 
 
 
-function getDocumentPanel() {
-    return document.getElementById("documentPanel");
-}

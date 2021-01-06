@@ -230,7 +230,8 @@ export class Share {
 					Share.sendMagnets(msg.userid);
 					Share.send({ type: "ready", to: msg.userid });
 					Share.execute("setUserCanWrite", [msg.userid, Share.canWriteValueByDefault]);
-
+					Share.execute("setDocuments", [Background.getDocumentPanel().innerHTML]);
+					
 					for (const userid in UserManager.users)
 						Share.execute("setUserName", [userid, UserManager.users[userid].name]);
 

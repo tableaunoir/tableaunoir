@@ -147,7 +147,9 @@ export class Background {
         Background.storeDataURL(canvasBackground.toDataURL());
     }
 
-
+    static getDocumentPanel() {
+        return document.getElementById("documentPanel");
+    }
 
     static grid(): void {
         Background.clear();
