@@ -129,7 +129,7 @@ function load() {
 	}
 
 	document.getElementById("buttonText").onclick = () => MagnetManager.addMagnetText(UserManager.me.x, UserManager.me.y);
-	document.getElementById("buttonDivide").onclick = Drawing.divideScreen;
+	document.getElementById("buttonDivide").onclick = () => Drawing.divideScreen(UserManager.me.userID);
 
 	document.getElementById("buttonLeft").onclick = BoardNavigation.leftPreviousPage;
 	document.getElementById("buttonRight").onclick = BoardNavigation.rightNextPage;
@@ -208,7 +208,7 @@ function load() {
 			BoardNavigation.rightNextPage();
 		}
 		else if (evt.key == "d")  //d = divide screen
-			Drawing.divideScreen();
+			Drawing.divideScreen(UserManager.me.userID);
 		else if ((evt.ctrlKey && evt.shiftKey && evt.key == "Z") || (evt.ctrlKey && evt.key == "y")) { //ctrl + shift + z OR Ctrl + Y = redo
 			Share.execute("redo", [UserManager.me.userID]);
 			evt.preventDefault();

@@ -158,7 +158,6 @@ export class ToolArc extends Tool {
     mousedown(): void {
         this.action = new ActionFreeDraw(this.user.userID);
         this.isDrawing = true;
-        BoardManager.saveCurrentScreen();
         this.elementRadius.style.visibility = "hidden";
         const A = this.correctPointOnCircle({ x: this.x, y: this.y });
         this.action.addPoint({x: A.x, y: A.y, pressure: 0, color: this.user.color});

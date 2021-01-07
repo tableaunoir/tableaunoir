@@ -4,6 +4,7 @@ import { OptionManager } from './OptionManager';
 import { BoardManager } from './boardManager';
 import { getCanvas } from './main';
 import { Layout } from './Layout';
+import { ActionFreeDraw } from './ActionFreeDraw';
 
 
 /**
@@ -23,12 +24,14 @@ export class Drawing extends DrawingCanvas {
     }
    
 
-    static divideScreen(): void {
+    static divideScreen(userid: string): void {
         console.log("divide the screen")
         const x = Layout.getXMiddle();
-        Drawing.drawLine(getCanvas().getContext("2d"), x, 0, x, Layout.getWindowHeight(), 1,
-            BlackVSWhiteBoard.getDefaultChalkColor());
-        BoardManager.saveCurrentScreen();
+        const action = new ActionFreeDraw(userid);
+        action.addPoint({x: x, y: 0, pressure:1, color:BlackVSWhiteBoard.getDefaultChalkColor()});
+        action.addPoint({x: x, y: Layout.getWindowHeight(), pressure:1, color:BlackVSWhiteBoard.getDefaultChalkColor()});
+        action.redo();
+        BoardManager.addAction(action);
     }
 
 }

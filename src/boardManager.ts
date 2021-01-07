@@ -97,10 +97,6 @@ export class BoardManager {
 
     }
 
-    static saveFullScreen(): void {
-        const canvas = getCanvas();
-        BoardManager.save({ x1: 0, y1: 0, x2: canvas.width, y2: canvas.height });
-    }
 
 
     static addAction(action: Action): void {
@@ -119,9 +115,7 @@ export class BoardManager {
         return { x1: x1, y1: y1, x2: x2, y2: y2 };
     }
 
-    static saveCurrentScreen(): void {
-        BoardManager.save({ x1: Layout.getWindowLeft(), y1: 0, x2: Layout.getWindowRight(), y2: Layout.getWindowHeight() });
-    }
+
 
     /**
      * load the board from the local storage

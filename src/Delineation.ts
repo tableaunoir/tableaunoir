@@ -132,7 +132,7 @@ export class Delineation {
             Share.execute("clearPolygon", [this.points]);
 
         this.reset();
-        BoardManager.saveFullScreen();
+        BoardManager.save(this._getRectangle());
     }
 
 
@@ -147,6 +147,9 @@ export class Delineation {
     }
 
 
+    /**
+     * @returns the smallest rectangle that surrounds the points
+     */
     _getRectangle(): { x1: number, y1: number, x2: number, y2: number } {
         const canvas = getCanvas();
         const r = { x1: canvas.width, y1: canvas.height, x2: 0, y2: 0 };
