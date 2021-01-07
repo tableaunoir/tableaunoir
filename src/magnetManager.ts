@@ -9,6 +9,7 @@ import { BoardManager } from './boardManager';
 import { Layout } from './Layout';
 import { Menu } from './Menu';
 import { TouchScreen } from './TouchScreen';
+import { ActionPrintMagnet } from './ActionPrintMagnet';
 
 
 export class MagnetManager {
@@ -669,35 +670,13 @@ export class MagnetManager {
 			return;
 		}
 
-		const context = getCanvas().getContext("2d");
-
 		const x = parseInt(img.style.left);
 		const y = parseInt(img.style.top);
-		let s = img.style.clipPath;
 
-		s = s.substr("polygon(".length, s.length - "polygon(".length - ")".length);
+		const action = new ActionPrintMagnet(UserManager.me.userID, img, x, y);
+		action.redo();
 
-		context.globalCompositeOperation = "source-over";
-		context.save();
-		context.beginPath();
-		let begin = true;
-		for (let pointStr of s.split(",")) {
-			pointStr = pointStr.trim();
-			const a = pointStr.split(" ");
-			if (begin)
-				context.moveTo(x + parseInt(a[0]), y + parseInt(a[1]));
-			else
-				context.lineTo(x + parseInt(a[0]), y + parseInt(a[1]));
-			begin = false;
-		}
-		context.closePath();
-		context.clip();
-
-		context.drawImage(img, x, y);
-
-		context.restore();
-
-		BoardManager.save({ x1: x, y1: y, x2: x + img.width, y2: y + img.height });
+		BoardManager.addAction(action);
 	}
 
 

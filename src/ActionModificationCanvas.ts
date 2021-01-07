@@ -2,20 +2,15 @@ import { getCanvas } from './main';
 import { Action } from './Action';
 
 export class ActionModificationCanvas extends Action {
-    private readonly blobAfter: Blob;
-    private readonly r: { x1: number, y1: number, x2: number, y2: number };
 
     /**
      * 
-     * @param blobPrevious 
-     * @param blobCurrent 
+     * @param blobCurrent of the rectangle
      * @param r 
-     * @description adds a modification of the canvas located in the rectangle r. The blobs correspond to the FULL canvas (this has to be improved for efficiency!)
+     * @description adds a modification of the canvas located in the rectangle r.
      */
-    constructor(userid: string, blobCurrent: Blob, r: { x1: number, y1: number, x2: number, y2: number }) {
+    constructor(userid: string, private readonly blobAfter: Blob, private readonly r: { x1: number, y1: number, x2: number, y2: number }) {
         super(userid);
-        this.blobAfter = blobCurrent;
-        this.r = r;
     }
 
     /**
@@ -35,7 +30,7 @@ export class ActionModificationCanvas extends Action {
 
             image.onload = function () {
                 context.clearRect(rectangle.x1, rectangle.y1, rectangle.x2 - rectangle.x1, rectangle.y2 - rectangle.y1);
-                context.drawImage(image, rectangle.x1, rectangle.y1, rectangle.x2 - rectangle.x1, rectangle.y2 - rectangle.y1, rectangle.x1, rectangle.y1, rectangle.x2 - rectangle.x1, rectangle.y2 - rectangle.y1);
+                context.drawImage(image, rectangle.x1, rectangle.y1);
                 resolve();
             }
             image.src = URL.createObjectURL(blob);

@@ -86,13 +86,8 @@ export class BoardManager {
      * save the current board into the cancel/redo stack but also in the localStorage of the browser
      */
     static save(rectangle: { x1: number, y1: number, x2: number, y2: number } | undefined): void {
-        const canvas = getCanvas();
-        canvas.toBlob((blob) => {
-            console.log("save that blob: " + blob)
-            //  localStorage.setItem(Share.getTableauNoirID(), canvas.toDataURL());
-            //rectangle = { x1: 0, y1: 0, x2: canvas.width, y2: canvas.height };
-            BoardManager.cancelStack.push(new ActionModificationCanvas(UserManager.me.userID, blob, rectangle)); // a correct userid should be given
-            //Share.sendFullCanvas(blob);
+        BoardManager._toBlobOfRectangle(rectangle, (blob) => {
+            BoardManager.cancelStack.push(new ActionModificationCanvas(UserManager.me.userID, blob, rectangle)); // a 
         });
 
     }

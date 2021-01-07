@@ -131,8 +131,8 @@ export class Delineation {
         if (cut)
             Share.execute("clearPolygon", [this.points]);
 
-        this.reset();
         BoardManager.save(this._getRectangle());
+        this.reset();
     }
 
 
@@ -153,12 +153,13 @@ export class Delineation {
     _getRectangle(): { x1: number, y1: number, x2: number, y2: number } {
         const canvas = getCanvas();
         const r = { x1: canvas.width, y1: canvas.height, x2: 0, y2: 0 };
+        const PAD = 2;
 
         for (const point of this.points) {
-            r.x1 = Math.min(r.x1, point.x);
-            r.y1 = Math.min(r.y1, point.y);
-            r.x2 = Math.max(r.x2, point.x);
-            r.y2 = Math.max(r.y2, point.y);
+            r.x1 = Math.min(r.x1, point.x-PAD);
+            r.y1 = Math.min(r.y1, point.y-PAD);
+            r.x2 = Math.max(r.x2, point.x+PAD);
+            r.y2 = Math.max(r.y2, point.y+PAD);
         }
 
         return r;
