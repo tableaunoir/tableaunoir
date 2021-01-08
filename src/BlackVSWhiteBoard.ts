@@ -6,6 +6,8 @@ import { CSSStyleModifier } from './CSSStyleModifier';
  */
 export class BlackVSWhiteBoard {
 
+    static currentBackgroundColor: "white" | "black" = "black";
+
     static init(): void {
         document.getElementById("content").style.backgroundColor = "black";
         BlackVSWhiteBoard.switchTo("black");
@@ -19,16 +21,21 @@ export class BlackVSWhiteBoard {
      * @description set the background color to the color backgroundColor
      */
     static switchTo(backgroundColor: "white" | "black"): void {
-        const previousBackgroundColor = document.getElementById("content").style.backgroundColor;
+        const previousBackgroundColor = BlackVSWhiteBoard.currentBackgroundColor;
+        BlackVSWhiteBoard.currentBackgroundColor = backgroundColor;
+        console.log("previous background color was " + previousBackgroundColor);
+        console.log("switch to " + backgroundColor + "board")
+
         document.getElementById(backgroundColor + "BoardSwitch").classList.add("buttonselected");
         document.getElementById("backgroundSnapshotBackgroundColor").style.backgroundColor = backgroundColor;
         if (previousBackgroundColor == backgroundColor)
             return;
 
+
+
         document.getElementById(previousBackgroundColor + "BoardSwitch").classList.remove("buttonselected");
 
-        console.log("previous background color was " + previousBackgroundColor);
-        console.log("switch to " + backgroundColor + "board")
+
         palette.switchBlackAndWhite();
         document.getElementById("content").style.backgroundColor = backgroundColor;
 
