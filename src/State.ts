@@ -27,7 +27,7 @@ export class State {
             const image = new Image();
 
             image.onload = function () {
-                canvas.width = image.width;
+                canvas.width = Math.max(canvas.width, image.width); // ugly
                 canvas.height = image.height;
 
                 context.drawImage(image, 0, 0);

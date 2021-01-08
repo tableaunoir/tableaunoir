@@ -7,7 +7,6 @@ export class ActionEllipse extends Action {
         super(userid);
     }
 
-
     async redo(): Promise<void> {
         Drawing.drawEllipse({ cx: this.cx, cy: this.cy, rx: this.rx, ry: this.ry }, this.color);
     }

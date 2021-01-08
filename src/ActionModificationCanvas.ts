@@ -2,6 +2,7 @@ import { getCanvas } from './main';
 import { Action } from './Action';
 
 export class ActionModificationCanvas extends Action {
+    private readonly image = new Image();
 
     /**
      * 
@@ -11,36 +12,30 @@ export class ActionModificationCanvas extends Action {
      */
     constructor(userid: string, private readonly blobAfter: Blob, private readonly r: { x1: number, y1: number, x2: number, y2: number }) {
         super(userid);
+        this.image.src = URL.createObjectURL(this.blobAfter);
     }
 
-    /**
-     * 
-     * @param blob 
-     * @param rectangle 
-     * @description extract the rectangle portion of the blob and blit it at the rectangle
-     */
-    static async replaceRectangleImage(blob: Blob, rectangle: { x1: number, y1: number, x2: number, y2: number }): Promise<void> {
-        return new Promise(resolve => {
-            const image = new Image();
-            const canvas = getCanvas();
 
-            const context = canvas.getContext("2d");
-            context.globalCompositeOperation = "source-over";
-            context.globalAlpha = 1.0;
-
-            image.onload = function () {
-                context.clearRect(rectangle.x1, rectangle.y1, rectangle.x2 - rectangle.x1, rectangle.y2 - rectangle.y1);
-                context.drawImage(image, rectangle.x1, rectangle.y1);
-                resolve();
-            }
-            image.src = URL.createObjectURL(blob);
-        });
-    }
 
 
 
     async redo(): Promise<void> {
-        await ActionModificationCanvas.replaceRectangleImage(this.blobAfter, this.r);
+        return new Promise(resolve => {
+            const f = () => {
+                const canvas = getCanvas();
+                const context = canvas.getContext("2d");
+                context.globalCompositeOperation = "source-over";
+                context.globalAlpha = 1.0;
+                context.clearRect(this.r.x1, this.r.y1, this.r.x2 - this.r.x1, this.r.y2 - this.r.y1);
+                context.drawImage(this.image, this.r.x1, this.r.y1);
+                resolve();
+            }
+
+            if (this.image.complete)
+                f();
+            this.image.onload = f;
+
+        });
     }
 
 }

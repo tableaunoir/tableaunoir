@@ -44,8 +44,8 @@ export class CancelStack {
      * @param {*} data
      */
     push(action: Action): void {
-        if (Math.floor(100 * Math.random()) < 5)
-            action.storePostState();
+        //if (Math.floor(100 * Math.random()) < 5)
+        //action.storePostState();
         this._push(action);
         //this.print();
     }
@@ -77,7 +77,7 @@ export class CancelStack {
         const stateIndex = this.lastStateIndex;
         await this.stack[stateIndex].restoreState();
 
-        for (let i = stateIndex+1; i <= this.currentIndex; i++)
+        for (let i = stateIndex + 1; i <= this.currentIndex; i++)
             await this.stack[i].redo();
 
         //this.print();

@@ -1,3 +1,4 @@
+import { TestPerformance } from './TestPerformance';
 import { CSSStyleModifier } from './CSSStyleModifier';
 import { BoardNavigation } from './BoardNavigation';
 import { CircularMenu } from './CircularMenu';
@@ -19,28 +20,12 @@ import { Translation } from './Translation';
 import { Menu } from './Menu';
 import { TouchScreen } from './TouchScreen';
 import { Drawing } from './Drawing'
-import { ToolDraw } from './ToolDraw';
+
+TestPerformance.init();
 
 window.onload = load;
 window['Menu'] = Menu; //for Menu to be used in index.html
 
-
-window['testSVG'] = () => {
-	for (let x = 0; x < 500; x += 4)
-		for (let y = 0; y < 1000; y += 4) {
-			const svgLine = ToolDraw.addSVGLine(x, y, x + 2, y + 1, 0.5, "yellow");
-			document.getElementById("svg").appendChild(svgLine);
-		}
-
-}
-
-window['testCanvas'] = () => {
-	for (let x = 0; x < 500; x += 4)
-		for (let y = 0; y < 1000; y += 4) {
-			Drawing.drawLine(getCanvas().getContext("2d"), x, y, x + 2, y + 1, 0.5, "yellow");
-		}
-
-}
 
 export const palette = new Palette();
 const toolmenu = new ToolMenu();
