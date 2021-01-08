@@ -9,8 +9,6 @@ export class DrawingCanvas {
 
     static lineWidth: number;
 
-
-
     /**
      *
      * @param points
@@ -58,7 +56,6 @@ export class DrawingCanvas {
     static drawLine(context: CanvasRenderingContext2D,
         x1: number, y1: number, x2: number, y2: number,
         pressure = 1.0, color: string = UserManager.me.getCurrentColor()): void {
-        //console.log(pressure)
         context.beginPath();
         context.strokeStyle = color;
         context.globalCompositeOperation = "source-over";

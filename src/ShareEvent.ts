@@ -101,8 +101,8 @@ export class ShareEvent {
         Discussion.removeQuestion(questionID);
     }
 
-    static removeContour(points: { x: number, y: number }[]): void {
-        Drawing.removeContour(points);
+    static magnetize(userID: string, cut: boolean, removeContour: boolean): void {
+        UserManager.users[userID].lastDelineation.magnetize(userID, cut, removeContour);
     }
 
     static clearPolygon(points: { x: number, y: number }[]): void {

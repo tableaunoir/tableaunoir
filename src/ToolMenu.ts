@@ -13,7 +13,7 @@ export class ToolMenu extends CircularMenu {
                 if (!UserManager.me.isDelineation)
                     return;
                 if (UserManager.me.lastDelineation.containsPolygonToMagnetize())
-                    UserManager.me.lastDelineation.magnetize({cut: true, removeContour: true});
+                    Share.execute("magnetize", [UserManager.me.userID, true, true]);
                 CircularMenu.hide();
             }
         });

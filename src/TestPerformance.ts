@@ -32,9 +32,9 @@ export class TestPerformance {
 
 
     static testBigCanvas() {
-        const w = 32000;
+        const w = 20000;
         const h = 1000;
-        const S = 40;
+        const S = 16;
         let nbObject = 0;
         getCanvas().width = w;
         for (let x = 0; x < w; x += S) {
@@ -51,7 +51,22 @@ export class TestPerformance {
 
     }
 
+    static testBigCanvasSVG() {
+        const w = 20000;
+        const h = 1000;
+        const S = 16;
+        let nbObject = 0;
+        getCanvas().width = w;
+        for (let x = 0; x < w; x += S) {
+            for (let y = 0; y < h; y += S) {
+                const svgLine = ToolDraw.addSVGLine(x, y, x + S * Math.random(), y + S * Math.random(), 1, randomColor());
+                document.getElementById("svg").appendChild(svgLine);
+                nbObject++;
+            }
+        }
+        console.log(nbObject + " objects");
 
+    }
 }
 
 

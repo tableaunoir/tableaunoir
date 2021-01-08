@@ -14,6 +14,19 @@ export class MyMagnets {
         return o;
     }
 
+	/**
+	 *
+	 * @param filename
+	 * @param callback
+	 * @description create an image magnet where the file is already on the server
+	 */
+    static createMagnetImage(filename: string): HTMLElement {
+        const img = new Image();
+		img.src = "img/magnets/" + filename;
+        img.classList.add("backgroundTransparent");
+        return img;
+    }
+
 
     static magnetsClear(): void {
         Share.execute("magnetsClear", []);
@@ -29,12 +42,12 @@ export class MyMagnets {
 
     static magnetGS(): void {
         MyMagnets.magnetsClear();
-        MagnetManager.addMagnet(MyMagnets.createMagnet("1"))
-        MagnetManager.addMagnet(MyMagnets.createMagnet("2"))
-        MagnetManager.addMagnet(MyMagnets.createMagnet("3"))
-        MagnetManager.addMagnet(MyMagnets.createMagnetGS_B("1"))
-        MagnetManager.addMagnet(MyMagnets.createMagnetGS_B("2"))
-        MagnetManager.addMagnet(MyMagnets.createMagnetGS_B("3"))
+        MagnetManager.addMagnetAndPositionnate(MyMagnets.createMagnet("1"))
+        MagnetManager.addMagnetAndPositionnate(MyMagnets.createMagnet("2"))
+        MagnetManager.addMagnetAndPositionnate(MyMagnets.createMagnet("3"))
+        MagnetManager.addMagnetAndPositionnate(MyMagnets.createMagnetGS_B("1"))
+        MagnetManager.addMagnetAndPositionnate(MyMagnets.createMagnetGS_B("2"))
+        MagnetManager.addMagnetAndPositionnate(MyMagnets.createMagnetGS_B("3"))
 
     }
 
@@ -53,7 +66,7 @@ export class MyMagnets {
     static magnetSorting(): void {
         MagnetManager.clearMagnet();
         for (let i = 1; i <= 17; i++)
-            MagnetManager.addMagnet(MyMagnets.createMagnetRainbow(i))
+            MagnetManager.addMagnetAndPositionnate(MyMagnets.createMagnetRainbow(i))
     }
 
     /** B-trees */
@@ -61,10 +74,10 @@ export class MyMagnets {
     static magnetBTrees(): void {
         MagnetManager.clearMagnet();
         for (let i = 1; i <= 17; i++)
-            MagnetManager.addMagnet(MyMagnets.createMagnetRainbow(i))
+            MagnetManager.addMagnetAndPositionnate(MyMagnets.createMagnetRainbow(i))
 
         for (let i = 1; i <= 7; i++)
-            MagnetManager.addMagnetImage("Btreenode.png");
+            MagnetManager.addMagnetAndPositionnate(MyMagnets.createMagnetImage("Btreenode.png"));
 
 
     }
@@ -74,13 +87,13 @@ export class MyMagnets {
     static magnetGraphNodes(): void {
         //MagnetManager.clearMagnet();
         for (const i of ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O'])
-            MagnetManager.addMagnet(MyMagnets.createMagnet(i))
+            MagnetManager.addMagnetAndPositionnate(MyMagnets.createMagnet(i))
     }
 
 
     static magnetFloydsAlgorithm(): void {
-        MagnetManager.addMagnetImage("turtlerabbit/turtle.png");
-        MagnetManager.addMagnetImage("turtlerabbit/rabbit.png");
+        MagnetManager.addMagnetAndPositionnate(MyMagnets.createMagnetImage("turtlerabbit/turtle.png"));
+        MagnetManager.addMagnetAndPositionnate(MyMagnets.createMagnetImage("turtlerabbit/rabbit.png"));
 
     }
 
@@ -95,7 +108,7 @@ export class MyMagnets {
         ];
 
         for (const name of simCityPictures) {
-            MagnetManager.addMagnetImage("simCityGraph/" + name);
+            MagnetManager.addMagnetAndPositionnate(MyMagnets.createMagnetImage("simCityGraph/" + name));
         }
 
     }
@@ -137,17 +150,17 @@ export class MyMagnets {
 
     static magnetTilings(): void {
         MagnetManager.clearMagnet();
-        MagnetManager.addMagnet(MyMagnets.createTiling("yellow", "red", "green", "red"));
-        MagnetManager.addMagnet(MyMagnets.createTiling("green", "red", "green", "yellow"));
-        MagnetManager.addMagnet(MyMagnets.createTiling("green", "red", "green", "yellow"));
+        MagnetManager.addMagnetAndPositionnate(MyMagnets.createTiling("yellow", "red", "green", "red"));
+        MagnetManager.addMagnetAndPositionnate(MyMagnets.createTiling("green", "red", "green", "yellow"));
+        MagnetManager.addMagnetAndPositionnate(MyMagnets.createTiling("green", "red", "green", "yellow"));
 
-        MagnetManager.addMagnet(MyMagnets.createTiling("red", "red", "red", "red"));
-        MagnetManager.addMagnet(MyMagnets.createTiling("red", "yellow", "red", "green"));
-        MagnetManager.addMagnet(MyMagnets.createTiling("red", "yellow", "yellow", "yellow"));
+        MagnetManager.addMagnetAndPositionnate(MyMagnets.createTiling("red", "red", "red", "red"));
+        MagnetManager.addMagnetAndPositionnate(MyMagnets.createTiling("red", "yellow", "red", "green"));
+        MagnetManager.addMagnetAndPositionnate(MyMagnets.createTiling("red", "yellow", "yellow", "yellow"));
 
-        MagnetManager.addMagnet(MyMagnets.createTiling("green", "red", "green", "yellow"));
-        MagnetManager.addMagnet(MyMagnets.createTiling("green", "green", "red", "green"));
-        MagnetManager.addMagnet(MyMagnets.createTiling("red", "yellow", "red", "green"));
+        MagnetManager.addMagnetAndPositionnate(MyMagnets.createTiling("green", "red", "green", "yellow"));
+        MagnetManager.addMagnetAndPositionnate(MyMagnets.createTiling("green", "green", "red", "green"));
+        MagnetManager.addMagnetAndPositionnate(MyMagnets.createTiling("red", "yellow", "red", "green"));
     }
 
 
@@ -162,17 +175,20 @@ export class MyMagnets {
 
         const f = (color, x) => {
             for (let i = 0; i < 20; i++) {
-                MagnetManager.addMagnetImage("go/" + color + ".png",
-                    (img) => Share.execute("magnetMove", [img.id, x, 10 + i * 5]));
-
+                const img = MyMagnets.createMagnetImage("go/" + color + ".png");
+                img.style.left = x + "px";
+                img.style.top = 10 + i * 5 + "px";
+                MagnetManager.addMagnetAndPositionnate(img);
             }
         }
 
         f("black", 20);
         f("white", 50);
 
-        MagnetManager.addMagnetImage("go/goban.png", (img) => Share.execute("magnetMove", [img.id, 110, 20]));
-
+        const goban = MyMagnets.createMagnetImage("go/goban.png");
+        goban.style.left = "110px";
+        goban.style.top = "20px";
+        MagnetManager.addMagnetAndPositionnate(goban);
     }
 
 

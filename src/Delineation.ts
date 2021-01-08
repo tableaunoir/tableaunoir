@@ -1,3 +1,5 @@
+import { UserManager } from './UserManager';
+import { Drawing } from './Drawing';
 import { BoardManager } from './boardManager';
 import { getCanvas } from './main';
 import { MagnetManager } from './magnetManager';
@@ -39,24 +41,6 @@ export class Delineation {
 
     addPoint(point: { x, y }): void {
         this.points.push(point);
-        
-        /* this code is responsible for bug of issue #71
-                if (this.isDot() && this.dotInPreviousPolygon()) {
-                    this.drawPolygon(this.lastpoints);
-        
-                   window.setTimeout(() => {
-                        if (this.drawing && this.isDot() && this.dotInPreviousPolygon()) {
-                            this.removePolygon();
-                            Share.execute("removeContour", [this.points]); //remove the dot
-                            this.points = this.lastpoints;
-                            this.lastpoints = [];
-                            this.magnetize({ cut: true, removeContour: true });
-                        }
-                    }, 1000);
-                }
-                else
-                    this.removePolygon();*/
-
     }
 
     /**
@@ -110,26 +94,27 @@ export class Delineation {
 
 
     /**
-     * @param options
+     * @param cut, removeContour
      * @description magnetize the "selected" part of the blackboard.
      * 
      * If cut is true: the selected part is also removed.
      * If removeContour is true: the contour will not be part of the magnet
      */
-    magnetize({ cut, removeContour }: { cut: boolean, removeContour: boolean }): void {
+    magnetize(userid: string, cut: boolean, removeContour: boolean): void {
         if (!this.isSuitable())
             return;
 
         if (removeContour)
-            Share.execute("removeContour", [this.points]);
+            Drawing.removeContour(this.points);
 
-        this._createMagnetFromImg();
+        if (userid != UserManager.me.userID) //only the real user will create the magnet since the others will receive it
+            this._createMagnetFromImg();
 
         if (cut && removeContour) //if cut, remove the contour after having baked the magnet
-            Share.execute("removeContour", [this.points]);
+            Drawing.removeContour(this.points);
 
         if (cut)
-            Share.execute("clearPolygon", [this.points]);
+            Drawing.clearPolygon(this.points);
 
         BoardManager.save(this._getRectangle());
         this.reset();
@@ -156,10 +141,10 @@ export class Delineation {
         const PAD = 2;
 
         for (const point of this.points) {
-            r.x1 = Math.min(r.x1, point.x-PAD);
-            r.y1 = Math.min(r.y1, point.y-PAD);
-            r.x2 = Math.max(r.x2, point.x+PAD);
-            r.y2 = Math.max(r.y2, point.y+PAD);
+            r.x1 = Math.min(r.x1, point.x - PAD);
+            r.y1 = Math.min(r.y1, point.y - PAD);
+            r.x2 = Math.max(r.x2, point.x + PAD);
+            r.y2 = Math.max(r.y2, point.y + PAD);
         }
 
         return r;
@@ -172,7 +157,6 @@ export class Delineation {
         const img = new Image();
         const rectangle = this._getRectangle();
         console.log(rectangle)
-        //BoardManager._toBlobOfRectangle(rectangle, (blob) => img.src = URL.createObjectURL(blob));
         img.src = BoardManager.getDataURLOfRectangle(rectangle);
         img.style.clipPath = "polygon(" + this.points.map(point => `${point.x - rectangle.x1}px ${point.y - rectangle.y1}px`).join(", ") + ")";
         MagnetManager.addMagnet(img);

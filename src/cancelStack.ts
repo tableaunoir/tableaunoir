@@ -44,8 +44,8 @@ export class CancelStack {
      * @param {*} data
      */
     push(action: Action): void {
-        //if (Math.floor(100 * Math.random()) < 5)
-        //action.storePostState();
+        //   if (Math.floor(100 * Math.random()) < 1/20000)
+        //     action.storePostState();
         this._push(action);
         //this.print();
     }

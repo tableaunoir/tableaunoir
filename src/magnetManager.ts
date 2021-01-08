@@ -128,24 +128,29 @@ export class MagnetManager {
 		Menu.hide();
 	}
 
+
+	/**
+	* @param {*} element
+	* @description add the DOM element element to the list of magnets. This function also gives a position to the element (typically for collection of magnets)
+	*/
+	static addMagnetAndPositionnate(element: HTMLElement) {
+		if (MagnetManager.magnetX > BoardManager.getCurrentScreenRectangle().x2 - 10) {
+			MagnetManager.magnetX = BoardManager.getCurrentScreenRectangle().x1;
+			MagnetManager.magnetY += 64;
+		}
+		element.style.left = MagnetManager.magnetX + "px";
+		element.style.top = MagnetManager.magnetY + "px";
+		MagnetManager.magnetX += 64;
+		MagnetManager.addMagnet(element);
+	}
+
 	/**
 	 *
 	 * @param {*} element
 	 * @description add the DOM element element to the list of magnets
 	 */
-	static addMagnet(element: HTMLElement, callback: (element: HTMLElement) => void = () => {
-		/* by defaut: do nothing*/
-	}): void {
-		if (MagnetManager.magnetX > BoardManager.getCurrentScreenRectangle().x2 - 10) {
-			MagnetManager.magnetX = BoardManager.getCurrentScreenRectangle().x1;
-			MagnetManager.magnetY += 64;
-		}
-
+	static addMagnet(element: HTMLElement): void {
 		element.id = "m" + Math.random(); //generate randomly an id
-		element.style.left = MagnetManager.magnetX + "px";
-		element.style.top = MagnetManager.magnetY + "px";
-
-		MagnetManager.magnetX += 64;
 		MagnetManager.currentMagnet = element;
 		element.classList.add("magnet");
 		document.getElementById("magnets").appendChild(element);
@@ -153,15 +158,28 @@ export class MagnetManager {
 		const f = () => {
 			if (Share.isShared())
 				Share.sendNewMagnet(element);
-			callback(element);
 		}
-
 
 		if (element.tagName == "IMG")
 			element.addEventListener("load", f);
 		else
 			f();
 
+		MagnetManager._installMagnet(element);
+	}
+
+
+
+	/**
+	 *
+	 * @param {*} element
+	 * @description add the DOM element element to the list of magnets (but do not send to other users)
+	 */
+	static addMagnetLocalOnly(element: HTMLElement): void {
+		element.id = "m" + Math.random(); //generate randomly an id
+		MagnetManager.currentMagnet = element;
+		element.classList.add("magnet");
+		document.getElementById("magnets").appendChild(element);
 		MagnetManager._installMagnet(element);
 	}
 
@@ -498,20 +516,6 @@ export class MagnetManager {
 
 
 
-	/**
-	 *
-	 * @param filename
-	 * @param callback
-	 * @description adds a image magnet where the file is already on the server
-	 */
-	static addMagnetImage(filename: string, callback: (el: HTMLImageElement) => void = () => { return; }): HTMLImageElement {
-		const img = new Image();
-		img.src = "img/magnets/" + filename;
-		img.classList.add("backgroundTransparent");
-		MagnetManager.addMagnet(img, callback);
-		return img;
-	}
-
 
 	/**
 	 * 
@@ -620,10 +624,10 @@ export class MagnetManager {
 		divText.style.fontSize = "24px";
 		div.classList.add("magnetText");
 
-
-		MagnetManager.addMagnet(div);
 		div.style.left = x + "px";
 		div.style.top = y + "px";
+		MagnetManager.addMagnet(div);
+
 		divText.focus();
 
 		if (Share.isShared())

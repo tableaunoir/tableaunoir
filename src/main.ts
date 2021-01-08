@@ -213,7 +213,7 @@ function load() {
 				return;
 			const deli = UserManager.me.lastDelineation;
 			if (deli.containsPolygonToMagnetize())
-				deli.magnetize({ cut: true, removeContour: evt.key == "x" });
+				Share.execute("magnetize", [UserManager.me.userID, true, evt.key == "x"]);
 		}
 		else if (evt.ctrlKey && evt.key.toLowerCase() == 'c') {//Ctrl + c
 			CircularMenu.hide();
@@ -221,7 +221,7 @@ function load() {
 				return;
 			const deli = UserManager.me.lastDelineation;
 			if (deli.containsPolygonToMagnetize())
-				deli.magnetize({ cut: false, removeContour: evt.key == "c" });
+				Share.execute("magnetize", [UserManager.me.userID, false, evt.key == "c"]);
 			evt.preventDefault();
 		}
 		else if (evt.ctrlKey && evt.key == "v") { //Ctrl + v = print the current magnet
@@ -237,7 +237,7 @@ function load() {
 			else {
 				const deli = UserManager.me.lastDelineation;
 				if (deli.containsPolygonToMagnetize()) {
-					deli.magnetize({ cut: true, removeContour: evt.key == "m" });
+					Share.execute("magnetize", [UserManager.me.userID, true, evt.key == "m" ]);
 				}
 				else {
 					Share.execute("printMagnet", [MagnetManager.getCurrentMagnetID()]);
