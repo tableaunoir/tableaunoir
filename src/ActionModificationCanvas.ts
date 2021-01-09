@@ -1,7 +1,18 @@
 import { getCanvas } from './main';
 import { Action } from './Action';
 
+
+/** can be replaced by a cut action */
 export class ActionModificationCanvas extends Action {
+
+    serialize(): Object {
+        return {
+            type: "blit", imagesrc: this.image.src,
+            x1: this.r.x1, y1: this.r.y1, x2: this.r.x2, y2: this.r.y2
+        };
+    }
+
+
     private readonly image = new Image();
 
     /**

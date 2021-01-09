@@ -3,7 +3,10 @@ import { Action } from "./Action";
 
 export class ActionPrintMagnet extends Action {
 
-
+    serialize(): Object {
+        return {type: "printmagnet", magnet: this.img.outerHTML,
+        x: this.x, y:this.y };
+    }
 
     constructor(userid: string, private img: HTMLImageElement, private x: number, private y: number) {
         super(userid);
@@ -17,6 +20,7 @@ export class ActionPrintMagnet extends Action {
 		s = s.substr("polygon(".length, s.length - "polygon(".length - ")".length);
 
 		context.globalCompositeOperation = "source-over";
+		context.globalAlpha = 1.0;
 		context.save();
 		context.beginPath();
 		let begin = true;

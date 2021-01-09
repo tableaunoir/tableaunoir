@@ -3,6 +3,12 @@ import { getCanvas } from './main';
 import { Action } from './Action';
 
 export class ActionFreeDraw extends Action {
+
+    serialize(): Object {
+        return {type: "freedraw", points: this.points};
+    }
+
+
     public alreadyDrawnSth = false;
     public points: { x: number; y: number; pressure: number; color: string; }[] = [];
 

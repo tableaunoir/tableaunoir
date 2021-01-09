@@ -3,6 +3,13 @@ import { Action } from "./Action";
 
 
 export class ActionEllipse extends Action {
+    
+    serialize(): Object {
+        return {
+            type: "ellipse",
+            cx: this.cx, cy: this.cy, rx: this.rx, ry: this.ry, color: this.color
+        };
+    }
     constructor(userid: string, private cx: number, private cy: number, private rx: number, private ry: number, private color: string) {
         super(userid);
     }
@@ -10,5 +17,6 @@ export class ActionEllipse extends Action {
     async redo(): Promise<void> {
         Drawing.drawEllipse({ cx: this.cx, cy: this.cy, rx: this.rx, ry: this.ry }, this.color);
     }
+
 
 }

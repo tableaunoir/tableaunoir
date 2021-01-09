@@ -11,6 +11,9 @@ export abstract class Action {
     constructor(userid: string) {
         this.userid = userid;
     }
+
+
+    abstract serialize(): Object;
     /**
      * redo the action
      */

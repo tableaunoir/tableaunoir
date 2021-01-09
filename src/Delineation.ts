@@ -1,3 +1,4 @@
+import { ActionClearZone } from './ActionClearZone';
 import { UserManager } from './UserManager';
 import { Drawing } from './Drawing';
 import { BoardManager } from './boardManager';
@@ -107,7 +108,7 @@ export class Delineation {
         if (removeContour)
             Drawing.removeContour(this.points);
 
-        if (userid != UserManager.me.userID) //only the real user will create the magnet since the others will receive it
+        if (userid == UserManager.me.userID) //only the real user will create the magnet since the others will receive it
             this._createMagnetFromImg();
 
         if (cut && removeContour) //if cut, remove the contour after having baked the magnet
@@ -116,7 +117,9 @@ export class Delineation {
         if (cut)
             Drawing.clearPolygon(this.points);
 
-        BoardManager.save(this._getRectangle());
+        //the code above can not beexecuted bythe action because the magnet has to be created
+        const action = new ActionClearZone(userid, this.points, cut, removeContour);
+        BoardManager.addAction(action);
         this.reset();
     }
 
