@@ -67,6 +67,50 @@ export class TestPerformance {
         console.log(nbObject + " objects");
 
     }
+
+
+    static _testCanvas(w, S) {
+        const h = 1000;
+        let nbObject = 0;
+        getCanvas().width = w;
+        for (let x = 0; x < w; x += S) {
+            for (let y = 0; y < h; y += S) {
+                const action = new ActionFreeDraw(UserManager.me.userID);
+                action.addPoint({ x: x, y: y, pressure: 1, color: randomColor() });
+                action.addPoint({ x: x + S * Math.random(), y: y + S * Math.random(), pressure: 1, color: randomColor() });
+                action.redo();
+                BoardManager.addAction(action);
+                nbObject++;
+            }
+        }
+        console.log(nbObject + " objects");
+
+    }
+
+
+    static _testSVG(w, S) {
+        const h = 1000;
+        let nbObject = 0;
+        getCanvas().width = w;
+        for (let x = 0; x < w; x += S) {
+            for (let y = 0; y < h; y += S) {
+                const svgLine = ToolDraw.addSVGLine(x, y, x + S * Math.random(), y + S * Math.random(), 1, randomColor());
+                document.getElementById("svg").appendChild(svgLine);
+                nbObject++;
+            }
+        }
+        console.log(nbObject + " objects");
+
+    }
+
+
+    static testNormal() {
+        TestPerformance._testCanvas(3000, 16);
+    }
+
+    static testNormalSVG() {
+        TestPerformance._testSVG(3000, 16);
+    }
 }
 
 

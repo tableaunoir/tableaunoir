@@ -92,8 +92,6 @@ export class Delineation {
     }
 
 
-
-
     /**
      * @param cut, removeContour
      * @description magnetize the "selected" part of the blackboard.

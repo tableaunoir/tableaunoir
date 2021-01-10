@@ -1,7 +1,9 @@
+import { ActionDeserializer } from './ActionDeserializer';
 import { UserManager } from './UserManager';
 import { State } from './State';
 import { Action } from './Action';
 import { ActionInit } from './ActionInit';
+import { getCanvas } from './main';
 
 
 /**
@@ -26,12 +28,39 @@ export class CancelStack {
         this.stack = [];
         this.currentIndex = -1;
 
-        const actionInit = new ActionInit(UserManager.me.userID);
-        actionInit.storePostState();
+        const actionInit = new ActionInit(UserManager.me.userID, undefined);
         this._push(actionInit);
     }
 
 
+    clearAndReset(canvasDataURL: string) {
+        this.stack = [];
+        this.currentIndex = -1;
+
+        const actionInit = new ActionInit(UserManager.me.userID, canvasDataURL);
+        actionInit.redo();
+        this._push(actionInit);
+    }
+
+
+    get t() {
+        return this.currentIndex;
+    }
+
+    public async load(A: ActionSerialized[], t: number) {
+        this.stack = A.map(ActionDeserializer.deserialize);
+        this.n = this.stack.length;
+        this.currentIndex = t;
+        console.log("loaded stack with " + this.n + " elements");
+
+        const canvas = getCanvas();
+        canvas.width = canvas.width + 0;
+
+        for (let u = 0; u <= t; u++)
+            await this.stack[u].redo();
+
+        //  this.print();
+    }
 
     private _push(action: Action): void {
         this.currentIndex++;
@@ -52,7 +81,7 @@ export class CancelStack {
 
 
     /**
-     * @returns the index of the last pre-computed states
+     * @returns the index of the last pre-computed states, or undefined if none
      */
     get lastStateIndex(): number {
         let i = this.currentIndex;
@@ -61,7 +90,7 @@ export class CancelStack {
                 return i;
             i--;
         }
-        throw "there is no initial state? are you kidding?";
+        return undefined;
     }
 
 
@@ -74,13 +103,16 @@ export class CancelStack {
 
         this.currentIndex--;
 
-        const stateIndex = this.lastStateIndex;
-        await this.stack[stateIndex].restoreState();
+        /*  let stateIndex = this.lastStateIndex;
+          if (stateIndex != undefined) {
+              await this.stack[stateIndex].restoreState();
+          } else stateIndex = -1;*/
 
-        for (let i = stateIndex + 1; i <= this.currentIndex; i++)
+        getCanvas().width = getCanvas().width + 0;
+        for (let i = 0; i <= this.currentIndex; i++)
             await this.stack[i].redo();
 
-        //this.print();
+        // this.print();
     }
 
     /**
@@ -93,7 +125,7 @@ export class CancelStack {
         this.currentIndex++;
         await this.stack[this.currentIndex].redo();
 
-        //this.print();
+        //  this.print();
     }
 
 
@@ -122,4 +154,8 @@ export class CancelStack {
     }
 
 
+
+    serialize(): ActionSerialized[] {
+        return this.stack.map((a) => a.serialize());
+    }
 }

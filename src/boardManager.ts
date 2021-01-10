@@ -1,5 +1,4 @@
 import { UserManager } from './UserManager';
-import { ActionModificationCanvas } from './ActionModificationCanvas';
 import { getCanvas } from "./main";
 import { Share } from "./share";
 import { Layout } from './Layout';
@@ -82,17 +81,6 @@ export class BoardManager {
 
 
 
-    /**
-     * save the current board into the cancel/redo stack but also in the localStorage of the browser
-     */
-    static save(rectangle: { x1: number, y1: number, x2: number, y2: number } | undefined): void {
-        BoardManager._toBlobOfRectangle(rectangle, (blob) => {
-            BoardManager.cancelStack.push(new ActionModificationCanvas(UserManager.me.userID, blob, rectangle)); // a 
-        });
-
-    }
-
-
 
     static addAction(action: Action): void {
         BoardManager.cancelStack.push(action);
@@ -119,23 +107,12 @@ export class BoardManager {
         // let data = localStorage.getItem(BoardManager.boardName);
 
         if (data != undefined) {
-            BoardManager._clear();
             try {
-                const image = new Image();
-                image.onload = function () {
-                    const canvas = getCanvas();
-                    canvas.width = image.width;
-                    canvas.height = image.height;
-                    canvas.getContext("2d").drawImage(image, 0, 0);
-                    BoardManager.cancelStack.clear();
-                    console.log("loaded!")
-                }
-                image.src = data;
+                BoardManager.cancelStack.clearAndReset(data);
             }
             catch (e) {
                 //TODO: handle error?
             }
-
         }
         else {
             BoardManager._clear();

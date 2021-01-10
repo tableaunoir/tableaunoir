@@ -8,6 +8,7 @@ import { UserManager } from './UserManager';
 import { ErrorMessage } from './ErrorMessage';
 import { ShareEvent } from './ShareEvent';
 import config from './config.json'
+import { ConstraintDrawing } from './ConstraintDrawing';
 
 /**
  * the class that enables to share the board
@@ -119,7 +120,7 @@ export class Share {
 
 		navigator.clipboard.writeText(sharelink).
 			then(() => { document.getElementById("shareUrlCopied").hidden = false; },
-        /* else */ () => { document.getElementById("shareUrlCopied").hidden = false; });
+        /* else */() => { document.getElementById("shareUrlCopied").hidden = false; });
 	}
 
 
@@ -226,12 +227,19 @@ export class Share {
 				if (UserManager.isSmallestUserID()) {
 					//getCanvas().toBlob((blob) => Share.sendFullCanvas(blob, msg.userid));
 					Share.send({ type: "wait", to: msg.userid });
+					//Share.send({type: "actions", to: msg.userid, actions: BoardManager.cancelStack.serialize(), t: BoardManager.cancelStack.t});
 					Share.sendFullCanvas(msg.userid);
+
+					Share.send({
+						type: "svg", to: msg.userid,
+						data: document.getElementById("svg").innerHTML
+					});
+
 					Share.sendMagnets(msg.userid);
 					Share.send({ type: "ready", to: msg.userid });
 					Share.execute("setUserCanWrite", [msg.userid, Share.canWriteValueByDefault]);
 					Share.execute("setDocuments", [Background.getDocumentPanel().innerHTML]);
-					
+
 					for (const userid in UserManager.users)
 						Share.execute("setUserName", [userid, UserManager.users[userid].name]);
 
@@ -247,8 +255,16 @@ export class Share {
 				Loading.hide();
 				BoardManager.load(msg.data);
 				break;
+			case "actions":
+				Loading.hide();
+				BoardManager.cancelStack.load(msg.actions, msg.t);
+				break;
+			case "svg":
+				console.log("received svg!")
+				document.getElementById("svg").innerHTML = msg.data;
+				ConstraintDrawing.reset();
+				break;
 			case "magnets":
-				console.log(msg.magnets);
 				document.getElementById("magnets").innerHTML = msg.magnets;
 				MagnetManager.installMagnets();
 				break;

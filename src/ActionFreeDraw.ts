@@ -4,8 +4,8 @@ import { Action } from './Action';
 
 export class ActionFreeDraw extends Action {
 
-    serialize(): Object {
-        return {type: "freedraw", points: this.points};
+    serialize(): ActionSerialized {
+        return {type: "freedraw", userid: this.userid,points: this.points};
     }
 
 

@@ -13,7 +13,7 @@ export abstract class Action {
     }
 
 
-    abstract serialize(): Object;
+    abstract serialize(): ActionSerialized;
     /**
      * redo the action
      */

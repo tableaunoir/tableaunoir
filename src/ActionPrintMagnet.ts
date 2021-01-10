@@ -3,42 +3,57 @@ import { Action } from "./Action";
 
 export class ActionPrintMagnet extends Action {
 
-    serialize(): Object {
-        return {type: "printmagnet", magnet: this.img.outerHTML,
-        x: this.x, y:this.y };
-    }
+	serialize(): ActionSerialized {
+		return {
+			type: "printmagnet", userid: this.userid, magnet: this.img.outerHTML,
+			x: this.x, y: this.y
+		};
+	}
 
-    constructor(userid: string, private img: HTMLImageElement, private x: number, private y: number) {
-        super(userid);
-    }
+	constructor(userid: string, private img: HTMLImageElement, private x: number, private y: number) {
+		super(userid);
+	}
 
 
-    async redo(): Promise<void> {
-        const img = this.img;
-        let s = img.style.clipPath;
-        const context = getCanvas().getContext("2d");
-		s = s.substr("polygon(".length, s.length - "polygon(".length - ")".length);
+	redo(): Promise<void> {
+		return new Promise((resolve, reject) => {
+			const img = this.img;
 
-		context.globalCompositeOperation = "source-over";
-		context.globalAlpha = 1.0;
-		context.save();
-		context.beginPath();
-		let begin = true;
-		for (let pointStr of s.split(",")) {
-			pointStr = pointStr.trim();
-			const a = pointStr.split(" ");
-			if (begin)
-				context.moveTo(this.x + parseInt(a[0]), this.y + parseInt(a[1]));
-			else
-				context.lineTo(this.x + parseInt(a[0]), this.y + parseInt(a[1]));
-			begin = false;
-		}
-		context.closePath();
-		context.clip();
+			const f = () => {
+				let s = img.style.clipPath;
+				const context = getCanvas().getContext("2d");
+				s = s.substr("polygon(".length, s.length - "polygon(".length - ")".length);
 
-		context.drawImage(this.img, this.x, this.y);
+				context.globalCompositeOperation = "source-over";
+				context.globalAlpha = 1.0;
+				context.save();
+				context.beginPath();
+				let begin = true;
+				for (let pointStr of s.split(",")) {
+					pointStr = pointStr.trim();
+					const a = pointStr.split(" ");
+					if (begin)
+						context.moveTo(this.x + parseInt(a[0]), this.y + parseInt(a[1]));
+					else
+						context.lineTo(this.x + parseInt(a[0]), this.y + parseInt(a[1]));
+					begin = false;
+				}
+				context.closePath();
+				context.clip();
 
-		context.restore();
-    }
+				console.log("print magnet of width " + img.width);
+
+				context.drawImage(this.img, this.x, this.y);
+
+				context.restore();
+
+				resolve();
+			};
+
+			if (img.complete)
+				f();
+			img.onload = f;
+		});
+	}
 
 }

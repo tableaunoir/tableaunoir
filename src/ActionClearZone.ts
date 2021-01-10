@@ -2,9 +2,10 @@ import { Action } from './Action';
 import { Drawing } from './Drawing';
 
 export class ActionClearZone extends Action {
-    serialize(): Object {
+    serialize(): ActionSerialized {
         return {
             type: "clearzone",
+            userid: this.userid,
             points: this.points,
             cut: this.cut,
             removeContour: this.removeContour

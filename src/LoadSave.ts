@@ -1,3 +1,4 @@
+import { Share } from './share';
 import { ConstraintDrawing } from './ConstraintDrawing';
 import { Layout } from './Layout';
 import { CircularMenu } from './CircularMenu';
@@ -19,7 +20,7 @@ export class LoadSave {
         /**
          * load a file from the <input type="file"...>
          */
-        (<HTMLInputElement> document.getElementById("file")).onchange = function () {
+        (<HTMLInputElement>document.getElementById("file")).onchange = function () {
             LoadSave.loadFile((<HTMLInputElement>this).files[0]);
         };
 
@@ -67,14 +68,17 @@ export class LoadSave {
     static loadFile(file: File): void {
         if (file) {
             const reader = new FileReader();
-            reader.onerror = () => { 
-                    //TODO: handle error
+            reader.onerror = () => {
+                //TODO: handle error
             };
 
             /** load a .tableaunoir file, that is, a file containing the blackboard + some magnets */
             if (file.name.endsWith(".tableaunoir")) {
                 reader.readAsText(file, "UTF-8");
-                reader.onload = function (evt) { LoadSave.loadJSON(JSON.parse(<string>evt.target.result)); }
+                reader.onload = function (evt) {
+                    const s: string = <string>evt.target.result;
+                    Share.execute("loadBoard", [s]);
+                }
             }
             else {
                 /** load an image and add it as a magnet */
@@ -100,7 +104,7 @@ export class LoadSave {
      */
     static fetchImageFromFile(file: File, callback: (img: HTMLImageElement) => void): void {
         const reader = new FileReader();
-        reader.onerror = function () { 
+        reader.onerror = function () {
             //TODO: handle error
         }
         reader.readAsDataURL(file);
@@ -119,7 +123,7 @@ export class LoadSave {
          */
     static fetchFromFile(file: File, callback: (string) => void): void {
         const reader = new FileReader();
-        reader.onerror = function () { 
+        reader.onerror = function () {
             //TODO: error
         }
         reader.readAsDataURL(file);
@@ -136,8 +140,23 @@ export class LoadSave {
      * obj.canvasDataURL is the content of the canvas
      * obj.magnets is the HTML code of the magnets
      */
-    static loadJSON(obj: { canvasDataURL: string, magnets: string, svg: string }): void {
-        BoardManager.load(obj.canvasDataURL);
+    static loadJSON(obj: { canvasDataURL?: string, actions: ActionSerialized[], t: number, width: number, height: number, magnets: string, svg: string }): void {
+        console.log("loadJSON");
+
+        if (obj.width) {
+            getCanvas().width = obj.width;
+            getCanvas().height = obj.height;
+        }
+
+        if (obj.canvasDataURL) {
+            console.log("canvas format!");
+            BoardManager.load(obj.canvasDataURL);
+        }
+            
+
+        if (obj.actions)
+            BoardManager.cancelStack.load(obj.actions, obj.t);
+
         document.getElementById("magnets").innerHTML = obj.magnets;
         document.getElementById("svg").innerHTML = obj.svg;
         ConstraintDrawing.reset();
@@ -165,8 +184,9 @@ export class LoadSave {
     static save(): void {
         const magnets = document.getElementById("magnets").innerHTML;
         const svg = document.getElementById("svg").innerHTML;
-        const canvasDataURL = getCanvas().toDataURL();
-        const obj = { magnets: magnets, svg: svg, canvasDataURL: canvasDataURL };
+        // const canvasDataURL = getCanvas().toDataURL();
+        //const obj = { magnets: magnets, svg: svg, canvasDataURL: canvasDataURL };
+        const obj = { magnets: magnets, width: getCanvas().width, height: getCanvas().height, svg: svg, actions: BoardManager.cancelStack.serialize(), t: BoardManager.cancelStack.t };
         LoadSave.download((<HTMLInputElement>document.getElementById("name")).value + ".tableaunoir", JSON.stringify(obj));
     }
 

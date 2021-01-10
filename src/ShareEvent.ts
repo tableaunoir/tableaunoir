@@ -1,3 +1,4 @@
+import { LoadSave } from './LoadSave';
 import { Layout } from './Layout';
 import { PDFDocument } from './PDFDocument';
 import { PDFViewer } from './PDFViewer';
@@ -183,6 +184,11 @@ export class ShareEvent {
         img.style.height = Layout.STANDARDHEIGHT + "px";
     
         Background.getDocumentPanel().appendChild(img);
+    }
+
+
+    static loadBoard(data: string) {
+        LoadSave.loadJSON(JSON.parse(data));
     }
 }
 
