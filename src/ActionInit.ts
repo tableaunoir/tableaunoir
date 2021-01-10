@@ -35,6 +35,8 @@ export class ActionInit extends Action {
 
                 console.log("action init: redo")
             }
+            else
+                resolve();
         });
 
     }
