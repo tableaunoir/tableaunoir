@@ -4,7 +4,7 @@ import { Drawing } from './Drawing';
 import { BoardManager } from './boardManager';
 import { getCanvas } from './main';
 import { MagnetManager } from './magnetManager';
-import { Share } from './share';
+
 
 /**
  * This class represents a polyline drawn by a user

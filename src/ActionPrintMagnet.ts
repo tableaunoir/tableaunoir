@@ -16,7 +16,7 @@ export class ActionPrintMagnet extends Action {
 
 
 	redo(): Promise<void> {
-		return new Promise((resolve, reject) => {
+		return new Promise((resolve) => {
 			const img = this.img;
 
 			const f = () => {

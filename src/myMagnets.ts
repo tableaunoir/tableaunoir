@@ -5,6 +5,7 @@ import { MagnetManager } from './magnetManager';
 
 
 
+
 export class MyMagnets {
 
     static createMagnet(content: string): HTMLElement {
@@ -14,15 +15,15 @@ export class MyMagnets {
         return o;
     }
 
-	/**
-	 *
-	 * @param filename
-	 * @param callback
-	 * @description create an image magnet where the file is already on the server
-	 */
+    /**
+     *
+     * @param filename
+     * @param callback
+     * @description create an image magnet where the file is already on the server
+     */
     static createMagnetImage(filename: string): HTMLElement {
         const img = new Image();
-		img.src = "img/magnets/" + filename;
+        img.src = "img/magnets/" + filename;
         img.classList.add("backgroundTransparent");
         return img;
     }
@@ -40,15 +41,13 @@ export class MyMagnets {
     }
 
 
-    static magnetGS(): void {
-        MyMagnets.magnetsClear();
-        MagnetManager.addMagnetAndPositionnate(MyMagnets.createMagnet("1"))
-        MagnetManager.addMagnetAndPositionnate(MyMagnets.createMagnet("2"))
-        MagnetManager.addMagnetAndPositionnate(MyMagnets.createMagnet("3"))
-        MagnetManager.addMagnetAndPositionnate(MyMagnets.createMagnetGS_B("1"))
-        MagnetManager.addMagnetAndPositionnate(MyMagnets.createMagnetGS_B("2"))
-        MagnetManager.addMagnetAndPositionnate(MyMagnets.createMagnetGS_B("3"))
-
+    static * magnetGS(): Generator<HTMLElement> {
+        yield MyMagnets.createMagnet("1");
+        yield MyMagnets.createMagnet("2");
+        yield MyMagnets.createMagnet("3");
+        yield MyMagnets.createMagnetGS_B("1");
+        yield MyMagnets.createMagnetGS_B("2");
+        yield MyMagnets.createMagnetGS_B("3");
     }
 
     /** Sorting */
@@ -63,41 +62,39 @@ export class MyMagnets {
     }
 
 
-    static magnetSorting(): void {
-        MagnetManager.clearMagnet();
+    static * magnetSorting(): Generator<HTMLElement> {
         for (let i = 1; i <= 17; i++)
-            MagnetManager.addMagnetAndPositionnate(MyMagnets.createMagnetRainbow(i))
+            yield MyMagnets.createMagnetRainbow(i);
     }
 
     /** B-trees */
 
-    static magnetBTrees(): void {
-        MagnetManager.clearMagnet();
+    static * magnetBTrees(): Generator<HTMLElement> {
         for (let i = 1; i <= 17; i++)
-            MagnetManager.addMagnetAndPositionnate(MyMagnets.createMagnetRainbow(i))
+            yield MyMagnets.createMagnetRainbow(i);
 
         for (let i = 1; i <= 7; i++)
-            MagnetManager.addMagnetAndPositionnate(MyMagnets.createMagnetImage("Btreenode.png"));
+            yield MyMagnets.createMagnetImage("Btreenode.png");
 
 
     }
 
     /** Graphs */
 
-    static magnetGraphNodes(): void {
+    static * magnetGraphNodes(): Generator<HTMLElement> {
         //MagnetManager.clearMagnet();
         for (const i of ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O'])
-            MagnetManager.addMagnetAndPositionnate(MyMagnets.createMagnet(i))
+            yield MyMagnets.createMagnet(i);
     }
 
 
-    static magnetFloydsAlgorithm(): void {
-        MagnetManager.addMagnetAndPositionnate(MyMagnets.createMagnetImage("turtlerabbit/turtle.png"));
-        MagnetManager.addMagnetAndPositionnate(MyMagnets.createMagnetImage("turtlerabbit/rabbit.png"));
+    static * magnetFloydsAlgorithm(): Generator<HTMLElement> {
+        yield MyMagnets.createMagnetImage("turtlerabbit/turtle.png");
+        yield MyMagnets.createMagnetImage("turtlerabbit/rabbit.png");
 
     }
 
-    static magnetGraphSimCity(): void {
+    static * magnetGraphSimCity(): Generator<HTMLElement> {
         //MagnetManager.clearMagnet();
 
         const simCityPictures = ["antenne.png", "commerce.png", "parking.png", "tour.png",
@@ -108,7 +105,7 @@ export class MyMagnets {
         ];
 
         for (const name of simCityPictures) {
-            MagnetManager.addMagnetAndPositionnate(MyMagnets.createMagnetImage("simCityGraph/" + name));
+            yield MyMagnets.createMagnetImage("simCityGraph/" + name);
         }
 
     }
@@ -148,19 +145,19 @@ export class MyMagnets {
     }
 
 
-    static magnetTilings(): void {
+    static * magnetTilings(): Generator<HTMLElement> {
         MagnetManager.clearMagnet();
-        MagnetManager.addMagnetAndPositionnate(MyMagnets.createTiling("yellow", "red", "green", "red"));
-        MagnetManager.addMagnetAndPositionnate(MyMagnets.createTiling("green", "red", "green", "yellow"));
-        MagnetManager.addMagnetAndPositionnate(MyMagnets.createTiling("green", "red", "green", "yellow"));
+        yield MyMagnets.createTiling("yellow", "red", "green", "red");
+        yield MyMagnets.createTiling("green", "red", "green", "yellow");
+        yield MyMagnets.createTiling("green", "red", "green", "yellow");
 
-        MagnetManager.addMagnetAndPositionnate(MyMagnets.createTiling("red", "red", "red", "red"));
-        MagnetManager.addMagnetAndPositionnate(MyMagnets.createTiling("red", "yellow", "red", "green"));
-        MagnetManager.addMagnetAndPositionnate(MyMagnets.createTiling("red", "yellow", "yellow", "yellow"));
+        yield MyMagnets.createTiling("red", "red", "red", "red");
+        yield MyMagnets.createTiling("red", "yellow", "red", "green");
+        yield MyMagnets.createTiling("red", "yellow", "yellow", "yellow");
 
-        MagnetManager.addMagnetAndPositionnate(MyMagnets.createTiling("green", "red", "green", "yellow"));
-        MagnetManager.addMagnetAndPositionnate(MyMagnets.createTiling("green", "green", "red", "green"));
-        MagnetManager.addMagnetAndPositionnate(MyMagnets.createTiling("red", "yellow", "red", "green"));
+        yield MyMagnets.createTiling("green", "red", "green", "yellow");
+        yield MyMagnets.createTiling("green", "green", "red", "green");
+        yield MyMagnets.createTiling("red", "yellow", "red", "green");
     }
 
 
@@ -170,25 +167,21 @@ export class MyMagnets {
 
 
 
-    static magnetGo(): void {
+    static * magnetGo(): Generator<HTMLElement> {
         MagnetManager.clearMagnet();
 
-        const f = (color, x) => {
+        for (const { color, x } of [{ color: "black", x: 20 }, { color: "white", x: 50 }])
             for (let i = 0; i < 20; i++) {
                 const img = MyMagnets.createMagnetImage("go/" + color + ".png");
                 img.style.left = x + "px";
                 img.style.top = 10 + i * 5 + "px";
-                MagnetManager.addMagnetAndPositionnate(img);
+                yield img;
             }
-        }
-
-        f("black", 20);
-        f("white", 50);
 
         const goban = MyMagnets.createMagnetImage("go/goban.png");
         goban.style.left = "110px";
         goban.style.top = "20px";
-        MagnetManager.addMagnetAndPositionnate(goban);
+        yield goban;
     }
 
 
@@ -198,7 +191,36 @@ export class MyMagnets {
  * @description register a set of magnets. Add it to the magnet menu.
  */
     static register(magnetSetName: string): void {
-        document.getElementById(magnetSetName).onclick = MyMagnets[magnetSetName];
+        const wrapper = document.createElement("div");
+        const snapshot = document.createElement("div");
+        wrapper.appendChild(snapshot);
+        wrapper.classList.add("wrapperMagnetPreview");
+        snapshot.classList.add("magnetPreview");
+        const ite = MyMagnets[magnetSetName]();
+
+        while (true) {
+            const m = ite.next();
+            console.log(m)
+            if (m.done)
+                break;
+            snapshot.appendChild(m.value);
+        }
+
+        document.getElementById(magnetSetName).prepend(document.createElement("br"));
+        document.getElementById(magnetSetName).prepend(wrapper);
+        document.getElementById(magnetSetName).onclick =
+            () => {
+                MagnetManager.resetPositionate();
+                const ite = MyMagnets[magnetSetName]();
+
+                while (true) {
+                    const m = ite.next();
+                    console.log(m)
+                    if (m.done)
+                        break;
+                    MagnetManager.addMagnetAndPositionnate(m.value);
+                }
+            };
     }
 
 

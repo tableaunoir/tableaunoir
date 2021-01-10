@@ -91,7 +91,7 @@ export class Layout {
     static TRANSITION = "all 350ms ease-out";
 
 
-    static normal() {
+    static normal(): void {
         const contentElement = document.getElementById("content");
         contentElement.style.transition = Layout.TRANSITION;
         contentElement.style.top = "0px";
@@ -111,7 +111,7 @@ export class Layout {
 
     }
 
-    static minimap() {
+    static minimap(): void {
         console.log("minimap")
         const contentElement = document.getElementById("content");
         contentElement.style.transition = Layout.TRANSITION;
@@ -143,7 +143,7 @@ export class Layout {
             x = Math.min(x, getCanvas().width - parseInt(viewport.style.width));
             newviewport.style.left = x + "";
         }
-        nodeBoard.onmouseup = (evt) => { Layout.normal();  }
+        nodeBoard.onmouseup = () => { Layout.normal();  }
 
         contentElement.style.top = "100px";
         Layout.getWindowHeight = () => { return Layout.STANDARDHEIGHT; };
@@ -243,8 +243,6 @@ export class Layout {
      */
     static initWorWT(): void {
         Layout.isminimap = false;
-        const canvas = getCanvas();
-        const canvasBackground = getCanvasBackground();
         const content = document.getElementById("content");
 
         Layout.getWindowHeight = () => { return Layout.STANDARDHEIGHT; };

@@ -19,7 +19,7 @@ export class ActionInit extends Action {
     }
 
     redo(): Promise<void> {
-        return new Promise((resolve, reject) => {
+        return new Promise((resolve) => {
             if (this.img) {
                 const f = () => {
                     const canvas = getCanvas();

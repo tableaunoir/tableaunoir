@@ -224,7 +224,22 @@ div.magnet {
 }
 
 
+.wrapperMagnetPreview {
+	display: inline-block;
+	width: 164px;
+	height: 16px;
+	overflow: hidden;
+}
 
+.magnetPreview {
+	display: inline-flex;
+	position: relative;
+	transform: scale(0.25);
+	transform-origin: left top;
+	font-size: 32px;
+	font-weight: bold;
+	color: black;
+}
 
 
 @keyframes magnetCreation {
@@ -463,21 +478,22 @@ img {
 }
 
 .magnetCollectionButton {
-	display: block;
-	background: none;
+	display: inline;
+	background: rgba(191, 191, 255, 0.2);
 	color: rgb(191, 191, 255);
 	border: none;
 	outline: none;
-	padding: 0px;
+	padding: 8px;
+	margin: 16px;
 	cursor: pointer;
 }
 
 .magnetCollectionButton:hover {
-	display: block;
 	background: none;
 	color: rgb(157, 157, 255);
 	border: none;
 	outline: none;
+	background: rgba(191, 191, 255, 0.3);
 }
 
 button:hover {

@@ -13,7 +13,7 @@ export class PDFDocument {
      */
     open(url: string): Promise<void> {
         this.dataURL = url;
-        return new Promise((resolve, reject) => {
+        return new Promise((resolve) => {
         pdfjsLib.getDocument(url).promise.then((pdfDoc_) => {
             this.pdfDoc = pdfDoc_;
             resolve();
@@ -26,7 +26,7 @@ export class PDFDocument {
      * @returns a canvas containing the image of the page numbered num
      */
     getCanvasPage(num: number): Promise<HTMLCanvasElement> {
-        return new Promise((resolve, reject) => {
+        return new Promise((resolve) => {
 
             const canvas = document.createElement("canvas");
             canvas.classList.add("pdfPage");

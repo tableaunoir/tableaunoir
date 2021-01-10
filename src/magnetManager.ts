@@ -116,8 +116,6 @@ export class MagnetManager {
 	 */
 	static clearMagnet(): void {
 		MagnetManager.currentMagnet = undefined;
-		MagnetManager.magnetX = BoardManager.getCurrentScreenRectangle().x1;
-		MagnetManager.magnetY = MagnetManager.getYTopWhenNewMagnets();
 		const magnets = MagnetManager.getMagnets();
 
 		while (magnets.length > 0)
@@ -126,6 +124,12 @@ export class MagnetManager {
 		Share.sendMagnets();
 
 		Menu.hide();
+	}
+
+
+	static resetPositionate() {
+		MagnetManager.magnetX = BoardManager.getCurrentScreenRectangle().x1;
+		MagnetManager.magnetY = MagnetManager.getYTopWhenNewMagnets();
 	}
 
 
@@ -138,8 +142,10 @@ export class MagnetManager {
 			MagnetManager.magnetX = BoardManager.getCurrentScreenRectangle().x1;
 			MagnetManager.magnetY += 64;
 		}
-		element.style.left = MagnetManager.magnetX + "px";
-		element.style.top = MagnetManager.magnetY + "px";
+		if (element.style.left == "") {
+			element.style.left = MagnetManager.magnetX + "px";
+			element.style.top = MagnetManager.magnetY + "px";
+		}
 		MagnetManager.magnetX += 64;
 		MagnetManager.addMagnet(element);
 	}
@@ -657,6 +663,7 @@ export class MagnetManager {
 	 */
 	static magnetRemove(id: string): void {
 		document.getElementById(id).remove();
+		//		document.getElementById(id).style.top = "-1000";
 		MagnetManager.currentMagnet == undefined;
 		MagnetManager.magnetUnderCursor = undefined;
 		ConstraintDrawing.update();

@@ -9,7 +9,7 @@ import { BoardManager } from './boardManager';
 import { Delineation } from './Delineation';
 import { Drawing } from './Drawing';
 import { Tool } from './Tool';
-import { getCanvas } from './main';
+
 
 export class ToolDraw extends Tool {
 

@@ -187,7 +187,7 @@ export class ShareEvent {
     }
 
 
-    static loadBoard(data: string) {
+    static loadBoard(data: string): void {
         LoadSave.loadJSON(JSON.parse(data));
     }
 }

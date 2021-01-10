@@ -1,4 +1,3 @@
-import { UserManager } from './UserManager';
 import { getCanvas } from "./main";
 import { Share } from "./share";
 import { Layout } from './Layout';

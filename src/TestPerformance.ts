@@ -7,11 +7,11 @@ import { ToolDraw } from "./ToolDraw";
 
 export class TestPerformance {
 
-    static init() {
+    static init(): void {
         window["TestPerformance"] = TestPerformance;
     }
 
-    static testSVG() {
+    static testSVG(): void {
         for (let x = 0; x < 500; x += 4)
             for (let y = 0; y < 1000; y += 4) {
                 const svgLine = ToolDraw.addSVGLine(x, y, x + 2, y + 1, 0.5, "yellow");
@@ -20,7 +20,7 @@ export class TestPerformance {
 
     }
 
-    static testCanvas() {
+    static testCanvas(): void {
         for (let x = 0; x < 500; x += 4)
             for (let y = 0; y < 1000; y += 4) {
                 Drawing.drawLine(getCanvas().getContext("2d"), x, y, x + 2, y + 1, 0.5, "yellow");
@@ -31,7 +31,7 @@ export class TestPerformance {
 
 
 
-    static testBigCanvas() {
+    static testBigCanvas(): void {
         const w = 20000;
         const h = 1000;
         const S = 16;
@@ -51,7 +51,7 @@ export class TestPerformance {
 
     }
 
-    static testBigCanvasSVG() {
+    static testBigCanvasSVG(): void {
         const w = 20000;
         const h = 1000;
         const S = 16;
@@ -69,7 +69,7 @@ export class TestPerformance {
     }
 
 
-    static _testCanvas(w, S) {
+    static _testCanvas(w: number, S: number): void {
         const h = 1000;
         let nbObject = 0;
         getCanvas().width = w;
@@ -88,7 +88,7 @@ export class TestPerformance {
     }
 
 
-    static _testSVG(w, S) {
+    static _testSVG(w: number, S: number): void {
         const h = 1000;
         let nbObject = 0;
         getCanvas().width = w;
@@ -104,11 +104,11 @@ export class TestPerformance {
     }
 
 
-    static testNormal() {
+    static testNormal(): void {
         TestPerformance._testCanvas(3000, 16);
     }
 
-    static testNormalSVG() {
+    static testNormalSVG(): void {
         TestPerformance._testSVG(3000, 16);
     }
 }

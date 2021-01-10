@@ -33,7 +33,7 @@ export class CancelStack {
     }
 
 
-    clearAndReset(canvasDataURL: string) {
+    clearAndReset(canvasDataURL: string): void {
         this.stack = [];
         this.currentIndex = -1;
 
@@ -43,11 +43,11 @@ export class CancelStack {
     }
 
 
-    get t() {
+    get t(): number {
         return this.currentIndex;
     }
 
-    public async load(A: ActionSerialized[], t: number) {
+    public async load(A: ActionSerialized[], t: number): Promise<void> {
         this.stack = A.map(ActionDeserializer.deserialize);
         this.n = this.stack.length;
         this.currentIndex = t;
@@ -58,8 +58,6 @@ export class CancelStack {
 
         for (let u = 0; u <= t; u++)
             await this.stack[u].redo();
-
-        //  this.print();
     }
 
     private _push(action: Action): void {
