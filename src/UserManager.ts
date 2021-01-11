@@ -6,7 +6,7 @@ import { User } from "./User";
 export class UserManager {
 
     static me: User = undefined; // the current user
-    static users: { [id: string] : User }  = {};
+    static users: { [id: string]: User } = {};
 
     static readonly usersImageFileNames = ['1F9D1-200D-1F384.svg', '1F9D9.svg', '1F9DA-200D-2640-FE0F.svg', '1F9DD.svg'];
 
@@ -139,4 +139,15 @@ export class UserManager {
 
     }
 
+
+    /**
+     * @description set the cursor position of all users (except me)
+     */
+    static setSymbolCursorPosition() {
+        for (const userid in UserManager.users) {
+            const user = UserManager.users[userid];
+            if (user != UserManager.me)
+                user.setSymbolCursorPosition();
+        }
+    }
 }

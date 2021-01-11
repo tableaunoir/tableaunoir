@@ -141,7 +141,9 @@ export class User {
      * @param y 
      * @description set the position of the cursor (for another user than me)
      */
-    setSymbolCursorPosition(x: number, y: number): void {
+    setSymbolCursorPosition(): void {
+        let x = this.tool.x;
+        let y = this.tool.y;
         this.cursor.classList.remove("cursortoleft");
         this.cursor.classList.remove("cursortoright");
         this.cursor.classList.remove("cursorinscreen");
@@ -167,16 +169,16 @@ export class User {
         const evtX = evt.offsetX;
         const evtY = evt.offsetY;
 
-        if (!this.isCurrentUser) {
-            this.setSymbolCursorPosition(evtX, evtY);
-        }
-
         if (this.canWrite) {
             this.tool.mousemove(evt);
         }
 
         this.tool.x = evtX;
         this.tool.y = evtY;
+
+        if (!this.isCurrentUser) {
+            this.setSymbolCursorPosition();
+        }
     }
 
 

@@ -1,3 +1,4 @@
+import { UserManager } from './UserManager';
 import { Layout } from './Layout';
 import { getCanvas, getContainer } from "./main";
 
@@ -13,7 +14,7 @@ export class BoardNavigation {
      * because the browser stores its value)
      */
     static init(): void {
-        getContainer().scrollTo({ top: 0, left: 0, behavior: 'smooth' });
+        BoardNavigation.setScroll(0);
     }
 
 
@@ -33,8 +34,7 @@ export class BoardNavigation {
             BoardNavigation.showPageNumber(0);
             return;
         }
-
-        getContainer().scrollTo({ top: 0, left: x, behavior: 'smooth' });
+        BoardNavigation.setScroll(x);
     }
 
 
@@ -71,7 +71,7 @@ export class BoardNavigation {
             x = Math.min(x, canvas.width - Layout.getWindowWidth());
         }
 
-        container.scrollTo({ top: 0, left: x, behavior: 'smooth' });
+        BoardNavigation.setScroll(x);
 
     }
 
@@ -98,6 +98,7 @@ export class BoardNavigation {
 
     static setScroll(x: number): void {
         getContainer().scrollTo({ top: 0, left: x, behavior: 'smooth' });
+        setTimeout(UserManager.setSymbolCursorPosition, 1000);
     }
 
 
