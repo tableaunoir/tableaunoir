@@ -206,7 +206,7 @@ server {
 }
 ```
 
-Do not forget to update the `SERVERADDRESS` in `js/share.js` to
+Do not forget to update the `src/config.json` to
 `wss://ws.tableaunoir.example.com` (no port specified, `wss` instead of `ws`).
 
 In this setup, you should also configure your firewall to block incoming trafic
