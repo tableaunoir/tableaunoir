@@ -38,11 +38,11 @@ export class ChalkCursor {
      * @returns the image information of the chalk of a specific color
      */
     static getCursorURL(color: string): string {
-        const sizeX = 32;
-        const sizeY = 44;
+        const sizeX = 26;
+        const sizeY = 32;
         const angleOpening = 0.3;
-        const sizeHead = 16;
-        const length = 34;
+        const sizeHead = 14;
+        const length = 22;
 
         const canvas = document.createElement('canvas');
         canvas.width = sizeX;
