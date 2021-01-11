@@ -55,6 +55,7 @@ export class Layout {
     }
 
     static STANDARDHEIGHT = 1000;
+    static STANDARDWIDTH = 10000;
 
     static getWindowWidth: () => number;
     static getWindowHeight: () => number;
@@ -69,7 +70,7 @@ export class Layout {
         const canvasBackground = getCanvasBackground();
 
         canvas.height = Layout.STANDARDHEIGHT;
-        canvas.width = 4800;
+        canvas.width = Layout.STANDARDWIDTH;
         canvasBackground.height = Layout.STANDARDHEIGHT;
         canvasBackground.width = 4800;
 
