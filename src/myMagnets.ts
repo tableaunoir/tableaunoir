@@ -1,5 +1,3 @@
-/** Gale-Shapley */
-
 import { Share } from './share';
 import { MagnetManager } from './magnetManager';
 
@@ -33,6 +31,9 @@ export class MyMagnets {
         Share.execute("magnetsClear", []);
     }
 
+
+    /** Gale-Shapley */
+    
     static createMagnetGS_B(content: string): HTMLElement {
         const o = document.createElement("div");
         o.innerHTML = content;
