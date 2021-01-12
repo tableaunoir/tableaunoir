@@ -13,7 +13,7 @@ export class ToolEraser extends Tool {
     private action: ActionErase;
     private iMode = 0;
     private readonly modeSizes = [4, 8, 16, 32, 64];
-    private readonly modeTheshold = [1, 2, 4, 6, 100000];
+    private readonly modeTheshold = [1, 2, 2, 2, 100000];
     private eraseLineWidth = this.modeSizes[0];
     static readonly temperatureThreshold = 15;
 

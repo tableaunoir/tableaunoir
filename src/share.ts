@@ -241,9 +241,11 @@ export class Share {
 					Share.execute("setUserCanWrite", [msg.userid, Share.canWriteValueByDefault]);
 					Share.execute("setDocuments", [Background.getDocumentPanel().innerHTML]);
 
-					for (const userid in UserManager.users)
+					for (const userid in UserManager.users) {
 						Share.execute("setUserName", [userid, UserManager.users[userid].name]);
-
+						Share.execute("setCurrentColor", [userid, UserManager.users[userid].color]);
+					}
+						
 					if (Background.is)
 						Share.execute("setBackground", [Background.dataURL]);
 				}
