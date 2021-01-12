@@ -9,6 +9,7 @@ import { ErrorMessage } from './ErrorMessage';
 import { ShareEvent } from './ShareEvent';
 import config from './config.json'
 import { ConstraintDrawing } from './ConstraintDrawing';
+import { HTMLdeserialize } from './ActionDeserializer';
 
 /**
  * the class that enables to share the board
@@ -273,10 +274,8 @@ export class Share {
 				MagnetManager.installMagnets();
 				break;
 			case "newmagnet":
-				console.log("new magnet:")
-				document.getElementById("magnets").innerHTML =
-					document.getElementById("magnets").innerHTML + (msg.data); //a bit crazy
-				MagnetManager.installMagnets();
+				console.log("new magnet:");
+				MagnetManager.addMagnetLocalOnly(HTMLdeserialize(msg.data));
 				break;
 			case "execute":
 				ShareEvent[msg.event](...msg.params);

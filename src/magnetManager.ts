@@ -156,7 +156,8 @@ export class MagnetManager {
 	 * @description add the DOM element element to the list of magnets
 	 */
 	static addMagnet(element: HTMLElement): void {
-		element.id = "m" + Math.random(); //generate randomly an id
+		if (element.id == "")
+			element.id = "m" + Math.random(); //generate randomly an id
 		MagnetManager.currentMagnet = element;
 		element.classList.add("magnet");
 		document.getElementById("magnets").appendChild(element);
@@ -182,7 +183,8 @@ export class MagnetManager {
 	 * @description add the DOM element element to the list of magnets (but do not send to other users)
 	 */
 	static addMagnetLocalOnly(element: HTMLElement): void {
-		element.id = "m" + Math.random(); //generate randomly an id
+		if (element.id == "")
+			element.id = "m" + Math.random(); //generate randomly an id
 		MagnetManager.currentMagnet = element;
 		element.classList.add("magnet");
 		document.getElementById("magnets").appendChild(element);
@@ -382,7 +384,9 @@ export class MagnetManager {
 	 * @returns a copy of the element, ready to be given to addMagnet
 	 */
 	private static createCopyMagnet(element: HTMLElement): HTMLElement {
-		return <HTMLElement>element.cloneNode(true);
+		const copy = <HTMLElement>element.cloneNode(true);
+		copy.id = ""; //remove the ID so that a new ID will be given
+		return copy;
 	}
 
 
@@ -638,7 +642,6 @@ export class MagnetManager {
 
 		if (Share.isShared())
 			Share.sendMagnetChanged(div);
-
 
 		document.execCommand('selectAll', false, null);
 	}

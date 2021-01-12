@@ -41,9 +41,9 @@ export class ActionDeserializer {
 }
 
 
-function HTMLdeserialize(outerHTML) {
+export function HTMLdeserialize(outerHTML): HTMLElement {
     const el = document.createElement("div");
     el.innerHTML = outerHTML;
     //console.log("HTMLdeserialize: " + outerHTML);
-    return el.children[0];
+    return <HTMLElement> el.children[0];
 }
