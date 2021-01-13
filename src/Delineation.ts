@@ -1,3 +1,4 @@
+import { Sound } from './Sound';
 import { ActionClearZone } from './ActionClearZone';
 import { UserManager } from './UserManager';
 import { Drawing } from './Drawing';
@@ -109,6 +110,8 @@ export class Delineation {
         if (userid == UserManager.me.userID) //only the real user will create the magnet since the others will receive it
             this._createMagnetFromImg();
 
+        Sound.play("magnetcreationfromboard");
+        
         if (cut && removeContour) //if cut, remove the contour after having baked the magnet
             Drawing.removeContour(this.points);
 

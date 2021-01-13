@@ -10,4 +10,12 @@ export class Sound {
             onChange: (s) => { Sound.is = s; }
         });
     }
+
+
+    static play(name) {
+        if (!Sound.is) return;
+
+        const audio = new Audio("sounds/" + name + ".ogg");
+        audio.play();
+    }
 }

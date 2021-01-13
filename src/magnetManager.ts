@@ -1,3 +1,4 @@
+import { Sound } from './Sound';
 import { UserManager } from './UserManager';
 import { ToolDraw } from './ToolDraw';
 import { Geometry } from './Geometry';
@@ -686,6 +687,8 @@ export class MagnetManager {
 
 		const x = parseInt(img.style.left);
 		const y = parseInt(img.style.top);
+
+		Sound.play("magnetprint");
 
 		const action = new ActionPrintMagnet(UserManager.me.userID, img, x, y);
 		action.redo();
