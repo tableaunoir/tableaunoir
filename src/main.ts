@@ -1,3 +1,4 @@
+import { Sound } from './Sound';
 import { TestPerformance } from './TestPerformance';
 import { CSSStyleModifier } from './CSSStyleModifier';
 import { BoardNavigation } from './BoardNavigation';
@@ -292,6 +293,7 @@ function load() {
 
 	MagnetManager.init();
 	MyMagnets.loadMagnets();
+	Sound.init();
 
 	BoardManager.load();
 	//loaded = true;

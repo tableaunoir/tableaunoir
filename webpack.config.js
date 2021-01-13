@@ -37,7 +37,8 @@ module.exports = {
         { from: 'src/de.json', to: 'de.json' },
         { from: 'img', to: 'img'//, // Use image loader ?
          // globOptions: { ignore: [ "**/img/*.jpg", "**/img/*.gif", "**/simcitygraph.png" ]}} // remove from repository
-        }
+        },
+        {from:'sounds', to: 'sounds'}
       ],
     })
   ]

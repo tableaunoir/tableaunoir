@@ -1,3 +1,4 @@
+import { Sound } from './Sound';
 import { OptionManager } from './OptionManager';
 import { ConstraintDrawing } from './ConstraintDrawing';
 import { MagnetManager } from './magnetManager';
@@ -12,7 +13,6 @@ import { Tool } from './Tool';
 
 
 export class ToolDraw extends Tool {
-
     lastDelineation = new Delineation();
     private action: ActionFreeDraw;
     private svgLines = [];
@@ -38,7 +38,8 @@ export class ToolDraw extends Tool {
     }
 
 
-    mousedown(): void {
+    mousedown(evt): void {
+        ToolDrawAudio.mousedown(evt.pressure);
         this.lastDelineation.reset();
         this.lastDelineation.addPoint({ x: this.x, y: this.y });
         this.svgLines = [];
@@ -76,12 +77,14 @@ export class ToolDraw extends Tool {
             const evtX = evt.offsetX;
             const evtY = evt.offsetY;
 
+            ToolDrawAudio.mousemove(Math.abs(evtX - this.x) + Math.abs(evtY - this.y));
+
             if (this.lastDelineation.isDrawing()) {//this guard is because, when a magnet is created the user does not know the drawing stopped.
 
                 this.action.addPoint({ x: evtX, y: evtY, pressure: evt.pressure, color: this.user.color });
                 // 
-              //  if (this.isSmoothing)
-                    this.svgLines.push(ToolDraw.addSVGLine(this.x, this.y, evtX, evtY, evt.pressure, this.user.color));
+                //  if (this.isSmoothing)
+                this.svgLines.push(ToolDraw.addSVGLine(this.x, this.y, evtX, evtY, evt.pressure, this.user.color));
                 /*else
                     Drawing.drawLine(getCanvas().getContext("2d"), this.x, this.y, evtX, evtY, evt.pressure, this.user.color);*/
             }
@@ -91,7 +94,7 @@ export class ToolDraw extends Tool {
     }
 
     mouseup(evt: MouseEvent): void {
-
+        ToolDrawAudio.mouseup();
         if (this.isDrawing) {
             if (evt.ctrlKey)
                 console.log("ctrl!");
@@ -133,6 +136,43 @@ export class ToolDraw extends Tool {
         if (this.user.isCurrentUser) {
             this.setToolCursorImage(ChalkCursor.getStyleCursor(this.user.color));
         }
+    }
+
+}
+
+
+
+class ToolDrawAudio {
+    static audioChalkDown: HTMLAudioElement = new Audio("sounds/chalkdown.ogg");
+    static audioChalkMove: HTMLAudioElement = new Audio("sounds/chalkmove.ogg");
+
+    static mousedown(p: number) {
+        if(!Sound.is) return;
+        ToolDrawAudio.audioChalkDown.pause();
+        ToolDrawAudio.audioChalkDown.currentTime = 0;
+        ToolDrawAudio.audioChalkDown.volume = p/2;
+        ToolDrawAudio.audioChalkDown.play();
+        ToolDrawAudio.audioChalkMove.loop = true;
+    }
+
+
+    static mousemove(d: number) {
+        if(!Sound.is) return;
+        ToolDrawAudio.audioChalkMove.volume = Math.min(1.0, d / 20);
+        if (ToolDrawAudio.audioChalkMove.paused) {
+            ToolDrawAudio.audioChalkMove.play();
+        }
+
+
+    }
+
+
+    static mouseup() {
+        if(!Sound.is) return;
+        ToolDrawAudio.audioChalkDown.pause();
+        ToolDrawAudio.audioChalkMove.pause();
+        ToolDrawAudio.audioChalkDown.currentTime = 0;
+        ToolDrawAudio.audioChalkMove.currentTime = 0;
     }
 
 }
