@@ -1,3 +1,4 @@
+import { Sound } from './Sound';
 import { Geometry } from './Geometry';
 import { ActionErase } from './ActionErase';
 import { User } from './User';
@@ -49,6 +50,8 @@ export class ToolEraser extends Tool {
         //this.eraseLineWidth = 10;
         if (this.isDrawing) {
 
+            SoundToolEraser.mousemove(Math.abs(this.x - evtX) + Math.abs(this.y - evtY));
+
             if (Math.abs(this.x - evtX) < THESHOLD &&
                 Math.abs(this.y - evtY) < THESHOLD)
                 this.temperature = Math.max(this.temperature - 1, 0);
@@ -93,6 +96,7 @@ export class ToolEraser extends Tool {
     }
 
     mouseup(): void {
+        SoundToolEraser.mouseup();
         this.iMode = 0;
         this.eraseLineWidth = this.modeSizes[0];
         this.temperature = 0;
@@ -103,4 +107,25 @@ export class ToolEraser extends Tool {
         BoardManager.addAction(this.action);
     }
 
+}
+
+
+
+
+class SoundToolEraser {
+    static audioEraser = new Audio("sounds/eraser.ogg");
+    static mousemove(d: number) {
+        if (!Sound.is) return;
+        SoundToolEraser.audioEraser.volume = Math.min(1.0, d / 20);
+        if (SoundToolEraser.audioEraser.paused) {
+            (<any>SoundToolEraser.audioEraser).mozPreservesPitch = false;
+            (<any>SoundToolEraser.audioEraser).webkitPreservesPitch = false;
+            SoundToolEraser.audioEraser.playbackRate = 0.8 + 0.5 * Math.random();
+            SoundToolEraser.audioEraser.play();
+        }
+    }
+
+    static mouseup() {
+        SoundToolEraser.audioEraser.pause();
+    }
 }
