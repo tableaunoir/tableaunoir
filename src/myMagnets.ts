@@ -201,7 +201,6 @@ export class MyMagnets {
 
         while (true) {
             const m = ite.next();
-            console.log(m)
             if (m.done)
                 break;
             snapshot.appendChild(m.value);
@@ -216,7 +215,6 @@ export class MyMagnets {
 
                 while (true) {
                     const m = ite.next();
-                    console.log(m)
                     if (m.done)
                         break;
                     MagnetManager.addMagnetAndPositionnate(m.value);
