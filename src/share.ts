@@ -231,12 +231,15 @@ export class Share {
 					//Share.send({type: "actions", to: msg.userid, actions: BoardManager.cancelStack.serialize(), t: BoardManager.cancelStack.t});
 					Share.execute("setCanWriteValueByDefault", [Share.canWriteValueByDefault]);
 					Share.execute("setUserCanWrite", [msg.userid, Share.canWriteValueByDefault]);
-					Share.sendFullCanvas(msg.userid);
+					
 
 					for (const userid in UserManager.users) {
 						Share.execute("setUserName", [userid, UserManager.users[userid].name]);
 						Share.execute("setCurrentColor", [userid, UserManager.users[userid].color]);
+						Share.execute("setUserCanWrite", [userid, UserManager.users[userid].canWrite]);
 					}
+
+					Share.sendFullCanvas(msg.userid);
 
 					Share.send({
 						type: "svg", to: msg.userid,
