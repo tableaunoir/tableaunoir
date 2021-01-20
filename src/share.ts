@@ -215,6 +215,7 @@ export class Share {
 			case "root": //you obtained root permission and the server tells you that
 				console.log("I am root.")
 				Share.setRoot();
+				Share.execute("setUserCanWrite", [UserManager.me.userID, true]);
 				break;
 			case "accessdenied":
 				ErrorMessage.show("Access denied");
