@@ -1,3 +1,4 @@
+import { Share } from './share';
 import { LoadSave } from './LoadSave';
 import { Layout } from './Layout';
 import { PDFDocument } from './PDFDocument';
@@ -60,6 +61,11 @@ export class ShareEvent {
 
     static switchArc(userId: string): void {
         UserManager.users[userId].switchArc();
+    }
+
+
+    static setCanWriteValueByDefault(bool: boolean): void {
+        Share.canWriteValueByDefault = bool;
     }
 
     static setUserCanWrite(userId: string, bool: boolean): void {

@@ -229,7 +229,14 @@ export class Share {
 					//getCanvas().toBlob((blob) => Share.sendFullCanvas(blob, msg.userid));
 					Share.send({ type: "wait", to: msg.userid });
 					//Share.send({type: "actions", to: msg.userid, actions: BoardManager.cancelStack.serialize(), t: BoardManager.cancelStack.t});
+					Share.execute("setCanWriteValueByDefault", [Share.canWriteValueByDefault]);
+					Share.execute("setUserCanWrite", [msg.userid, Share.canWriteValueByDefault]);
 					Share.sendFullCanvas(msg.userid);
+
+					for (const userid in UserManager.users) {
+						Share.execute("setUserName", [userid, UserManager.users[userid].name]);
+						Share.execute("setCurrentColor", [userid, UserManager.users[userid].color]);
+					}
 
 					Share.send({
 						type: "svg", to: msg.userid,
@@ -238,14 +245,10 @@ export class Share {
 
 					Share.sendMagnets(msg.userid);
 					Share.send({ type: "ready", to: msg.userid });
-					Share.execute("setUserCanWrite", [msg.userid, Share.canWriteValueByDefault]);
+
 					Share.execute("setDocuments", [Background.getDocumentPanel().innerHTML]);
 
-					for (const userid in UserManager.users) {
-						Share.execute("setUserName", [userid, UserManager.users[userid].name]);
-						Share.execute("setCurrentColor", [userid, UserManager.users[userid].color]);
-					}
-						
+
 					if (Background.is)
 						Share.execute("setBackground", [Background.dataURL]);
 				}
@@ -471,7 +474,7 @@ export class Share {
 			if (UserManager.users[userid] != UserManager.me)
 				Share.execute("setUserCanWrite", [userid, canWrite]);
 		}
-		Share.canWriteValueByDefault = canWrite;
+		Share.execute("setCanWriteValueByDefault", [canWrite]);
 		Share.execute("setUserCanWrite", [UserManager.me.userID, true]);
 	}
 
