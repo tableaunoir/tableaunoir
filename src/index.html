@@ -16,24 +16,27 @@
 		<button id="buttonMenu" title="Menu"><img class="icon"
 				src="img/icons/menu-three-outlined-bars-svgrepo-com.svg" /></button><span
 			class="keyboardkeyhelp">Esc</span>
-		<button id="buttonColors" title="Choose your color"><img class="icon" src="img/icons/1F3A8.svg" /></button><span
-			class="keyboardkeyhelp">c</span>
-		<button hidden id="buttonChalk" title="Switch between erase and draw"><img class="icon"
-				src="img/icons/270F.svg" /></button>
-		<button id="buttonEraser" title="Switch between erase and draw"><img class="icon"
-				src="img/icons/eraser-svgrepo-com.svg" /></button><span class="keyboardkeyhelp">e</span>
-		<button id="buttonTools" title="Open a menu with a lot of tools"><img class="icon"
-				src="img/icons/tools.svg" /></button><span class="keyboardkeyhelp">t</span>
-		<button id="buttonText" title="Add text (and/or LaTeX $...$)"><img class="icon"
-				src="img/icons/text-svgrepo-com.svg" /></button><span class="keyboardkeyhelp">Enter</span>
-		<button id="buttonDivide" title="Divide the screen vertically in two"><img class="icon"
-				src="img/icons/divide-svgrepo-com.svg" /></button><span class="keyboardkeyhelp">d</span>
+		<span class="edit">
+			<button id="buttonColors" title="Choose your color"><img class="icon"
+					src="img/icons/1F3A8.svg" /></button><span class="keyboardkeyhelp">c</span>
+			<button hidden id="buttonChalk" title="Switch between erase and draw"><img class="icon"
+					src="img/icons/270F.svg" /></button>
+			<button id="buttonEraser" title="Switch between erase and draw"><img class="icon"
+					src="img/icons/eraser-svgrepo-com.svg" /></button><span class="keyboardkeyhelp">e</span>
+			<button id="buttonTools" title="Open a menu with a lot of tools"><img class="icon"
+					src="img/icons/tools.svg" /></button><span class="keyboardkeyhelp">t</span>
+			<button id="buttonText" title="Add text (and/or LaTeX $...$)"><img class="icon"
+					src="img/icons/text-svgrepo-com.svg" /></button><span class="keyboardkeyhelp">Enter</span>
+			<button id="buttonDivide" title="Divide the screen vertically in two"><img class="icon"
+					src="img/icons/divide-svgrepo-com.svg" /></button><span class="keyboardkeyhelp">d</span>
 
-		<div class="toolbargroup">
-			<button id="buttonCancel" title="Cancel the last action"><img class="icon"
-					src="img/icons/21A9.svg" /></button>
-			<button id="buttonRedo" title="Redo the last action"><img class="icon" src="img/icons/21AA.svg" /></button>
-		</div>
+			<div class="toolbargroup">
+				<button id="buttonCancel" title="Cancel the last action"><img class="icon"
+						src="img/icons/21A9.svg" /></button>
+				<button id="buttonRedo" title="Redo the last action"><img class="icon"
+						src="img/icons/21AA.svg" /></button>
+			</div>
+		</span>
 		<div class="toolbargroup">
 			<button id="buttonLeft" title="Go left"><img class="icon" src="img/icons/25C0.svg" /></button>
 			<button id="buttonRight" title="Go right"><img class="icon" src="img/icons/25B6.svg" /></button>
@@ -143,26 +146,29 @@
 			</div>
 
 			<div id="MyBlackboard" class="tabcontent">
-				<div class="menuDiv">
-					<button class="buttonClear" id="blackboardClear">
-						<img src="img/clearboard.png" /><br /><span>Clear the board</span></button>
-					<button class="buttonClear" id="clearMagnet">
-						<img src="img/magnet_delete.png" /><br /><span>Remove all the magnets</span></button>
-				</div>
-
-				<h2>Load</h2>
-				<div class="menuDiv">
-					<img align="right" class="illustration" height="96px" src="img/illustrations/loading.png" />
+				<span class="edit">
 					<div class="menuDiv">
-						<label id="loadExplanation" for="file">
-							To open an existing board, drag and drop your <em>.tableaunoir file</em> in the application
-							or
-							choose a file:</label>
-						<br /><br />
-						<input type="file" id="file" name="file" accept="image/png, image/jpeg, .tableaunoir" />
+						<button class="buttonClear" id="blackboardClear">
+							<img src="img/clearboard.png" /><br /><span>Clear the board</span></button>
+						<button class="buttonClear" id="clearMagnet">
+							<img src="img/magnet_delete.png" /><br /><span>Remove all the magnets</span></button>
 					</div>
 
-				</div>
+					<h2>Load</h2>
+					<div class="menuDiv">
+						<img align="right" class="illustration" height="96px" src="img/illustrations/loading.png" />
+						<div class="menuDiv">
+							<label id="loadExplanation" for="file">
+								To open an existing board, drag and drop your <em>.tableaunoir file</em> in the
+								application
+								or
+								choose a file:</label>
+							<br /><br />
+							<input type="file" id="file" name="file" accept="image/png, image/jpeg, .tableaunoir" />
+						</div>
+
+					</div>
+				</span>
 				<h2>Save</h2>
 				<img align="right" class="illustration" height="96px" src="img/illustrations/saving.png" />
 				<div id="saveExplanation">
@@ -183,50 +189,54 @@
 			</div>
 
 			<div id="Background" class="tabcontent">
-				<div hidden id="backgroundSnapshot">
-					<div id="backgroundSnapshotBackgroundColor"></div>
-					<div id="backgroundSnapshotBackgroundImageDiv">
-						<img id="backgroundSnapshotBackgroundImage" />
+				<span class="edit">
+					<div hidden id="backgroundSnapshot">
+						<div id="backgroundSnapshotBackgroundColor"></div>
+						<div id="backgroundSnapshotBackgroundImageDiv">
+							<img id="backgroundSnapshotBackgroundImage" />
+						</div>
+						<img id="backgroundSnapshotCanvas" src="img/animatedsmiley.gif" />
 					</div>
-					<img id="backgroundSnapshotCanvas" src="img/animatedsmiley.gif" />
-				</div>
 
-				<h2><span>Background Color</span></h2>
+					<h2><span>Background Color</span></h2>
 
-				<button id="blackBoardSwitch"><img src="img/switchblack.png" /><br /><span>Blackboard</span></button>
-				<button id="whiteBoardSwitch"><img src="img/switchwhite.png" /><br /><span>Whiteboard</span></button>
-
-
-				<h2><span>Wallpaper</span></h2>
-
-				<button id="buttonMusicScore">
-					<img src="img/backgroundmusicscore.png" /><br /><span>Music score</span></button>
-				<button id="buttonGrid">
-					<img src="img/grid.png" /><br /><span>Grid</span></button>
-
-				<button class="buttonClear" id="buttonNoBackground">
-					<img src="img/nobackground.png" /><br /><span>No wallpaper</span></button>
+					<button id="blackBoardSwitch"><img
+							src="img/switchblack.png" /><br /><span>Blackboard</span></button>
+					<button id="whiteBoardSwitch"><img
+							src="img/switchwhite.png" /><br /><span>Whiteboard</span></button>
 
 
-				<h2><span>Insert documents (images or PDF)</span></h2>
-				<div id="backgroundInsertDocumentExplanation">You can insert several documents. Each document is
-					inserted on the <em>top-left corner</em> of the screen.</div>
+					<h2><span>Wallpaper</span></h2>
 
-				<input type="file" accept="image/png, image/jpeg, image/svg, application/pdf" id="inputBackground" />
-				<br />
-				<div hidden id="forpdf">
-					<div>Choose the page of the PDF to insert.</div>
+					<button id="buttonMusicScore">
+						<img src="img/backgroundmusicscore.png" /><br /><span>Music score</span></button>
+					<button id="buttonGrid">
+						<img src="img/grid.png" /><br /><span>Grid</span></button>
+
+					<button class="buttonClear" id="buttonNoBackground">
+						<img src="img/nobackground.png" /><br /><span>No wallpaper</span></button>
+
+
+					<h2><span>Insert documents (images or PDF)</span></h2>
+					<div id="backgroundInsertDocumentExplanation">You can insert several documents. Each document is
+						inserted on the <em>top-left corner</em> of the screen.</div>
+
+					<input type="file" accept="image/png, image/jpeg, image/svg, application/pdf"
+						id="inputBackground" />
 					<br />
-					<label for="pdfNumPage">Page number:</label>
-					<input type="number" id="pdfNumPage" min=1 />
-					<button id="buttonPDFInsertPage">Insert PDF page</button>
-					<div id="pdfSnapshot"></div>
-				</div>
-				<br />
-				<br />
-				<button class="buttonClear" id="buttonNoImageBackground">
-					<img src="img/nobackground.png" /><br /><span>Remove all documents</span></button>
-
+					<div hidden id="forpdf">
+						<div>Choose the page of the PDF to insert.</div>
+						<br />
+						<label for="pdfNumPage">Page number:</label>
+						<input type="number" id="pdfNumPage" min=1 />
+						<button id="buttonPDFInsertPage">Insert PDF page</button>
+						<div id="pdfSnapshot"></div>
+					</div>
+					<br />
+					<br />
+					<button class="buttonClear" id="buttonNoImageBackground">
+						<img src="img/nobackground.png" /><br /><span>Remove all documents</span></button>
+				</span>
 			</div>
 
 
@@ -491,44 +501,44 @@
 			</div>
 			<div id="Magnets" class="tabcontent">
 
+				<span class="edit">
+					<h2>Quick magnet manipulation</h2>
 
-				<h2>Quick magnet manipulation</h2>
+					<div class="menuDiv">
+						<button id="magnetsArrange"><img src="img/arrange.png" /><br />Arrange the magnets on the
+							board</button>
+						<button id="magnetsCreateGraph"><img src="img/graph.png" /><br />Create graph from the
+							magnets</button>
+					</div>
 
-				<div class="menuDiv">
-					<button id="magnetsArrange"><img src="img/arrange.png" /><br />Arrange the magnets on the
-						board</button>
-					<button id="magnetsCreateGraph"><img src="img/graph.png" /><br />Create graph from the
-						magnets</button>
-				</div>
-
-				<br />
-
-
+					<br />
 
 
-				<h2>Using existing images</h2>
-				<div class="menuDiv">
-					In order to <em>use existing images as magnets</em>, drag and drop .png/.svg/.gif/.jpg files.
-				</div>
 
-				<br />
 
-				<h2>Predefined Magnet Collections</h2>
+					<h2>Using existing images</h2>
+					<div class="menuDiv">
+						In order to <em>use existing images as magnets</em>, drag and drop .png/.svg/.gif/.jpg files.
+					</div>
 
-				<div class="menuDiv">
-					<h3>Algorithms</h3>
-					<button class="magnetCollectionButton" id="magnetGS">Gale-Shapley algorithm</button>
-					<button class="magnetCollectionButton" id="magnetSorting">Sorting</button>
-					<button class="magnetCollectionButton" id="magnetBTrees">B trees</button>
-					<button class="magnetCollectionButton" id="magnetGraphNodes">Graph nodes</button>
-					<button class="magnetCollectionButton" id="magnetGraphSimCity">SimCity graph nodes</button>
-					<button class="magnetCollectionButton" id="magnetFloydsAlgorithm">Floyd's algorithm</button>
-					<h3>Complexity theory</h3>
-					<button class="magnetCollectionButton" id="magnetTilings">Tilings</button>
-					<h3>Games</h3>
-					<button class="magnetCollectionButton" id="magnetGo">Go</button>
-				</div>
+					<br />
 
+					<h2>Predefined Magnet Collections</h2>
+
+					<div class="menuDiv">
+						<h3>Algorithms</h3>
+						<button class="magnetCollectionButton" id="magnetGS">Gale-Shapley algorithm</button>
+						<button class="magnetCollectionButton" id="magnetSorting">Sorting</button>
+						<button class="magnetCollectionButton" id="magnetBTrees">B trees</button>
+						<button class="magnetCollectionButton" id="magnetGraphNodes">Graph nodes</button>
+						<button class="magnetCollectionButton" id="magnetGraphSimCity">SimCity graph nodes</button>
+						<button class="magnetCollectionButton" id="magnetFloydsAlgorithm">Floyd's algorithm</button>
+						<h3>Complexity theory</h3>
+						<button class="magnetCollectionButton" id="magnetTilings">Tilings</button>
+						<h3>Games</h3>
+						<button class="magnetCollectionButton" id="magnetGo">Go</button>
+					</div>
+				</span>
 			</div>
 			<div id="Help" class="tabcontent">
 				<h2>How to create a magnet?</h2>

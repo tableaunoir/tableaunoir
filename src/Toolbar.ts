@@ -3,19 +3,17 @@ import { ErrorMessage } from './ErrorMessage';
 import { OptionManager } from './OptionManager';
 
 export class Toolbar {
-
-
     /**
      * initialization
      */
     static init(): void {
         if (Layout.isTactileDevice()) {
             try {
-                document.getElementById("inputToolbar").hidden = true; //on phone or tablet, we can not remove the toolbar, therefore the button is hidden
+                document.getElementById("inputToolbar").hidden = true; //on phone or tablet, we can not remove the toolbar, therefore the checkbox (in the option menu) is hidden
 
-                const spans = <NodeListOf<HTMLSpanElement>>document.querySelectorAll("#controls > span");
+                const spans = document.getElementsByClassName("keyboardkeyhelp");
                 for (let i = 0; i < spans.length; i++) {
-                    spans[i].hidden = true;
+                    (<HTMLElement> spans[i]).hidden = true;
                 }
             }
             catch (e) {

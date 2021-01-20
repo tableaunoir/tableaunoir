@@ -70,6 +70,14 @@ export class ShareEvent {
 
     static setUserCanWrite(userId: string, bool: boolean): void {
         UserManager.users[userId].setCanWrite(bool);
+
+        if (userId == UserManager.me.userID) {
+            /** toggle the visibility for elements for editing the board */
+            const elements = document.getElementsByClassName("edit");
+            for (let i = 0; i < elements.length; i++) {
+                (<HTMLElement>elements[i]).hidden = !bool;
+            }
+        }
     }
 
     static magnetMove(idMagnet: string, x: string, y: string): void {
@@ -165,7 +173,7 @@ export class ShareEvent {
         console.log("setpdf");
         Background.pdfdoc = new PDFDocument();
         await Background.pdfdoc.open(dataURL);
-        (<HTMLInputElement> document.getElementById("pdfNumPage")).max = "" + Background.pdfdoc.nbPages;
+        (<HTMLInputElement>document.getElementById("pdfNumPage")).max = "" + Background.pdfdoc.nbPages;
         Background.pdfviewer = new PDFViewer(Background.pdfdoc);
     }
 
@@ -188,7 +196,7 @@ export class ShareEvent {
         img.style.left = x + "px";
         img.style.top = "0px";
         img.style.height = Layout.STANDARDHEIGHT + "px";
-    
+
         Background.getDocumentPanel().appendChild(img);
     }
 
