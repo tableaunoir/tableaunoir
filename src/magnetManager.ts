@@ -295,7 +295,7 @@ export class MagnetManager {
 
 			nodes.push({ magnet: m, x: p.x, y: p.y });
 		}
-		console.log(nodes)
+	//	console.log(nodes)
 		return nodes;
 	}
 
@@ -490,7 +490,7 @@ export class MagnetManager {
 				return;
 
 			drag = false;
-			console.log("close drag")
+			//console.log("close drag")
 
 			const magnets = MagnetManager.getMagnets();
 
