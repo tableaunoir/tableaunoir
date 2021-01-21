@@ -40,9 +40,7 @@ export class ActionPrintMagnet extends Action {
 				}
 				context.closePath();
 				context.clip();
-
-				console.log("print magnet of width " + img.width);
-
+				
 				context.drawImage(this.img, this.x, this.y);
 
 				context.restore();

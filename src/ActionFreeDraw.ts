@@ -5,7 +5,7 @@ import { Action } from './Action';
 export class ActionFreeDraw extends Action {
 
     serialize(): ActionSerialized {
-        return {type: "freedraw", userid: this.userid,points: this.points};
+        return { type: "freedraw", userid: this.userid, points: this.points };
     }
 
 
@@ -13,6 +13,12 @@ export class ActionFreeDraw extends Action {
     public points: { x: number; y: number; pressure: number; color: string; }[] = [];
 
     addPoint(pt: { x: number; y: number; pressure: number; color: string; }): void {
+        if (this.points.length > 0) {
+            const pointBefore = this.points[this.points.length - 1];
+            if (Math.abs(pt.x - pointBefore.x) < 1 && Math.abs(pt.y - pointBefore.y) < 1)
+                return;
+        }
+
         this.points.push(pt);
         if (Math.abs(pt.x - this.points[0].x) > 1 || Math.abs(pt.y - this.points[0].y) > 1)
             this.alreadyDrawnSth = true;
@@ -27,8 +33,14 @@ export class ActionFreeDraw extends Action {
             const a = this.points[i];
             const b = this.points[i + 1];
 
-            newpoints.push({ x: 0.85 * a.x + 0.15 * b.x, y: 0.85 * a.y + 0.15 * b.y, pressure: b.pressure, color: a.color });
-            newpoints.push({ x: 0.15 * a.x + 0.85 * b.x, y: 0.15 * a.y + 0.85 * b.y, pressure: b.pressure, color: a.color });
+            if (Math.abs(a.x - b.x) > 5 || Math.abs(a.y - b.y) > 5) {
+                newpoints.push({ x: 0.85 * a.x + 0.15 * b.x, y: 0.85 * a.y + 0.15 * b.y, pressure: b.pressure, color: a.color });
+                newpoints.push({ x: 0.15 * a.x + 0.85 * b.x, y: 0.15 * a.y + 0.85 * b.y, pressure: b.pressure, color: a.color });
+            }
+            else
+                newpoints.push(a);
+
+
         }
 
         newpoints.push(this.points[this.points.length - 1]);
@@ -37,10 +49,12 @@ export class ActionFreeDraw extends Action {
     }
 
     smoothify(): void {
+       // console.log("before: " + this.points.length);
         this.smoothifyOnePass();
-     /*   this.smoothifyOnePass();
-        this.smoothifyOnePass();
-        this.smoothifyOnePass();*/
+        //console.log("after: " + this.points.length);
+        /*   this.smoothifyOnePass();
+           this.smoothifyOnePass();
+           this.smoothifyOnePass();*/
     }
 
 
