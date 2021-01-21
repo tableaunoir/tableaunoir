@@ -17,6 +17,12 @@ export class ActionErase extends Action {
      * @description add a new point in the path to be erased
      */
     addPoint(pt: { x: number; y: number; lineWidth: number }): void {
+        if (this.points.length > 0) {
+            const pointBefore = this.points[this.points.length - 1];
+            if (Math.abs(pt.x - pointBefore.x) < 1 && Math.abs(pt.y - pointBefore.y) < 1)
+                return;
+        }
+
         this.points.push(pt);
 
     }
