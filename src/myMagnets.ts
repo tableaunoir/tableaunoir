@@ -33,7 +33,7 @@ export class MyMagnets {
 
 
     /** Gale-Shapley */
-    
+
     static createMagnetGS_B(content: string): HTMLElement {
         const o = document.createElement("div");
         o.innerHTML = content;
@@ -162,11 +162,25 @@ export class MyMagnets {
     }
 
 
+    static createMagnetStateAutomaton(content: string, final: boolean): HTMLElement {
+        const o = document.createElement("div");
+        o.style.backgroundColor = "#222222";
+        o.style.borderRadius = "96px";
+        o.style.color = "white";
+        o.style.border = final ? "white double 10px" : "white solid 2px";
+        o.style.padding = "16px";
+        o.innerHTML = content;
+        return o;
+    }
 
+    static * magnetStatesForAutomata(): Generator<HTMLElement> {
+        MagnetManager.clearMagnet();
 
-
-
-
+        for (const b of [false, true])
+            for (const c of ["q", "q'", "q0", "q1", "q2", "q3", "q4", "q5"]) {
+                yield MyMagnets.createMagnetStateAutomaton(c, b);
+            }
+    }
 
     static * magnetGo(): Generator<HTMLElement> {
         MagnetManager.clearMagnet();
@@ -198,8 +212,8 @@ export class MyMagnets {
         wrapper.classList.add("wrapperMagnetPreview");
         snapshot.classList.add("magnetPreview");
         const ite = MyMagnets[magnetSetName]();
-
-        while (true) {
+        const b = true;//to avoid a lint error
+        while (b) {
             const m = ite.next();
             if (m.done)
                 break;
@@ -212,8 +226,9 @@ export class MyMagnets {
             () => {
                 MagnetManager.resetPositionate();
                 const ite = MyMagnets[magnetSetName]();
+                const b = true;//to avoid a lint error
 
-                while (true) {
+                while (b) {
                     const m = ite.next();
                     if (m.done)
                         break;
@@ -231,6 +246,7 @@ export class MyMagnets {
         MyMagnets.register("magnetBTrees");
         MyMagnets.register("magnetGraphNodes");
         MyMagnets.register("magnetTilings");
+        MyMagnets.register("magnetStatesForAutomata");
         MyMagnets.register("magnetGraphSimCity");
         MyMagnets.register("magnetFloydsAlgorithm");
         MyMagnets.register("magnetGo");

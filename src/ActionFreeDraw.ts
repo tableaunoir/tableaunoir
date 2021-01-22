@@ -1,8 +1,33 @@
+import { ActionSerialized } from './ActionSerialized';
 import { Drawing } from './Drawing';
 import { getCanvas } from './main';
 import { Action } from './Action';
 
 export class ActionFreeDraw extends Action {
+
+    /**
+     * @returns an object iff the freedraw is almost a line
+     */
+    isAlmostLine(): { angle: number } {
+        const thesholdAngle = 0.15; //above it is not a line
+        const thesholdDistance = 16; //below the angle is not evaluated
+        const first = this.points[0];
+        const last = this.points[this.points.length - 1];
+
+        const angle0 = Math.atan2(last.y - first.y, last.x - first.x);
+
+        for (let i = 1; i < this.points.length; i++) {
+            const point = this.points[i];
+
+            if (Math.abs(point.y - first.y) + Math.abs(point.x - first.x) > thesholdDistance) {
+                const angle = Math.atan2(point.y - first.y, point.x - first.x);
+                if (Math.abs(angle0 - angle) > thesholdAngle)
+                    return undefined;
+            }
+
+        }
+        return { angle: angle0 };
+    }
 
     serialize(): ActionSerialized {
         return { type: "freedraw", userid: this.userid, points: this.points };
@@ -49,7 +74,7 @@ export class ActionFreeDraw extends Action {
     }
 
     smoothify(): void {
-       // console.log("before: " + this.points.length);
+        // console.log("before: " + this.points.length);
         this.smoothifyOnePass();
         //console.log("after: " + this.points.length);
         /*   this.smoothifyOnePass();

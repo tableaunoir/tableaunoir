@@ -143,7 +143,7 @@ export class User {
      */
     setSymbolCursorPosition(): void {
         let x = this.tool.x;
-        let y = this.tool.y;
+        const y = this.tool.y;
         this.cursor.classList.remove("cursortoleft");
         this.cursor.classList.remove("cursortoright");
         this.cursor.classList.remove("cursorinscreen");

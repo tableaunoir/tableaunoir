@@ -143,7 +143,7 @@ export class UserManager {
     /**
      * @description set the cursor position of all users (except me)
      */
-    static setSymbolCursorPosition() {
+    static setSymbolCursorPosition():void {
         for (const userid in UserManager.users) {
             const user = UserManager.users[userid];
             if (user != UserManager.me)

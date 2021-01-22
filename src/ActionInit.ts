@@ -1,3 +1,4 @@
+import { ActionSerialized } from './ActionSerialized';
 import { getCanvas } from "./main";
 import { Action } from "./Action";
 

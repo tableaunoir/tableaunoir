@@ -15,6 +15,7 @@ import { Tool } from './Tool';
 export class ToolDraw extends Tool {
     lastDelineation = new Delineation();
     private action: ActionFreeDraw;
+    private guessMagnetConnection = new ToolDrawGuessMagnetConnection();
     private svgLines = [];
 
     private isSmoothing = false;
@@ -93,16 +94,12 @@ export class ToolDraw extends Tool {
         }
     }
 
-    mouseup(evt: MouseEvent): void {
+    mouseup(): void {
         ToolDrawAudio.mouseup();
         if (this.isDrawing) {
-            if (evt.ctrlKey)
-                console.log("ctrl!");
-            const magnet1 = evt.ctrlKey ? MagnetManager.getMagnetNearestFromPoint(this.action.points[0]) : MagnetManager.getMagnetNearPoint(this.action.points[0]);
-            const magnet2 = evt.ctrlKey ? MagnetManager.getMagnetNearestFromPoint(this.action.points[this.action.points.length - 1]) :
-                MagnetManager.getMagnetNearPoint(this.action.points[this.action.points.length - 1]);
-
-
+            this.guessMagnetConnection.live(this.action);
+            const magnet1 = this.guessMagnetConnection.magnet1;
+            const magnet2 = this.guessMagnetConnection.magnet2;
 
             if (magnet1 && magnet2) {
                 ConstraintDrawing.freeDraw(this.svgLines, magnet1.id, magnet2.id);
@@ -128,10 +125,6 @@ export class ToolDraw extends Tool {
     }
 
 
-
-
-
-
     updateCursor(): void {
         if (this.user.isCurrentUser) {
             this.setToolCursorImage(ChalkCursor.getStyleCursor(this.user.color));
@@ -142,22 +135,57 @@ export class ToolDraw extends Tool {
 
 
 
+/**
+ * this class enables to memorize to which magnets the last draw was connected to. It therefore remember the context (useful for drawing arrow ;) )
+ */
+class ToolDrawGuessMagnetConnection {
+
+    private _magnet1: HTMLElement = undefined;
+    private _magnet2: HTMLElement = undefined;
+
+    get magnet1() { return this._magnet1; }
+    get magnet2() { return this._magnet2; }
+
+    live(action: ActionFreeDraw) {
+        const magnet1 = MagnetManager.getMagnetNearPoint(action.points[0]);
+        const magnet2 = MagnetManager.getMagnetNearPoint(action.points[action.points.length - 1]);
+
+        /** for instance, the user draws an arrow */
+        const almostLine = action.isAlmostLine();
+
+        if (almostLine != undefined) {
+            if (magnet1 == this._magnet1 && magnet2 == undefined)
+                return;
+            if (magnet2 == this._magnet1 && magnet1 == undefined)
+                return;
+            if (magnet1 == this._magnet2 && magnet2 == undefined)
+                return;
+            if (magnet2 == this._magnet2 && magnet1 == undefined)
+                return;
+        }
+
+        this._magnet1 = magnet1;
+        this._magnet2 = magnet2;
+
+    }
+}
+
 class ToolDrawAudio {
     static audioChalkDown: HTMLAudioElement = new Audio("sounds/chalkdown.ogg");
     static audioChalkMove: HTMLAudioElement = new Audio("sounds/chalkmove.ogg");
 
     static mousedown(p: number) {
-        if(!Sound.is) return;
+        if (!Sound.is) return;
         ToolDrawAudio.audioChalkDown.pause();
         ToolDrawAudio.audioChalkDown.currentTime = 0;
-        ToolDrawAudio.audioChalkDown.volume = p/2;
+        ToolDrawAudio.audioChalkDown.volume = p / 2;
         ToolDrawAudio.audioChalkDown.play();
         ToolDrawAudio.audioChalkMove.loop = true;
     }
 
 
     static mousemove(d: number) {
-        if(!Sound.is) return;
+        if (!Sound.is) return;
         ToolDrawAudio.audioChalkMove.volume = Math.min(1.0, d / 20);
         if (ToolDrawAudio.audioChalkMove.paused) {
             ToolDrawAudio.audioChalkMove.play();
@@ -168,7 +196,7 @@ class ToolDrawAudio {
 
 
     static mouseup() {
-        if(!Sound.is) return;
+        if (!Sound.is) return;
         ToolDrawAudio.audioChalkDown.pause();
         ToolDrawAudio.audioChalkMove.pause();
         ToolDrawAudio.audioChalkDown.currentTime = 0;

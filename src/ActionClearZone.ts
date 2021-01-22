@@ -1,3 +1,4 @@
+import { ActionSerialized } from './ActionSerialized';
 import { Action } from './Action';
 import { Drawing } from './Drawing';
 

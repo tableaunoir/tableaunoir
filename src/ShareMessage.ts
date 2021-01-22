@@ -1,3 +1,4 @@
+import { ActionSerialized } from './ActionSerialized';
 /**
 * interface for messages sent from the client to the server and server to the client
 */

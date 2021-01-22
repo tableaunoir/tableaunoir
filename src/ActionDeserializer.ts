@@ -1,3 +1,4 @@
+import { ActionSerialized } from './ActionSerialized';
 import { ActionPrintMagnet } from './ActionPrintMagnet';
 import { ActionClearZone } from './ActionClearZone';
 import { ActionInit } from './ActionInit';

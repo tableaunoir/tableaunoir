@@ -1,4 +1,4 @@
-type ActionSerialized =
+export type ActionSerialized =
     { type: "init", userid: string, canvasDataURL: string } |
     { type: "clearzone", userid: string, points: any, cut: boolean, removeContour: boolean } |
     { type: "ellipse", userid: string, cx: number, cy: number, rx: number, ry: number, color: string } |

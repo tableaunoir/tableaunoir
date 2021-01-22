@@ -1,3 +1,4 @@
+import { ActionSerialized } from './ActionSerialized';
 import { ActionDeserializer } from './ActionDeserializer';
 import { UserManager } from './UserManager';
 import { State } from './State';

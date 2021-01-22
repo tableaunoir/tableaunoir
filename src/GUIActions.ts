@@ -9,7 +9,7 @@ export class GUIActions {
     static palette = new Palette();
     static toolmenu = new ToolMenu();
 
-    static init() {
+    static init(): void {
         GUIActions.palette.onchange = () => {
             if (UserManager.me.isToolErase)
                 Share.execute("switchChalk", [UserManager.me.userID]);
@@ -18,7 +18,7 @@ export class GUIActions {
     }
 
 
-    static changeColor() {
+    static changeColor(): void {
         if (MagnetManager.getMagnetUnderCursor() == undefined) { //if no magnet under the cursor, change the color of the chalk
             if (!UserManager.me.tool.isDrawing)
                 GUIActions.palette.show({ x: UserManager.me.tool.x, y: UserManager.me.tool.y });
@@ -30,7 +30,7 @@ export class GUIActions {
         }
     }
 
-    static previousColor() {
+    static previousColor(): void {
         if (MagnetManager.getMagnetUnderCursor() == undefined) { //if no magnet under the cursor, change the color of the chalk
             UserManager.me.switchChalk();
 
@@ -44,7 +44,7 @@ export class GUIActions {
         }
     }
 
-    static switchChalkEraser() {
+    static switchChalkEraser(): void {
         if (!UserManager.me.isToolDraw)
             Share.execute("switchChalk", [UserManager.me.userID]);
         else

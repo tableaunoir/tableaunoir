@@ -11,7 +11,7 @@ import { Drawing } from './Drawing';
 
 export class KeyBoardShortCuts {
 
-    static onKeyDown(evt) {
+    static onKeyDown(evt: KeyboardEvent): void {
         //console.log("ctrl: " + evt.ctrlKey + " shift:" + evt.shiftKey + "key: " + evt.key)
         if (evt.key == "Backspace" && !(document.activeElement instanceof HTMLInputElement))
             evt.preventDefault();
@@ -69,11 +69,11 @@ export class KeyBoardShortCuts {
     }
 
 
-/**
- * 
- * @param evt 
- */
-    static onKeyDownThatModifies(evt) {
+    /**
+     * 
+     * @param evt 
+     */
+    static onKeyDownThatModifies(evt: KeyboardEvent): void {
         if (evt.key == "Enter") {
             MagnetManager.addMagnetText(UserManager.me.x, UserManager.me.y);
             evt.preventDefault(); //so that it will not add "new line" in the text element

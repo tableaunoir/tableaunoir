@@ -1,9 +1,9 @@
 import { OptionManager } from './OptionManager';
 
 export class Sound {
-    static is: boolean = false;
+    static is = false;
 
-    static init() {
+    static init(): void {
         OptionManager.boolean({
             name: "sound",
             defaultValue: false,
@@ -12,7 +12,7 @@ export class Sound {
     }
 
 
-    static play(name) {
+    static play(name: string):void {
         if (!Sound.is) return;
 
         const audio = new Audio("sounds/" + name + ".ogg");

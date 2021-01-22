@@ -128,7 +128,7 @@ export class MagnetManager {
 	}
 
 
-	static resetPositionate() {
+	static resetPositionate(): void {
 		MagnetManager.magnetX = BoardManager.getCurrentScreenRectangle().x1;
 		MagnetManager.magnetY = MagnetManager.getYTopWhenNewMagnets();
 	}
@@ -138,7 +138,7 @@ export class MagnetManager {
 	* @param {*} element
 	* @description add the DOM element element to the list of magnets. This function also gives a position to the element (typically for collection of magnets)
 	*/
-	static addMagnetAndPositionnate(element: HTMLElement) {
+	static addMagnetAndPositionnate(element: HTMLElement): void {
 		if (MagnetManager.magnetX > BoardManager.getCurrentScreenRectangle().x2 - 10) {
 			MagnetManager.magnetX = BoardManager.getCurrentScreenRectangle().x1;
 			MagnetManager.magnetY += 64;
@@ -193,14 +193,29 @@ export class MagnetManager {
 	}
 
 
+	/**
+	 * 
+	 * @param m 
+	 * @param x 
+	 * @param y 
+	 * @returns true if (x, y) is inside magnet m
+	 */
 	static magnetContains(m: HTMLElement, x: number, y: number): boolean {
 		return (parseInt(m.style.left) <= x && parseInt(m.style.top) <= y &&
 			x <= parseInt(m.style.left) + (m.clientWidth) &&
 			y <= parseInt(m.style.top) + (m.clientHeight));
 	}
 
+
+	/**
+	 * 
+	 * @param m 
+	 * @param x 
+	 * @param y 
+	 * @returns true iff point (x, y) is very close to magnet m
+	 */
 	static magnetNearContains(m: HTMLElement, x: number, y: number): boolean {
-		const nbpixelsTheshold = 16;
+		const nbpixelsTheshold = 24;
 		return (parseInt(m.style.left) - nbpixelsTheshold <= x && parseInt(m.style.top) - nbpixelsTheshold <= y &&
 			x <= parseInt(m.style.left) + (m.clientWidth) + nbpixelsTheshold &&
 			y <= parseInt(m.style.top) + (m.clientHeight) + nbpixelsTheshold);
@@ -227,6 +242,7 @@ export class MagnetManager {
 				return minDist;
 
 			}
+
 			const contains = () => {
 				for (let j = 0; j < magnets.length; j++) {
 					if (MagnetManager.magnetContains(magnets[j], x, y) ||
