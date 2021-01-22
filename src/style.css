@@ -459,6 +459,9 @@ button {
 }
 
 
+.buttonNavigation {
+	border-radius: 24px;
+}
 
 
 button img {
