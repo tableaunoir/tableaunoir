@@ -1,10 +1,8 @@
+import { GUIActions } from './GUIActions';
 import { Sound } from './Sound';
 import { TestPerformance } from './TestPerformance';
 import { CSSStyleModifier } from './CSSStyleModifier';
 import { BoardNavigation } from './BoardNavigation';
-import { CircularMenu } from './CircularMenu';
-import { ToolMenu } from './ToolMenu';
-import { Palette } from "./Palette";
 import { Share } from "./share";
 import { MyMagnets } from "./myMagnets";
 import { MagnetManager } from './magnetManager';
@@ -20,7 +18,8 @@ import { Background } from './Background';
 import { Translation } from './Translation';
 import { Menu } from './Menu';
 import { TouchScreen } from './TouchScreen';
-import { Drawing } from './Drawing'
+import { Drawing } from './Drawing';
+import { KeyBoardShortCuts } from './KeyBoardShortCuts';
 
 TestPerformance.init();
 
@@ -28,8 +27,7 @@ window.onload = load;
 window['Menu'] = Menu; //for Menu to be used in index.html
 
 
-export const palette = new Palette();
-const toolmenu = new ToolMenu();
+
 
 //let loaded = false;
 
@@ -67,51 +65,23 @@ function load() {
 	CSSStyleModifier.init();
 	Drawing.init();
 	BoardNavigation.init();
+	BlackVSWhiteBoard.init();
+	GUIActions.init();
+	MagnetManager.init();
+	MyMagnets.loadMagnets();
+	Sound.init();
 
-	const changeColor = () => {
-		if (MagnetManager.getMagnetUnderCursor() == undefined) { //if no magnet under the cursor, change the color of the chalk
-			if (!UserManager.me.tool.isDrawing)
-				palette.show({ x: UserManager.me.tool.x, y: UserManager.me.tool.y });
-			palette.next();
-		}
-		else { // if there is a magnet change the background of the magnet
-			const magnet = MagnetManager.getMagnetUnderCursor();
-			magnet.style.backgroundColor = MagnetManager.nextBackgroundColor(magnet.style.backgroundColor);
-		}
-	}
-
-	const previousColor = () => {
-		if (MagnetManager.getMagnetUnderCursor() == undefined) { //if no magnet under the cursor, change the color of the chalk
-			UserManager.me.switchChalk();
-
-			if (!UserManager.me.tool.isDrawing)
-				palette.show({ x: UserManager.me.tool.x, y: UserManager.me.tool.y });
-			palette.previous();
-		}
-		else { // if there is a magnet change the background of the magnet
-			const magnet = MagnetManager.getMagnetUnderCursor();
-			magnet.style.backgroundColor = MagnetManager.previousBackgroundColor(magnet.style.backgroundColor);
-		}
-	}
-
-	const switchChalkEraser = () => {
-		if (!UserManager.me.isToolDraw)
-			Share.execute("switchChalk", [UserManager.me.userID]);
-		else
-			Share.execute("switchErase", [UserManager.me.userID]);
-
-
-	}
+	BoardManager.load();
 
 
 	document.getElementById("buttonMenu").onclick = Menu.toggle;
-	document.getElementById("buttonColors").onclick = changeColor;
+	document.getElementById("buttonColors").onclick = GUIActions.changeColor;
 
-	document.getElementById("buttonChalk").onclick = switchChalkEraser;
-	document.getElementById("buttonEraser").onclick = switchChalkEraser;
+	document.getElementById("buttonChalk").onclick = GUIActions.switchChalkEraser;
+	document.getElementById("buttonEraser").onclick = GUIActions.switchChalkEraser;
 
 	document.getElementById("buttonTools").onclick = () => {
-		toolmenu.show({ x: UserManager.me.x, y: UserManager.me.y });
+		GUIActions.toolmenu.show({ x: UserManager.me.x, y: UserManager.me.y });
 	}
 
 	document.getElementById("buttonText").onclick = () => MagnetManager.addMagnetText(UserManager.me.x, UserManager.me.y);
@@ -124,143 +94,13 @@ function load() {
 
 	document.getElementById("buttonAskQuestion").onclick = Discussion.askQuestion;
 
-
-
 	const buttons = document.getElementById("controls").children;
 
 	for (let i = 0; i < buttons.length; i++)
 		if (buttons[i] instanceof HTMLButtonElement)
 			(<HTMLButtonElement>buttons[i]).onfocus = (<HTMLElement>document.activeElement).blur; //to be improved
 
-	BlackVSWhiteBoard.init();
-
-	palette.onchange = () => {
-		if (UserManager.me.isToolErase)
-			Share.execute("switchChalk", [UserManager.me.userID]);
-		Share.execute("setCurrentColor", [UserManager.me.userID, palette.getCurrentColor()]);
-	}
-
-
-	document.onkeydown = (evt) => {
-		//console.log("ctrl: " + evt.ctrlKey + " shift:" + evt.shiftKey + "key: " + evt.key)
-		if (evt.key == "Backspace" && !(document.activeElement instanceof HTMLInputElement))
-			evt.preventDefault();
-
-		if (evt.key == "Escape" || evt.key == "F1") {//escape => show menu
-			if (Layout.isMinimap)
-				Layout.normal();
-			else if (CircularMenu.isShown())
-				CircularMenu.hide();
-			else
-				Menu.toggle();
-		}
-
-		if (Menu.isShown())
-			return;
-
-		if (!evt.ctrlKey && !evt.shiftKey && evt.key == "n") { //navigation
-			if (Layout.isMinimap)
-				Layout.normal();
-			else
-				Layout.minimap();
-		}
-		else if (!evt.ctrlKey && !evt.shiftKey && evt.key == "c") // c => change color
-			changeColor();
-		else if (!evt.ctrlKey && evt.shiftKey && evt.key == "C")
-			previousColor();
-		else if (!evt.ctrlKey && !evt.shiftKey && evt.key == "t") { // t => tool menu 
-			toolmenu.show({ x: UserManager.me.x, y: UserManager.me.y });
-		}
-		else if (evt.key == "Enter" && CircularMenu.isShown())
-			CircularMenu.hide();
-		else if (evt.key == "ArrowLeft" && CircularMenu.isShown())
-			palette.previous();
-		else if (evt.key == "ArrowRight" && CircularMenu.isShown())
-			palette.next();
-		else if (evt.key == "Enter") {
-			MagnetManager.addMagnetText(UserManager.me.x, UserManager.me.y);
-			evt.preventDefault(); //so that it will not add "new line" in the text element
-		}
-		else if (evt.shiftKey && evt.key == "ArrowLeft") {
-			BoardNavigation.left();
-		}
-		else if (evt.shiftKey && evt.key == "ArrowRight") {
-			BoardNavigation.right();
-		}
-		else if (evt.key == "ArrowLeft") {
-			BoardNavigation.leftPreviousPage();
-		}
-		else if (evt.key == "ArrowRight") {
-			BoardNavigation.rightNextPage();
-		}
-		else if (evt.key == "d")  //d = divide screen
-			Drawing.divideScreen(UserManager.me.userID);
-		else if ((evt.ctrlKey && evt.shiftKey && evt.key == "Z") || (evt.ctrlKey && evt.key == "y")) { //ctrl + shift + z OR Ctrl + Y = redo
-			Share.execute("redo", [UserManager.me.userID]);
-			evt.preventDefault();
-		}
-		else if (evt.ctrlKey && evt.key == "z") {// ctrl + z = undo
-			Share.execute("cancel", [UserManager.me.userID]);
-			evt.preventDefault();
-		}
-
-		else if (evt.key == "e")  //e = switch eraser and chalk
-			switchChalkEraser();
-		else if (evt.key == "h")
-			Toolbar.toggle();
-		else if (evt.ctrlKey && evt.key.toLowerCase() == 'x') {//Ctrl + x
-			CircularMenu.hide();
-			if (!UserManager.me.isDelineation)
-				return;
-			const deli = UserManager.me.lastDelineation;
-			if (deli.containsPolygonToMagnetize())
-				Share.execute("magnetize", [UserManager.me.userID, true, evt.key == "x"]);
-		}
-		else if (evt.ctrlKey && evt.key.toLowerCase() == 'c') {//Ctrl + c
-			CircularMenu.hide();
-			if (!UserManager.me.isDelineation)
-				return;
-			const deli = UserManager.me.lastDelineation;
-			if (deli.containsPolygonToMagnetize())
-				Share.execute("magnetize", [UserManager.me.userID, false, evt.key == "c"]);
-			evt.preventDefault();
-		}
-		else if (evt.ctrlKey && evt.key == "v") { //Ctrl + v = print the current magnet
-			CircularMenu.hide();
-			Share.execute("printMagnet", [MagnetManager.getCurrentMagnetID()]);
-		}
-		else if (evt.key.toLowerCase() == "m") { //m = make new magnets
-			CircularMenu.hide();
-			if (!UserManager.me.isDelineation) {
-				Share.execute("printMagnet", [MagnetManager.getCurrentMagnetID()]);
-				MagnetManager.removeCurrentMagnet();
-			}
-			else {
-				const deli = UserManager.me.lastDelineation;
-				if (deli.containsPolygonToMagnetize()) {
-					Share.execute("magnetize", [UserManager.me.userID, true, evt.key == "m" ]);
-				}
-				else {
-					Share.execute("printMagnet", [MagnetManager.getCurrentMagnetID()]);
-					MagnetManager.removeCurrentMagnet();
-				}
-			}
-		}
-		else if (evt.key == "p") { //p = print the current magnet
-			CircularMenu.hide();
-			Share.execute("printMagnet", [MagnetManager.getCurrentMagnetID()]);
-		}
-		else if (evt.key == "Delete" || evt.key == "x" || evt.key == "Backspace") { //supr = delete the current magnet
-			CircularMenu.hide();
-			/*if (lastDelineation.containsPolygonToMagnetize())
-				lastDelineation.erase();
-			else*/
-			MagnetManager.removeCurrentMagnet();
-			evt.preventDefault();
-		}
-
-	};
-
+	document.onkeydown = KeyBoardShortCuts.onKeyDown;
 
 	document.getElementById("canvas").onpointerdown = (evt) => {
 		evt.preventDefault();
@@ -286,22 +126,6 @@ function load() {
 
 	TouchScreen.addTouchEvents(document.getElementById("canvas"));
 
-
-
-
-	//	document.getElementById("canvas").onmouseleave = function (evt) { isDrawing = false; }
-
-	MagnetManager.init();
-	MyMagnets.loadMagnets();
-	Sound.init();
-
-	BoardManager.load();
-	//loaded = true;
-	//}
-	/*catch (e) {
-		ErrorMessage.show(e);
-		loaded = false;
-	}*/
 }
 
 

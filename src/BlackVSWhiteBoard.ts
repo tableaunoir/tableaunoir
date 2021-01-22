@@ -1,7 +1,9 @@
-import { getCanvas, palette } from './main';
+import { GUIActions } from './GUIActions';
+import { getCanvas } from './main';
 import { CSSStyleModifier } from './CSSStyleModifier';
 
 /**
+ * 
  * This class implements the switch between whiteboard and blackboard
  */
 export class BlackVSWhiteBoard {
@@ -36,7 +38,7 @@ export class BlackVSWhiteBoard {
         document.getElementById(previousBackgroundColor + "BoardSwitch").classList.remove("buttonselected");
 
 
-        palette.switchBlackAndWhite();
+        GUIActions.palette.switchBlackAndWhite();
         document.getElementById("content").style.backgroundColor = backgroundColor;
 
         if (backgroundColor == "black") {
