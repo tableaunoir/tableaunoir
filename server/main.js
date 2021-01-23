@@ -318,7 +318,9 @@ server.on('connection', function (socket) {
   sockets.push(socket);
 
   socket.on('message', (msg) => {
+    console.log("parsing...");
     msg = JSON.parse(msg);
+    console.log("done!");
     print(socket.userid + ": " + messageToString(msg));
     msg.socket = socket;
     treatReceivedMessageFromClient(msg);
