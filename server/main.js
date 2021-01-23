@@ -383,6 +383,18 @@ function treatReceivedMessageFromClient(msg) {
         tableaunoirs[tableaunoirID].dispatch(msg, msg.socket);
       break;
 
+    case "actions":
+    /*  if (tableaunoirID == undefined)
+        print("error: fullCanvas message and id undefined");
+      else
+        tableaunoirs[tableaunoirID].storeFullCanvas(msg.data);*/
+
+      if (msg.to)
+        tableaunoirs[tableaunoirID].sendTo(msg);
+      else
+        tableaunoirs[tableaunoirID].dispatch(msg, msg.socket);
+      break;
+
     case "askprivilege":
       if (tableaunoirs[tableaunoirID].isPassWordCorrect(msg.password)) {
         tableaunoirs[tableaunoirID].setRoot(msg.socket);
