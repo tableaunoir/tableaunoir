@@ -318,9 +318,10 @@ server.on('connection', function (socket) {
   sockets.push(socket);
 
   socket.on('message', (msg) => {
+    let beginning = Date.now();
     console.log("parsing...");
     msg = JSON.parse(msg);
-    console.log("done!");
+    console.log("done in " + (Date.now() - beginning) + "ms");
     print(socket.userid + ": " + messageToString(msg));
     msg.socket = socket;
     treatReceivedMessageFromClient(msg);
