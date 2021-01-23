@@ -277,7 +277,10 @@ class TableauNoir {
 
     this.sockets.forEach(s => {
       if (s.userid == msg.to) {
+        let beginning = Date.now();
+        console.log("stringify...")
         s.send(JSON.stringify(msg))
+        console.log("done in " + (Date.now() - beginning) + "ms");
         print(messageToString(msg) + "  > " + s.userid);
       }
     });
@@ -318,10 +321,11 @@ server.on('connection', function (socket) {
   sockets.push(socket);
 
   socket.on('message', (msg) => {
-    let beginning = Date.now();
-    console.log("parsing...");
+    
+    //console.log("parsing...");
     msg = JSON.parse(msg);
-    console.log("done in " + (Date.now() - beginning) + "ms");
+   // let beginning = Date.now();
+    //console.log("done in " + (Date.now() - beginning) + "ms");
     print(socket.userid + ": " + messageToString(msg));
     msg.socket = socket;
     treatReceivedMessageFromClient(msg);
