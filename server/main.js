@@ -277,10 +277,10 @@ class TableauNoir {
 
     this.sockets.forEach(s => {
       if (s.userid == msg.to) {
-        let beginning = Date.now();
-        console.log("stringify...")
+      //  let beginning = Date.now();
+        //console.log("stringify...")
         s.send(JSON.stringify(msg))
-        console.log("done in " + (Date.now() - beginning) + "ms");
+        //console.log("done in " + (Date.now() - beginning) + "ms");
         print(messageToString(msg) + "  > " + s.userid);
       }
     });
