@@ -29,7 +29,7 @@ export class LoadSave {
 
         document.getElementById("save").onclick = LoadSave.save;
         document.getElementById("exportPng").onclick = LoadSave.exportPng;
-
+        document.getElementById("buttonCancelStackFlatten").onclick = () => Share.execute("cancelStackFlatten", []);
 
 
 

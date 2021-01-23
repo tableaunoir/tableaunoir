@@ -1,3 +1,4 @@
+import { Geometry } from './Geometry';
 import { ActionSerialized } from './ActionSerialized';
 import { Drawing } from './Drawing';
 import { getCanvas } from './main';
@@ -33,11 +34,13 @@ export class ActionFreeDraw extends Action {
         return { type: "freedraw", userid: this.userid, points: this.points };
     }
 
-
     public alreadyDrawnSth = false;
     public points: { x: number; y: number; pressure: number; color: string; }[] = [];
 
     addPoint(pt: { x: number; y: number; pressure: number; color: string; }): void {
+        pt.x = Geometry.numberRound(pt.x);
+        pt.y = Geometry.numberRound(pt.y);
+        
         if (this.points.length > 0) {
             const pointBefore = this.points[this.points.length - 1];
             if (Math.abs(pt.x - pointBefore.x) < 1 && Math.abs(pt.y - pointBefore.y) < 1)
@@ -59,8 +62,8 @@ export class ActionFreeDraw extends Action {
             const b = this.points[i + 1];
 
             if (Math.abs(a.x - b.x) > 5 || Math.abs(a.y - b.y) > 5) {
-                newpoints.push({ x: 0.85 * a.x + 0.15 * b.x, y: 0.85 * a.y + 0.15 * b.y, pressure: b.pressure, color: a.color });
-                newpoints.push({ x: 0.15 * a.x + 0.85 * b.x, y: 0.15 * a.y + 0.85 * b.y, pressure: b.pressure, color: a.color });
+                newpoints.push({ x: Geometry.numberRound(0.85 * a.x + 0.15 * b.x), y: Geometry.numberRound(0.85 * a.y + 0.15 * b.y), pressure: b.pressure, color: a.color });
+                newpoints.push({ x: Geometry.numberRound(0.15 * a.x + 0.85 * b.x), y: Geometry.numberRound(0.15 * a.y + 0.85 * b.y), pressure: b.pressure, color: a.color });
             }
             else
                 newpoints.push(a);

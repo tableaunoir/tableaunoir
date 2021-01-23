@@ -1,3 +1,4 @@
+import { Geometry } from './Geometry';
 import { ActionSerialized } from './ActionSerialized';
 import { Drawing } from './Drawing';
 import { Action } from './Action';
@@ -18,6 +19,9 @@ export class ActionErase extends Action {
      * @description add a new point in the path to be erased
      */
     addPoint(pt: { x: number; y: number; lineWidth: number }): void {
+        pt.x = Geometry.numberRound(pt.x);
+        pt.y = Geometry.numberRound(pt.y);
+        
         if (this.points.length > 0) {
             const pointBefore = this.points[this.points.length - 1];
             if (Math.abs(pt.x - pointBefore.x) < 1 && Math.abs(pt.y - pointBefore.y) < 1)

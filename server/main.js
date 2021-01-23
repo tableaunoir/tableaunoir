@@ -141,7 +141,7 @@ class UserManager {
  * @return a string that can displayed in the console and that represents the message msg
  */
 function messageToString(msg) {
-  if (msg.type != "fullCanvas" && msg.type != "magnets" && msg.type != "execute")
+  if (msg.type != "fullCanvas" && msg.type != "actions" && msg.type != "magnets" && msg.type != "execute")
     return JSON.stringify(msg);
   else if (msg.type == "execute")
     return msg.type + " " + msg.event;

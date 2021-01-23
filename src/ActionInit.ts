@@ -11,6 +11,7 @@ export class ActionInit extends Action {
         if (canvasDataURL) {
             this.img = new Image();
             this.img.src = canvasDataURL;
+            console.log(canvasDataURL);
         }
 
     }
@@ -22,7 +23,7 @@ export class ActionInit extends Action {
     redo(): Promise<void> {
         return new Promise((resolve) => {
             if (this.img) {
-                const f = () => {
+                const drawAndResolve = () => {
                     const canvas = getCanvas();
                     canvas.width = Math.max(canvas.width, this.img.width);
                     canvas.height = Math.max(canvas.height, this.img.height);
@@ -30,11 +31,14 @@ export class ActionInit extends Action {
                     resolve();
                 }
 
-                this.img.onload = f;
-                if (this.img.complete)
-                    f();
+                if (this.img.height != 0) {
+//                    console.log("image is already loaded: " + this.img.height);
+                    drawAndResolve();
+                }
+                else
+                    this.img.onload = drawAndResolve;
 
-                console.log("action init: redo")
+  //              console.log("action init: redo")
             }
             else
                 resolve();

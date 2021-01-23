@@ -212,6 +212,9 @@ export class Share {
 			case "ready": //oh you are ready to participate!
 				Loading.hide();
 				break;
+			case "setWidth":
+				getCanvas().width = msg.width;
+				break;
 			case "root": //you obtained root permission and the server tells you that
 				console.log("I am root.")
 				Share.setRoot();
@@ -229,10 +232,9 @@ export class Share {
 				if (UserManager.isSmallestUserID()) {
 					//getCanvas().toBlob((blob) => Share.sendFullCanvas(blob, msg.userid));
 					Share.send({ type: "wait", to: msg.userid });
-					//Share.send({type: "actions", to: msg.userid, actions: BoardManager.cancelStack.serialize(), t: BoardManager.cancelStack.t});
+					//
 					Share.execute("setCanWriteValueByDefault", [Share.canWriteValueByDefault]);
 					Share.execute("setUserCanWrite", [msg.userid, Share.canWriteValueByDefault]);
-					
 
 					for (const userid in UserManager.users) {
 						Share.execute("setUserName", [userid, UserManager.users[userid].name]);
@@ -240,14 +242,20 @@ export class Share {
 						Share.execute("setUserCanWrite", [userid, UserManager.users[userid].canWrite]);
 					}
 
-					Share.sendFullCanvas(msg.userid);
+					Share.send({ type: "setWidth", width: getCanvas().width, to: msg.userid });
+					Share.sendMagnets(msg.userid);
+
+					console.log("preparation of the list of actions");
+					Share.send({ type: "actions", to: msg.userid, actions: BoardManager.cancelStack.serialize(), t: BoardManager.cancelStack.t });
+					console.log("list of actions sent");
+					//					Share.sendFullCanvas(msg.userid);
 
 					Share.send({
 						type: "svg", to: msg.userid,
 						data: document.getElementById("svg").innerHTML
 					});
 
-					Share.sendMagnets(msg.userid);
+					
 					Share.send({ type: "ready", to: msg.userid });
 
 					Share.execute("setDocuments", [Background.getDocumentPanel().innerHTML]);
@@ -267,7 +275,9 @@ export class Share {
 				break;
 			case "actions":
 				Loading.hide();
+				console.log("list of actions received");
 				BoardManager.cancelStack.load(msg.actions, msg.t);
+				console.log("list of actions loaded");
 				break;
 			case "svg":
 				console.log("received svg!")

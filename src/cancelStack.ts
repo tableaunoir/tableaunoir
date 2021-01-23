@@ -1,7 +1,6 @@
 import { ActionSerialized } from './ActionSerialized';
 import { ActionDeserializer } from './ActionDeserializer';
 import { UserManager } from './UserManager';
-import { State } from './State';
 import { Action } from './Action';
 import { ActionInit } from './ActionInit';
 import { getCanvas } from './main';
@@ -30,6 +29,16 @@ export class CancelStack {
         this.currentIndex = -1;
 
         const actionInit = new ActionInit(UserManager.me.userID, undefined);
+        this._push(actionInit);
+    }
+
+    /**
+     * empty the cancel stack but keeps the current state
+     */
+    flatten(): void {
+        this.stack = [];
+        this.currentIndex = -1;
+        const actionInit = new ActionInit(UserManager.me.userID, getCanvas().toDataURL());
         this._push(actionInit);
     }
 
@@ -78,20 +87,14 @@ export class CancelStack {
         //this.print();
     }
 
-
     /**
-     * @returns the index of the last pre-computed states, or undefined if none
+     * @description do all the actions until the current index
      */
-    get lastStateIndex(): number {
-        let i = this.currentIndex;
-        while (i >= 0) {
-            if (this.stack[i].hasPostState)
-                return i;
-            i--;
-        }
-        return undefined;
-    }
+    async playUntilCurrentIndex(): Promise<void> {
+        for (let i = 0; i <= this.currentIndex; i++)
+            await this.stack[i].redo();
 
+    }
 
     /**
      * @description undo the last action
@@ -108,9 +111,7 @@ export class CancelStack {
           } else stateIndex = -1;*/
 
         getCanvas().width = getCanvas().width + 0;
-        for (let i = 0; i <= this.currentIndex; i++)
-            await this.stack[i].redo();
-
+        await this.playUntilCurrentIndex();
         // this.print();
     }
 
@@ -146,7 +147,7 @@ export class CancelStack {
     print(): void {
         let s = "";
         for (let i = 0; i < this.stack.length; i++) {
-            s += (i == 0) ? "i" : this.stack[i] instanceof State ? "s" : "a";
+            s += (i == 0) ? "i" : "a";
             s += (i == this.currentIndex) ? ". " : "  ";
         }
         console.log(s);

@@ -14,4 +14,8 @@ export class Geometry {
     static middle(p1: { x: number, y: number }, p2: { x: number, y: number }): { x: number, y: number } {
         return { x: (p1.x + p2.x) / 2, y: (p1.y + p2.y) / 2 };
     }
+
+    static numberRound(x: number): number {
+        return Math.round(10*x)/10;
+    }
 }

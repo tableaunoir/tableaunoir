@@ -1,3 +1,5 @@
+import { Share } from './share';
+import { BoardManager } from './boardManager';
 import { UserManager } from './UserManager';
 import { Layout } from './Layout';
 import { getCanvas, getContainer } from "./main";
@@ -54,16 +56,7 @@ export class BoardNavigation {
 
         if (x >= canvas.width - Layout.getWindowWidth()) {
             if (BoardNavigation._rightExtendCanvasEnable) {
-                const image = new Image();
-                image.src = canvas.toDataURL();
-                console.log("extension: canvas width " + canvas.width + " to " + (container.scrollLeft + Layout.getWindowWidth()))
-                canvas.width = ((canvas.width / Layout.scrollQuantityPage()) + 1) * Layout.scrollQuantityPage();
-                const context = canvas.getContext("2d");
-                context.globalCompositeOperation = "source-over";
-                context.globalAlpha = 1.0;
-                image.onload = function () {
-                    context.drawImage(image, 0, 0);
-                }
+                Share.execute("setWidthAtLeast", [((canvas.width / Layout.scrollQuantityPage()) + 1) * Layout.scrollQuantityPage()]);
                 BoardNavigation._rightExtendCanvasEnable = false;
                 setTimeout(() => { BoardNavigation._rightExtendCanvasEnable = true }, 1000);//prevent to extend the canvas too many times
             }

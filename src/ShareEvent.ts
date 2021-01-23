@@ -107,6 +107,11 @@ export class ShareEvent {
         Menu.hide();
     }
 
+    static setWidthAtLeast(atLeastWidth: number): void {
+        BoardManager.setWidthAtLeast(atLeastWidth);
+    }
+    
+
     static questionAdd(userID: string, idquestion: string, question: string): void {
         Discussion.addQuestion(userID, idquestion, question);
     }
@@ -134,6 +139,10 @@ export class ShareEvent {
 
     static redo(userID: string): void {
         BoardManager.redo(userID);
+    }
+
+    static cancelStackFlatten(): void {
+        BoardManager.cancelStack.flatten();
     }
 
     static setUserName(userid: string, name: string): void {
