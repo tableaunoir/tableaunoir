@@ -188,7 +188,7 @@ class TableauNoir {
    */
   static generateTableauID() {
     const s = uuid.create();
-    return s.replace(/+/g, ""); 
+    return s.replace(/\+/g, ""); 
     
     /*delete all the + signs because it causes a bug in the extraction of the ID in the URL
     For an unknown reason, (new URL(document.location.href)).searchParams.get('id') transforms all + into space.
