@@ -277,7 +277,7 @@ class TableauNoir {
 
     this.sockets.forEach(s => {
       if (s.userid == msg.to) {
-      //  let beginning = Date.now();
+        //  let beginning = Date.now();
         //console.log("stringify...")
         s.send(JSON.stringify(msg))
         //console.log("done in " + (Date.now() - beginning) + "ms");
@@ -321,10 +321,10 @@ server.on('connection', function (socket) {
   sockets.push(socket);
 
   socket.on('message', (msg) => {
-    
+
     //console.log("parsing...");
     msg = JSON.parse(msg);
-   // let beginning = Date.now();
+    // let beginning = Date.now();
     //console.log("done in " + (Date.now() - beginning) + "ms");
     print(socket.userid + ": " + messageToString(msg));
     msg.socket = socket;
@@ -391,10 +391,10 @@ function treatReceivedMessageFromClient(msg) {
       break;
 
     case "actions":
-    /*  if (tableaunoirID == undefined)
-        print("error: fullCanvas message and id undefined");
-      else
-        tableaunoirs[tableaunoirID].storeFullCanvas(msg.data);*/
+      /*  if (tableaunoirID == undefined)
+          print("error: fullCanvas message and id undefined");
+        else
+          tableaunoirs[tableaunoirID].storeFullCanvas(msg.data);*/
 
       if (msg.to)
         tableaunoirs[tableaunoirID].sendTo(msg);
@@ -424,6 +424,9 @@ function treatReceivedMessageFromClient(msg) {
 
     //by default other msgs are dispatched
     default:
-      tableaunoirs[tableaunoirID].dispatch(msg, msg.socket);
+      if (msg.to)
+        tableaunoirs[tableaunoirID].sendTo(msg);
+      else
+        tableaunoirs[tableaunoirID].dispatch(msg, msg.socket);
   }
 }

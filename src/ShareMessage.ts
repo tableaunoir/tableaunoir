@@ -4,7 +4,7 @@ import { ActionSerialized } from './ActionSerialized';
 */
 
 export interface ShareMessage {
-    type: "share" | "askprivilege" | "id" | "youruserid" | "user" | "wait" | "ready" | "root" | "accessdenied" | "join" | "leave" | "fullCanvas" | "magnets" | "magnetChanged" | "newmagnet" | "execute" | "actions" | "svg" | "setWidth"; 
+    type: "share" | "askprivilege" | "id" | "youruserid" | "user" | "wait" | "ready" | "root" | "accessdenied" | "join" | "leave" | "fullCanvas" | "magnets" | "magnetChanged" | "newmagnet" | "execute" | "action" | "actions" | "svg" | "setWidth"; 
     /** type of the message (for instance, there is a new user, or here is the content of the canvas etc.)
 
     //    client -------------------> server
@@ -44,6 +44,8 @@ export interface ShareMessage {
     magnetid?: string;
 
     actions?: ActionSerialized[];
+    action?: ActionSerialized;
+
     t?: number;
 
     event?: string;

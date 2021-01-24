@@ -17,7 +17,7 @@ export class CancelStack {
      * some actions may contain a "poststate" (a full snapshot of the state after executing that action)
      * remark: the first action is of Type ActionInit and always contains a postState
      */
-    private stack: (Action)[] = [];
+    public stack: (Action)[] = [];
     private currentIndex = -1; //meaning that stack[currentIndex] is treated
     private n = 0;
 

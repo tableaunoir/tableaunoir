@@ -9,7 +9,7 @@ import { ErrorMessage } from './ErrorMessage';
 import { ShareEvent } from './ShareEvent';
 import config from './config.json'
 import { ConstraintDrawing } from './ConstraintDrawing';
-import { HTMLdeserialize } from './ActionDeserializer';
+import { ActionDeserializer, HTMLdeserialize } from './ActionDeserializer';
 
 /**
  * the class that enables to share the board
@@ -246,7 +246,11 @@ export class Share {
 					Share.sendMagnets(msg.userid);
 
 					console.log("preparation of the list of actions");
-					Share.send({ type: "actions", to: msg.userid, actions: BoardManager.cancelStack.serialize(), t: BoardManager.cancelStack.t });
+					//Share.send({ type: "actions", to: msg.userid, actions: BoardManager.cancelStack.serialize(), t: BoardManager.cancelStack.t });
+					for(const action of BoardManager.cancelStack.stack) {
+						Share.send({ type: "action", to: msg.userid, action: action.serialize()});
+					}
+					
 					console.log("list of actions sent");
 					//					Share.sendFullCanvas(msg.userid);
 
@@ -255,7 +259,7 @@ export class Share {
 						data: document.getElementById("svg").innerHTML
 					});
 
-					
+
 					Share.send({ type: "ready", to: msg.userid });
 
 					Share.execute("setDocuments", [Background.getDocumentPanel().innerHTML]);
@@ -278,6 +282,9 @@ export class Share {
 				console.log("list of actions received");
 				BoardManager.cancelStack.load(msg.actions, msg.t);
 				console.log("list of actions loaded");
+				break;
+			case "action":
+				BoardManager.cancelStack.push(ActionDeserializer.deserialize(msg.action));
 				break;
 			case "svg":
 				console.log("received svg!")
