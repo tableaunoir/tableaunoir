@@ -158,7 +158,7 @@ export class MagnetManager {
 	 */
 	static addMagnet(element: HTMLElement): void {
 		if (element.id == "")
-			element.id = "m" + Math.random(); //generate randomly an id
+			element.id = MagnetManager.generateID();
 		MagnetManager.currentMagnet = element;
 		element.classList.add("magnet");
 		document.getElementById("magnets").appendChild(element);
@@ -176,6 +176,17 @@ export class MagnetManager {
 		MagnetManager._installMagnet(element);
 	}
 
+	/**
+	 * @returns a new ID for a new magnet
+	 */
+	static generateID(): string {
+		let id = "";
+		do {
+			id = "m" + Math.round(Math.random() * 1000000);
+		} while(document.getElementById(id) != undefined)
+		return id;
+	}
+
 
 
 	/**
@@ -185,7 +196,7 @@ export class MagnetManager {
 	 */
 	static addMagnetLocalOnly(element: HTMLElement): void {
 		if (element.id == "")
-			element.id = "m" + Math.random(); //generate randomly an id
+			element.id = MagnetManager.generateID();
 		MagnetManager.currentMagnet = element;
 		element.classList.add("magnet");
 		document.getElementById("magnets").appendChild(element);
