@@ -21,14 +21,13 @@ export class Drawing extends DrawingCanvas {
             onChange: (lineWidth) => this.lineWidth = lineWidth
         });
     }
-   
 
-    static divideScreen(userid: string): void {
+
+    static divideScreen(userid: string, x: number): void {
         console.log("divide the screen")
-        const x = Layout.getXMiddle();
         const action = new ActionFreeDraw(userid);
-        action.addPoint({x: x, y: 0, pressure:1, color:BlackVSWhiteBoard.getDefaultChalkColor()});
-        action.addPoint({x: x, y: Layout.getWindowHeight(), pressure:1, color:BlackVSWhiteBoard.getDefaultChalkColor()});
+        action.addPoint({ x: x, y: 0, pressure: 1, color: BlackVSWhiteBoard.getDefaultChalkColor() });
+        action.addPoint({ x: x, y: Layout.getWindowHeight(), pressure: 1, color: BlackVSWhiteBoard.getDefaultChalkColor() });
         action.redo();
         BoardManager.addAction(action);
     }

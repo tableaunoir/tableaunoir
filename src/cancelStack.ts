@@ -1,3 +1,4 @@
+import { ErrorMessage } from './ErrorMessage';
 import { ActionSerialized } from './ActionSerialized';
 import { ActionDeserializer } from './ActionDeserializer';
 import { UserManager } from './UserManager';
@@ -99,8 +100,14 @@ export class CancelStack {
      * @description do all the actions until the current index
      */
     async playUntilCurrentIndex(): Promise<void> {
-        for (let i = 0; i <= this.currentIndex; i++)
-            await this.stack[i].redo();
+        for (let i = 0; i <= this.currentIndex; i++) {
+            if (this.stack[i] == undefined) {
+                ErrorMessage.show("issue #113. error with i = " + i);
+            }
+            else
+                await this.stack[i].redo();
+
+        }
 
     }
 

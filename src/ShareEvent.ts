@@ -98,6 +98,10 @@ export class ShareEvent {
         BoardManager.setWidthAtLeast(atLeastWidth);
     }
 
+    static divideScreen(userid: string, x: number): void {
+        Drawing.divideScreen(userid, x);
+    }
+
     /**questions */
     static questionAdd(userID: string, idquestion: string, question: string): void {
         Discussion.addQuestion(userID, idquestion, question);

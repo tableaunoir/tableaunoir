@@ -79,7 +79,7 @@ export class KeyBoardShortCuts {
             evt.preventDefault(); //so that it will not add "new line" in the text element
         }
         else if (evt.key == "d")  //d = divide screen
-            Drawing.divideScreen(UserManager.me.userID);
+            Share.execute("divideScreen", [UserManager.me.userID, Layout.getXMiddle()]);
         else if ((evt.ctrlKey && evt.shiftKey && evt.key == "Z") || (evt.ctrlKey && evt.key == "y")) { //ctrl + shift + z OR Ctrl + Y = redo
             Share.execute("redo", [UserManager.me.userID]);
             evt.preventDefault();

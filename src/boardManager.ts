@@ -40,7 +40,7 @@ export class BoardManager {
     /**
      * 
      * @param atLeastWidth 
-     * @description makes that the canvas.width is at least atLeastWidth
+     * @description makes that the canvas.width is at least Width
      */
     static setWidthAtLeast(atLeastWidth: number): void {
         const canvas = getCanvas();

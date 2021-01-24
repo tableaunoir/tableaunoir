@@ -85,7 +85,7 @@ function load() {
 	}
 
 	document.getElementById("buttonText").onclick = () => MagnetManager.addMagnetText(UserManager.me.x, UserManager.me.y);
-	document.getElementById("buttonDivide").onclick = () => Drawing.divideScreen(UserManager.me.userID);
+	document.getElementById("buttonDivide").onclick = () => Share.execute("divideScreen", [UserManager.me.userID, Layout.getXMiddle()]);
 
 	document.getElementById("buttonLeft").onclick = BoardNavigation.leftPreviousPage;
 	document.getElementById("buttonRight").onclick = BoardNavigation.rightNextPage;
