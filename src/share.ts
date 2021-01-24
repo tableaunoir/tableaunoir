@@ -38,9 +38,6 @@ export class Share {
 			//	console.log("I received the message: ");
 			Share._treatReceivedMessage(JSON.parse(msg.data));
 		};
-
-
-
 	}
 
 
@@ -54,10 +51,7 @@ export class Share {
 	 * initialization
 	 */
 	static init(): void {
-		document.getElementById("shareButton").onclick = () => {
-			if (!Share.isShared())
-				Share.share();
-		};
+		document.getElementById("shareButton").onclick = () => { if (!Share.isShared()) Share.share(); };
 
 		document.getElementById("buttonShare").onclick = function () {
 			if (!Share.isShared()) {
@@ -67,13 +61,11 @@ export class Share {
 			}
 		}
 
-		document.getElementById("joinButton").onclick = () => {
-			window.open(window.location.href, "_self")
-		}
+		document.getElementById("joinButton").onclick = () => { window.open(window.location.href, "_self") }
 
 		const checkboxSharePermissionWrite = <HTMLInputElement>document.getElementById("sharePermissionWrite");
 		checkboxSharePermissionWrite.onclick =
-			() => Share.setCanWriteForAllExceptMeAndByDefault(checkboxSharePermissionWrite.checked);
+			() => Share.setCanWriteForAllExceptMe(checkboxSharePermissionWrite.checked);
 
 		if (!Share.isOnGitHub())
 			document.getElementById('ShareGithub').hidden = true;
@@ -98,7 +90,6 @@ export class Share {
 		}
 
 		document.getElementById("buttonAskPrivilege").onclick = Share.askPrivilege;
-
 		document.getElementById("buttonCopyShareUrl").onclick = Share.copyShareUrl;
 	}
 
@@ -128,23 +119,22 @@ export class Share {
 	/**
 	 * @returns true iff the board is shared with others
 	 */
-	static isShared(): boolean {
-		return Share.id != undefined;
-	}
+	static isShared(): boolean { return Share.id != undefined; }
 
-
+	/**
+	 * @description shows the connection error (called when there is a problem with the connection)
+	 */
 	static showConnectionError(): void {
 		if (Share.isOnGitHub())
 			ErrorMessage.show("For sharing, first go to a deployed server. Go to menu/share for more information.");
 		else
 			ErrorMessage.show("Impossible to connect to the server");
 	}
+
 	/**
 	 * @returns true iff the current user is root
 	 */
-	static isRoot(): boolean {
-		return document.getElementById("askPrivilege").hidden;
-	}
+	static isRoot(): boolean { return document.getElementById("askPrivilege").hidden; }
 
 	/**
 	 * @description tries to connect the server to make a shared board
@@ -159,14 +149,9 @@ export class Share {
 			document.getElementById("buttonShare").classList.add("alreadyShared");
 			document.getElementById("join").hidden = true;
 
-			if (password == "") {
-				Share.setCanWriteForAllExceptMeAndByDefault(true);
-			}
-			else
-				Share.setCanWriteForAllExceptMeAndByDefault(false);
+			Share.setCanWriteForAllExceptMe((password == ""));
 
 			Share.setRoot();
-
 		}
 		catch (e) {
 			Share.ws = undefined;
@@ -206,39 +191,24 @@ export class Share {
 
 				UserManager.add(msg.userid);
 				break;
-			case "wait":
-				Loading.show();
-				break;
-			case "ready": //oh you are ready to participate!
-				Loading.hide();
-				break;
-			case "setWidth":
-				getCanvas().width = msg.width;
-				break;
+			case "wait": Loading.show(); break;
+			case "ready": Loading.hide(); break;//oh you are ready to participate!
+			case "setWidth": getCanvas().width = msg.width; break;
 			case "root": //you obtained root permission and the server tells you that
-				console.log("I am root.")
+				console.log("I am root.");
 				Share.setRoot();
 				Share.execute("setUserCanWrite", [UserManager.me.userID, true]);
 				break;
-			case "accessdenied":
-				ErrorMessage.show("Access denied");
-				break;
+			case "accessdenied": ErrorMessage.show("Access denied"); break;
 			case "join": //a new user joins the group
 				console.log("a new user is joining: ", msg.userid)
-				// the leader is the user with the smallest ID
-
 				UserManager.add(msg.userid);
-
+				// the leader is the user with the smallest ID
 				if (UserManager.isSmallestUserID())
 					Share.sendAllDataTo(msg.userid);
 				break;
-			case "leave":
-				UserManager.leave(msg.userid);
-				break;
-			case "fullCanvas":
-				Loading.hide();
-				BoardManager.load(msg.data);
-				break;
+			case "leave": UserManager.leave(msg.userid); break;
+			case "fullCanvas": Loading.hide(); BoardManager.load(msg.data); break;
 			case "actions":
 				Loading.hide();
 				console.log("list of actions received");
@@ -254,36 +224,25 @@ export class Share {
 				document.getElementById("svg").innerHTML = msg.data;
 				ConstraintDrawing.reset();
 				break;
-			case "documents":
-				Background.getDocumentPanel().innerHTML = msg.data;
-				break;
+			case "documents": Background.getDocumentPanel().innerHTML = msg.data; break;
 			case "magnets":
 				document.getElementById("magnets").innerHTML = msg.magnets;
 				MagnetManager.installMagnets();
 				break;
-			case "background":
-				Background.set(msg.data);
-				break;
+			case "background": Background.set(msg.data); break;
 			case "magnetChanged":
 				document.getElementById(msg.magnetid).outerHTML = msg.data;
 				MagnetManager.installMagnets();
 				break;
-			case "newmagnet":
-				console.log("new magnet:");
-				MagnetManager.addMagnetLocalOnly(HTMLdeserialize(msg.data));
-				break;
-			case "execute":
-				ShareEvent[msg.event](...msg.params);
-				break;
+			case "newmagnet": MagnetManager.addMagnetLocalOnly(HTMLdeserialize(msg.data)); break;
+			case "execute": ShareEvent[msg.event](...msg.params); break;
 		}
 	}
 
 
 
 	private static sendAllDataTo(idNewUser: string): void {
-		//getCanvas().toBlob((blob) => Share.sendFullCanvas(blob, msg.userid));
 		Share.send({ type: "wait", to: idNewUser });
-		//
 		Share.execute("setCanWriteValueByDefault", [Share.canWriteValueByDefault]);
 		Share.execute("setUserCanWrite", [idNewUser, Share.canWriteValueByDefault]);
 
@@ -296,27 +255,20 @@ export class Share {
 		Share.send({ type: "setWidth", width: getCanvas().width, to: idNewUser });
 		Share.sendMagnets(idNewUser);
 
-		console.log("preparation of the list of actions");
+		//console.log("preparation of the list of actions");
 		Share.send({ type: "actions", to: idNewUser, data: JSON.stringify(BoardManager.cancelStack.serialize()), t: BoardManager.cancelStack.t });
 		/**for(const action of BoardManager.cancelStack.stack) {
 			Share.send({ type: "action", to: msg.userid, action: action.serialize()});
 		}*/
 
-		console.log("list of actions sent");
+		//console.log("list of actions sent");
 		//					Share.sendFullCanvas(msg.userid);
 
-		Share.send({
-			type: "svg", to: idNewUser,
-			data: document.getElementById("svg").innerHTML
-		});
-
-
+		Share.send({ type: "svg", to: idNewUser, data: document.getElementById("svg").innerHTML });
 		Share.send({ type: "ready", to: idNewUser });
 		Share.send({ type: "documents", to: idNewUser, data: Background.getDocumentPanel().innerHTML });
 
-
-		if (Background.is)
-			Share.send({ type: "background", to: idNewUser, data: Background.dataURL });
+		if (Background.is) Share.send({ type: "background", to: idNewUser, data: Background.dataURL });
 	}
 
 	/**
@@ -399,21 +351,7 @@ export class Share {
 			}
 			else
 				return obj;
-			/*	let props = [//'target', 'clientX', 'clientY', 'layerX', 'layerY',
-					'pressure', 'offsetX', 'offsetY'];
-				props.forEach(prop => {
-					Object.defineProperty(obj, prop, {
-						value: obj[prop],
-						enumerable: true,
-						configurable: true
-					});
-				});
-			}
-
-			return obj;*/
-
 		}
-		//eval("ShareEvent." + event)(...params);
 		ShareEvent[event](...params);
 		if (Share.isShared())
 			Share.send(<ShareMessage>{ type: "execute", event: event, params: params.map((param) => adapt(param)) });
@@ -436,17 +374,8 @@ export class Share {
 		(<HTMLInputElement>document.getElementById("shareUrl")).value = url.startsWith("file://") ? config.server.frontend + "?id=" + id : newUrl;
 
 		UserManager.updateGUIUsers(); //update the user because now the tableau is shared
-		//document.getElementById("canvas").toBlob((blob) => Share.sendFullCanvas(blob));
 
 	}
-
-
-
-
-
-
-
-
 
 
 	/**
@@ -461,21 +390,12 @@ export class Share {
 	/**
 	 * @returns the current tableaunoir ID
 	 */
-	static getTableauNoirID(): string {
-		if (Share.isSharedURL()) {
-			return Share.getIDInSharedURL();
-		}
-		else
-			return "local";
-	}
+	static getTableauNoirID(): string { return Share.isSharedURL() ? Share.getIDInSharedURL() : "local"; }
 
 	/**
 	 * @returns the current tableaunoir ID
 	 */
-	static getIDInSharedURL(): string {
-		const params = (new URL(document.location.href)).searchParams;
-		return params.get('id');
-	}
+	static getIDInSharedURL(): string { return (new URL(document.location.href)).searchParams.get('id'); }
 
 
 
@@ -484,9 +404,7 @@ export class Share {
 	 * @param id
 	 * @description say that the current user wants to join the tableaunoir id
 	 */
-	static join(id: string): void {
-		Share.send({ type: "join", id: id });
-	}
+	static join(id: string): void { Share.send({ type: "join", id: id }); }
 
 
 	/**
@@ -494,16 +412,16 @@ export class Share {
 	 * @param canWrite
 	 * @description if canWrite == true, makes that everybody can draw, otherwise only you can
 	 */
-	static setCanWriteForAllExceptMeAndByDefault(canWrite: boolean): void {
+	static setCanWriteForAllExceptMe(canWrite: boolean): void {
 		document.getElementById("imgWritePermission" + canWrite).hidden = false;
 		document.getElementById("imgWritePermission" + !canWrite).hidden = true;
 
 		(<HTMLInputElement>document.getElementById("sharePermissionWrite")).checked = canWrite;
 
-		for (const userid in UserManager.users) {
+		for (const userid in UserManager.users)
 			if (UserManager.users[userid] != UserManager.me)
 				Share.execute("setUserCanWrite", [userid, canWrite]);
-		}
+
 		Share.execute("setCanWriteValueByDefault", [canWrite]);
 		Share.execute("setUserCanWrite", [UserManager.me.userID, true]);
 	}

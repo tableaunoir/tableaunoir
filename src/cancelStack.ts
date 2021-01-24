@@ -17,7 +17,7 @@ export class CancelStack {
      * some actions may contain a "poststate" (a full snapshot of the state after executing that action)
      * remark: the first action is of Type ActionInit and always contains a postState
      */
-    public stack: (Action)[] = [];
+    private stack: (Action)[] = [];
     private currentIndex = -1; //meaning that stack[currentIndex] is treated
     private n = 0;
 
@@ -52,11 +52,20 @@ export class CancelStack {
         this._push(actionInit);
     }
 
-
+    /**
+     * @returns the current timestep (that is performed)
+     * @example this.stack[t] has been performed and that is the last performed action
+     */
     get t(): number {
         return this.currentIndex;
     }
 
+    /**
+     * 
+     * @param A the array of serialized action
+     * @param t the current timestep
+     * @description loads the cancelStack
+     */
     public async load(A: ActionSerialized[], t: number): Promise<void> {
         this.stack = A.map(ActionDeserializer.deserialize);
         this.n = this.stack.length;
@@ -66,8 +75,7 @@ export class CancelStack {
         const canvas = getCanvas();
         canvas.width = canvas.width + 0;
 
-        for (let u = 0; u <= t; u++)
-            await this.stack[u].redo();
+        await this.playUntilCurrentIndex();
     }
 
     private _push(action: Action): void {
@@ -154,7 +162,9 @@ export class CancelStack {
     }
 
 
-
+    /**
+     * @returns the serialized version of the cancelstack (an array of serialized actions)
+     */
     serialize(): ActionSerialized[] {
         return this.stack.map((a) => a.serialize());
     }

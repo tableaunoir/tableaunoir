@@ -42,6 +42,11 @@ export class ActionDeserializer {
 }
 
 
+/**
+ * 
+ * @param outerHTML 
+ * @returns the HTML element whose code is outerHTML
+ */
 export function HTMLdeserialize(outerHTML: string): HTMLElement {
     const el = document.createElement("div");
     el.innerHTML = outerHTML;

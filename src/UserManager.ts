@@ -28,10 +28,7 @@ export class UserManager {
             }
         });
 
-        document.getElementById("numberOfUsers").onclick = () => {
-            Menu.show();
-            Menu.openPageShare();
-        }
+        document.getElementById("numberOfUsers").onclick = () => { Menu.show(); Menu.openPageShare(); }
     }
 
 
@@ -117,9 +114,7 @@ export class UserManager {
     /**
      * @returns the number of connected users to the current baord
      */
-    static getNumberOfUsers(): number {
-        return Object.keys(UserManager.users).length;
-    }
+    static getNumberOfUsers(): number { return Object.keys(UserManager.users).length; }
 
     /**
      * @description update the GUI
@@ -143,7 +138,7 @@ export class UserManager {
     /**
      * @description set the cursor position of all users (except me)
      */
-    static setSymbolCursorPosition():void {
+    static setSymbolCursorPosition(): void {
         for (const userid in UserManager.users) {
             const user = UserManager.users[userid];
             if (user != UserManager.me)
