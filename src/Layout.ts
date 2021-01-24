@@ -55,7 +55,7 @@ export class Layout {
     }
 
     static STANDARDHEIGHT = 1000;
-    static STANDARDWIDTH = 3000;
+    static STANDARDWIDTH = 10000;
 
     static getWindowWidth: () => number;
     static getWindowHeight: () => number;
