@@ -23,15 +23,10 @@ export class Background {
     /**
      * @returns yes iff there is a background
      */
-    static get is(): boolean {
-        return Background.dataURL != undefined;
-    }
-
-
+    static get is(): boolean { return Background.dataURL != undefined; }
 
 
     static async setPDF(dataURL: string): Promise<void> {
-        console.log("setpdf with dataURL " + dataURL);
         Background.pdfdoc = new PDFDocument();
         await Background.pdfdoc.open(dataURL);
         (<HTMLInputElement>document.getElementById("pdfNumPage")).max = "" + Background.pdfdoc.nbPages;
@@ -43,6 +38,7 @@ export class Background {
         const canvas = await Background.pdfdoc.getCanvasPage(pagenum);
         return canvas.toDataURL();
     }
+
     /**
      * initialize the interface
      */
@@ -64,23 +60,19 @@ export class Background {
 
         (<HTMLInputElement>document.getElementById("inputBackground")).onchange = function (evt) {
             const file = (<HTMLInputElement>evt.target).files[0];
+            const funcInsertDocImg = (dataURL) => Share.execute("insertDocumentImage", [dataURL, Layout.getWindowLeft()]);
+
             if (file.name.endsWith(".pdf")) {
-                const canvasBackground = getCanvasBackground();
-                canvasBackground.width = /* reinit */ canvasBackground.width + 0; //clear the background
-                LoadSave.fetchFromFile((<HTMLInputElement>evt.target).files[0],
-                    (dataURL) => Background.setPDF(dataURL));
+                LoadSave.fetchFromFile(file, (dataURL) => Background.setPDF(dataURL));
 
                 document.getElementById("buttonPDFInsertPage").onclick = () => {
-                    const dataURLPromise = Background.getDataURLPDFPageToInsert(Background.pdfviewer.numPage);
-                    dataURLPromise.then((dataURL)=>  Share.execute("insertDocumentImage", [dataURL, Layout.getWindowLeft()]));
-                   
+                    Background.getDataURLPDFPageToInsert(Background.pdfviewer.numPage).then(funcInsertDocImg);
                 };
 
                 document.getElementById("forpdf").hidden = false;
             }
             else {
-                LoadSave.fetchFromFile((<HTMLInputElement>evt.target).files[0],
-                    (dataURL) => Share.execute("insertDocumentImage", [dataURL, Layout.getWindowLeft()]));
+                LoadSave.fetchFromFile(file, funcInsertDocImg);
                 document.getElementById("forpdf").hidden = true;
             }
 

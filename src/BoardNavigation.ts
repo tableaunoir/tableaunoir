@@ -1,5 +1,4 @@
 import { Share } from './share';
-import { BoardManager } from './boardManager';
 import { UserManager } from './UserManager';
 import { Layout } from './Layout';
 import { getCanvas, getContainer } from "./main";

@@ -42,7 +42,7 @@ export class ActionDeserializer {
 }
 
 
-export function HTMLdeserialize(outerHTML): HTMLElement {
+export function HTMLdeserialize(outerHTML: string): HTMLElement {
     const el = document.createElement("div");
     el.innerHTML = outerHTML;
     //console.log("HTMLdeserialize: " + outerHTML);

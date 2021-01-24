@@ -42,7 +42,7 @@ export class BoardManager {
      * @param atLeastWidth 
      * @description makes that the canvas.width is at least atLeastWidth
      */
-    static setWidthAtLeast(atLeastWidth: number) {
+    static setWidthAtLeast(atLeastWidth: number): void {
         const canvas = getCanvas();
         canvas.width = atLeastWidth;
         BoardManager.cancelStack.playUntilCurrentIndex();
