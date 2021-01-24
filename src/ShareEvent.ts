@@ -15,6 +15,7 @@ import { Drawing } from './Drawing';
  * */
 
 export class ShareEvent {
+    /** mouse events */
     static mousedown(userId: string, evt: MouseEvent): void {
         UserManager.users[userId].mousedown(evt);
     }
@@ -29,6 +30,7 @@ export class ShareEvent {
         UserManager.users[userId].mouseup(evt);
     }
 
+    /**tools */
     static setCurrentColor(userId: string, color: string): void {
         UserManager.users[userId].setCurrentColor(color);
     }
@@ -61,6 +63,7 @@ export class ShareEvent {
         UserManager.users[userId].switchArc();
     }
 
+    /**users */
 
     static setCanWriteValueByDefault(bool: boolean): void {
         Share.canWriteValueByDefault = bool;
@@ -76,6 +79,50 @@ export class ShareEvent {
                 (<HTMLElement>elements[i]).hidden = !bool;
             }
         }
+    }
+
+
+    static setUserName(userid: string, name: string): void {
+        UserManager.users[userid].name = name;
+        UserManager.updateGUIUsers();
+    }
+
+
+    /** board */
+    static boardClear(): void {
+        BoardManager._clear();
+        Menu.hide();
+    }
+
+    static setWidthAtLeast(atLeastWidth: number): void {
+        BoardManager.setWidthAtLeast(atLeastWidth);
+    }
+
+    /**questions */
+    static questionAdd(userID: string, idquestion: string, question: string): void {
+        Discussion.addQuestion(userID, idquestion, question);
+    }
+
+
+    static questionRemove(questionID: string): void {
+        Discussion.removeQuestion(questionID);
+    }
+
+    /** magnets */
+    static magnetize(userID: string, cut: boolean, removeContour: boolean): void {
+        UserManager.users[userID].lastDelineation.magnetize(userID, cut, removeContour);
+    }
+
+    static clearPolygon(points: { x: number, y: number }[]): void {
+        Drawing.clearPolygon(points);
+    }
+
+    static printMagnet(magnetID: string): void {
+        MagnetManager.printMagnet(document.getElementById(magnetID));
+    }
+
+    static magnetChange(idMagnet: string, outerHTML: string): void {
+        document.getElementById(idMagnet).outerHTML = outerHTML;
     }
 
     static magnetMove(idMagnet: string, x: string, y: string): void {
@@ -96,41 +143,8 @@ export class ShareEvent {
         MagnetManager.magnetRemove(idMagnet);
     }
 
-    static magnetChange(idMagnet: string, outerHTML: string): void {
-        document.getElementById(idMagnet).outerHTML = outerHTML;
-    }
 
-    static boardClear(): void {
-        BoardManager._clear();
-        Menu.hide();
-    }
-
-    static setWidthAtLeast(atLeastWidth: number): void {
-        BoardManager.setWidthAtLeast(atLeastWidth);
-    }
-    
-
-    static questionAdd(userID: string, idquestion: string, question: string): void {
-        Discussion.addQuestion(userID, idquestion, question);
-    }
-
-
-    static questionRemove(questionID: string): void {
-        Discussion.removeQuestion(questionID);
-    }
-
-    static magnetize(userID: string, cut: boolean, removeContour: boolean): void {
-        UserManager.users[userID].lastDelineation.magnetize(userID, cut, removeContour);
-    }
-
-    static clearPolygon(points: { x: number, y: number }[]): void {
-        Drawing.clearPolygon(points);
-    }
-
-    static printMagnet(magnetID: string): void {
-        MagnetManager.printMagnet(document.getElementById(magnetID));
-    }
-
+    /** undo/redo */
     static cancel(userID: string): void {
         BoardManager.cancel(userID);
     }
@@ -143,13 +157,10 @@ export class ShareEvent {
         BoardManager.cancelStack.flatten();
     }
 
-    static setUserName(userid: string, name: string): void {
-        UserManager.users[userid].name = name;
-        UserManager.updateGUIUsers();
-    }
 
 
 
+    /**backgrounds */
 
     static backgroundClear(): void {
         Background.clear();
@@ -163,17 +174,11 @@ export class ShareEvent {
         Background.grid();
     }
 
+
+    /**documents */
     static documentsRemoveAll(): void {
         Background.getDocumentPanel().innerHTML = "";
     }
-
-    static setDocuments(innerHTML: string): void {
-        console.log("setDocuments");
-        Background.getDocumentPanel().innerHTML = innerHTML;
-    }
-
-
-
 
     static insertDocumentImage(dataURL: string, x: number): void {
         const img = document.createElement("img");
@@ -185,9 +190,11 @@ export class ShareEvent {
         Background.getDocumentPanel().appendChild(img);
     }
 
-
-
-
+    /**
+     * 
+     * @param data 
+     * @descripttion loads a .tableaunoir file!
+     */
     static loadBoard(data: string): void {
         LoadSave.loadJSON(JSON.parse(data));
     }
