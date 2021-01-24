@@ -27,6 +27,22 @@ export class Background {
         return Background.dataURL != undefined;
     }
 
+
+
+
+    static async setPDF(dataURL: string): Promise<void> {
+        console.log("setpdf with dataURL " + dataURL);
+        Background.pdfdoc = new PDFDocument();
+        await Background.pdfdoc.open(dataURL);
+        (<HTMLInputElement>document.getElementById("pdfNumPage")).max = "" + Background.pdfdoc.nbPages;
+        Background.pdfviewer = new PDFViewer(Background.pdfdoc);
+    }
+
+
+    static async getDataURLPDFPageToInsert(pagenum: number): Promise<string> {
+        const canvas = await Background.pdfdoc.getCanvasPage(pagenum);
+        return canvas.toDataURL();
+    }
     /**
      * initialize the interface
      */
@@ -35,9 +51,9 @@ export class Background {
             Share.execute("backgroundClear", []);
         };
         document.getElementById("buttonNoImageBackground").onclick = () => {
-            Share.execute("backgroundRemoveAllImages", []);
+            Share.execute("documentsRemoveAll", []);
         };
-        
+
         document.getElementById("buttonMusicScore").onclick = () => {
             Share.execute("backgroundMusicScore", []);
         };
@@ -50,12 +66,14 @@ export class Background {
             const file = (<HTMLInputElement>evt.target).files[0];
             if (file.name.endsWith(".pdf")) {
                 const canvasBackground = getCanvasBackground();
-                canvasBackground.width = /* reinit */ canvasBackground.width+0; //clear the background
+                canvasBackground.width = /* reinit */ canvasBackground.width + 0; //clear the background
                 LoadSave.fetchFromFile((<HTMLInputElement>evt.target).files[0],
-                    (dataURL) => Share.execute("setPDF", [dataURL]));
+                    (dataURL) => Background.setPDF(dataURL));
 
                 document.getElementById("buttonPDFInsertPage").onclick = () => {
-                    Share.execute("insertPDFPage", [Background.pdfviewer.numPage, Layout.getWindowLeft()]);
+                    const dataURLPromise = Background.getDataURLPDFPageToInsert(Background.pdfviewer.numPage);
+                    dataURLPromise.then((dataURL)=>  Share.execute("insertDocumentImage", [dataURL, Layout.getWindowLeft()]));
+                   
                 };
 
                 document.getElementById("forpdf").hidden = false;

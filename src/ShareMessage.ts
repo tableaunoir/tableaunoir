@@ -4,7 +4,7 @@ import { ActionSerialized } from './ActionSerialized';
 */
 
 export interface ShareMessage {
-    type: "share" | "askprivilege" | "id" | "youruserid" | "user" | "wait" | "ready" | "root" | "accessdenied" | "join" | "leave" | "fullCanvas" | "magnets" | "magnetChanged" | "newmagnet" | "execute" | "action" | "actions" | "svg" | "setWidth"; 
+    type: "share" | "askprivilege" | "id" | "youruserid" | "user" | "wait" | "ready" | "root" | "accessdenied" | "join" | "leave" | "fullCanvas" | "magnets" | "magnetChanged" | "newmagnet" | "execute" | "action" | "actions" | "svg" | "documents" | "background" | "setWidth";
     /** type of the message (for instance, there is a new user, or here is the content of the canvas etc.)
 
     //    client -------------------> server
@@ -36,7 +36,7 @@ export interface ShareMessage {
     - newmagnet: there is a new magnet! Its ID is magnetid
     - execute: please, execute the event event with the parameters params. The event are defined in the class SharedEvent
     **/
-   
+
     id?: string; // id of the board
     userid?: string;
     data?: string;

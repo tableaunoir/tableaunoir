@@ -1,8 +1,6 @@
 import { Share } from './share';
 import { LoadSave } from './LoadSave';
 import { Layout } from './Layout';
-import { PDFDocument } from './PDFDocument';
-import { PDFViewer } from './PDFViewer';
 import { ConstraintDrawing } from './ConstraintDrawing';
 import { Background } from './Background';
 import { MagnetManager } from './magnetManager';
@@ -165,12 +163,8 @@ export class ShareEvent {
         Background.grid();
     }
 
-    static backgroundRemoveAllImages(): void {
+    static documentsRemoveAll(): void {
         Background.getDocumentPanel().innerHTML = "";
-    }
-
-    static setBackground(dataURL: string): void {
-        Background.set(dataURL);
     }
 
     static setDocuments(innerHTML: string): void {
@@ -178,13 +172,7 @@ export class ShareEvent {
         Background.getDocumentPanel().innerHTML = innerHTML;
     }
 
-    static async setPDF(dataURL: string): Promise<void> {
-        console.log("setpdf");
-        Background.pdfdoc = new PDFDocument();
-        await Background.pdfdoc.open(dataURL);
-        (<HTMLInputElement>document.getElementById("pdfNumPage")).max = "" + Background.pdfdoc.nbPages;
-        Background.pdfviewer = new PDFViewer(Background.pdfdoc);
-    }
+
 
 
     static insertDocumentImage(dataURL: string, x: number): void {
@@ -197,17 +185,7 @@ export class ShareEvent {
         Background.getDocumentPanel().appendChild(img);
     }
 
-    static async insertPDFPage(pagenum: number, x: number): Promise<void> {
-        const canvas = await Background.pdfdoc.getCanvasPage(pagenum);
-        const img = document.createElement("img");
-        img.src = canvas.toDataURL();
-        img.style.position = "absolute";
-        img.style.left = x + "px";
-        img.style.top = "0px";
-        img.style.height = Layout.STANDARDHEIGHT + "px";
 
-        Background.getDocumentPanel().appendChild(img);
-    }
 
 
     static loadBoard(data: string): void {

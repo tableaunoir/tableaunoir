@@ -229,46 +229,8 @@ export class Share {
 
 				UserManager.add(msg.userid);
 
-				if (UserManager.isSmallestUserID()) {
-					//getCanvas().toBlob((blob) => Share.sendFullCanvas(blob, msg.userid));
-					Share.send({ type: "wait", to: msg.userid });
-					//
-					Share.execute("setCanWriteValueByDefault", [Share.canWriteValueByDefault]);
-					Share.execute("setUserCanWrite", [msg.userid, Share.canWriteValueByDefault]);
-
-					for (const userid in UserManager.users) {
-						Share.execute("setUserName", [userid, UserManager.users[userid].name]);
-						Share.execute("setCurrentColor", [userid, UserManager.users[userid].color]);
-						Share.execute("setUserCanWrite", [userid, UserManager.users[userid].canWrite]);
-					}
-
-					Share.send({ type: "setWidth", width: getCanvas().width, to: msg.userid });
-					Share.sendMagnets(msg.userid);
-
-					console.log("preparation of the list of actions");
-					//Share.send({ type: "actions", to: msg.userid, actions: BoardManager.cancelStack.serialize(), t: BoardManager.cancelStack.t });
-					for(const action of BoardManager.cancelStack.stack) {
-						Share.send({ type: "action", to: msg.userid, action: action.serialize()});
-					}
-					
-					console.log("list of actions sent");
-					//					Share.sendFullCanvas(msg.userid);
-
-					Share.send({
-						type: "svg", to: msg.userid,
-						data: document.getElementById("svg").innerHTML
-					});
-
-
-					Share.send({ type: "ready", to: msg.userid });
-
-					Share.execute("setDocuments", [Background.getDocumentPanel().innerHTML]);
-
-
-					if (Background.is)
-						Share.execute("setBackground", [Background.dataURL]);
-				}
-
+				if (UserManager.isSmallestUserID())
+					Share.sendAllDataTo(msg.userid);
 				break;
 			case "leave":
 				UserManager.leave(msg.userid);
@@ -280,10 +242,11 @@ export class Share {
 			case "actions":
 				Loading.hide();
 				console.log("list of actions received");
-				BoardManager.cancelStack.load(msg.actions, msg.t);
+				BoardManager.cancelStack.load(JSON.parse(msg.data), msg.t);
 				console.log("list of actions loaded");
 				break;
 			case "action":
+				//TODO buggy (and not used)
 				BoardManager.cancelStack.push(ActionDeserializer.deserialize(msg.action));
 				break;
 			case "svg":
@@ -291,9 +254,15 @@ export class Share {
 				document.getElementById("svg").innerHTML = msg.data;
 				ConstraintDrawing.reset();
 				break;
+			case "documents":
+				Background.getDocumentPanel().innerHTML = msg.data;
+				break;
 			case "magnets":
 				document.getElementById("magnets").innerHTML = msg.magnets;
 				MagnetManager.installMagnets();
+				break;
+			case "background":
+				Background.set(msg.data);
 				break;
 			case "magnetChanged":
 				document.getElementById(msg.magnetid).outerHTML = msg.data;
@@ -309,6 +278,46 @@ export class Share {
 		}
 	}
 
+
+
+	private static sendAllDataTo(idNewUser: string): void {
+		//getCanvas().toBlob((blob) => Share.sendFullCanvas(blob, msg.userid));
+		Share.send({ type: "wait", to: idNewUser });
+		//
+		Share.execute("setCanWriteValueByDefault", [Share.canWriteValueByDefault]);
+		Share.execute("setUserCanWrite", [idNewUser, Share.canWriteValueByDefault]);
+
+		for (const userid in UserManager.users) {
+			Share.execute("setUserName", [userid, UserManager.users[userid].name]);
+			Share.execute("setCurrentColor", [userid, UserManager.users[userid].color]);
+			Share.execute("setUserCanWrite", [userid, UserManager.users[userid].canWrite]);
+		}
+
+		Share.send({ type: "setWidth", width: getCanvas().width, to: idNewUser });
+		Share.sendMagnets(idNewUser);
+
+		console.log("preparation of the list of actions");
+		Share.send({ type: "actions", to: idNewUser, data: JSON.stringify(BoardManager.cancelStack.serialize()), t: BoardManager.cancelStack.t });
+		/**for(const action of BoardManager.cancelStack.stack) {
+			Share.send({ type: "action", to: msg.userid, action: action.serialize()});
+		}*/
+
+		console.log("list of actions sent");
+		//					Share.sendFullCanvas(msg.userid);
+
+		Share.send({
+			type: "svg", to: idNewUser,
+			data: document.getElementById("svg").innerHTML
+		});
+
+
+		Share.send({ type: "ready", to: idNewUser });
+		Share.send({ type: "documents", to: idNewUser, data: Background.getDocumentPanel().innerHTML });
+
+
+		if (Background.is)
+			Share.send({ type: "background", to: idNewUser, data: Background.dataURL });
+	}
 
 	/**
 	 * modify the interface to say that the current user is root (all privileges)
