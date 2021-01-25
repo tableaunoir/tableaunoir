@@ -1,0 +1,27 @@
+version: '3.8'
+services:
+  backend:
+    container_name: backend
+    image: tableaunoir:latest
+    restart: unless-stopped
+    volumes:
+      - /tableaunoir
+    networks:
+      - tableaunoir
+  frontend:
+    container_name: frontend
+    image: nginx:1.19
+    restart: unless-stopped
+    volumes_from:
+      - backend:ro
+    volumes:
+      - ./docker/templates/frontend:/etc/nginx/templates:ro
+    ports:
+      - 8182:80
+    environment:
+      - NGINX_HOST=127.0.0.1
+      - NGINX_PORT=80
+    networks:
+      - tableaunoir
+networks:
+    tableaunoir:

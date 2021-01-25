@@ -1,0 +1,19 @@
+server {
+
+  listen ${NGINX_PORT};
+  listen [::]:${NGINX_PORT};
+
+  server_name ${NGINX_HOST};
+
+  root /tableaunoir/dist;
+  index index.html;
+
+  location / {
+    try_files $uri $uri/ =404;
+  }
+
+  # Optional: you might not want to serve these folders
+  location /server { return 404; }
+  location /.git   { return 404; }
+
+}
