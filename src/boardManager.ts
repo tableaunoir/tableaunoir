@@ -4,6 +4,8 @@ import { Layout } from './Layout';
 import { CancelStack } from './cancelStack';
 import { Action } from './Action';
 
+
+
 /**
  * Manage the board
  */
@@ -152,3 +154,6 @@ export class BoardManager {
         await BoardManager.cancelStack.redo(userid);
     }
 }
+
+
+window["BoardManager"] = BoardManager;

@@ -9,13 +9,11 @@ import { Tool } from './Tool';
 import { ActionFreeDraw } from './ActionFreeDraw';
 
 export class ToolArc extends Tool {
-
-    lastDelineation = new Delineation();
-    elementCenter: HTMLElement;
-    elementRadius: HTMLElement;
-    elementCircle: SVGEllipseElement;
+    private elementCenter: HTMLElement;
+    private elementRadius: HTMLElement;
+    private elementCircle: SVGEllipseElement;
     isDrawing = false;
-    action: ActionFreeDraw;
+    private action: ActionFreeDraw;
 
 
     constructor(user: User) {

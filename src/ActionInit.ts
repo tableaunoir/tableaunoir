@@ -11,7 +11,6 @@ export class ActionInit extends Action {
         if (canvasDataURL) {
             this.img = new Image();
             this.img.src = canvasDataURL;
-            console.log(canvasDataURL);
         }
 
     }

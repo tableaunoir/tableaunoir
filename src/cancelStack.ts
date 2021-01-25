@@ -100,15 +100,19 @@ export class CancelStack {
      * @description do all the actions until the current index
      */
     async playUntilCurrentIndex(): Promise<void> {
+        let bug113 = false;
         for (let i = 0; i <= this.currentIndex; i++) {
             if (this.stack[i] == undefined) {
-                ErrorMessage.show("issue #113. error with i = " + i);
+                ErrorMessage.show("issue #113. error with i = " + i + "try to undo/redo again");
+                bug113 = true;
             }
             else
                 await this.stack[i].redo();
 
         }
-
+        if (bug113) {
+            this.repair();
+        }
     }
 
     /**
@@ -159,20 +163,31 @@ export class CancelStack {
     /**
      * @description print the stack in the console (for debug)
      */
-    print(): void {
+    __str__(): string {
         let s = "";
         for (let i = 0; i < this.stack.length; i++) {
-            s += (i == 0) ? "i" : "a";
+            s += (i == 0) ? "i" : ((this.stack[i] == undefined) ? "u" : "a");
             s += (i == this.currentIndex) ? ". " : "  ";
         }
-        console.log(s);
+        return s;
     }
 
+
+
+    repair(): void {
+        if (this.stack.indexOf(undefined) >= 0) {
+            ErrorMessage.show("#113 issue"); //we remove the undefined elements in the tab
+            this.stack = this.stack.filter((a) => a != undefined);
+            this.n = this.stack.length;
+            this.currentIndex = this.n - 1;
+        }
+    }
 
     /**
      * @returns the serialized version of the cancelstack (an array of serialized actions)
      */
     serialize(): ActionSerialized[] {
-        return this.stack.map((a) => a.serialize());
+        this.repair();
+        return this.stack.map((a) => a ? a.serialize() : undefined);
     }
 }
