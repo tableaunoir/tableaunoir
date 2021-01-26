@@ -102,33 +102,54 @@ function load() {
 
 	document.onkeydown = KeyBoardShortCuts.onKeyDown;
 
+
+	document.getElementById("canvasBackground").onpointermove = () => { console.log("mousemove on the background should not occur") };
+
+	installMouseEventsCanvas();
+
+}
+
+function installMouseEventsCanvas() {
+	const minDurationMouseMove = 100;//minimum duration between two mousemove without drawing
+	let timeToMouseMove = true;
+	let ismousedown = false;
+	setInterval(() => {timeToMouseMove = true;}, minDurationMouseMove);
+
+	//window["mv"]=0;
+	//window["mvsent"]=0;
+
 	document.getElementById("canvas").onpointerdown = (evt) => {
 		evt.preventDefault();
+		ismousedown = true;
 		Share.execute("mousedown", [UserManager.me.userID, evt])
 	};
-	document.getElementById("canvasBackground").onpointermove = () => { console.log("mousemove on the background should not occur") };
 
 	document.getElementById("canvas").onpointermove = (evt) => {
 		evt.preventDefault();
-		Share.execute("mousemove", [UserManager.me.userID, evt])
+	//	window["mv"]++;
+		if((ismousedown && UserManager.me.canWrite) || timeToMouseMove ) {
+	//		window["mvsent"]++;
+			Share.execute("mousemove", [UserManager.me.userID, evt]);
+			timeToMouseMove = false;
+		}
+			
 	};
 	document.getElementById("canvas").onpointerup = (evt) => {
 		evt.preventDefault();
+		ismousedown = false;
 		Share.execute("mouseup", [UserManager.me.userID, evt])
 	};
 
 	//onpointerleave: stop the drawing to prevent bugs (like it draws a small line)
 	document.getElementById("canvas").onpointerleave = (evt) => {
 		evt.preventDefault();
+		ismousedown = false;
 		Share.execute("mouseup", [UserManager.me.userID, evt])
 	};
 	//document.getElementById("canvas").onmousedown = mousedown;
 
 	TouchScreen.addTouchEvents(document.getElementById("canvas"));
-
 }
-
-
 
 export function getCanvas(): HTMLCanvasElement {
 	return <HTMLCanvasElement>document.getElementById("canvas");
