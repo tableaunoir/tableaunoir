@@ -7,9 +7,12 @@ import { UserManager } from './UserManager';
 import { Layout } from './Layout';
 import { Toolbar } from './Toolbar';
 import { Menu } from './Menu';
-import { Drawing } from './Drawing';
+
 
 export class KeyBoardShortCuts {
+
+    private static available = true;
+
 
     static onKeyDown(evt: KeyboardEvent): void {
         //console.log("ctrl: " + evt.ctrlKey + " shift:" + evt.shiftKey + "key: " + evt.key)
@@ -107,7 +110,11 @@ export class KeyBoardShortCuts {
         }
         else if (evt.ctrlKey && evt.key == "v") { //Ctrl + v = print the current magnet
             CircularMenu.hide();
-            Share.execute("printMagnet", [MagnetManager.getCurrentMagnetID()]);
+            if (KeyBoardShortCuts.available) {
+                KeyBoardShortCuts.available = false;
+                setTimeout(() => KeyBoardShortCuts.available = true, 1000);
+                Share.execute("printMagnet", [MagnetManager.getCurrentMagnetID()]);
+            }
         }
         else if (evt.key.toLowerCase() == "m") { //m = make new magnets
             CircularMenu.hide();
