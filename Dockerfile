@@ -5,6 +5,22 @@ WORKDIR /tableaunoir/
 # Copy source code.
 COPY . .
 
+# Put recognizable variable names
+# in config.json for replacement
+# in tableaunoir.js after build.
+RUN echo "{"\
+    "\"server\": {"\
+        "\"websocket\": \"EXTERNAL_WS_URL\","\
+        "\"frontend\": \"EXTERNAL_HTTP_URL\""\
+    "}"\
+"}"\
+> /tableaunoir/src/config.json
+
+
+# Copy entrypoint at root for easier accesss.
+COPY docker/entrypoint.sh /
+RUN chmod +x /entrypoint.sh
+
 # Update npm.
 RUN npm install -g npm@latest
 
@@ -18,6 +34,5 @@ ENV PATH="/node_modules/.bin:${PATH}"
 # Build everything to dist.
 RUN npm run build
 
-USER node
 EXPOSE 8080
-CMD node /tableaunoir/server/main.js
+ENTRYPOINT [ "/entrypoint.sh" ]

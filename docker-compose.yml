@@ -1,11 +1,27 @@
 version: '3.8'
 services:
-  backend:
-    container_name: backend
+  tableaunoir:
+    container_name: tableaunoir
     image: tableaunoir:latest
     restart: unless-stopped
+    environment:
+      - EXTERNAL_WS_URL="ws://127.0.0.1:8181"
+      - EXTERNAL_HTTP_URL="http://127.0.0.1:8182"
     volumes:
       - /tableaunoir
+    networks:
+      - tableaunoir
+  backend:
+    container_name: backend
+    image: nginx:1.19
+    restart: unless-stopped
+    volumes:
+      - ./docker/templates/backend:/etc/nginx/templates:ro
+    ports:
+      - 8181:80
+    environment:
+      - NGINX_HOST=127.0.0.1
+      - NGINX_PORT=80
     networks:
       - tableaunoir
   frontend:
@@ -13,7 +29,7 @@ services:
     image: nginx:1.19
     restart: unless-stopped
     volumes_from:
-      - backend:ro
+      - tableaunoir:ro
     volumes:
       - ./docker/templates/frontend:/etc/nginx/templates:ro
     ports:
