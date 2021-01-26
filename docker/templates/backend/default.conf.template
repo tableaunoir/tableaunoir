@@ -1,0 +1,29 @@
+upstream tableaunoir {
+  server tableaunoir:8080;  # Or whatever port the backend in listening on
+}
+
+server {
+
+  listen ${NGINX_PORT};
+  listen [::]:${NGINX_PORT};
+
+  # Different host name for convenience
+  server_name ${NGINX_HOST};
+
+  # SSL config, you might want to take a look https://ssl-config.mozilla.org/
+  # to set other configuration parameters.
+  #ssl_certificate /path/to/certificate;
+  #ssl_certificate_key /path/to/certificate/key;
+
+  root /dev/null;
+
+  # http://nginx.org/en/docs/http/websocket.html
+  location / {
+    #include proxy_params;
+    proxy_pass http://tableaunoir;
+    proxy_http_version 1.1;
+    proxy_set_header Upgrade $http_upgrade;
+    proxy_set_header Connection "upgrade";
+  }
+
+}
