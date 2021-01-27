@@ -1,3 +1,4 @@
+import { BlackVSWhiteBoard } from './BlackVSWhiteBoard';
 import { ShareMessage, Parameter } from './ShareMessage';
 import { Background } from './Background';
 import { Loading } from './Loading';
@@ -253,6 +254,7 @@ export class Share {
 		}
 
 		Share.send({ type: "setWidth", width: getCanvas().width, to: idNewUser });
+		Share.execute("setBackgroundColor", ["white"]);
 		Share.sendMagnets(idNewUser);
 
 		//console.log("preparation of the list of actions");
@@ -425,6 +427,8 @@ export class Share {
 		Share.execute("setCanWriteValueByDefault", [canWrite]);
 		Share.execute("setUserCanWrite", [UserManager.me.userID, true]);
 	}
+
+
 
 
 }

@@ -1,3 +1,4 @@
+import { Share } from './share';
 import { GUIActions } from './GUIActions';
 import { getCanvas } from './main';
 import { CSSStyleModifier } from './CSSStyleModifier';
@@ -13,8 +14,8 @@ export class BlackVSWhiteBoard {
     static init(): void {
         document.getElementById("content").style.backgroundColor = "black";
         BlackVSWhiteBoard.switchTo("black");
-        document.getElementById("whiteBoardSwitch").onclick = () => BlackVSWhiteBoard.switchTo("white");
-        document.getElementById("blackBoardSwitch").onclick = () => BlackVSWhiteBoard.switchTo("black");
+        document.getElementById("whiteBoardSwitch").onclick = () => Share.execute("setBackgroundColor", ["white"]);
+        document.getElementById("blackBoardSwitch").onclick = () => Share.execute("setBackgroundColor", ["black"]);
     }
 
 
@@ -54,7 +55,7 @@ export class BlackVSWhiteBoard {
             CSSStyleModifier.setRule(".magnetText div", "color", "black");
         }
 
-        BlackVSWhiteBoard._invertCanvas();
+        //BlackVSWhiteBoard._invertCanvas();
     }
 
 

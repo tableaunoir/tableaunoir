@@ -1,3 +1,4 @@
+import { BlackVSWhiteBoard } from './BlackVSWhiteBoard';
 import { Share } from './share';
 import { LoadSave } from './LoadSave';
 import { Layout } from './Layout';
@@ -202,6 +203,11 @@ export class ShareEvent {
     static loadBoard(data: string): void {
         LoadSave.loadJSON(JSON.parse(data));
     }
+
+
+	static setBackgroundColor(color: "white" | "black"): void {
+		BlackVSWhiteBoard.switchTo(color);
+	}
 }
 
 
