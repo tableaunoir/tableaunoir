@@ -245,7 +245,7 @@ export class Share {
 	private static sendAllDataTo(idNewUser: string): void {
 		Share.send({ type: "wait", to: idNewUser });
 		Share.executeTo("setCanWriteValueByDefault", [Share.canWriteValueByDefault], idNewUser);
-		Share.executeTo("setUserCanWrite", [idNewUser, Share.canWriteValueByDefault], idNewUser);
+		Share.execute("setUserCanWrite", [idNewUser, Share.canWriteValueByDefault]);
 
 		for (const userid in UserManager.users) {
 			Share.executeTo("setUserName", [userid, UserManager.users[userid].name], idNewUser);
