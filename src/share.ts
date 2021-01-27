@@ -254,7 +254,7 @@ export class Share {
 		}
 
 		Share.send({ type: "setWidth", width: getCanvas().width, to: idNewUser });
-		Share.executeTo("setBackgroundColor", ["white"], idNewUser);
+		Share.executeTo("setBackgroundColor", [BlackVSWhiteBoard.currentBackgroundColor], idNewUser);
 		Share.sendMagnets(idNewUser);
 
 		//console.log("preparation of the list of actions");
