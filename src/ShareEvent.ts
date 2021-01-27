@@ -204,7 +204,6 @@ export class ShareEvent {
         LoadSave.loadJSON(JSON.parse(data));
     }
 
-
 	static setBackgroundColor(color: "white" | "black"): void {
 		BlackVSWhiteBoard.switchTo(color);
 	}

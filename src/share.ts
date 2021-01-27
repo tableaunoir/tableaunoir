@@ -244,17 +244,17 @@ export class Share {
 
 	private static sendAllDataTo(idNewUser: string): void {
 		Share.send({ type: "wait", to: idNewUser });
-		Share.execute("setCanWriteValueByDefault", [Share.canWriteValueByDefault]);
-		Share.execute("setUserCanWrite", [idNewUser, Share.canWriteValueByDefault]);
+		Share.executeTo("setCanWriteValueByDefault", [Share.canWriteValueByDefault], idNewUser);
+		Share.executeTo("setUserCanWrite", [idNewUser, Share.canWriteValueByDefault], idNewUser);
 
 		for (const userid in UserManager.users) {
-			Share.execute("setUserName", [userid, UserManager.users[userid].name]);
-			Share.execute("setCurrentColor", [userid, UserManager.users[userid].color]);
-			Share.execute("setUserCanWrite", [userid, UserManager.users[userid].canWrite]);
+			Share.executeTo("setUserName", [userid, UserManager.users[userid].name], idNewUser);
+			Share.executeTo("setCurrentColor", [userid, UserManager.users[userid].color], idNewUser);
+			Share.executeTo("setUserCanWrite", [userid, UserManager.users[userid].canWrite], idNewUser);
 		}
 
 		Share.send({ type: "setWidth", width: getCanvas().width, to: idNewUser });
-		Share.execute("setBackgroundColor", ["white"]);
+		Share.executeTo("setBackgroundColor", ["white"], idNewUser);
 		Share.sendMagnets(idNewUser);
 
 		//console.log("preparation of the list of actions");
@@ -339,6 +339,26 @@ export class Share {
 	}
 
 
+	private static _adaptObjectForExecute(obj) {
+		if (obj instanceof MouseEvent) {
+			return { pressure: (<PointerEvent>obj).pressure, offsetX: obj.offsetX, offsetY: obj.offsetY, shiftKey: obj.shiftKey };
+		}
+		else
+			return obj;
+	}
+
+
+	/**
+		 *
+		 * @param {*} event, an event name (string), that is a method of the class ShareEvent
+		 * @param {*} params an array of parameters
+		 * @param {*} to? the name of the user that should execute that
+		 * @description executes the event with the params, that is execute the method event of the class ShareEvent
+		 * with the params. Then send a message to server that this event should be executed for the other users as well
+		 */
+	static executeTo(event: string, params: Parameter[], to: string): void {
+		Share.send(<ShareMessage>{ type: "execute", event: event, params: params.map((param) => Share._adaptObjectForExecute(param)), to: to });
+	}
 	/**
 	 *
 	 * @param {*} event, an event name (string), that is a method of the class ShareEvent
@@ -347,16 +367,9 @@ export class Share {
 	 * with the params. Then send a message to server that this event should be executed for the other users as well
 	 */
 	static execute(event: string, params: Parameter[]): void {
-		function adapt(obj) {
-			if (obj instanceof MouseEvent) {
-				return { pressure: (<PointerEvent>obj).pressure, offsetX: obj.offsetX, offsetY: obj.offsetY, shiftKey: obj.shiftKey };
-			}
-			else
-				return obj;
-		}
 		ShareEvent[event](...params);
 		if (Share.isShared())
-			Share.send(<ShareMessage>{ type: "execute", event: event, params: params.map((param) => adapt(param)) });
+			Share.send(<ShareMessage>{ type: "execute", event: event, params: params.map((param) => Share._adaptObjectForExecute(param)) });
 	}
 
 
