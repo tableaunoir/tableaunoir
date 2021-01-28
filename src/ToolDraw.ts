@@ -178,7 +178,7 @@ class ToolDrawAudio {
         if (!Sound.is) return;
         ToolDrawAudio.audioChalkDown.pause();
         ToolDrawAudio.audioChalkDown.currentTime = 0;
-        ToolDrawAudio.audioChalkDown.volume = p / 2;
+        ToolDrawAudio.audioChalkDown.volume = p;
         ToolDrawAudio.audioChalkDown.play();
         ToolDrawAudio.audioChalkMove.loop = true;
     }
@@ -186,12 +186,16 @@ class ToolDrawAudio {
 
     static mousemove(d: number) {
         if (!Sound.is) return;
-        ToolDrawAudio.audioChalkMove.volume = Math.min(1.0, d / 20);
-        if (ToolDrawAudio.audioChalkMove.paused) {
-            ToolDrawAudio.audioChalkMove.play();
+        
+        if (d <= 2) {
+            ToolDrawAudio.audioChalkMove.pause();
         }
-
-
+        else {
+            ToolDrawAudio.audioChalkMove.volume = Math.min(1, d / 150);
+            if (ToolDrawAudio.audioChalkMove.paused) {
+                ToolDrawAudio.audioChalkMove.play();
+            }
+        }
     }
 
 
