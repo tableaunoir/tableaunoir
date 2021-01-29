@@ -1,3 +1,4 @@
+import { ErrorMessage } from './ErrorMessage';
 import { ActionSerialized } from './ActionSerialized';
 import { Share } from './share';
 import { ConstraintDrawing } from './ConstraintDrawing';
@@ -44,10 +45,22 @@ export class LoadSave {
             if (event.dataTransfer.items) {
                 // Use DataTransferItemList interface to access the file(s)
                 for (let i = 0; i < event.dataTransfer.items.length; i++) {
+                    console.log(i)
                     // If dropped items aren't files, reject them
                     if (event.dataTransfer.items[i].kind === 'file') {
                         const file = event.dataTransfer.items[i].getAsFile();
                         LoadSave.loadFile(file);
+                    }
+                    else {
+                        /*
+                        event.dataTransfer.items[i].getAsString((s) => {
+                            const img = new Image();
+                            img.style.left = Layout.getWindowLeft() + "px";
+                            img.style.top = "0px";
+                            img.src = s;
+                            MagnetManager.addMagnet(img);
+                        });*/
+
                     }
                 }
             } else {
@@ -83,10 +96,15 @@ export class LoadSave {
             }
             else {
                 /** load an image and add it as a magnet */
+                console.log("adding a magnet image")
+                console.log(file)
                 reader.readAsDataURL(file);
+                reader.onerror = () => ErrorMessage.show("problem in loading image");
                 reader.onload = function (evt) {
                     const img = new Image();
                     img.src = <string>evt.target.result;
+                    img.style.left = Layout.getWindowLeft() + "px";
+                    img.style.top = "0px";
                     MagnetManager.addMagnet(img);
                 }
             }
@@ -153,7 +171,7 @@ export class LoadSave {
             console.log("canvas format!");
             BoardManager.load(obj.canvasDataURL);
         }
-            
+
 
         if (obj.actions)
             BoardManager.cancelStack.load(obj.actions, obj.t);

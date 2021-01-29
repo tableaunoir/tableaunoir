@@ -88,7 +88,14 @@ function load() {
 	document.getElementById("buttonDivide").onclick = () => Share.execute("divideScreen", [UserManager.me.userID, Layout.getXMiddle()]);
 
 	document.getElementById("buttonLeft").onclick = BoardNavigation.leftPreviousPage;
+
 	document.getElementById("buttonRight").onclick = BoardNavigation.rightNextPage;
+	document.getElementById("buttonMap").onclick = () => {
+		if (Layout.isMinimap)
+			Layout.normal();
+		else
+			Layout.minimap();
+	};
 	document.getElementById("buttonCancel").onclick = () => Share.execute("cancel", [UserManager.me.userID]);
 	document.getElementById("buttonRedo").onclick = () => Share.execute("redo", [UserManager.me.userID]);
 
@@ -113,7 +120,7 @@ function installMouseEventsCanvas() {
 	const minDurationMouseMove = 100;//minimum duration between two mousemove without drawing
 	let timeToMouseMove = true;
 	let ismousedown = false;
-	setInterval(() => {timeToMouseMove = true;}, minDurationMouseMove);
+	setInterval(() => { timeToMouseMove = true; }, minDurationMouseMove);
 
 	//window["mv"]=0;
 	//window["mvsent"]=0;
@@ -126,13 +133,13 @@ function installMouseEventsCanvas() {
 
 	document.getElementById("canvas").onpointermove = (evt) => {
 		evt.preventDefault();
-	//	window["mv"]++;
-		if((ismousedown && UserManager.me.canWrite) || timeToMouseMove ) {
-	//		window["mvsent"]++;
+		//	window["mv"]++;
+		if ((ismousedown && UserManager.me.canWrite) || timeToMouseMove) {
+			//		window["mvsent"]++;
 			Share.execute("mousemove", [UserManager.me.userID, evt]);
 			timeToMouseMove = false;
 		}
-			
+
 	};
 	document.getElementById("canvas").onpointerup = (evt) => {
 		evt.preventDefault();

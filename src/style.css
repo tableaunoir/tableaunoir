@@ -435,6 +435,10 @@ button {
 	min-width: 48px;
 }
 
+button:hover {
+	filter:brightness(1.3);
+}
+
 
 .buttonselected {
 	border: 8px rgb(29, 108, 255) solid;
@@ -471,6 +475,13 @@ button img {
 }
 
 
+
+.disabled {
+	background-color: gray;
+	filter: contrast(0.5);
+}
+
+
 .toolbargroup {
 	display: inline;
 	margin-right: 16px;
@@ -499,9 +510,7 @@ img {
 	background: rgba(191, 191, 255, 0.3);
 }
 
-button:hover {
-	background-color: rgb(132, 132, 255);
-}
+
 
 
 .buttonClear {

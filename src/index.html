@@ -12,7 +12,7 @@
 </head>
 
 <body>
-	<div id=controls>
+	<div id="controls">
 		<button id="buttonMenu" title="Menu"><img class="icon"
 				src="img/icons/menu-three-outlined-bars-svgrepo-com.svg" /></button><span
 			class="keyboardkeyhelp">Esc</span>
@@ -42,7 +42,11 @@
 					src="img/icons/25C0.svg" /></button>
 			<button class="buttonNavigation" id="buttonRight" title="Go right"><img class="icon"
 					src="img/icons/25B6.svg" /></button>
-			<span class="keyboardkeyhelp">← →</span>
+					<span class="keyboardkeyhelp">← →</span>
+			<button class="buttonNavigation" id="buttonMap" title="Map"><img class="icon"
+					src="img/icons/map.svg" /></button>
+					<span class="keyboardkeyhelp">n</span>
+			
 		</div>
 
 		<button id="buttonShare" title="share and copy link to clipboard (if your system allows it)"><img class="icon"
@@ -192,7 +196,8 @@
 				<span class="edit">
 					<h2>Forget undo history</h2>
 					Tableaunoir remembers all your actions that you made. However, if you experience big files or slow
-					sharing, you may forget the history of the past actions. Your board remains unchanged, but you will not be able to undo the past actions.
+					sharing, you may forget the history of the past actions. Your board remains unchanged, but you will
+					not be able to undo the past actions.
 					</br>
 					<button class="buttonClear" id="buttonCancelStackFlatten">Forget undo history</button>
 				</span>
@@ -515,21 +520,8 @@
 			<div id="Magnets" class="tabcontent">
 
 				<span class="edit">
-					<h2>Quick magnet manipulation</h2>
 
-					<div class="menuDiv">
-						<button id="magnetsArrange"><img src="img/arrange.png" /><br />Arrange the magnets on the
-							board</button>
-						<button id="magnetsCreateGraph"><img src="img/graph.png" /><br />Create graph from the
-							magnets</button>
-					</div>
-
-					<br />
-
-
-
-
-					<h2>Using existing images</h2>
+					<h2>Importing existing images</h2>
 					<div class="menuDiv">
 						In order to <em>use existing images as magnets</em>, drag and drop .png/.svg/.gif/.jpg files.
 					</div>
@@ -552,6 +544,17 @@
 						<h3>Games</h3>
 						<button class="magnetCollectionButton" id="magnetGo">Go</button>
 					</div>
+
+
+					<h2>Quick magnet manipulation</h2>
+
+					<div class="menuDiv">
+						<button id="magnetsArrange"><img src="img/arrange.png" /><br />Arrange the magnets on the
+							board</button>
+						<button id="magnetsCreateGraph"><img src="img/graph.png" /><br />Create graph from the
+							magnets</button>
+					</div>
+
 				</span>
 			</div>
 			<div id="Help" class="tabcontent">

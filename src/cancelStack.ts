@@ -31,6 +31,7 @@ export class CancelStack {
 
         const actionInit = new ActionInit(UserManager.me.userID, undefined);
         this._push(actionInit);
+        this.updateButtons();
     }
 
     /**
@@ -76,6 +77,8 @@ export class CancelStack {
         const canvas = getCanvas();
         canvas.width = canvas.width + 0;
 
+        this.updateButtons();
+
         await this.playUntilCurrentIndex();
     }
 
@@ -93,6 +96,7 @@ export class CancelStack {
         //   if (Math.floor(100 * Math.random()) < 1/20000)
         //     action.storePostState();
         this._push(action);
+        this.updateButtons();
         //this.print();
     }
 
@@ -128,6 +132,7 @@ export class CancelStack {
           if (stateIndex != undefined) {
               await this.stack[stateIndex].restoreState();
           } else stateIndex = -1;*/
+        this.updateButtons();
 
         getCanvas().width = getCanvas().width + 0;
         await this.playUntilCurrentIndex();
@@ -143,6 +148,8 @@ export class CancelStack {
 
         this.currentIndex++;
         await this.stack[this.currentIndex].redo();
+
+        this.updateButtons();
 
         //  this.print();
     }
@@ -189,5 +196,18 @@ export class CancelStack {
     serialize(): ActionSerialized[] {
         this.repair();
         return this.stack.map((a) => a ? a.serialize() : undefined);
+    }
+
+
+    updateButtons(): void {
+        if (this.canUndo(UserManager.me.userID))
+            document.getElementById("buttonCancel").classList.remove("disabled");
+        else
+            document.getElementById("buttonCancel").classList.add("disabled");
+
+        if (this.canRedo(UserManager.me.userID))
+            document.getElementById("buttonRedo").classList.remove("disabled");
+        else
+            document.getElementById("buttonRedo").classList.add("disabled");
     }
 }

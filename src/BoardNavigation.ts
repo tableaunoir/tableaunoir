@@ -31,9 +31,9 @@ export class BoardNavigation {
 
 
     private static _left(x: number): void {
-        if (x < 0) {
+        if (x <= 0) {
             BoardNavigation.showPageNumber(0);
-            return;
+            x = 0;
         }
         BoardNavigation.setScroll(x);
     }
@@ -48,6 +48,7 @@ export class BoardNavigation {
         const MAXCANVASWIDTH = 32000;
         const container = getContainer();
         const canvas = getCanvas();
+        document.getElementById("buttonLeft").classList.remove("disabled");
         if (container.scrollLeft >= MAXCANVASWIDTH - Layout.getWindowWidth()) {
             container.scrollLeft = MAXCANVASWIDTH - Layout.getWindowWidth();
             return;
@@ -89,6 +90,8 @@ export class BoardNavigation {
 
 
     static setScroll(x: number): void {
+        if (x <= 0)
+            document.getElementById("buttonLeft").classList.add("disabled");
         getContainer().scrollTo({ top: 0, left: x, behavior: 'smooth' });
         setTimeout(UserManager.setSymbolCursorPosition, 1000);
     }
