@@ -111,12 +111,13 @@ canvas {
 
 .keyboardkeyhelp {
 	margin-right: 8px;
-	margin-left: -4px;
+	margin-left: 2px;
 	background-color: #222;
 	transform: rotate(-5deg);
 	display: inline-block;
 	margin-top: 2px;
 	vertical-align: -8px;
+	padding: 1px;
 }
 
 
@@ -740,6 +741,7 @@ h1 {
 
 #numberOfUsers {
 	display: inline;
+	margin-left: -10px;
 }
 
 
@@ -798,6 +800,7 @@ h1 {
 	width: 48px;
 	height: 48px;
 	vertical-align: middle;
+	margin-right: -8px;
 }
 
 

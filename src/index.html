@@ -49,12 +49,15 @@
 
 		</div>
 
-		<button id="buttonShare" title="share and copy link to clipboard (if your system allows it)"><img class="icon"
-				src="img/icons/E253.svg" /></button>
+		<div class="toolbargroup">
+			<button id="buttonShare" title="share and copy link to clipboard (if your system allows it)"><img
+					class="icon" src="img/icons/E253.svg" /></button>
+			<div id="numberOfUsers"></div>
+		</div>
 		<button hidden id="buttonCloseControls" title="Hide this toolbar (it can be shown again in the menu)"
 			onclick="controls.hidden = true; welcome.hidden = true;"><img class="icon"
 				src="img/icons/hidetoolbar.svg" /></button><span class="keyboardkeyhelp">hide toolbar = h</span>
-		<div id="numberOfUsers"></div>
+
 	</div>
 
 	<div id="content">
