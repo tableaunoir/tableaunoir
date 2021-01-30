@@ -83,7 +83,6 @@ export class MyMagnets {
     /** Graphs */
 
     static * magnetGraphNodes(): Generator<HTMLElement> {
-        //MagnetManager.clearMagnet();
         for (const i of ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O'])
             yield MyMagnets.createMagnet(i);
     }
@@ -92,12 +91,9 @@ export class MyMagnets {
     static * magnetFloydsAlgorithm(): Generator<HTMLElement> {
         yield MyMagnets.createMagnetImage("turtlerabbit/turtle.png");
         yield MyMagnets.createMagnetImage("turtlerabbit/rabbit.png");
-
     }
 
     static * magnetGraphSimCity(): Generator<HTMLElement> {
-        //MagnetManager.clearMagnet();
-
         const simCityPictures = ["antenne.png", "commerce.png", "parking.png", "tour.png",
             "batimentplat.png", "foursolaire.png", "residence2.png", "usine.png",
             "building.png", "gare.png", "residencebleu.png",
@@ -147,7 +143,6 @@ export class MyMagnets {
 
 
     static * magnetTilings(): Generator<HTMLElement> {
-        MagnetManager.clearMagnet();
         yield MyMagnets.createTiling("yellow", "red", "green", "red");
         yield MyMagnets.createTiling("green", "red", "green", "yellow");
         yield MyMagnets.createTiling("green", "red", "green", "yellow");
@@ -174,8 +169,6 @@ export class MyMagnets {
     }
 
     static * magnetStatesForAutomata(): Generator<HTMLElement> {
-        MagnetManager.clearMagnet();
-
         for (const b of [false, true])
             for (const c of ["q", "q'", "q0", "q1", "q2", "q3", "q4", "q5"]) {
                 yield MyMagnets.createMagnetStateAutomaton(c, b);
@@ -183,8 +176,6 @@ export class MyMagnets {
     }
 
     static * magnetGo(): Generator<HTMLElement> {
-        MagnetManager.clearMagnet();
-
         for (const { color, x } of [{ color: "black", x: 20 }, { color: "white", x: 50 }])
             for (let i = 0; i < 20; i++) {
                 const img = MyMagnets.createMagnetImage("go/" + color + ".png");
