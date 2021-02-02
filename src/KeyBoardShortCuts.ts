@@ -38,9 +38,9 @@ export class KeyBoardShortCuts {
                 Layout.minimap();
         }
         else if (!evt.ctrlKey && !evt.shiftKey && evt.key == "c") // c => change color
-            GUIActions.changeColor();
+            GUIActions.changeColor(true);
         else if (!evt.ctrlKey && evt.shiftKey && evt.key == "C")
-            GUIActions.previousColor();
+            GUIActions.previousColor(true);
         else if (!evt.ctrlKey && !evt.shiftKey && evt.key == "t") { // t => tool menu 
             GUIActions.toolmenu.show({ x: UserManager.me.x, y: UserManager.me.y });
         }

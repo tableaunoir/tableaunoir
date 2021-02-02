@@ -1,3 +1,4 @@
+import { OptionManager } from './OptionManager';
 import { ToolMenu } from './ToolMenu';
 import { Palette } from "./Palette";
 import { Share } from "./share";
@@ -9,18 +10,26 @@ export class GUIActions {
     static palette = new Palette();
     static toolmenu = new ToolMenu();
 
+    static paletteShowOnKey = true;
+
     static init(): void {
         GUIActions.palette.onchange = () => {
             if (UserManager.me.isToolErase)
                 Share.execute("switchChalk", [UserManager.me.userID]);
             Share.execute("setCurrentColor", [UserManager.me.userID, GUIActions.palette.getCurrentColor()]);
         }
+
+
+        OptionManager.boolean({
+            name: "paletteShowOnKey", defaultValue: true,
+            onChange: (b) => { GUIActions.paletteShowOnKey = b}
+        });
     }
 
 
-    static changeColor(): void {
+    static changeColor(calledFromKeyBoard: boolean = false): void {
         if (MagnetManager.getMagnetUnderCursor() == undefined) { //if no magnet under the cursor, change the color of the chalk
-            if (!UserManager.me.tool.isDrawing)
+            if (!UserManager.me.tool.isDrawing && (GUIActions.paletteShowOnKey || !calledFromKeyBoard))
                 GUIActions.palette.show({ x: UserManager.me.tool.x, y: UserManager.me.tool.y });
             GUIActions.palette.next();
         }
@@ -30,11 +39,11 @@ export class GUIActions {
         }
     }
 
-    static previousColor(): void {
+    static previousColor(calledFromKeyBoard: boolean = false): void {
         if (MagnetManager.getMagnetUnderCursor() == undefined) { //if no magnet under the cursor, change the color of the chalk
             UserManager.me.switchChalk();
 
-            if (!UserManager.me.tool.isDrawing)
+            if (!UserManager.me.tool.isDrawing && (GUIActions.paletteShowOnKey || !calledFromKeyBoard))
                 GUIActions.palette.show({ x: UserManager.me.tool.x, y: UserManager.me.tool.y });
             GUIActions.palette.previous();
         }
