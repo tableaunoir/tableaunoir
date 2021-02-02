@@ -91,6 +91,7 @@
 			<button class="tablink" id="tabShare" onclick="Menu.openPage('Share', this)">🔗 <span>Share</span></button>
 			<button class="tablink" onclick="Menu.openPage('Background', this)">🖼 <span>Background</span></button>
 			<button class="tablink" onclick="Menu.openPage('Magnets', this)">🎊 <span>Magnets</span></button>
+			<button class="tablink" onclick="Menu.openPage('ScriptTab', this)">⚛ Script</button>
 			<button class="tablink" onclick="Menu.openPage('Options', this)">⚛ Options</button>
 			<button class="tablink" onclick="Menu.openPage('KeyboardShortcuts', this)" id="defaultOpen">⌨
 				<span>Keyboard Shortcuts</span></button>
@@ -260,6 +261,13 @@
 				</span>
 			</div>
 
+
+
+			<div id="ScriptTab" class="tabcontent">
+				<div>On this page, you can write scripts for adding more interactivity. This functionnality is still experimental.</div>
+				<button onclick="eval(script.value)">Run</button>
+				<textarea id="script" cols=50 rows=40></textarea>
+			</div>
 
 			<div id="Options" class="tabcontent">
 				<h2>Sound</h2>

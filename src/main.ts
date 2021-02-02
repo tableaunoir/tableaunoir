@@ -20,6 +20,7 @@ import { Menu } from './Menu';
 import { TouchScreen } from './TouchScreen';
 import { Drawing } from './Drawing';
 import { KeyBoardShortCuts } from './KeyBoardShortCuts';
+import { S } from './Script';
 
 TestPerformance.init();
 
@@ -133,12 +134,15 @@ function installMouseEventsCanvas() {
 
 	document.getElementById("canvas").onpointermove = (evt) => {
 		evt.preventDefault();
+		S.mousemove({x: evt.offsetX, y: evt.offsetY});
+		
 		//	window["mv"]++;
 		if ((ismousedown && UserManager.me.canWrite) || timeToMouseMove) {
 			//		window["mvsent"]++;
 			Share.execute("mousemove", [UserManager.me.userID, evt]);
 			timeToMouseMove = false;
 		}
+		
 
 	};
 	document.getElementById("canvas").onpointerup = (evt) => {
