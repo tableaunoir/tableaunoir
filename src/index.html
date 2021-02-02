@@ -264,8 +264,11 @@
 
 
 			<div id="ScriptTab" class="tabcontent">
-				<div>On this page, you can write scripts for adding more interactivity. This functionnality is still experimental.</div>
-				<button onclick="eval(script.value)">Run</button>
+				<div class="warning">
+					On this page, you can write scripts for adding more interactivity. This
+					functionnality is still
+					experimental.</div>
+				<button onclick="eval(script.value)">▷ Run</button><br/>
 				<textarea id="script" cols=50 rows=40></textarea>
 			</div>
 
@@ -301,7 +304,9 @@
 				<label for="inputLanguageFr">French</label><br />
 
 				<h2>Palette</h2>
-				<input type="checkbox" id="inputPaletteShowOnKey"></input><label for="inputPaletteShowOnKey">Show the palette when using keyboard shortcut c</label>
+				<input type="checkbox" id="inputPaletteShowOnKey"></input><label for="inputPaletteShowOnKey">Show the
+					palette when using keyboard shortcut c</label>
+				<br /><br />
 
 				<input type="radio" id="inputPaletteStandard" name="inputPalette"
 					value='["white", "yellow", "orange", "rgb(100, 172, 255)", "Crimson", "Plum", "LimeGreen", "black"]'><label
