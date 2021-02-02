@@ -159,7 +159,7 @@ export class LoadSave {
      * obj.canvasDataURL is the content of the canvas
      * obj.magnets is the HTML code of the magnets
      */
-    static loadJSON(obj: { canvasDataURL?: string, actions: ActionSerialized[], t: number, width: number, height: number, magnets: string, svg: string }): void {
+    static loadJSON(obj: { canvasDataURL?: string, actions: ActionSerialized[], t: number, width: number, height: number, magnets: string, svg: string, backgroundLayer: string }): void {
         console.log("loadJSON");
 
         if (obj.width) {
@@ -172,6 +172,7 @@ export class LoadSave {
             BoardManager.load(obj.canvasDataURL);
         }
 
+        document.getElementById("documentPanel").innerHTML = obj.backgroundLayer ? obj.backgroundLayer : "";        
 
         if (obj.actions)
             BoardManager.cancelStack.load(obj.actions, obj.t);
@@ -202,10 +203,11 @@ export class LoadSave {
      */
     static save(): void {
         const magnets = document.getElementById("magnets").innerHTML;
+        const backgroundLayer = document.getElementById("documentPanel").innerHTML;
         const svg = document.getElementById("svg").innerHTML;
         // const canvasDataURL = getCanvas().toDataURL();
         //const obj = { magnets: magnets, svg: svg, canvasDataURL: canvasDataURL };
-        const obj = { magnets: magnets, width: getCanvas().width, height: getCanvas().height, svg: svg, actions: BoardManager.cancelStack.serialize(), t: BoardManager.cancelStack.t };
+        const obj = { backgroundLayer:backgroundLayer, magnets: magnets, width: getCanvas().width, height: getCanvas().height, svg: svg, actions: BoardManager.cancelStack.serialize(), t: BoardManager.cancelStack.t };
         LoadSave.download((<HTMLInputElement>document.getElementById("name")).value + ".tableaunoir", JSON.stringify(obj));
     }
 
