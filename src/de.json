@@ -1,15 +1,16 @@
 {
-	"Choose your color": "Farbe wählen",
+	"#buttonColors.title": "Farbe wählen",
 	"#buttonChalk.title": "Kreidestift oder Tintenlöscher verwenden",
 	"#buttonEraser.title": "Kreidestift oder Tintenlöscher verwenden",
 	"#buttonTools.title": "Menü voll mit Werkzeug",
-	"#buttonText.title": "Text einfügen (oder LaTEX $...$)",
+	"#buttonText.title": "Text einfügen (oder LaTeX $...$)",
 	"#buttonDivide.title": "Die Tafel vertikal zweiteilen",
 	"#buttonCancel.title": "Die letzte Aktion rückgängig machen",
 	"#buttonRedo.title": "Die zuletzt ausgefûhrte Aktion wiederholen",
+	"#buttonLeft.title": "Links",
+	"#buttonRight.title": "Rechts",
 	"#buttonShare.title": "Link freigeben oder in die Zwischenablage kopieren",
-	"Go left": "Links",
-	"Go right": "Rechts",
+	"#buttonCloseControls.title": "Diese Symbolleiste ausblenden (sie kann über das Menü wieder eingeblendet werden)",
 
 	"Esc": "Esc-Taste",
 	"Enter": "Eingabe-Taste",
@@ -33,15 +34,21 @@
 	"Name:": "Dateiname :",
 	"Export": "Exportieren",
 	"#exportExplanation": "Exportieren Sie Ihre Tafel als Bild <em>.png</em>. Die Magnete werden 'abgeflacht'.",
-	"Get an image of my board": "Ein Bild von meiner Tafel herunterzuladen",
+	"#exportPng": "Ein Bild von meiner Tafel herunterzuladen",
+	"#buttonCancelStackFlatten": "Vergessen Sie Geschichte abbrechen",
 
 	"#sharePrivacyExplanation": "Um Ihre Privatsphäre zu respektieren, wird nichts auf dem Server gespeichert. Bitte speichern Sie Ihre Tafel auf Ihrem eigenen Computer",
-	"Make a shared board": "eine Tafel teilen",
+	"#shareButton": "eine Tafel teilen",
 	"Password (optional):": "Passwort (optional) :",
 	"#sharePasswordExplanation": "Mit einem Passwort können Sie Ihre Berechtigungen behalten. Wenn kein Passwort eingegeben wird, hat jeder die vollen Berechtigungen.",
 	"Join an existing board": "einer bestehenden Tafel beitreten",
 	"#shareJoinExplanation": " Um einer bestehenden Tafel beitreten, geben Sie die unten stehende URL ein :",
 	"Join": "Beitreten",
+	"#ShareGithub": "Achtung: tableaunoir.github.io ist eine Demoversion! Um Tabellen freizugeben, verwenden Sie bitte stattdessen <a href='http://tableaunoir.irisa.fr'>http://tableaunoir.irisa.fr</a>.",
+	"Copied!": "Kopiert !",
+	"Copy": "Kopieren",
+	"#buttonAskQuestion.title": "Stellen Sie eine Frage, weil Sie den Kurs nicht verstanden haben.",
+	"Actually, you do not have any privileges, and this board is <em>protected</em>. To obtain them, type the correct <em>password</em>.": "In der Tat haben Sie keine Privilegien, und dieses Board ist geschützt. Um die Berechtigungen zu erhalten, geben Sie das richtige <em>Passwort</em> ein.",
 
 	"Background Color": "Hintergrundfarbe",
 	"Blackboard": "Schwarz Tafel",
@@ -51,11 +58,13 @@
 	"Music score": "Musikpartitur",
 	"Grid": "Gitter",
 	"Insert a document (image or PDF)": "Dokument einfügen (Bild oder PDF)",
-	"#backgroundInsertDocumentExplanation": "Das Dokument wird in der oberen linken Ecke eingefügt.",
+	"#backgroundInsertDocumentExplanation": "Sie können mehrere Dokumente hinzufügen. Jedes Dokument wird in der <em>linken oberen Ecke</em> eingefügt.",
 	"Page number:": "Seitennummer:",
 	"Choose the page of the PDF to insert.": "Wählen Sie die Seite der PDF-Datei aus, die eingefügt werden soll.",
-	"Insert PDF page": "PDF-Seite einfügen",
+	"#buttonPDFInsertPage": "PDF-Seite einfügen",
 	"Remove all documents": "Alle Dokumente entfernen",
+
+	"Sound": "Ton",
 
 	"Using existing images": "Vorhandene Bilder verwenden",
 	"Predefined Magnet Collections": "Vordefinierte Magnetsammlungen",
@@ -64,6 +73,7 @@
 	"Games": "Spiele",
 
 	"Drawing": "Zeichnung",
+	"Smoothing (your drawing are getting smoother after you draw)": "Glätten (Ihre Zeichnungen werden beim Zeichnen geglättet)",
 	"Line width:": "Linienbreite :",
 	"Show the toolbar (h)": "Die Symbolleiste anzuzeigen (h)",
 
@@ -80,9 +90,22 @@
 
 	"Standard 8 color palette": "Standardpalette mit 8 Farben",
 	"21 color palette": "Palette mit 21 Farben",
+	"Show the palette when using keyboard shortcut c": "Anzeigen der Palette bei Verwendung des Tastaturkürzels c",
 
 	"Cursor": "Mauszeiger",
 	"Left-handed": "Linkshändig",
+
+	"#magnetGS": "Gale-Shapley-Algorithmus",
+	"#magnetSorting": "Sortieralgorithmen",
+	"#magnetBTrees": "B-Bäume",
+	"#magnetGraphNodes": "Graph-Knoten",
+	"#magnetGraphSimCity": "SimCity-Graph-Knoten",
+	"#magnetFloydsAlgorithmus": "Floyds Algorithmus",
+	"#magnetStatesForAutomata": "Automaton",
+	"#magnetTilings": "Pflasterung",
+	"#magnetGo": "Go",
+	"#magnetsArrange": "Ordnen Sie die Magnete auf der Tafel an",
+	"#magnetsCreateGraph": "Graph aus den Magneten erstellen",
 
 	"#aboutPresentation": "Tableaunoir ist eine <em>online Tafel</em>. Idealerweise wird es mit einem <em>Grafiktablett</em> verwendet. Helfen Sie Ihrem Publikum, <em>konzentriert</em> zu bleiben durch Symbolleiste Ausblendung, und Tastaturkürzeln Verwendung.",
 
