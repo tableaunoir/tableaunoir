@@ -75,7 +75,6 @@ export class Layout {
         canvasBackground.width = 4800;
 
         Layout.initWorWT();
-        //Layout.minimap();
 
         OptionManager.boolean({
             name: "horizontalScrollbar",
@@ -173,7 +172,9 @@ export class Layout {
     }
 
 
-
+/**
+ * unused
+ */
     static initClassic(): void {
         const WIDTH = 4800;
         const HEIGHT = 1500;
@@ -195,6 +196,7 @@ export class Layout {
 
 
     /**
+     * * unused
      * rescaling with the screen
      */
     static initS(): void {
@@ -216,6 +218,7 @@ export class Layout {
 
 
     /**
+     * * unused
         * rescaling with the screen
         */
     static initW(): void {
@@ -304,7 +307,9 @@ export class Layout {
         const nodeContent = document.getElementById("content");
         const nodeBoard = document.getElementById("board");
         nodeContent.style.width = "" + getCanvas().width;
+        nodeContent.style.height = "" + getCanvas().height;
         nodeBoard.style.width = "" + getCanvas().width;
+        nodeBoard.style.height = "" + getCanvas().height;
         nodeContent.style.transition = "";
         nodeContent.style.transform = "scale(1)";
     }
@@ -323,3 +328,7 @@ export class Layout {
     }
 
 }
+
+
+
+window["Layout"] = Layout;

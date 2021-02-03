@@ -3,12 +3,11 @@ import { ActionSerialized } from './ActionSerialized';
 import { Share } from './share';
 import { ConstraintDrawing } from './ConstraintDrawing';
 import { Layout } from './Layout';
-import { CircularMenu } from './CircularMenu';
 import { getCanvas } from './main';
 import { MagnetManager } from './magnetManager';
 import { BoardManager } from './boardManager';
 import { Menu } from './Menu'
-import html2canvas from 'html2canvas'
+
 
 /**
  * this class contains the code for loading/saving a tableaunoir. Also for importing images as magnets.
@@ -29,7 +28,7 @@ export class LoadSave {
 
 
         document.getElementById("save").onclick = LoadSave.save;
-        document.getElementById("exportPng").onclick = LoadSave.exportPng;
+        
         document.getElementById("buttonCancelStackFlatten").onclick = () => Share.execute("cancelStackFlatten", []);
 
 
@@ -185,18 +184,6 @@ export class LoadSave {
     }
 
 
-    /**
-     * @description export the board as a .png image file
-     */
-    static exportPng(): void {
-        CircularMenu.hideAndRemove();
-        const nodeContent = document.getElementById("content");
-        Layout.setForExportPng();
-        html2canvas(nodeContent).then(canvas => {
-            LoadSave.downloadDataURL((<HTMLInputElement>document.getElementById("exportPngName")).value + ".png", canvas.toDataURL());
-        });
-        Layout.restoreForUse();
-    }
 
 
     /**

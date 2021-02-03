@@ -21,6 +21,7 @@ import { TouchScreen } from './TouchScreen';
 import { Drawing } from './Drawing';
 import { KeyBoardShortCuts } from './KeyBoardShortCuts';
 import { S , Script} from './Script';
+import { Export } from './Export';
 
 TestPerformance.init();
 
@@ -60,6 +61,7 @@ function load() {
 	Translation.init();
 	ChalkCursor.init();
 	LoadSave.init();
+	Export.init();
 	BoardManager.init();
 	Menu.init();
 	Share.init();
