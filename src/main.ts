@@ -27,7 +27,9 @@ TestPerformance.init();
 window.onload = load;
 window['Menu'] = Menu; //for Menu to be used in index.html
 
-
+window.onbeforeunload = function () {
+	return "If you leave Tableaunoir, you will lose any unsaved changes."; //this will probably not be shown since modern browser do not care
+}
 
 
 //let loaded = false;
@@ -134,7 +136,7 @@ function installMouseEventsCanvas() {
 
 	document.getElementById("canvas").onpointermove = (evt) => {
 		evt.preventDefault();
-		S.mousemove({x: evt.offsetX, y: evt.offsetY});
+		S.mousemove({ x: evt.offsetX, y: evt.offsetY });
 
 		//	window["mv"]++;
 		if ((ismousedown && UserManager.me.canWrite) || timeToMouseMove) {
@@ -142,7 +144,7 @@ function installMouseEventsCanvas() {
 			Share.execute("mousemove", [UserManager.me.userID, evt]);
 			timeToMouseMove = false;
 		}
-		
+
 
 	};
 	document.getElementById("canvas").onpointerup = (evt) => {
