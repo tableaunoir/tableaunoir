@@ -16,7 +16,10 @@ export class KeyBoardShortCuts {
 
     static onKeyDown(evt: KeyboardEvent): void {
 
-        if (!(document.activeElement instanceof HTMLInputElement) && !(document.activeElement instanceof HTMLTextAreaElement))
+        if ((evt.key != "F11") &&
+            (evt.key != "F12") &&
+            !(document.activeElement instanceof HTMLInputElement) &&
+            !(document.activeElement instanceof HTMLTextAreaElement))
             evt.preventDefault();
         //console.log("ctrl: " + evt.ctrlKey + " shift:" + evt.shiftKey + "key: " + evt.key)
         /*if (evt.key == "Backspace" && !(document.activeElement instanceof HTMLInputElement))
