@@ -20,7 +20,7 @@ import { Menu } from './Menu';
 import { TouchScreen } from './TouchScreen';
 import { Drawing } from './Drawing';
 import { KeyBoardShortCuts } from './KeyBoardShortCuts';
-import { S } from './Script';
+import { S , Script} from './Script';
 
 TestPerformance.init();
 
@@ -73,6 +73,7 @@ function load() {
 	MagnetManager.init();
 	MyMagnets.loadMagnets();
 	Sound.init();
+	Script.init();
 
 	BoardManager.load();
 

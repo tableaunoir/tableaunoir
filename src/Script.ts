@@ -1,6 +1,14 @@
 import { UserManager } from './UserManager';
 import { Share } from './share';
 
+
+
+export class Script {
+    static init():void {
+        document.getElementById("script").onkeydown = (evt) =>  {};
+    }
+}
+
 export class S {
     static mousemove: ({ x, y }: { x: number, y: number }) => void = () => { };
     static magnetSetText(m: HTMLDivElement, text: string): void {
