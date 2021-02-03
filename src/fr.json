@@ -1,15 +1,17 @@
 {
-	"Choose your color": "Choisir une couleur",
+	"#buttonColors.title": "Choisir une couleur",
 	"#buttonChalk.title": "Utiliser la craie ou l'effaceur",
 	"#buttonEraser.title": "Utiliser la craie ou l'effaceur",
 	"#buttonTools.title": "Menu avec plein d'outils",
-	"#buttonText.title": "Ajouter du texte (ou du LaTEX $...$)",
+	"#buttonText.title": "Ajouter du texte (ou du LaTeX $...$)",
 	"#buttonDivide.title": "Diviser le tableau verticalement en deux",
 	"#buttonCancel.title": "Annuler la dernière action",
 	"#buttonRedo.title": "Refaire la dernière action",
+	"#buttonLeft.title": "Vers la gauche",
+	"#buttonRight.title": "Vers la droite",
+	"#buttomMap.title": "Aperçu général",
 	"#buttonShare.title": "Partager et/ou copier le lien dans le presse-papier",
-	"Go left": "Vers la gauche",
-	"Go right": "Vers la droite",
+	"#buttonCloseControls.title": "Cache cette barre d'outil (elle peut être affichée de nouveau depuis le menu)",
 
 	"Esc": "Echap",
 	"Enter": "Entrée",
@@ -21,7 +23,7 @@
 	"Background": "Arrière-plan",
 	"Keyboard Shortcuts": "Raccourcis clavier",
 	"Help": "Aide",
-	"About tableaunoir": "A propos de",
+	"About tableaunoir": "À propos de",
 
 	"Clear": "Effacer",
 	"Clear the board": "Effacer le tableau",
@@ -33,15 +35,21 @@
 	"Name:": "Nom :",
 	"Export": "Exporter",
 	"#exportExplanation": "Exporter votre tableau comme une image <em>.png</em>. Les magnets seront 'aplatis'.",
-	"Get an image of my board": "Télécharger une image de mon tableau",
+	"#exportPng": "Télécharger une image de mon tableau",
+	"#buttonCancelStackFlatten": "Oublier l'historique d'annulation",
 
 	"#sharePrivacyExplanation": "Pour respecter votre vie privée, rien n'est sauvegardé sur le serveur. Veuillez sauvegarder votre tableau sur votre propre machine.",
-	"Make a shared board": "Faire un tableau partagé",
+	"#shareButton": "Faire un tableau partagé",
 	"Password (optional):": "Mot de passe (optionnel) :",
 	"#sharePasswordExplanation": "Un mot de passe vous permet de garder vos privilèges. Si aucun mot de passe n'est renseigné, alors tout le monde a tous les privilèges.",
 	"Join an existing board": "Rejoindre un tableau existant",
 	"#shareJoinExplanation": "Pour rejoindre un tableau existant, tapez l'URL ci-dessous :",
 	"Join": "Rejoindre",
+	"#ShareGithub": "Attention : tableaunoir.github.io est une démonstration ! Pour partager des tableaux, veuillez utiliser, <a href='http://tableaunoir.irisa.fr'>http://tableaunoir.irisa.fr</a> à la place.",
+	"Copied!": "Copié !",
+	"Copy": "Copier",
+	"#buttonAskQuestion.title": "Posez une question parce que vous ne comprenez pas le cours",
+	"Actually, you do not have any privileges, and this board is <em>protected</em>. To obtain them, type the correct <em>password</em>.": "En fait, vous n'avez aucun privilège, et ce tableau est <em>protégé</em>. Pour obtenir les privilèges, tapez le bon <em>mot de passe</em>.",
 
 	"Background Color": "Couleur de fond",
 	"Blackboard": "Tableau noir",
@@ -51,11 +59,13 @@
 	"Music score": "Partition de musique",
 	"Grid": "Grille",
 	"Insert a document (image or PDF)": "Insérer un document (image ou PDF)",
-	"#backgroundInsertDocumentExplanation": "Le document sera inséré dans le coin supérieur gauche.",
+	"#backgroundInsertDocumentExplanation": "Vous pouvez ajouter plusieurs documents. Chaque document sera inséré dans le <em>coin supérieur gauche</em>.",
 	"Page number:": "Numéro de page :",
 	"Choose the page of the PDF to insert.": "Choisissez la page du PDF à insérer.",
-	"Insert PDF page": "Insérer la page PDF",
+	"#buttonPDFInsertPage": "Insérer la page PDF",
 	"Remove all documents": "Enlever tous les documents",
+
+	"Sound": "Son",
 
 	"Using existing images": "Utiliser des images existantes",
 	"Predefined Magnet Collections": "Collections de magnets prédéfinies",
@@ -64,7 +74,8 @@
 	"Games": "Jeux",
 
 	"Drawing": "Dessin",
-	"Line width:": "Epaisseur du trait :",
+	"Smoothing (your drawing are getting smoother after you draw)": "Lissage (vos dessins sont lissés quand vous dessinez)",
+	"Line width:": "Épaisseur du trait :",
 	"Show the toolbar (h)": "Afficher la barre d'outils (h)",
 
 	"Left": "Gauche",
@@ -76,12 +87,26 @@
 
 	"English": "Anglais",
 	"French": "Français",
+	"German": "Allemand",
 
 	"Standard 8 color palette": "Palette standard de 8 couleurs",
 	"21 color palette": "Palette avec 21 couleurs",
+	"Show the palette when using keyboard shortcut c": "Montrer la palette avec le raccourcis clavier c",
 
 	"Cursor": "Curseur",
 	"Left-handed": "Gaucher",
+
+	"#magnetGS": "Algorithme de Gale-Shapley",
+	"#magnetSorting": "Algorithmes de tris",
+	"#magnetBTrees": "B-arbres",
+	"#magnetGraphNodes": "Nœuds de graphe",
+	"#magnetGraphSimCity": "Nœuds de graphe SimCity",
+	"#magnetFloydsAlgorithm": "Algorithme de Floyd",
+	"#magnetStatesForAutomata": "Automate",
+	"#magnetTilings": "Pavage",
+	"#magnetGo": "Go",
+	"#magnetsArrange": "Arrange the magnets on the board",
+	"#magnetsCreateGraph": "Create graph from the magnets",
 
 	"#aboutPresentation": "Tableaunoir est un <em>tableau en ligne</em>. Il s'utilise idéalement avec une <em>tablette graphique</em>. Aidez votre audience à être <em>concentrée</em> en cachant la barre d'outil et en utilisant les raccourcis clavier.",
 
