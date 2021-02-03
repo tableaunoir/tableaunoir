@@ -15,9 +15,12 @@ export class KeyBoardShortCuts {
 
 
     static onKeyDown(evt: KeyboardEvent): void {
-        //console.log("ctrl: " + evt.ctrlKey + " shift:" + evt.shiftKey + "key: " + evt.key)
-        if (evt.key == "Backspace" && !(document.activeElement instanceof HTMLInputElement))
+
+        if (!(document.activeElement instanceof HTMLInputElement) && !(document.activeElement instanceof HTMLTextAreaElement))
             evt.preventDefault();
+        //console.log("ctrl: " + evt.ctrlKey + " shift:" + evt.shiftKey + "key: " + evt.key)
+        /*if (evt.key == "Backspace" && !(document.activeElement instanceof HTMLInputElement))
+            evt.preventDefault();*/
 
         if (evt.key == "Escape" || evt.key == "F1") {//escape => show menu
             if (Layout.isMinimap)
