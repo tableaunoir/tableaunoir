@@ -18,6 +18,7 @@ The online version is available here: [https://tableaunoir.github.io/] ([another
 * **Draw interative graphs** : vertices are magnets, labels of vertices and edges are handwritten but are updated when vertices are moved,
 * Change the color of magnets' background,
 * Load/Save the current board,
+* Export in PNG or PDF,
 * Add texts (`Enter` and type), and move texts. Supports **LaTeX** (using [MathJax](https://www.mathjax.org/))!
 * Switch to a whiteboard instead of a blackboard,
 * Change from right-handed (default) to **left-handed** cursor,
