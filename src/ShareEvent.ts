@@ -1,3 +1,4 @@
+import { ErrorMessage } from './ErrorMessage';
 import { BlackVSWhiteBoard } from './BlackVSWhiteBoard';
 import { Share } from './share';
 import { LoadSave } from './LoadSave';
@@ -10,6 +11,7 @@ import { UserManager } from './UserManager';
 import { Discussion } from './Discussion';
 import { Menu } from './Menu';
 import { Drawing } from './Drawing';
+import { ToolArc } from './ToolArc';
 
 /**
  * this class contains the events that are shared with other users connected to the same tableaunoir
@@ -62,6 +64,15 @@ export class ShareEvent {
 
     static switchArc(userId: string): void {
         UserManager.users[userId].switchArc();
+    }
+
+    static toolArcSetAttributes(userId: string, center: {x:number, y:number}, radiusHandlePosition: {x:number, y:number}): void {
+        console.log(userId)
+        const tool = UserManager.users[userId].tool;
+        if(!(tool instanceof ToolArc))
+            ErrorMessage.show("the tool should be ToolArc");
+
+        (<ToolArc> tool).setAttributes(center, radiusHandlePosition);
     }
 
     /**users */

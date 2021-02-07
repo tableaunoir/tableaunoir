@@ -1,11 +1,12 @@
+import { UserManager } from './UserManager';
 import { Layout } from './Layout';
 import { User } from './User';
 import { ChalkCursor } from './ChalkCursor';
 import { BoardManager } from './boardManager';
-import { Delineation } from './Delineation';
 import { Drawing } from './Drawing';
 import { getCanvas } from './main';
 import { Tool } from './Tool';
+import { Share } from './share';
 import { ActionFreeDraw } from './ActionFreeDraw';
 
 export class ToolArc extends Tool {
@@ -14,6 +15,9 @@ export class ToolArc extends Tool {
     private elementCircle: SVGEllipseElement;
     isDrawing = false;
     private action: ActionFreeDraw;
+
+    private center: { x: number, y: number };
+    private radiusHandlePosition: { x: number, y: number };
 
 
     constructor(user: User) {
@@ -29,32 +33,81 @@ export class ToolArc extends Tool {
         const svgns = "http://www.w3.org/2000/svg";
         this.elementCircle = <SVGEllipseElement>document.createElementNS(svgns, 'ellipse');
 
-        this.elementCenter.style.left = "300px";
+        this.elementCenter.style.left = (Layout.getWindowLeft() + 300) + "px";
         this.elementCenter.style.top = "300px";
-        this.elementRadius.style.left = "400px";
+        this.elementRadius.style.left = (Layout.getWindowLeft() + 400) + "px";
         this.elementRadius.style.top = "400px";
 
         document.getElementById("board").appendChild(this.elementCenter);
         document.getElementById("board").appendChild(this.elementRadius);
         document.getElementById("svg").appendChild(this.elementCircle);
 
-        this.makeDraggable(this.elementCenter, () => this.update());
-        this.makeDraggable(this.elementRadius, () => this.update());
+        if (this.user.isCurrentUser) {
+            this.makeDraggable(this.elementCenter, () => this.updateWhenDragged());
+            this.makeDraggable(this.elementRadius, () => this.updateWhenDragged());
+        }
 
+        this.computeCenter();
+        this.computeRadiusHandlePosition();
+
+        if (this.user.isCurrentUser)
+            setTimeout(this.updateWhenDragged, 1);
+    }
+
+
+    /**
+     * update the tool element when some elements are dragged
+     */
+    private updateWhenDragged() {
+        this.computeCenter();
+        this.computeRadiusHandlePosition();
+        Share.execute("toolArcSetAttributes", [this.user.userID, this.center, this.radiusHandlePosition]); // call this.update
+    }
+
+    /**
+     * draw the circle guideline element correctly
+     */
+    update(): void {
+        const C = this.center;
+        const r = this.radius;
+        this.elementCircle.setAttributeNS(null, 'cx', "" + C.x);
+        this.elementCircle.setAttributeNS(null, 'cy', "" + C.y);
+        this.elementCircle.setAttributeNS(null, 'rx', "" + r);
+        this.elementCircle.setAttributeNS(null, 'ry', "" + r);
+        this.elementCircle.setAttributeNS(null, 'stroke-opacity', "0.5");
+        this.elementCircle.setAttributeNS(null, 'fill-opacity', "0.005");
+        this.elementCircle.setAttributeNS(null, 'stroke', this.user.color);
+        this.elementRadius.style.rotate = `${this.radiusHandleAngle}rad`;
+    }
+
+
+    /**
+     * 
+     * @param center 
+     * @param radiusHandlePosition 
+     * @description set the two attributes from the outside (share mode)
+     */
+    setAttributes(center: { x: number, y: number }, radiusHandlePosition: { x: number, y: number }): void {
+        this.center = center;
+        this.radiusHandlePosition = radiusHandlePosition;
+        this.elementRadius.style.left = (radiusHandlePosition.x - this.elementRadius.offsetWidth / 2) + "px";
+        this.elementRadius.style.top = (radiusHandlePosition.y - this.elementRadius.offsetHeight / 2) + "px";
+        this.elementCenter.style.left = (center.x - this.elementCenter.offsetWidth / 2) + "px";
+        this.elementCenter.style.top = (center.y - this.elementCenter.offsetHeight / 2) + "px";
         this.update();
     }
 
 
-    get center(): { x: number, y: number } {
-        return {
+    private computeCenter(): void {
+        this.center = {
             x: this.elementCenter.offsetLeft + this.elementCenter.offsetWidth / 2,
             y: this.elementCenter.offsetTop + this.elementCenter.offsetHeight / 2
         };
     }
 
 
-    get radiusHandlePosition(): { x: number, y: number } {
-        return {
+    private computeRadiusHandlePosition(): void {
+        this.radiusHandlePosition = {
             x: this.elementRadius.offsetLeft + this.elementRadius.offsetWidth / 2,
             y: this.elementRadius.offsetTop + this.elementRadius.offsetHeight / 2
         };
@@ -73,19 +126,8 @@ export class ToolArc extends Tool {
         return Math.atan2(D.y - C.y, D.x - C.x);
     }
 
-    update(): void {
-        const C = this.center;
-        const r = this.radius;
-        this.elementCircle.setAttributeNS(null, 'cx', "" + C.x);
-        this.elementCircle.setAttributeNS(null, 'cy', "" + C.y);
-        this.elementCircle.setAttributeNS(null, 'rx', "" + r);
-        this.elementCircle.setAttributeNS(null, 'ry', "" + r);
-        this.elementCircle.setAttributeNS(null, 'stroke-opacity', "0.5");
-        this.elementCircle.setAttributeNS(null, 'fill-opacity', "0.005");
-        this.elementCircle.setAttributeNS(null, 'stroke', this.user.color);
 
-        this.elementRadius.style.rotate = `${this.radiusHandleAngle}rad`;
-    }
+
 
     destructor(): void {
         this.elementCenter.remove();
@@ -158,7 +200,7 @@ export class ToolArc extends Tool {
         this.isDrawing = true;
         this.elementRadius.style.visibility = "hidden";
         const A = this.correctPointOnCircle({ x: this.x, y: this.y });
-        this.action.addPoint({x: A.x, y: A.y, pressure: 0, color: this.user.color});
+        this.action.addPoint({ x: A.x, y: A.y, pressure: 0, color: this.user.color });
     }
 
     mousemove(evt: PointerEvent): void {
@@ -167,11 +209,12 @@ export class ToolArc extends Tool {
             const evtY = evt.offsetY;
             const A = this.correctPointOnCircle({ x: this.x, y: this.y });
             const B = this.correctPointOnCircle({ x: evtX, y: evtY });
-            this.action.addPoint({x: B.x, y: B.y, pressure: evt.pressure, color: this.user.color});
+            this.action.addPoint({ x: B.x, y: B.y, pressure: evt.pressure, color: this.user.color });
             Drawing.drawLine(getCanvas().getContext("2d"), A.x, A.y, B.x, B.y, evt.pressure, this.user.color);
         }
 
     }
+    
     mouseup(): void {
         this.isDrawing = false;
         this.elementRadius.style.visibility = "visible";

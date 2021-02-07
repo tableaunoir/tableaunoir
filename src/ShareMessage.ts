@@ -61,4 +61,4 @@ export interface ShareMessage {
 /**
  * parameters that an be sent to the server and/or received
  */
-export type Parameter = boolean | number | string | PointerEvent | { x: number, y: number }[];
+export type Parameter = boolean | number | string | PointerEvent | { x: number, y: number } | { x: number, y: number }[];
