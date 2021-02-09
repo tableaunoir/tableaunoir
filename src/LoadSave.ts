@@ -184,20 +184,28 @@ export class LoadSave {
     }
 
 
-
-
-    /**
-     * @description save the blackboard and the magnets
-     */
-    static save(): void {
+    static getTableauNoirObject() {
         const magnets = document.getElementById("magnets").innerHTML;
         const backgroundLayer = document.getElementById("documentPanel").innerHTML;
         const svg = document.getElementById("svg").innerHTML;
         const script = (<HTMLTextAreaElement> document.getElementById("script")).value;
         // const canvasDataURL = getCanvas().toDataURL();
         //const obj = { magnets: magnets, svg: svg, canvasDataURL: canvasDataURL };
-        const obj = { backgroundLayer:backgroundLayer, magnets: magnets, width: getCanvas().width, height: getCanvas().height, svg: svg, actions: BoardManager.cancelStack.serialize(), t: BoardManager.cancelStack.t, script: script };
-        LoadSave.download((<HTMLInputElement>document.getElementById("name")).value + ".tableaunoir", JSON.stringify(obj));
+        return { backgroundLayer:backgroundLayer, magnets: magnets, width: getCanvas().width, height: getCanvas().height, svg: svg, actions: BoardManager.cancelStack.serialize(), t: BoardManager.cancelStack.t, script: script };
+    }
+
+
+    static getTableauNoirString(): string {
+        return JSON.stringify(LoadSave.getTableauNoirObject());
+    }
+
+
+ 
+    /**
+     * @description save the blackboard and the magnets
+     */
+    static save(): void {
+        LoadSave.download((<HTMLInputElement>document.getElementById("name")).value + ".tableaunoir", LoadSave.getTableauNoirString());
     }
 
     /**
@@ -233,3 +241,6 @@ export class LoadSave {
     }
 
 }
+
+
+window["LoadSave"] = LoadSave;
