@@ -105,6 +105,10 @@ export class Share {
 		Share.send({ type: "askprivilege", password: passwordCandidate })
 	}
 
+
+
+
+
 	/**
 	 * @description copy the link to the clipboard
 	 */
@@ -136,6 +140,13 @@ export class Share {
 	 * @returns true iff the current user is root
 	 */
 	static isRoot(): boolean { return document.getElementById("askPrivilege").hidden; }
+
+
+	/**
+	 * @returns true iff there is a password
+	 */
+	static isPassword(): boolean { return (<HTMLInputElement>document.getElementById("password")).value != "" }
+
 
 	/**
 	 * @description tries to connect the server to make a shared board
@@ -419,7 +430,11 @@ export class Share {
 	 * @param id
 	 * @description say that the current user wants to join the tableaunoir id
 	 */
-	static join(id: string): void { Share.send({ type: "join", id: id }); }
+	static join(id: string): void {
+		Share.execute("setUserCanWrite", [UserManager.me.userID, false]);//by default I can not write
+		Share.canWriteValueByDefault = false; //bydefault nobody... wait and see
+		Share.send({ type: "join", id: id });
+	}
 
 
 	/**

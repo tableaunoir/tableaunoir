@@ -19,7 +19,7 @@ export class Menu {
         // Hide all elements with class="tabcontent" by default */
         const tabcontent = document.getElementsByClassName("tabcontent");
         for (let i = 0; i < tabcontent.length; i++) {
-            (<HTMLElement> tabcontent[i]).style.display = "none";
+            (<HTMLElement>tabcontent[i]).style.display = "none";
         }
 
         // Remove the background color of all tablinks/buttons
@@ -62,6 +62,8 @@ export class Menu {
     static hide(): void {
         Menu.getMenu().classList.remove("menuShow");
         Menu.getMenu().classList.add("menuHide");
+        if (document.activeElement instanceof HTMLElement)
+            document.activeElement.blur();
     }
 
     /**
