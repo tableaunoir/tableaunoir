@@ -34,16 +34,16 @@
      guidetolerance="10"
      inkscape:pageopacity="0"
      inkscape:pageshadow="2"
-     inkscape:window-width="1920"
+     inkscape:window-width="960"
      inkscape:window-height="1016"
      id="namedview39"
      showgrid="false"
      inkscape:zoom="2.3177389"
-     inkscape:cx="-15.98185"
-     inkscape:cy="-16.646489"
-     inkscape:window-x="0"
+     inkscape:cx="-14.25603"
+     inkscape:cy="-18.372309"
+     inkscape:window-x="960"
      inkscape:window-y="27"
-     inkscape:window-maximized="1"
+     inkscape:window-maximized="0"
      inkscape:current-layer="emoji" />
   <g
      id="g943"
@@ -130,107 +130,62 @@
   <g
      id="skin-shadow" />
   <g
-     id="g963"
-     transform="matrix(1.4210392,0,0,1.4210392,-30.67814,-31.041459)">
-    <g
-       transform="matrix(0.41274183,0,0,0.41274183,43.145499,44.008409)"
-       id="grid">
-      <path
-         style="fill:#b3b3b3"
-         inkscape:connector-curvature="0"
-         id="path2"
-         d="M 68,4 V 68 H 4 V 4 H 68 M 72,0 H 0 v 72 h 72 z" />
-      <path
-         style="fill:none;stroke:#00a5ff;stroke-width:0.1;stroke-miterlimit:10"
-         inkscape:connector-curvature="0"
-         id="path4"
-         d="M 12.923,10.9583 H 59.0769 A 1.9231,1.9231 0 0 1 61,12.8814 v 46.1538 a 1.9231,1.9231 0 0 1 -1.9231,1.9231 H 12.9231 A 1.9231,1.9231 0 0 1 11,59.0352 V 12.8813 a 1.923,1.923 0 0 1 1.923,-1.923 z"
-         stroke-miterlimit="10" />
-      <rect
-         style="fill:none;stroke:#00a5ff;stroke-width:0.1;stroke-miterlimit:10"
-         id="rect6"
-         stroke-miterlimit="10"
-         height="64"
-         width="40"
-         rx="2.2537"
-         y="4"
-         x="16" />
-      <rect
-         style="fill:none;stroke:#00a5ff;stroke-width:0.1;stroke-miterlimit:10"
-         id="rect8"
-         stroke-miterlimit="10"
-         transform="rotate(90,36,36)"
-         height="64"
-         width="40"
-         rx="2.2537"
-         y="4"
-         x="16" />
-      <circle
-         style="fill:none;stroke:#00a5ff;stroke-width:0.1;stroke-miterlimit:10"
-         id="circle10"
-         stroke-miterlimit="10"
-         r="29"
-         cy="36"
-         cx="36" />
-    </g>
-    <g
-       transform="matrix(0.41274183,0,0,0.41274183,43.145499,44.008409)"
-       id="color">
-      <polygon
-         style="fill:#3f3f3f;stroke:none"
-         id="polygon13"
-         points="14.5943,53.154 18.2544,56.814 12.6242,59.0928 " />
-      <polyline
-         style="fill:#f4aa41;stroke:none"
-         id="polyline15"
-         points="18.0381,41.8761 36.8684,23.0457 48.1813,34.3586 29.5108,53.0291" />
-      <polyline
-         style="fill:#a57939;stroke:none"
-         id="polyline17"
-         points="14.4132,52.5663 17.9281,43.3946 27.8278,53.2939 18.6558,56.809" />
-      <polyline
-         style="fill:#ea5a47;stroke:none"
-         id="polyline19"
-         points="42.9209,16.9933 50.4228,9.4913 61.7357,20.8042 54.2975,28.2424" />
-      <polyline
-         style="fill:#9b9b9a;stroke:none"
-         id="polyline21"
-         points="35.6498,24.2643 43.3318,16.5823 54.6447,27.8952 47.0278,35.512" />
-    </g>
-    <g
-       transform="matrix(0.41274183,0,0,0.41274183,43.145499,44.008409)"
-       id="line">
-      <polygon
-         style="fill:none;stroke:#000000;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:10"
-         id="polygon27"
-         points="43.9212,17.4015 17.9281,43.3946 14.3904,52.6032 18.6304,56.8203 27.8278,53.2939 53.8207,27.301 "
-         stroke-miterlimit="10" />
-      <polyline
-         style="fill:none;stroke:#000000;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:10"
-         id="polyline29"
-         points="47.3354,13.9873 50.8388,10.4839 60.7383,20.3834 57.2645,23.8572"
-         stroke-miterlimit="10" />
-      <line
-         style="fill:none;stroke:#000000;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:10"
-         id="line31"
-         stroke-miterlimit="10"
-         y2="52.665901"
-         y1="42.766499"
-         x2="28.4557"
-         x1="18.5562" />
-      <polyline
-         style="fill:none;stroke:#000000;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:10"
-         id="polyline33"
-         points="14.3979,52.5817 11.9073,59.3148 18.6558,56.809"
-         stroke-miterlimit="10" />
-      <line
-         style="fill:none;stroke:#000000;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:10"
-         id="line35"
-         stroke-miterlimit="10"
-         y2="34.519901"
-         y1="25.007299"
-         x2="46.422501"
-         x1="36.909901" />
-    </g>
+     id="color"
+     transform="matrix(0.58652232,0,0,0.58652232,30.633305,31.496215)">
+    <polygon
+       points="12.6242,59.0928 14.5943,53.154 18.2544,56.814 "
+       id="polygon13"
+       style="fill:#3f3f3f;stroke:none" />
+    <polyline
+       points="18.0381,41.8761 36.8684,23.0457 48.1813,34.3586 29.5108,53.0291"
+       id="polyline15"
+       style="fill:#f4aa41;stroke:none" />
+    <polyline
+       points="14.4132,52.5663 17.9281,43.3946 27.8278,53.2939 18.6558,56.809"
+       id="polyline17"
+       style="fill:#a57939;stroke:none" />
+    <polyline
+       points="42.9209,16.9933 50.4228,9.4913 61.7357,20.8042 54.2975,28.2424"
+       id="polyline19"
+       style="fill:#ea5a47;stroke:none" />
+    <polyline
+       points="35.6498,24.2643 43.3318,16.5823 54.6447,27.8952 47.0278,35.512"
+       id="polyline21"
+       style="fill:#9b9b9a;stroke:none" />
+  </g>
+  <g
+     id="line"
+     transform="matrix(0.58652232,0,0,0.58652232,30.633305,31.496215)">
+    <polygon
+       stroke-miterlimit="10"
+       points="14.3904,52.6032 18.6304,56.8203 27.8278,53.2939 53.8207,27.301 43.9212,17.4015 17.9281,43.3946 "
+       id="polygon27"
+       style="fill:none;stroke:#000000;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:10" />
+    <polyline
+       stroke-miterlimit="10"
+       points="47.3354,13.9873 50.8388,10.4839 60.7383,20.3834 57.2645,23.8572"
+       id="polyline29"
+       style="fill:none;stroke:#000000;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:10" />
+    <line
+       x1="18.5562"
+       x2="28.4557"
+       y1="42.766499"
+       y2="52.665901"
+       stroke-miterlimit="10"
+       id="line31"
+       style="fill:none;stroke:#000000;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:10" />
+    <polyline
+       stroke-miterlimit="10"
+       points="14.3979,52.5817 11.9073,59.3148 18.6558,56.809"
+       id="polyline33"
+       style="fill:none;stroke:#000000;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:10" />
+    <line
+       x1="36.909901"
+       x2="46.422501"
+       y1="25.007299"
+       y2="34.519901"
+       stroke-miterlimit="10"
+       id="line35"
+       style="fill:none;stroke:#000000;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:10" />
   </g>
 </svg>

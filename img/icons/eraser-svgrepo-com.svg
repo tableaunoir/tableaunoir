@@ -13,14 +13,15 @@
    id="Layer_1"
    x="0px"
    y="0px"
-   viewBox="0 0 512 512"
-   style="enable-background:new 0 0 512 512;"
+   viewBox="0 0 72 72"
    xml:space="preserve"
    sodipodi:docname="eraser-svgrepo-com.svg"
-   inkscape:version="0.92.4 (unknown)"><metadata
+   inkscape:version="0.92.4 (unknown)"
+   width="72"
+   height="72"><metadata
    id="metadata47"><rdf:RDF><cc:Work
        rdf:about=""><dc:format>image/svg+xml</dc:format><dc:type
-         rdf:resource="http://purl.org/dc/dcmitype/StillImage" /></cc:Work></rdf:RDF></metadata><defs
+         rdf:resource="http://purl.org/dc/dcmitype/StillImage" /><dc:title></dc:title></cc:Work></rdf:RDF></metadata><defs
    id="defs45" /><sodipodi:namedview
    pagecolor="#ffffff"
    bordercolor="#666666"
@@ -30,67 +31,82 @@
    guidetolerance="10"
    inkscape:pageopacity="0"
    inkscape:pageshadow="2"
-   inkscape:window-width="1920"
+   inkscape:window-width="960"
    inkscape:window-height="1016"
    id="namedview43"
    showgrid="false"
-   inkscape:zoom="0.4609375"
-   inkscape:cx="-439.32203"
-   inkscape:cy="247.32203"
+   inkscape:zoom="5.2149125"
+   inkscape:cx="53.611191"
+   inkscape:cy="11.809484"
    inkscape:window-x="0"
    inkscape:window-y="27"
-   inkscape:window-maximized="1"
+   inkscape:window-maximized="0"
    inkscape:current-layer="Layer_1" />
 
 
 <g
-   id="g12">
+   id="g12"
+   transform="matrix(0.12323522,0,0,0.12323522,2.6748703,10.032959)">
 </g>
 <g
-   id="g14">
+   id="g14"
+   transform="matrix(0.12323522,0,0,0.12323522,2.6748703,10.032959)">
 </g>
 <g
-   id="g16">
+   id="g16"
+   transform="matrix(0.12323522,0,0,0.12323522,2.6748703,10.032959)">
 </g>
 <g
-   id="g18">
+   id="g18"
+   transform="matrix(0.12323522,0,0,0.12323522,2.6748703,10.032959)">
 </g>
 <g
-   id="g20">
+   id="g20"
+   transform="matrix(0.12323522,0,0,0.12323522,2.6748703,10.032959)">
 </g>
 <g
-   id="g22">
+   id="g22"
+   transform="matrix(0.12323522,0,0,0.12323522,2.6748703,10.032959)">
 </g>
 <g
-   id="g24">
+   id="g24"
+   transform="matrix(0.12323522,0,0,0.12323522,2.6748703,10.032959)">
 </g>
 <g
-   id="g26">
+   id="g26"
+   transform="matrix(0.12323522,0,0,0.12323522,2.6748703,10.032959)">
 </g>
 <g
-   id="g28">
+   id="g28"
+   transform="matrix(0.12323522,0,0,0.12323522,2.6748703,10.032959)">
 </g>
 <g
-   id="g30">
+   id="g30"
+   transform="matrix(0.12323522,0,0,0.12323522,2.6748703,10.032959)">
 </g>
 <g
-   id="g32">
+   id="g32"
+   transform="matrix(0.12323522,0,0,0.12323522,2.6748703,10.032959)">
 </g>
 <g
-   id="g34">
+   id="g34"
+   transform="matrix(0.12323522,0,0,0.12323522,2.6748703,10.032959)">
 </g>
 <g
-   id="g36">
+   id="g36"
+   transform="matrix(0.12323522,0,0,0.12323522,2.6748703,10.032959)">
 </g>
 <g
-   id="g38">
+   id="g38"
+   transform="matrix(0.12323522,0,0,0.12323522,2.6748703,10.032959)">
 </g>
 <g
-   id="g40">
+   id="g40"
+   transform="matrix(0.12323522,0,0,0.12323522,2.6748703,10.032959)">
 </g>
 <g
    id="g878"
-   transform="matrix(0.51834076,0,0,0.51834076,234.30496,249.13527)"><path
+   transform="matrix(0.07516676,0,0,0.07516676,29.750139,31.075979)"><path
      id="path2"
      d="m 437.385,244.312 c 17.404,-17.404 17.404,-45.622 0,-63.025 L 318.858,62.76 c -17.404,-17.404 -45.622,-17.404 -63.025,0 L 141.636,176.957 323.188,358.509 Z"
      style="fill:#cee8fa"
@@ -116,44 +132,10 @@
      id="path854"
      d="M 141.636,176.957 10.847458,316.74576 141.518,447.879 h 71.915 l 109.755,-89.37 z"
      style="fill:#ffffff;fill-opacity:1;fill-rule:evenodd;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1" /></g><g
-   id="grid"
-   transform="matrix(7.8700565,0,0,7.8700565,-31.661023,-18.644068)"><path
-     style="fill:#b3b3b3"
-     inkscape:connector-curvature="0"
-     d="M 68,4 V 68 H 4 V 4 H 68 M 72,0 H 0 v 72 h 72 z"
-     id="path2-3" /><path
-     style="fill:none;stroke:#00a5ff;stroke-width:0.1;stroke-miterlimit:10"
-     inkscape:connector-curvature="0"
-     stroke-miterlimit="10"
-     d="M 12.923,10.9583 H 59.0769 A 1.9231,1.9231 0 0 1 61,12.8814 v 46.1538 a 1.9231,1.9231 0 0 1 -1.9231,1.9231 H 12.9231 A 1.9231,1.9231 0 0 1 11,59.0352 V 12.8813 a 1.923,1.923 0 0 1 1.923,-1.923 z"
-     id="path4-6" /><rect
-     style="fill:none;stroke:#00a5ff;stroke-width:0.1;stroke-miterlimit:10"
-     x="16"
-     y="4"
-     rx="2.2537"
-     width="40"
-     height="64"
-     stroke-miterlimit="10"
-     id="rect6" /><rect
-     style="fill:none;stroke:#00a5ff;stroke-width:0.1;stroke-miterlimit:10"
-     x="16"
-     y="4"
-     rx="2.2537"
-     width="40"
-     height="64"
-     transform="rotate(90,36,36)"
-     stroke-miterlimit="10"
-     id="rect8" /><circle
-     style="fill:none;stroke:#00a5ff;stroke-width:0.1;stroke-miterlimit:10"
-     cx="36"
-     cy="36"
-     r="29"
-     stroke-miterlimit="10"
-     id="circle10" /></g><g
    id="color"
-   transform="matrix(7.8700565,0,0,7.8700565,-31.661023,-18.644068)"><polygon
+   transform="matrix(1.1412698,0,0,1.1412698,-8.8186995,-7.7558222)"><polygon
      style="fill:#3f3f3f;stroke:none"
-     points="14.5943,53.154 18.2544,56.814 12.6242,59.0928 "
+     points="12.6242,59.0928 14.5943,53.154 18.2544,56.814 "
      id="polygon13" /><polyline
      style="fill:#f4aa41;stroke:none"
      points="18.0381,41.8761 36.8684,23.0457 48.1813,34.3586 29.5108,53.0291"
@@ -168,10 +150,10 @@
      points="35.6498,24.2643 43.3318,16.5823 54.6447,27.8952 47.0278,35.512"
      id="polyline21" /></g><g
    id="line"
-   transform="matrix(7.8700565,0,0,7.8700565,-31.661023,-18.644068)"><polygon
+   transform="matrix(1.1412698,0,0,1.1412698,-8.8186995,-7.7558222)"><polygon
      style="fill:none;stroke:#000000;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:10"
      stroke-miterlimit="10"
-     points="43.9212,17.4015 17.9281,43.3946 14.3904,52.6032 18.6304,56.8203 27.8278,53.2939 53.8207,27.301 "
+     points="53.8207,27.301 43.9212,17.4015 17.9281,43.3946 14.3904,52.6032 18.6304,56.8203 27.8278,53.2939 "
      id="polygon27" /><polyline
      style="fill:none;stroke:#000000;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:10"
      stroke-miterlimit="10"

@@ -20,8 +20,8 @@
 			<button id="buttonColors" title="Choose your color"><img class="icon"
 					src="img/icons/1F3A8.svg" /></button><span class="keyboardkeyhelp">c</span>
 			<button hidden id="buttonChalk" title="Switch between erase and draw"><img class="icon"
-					src="img/icons/270F.svg" /></button>
-			<button id="buttonEraser" title="Switch between erase and draw"><img class="icon"
+					src="img/icons/270F.svg" /></button><button id="buttonEraser"
+				title="Switch between erase and draw"><img class="icon"
 					src="img/icons/eraser-svgrepo-com.svg" /></button><span class="keyboardkeyhelp">e</span>
 			<button id="buttonTools" title="Open a menu with a lot of tools"><img class="icon"
 					src="img/icons/tools.svg" /></button><span class="keyboardkeyhelp">t</span>
@@ -189,8 +189,10 @@
 
 				<div>
 					<h2>Export</h2>
-					<div id="exportExplanation">Export your board as an <em>image .png file</em> or as a <em>PDF</em>. All
-						magnets will be "flattened" in the resulting image. Also for PDF export, reisze your window because PDF page corresponds to a window.</div> 
+					<div id="exportExplanation">Export your board as an <em>image .png file</em> or as a <em>PDF</em>.
+						All
+						magnets will be "flattened" in the resulting image. Also for PDF export, reisze your window
+						because PDF page corresponds to a window.</div>
 					<div class="menuDiv">
 						<span>Name:</span> <input id="exportPngName" value="myblackboard" />
 						<button id="exportPng">Get an image of my board</button>
@@ -269,7 +271,7 @@
 					On this page, you can write scripts for adding more interactivity. This
 					functionnality is still
 					experimental.</div>
-				<button onclick="eval(script.value)">▷ Run</button><br/>
+				<button onclick="eval(script.value)">▷ Run</button><br />
 				<textarea id="script" cols=50 rows=40></textarea>
 			</div>
 
