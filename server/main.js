@@ -188,8 +188,8 @@ class TableauNoir {
    */
   static generateTableauID() {
     const s = uuid.create();
-    return s.replace(/\+/g, ""); 
-    
+    return s.replace(/\+/g, "");
+
     /*delete all the signs + because it causes a bug in the extraction of the ID in the URL
     For an unknown reason, (new URL(document.location.href)).searchParams.get('id') transforms all + into space.
     */
@@ -215,7 +215,6 @@ class TableauNoir {
    * @description adds the new user socket
    */
   addSocket(socket) {
-
     //inform the new user socket that the others exist
     this.sockets.forEach(s => {
       socket.send(JSON.stringify({ type: "user", userid: s.userid }))
@@ -383,56 +382,64 @@ function treatReceivedMessageFromClient(msg) {
         tableaunoirs[tableaunoirID].sendTo({ type: "ready", to: msg.socket.userid });
 
       break;
+    default:
+      treatReceivedMessageFromClientExistingTableauNoirForSure(msg);
+  }
 
-    case "fullCanvas":
-      if (tableaunoirID == undefined)
-        print("error: fullCanvas message and id undefined");
-      else
+  function treatReceivedMessageFromClientExistingTableauNoirForSure(msg) {
+    let tableaunoirID = msg.id;
+
+    if (tableaunoirID == undefined) {
+      print(`id of board undefined!`);
+      return;
+    }
+
+    if (tableaunoirs[tableaunoirID] == undefined) {
+      print(`the board ${tableaunoirID} should exist`);
+      return;
+    }
+
+
+    switch (msg.type) {
+      case "fullCanvas":
         tableaunoirs[tableaunoirID].storeFullCanvas(msg.data);
 
-      if (msg.to)
-        tableaunoirs[tableaunoirID].sendTo(msg);
-      else
-        tableaunoirs[tableaunoirID].dispatch(msg, msg.socket);
-      break;
-
-    case "actions":
-      /*  if (tableaunoirID == undefined)
-          print("error: fullCanvas message and id undefined");
+        if (msg.to)
+          tableaunoirs[tableaunoirID].sendTo(msg);
         else
-          tableaunoirs[tableaunoirID].storeFullCanvas(msg.data);*/
+          tableaunoirs[tableaunoirID].dispatch(msg, msg.socket);
+        break;
 
-      if (msg.to)
-        tableaunoirs[tableaunoirID].sendTo(msg);
-      else
-        tableaunoirs[tableaunoirID].dispatch(msg, msg.socket);
-      break;
+      case "actions":
+        if (msg.to)
+          tableaunoirs[tableaunoirID].sendTo(msg);
+        else
+          tableaunoirs[tableaunoirID].dispatch(msg, msg.socket);
+        break;
 
-    case "askprivilege":
-      if (tableaunoirs[tableaunoirID].isPassWordCorrect(msg.password)) {
-        tableaunoirs[tableaunoirID].setRoot(msg.socket);
-        tableaunoirs[tableaunoirID].sendTo({ type: "root", to: msg.socket.userid });
-      }
-      else {
-        tableaunoirs[tableaunoirID].sendTo({ type: "accessdenied", to: msg.socket.userid });
-      }
-      break;
-    case "magnets":
-      if (tableaunoirID == undefined)
-        print("error: magnets message and id undefined");
+      case "askprivilege":
+        if (tableaunoirs[tableaunoirID].isPassWordCorrect(msg.password)) {
+          tableaunoirs[tableaunoirID].setRoot(msg.socket);
+          tableaunoirs[tableaunoirID].sendTo({ type: "root", to: msg.socket.userid });
+        }
+        else {
+          tableaunoirs[tableaunoirID].sendTo({ type: "accessdenied", to: msg.socket.userid });
+        }
+        break;
+      case "magnets":
+        if (msg.to)
+          tableaunoirs[tableaunoirID].sendTo(msg);
+        else
+          tableaunoirs[tableaunoirID].dispatch(msg, msg.socket);
 
-      if (msg.to)
-        tableaunoirs[tableaunoirID].sendTo(msg);
-      else
-        tableaunoirs[tableaunoirID].dispatch(msg, msg.socket);
+        break;
 
-      break;
-
-    //by default other msgs are dispatched
-    default:
-      if (msg.to)
-        tableaunoirs[tableaunoirID].sendTo(msg);
-      else
-        tableaunoirs[tableaunoirID].dispatch(msg, msg.socket);
+      //by default other msgs are dispatched
+      default:
+        if (msg.to)
+          tableaunoirs[tableaunoirID].sendTo(msg);
+        else
+          tableaunoirs[tableaunoirID].dispatch(msg, msg.socket);
+    }
   }
 }
