@@ -64,9 +64,9 @@ export class Share {
 
 		document.getElementById("joinButton").onclick = () => { window.open(window.location.href, "_self") }
 
-		const checkboxSharePermissionWrite = <HTMLInputElement>document.getElementById("sharePermissionWrite");
-		checkboxSharePermissionWrite.onclick =
-			() => Share.setCanWriteForAllExceptMeAndRoot(checkboxSharePermissionWrite.checked);
+		document.getElementById("buttonOnlyRootCanWrite").onclick= () => Share.setCanWriteForAllExceptMeAndRoot(false);
+		document.getElementById("buttonAllCanWrite").onclick= () => Share.setCanWriteForAllExceptMeAndRoot(true);
+		
 
 		if (!Share.isOnGitHub())
 			document.getElementById('ShareGithub').hidden = true;
@@ -450,11 +450,6 @@ export class Share {
 	 * @description if canWrite == true, makes that everybody can draw, otherwise only you and root users can
 	 */
 	static setCanWriteForAllExceptMeAndRoot(canWrite: boolean): void {
-		document.getElementById("imgWritePermission" + canWrite).hidden = false;
-		document.getElementById("imgWritePermission" + !canWrite).hidden = true;
-
-		(<HTMLInputElement>document.getElementById("sharePermissionWrite")).checked = canWrite;
-
 		Share.execute("setCanWriteValueByDefault", [canWrite]);
 
 		for (const userid in UserManager.users) {

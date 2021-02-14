@@ -4,6 +4,14 @@ import { Share } from "./share";
 import { User } from "./User";
 
 export class UserManager {
+
+
+    /**
+     * 
+     * @param userId 
+     * @param bool 
+     * @description if bool=true, the user can write, otherwise, she cannot.
+     */
     static setUserCanWrite(userId: string, bool: boolean): void {
         UserManager.users[userId].setCanWrite(bool);
 
@@ -14,7 +22,6 @@ export class UserManager {
                 (<HTMLElement>elements[i]).hidden = !bool;
             }
         }
-
         UserManager.updateGUIUsers();
     }
 
@@ -124,8 +131,11 @@ export class UserManager {
         img.title = 'writing permission';
         img.style.width = "32px";
 
-        if (UserManager.me.isRoot)
+        if (UserManager.me.isRoot) {
+            img.style.cursor = "pointer";
             img.onclick = () => { Share.execute("setUserCanWrite", [userid, !UserManager.users[userid].canWrite]) };
+        }
+            
 
         return img;
     }

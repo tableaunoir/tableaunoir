@@ -1,14 +1,135 @@
-<svg id="emoji" viewBox="0 0 72 72" xmlns="http://www.w3.org/2000/svg">
-  <g id="color">
-    <circle cx="36" cy="36" r="26" fill="#fff"/>
-    <path fill="#ea5a47" stroke-miterlimit="10" d="m36 7c-16.02 0-29 12.98-29 29s12.98 29 29 29 29-12.98 29-29-12.98-29-29-29zm-25.21 29.27c0-5.075 3.417-12.69 6.202-16.49l35.2 35.27c-3.805 2.784-10.93 5.904-16.01 5.904-12.7 0-25.39-11.98-25.39-24.68zm44.87 15.18-35.06-35.13c3.805-2.784 10.77-5.441 15.84-5.441 12.7 0 24.68 12.25 24.68 24.95 0 5.075-2.686 11.81-5.47 15.62z"/>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   id="emoji"
+   viewBox="0 0 72 72"
+   version="1.1"
+   sodipodi:docname="1F6AB.svg"
+   inkscape:version="0.92.4 (unknown)">
+  <metadata
+     id="metadata22">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <defs
+     id="defs20" />
+  <sodipodi:namedview
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1"
+     objecttolerance="10"
+     gridtolerance="10"
+     guidetolerance="10"
+     inkscape:pageopacity="0"
+     inkscape:pageshadow="2"
+     inkscape:window-width="1920"
+     inkscape:window-height="1016"
+     id="namedview18"
+     showgrid="false"
+     inkscape:zoom="4.6354778"
+     inkscape:cx="-10.576282"
+     inkscape:cy="44.624422"
+     inkscape:window-x="0"
+     inkscape:window-y="27"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="emoji">
+    <inkscape:grid
+       type="xygrid"
+       id="grid94" />
+  </sodipodi:namedview>
+  <g
+     id="g110"
+     transform="matrix(0.74111436,0,0,0.74111436,11.585017,6.0762996)">
+    <g
+       transform="translate(71.694915,1.220339)"
+       id="g92">
+      <g
+         style="fill:#b3b3b3"
+         transform="translate(-72.017729,1.100664)"
+         id="color-7">
+        <polygon
+           style="fill:#b3b3b3;stroke:none"
+           points="18.2544,56.814 12.6242,59.0928 14.5943,53.154 "
+           id="polygon13" />
+        <polyline
+           style="fill:#b3b3b3;stroke:none"
+           points="18.0381,41.8761 36.8684,23.0457 48.1813,34.3586 29.5108,53.0291"
+           id="polyline15" />
+        <polyline
+           style="fill:#b3b3b3;stroke:none"
+           points="14.4132,52.5663 17.9281,43.3946 27.8278,53.2939 18.6558,56.809"
+           id="polyline17" />
+        <polyline
+           style="fill:#b3b3b3;stroke:none"
+           points="42.9209,16.9933 50.4228,9.4913 61.7357,20.8042 54.2975,28.2424"
+           id="polyline19" />
+        <polyline
+           style="fill:#b3b3b3;stroke:none"
+           points="35.6498,24.2643 43.3318,16.5823 54.6447,27.8952 47.0278,35.512"
+           id="polyline21" />
+      </g>
+      <g
+         transform="translate(-72.017729,1.100664)"
+         id="line-5">
+        <polygon
+           style="fill:none;stroke:#000000;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:10"
+           stroke-miterlimit="10"
+           points="17.9281,43.3946 14.3904,52.6032 18.6304,56.8203 27.8278,53.2939 53.8207,27.301 43.9212,17.4015 "
+           id="polygon27" />
+        <polyline
+           style="fill:none;stroke:#000000;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:10"
+           stroke-miterlimit="10"
+           points="47.3354,13.9873 50.8388,10.4839 60.7383,20.3834 57.2645,23.8572"
+           id="polyline29" />
+        <line
+           style="fill:none;stroke:#000000;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:10"
+           x1="18.5562"
+           x2="28.4557"
+           y1="42.766499"
+           y2="52.665901"
+           stroke-miterlimit="10"
+           id="line31" />
+        <polyline
+           style="fill:none;stroke:#000000;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:10"
+           stroke-miterlimit="10"
+           points="14.3979,52.5817 11.9073,59.3148 18.6558,56.809"
+           id="polyline33" />
+        <line
+           style="fill:none;stroke:#000000;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:10"
+           x1="36.909901"
+           x2="46.422501"
+           y1="25.007299"
+           y2="34.519901"
+           stroke-miterlimit="10"
+           id="line35" />
+      </g>
+    </g>
   </g>
-  <g id="hair"/>
-  <g id="skin"/>
-  <g id="skin-shadow"/>
-  <g id="line">
-    <circle cx="36" cy="36" r="30" fill="none" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>
-    <path fill="none" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m55.66 51.44a24.99 24.99 0 0 0-35.06-35.13z"/>
-    <path fill="none" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m16.99 19.77a24.99 24.99 0 0 0 35.2 35.27z"/>
+  <g
+     id="hair" />
+  <g
+     id="skin" />
+  <g
+     id="skin-shadow" />
+  <g
+     id="line"
+     transform="translate(1.0786373,-0.43145508)">
+    <path
+       d="M 36,6 A 30,30 0 0 0 6,36 30,30 0 0 0 36,66 30,30 0 0 0 66,36 30,30 0 0 0 36,6 Z m 1.023438,4.984375 A 24.99,24.99 0 0 1 55.660156,51.439453 L 20.599609,16.310547 A 24.99,24.99 0 0 1 37.023438,10.984375 Z M 16.990234,19.769531 52.189453,55.039062 A 24.99,24.99 0 0 1 16.990234,19.769531 Z"
+       id="circle10"
+       style="fill:#ff0000"
+       inkscape:connector-curvature="0" />
   </g>
 </svg>

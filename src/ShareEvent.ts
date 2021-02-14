@@ -79,7 +79,7 @@ export class ShareEvent {
 
     static setCanWriteValueByDefault(bool: boolean): void {
         Share.canWriteValueByDefault = bool;
-        (<HTMLInputElement>document.getElementById("sharePermissionWrite")).checked = bool;
+        UserManager.updateGUIUsers();
     }
 
     static setUserCanWrite(userId: string, bool: boolean): void {

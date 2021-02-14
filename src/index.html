@@ -496,6 +496,19 @@
 
 				<div hidden id="shareInfo">
 
+					<div hidden id="shareMode">
+						<h2>Permissions</h2>
+
+						<div>You have all the <em>privileges</em> to modify the permissions on this board.</div>
+
+						<div>
+							<button id="buttonOnlyRootCanWrite"><img id="imgWritePermissionfalse" src="img/shareInTeacherMode.png" /><br/>Make that only root users can write</button>
+							<button id="buttonAllCanWrite"><img id="imgWritePermissiontrue" src="img/shareInEverybodyWritesMode.png" /><br/>Make that all existing and incoming users can write</button>					
+							
+						</div>
+
+					</div>
+					
 					<h2>Users</h2>
 					<div id="userList"></div>
 
@@ -520,20 +533,7 @@
 					</div>
 
 
-					<div hidden id="shareMode">
-						<h2>Permissions</h2>
-
-						<div>You have all the <em>privileges</em> to modify the permissions on this board.</div>
-
-						<div>
-							<input type="checkbox" id="sharePermissionWrite" name="shareMode"
-								value="shareInTeacherMode">
-							<label for="sharePermissionWrite">All users can write</label>
-							<img hidden id="imgWritePermissionfalse" src="img/shareInTeacherMode.png" />
-							<img hidden id="imgWritePermissiontrue" src="img/shareInEverybodyWritesMode.png" />
-						</div>
-
-					</div>
+				
 
 
 
