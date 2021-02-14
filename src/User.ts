@@ -28,6 +28,7 @@ export class User {
 
     alreadyDrawnSth = false; // true if something visible has been drawn (If still false, draw a dot)
     canWrite = true;
+
     color = "white";
     private cursor = undefined;
     tool: Tool = undefined;
