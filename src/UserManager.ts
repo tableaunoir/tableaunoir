@@ -4,6 +4,18 @@ import { Share } from "./share";
 import { User } from "./User";
 
 export class UserManager {
+    static setUserCanWrite(userId: string, bool: boolean): void {
+        UserManager.users[userId].setCanWrite(bool);
+
+        if (userId == UserManager.me.userID) {
+            /** toggle the visibility for elements for editing the board */
+            const elements = document.getElementsByClassName("edit");
+            for (let i = 0; i < elements.length; i++) {
+                (<HTMLElement>elements[i]).hidden = !bool;
+            }
+        }
+    }
+
 
     static me: User = undefined; // the current user
     static users: { [id: string]: User } = {};

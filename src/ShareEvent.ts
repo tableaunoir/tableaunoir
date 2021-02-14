@@ -66,22 +66,24 @@ export class ShareEvent {
         UserManager.users[userId].switchArc();
     }
 
-    static toolArcSetAttributes(userId: string, center: {x:number, y:number}, radiusHandlePosition: {x:number, y:number}): void {
+    static toolArcSetAttributes(userId: string, center: { x: number, y: number }, radiusHandlePosition: { x: number, y: number }): void {
         console.log(userId)
         const tool = UserManager.users[userId].tool;
-        if(!(tool instanceof ToolArc))
+        if (!(tool instanceof ToolArc))
             ErrorMessage.show("the tool should be ToolArc");
 
-        (<ToolArc> tool).setAttributes(center, radiusHandlePosition);
+        (<ToolArc>tool).setAttributes(center, radiusHandlePosition);
     }
 
     /**users */
 
     static setCanWriteValueByDefault(bool: boolean): void {
         Share.canWriteValueByDefault = bool;
+        (<HTMLInputElement>document.getElementById("sharePermissionWrite")).checked = bool;
     }
 
     static setUserCanWrite(userId: string, bool: boolean): void {
+        UserManager.setUserCanWrite(userId, bool);
         UserManager.users[userId].setCanWrite(bool);
 
         if (userId == UserManager.me.userID) {
@@ -117,6 +119,10 @@ export class ShareEvent {
     /**questions */
     static questionAdd(userID: string, idquestion: string, question: string): void {
         Discussion.addQuestion(userID, idquestion, question);
+    }
+
+    static setRoot(userid: string): void {
+        Share.setRoot(userid);
     }
 
 
@@ -215,9 +221,9 @@ export class ShareEvent {
         LoadSave.loadJSON(JSON.parse(data));
     }
 
-	static setBackgroundColor(color: "white" | "black"): void {
-		BlackVSWhiteBoard.switchTo(color);
-	}
+    static setBackgroundColor(color: "white" | "black"): void {
+        BlackVSWhiteBoard.switchTo(color);
+    }
 }
 
 

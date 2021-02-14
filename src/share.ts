@@ -66,7 +66,7 @@ export class Share {
 
 		const checkboxSharePermissionWrite = <HTMLInputElement>document.getElementById("sharePermissionWrite");
 		checkboxSharePermissionWrite.onclick =
-			() => Share.setCanWriteForAllExceptMe(checkboxSharePermissionWrite.checked);
+			() => Share.setCanWriteForAllExceptMeAndRoot(checkboxSharePermissionWrite.checked);
 
 		if (!Share.isOnGitHub())
 			document.getElementById('ShareGithub').hidden = true;
@@ -161,9 +161,9 @@ export class Share {
 			document.getElementById("buttonShare").classList.add("alreadyShared");
 			document.getElementById("join").hidden = true;
 
-			Share.setCanWriteForAllExceptMe((password == ""));
+			Share.setCanWriteForAllExceptMeAndRoot((password == ""));
 
-			Share.setRoot();
+			Share.setRoot(UserManager.me.userID);
 		}
 		catch (e) {
 			Share.ws = undefined;
@@ -207,9 +207,7 @@ export class Share {
 			case "ready": Loading.hide(); break;//oh you are ready to participate!
 			case "setWidth": getCanvas().width = msg.width; break;
 			case "root": //you obtained root permission and the server tells you that
-				console.log("I am root.");
-				Share.setRoot();
-				Share.execute("setUserCanWrite", [UserManager.me.userID, true]);
+				Share.execute("setRoot", [UserManager.me.userID]);
 				break;
 			case "accessdenied": ErrorMessage.show("Access denied"); break;
 			case "join": //a new user joins the group
@@ -262,6 +260,9 @@ export class Share {
 			Share.executeTo("setUserName", [userid, UserManager.users[userid].name], idNewUser);
 			Share.executeTo("setCurrentColor", [userid, UserManager.users[userid].color], idNewUser);
 			Share.executeTo("setUserCanWrite", [userid, UserManager.users[userid].canWrite], idNewUser);
+
+			if (UserManager.users[userid].isRoot)
+				Share.executeTo("setRoot", [userid], idNewUser);
 		}
 
 		Share.send({ type: "setWidth", width: getCanvas().width, to: idNewUser });
@@ -285,11 +286,16 @@ export class Share {
 	}
 
 	/**
-	 * modify the interface to say that the current user is root (all privileges)
+	 * set the user of id userid to be a root user (all privileges)
+	 * modify the interface if it is the current user
 	 */
-	static setRoot(): void {
-		document.getElementById("askPrivilege").hidden = true;
-		document.getElementById("shareMode").hidden = false;
+	static setRoot(userid: string): void {
+		if (UserManager.me.userID == userid) {
+			document.getElementById("askPrivilege").hidden = true;
+			document.getElementById("shareMode").hidden = false;
+		}
+		UserManager.setUserCanWrite(userid, true);
+		UserManager.users[userid].isRoot = true;
 	}
 
 	/**
@@ -440,23 +446,21 @@ export class Share {
 	/**
 	 *
 	 * @param canWrite
-	 * @description if canWrite == true, makes that everybody can draw, otherwise only you can
+	 * @description if canWrite == true, makes that everybody can draw, otherwise only you and root users can
 	 */
-	static setCanWriteForAllExceptMe(canWrite: boolean): void {
+	static setCanWriteForAllExceptMeAndRoot(canWrite: boolean): void {
 		document.getElementById("imgWritePermission" + canWrite).hidden = false;
 		document.getElementById("imgWritePermission" + !canWrite).hidden = true;
 
 		(<HTMLInputElement>document.getElementById("sharePermissionWrite")).checked = canWrite;
 
-		for (const userid in UserManager.users)
-			if (UserManager.users[userid] != UserManager.me)
-				Share.execute("setUserCanWrite", [userid, canWrite]);
-
 		Share.execute("setCanWriteValueByDefault", [canWrite]);
-		Share.execute("setUserCanWrite", [UserManager.me.userID, true]);
+
+		for (const userid in UserManager.users) {
+			const b = UserManager.users[userid] == UserManager.me || UserManager.users[userid].isRoot;
+			Share.execute("setUserCanWrite", [userid, b || canWrite]);
+		}
 	}
-
-
 
 
 }

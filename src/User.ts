@@ -35,6 +35,7 @@ export class User {
     private elementName = undefined;
     userID = "0";
     private _name = "";
+    isRoot = false;
 
     get name(): string { return this._name; }
 
