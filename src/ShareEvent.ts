@@ -84,15 +84,6 @@ export class ShareEvent {
 
     static setUserCanWrite(userId: string, bool: boolean): void {
         UserManager.setUserCanWrite(userId, bool);
-        UserManager.users[userId].setCanWrite(bool);
-
-        if (userId == UserManager.me.userID) {
-            /** toggle the visibility for elements for editing the board */
-            const elements = document.getElementsByClassName("edit");
-            for (let i = 0; i < elements.length; i++) {
-                (<HTMLElement>elements[i]).hidden = !bool;
-            }
-        }
     }
 
 

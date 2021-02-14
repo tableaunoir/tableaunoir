@@ -296,6 +296,7 @@ export class Share {
 		}
 		UserManager.setUserCanWrite(userid, true);
 		UserManager.users[userid].isRoot = true;
+		UserManager.updateGUIUsers();
 	}
 
 	/**

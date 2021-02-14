@@ -14,6 +14,8 @@ export class UserManager {
                 (<HTMLElement>elements[i]).hidden = !bool;
             }
         }
+
+        UserManager.updateGUIUsers();
     }
 
 
@@ -105,18 +107,50 @@ export class UserManager {
     }
 
 
+    static getRootImage(userid: string): HTMLImageElement {
+        const img = new Image();
+        img.src = "img/users/1F451.svg";
+        img.title = 'user with full privileges';
+        img.style.width = "32px";
+        return img;
+    }
+
+
+
+    static getCanWriteImage(userid: string): HTMLImageElement {
+        const img = new Image();
+
+        img.src = UserManager.users[userid].canWrite ? "img/users/270F.svg" : "img/users/1F6AB.svg";
+        img.title = 'writing permission';
+        img.style.width = "32px";
+
+        if (UserManager.me.isRoot)
+            img.onclick = () => { Share.execute("setUserCanWrite", [userid, !UserManager.users[userid].canWrite]) };
+
+        return img;
+    }
 
 
     static userIdToDom(userID: string): HTMLElement {
         const userDOM = document.createElement("div");
         userDOM.classList.add("user");
 
-        const userImgDOM = UserManager.getUserImage(userID);
+
+
+        userDOM.appendChild(UserManager.getUserImage(userID));
+
+
         const userNameDOM = document.createElement("span");
         userNameDOM.innerHTML = UserManager.users[userID].name;
-
-        userDOM.appendChild(userImgDOM);
         userDOM.appendChild(userNameDOM);
+
+
+        if (UserManager.users[userID].isRoot)
+            userDOM.appendChild(UserManager.getRootImage(userID));
+
+        userDOM.appendChild(this.getCanWriteImage(userID));
+
+        
 
         return userDOM;
     }
