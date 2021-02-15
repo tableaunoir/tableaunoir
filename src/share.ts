@@ -1,3 +1,4 @@
+import { UserListComponent } from './UserListComponent';
 import { BlackVSWhiteBoard } from './BlackVSWhiteBoard';
 import { ShareMessage, Parameter } from './ShareMessage';
 import { Background } from './Background';
@@ -64,9 +65,9 @@ export class Share {
 
 		document.getElementById("joinButton").onclick = () => { window.open(window.location.href, "_self") }
 
-		document.getElementById("buttonOnlyRootCanWrite").onclick= () => Share.setCanWriteForAllExceptMeAndRoot(false);
-		document.getElementById("buttonAllCanWrite").onclick= () => Share.setCanWriteForAllExceptMeAndRoot(true);
-		
+		document.getElementById("buttonOnlyRootCanWrite").onclick = () => Share.setCanWriteForAllExceptMeAndRoot(false);
+		document.getElementById("buttonAllCanWrite").onclick = () => Share.setCanWriteForAllExceptMeAndRoot(true);
+
 
 		if (!Share.isOnGitHub())
 			document.getElementById('ShareGithub').hidden = true;
@@ -207,6 +208,8 @@ export class Share {
 			case "ready": Loading.hide(); break;//oh you are ready to participate!
 			case "setWidth": getCanvas().width = msg.width; break;
 			case "root": //you obtained root permission and the server tells you that
+				if(UserManager.getNumberOfUsers() == 1) //by default
+					Share.canWriteValueByDefault = true;
 				Share.execute("setRoot", [UserManager.me.userID]);
 				break;
 			case "accessdenied": ErrorMessage.show("Access denied"); break;
@@ -290,13 +293,18 @@ export class Share {
 	 * modify the interface if it is the current user
 	 */
 	static setRoot(userid: string): void {
-		if (UserManager.me.userID == userid) {
-			document.getElementById("askPrivilege").hidden = true;
-			document.getElementById("shareMode").hidden = false;
-		}
+		console.log(`setRoot(${userid})`);
 		UserManager.setUserCanWrite(userid, true);
 		UserManager.users[userid].isRoot = true;
-		UserManager.updateGUIUsers();
+
+		if (UserManager.me.userID == userid) {
+			console.log(`setRoot(${userid}): it is me`);
+			document.getElementById("askPrivilege").hidden = true;
+			document.getElementById("shareMode").hidden = false;
+			UserListComponent.updateGUIUsers();
+		}
+		else
+			UserListComponent.updateGUIUser(userid);
 	}
 
 	/**
@@ -406,7 +414,7 @@ export class Share {
 
 		(<HTMLInputElement>document.getElementById("shareUrl")).value = url.startsWith("file://") ? config.server.frontend + "?id=" + id : newUrl;
 
-		UserManager.updateGUIUsers(); //update the user because now the tableau is shared
+		UserListComponent.updateGUIUsers(); //update the user because now the tableau is shared
 
 	}
 
@@ -450,6 +458,7 @@ export class Share {
 	 * @description if canWrite == true, makes that everybody can draw, otherwise only you and root users can
 	 */
 	static setCanWriteForAllExceptMeAndRoot(canWrite: boolean): void {
+		console.log(`setCanWriteForAllExceptMeAndRoot(${canWrite})`)
 		Share.execute("setCanWriteValueByDefault", [canWrite]);
 
 		for (const userid in UserManager.users) {

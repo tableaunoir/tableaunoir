@@ -1,3 +1,4 @@
+import { UserListComponent } from './UserListComponent';
 import { ErrorMessage } from './ErrorMessage';
 import { BlackVSWhiteBoard } from './BlackVSWhiteBoard';
 import { Share } from './share';
@@ -79,7 +80,6 @@ export class ShareEvent {
 
     static setCanWriteValueByDefault(bool: boolean): void {
         Share.canWriteValueByDefault = bool;
-        UserManager.updateGUIUsers();
     }
 
     static setUserCanWrite(userId: string, bool: boolean): void {
@@ -89,7 +89,7 @@ export class ShareEvent {
 
     static setUserName(userid: string, name: string): void {
         UserManager.users[userid].name = name;
-        UserManager.updateGUIUsers();
+        UserListComponent.updateGUIUser(userid);
     }
 
 

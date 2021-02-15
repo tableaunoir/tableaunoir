@@ -1,3 +1,4 @@
+import { MagnetManager } from './magnetManager';
 import { UserManager } from './UserManager';
 import { Share } from './share';
 
@@ -34,6 +35,27 @@ export class S {
     static magnetMove(magnet: HTMLDivElement, cx: number, cy: number): void {
         Share.execute("magnetMove", [magnet.id, cx - magnet.offsetWidth/2, cy - magnet.offsetHeight/2]);
     }
+
+
+    static center(magnet: HTMLElement): {x: number, y: number} {
+        return MagnetManager.getMagnetCenter(magnet);
+    }
+
+    static getMagnets(): HTMLElement[] {
+        const magnets = MagnetManager.getMagnets();
+
+        const result = [];
+        for(let i = 0; i<magnets.length; i++)
+            result.push(magnets[i]);
+
+        return result;
+        
+    }
+
+    static inRectangle({x, y}: {x: number, y: number}, {x1, y1, x2, y2}: {x1: number, y1: number, x2: number, y2: number}): boolean {
+        return (x1 <= x) && (x <= x2) && (y1 <= y) &&(y <= y2);
+    }
+
 }
 
 window['S'] = S;
@@ -45,3 +67,8 @@ export class Script {
         document.getElementById("script").onkeydown = () => {/*do nothing*/ };
     }
 }
+
+
+
+
+

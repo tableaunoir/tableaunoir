@@ -1,3 +1,4 @@
+import { UserListComponent } from './UserListComponent';
 import { Share } from "./share";
 import { UserManager } from './UserManager';
 
@@ -64,7 +65,7 @@ export class Discussion {
         const questionElement = document.createElement("div");
         questionElement.classList.add("question");
         questionElement.id = idquestion;
-        questionElement.innerHTML = UserManager.getUserImage(userID).outerHTML + question;
+        questionElement.innerHTML = UserListComponent.getUserImage(userID).outerHTML + question;
         questionElement.onclick = () => {
             if (UserManager.me.canWrite) { //only users that can write can remove questions
                 Share.execute("questionRemove", [questionElement.id]);

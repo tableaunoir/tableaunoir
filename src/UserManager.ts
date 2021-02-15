@@ -1,3 +1,4 @@
+import { UserListComponent } from './UserListComponent';
 import { Menu } from "./Menu";
 import { OptionManager } from "./OptionManager";
 import { Share } from "./share";
@@ -13,6 +14,7 @@ export class UserManager {
      * @description if bool=true, the user can write, otherwise, she cannot.
      */
     static setUserCanWrite(userId: string, bool: boolean): void {
+        console.log(`setUserCanWrite(${userId}, ${bool})`);
         UserManager.users[userId].setCanWrite(bool);
 
         if (userId == UserManager.me.userID) {
@@ -22,7 +24,7 @@ export class UserManager {
                 (<HTMLElement>elements[i]).hidden = !bool;
             }
         }
-        UserManager.updateGUIUsers();
+        UserListComponent.updateGUIUser(userId);
     }
 
 
@@ -74,7 +76,7 @@ export class UserManager {
     static leave(userid: string): void {
         UserManager.users[userid].destroy();
         delete UserManager.users[userid];
-        UserManager.updateGUIUsers();
+        UserListComponent.leave(userid);
     }
 
     /**
@@ -84,7 +86,7 @@ export class UserManager {
      */
     static add(userid: string): void {
         UserManager.users[userid] = new User(false);
-        UserManager.updateGUIUsers();
+        UserListComponent.add(userid);
     }
 
     /**
@@ -100,70 +102,15 @@ export class UserManager {
 
         UserManager.users[userid] = UserManager.me;
         UserManager.me.setUserID(userid);
-        UserManager.updateGUIUsers();
+        UserListComponent.updateGUIUsers();
     }
 
 
 
-    static getUserImage(userid: string): HTMLImageElement {
-        const img = new Image();
-        const i = parseInt(userid.substr(1));
-        img.src = "img/users/" + UserManager.usersImageFileNames[i % UserManager.usersImageFileNames.length];
-        img.classList.add("userImage");
-        return img;
-    }
-
-
-    static getRootImage(userid: string): HTMLImageElement {
-        const img = new Image();
-        img.src = "img/users/1F451.svg";
-        img.title = 'user with full privileges';
-        img.style.width = "32px";
-        return img;
-    }
+    
 
 
 
-    static getCanWriteImage(userid: string): HTMLImageElement {
-        const img = new Image();
-
-        img.src = UserManager.users[userid].canWrite ? "img/users/270F.svg" : "img/users/1F6AB.svg";
-        img.title = 'writing permission';
-        img.style.width = "32px";
-
-        if (UserManager.me.isRoot) {
-            img.style.cursor = "pointer";
-            img.onclick = () => { Share.execute("setUserCanWrite", [userid, !UserManager.users[userid].canWrite]) };
-        }
-            
-
-        return img;
-    }
-
-
-    static userIdToDom(userID: string): HTMLElement {
-        const userDOM = document.createElement("div");
-        userDOM.classList.add("user");
-
-
-
-        userDOM.appendChild(UserManager.getUserImage(userID));
-
-
-        const userNameDOM = document.createElement("span");
-        userNameDOM.innerHTML = UserManager.users[userID].name;
-        userDOM.appendChild(userNameDOM);
-
-
-        if (UserManager.users[userID].isRoot)
-            userDOM.appendChild(UserManager.getRootImage(userID));
-
-        userDOM.appendChild(this.getCanWriteImage(userID));
-
-        
-
-        return userDOM;
-    }
 
 
 
@@ -172,23 +119,7 @@ export class UserManager {
      */
     static getNumberOfUsers(): number { return Object.keys(UserManager.users).length; }
 
-    /**
-     * @description update the GUI
-     */
-    static updateGUIUsers(): void {
-        document.getElementById("userList").innerHTML = "";
-
-        for (const key in UserManager.users) {
-            const el = UserManager.userIdToDom(key);
-            if (key == UserManager.me.userID)
-                el.classList.add("me");
-            document.getElementById("userList").appendChild(el);
-        }
-
-        if (Share.isShared())
-            document.getElementById("numberOfUsers").innerHTML = UserManager.getUserImage("u0").outerHTML + " × " + UserManager.getNumberOfUsers();
-
-    }
+   
 
 
     /**
