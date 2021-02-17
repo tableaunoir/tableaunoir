@@ -20,13 +20,20 @@ export class UserListComponent {
     }
 
 
-
+    /**
+     * @description update the widget saying the number of users 
+     */
     static updateNumberOfUsers(): void {
         if (Share.isShared())
             document.getElementById("numberOfUsers").innerHTML = UserListComponent.getUserImage("u0").outerHTML + " × " + UserManager.getNumberOfUsers();
     }
 
 
+    /**
+     * 
+     * @param userid 
+     * @description update the information of user of id userid
+     */
     static updateGUIUser(userid: string): void {
         if (UserListComponent.getUserHTMLElement(userid))
             document.getElementById("userList").replaceChild(UserListComponent.createUserHTMLElement(userid), UserListComponent.getUserHTMLElement(userid))
@@ -35,18 +42,33 @@ export class UserListComponent {
     }
 
 
-
+    /**
+     * 
+     * @param userid 
+     * @description update the list in the GUI with newuser of id userid
+     */
     static add(userid: string): void {
         document.getElementById("userList").appendChild(UserListComponent.createUserHTMLElement(userid));
         UserListComponent.updateNumberOfUsers();
     }
 
 
+    /**
+     * 
+     * @param userid 
+     * @description updates the GUI that user of id userid just leaved
+     */
     static leave(userid: string): void {
         UserListComponent.getUserHTMLElement(userid).remove();
         UserListComponent.updateNumberOfUsers();
     }
 
+
+    /**
+     * 
+     * @param userid 
+     * @returns the image of the user
+     */
     static getUserImage(userid: string): HTMLImageElement {
         const img = new Image();
         let i = parseInt(userid.substr(1));
@@ -56,7 +78,11 @@ export class UserListComponent {
         return img;
     }
 
-
+    /**
+     * 
+     * @param userid 
+     * @returns an image of a crown for a root user
+     */
     static getRootImage(userid: string): HTMLImageElement {
         const img = new Image();
         img.src = "img/users/1F451.svg";
@@ -69,7 +95,11 @@ export class UserListComponent {
 
 
 
-
+    /**
+     * 
+     * @param userid 
+     * @return the widget for the writing permissions of user of id userid
+     */
     static getCanWriteImage(userid: string): HTMLImageElement {
         const img = new Image();
 
@@ -87,13 +117,22 @@ export class UserListComponent {
     }
 
 
-
+    /**
+     * 
+     * @param userID 
+     * @returns the element corresponding to user of id userid (if that element is already in the GUI)
+     */
     static getUserHTMLElement(userID: string): HTMLElement {
         return document.getElementById("userElement" + userID);
     }
 
 
-
+    /**
+     * 
+     * @param userID
+     * @description creates an element corresponding to user of id userid
+     * @returns that created element
+     */
     static createUserHTMLElement(userID: string): HTMLElement {
         const userDOM = document.createElement("div");
         userDOM.id = "userElement" + userID;
