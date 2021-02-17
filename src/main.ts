@@ -118,10 +118,11 @@ function load() {
 
 		document.onkeydown = KeyBoardShortCuts.onKeyDown;
 
-
 		document.getElementById("canvasBackground").onpointermove = () => { console.log("mousemove on the background should not occur") };
 
 		installMouseEventsCanvas();
+
+		
 	}
 	catch (e) {
 		ErrorMessage.show("Problem in loading Tableaunoir... please try to clean the cache of your browser.");
