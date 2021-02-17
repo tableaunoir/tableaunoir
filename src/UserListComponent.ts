@@ -3,6 +3,7 @@ import { UserManager } from "./UserManager";
 
 export class UserListComponent {
 
+    static readonly usersImageFileNames = ['1F9D1-200D-1F384.svg', '1F9D9.svg', '1F9DA-200D-2640-FE0F.svg', '1F9DD.svg'];
 
 
     /**
@@ -48,8 +49,8 @@ export class UserListComponent {
 
     static getUserImage(userid: string): HTMLImageElement {
         const img = new Image();
-        const i = parseInt(userid.substr(1));
-        img.src = "img/users/" + UserManager.usersImageFileNames[i % UserManager.usersImageFileNames.length];
+        const i = userid == "root" ? 0 : parseInt(userid.substr(1));
+        img.src = "img/users/" + UserListComponent.usersImageFileNames[i % UserListComponent.usersImageFileNames.length];
         img.classList.add("userImage");
         return img;
     }

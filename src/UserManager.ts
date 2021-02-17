@@ -31,8 +31,7 @@ export class UserManager {
     static me: User = undefined; // the current user
     static users: { [id: string]: User } = {};
 
-    static readonly usersImageFileNames = ['1F9D1-200D-1F384.svg', '1F9D9.svg', '1F9DA-200D-2640-FE0F.svg', '1F9DD.svg'];
-
+   
 
     /**
      * initialisation: creation of myself :)
