@@ -49,7 +49,8 @@ export class UserListComponent {
 
     static getUserImage(userid: string): HTMLImageElement {
         const img = new Image();
-        const i = userid == "root" ? 0 : parseInt(userid.substr(1));
+        let i = parseInt(userid.substr(1));
+        if (isNaN(i)) i = 0;
         img.src = "img/users/" + UserListComponent.usersImageFileNames[i % UserListComponent.usersImageFileNames.length];
         img.classList.add("userImage");
         return img;
