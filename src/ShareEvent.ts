@@ -1,3 +1,4 @@
+import { Wallpaper } from './Wallpaper';
 import { UserListComponent } from './UserListComponent';
 import { ErrorMessage } from './ErrorMessage';
 import { BlackVSWhiteBoard } from './BlackVSWhiteBoard';
@@ -176,15 +177,15 @@ export class ShareEvent {
     /**backgrounds */
 
     static backgroundClear(): void {
-        Background.clear();
+        Wallpaper.clear();
     }
 
     static backgroundMusicScore(): void {
-        Background.musicScore();
+        Wallpaper.musicScore();
     }
 
     static backgroundGrid(): void {
-        Background.grid();
+        Wallpaper.grid();
     }
 
 

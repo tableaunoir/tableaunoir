@@ -1,3 +1,4 @@
+import { Wallpaper } from './Wallpaper';
 import { ErrorMessage } from './ErrorMessage';
 import { GUIActions } from './GUIActions';
 import { Sound } from './Sound';
@@ -79,6 +80,7 @@ function load() {
 		MyMagnets.loadMagnets();
 		Sound.init();
 		Script.init();
+		Wallpaper.init();
 
 		BoardManager.load();
 
@@ -122,7 +124,7 @@ function load() {
 
 		installMouseEventsCanvas();
 
-		
+
 	}
 	catch (e) {
 		ErrorMessage.show("Problem in loading Tableaunoir... please try to clean the cache of your browser.");

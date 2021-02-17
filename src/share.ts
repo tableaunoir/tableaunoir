@@ -1,3 +1,4 @@
+import { Wallpaper } from './Wallpaper';
 import { UserListComponent } from './UserListComponent';
 import { BlackVSWhiteBoard } from './BlackVSWhiteBoard';
 import { ShareMessage, Parameter } from './ShareMessage';
@@ -242,7 +243,7 @@ export class Share {
 				document.getElementById("magnets").innerHTML = msg.magnets;
 				MagnetManager.installMagnets();
 				break;
-			case "background": Background.set(msg.data); break;
+			case "background": Wallpaper.set(msg.data); break;
 			case "magnetChanged":
 				document.getElementById(msg.magnetid).outerHTML = msg.data;
 				MagnetManager.installMagnets();
@@ -285,7 +286,7 @@ export class Share {
 		Share.send({ type: "ready", to: idNewUser });
 		Share.send({ type: "documents", to: idNewUser, data: Background.getDocumentPanel().innerHTML });
 
-		if (Background.is) Share.send({ type: "background", to: idNewUser, data: Background.dataURL });
+		if (Wallpaper.is) Share.send({ type: "background", to: idNewUser, data: Wallpaper.dataURL });
 	}
 
 	/**
