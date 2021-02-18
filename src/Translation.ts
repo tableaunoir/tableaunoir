@@ -121,10 +121,11 @@ export class Translation {
 
                 if (element == undefined)
                     console.log(`Element of id ${id} not found. I cannot translate..`);
-
-                Translation.setEnglishDictEntry(key, element.title);
-
-                element.title = dict[key];
+                else {
+                    Translation.setEnglishDictEntry(key, element.title);
+                    element.title = dict[key];
+                }
+                
             }
         }
     }

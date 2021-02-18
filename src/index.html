@@ -474,7 +474,7 @@
 					<h2>Make a shared board</h2>
 					<img align="right" class="illustration" height="96px" src="img/illustrations/share.png" />
 					<div>
-						<label for="password">Password (optional):</label> <input type="password" id="password"></input>
+						<span>🔑</span><label for="password">Password (optional):</label> <input type="password" id="password"></input>
 						<button id="shareButton">Make a shared board</button>
 						<div id="sharePasswordExplanation">
 							The <em>password</em> makes you keep your sharer privileges. If no password is set, all
@@ -521,7 +521,7 @@
 					<h2>Share with others</h2>
 					<div>
 						In order to <em>share</em> the board with your friends, give them the following URL:</div>
-					<input id="shareUrl" value="" /><button id="buttonCopyShareUrl">Copy</button><span
+					<input readonly id="shareUrl" value="" /><button id="buttonCopyShareUrl">Copy</button><span
 						id="shareUrlCopied" hidden="true">Copied!</span>
 
 					<div id="askPrivilege">
