@@ -17,6 +17,16 @@ body {
 	background-color: rgb(68, 68, 68);
 }
 
+textarea, input {
+	background-color: rgb(47, 47, 47);
+	color: aliceblue;
+	border: 1px solid black;
+	padding: 8px;
+}
+
+
+
+
 
 .icon {
 	height: 38px;
