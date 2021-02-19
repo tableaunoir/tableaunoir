@@ -35,9 +35,10 @@ export class Wallpaper {
      * @description set the background to be the image described in dataURL
      */
     static set(dataURL: string): void {
+        const elBackground = document.getElementById("documentPanel");
         if (dataURL == undefined)
-            getCanvas().style.backgroundImage = "";
-        else getCanvas().style.backgroundImage = "url(" + dataURL + ")";
+            elBackground.style.backgroundImage = "";
+        else elBackground.style.backgroundImage = "url(" + dataURL + ")";
 
         Wallpaper.dataURL = dataURL;
     }
