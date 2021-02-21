@@ -191,6 +191,18 @@ export class MyMagnets {
     }
 
 
+    static* magnetCircles(): Generator<HTMLElement> {
+        for(const size of [32, 48, 64, 80, 96, 128, 144, 164]) {
+            const magnet = document.createElement("div");
+            magnet.style.backgroundColor = `rgb(${255}, ${size}, ${size})`;
+            magnet.style.width = size + "px";
+            magnet.style.height = size + "px";
+            magnet.style.borderRadius = size + "px";
+            yield magnet;
+        }
+    }
+
+
     /**
  *
  * @param magnetSetName
@@ -232,6 +244,7 @@ export class MyMagnets {
 
 
     static loadMagnets(): void {
+        MyMagnets.register("magnetCircles");
         MyMagnets.register("magnetGS");
         MyMagnets.register("magnetSorting");
         MyMagnets.register("magnetBTrees");
