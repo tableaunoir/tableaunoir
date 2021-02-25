@@ -111,6 +111,22 @@ export class TestPerformance {
     static testNormalSVG(): void {
         TestPerformance._testSVG(3000, 16);
     }
+
+
+
+    static test113(): void {
+        for (let i = 0; i < 50; i++) {
+            const action = new ActionFreeDraw(UserManager.me.userID);
+            const S = 500;
+            action.addPoint({ x: 100*10*i, y: 100, pressure: 1, color: randomColor() });
+            action.addPoint({ x: 100*10*i + S * Math.random(), y: 100 + S * Math.random(), pressure: 1, color: randomColor() });
+            action.redo();
+            BoardManager.addAction(action);
+            BoardManager.cancel(UserManager.me.userID);
+            BoardManager.cancel(UserManager.me.userID);
+            BoardManager.redo(UserManager.me.userID);
+        }
+    }
 }
 
 

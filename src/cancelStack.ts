@@ -19,8 +19,7 @@ export class CancelStack {
      * remark: the first action is of Type ActionInit and always contains a postState
      */
     private stack: (Action)[] = [];
-    private currentIndex = -1; //meaning that stack[currentIndex] is treated
-    private n = 0;
+    private currentIndex = -1; //meaning that stack[currentIndex] is treated and is the last action executed
 
     /**
      * empty the stack and set it with the current canvas as the initial state
@@ -58,9 +57,7 @@ export class CancelStack {
      * @returns the current timestep (that is performed)
      * @example this.stack[t] has been performed and that is the last performed action
      */
-    get t(): number {
-        return this.currentIndex;
-    }
+    get t(): number { return this.currentIndex; }
 
     /**
      * 
@@ -70,9 +67,8 @@ export class CancelStack {
      */
     public async load(A: ActionSerialized[], t: number): Promise<void> {
         this.stack = A.map(ActionDeserializer.deserialize);
-        this.n = this.stack.length;
         this.currentIndex = t;
-        console.log("loaded stack with " + this.n + " elements");
+        console.log("loaded stack with " + this.stack.length + " elements");
 
         const canvas = getCanvas();
         canvas.width = canvas.width + 0;
@@ -83,9 +79,17 @@ export class CancelStack {
     }
 
     private _push(action: Action): void {
+        
         this.currentIndex++;
-        this.stack[this.currentIndex] = action;
-        this.n = this.currentIndex + 1;
+
+        /** we remove all elements after the currentIndex */
+        while(this.stack.length > this.currentIndex)
+            this.stack.pop();
+
+        this.stack.push(action);
+
+        this.currentIndex = this.stack.length - 1; //because we removed
+        
     }
 
     /**
@@ -164,7 +168,7 @@ export class CancelStack {
     /**
      * @returns true if there is some next action to redo
      */
-    canRedo(userid: string): boolean { return this.currentIndex < this.n - 1; }
+    canRedo(userid: string): boolean { return this.currentIndex < this.stack.length - 1; }
 
 
     /**
@@ -185,8 +189,7 @@ export class CancelStack {
         if (this.stack.indexOf(undefined) >= 0) {
             ErrorMessage.show("#113 issue"); //we remove the undefined elements in the tab
             this.stack = this.stack.filter((a) => a != undefined);
-            this.n = this.stack.length;
-            this.currentIndex = this.n - 1;
+            this.currentIndex = this.stack.length - 1;
         }
     }
 
