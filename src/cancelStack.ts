@@ -81,7 +81,7 @@ export class CancelStack {
         this.actions = A.map(ActionDeserializer.deserialize);
         this.currentIndex = t;
         console.log("loaded stack with " + this.actions.length + " elements");
-
+        this.update();
 
     }
 

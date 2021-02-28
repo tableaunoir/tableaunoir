@@ -67,6 +67,8 @@ export class AnimationToolBar {
             AnimationToolBar.dragAndDropFrames = true;
         }
 
+        el.ondragend = () => {AnimationToolBar.dragAndDropFrames = false;};
+        
         el.onclick = () => {
             BoardManager.cancelStack.setCurrentIndex(i);
             AnimationToolBar.update();
