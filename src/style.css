@@ -85,7 +85,9 @@ canvas {
 }
 
 
-#controls {
+
+
+.toolbar {
 	position: absolute;
 	background-color: rgb(68, 68, 68);
 	color: white;
@@ -931,4 +933,36 @@ h1 {
 	border: 1px solid #888888;
 	border-radius: 50%;
 	pointer-events: none;
+}
+
+#animationActionListWrapper {
+	display: inline-block;
+	overflow: auto;
+	width: 100%;
+}
+
+#animationActionList {
+	display: inline-block;
+	width: max-content;
+	
+}
+
+.action {
+	width: 24px;
+	height: 24px;
+	background-color: white;
+	border: 2px solid black;
+	display: inline-block;
+	opacity: 0.5;
+}
+
+.actionExecuted {
+	opacity: 1.0;
+}
+
+
+.actionErase {
+	background-image: url(img/icons/erase.svg);
+	background-size: contain;
+
 }

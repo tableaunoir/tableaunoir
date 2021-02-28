@@ -96,15 +96,17 @@ export class ToolEraser extends Tool {
     }
 
     mouseup(): void {
-        SoundToolEraser.mouseup();
-        this.iMode = 0;
-        this.eraseLineWidth = this.modeSizes[0];
-        this.temperature = 0;
-
-        if (this.user.isCurrentUser)
-            this.updateEraserCursor();
-
-        BoardManager.addAction(this.action);
+        if (this.isDrawing) {
+            SoundToolEraser.mouseup();
+            this.iMode = 0;
+            this.eraseLineWidth = this.modeSizes[0];
+            this.temperature = 0;
+    
+            if (this.user.isCurrentUser)
+                this.updateEraserCursor();
+    
+            BoardManager.addAction(this.action);
+        }
     }
 
 }

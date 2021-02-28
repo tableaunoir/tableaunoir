@@ -13,7 +13,7 @@
 </head>
 
 <body>
-	<div id="controls">
+	<div class="toolbar" id="controls">
 		<button id="buttonMenu" title="Menu"><img class="icon"
 				src="img/icons/menu-three-outlined-bars-svgrepo-com.svg" /></button><span
 			class="keyboardkeyhelp">Esc</span>
@@ -47,6 +47,8 @@
 			<button class="buttonNavigation" id="buttonMap" title="Map"><img class="icon"
 					src="img/icons/map.svg" /></button>
 			<span class="keyboardkeyhelp">n</span>
+			<button id="buttonMovieMode" title="Animation mode (only for non-shared boards)">
+				<img class="icon" src="img/icons/1F3AC.svg" /></button>
 
 		</div>
 
@@ -76,6 +78,12 @@
 		</div>
 	</div>
 	<div hidden id="questions">
+	</div>
+
+	<div class="toolbar toolbarBottom" id="animationToolBar">
+		<div id="animationActionListWrapper">
+			<div id="animationActionList"></div>
+		</div>
 	</div>
 
 	<div hidden id="loading">
@@ -474,7 +482,8 @@
 					<h2>Make a shared board</h2>
 					<img align="right" class="illustration" height="96px" src="img/illustrations/share.png" />
 					<div>
-						<span>🔑</span><label for="password">Password (optional):</label> <input type="password" id="password"></input>
+						<span>🔑</span><label for="password">Password (optional):</label> <input type="password"
+							id="password"></input>
 						<button id="shareButton">Make a shared board</button>
 						<div id="sharePasswordExplanation">
 							The <em>password</em> makes you keep your sharer privileges. If no password is set, all
@@ -503,9 +512,13 @@
 						<div>You have all the <em>privileges</em> to modify the permissions on this board.</div>
 
 						<div>
-							<button id="buttonOnlyRootCanWrite"><img id="imgWritePermissionfalse" src="img/shareInTeacherMode.png" /><br/>Make that only root users can write</button>
-							<button id="buttonAllCanWrite"><img id="imgWritePermissiontrue" src="img/shareInEverybodyWritesMode.png" /><br/>Make that all existing and incoming users can write</button>					
-							
+							<button id="buttonOnlyRootCanWrite"><img id="imgWritePermissionfalse"
+									src="img/shareInTeacherMode.png" /><br />Make that only root users can
+								write</button>
+							<button id="buttonAllCanWrite"><img id="imgWritePermissiontrue"
+									src="img/shareInEverybodyWritesMode.png" /><br />Make that all existing and incoming
+								users can write</button>
+
 						</div>
 
 					</div>
@@ -534,7 +547,7 @@
 					</div>
 
 
-				
+
 
 
 

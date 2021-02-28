@@ -1,3 +1,4 @@
+import { AnimationToolBar } from './AnimationToolBar';
 import { ErrorMessage } from './ErrorMessage';
 import { ActionSerialized } from './ActionSerialized';
 import { ActionDeserializer } from './ActionDeserializer';
@@ -18,14 +19,14 @@ export class CancelStack {
      * some actions may contain a "poststate" (a full snapshot of the state after executing that action)
      * remark: the first action is of Type ActionInit and always contains a postState
      */
-    private stack: (Action)[] = [];
+    public actions: (Action)[] = [];
     private currentIndex = -1; //meaning that stack[currentIndex] is treated and is the last action executed
 
     /**
      * empty the stack and set it with the current canvas as the initial state
      */
     clear(): void {
-        this.stack = [];
+        this.actions = [];
         this.currentIndex = -1;
 
         const actionInit = new ActionInit(UserManager.me.userID, undefined);
@@ -37,15 +38,26 @@ export class CancelStack {
      * empty the cancel stack but keeps the current state
      */
     flatten(): void {
-        this.stack = [];
+        this.actions = [];
         this.currentIndex = -1;
         const actionInit = new ActionInit(UserManager.me.userID, getCanvas().toDataURL());
         this._push(actionInit);
     }
 
+    setCurrentIndex(i: number): void {
+        this.currentIndex = i;
+        this.updateButtons();
+        getCanvas().width = getCanvas().width + 0;
+        this.playUntilCurrentIndex();
+    }
+
+
+    getCurrentIndex(): number {
+        return this.currentIndex;
+    }
 
     clearAndReset(canvasDataURL: string): void {
-        this.stack = [];
+        this.actions = [];
         this.currentIndex = -1;
 
         const actionInit = new ActionInit(UserManager.me.userID, canvasDataURL);
@@ -66,10 +78,16 @@ export class CancelStack {
      * @description loads the cancelStack
      */
     public async load(A: ActionSerialized[], t: number): Promise<void> {
-        this.stack = A.map(ActionDeserializer.deserialize);
+        this.actions = A.map(ActionDeserializer.deserialize);
         this.currentIndex = t;
-        console.log("loaded stack with " + this.stack.length + " elements");
+        console.log("loaded stack with " + this.actions.length + " elements");
 
+
+    }
+
+
+
+    async update(): Promise<void> {
         const canvas = getCanvas();
         canvas.width = canvas.width + 0;
 
@@ -79,17 +97,59 @@ export class CancelStack {
     }
 
     private _push(action: Action): void {
-        
+
         this.currentIndex++;
 
         /** we remove all elements after the currentIndex */
-        while(this.stack.length > this.currentIndex)
-            this.stack.pop();
+        while (this.actions.length > this.currentIndex)
+            this.actions.pop();
 
-        this.stack.push(action);
+        this.actions.push(action);
 
-        this.currentIndex = this.stack.length - 1; //because we removed
-        
+        this.currentIndex = this.actions.length - 1; //because we removed
+
+    }
+
+
+
+    private _insert(action: Action): void {
+        this.currentIndex++;
+        this.actions.splice(this.currentIndex, 0, action);
+
+    }
+
+
+
+    /**
+     * 
+     * @param i 
+     * @param j 
+     * @description move action n° i to actual position j
+     */
+    move(i: number, j: number): void {
+        if (i == 0 || j == 0)
+            return;
+
+        if (i < j)
+            j--;
+
+        const action = this.actions[i];
+        this.actions.splice(i, 1);
+        this.actions.splice(j, 0, action);
+        this.update();
+    }
+
+
+
+
+    delete(i: number): void {
+        if (i == 0)
+            return;
+
+        this.actions.splice(i, 1);
+        if (i > this.currentIndex)
+            this.currentIndex--;
+        this.update();
     }
 
     /**
@@ -99,7 +159,11 @@ export class CancelStack {
     push(action: Action): void {
         //   if (Math.floor(100 * Math.random()) < 1/20000)
         //     action.storePostState();
-        this._push(action);
+
+        if (AnimationToolBar.is())
+            this._insert(action);
+        else
+            this._push(action);
         this.updateButtons();
         //this.print();
     }
@@ -110,12 +174,12 @@ export class CancelStack {
     async playUntilCurrentIndex(): Promise<void> {
         let bug113 = false;
         for (let i = 0; i <= this.currentIndex; i++) {
-            if (this.stack[i] == undefined) {
+            if (this.actions[i] == undefined) {
                 ErrorMessage.show("issue #113. error with i = " + i + "try to undo/redo again");
                 bug113 = true;
             }
             else
-                await this.stack[i].redo();
+                await this.actions[i].redo();
 
         }
         if (bug113) {
@@ -151,7 +215,7 @@ export class CancelStack {
             return;
 
         this.currentIndex++;
-        await this.stack[this.currentIndex].redo();
+        await this.actions[this.currentIndex].redo();
 
         this.updateButtons();
 
@@ -168,7 +232,7 @@ export class CancelStack {
     /**
      * @returns true if there is some next action to redo
      */
-    canRedo(userid: string): boolean { return this.currentIndex < this.stack.length - 1; }
+    canRedo(userid: string): boolean { return this.currentIndex < this.actions.length - 1; }
 
 
     /**
@@ -176,8 +240,8 @@ export class CancelStack {
      */
     __str__(): string {
         let s = "";
-        for (let i = 0; i < this.stack.length; i++) {
-            s += (i == 0) ? "i" : ((this.stack[i] == undefined) ? "u" : "a");
+        for (let i = 0; i < this.actions.length; i++) {
+            s += (i == 0) ? "i" : ((this.actions[i] == undefined) ? "u" : "a");
             s += (i == this.currentIndex) ? ". " : "  ";
         }
         return s;
@@ -186,10 +250,10 @@ export class CancelStack {
 
 
     repair(): void {
-        if (this.stack.indexOf(undefined) >= 0) {
+        if (this.actions.indexOf(undefined) >= 0) {
             ErrorMessage.show("#113 issue"); //we remove the undefined elements in the tab
-            this.stack = this.stack.filter((a) => a != undefined);
-            this.currentIndex = this.stack.length - 1;
+            this.actions = this.actions.filter((a) => a != undefined);
+            this.currentIndex = this.actions.length - 1;
         }
     }
 
@@ -198,7 +262,7 @@ export class CancelStack {
      */
     serialize(): ActionSerialized[] {
         this.repair();
-        return this.stack.map((a) => a ? a.serialize() : undefined);
+        return this.actions.map((a) => a ? a.serialize() : undefined);
     }
 
 

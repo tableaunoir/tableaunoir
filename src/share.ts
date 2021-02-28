@@ -1,3 +1,4 @@
+import { AnimationToolBar } from './AnimationToolBar';
 import { Wallpaper } from './Wallpaper';
 import { UserListComponent } from './UserListComponent';
 import { BlackVSWhiteBoard } from './BlackVSWhiteBoard';
@@ -34,13 +35,15 @@ export class Share {
 		Share.ws = new WebSocket(config.server.websocket);
 		Share.ws.binaryType = "arraybuffer";
 
-		Share.ws.onerror = () => { ErrorMessage.show("Impossible to connect to the server.") };
-
+		Share.ws.onerror = () => { ErrorMessage.show("Error during the connection to the server.") };
+		Share.ws.onclose = () => { ErrorMessage.show("The connection has been lost.") };
 		Share.ws.onopen = f;
 		Share.ws.onmessage = (msg) => {
 			//	console.log("I received the message: ");
 			Share._treatReceivedMessage(JSON.parse(msg.data));
 		};
+
+		AnimationToolBar.hideForever();
 	}
 
 

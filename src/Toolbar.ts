@@ -1,3 +1,4 @@
+import { AnimationToolBar } from './AnimationToolBar';
 import { Layout } from './Layout';
 import { ErrorMessage } from './ErrorMessage';
 import { OptionManager } from './OptionManager';
@@ -7,13 +8,19 @@ export class Toolbar {
      * initialization
      */
     static init(): void {
+
+        document.getElementById("buttonMovieMode").onclick = () => {
+            document.getElementById("animationToolBar").hidden = !document.getElementById("animationToolBar").hidden;
+            AnimationToolBar.update();
+        };
+
         if (Layout.isTactileDevice()) {
             try {
                 document.getElementById("inputToolbar").hidden = true; //on phone or tablet, we can not remove the toolbar, therefore the checkbox (in the option menu) is hidden
 
                 const spans = document.getElementsByClassName("keyboardkeyhelp");
                 for (let i = 0; i < spans.length; i++) {
-                    (<HTMLElement> spans[i]).hidden = true;
+                    (<HTMLElement>spans[i]).hidden = true;
                 }
             }
             catch (e) {

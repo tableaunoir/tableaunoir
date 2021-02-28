@@ -86,7 +86,9 @@ export class ActionFreeDraw extends Action {
     }
 
 
-
+    getMainColor(): string {
+        return this.points[0].color;
+    }
 
 
     async redo(): Promise<void> {

@@ -1,3 +1,4 @@
+import { AnimationToolBar } from './AnimationToolBar';
 import { getCanvas } from "./main";
 import { Share } from "./share";
 import { Layout } from './Layout';
@@ -52,6 +53,7 @@ export class BoardManager {
 
 
 
+
     /**
      * @param a rectangle r 
      * @returns a canvas of width r.x2 - r.x1 and height r.y2 - r.y1 containing the content of the canvas
@@ -90,9 +92,9 @@ export class BoardManager {
 
 
 
-
     static addAction(action: Action): void {
         BoardManager.cancelStack.push(action);
+        AnimationToolBar.update();
     }
 
 
