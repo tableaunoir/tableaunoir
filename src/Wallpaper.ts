@@ -1,11 +1,11 @@
 import { Share } from './share';
 import { Layout } from './Layout';
 import { Drawing } from './Drawing';
-import { getCanvas } from './main';
+
 
 
 export class Wallpaper {
-    static init() {
+    static init(): void {
         document.getElementById("buttonNoBackground").onclick = () => {
             Share.execute("backgroundClear", []);
         };

@@ -5,8 +5,14 @@ import { BoardManager } from './boardManager';
 
 export class AnimationToolBar {
 
+    /**
+     * the selection action timestep
+     */
+    static tSelected = 0;
 
-    static iSelected = 0;
+    /**
+     * true iff there are some frames (i.e. actions) that are drag and dropped
+     */
     static dragAndDropFrames = false;
 
     /**
@@ -25,7 +31,9 @@ export class AnimationToolBar {
         return !document.getElementById("animationToolBar").hidden;
     }
 
-
+    /**
+     * @description updates the whole timeline
+     */
     static update(): void {
         if (document.getElementById("animationToolBar").hidden)
             return;
@@ -38,7 +46,7 @@ export class AnimationToolBar {
 
         document.getElementById("canvas").ondrop = () => {
             if (AnimationToolBar.dragAndDropFrames) {
-                BoardManager.cancelStack.delete(AnimationToolBar.iSelected);
+                BoardManager.cancelStack.delete(AnimationToolBar.tSelected);
                 AnimationToolBar.update();
             }
             AnimationToolBar.dragAndDropFrames = false;
@@ -46,9 +54,13 @@ export class AnimationToolBar {
         };
     }
 
-
-    static HTMLElementForAction(i: number): HTMLElement {
-        const action = BoardManager.cancelStack.actions[i];
+    /**
+     * 
+     * @param t 
+     * @returns an HTML element (a small square) that represents the action
+     */
+    static HTMLElementForAction(t: number): HTMLElement {
+        const action = BoardManager.cancelStack.actions[t];
         const el = document.createElement("div");
         el.classList.add("action");
 
@@ -57,26 +69,26 @@ export class AnimationToolBar {
         else if (action instanceof ActionErase)
             el.classList.add("actionErase");
 
-        if (i <= BoardManager.cancelStack.getCurrentIndex())
+        if (t <= BoardManager.cancelStack.getCurrentIndex())
             el.classList.add("actionExecuted");
 
         el.draggable = true;
 
         el.ondrag = () => {
-            AnimationToolBar.iSelected = i;
+            AnimationToolBar.tSelected = t;
             AnimationToolBar.dragAndDropFrames = true;
         }
 
         el.ondragend = () => {AnimationToolBar.dragAndDropFrames = false;};
         
         el.onclick = () => {
-            BoardManager.cancelStack.setCurrentIndex(i);
+            BoardManager.cancelStack.setCurrentIndex(t);
             AnimationToolBar.update();
         };
 
         el.ondrop = () => {
-            console.log(`move(${AnimationToolBar.iSelected}, ${i})`)
-            BoardManager.cancelStack.move(AnimationToolBar.iSelected, i);
+            console.log(`move(${AnimationToolBar.tSelected}, ${t})`)
+            BoardManager.cancelStack.move(AnimationToolBar.tSelected, t);
             AnimationToolBar.update();
 
         }

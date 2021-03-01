@@ -86,7 +86,9 @@ export class CancelStack {
     }
 
 
-
+    /**
+     * @description updates the canvas
+     */
     async update(): Promise<void> {
         const canvas = getCanvas();
         canvas.width = canvas.width + 0;
@@ -95,6 +97,7 @@ export class CancelStack {
 
         await this.playUntilCurrentIndex();
     }
+    
 
     private _push(action: Action): void {
 
@@ -111,7 +114,11 @@ export class CancelStack {
     }
 
 
-
+    /**
+     * 
+     * @param action 
+     * @description insert action at the current index
+     */
     private _insert(action: Action): void {
         this.currentIndex++;
         this.actions.splice(this.currentIndex, 0, action);
@@ -124,13 +131,13 @@ export class CancelStack {
      * 
      * @param i 
      * @param j 
-     * @description move action n° i to actual position j
+     * @description move action at time i to actual time j
      */
     move(i: number, j: number): void {
         if (i == 0 || j == 0)
             return;
 
-        if (i < j)
+        if (i < j) //the position j shifts to the left since i is before
             j--;
 
         const action = this.actions[i];
@@ -141,13 +148,17 @@ export class CancelStack {
 
 
 
-
-    delete(i: number): void {
-        if (i == 0)
+    /**
+     * 
+     * @param t 
+     * @description delete action at time t
+     */
+    delete(t: number): void {
+        if (t == 0)
             return;
 
-        this.actions.splice(i, 1);
-        if (i > this.currentIndex)
+        this.actions.splice(t, 1);
+        if (t >= this.currentIndex)
             this.currentIndex--;
         this.update();
     }

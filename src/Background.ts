@@ -1,10 +1,8 @@
 import { PDFViewer } from './PDFViewer';
 import { PDFDocument } from './PDFDocument';
 import { Share } from './share';
-import { getCanvasBackground } from './main';
 import { Layout } from './Layout';
 import { LoadSave } from './LoadSave';
-import { Drawing } from './Drawing'
 
 
 /**

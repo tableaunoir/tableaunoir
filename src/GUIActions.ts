@@ -27,7 +27,7 @@ export class GUIActions {
     }
 
 
-    static changeColor(calledFromKeyBoard: boolean = false): void {
+    static changeColor(calledFromKeyBoard = false): void {
         if (MagnetManager.getMagnetUnderCursor() == undefined) { //if no magnet under the cursor, change the color of the chalk
             if (!UserManager.me.tool.isDrawing && (GUIActions.paletteShowOnKey || !calledFromKeyBoard))
                 GUIActions.palette.show({ x: UserManager.me.tool.x, y: UserManager.me.tool.y });
@@ -39,7 +39,7 @@ export class GUIActions {
         }
     }
 
-    static previousColor(calledFromKeyBoard: boolean = false): void {
+    static previousColor(calledFromKeyBoard = false): void {
         if (MagnetManager.getMagnetUnderCursor() == undefined) { //if no magnet under the cursor, change the color of the chalk
             UserManager.me.switchChalk();
 
