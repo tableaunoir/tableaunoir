@@ -2,7 +2,7 @@
 
 Tableaunoir is an **online collaborative blackboard** tool. It can be used as a traditional blackboard but you can also create **interactive animations** via the use of "**fridge magnets**".
 ["Tableau noir" means blackboard in french](https://www.deepl.com/translator#fr/en/Tableau%20noir).
-The online version is available here: [https://tableaunoir.github.io/] ([another one](http://tableaunoir.irisa.fr))
+The online version is available here: [https://tableaunoir.github.io/] ([another one](https://tableaunoir.irisa.fr))
 
 
 

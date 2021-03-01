@@ -43,6 +43,7 @@ export class Share {
 			Share._treatReceivedMessage(JSON.parse(msg.data));
 		};
 
+		setInterval(() => this.send({type: "heartbeat", userid: UserManager.me.userID}), 3000);
 		AnimationToolBar.hideForever();
 	}
 
@@ -223,6 +224,9 @@ export class Share {
 				// the leader is the user with the smallest ID
 				if (UserManager.isSmallestUserID())
 					Share.sendAllDataTo(msg.userid);
+				break;
+			case "heartbeat":
+				UserManager.users[msg.userid].recordHeartBeat();
 				break;
 			case "leave": UserManager.leave(msg.userid); break;
 			case "fullCanvas": Loading.hide(); BoardManager.load(msg.data); break;

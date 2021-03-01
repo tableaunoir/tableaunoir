@@ -324,10 +324,11 @@ let sockets = [];
 server.on('connection', function (socket) {
   print("New connection!")
   socket.userid = UserManager.generateUserID();
+  socket.lastMessageTime = Date.now();
   sockets.push(socket);
 
   socket.on('message', (msg) => {
-
+    socket.lastMessageTime = Date.now();
     //console.log("parsing...");
     msg = JSON.parse(msg);
     // let beginning = Date.now();
@@ -337,12 +338,29 @@ server.on('connection', function (socket) {
     treatReceivedMessageFromClient(msg);
   });
 
-  socket.on('close', function () {
+  /**
+   * if the server has not get any message from that socket (user) since CONNECTIVITYDELAY, we kick that user out
+   * since her computer has crashed, her network is not reliable enough
+   */
+  const CONNECTIVITYDELAY = 10000; //10sec
+  const testConnectivity = setInterval(() => {
+    if (Date.now() - socket.lastMessageTime > CONNECTIVITYDELAY)
+      disconnect();
+  }, 10000);
+
+  /**
+   * this function disconnects the user from the server
+   */
+  const disconnect = function () {
+    clearInterval(testConnectivity);
     sockets = sockets.filter(s => s !== socket);
 
     if (socket.id != undefined && tableaunoirs[socket.id] != undefined)
       tableaunoirs[socket.id].removeSocket(socket);
-  });
+  };
+
+  socket.on("error", disconnect)
+  socket.on('close', disconnect);
 });
 
 

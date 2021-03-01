@@ -53,7 +53,22 @@ export class User {
         return (<ToolDraw | ToolAbstractShape>this.tool).lastDelineation;
     }
 
+    private lastHearBeat = Date.now();
 
+    recordHeartBeat(): void {
+        this.lastHearBeat = Date.now();
+    }
+
+    /**
+     * @returns true if there are some recent news from the user
+     * (if it is you, perfect otherwise we look whether we received some heartbeat recently)
+     */
+    isAlive() :boolean {
+        if(this == UserManager.me)
+            return true;
+        else
+            return Date.now() - this.lastHearBeat < 10000;
+    }
 
     setUserID(userID: string): void { this.userID = userID; }
 
