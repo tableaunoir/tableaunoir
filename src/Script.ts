@@ -5,6 +5,7 @@ import { Share } from './share';
 
 /** this class contains the method that can be used in scripts of Tableaunoir */
 export class S {
+
     /** assign S.mousemove to execute sth when you move the chalk on the board */
     static mousemove: ({ x, y }: { x: number, y: number }) => void = () => { /*do nothing*/ };
 
@@ -15,7 +16,11 @@ export class S {
      */
     static magnetSetText(magnet: HTMLDivElement, text: string): void { magnet.innerHTML = text; }
 
-
+    /**
+     * 
+     * @param x 
+     * @return the number x rounded with at most 1 digit after the dot
+     */
     static round1(x: number): number { return Math.round(10 * x) / 10; }
 
     /**
@@ -33,31 +38,48 @@ export class S {
      * @description move the magnet (the center of the magnet is at cx, cy)
      */
     static magnetMove(magnet: HTMLDivElement, cx: number, cy: number): void {
-        Share.execute("magnetMove", [magnet.id, cx - magnet.offsetWidth/2, cy - magnet.offsetHeight/2]);
+        Share.execute("magnetMove", [magnet.id, cx - magnet.offsetWidth / 2, cy - magnet.offsetHeight / 2]);
     }
 
-
-    static center(magnet: HTMLElement): {x: number, y: number} {
+    /**
+     * 
+     * @param magnet 
+     * @return the center of the magnet
+     */
+    static center(magnet: HTMLElement): { x: number, y: number } {
         return MagnetManager.getMagnetCenter(magnet);
     }
 
+    /**
+     * @return an array containing all the magnets
+     */
     static getMagnets(): HTMLElement[] {
         const magnets = MagnetManager.getMagnets();
 
         const result = [];
-        for(let i = 0; i<magnets.length; i++)
+        for (let i = 0; i < magnets.length; i++)
             result.push(magnets[i]);
 
         return result;
-        
+
     }
 
-    static inRectangle({x, y}: {x: number, y: number}, {x1, y1, x2, y2}: {x1: number, y1: number, x2: number, y2: number}): boolean {
-        return (x1 <= x) && (x <= x2) && (y1 <= y) &&(y <= y2);
+    /**
+     * 
+     * @param point 
+     * @param rectangle
+     * @return true if the point is in the rectangle
+     */
+    static inRectangle({ x, y }: { x: number, y: number }, { x1, y1, x2, y2 }: { x1: number, y1: number, x2: number, y2: number }): boolean {
+        return (x1 <= x) && (x <= x2) && (y1 <= y) && (y <= y2);
     }
 
 }
 
+
+/**
+ * @description makes that the script functionnality is available in Tableaunoir
+ */
 window['S'] = S;
 
 
