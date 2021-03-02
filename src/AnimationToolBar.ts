@@ -69,6 +69,9 @@ export class AnimationToolBar {
         else if (action instanceof ActionErase)
             el.classList.add("actionErase");
 
+        if (action.pause)
+            el.classList.add("actionPause");
+
         if (t <= BoardManager.cancelStack.getCurrentIndex())
             el.classList.add("actionExecuted");
 
@@ -79,11 +82,16 @@ export class AnimationToolBar {
             AnimationToolBar.dragAndDropFrames = true;
         }
 
-        el.ondragend = () => {AnimationToolBar.dragAndDropFrames = false;};
-        
+        el.ondragend = () => { AnimationToolBar.dragAndDropFrames = false; };
+
         el.onclick = () => {
             BoardManager.cancelStack.setCurrentIndex(t);
-            AnimationToolBar.update();
+            for (let i = 0; i < BoardManager.cancelStack.actions.length - 1; i++)
+                if (i <= t)
+                    document.getElementById("animationActionList").children[i].classList.add("actionExecuted")
+                else
+                    document.getElementById("animationActionList").children[i].classList.remove("actionExecuted");
+            //AnimationToolBar.update();
         };
 
         el.ondrop = () => {
@@ -92,6 +100,13 @@ export class AnimationToolBar {
             AnimationToolBar.update();
 
         }
+
+        el.ondblclick = () => {
+            console.log('toggle pause');
+            action.pause = !action.pause;
+            AnimationToolBar.update();
+        }
+
         return el;
     }
 }

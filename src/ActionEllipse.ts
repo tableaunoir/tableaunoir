@@ -5,9 +5,10 @@ import { Action } from "./Action";
 
 export class ActionEllipse extends Action {
     
-    serialize(): ActionSerialized {
+    serializeData(): ActionSerialized {
         return {
             type: "ellipse",
+            pause: this.pause, 
             userid: this.userid,
             cx: this.cx, cy: this.cy, rx: this.rx, ry: this.ry, color: this.color
         };

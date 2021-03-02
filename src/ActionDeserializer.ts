@@ -10,7 +10,7 @@ import { ActionFreeDraw } from './ActionFreeDraw';
 import { ActionLine } from './ActionLine';
 
 export class ActionDeserializer {
-    static deserialize(obj: ActionSerialized): Action {
+    static deserializeSub(obj: ActionSerialized): Action {
         if (obj.type == "init")
             return new ActionInit(obj.userid, obj.canvasDataURL);
         if (obj.type == "ellipse")
@@ -38,6 +38,12 @@ export class ActionDeserializer {
             return new ActionPrintMagnet(obj.userid, <HTMLImageElement> HTMLdeserialize(obj.magnet), obj.x, obj.y);
         }
         throw "ActionDeserializer: unknown type of action";
+    }
+
+    static deserialize(obj: ActionSerialized): Action {
+        const action = ActionDeserializer.deserializeSub(obj);
+        action.pause = obj.pause;
+        return action;
     }
 }
 

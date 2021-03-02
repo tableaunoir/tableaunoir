@@ -7,8 +7,8 @@ import { Action } from './Action';
  * Action for erasing
  */
 export class ActionErase extends Action {
-    serialize(): ActionSerialized {
-        return { type: "erase", userid: this.userid, points: this.points };
+    serializeData(): ActionSerialized {
+        return { type: "erase", pause: this.pause, userid: this.userid, points: this.points };
     }
 
     private points: { x: number; y: number; lineWidth: number }[] = [];

@@ -3,9 +3,10 @@ import { Action } from './Action';
 import { Drawing } from './Drawing';
 
 export class ActionClearZone extends Action {
-    serialize(): ActionSerialized {
+    serializeData(): ActionSerialized {
         return {
             type: "clearzone",
+            pause: this.pause, 
             userid: this.userid,
             points: this.points,
             cut: this.cut,

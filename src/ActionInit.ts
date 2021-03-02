@@ -15,8 +15,8 @@ export class ActionInit extends Action {
 
     }
 
-    serialize(): ActionSerialized {
-        return { type: "init", userid: this.userid, canvasDataURL: this.canvasDataURL };
+    serializeData(): ActionSerialized {
+        return { type: "init", pause: this.pause, userid: this.userid, canvasDataURL: this.canvasDataURL };
     }
 
     redo(): Promise<void> {

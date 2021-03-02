@@ -122,7 +122,6 @@ export class CancelStack {
     private _insert(action: Action): void {
         this.currentIndex++;
         this.actions.splice(this.currentIndex, 0, action);
-
     }
 
 
@@ -207,10 +206,6 @@ export class CancelStack {
 
         this.currentIndex--;
 
-        /*  let stateIndex = this.lastStateIndex;
-          if (stateIndex != undefined) {
-              await this.stack[stateIndex].restoreState();
-          } else stateIndex = -1;*/
         this.updateButtons();
 
         getCanvas().width = getCanvas().width + 0;
@@ -231,6 +226,49 @@ export class CancelStack {
         this.updateButtons();
 
         //  this.print();
+    }
+
+    getPreviousPausedFrame(): number {
+        for (let i = this.currentIndex - 1; i >= 0; i--)
+            if (this.actions[i].pause)
+                return i;
+        return 0;
+    }
+
+    getNextPausedFrame(): number {
+        for (let i = this.currentIndex + 1; i <= this.actions.length - 1; i++)
+            if (this.actions[i].pause)
+                return i;
+        return this.actions.length - 1;
+    }
+
+
+
+
+    async previousPausedFrame(): Promise<void> {
+        if (!this.canUndo)
+            return;
+
+        this.currentIndex = this.getPreviousPausedFrame();
+
+        this.updateButtons();
+
+        getCanvas().width = getCanvas().width + 0;
+        await this.playUntilCurrentIndex();
+    }
+
+
+
+    async nextPausedFrame(): Promise<void> {
+        if (!this.canRedo)
+            return;
+
+        const tGoal = this.getNextPausedFrame();
+        for (let i = this.currentIndex + 1; i <= tGoal; i++)
+            await this.actions[i].redo();
+
+        this.currentIndex = tGoal;
+        this.updateButtons();
     }
 
 
@@ -259,7 +297,9 @@ export class CancelStack {
     }
 
 
-
+    /**
+     * @description used because of the #113 issue
+     */
     repair(): void {
         if (this.actions.indexOf(undefined) >= 0) {
             ErrorMessage.show("#113 issue"); //we remove the undefined elements in the tab

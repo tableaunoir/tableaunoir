@@ -1,3 +1,4 @@
+import { BoardManager } from './boardManager';
 import { GUIActions } from './GUIActions';
 import { BoardNavigation } from './BoardNavigation';
 import { CircularMenu } from './CircularMenu';
@@ -97,6 +98,14 @@ export class KeyBoardShortCuts {
         else if (evt.ctrlKey && evt.key == "z") {// ctrl + z = undo
             Share.execute("cancel", [UserManager.me.userID]);
             evt.preventDefault();
+        }
+        else if (evt.key == "PageDown") {
+            if (!Share.isShared())
+                BoardManager.nextPausedFrame();
+        }
+        else if (evt.key == "PageUp") {
+            if (!Share.isShared())
+                BoardManager.previousPausedFrame();
         }
         else if (evt.ctrlKey && evt.key.toLowerCase() == 'x') {//Ctrl + x
             CircularMenu.hide();

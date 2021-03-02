@@ -4,9 +4,10 @@ import { Action } from "./Action";
 
 export class ActionPrintMagnet extends Action {
 
-	serialize(): ActionSerialized {
+	serializeData(): ActionSerialized {
 		return {
-			type: "printmagnet", userid: this.userid, magnet: this.img.outerHTML,
+			type: "printmagnet", 
+			pause: this.pause, userid: this.userid, magnet: this.img.outerHTML,
 			x: this.x, y: this.y
 		};
 	}

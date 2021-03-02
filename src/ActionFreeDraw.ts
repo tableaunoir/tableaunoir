@@ -30,8 +30,8 @@ export class ActionFreeDraw extends Action {
         return { angle: angle0 };
     }
 
-    serialize(): ActionSerialized {
-        return { type: "freedraw", userid: this.userid, points: this.points };
+    serializeData(): ActionSerialized {
+        return { type: "freedraw", pause: this.pause, userid: this.userid, points: this.points };
     }
 
     public alreadyDrawnSth = false;

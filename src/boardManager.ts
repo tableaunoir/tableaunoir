@@ -142,6 +142,7 @@ export class BoardManager {
             return;
 
         await BoardManager.cancelStack.undo(userid);
+        AnimationToolBar.update();
     }
 
 
@@ -154,6 +155,19 @@ export class BoardManager {
             return;
 
         await BoardManager.cancelStack.redo(userid);
+        AnimationToolBar.update();
+    }
+
+
+
+    static async previousPausedFrame(): Promise<void> {
+        await BoardManager.cancelStack.previousPausedFrame();
+        AnimationToolBar.update();
+    }
+
+    static async nextPausedFrame(): Promise<void> {
+        await BoardManager.cancelStack.nextPausedFrame();
+        AnimationToolBar.update();
     }
 }
 

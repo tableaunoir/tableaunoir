@@ -8,13 +8,29 @@ export abstract class Action {
      * the user that has performed the action
      */
     public userid: string;
+    public pause = false;
 
     constructor(userid: string) {
         this.userid = userid;
     }
 
 
-    abstract serialize(): ActionSerialized;
+    /**
+     * serialize but does not care about pause
+     */
+    protected abstract serializeData(): ActionSerialized;
+
+
+    /**
+     * serialize the action
+     */
+    serialize(): ActionSerialized {
+        const obj = this.serializeData();
+        if(!obj.pause)
+            delete obj.pause;
+        return obj;
+    }
+
     /**
      * redo the action
      */
