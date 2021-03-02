@@ -97,7 +97,7 @@ export class CancelStack {
 
         await this.playUntilCurrentIndex();
     }
-    
+
 
     private _push(action: Action): void {
 
@@ -158,7 +158,7 @@ export class CancelStack {
             return;
 
         this.actions.splice(t, 1);
-        if (t >= this.currentIndex)
+        if (t <= this.currentIndex)
             this.currentIndex--;
         this.update();
     }
@@ -184,13 +184,13 @@ export class CancelStack {
      */
     async playUntilCurrentIndex(): Promise<void> {
         let bug113 = false;
-        for (let i = 0; i <= this.currentIndex; i++) {
-            if (this.actions[i] == undefined) {
-                ErrorMessage.show("issue #113. error with i = " + i + "try to undo/redo again");
+        for (let t = 0; t <= this.currentIndex; t++) {
+            if (this.actions[t] == undefined) {
+                ErrorMessage.show("issue #113. error with t = " + t + " try to undo/redo again");
                 bug113 = true;
             }
             else
-                await this.actions[i].redo();
+                await this.actions[t].redo();
 
         }
         if (bug113) {
