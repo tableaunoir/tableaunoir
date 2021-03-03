@@ -1,3 +1,4 @@
+import { AnimationToolBar } from './AnimationToolBar';
 import { BoardManager } from './boardManager';
 import { GUIActions } from './GUIActions';
 import { BoardNavigation } from './BoardNavigation';
@@ -8,14 +9,27 @@ import { UserManager } from './UserManager';
 import { Layout } from './Layout';
 import { Toolbar } from './Toolbar';
 import { Menu } from './Menu';
+import { S } from './Script';
 
+
+
+
+const keys = {};
+
+window['keys'] = keys;
 
 export class KeyBoardShortCuts {
 
     private static available = true;
 
 
+    static onKeyUp(evt: KeyboardEvent): void {
+        delete keys[evt.key];
+    }
+
     static onKeyDown(evt: KeyboardEvent): void {
+        S.onkey(evt.key);
+        keys[evt.key] = true;
 
         if ((evt.key != "F11") &&
             (evt.key != "F12") &&
@@ -56,6 +70,8 @@ export class KeyBoardShortCuts {
             GUIActions.switchChalkEraser();
         else if (evt.key == "h")
             Toolbar.toggle();
+        else if (evt.key == "a")
+            AnimationToolBar.toggle();
         else if (evt.key == "Enter" && CircularMenu.isShown())
             CircularMenu.hide();
         else if (evt.key == "ArrowLeft" && CircularMenu.isShown())

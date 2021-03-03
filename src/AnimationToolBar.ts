@@ -15,6 +15,15 @@ export class AnimationToolBar {
      */
     static dragAndDropFrames = false;
 
+
+
+    static toggle(): void {
+        if (!document.getElementById("buttonMovieMode").hidden) {
+            document.getElementById("animationToolBar").hidden = !document.getElementById("animationToolBar").hidden;
+            AnimationToolBar.update();
+        }
+
+    }
     /**
      * hide forever the animation mode
      */
@@ -86,7 +95,7 @@ export class AnimationToolBar {
 
         el.onclick = () => {
             BoardManager.cancelStack.setCurrentIndex(t);
-            for (let i = 0; i < BoardManager.cancelStack.actions.length - 1; i++)
+            for (let i = 0; i <= BoardManager.cancelStack.actions.length - 1; i++)
                 if (i <= t)
                     document.getElementById("animationActionList").children[i].classList.add("actionExecuted")
                 else

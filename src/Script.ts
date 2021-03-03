@@ -8,6 +8,7 @@ export class S {
 
     /** assign S.mousemove to execute sth when you move the chalk on the board */
     static mousemove: ({ x, y }: { x: number, y: number }) => void = () => { /*do nothing*/ };
+    static onkey: (keyname: string) => void = () => { /*do nothing*/ };
 
     /**
      * @param a magnet m 
@@ -74,6 +75,15 @@ export class S {
         return (x1 <= x) && (x <= x2) && (y1 <= y) && (y <= y2);
     }
 
+
+    static magnetDrawingUnder(magnet: HTMLElement, x: number, y: number): boolean {
+        const data = (<HTMLCanvasElement>document.getElementById("canvas")).getContext("2d").getImageData(x - 16, y - 16, 32, 32);
+        for (let i = 0; i <= data.data.length - 1; i++)
+            if (data.data[i] != 0)
+                return true;
+        return false;
+    }
+
 }
 
 
@@ -89,6 +99,7 @@ export class Script {
         document.getElementById("script").onkeydown = () => {/*do nothing*/ };
     }
 }
+
 
 
 

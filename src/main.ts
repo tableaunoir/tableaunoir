@@ -119,6 +119,7 @@ function load() {
 				(<HTMLButtonElement>buttons[i]).onfocus = (<HTMLElement>document.activeElement).blur; //to be improved
 
 		document.onkeydown = KeyBoardShortCuts.onKeyDown;
+		document.onkeyup = KeyBoardShortCuts.onKeyUp;
 
 		document.getElementById("canvasBackground").onpointermove = () => { console.log("mousemove on the background should not occur") };
 

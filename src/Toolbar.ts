@@ -9,10 +9,9 @@ export class Toolbar {
      */
     static init(): void {
 
-        document.getElementById("buttonMovieMode").onclick = () => {
-            document.getElementById("animationToolBar").hidden = !document.getElementById("animationToolBar").hidden;
-            AnimationToolBar.update();
-        };
+        document.getElementById("buttonMovieMode").onclick = AnimationToolBar.toggle;
+            
+ 
 
         if (Layout.isTactileDevice()) {
             try {
