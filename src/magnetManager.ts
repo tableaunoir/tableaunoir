@@ -660,6 +660,7 @@ export class MagnetManager {
 		divText.innerHTML = "type text";
 		divText.contentEditable = "true";
 		divText.style.fontSize = "24px";
+		divText.style.color = UserManager.me.color;
 		div.classList.add("magnetText");
 
 		div.style.left = x + "px";
