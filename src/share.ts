@@ -43,7 +43,7 @@ export class Share {
 			Share._treatReceivedMessage(JSON.parse(msg.data));
 		};
 
-		setInterval(() => this.send({type: "heartbeat", userid: UserManager.me.userID}), 3000);
+		setInterval(() => this.send({ type: "heartbeat", userid: UserManager.me.userID }), 3000);
 		AnimationToolBar.hideForever();
 	}
 
@@ -51,9 +51,9 @@ export class Share {
 	/**
 	 * @returns true iff we are on github.io
 	 */
-	static isOnGitHub(): boolean {
+	/**static isOnGitHub(): boolean {
 		return window.location.origin.indexOf("github") >= 0;
-	}
+	}**/
 	/**
 	 * initialization
 	 */
@@ -74,8 +74,8 @@ export class Share {
 		document.getElementById("buttonAllCanWrite").onclick = () => Share.setCanWriteForAllExceptMeAndRoot(true);
 
 
-		if (!Share.isOnGitHub())
-			document.getElementById('ShareGithub').hidden = true;
+		/**if (!Share.isOnGitHub())
+			document.getElementById('ShareGithub').hidden = true;**/
 
 		if (Share.isSharedURL()) {
 			const tryJoin = () => {
@@ -136,10 +136,10 @@ export class Share {
 	 * @description shows the connection error (called when there is a problem with the connection)
 	 */
 	static showConnectionError(): void {
-		if (Share.isOnGitHub())
+		/**if (Share.isOnGitHub())
 			ErrorMessage.show("For sharing, first go to a deployed server. Go to menu/share for more information.");
-		else
-			ErrorMessage.show("Impossible to connect to the server");
+		else*/
+		ErrorMessage.show("Impossible to connect to the server");
 	}
 
 	/**
@@ -213,7 +213,7 @@ export class Share {
 			case "ready": Loading.hide(); break;//oh you are ready to participate!
 			case "setWidth": getCanvas().width = msg.width; break;
 			case "root": //you obtained root permission and the server tells you that
-				if(UserManager.getNumberOfUsers() == 1) //by default
+				if (UserManager.getNumberOfUsers() == 1) //by default
 					Share.canWriteValueByDefault = true;
 				Share.execute("setRoot", [UserManager.me.userID]);
 				break;

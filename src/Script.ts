@@ -79,7 +79,7 @@ export class S {
     static magnetDrawingUnder(magnet: HTMLElement, x: number, y: number): boolean {
         const data = (<HTMLCanvasElement>document.getElementById("canvas")).getContext("2d").getImageData(x - 16, y - 16, 32, 32);
         for (let i = 0; i <= data.data.length - 1; i++)
-            if (data.data[i] != 0)
+            if (data.data[i] > 8)
                 return true;
         return false;
     }
