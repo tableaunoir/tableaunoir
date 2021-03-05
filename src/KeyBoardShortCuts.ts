@@ -54,10 +54,7 @@ export class KeyBoardShortCuts {
             return;
 
         if (!evt.ctrlKey && !evt.shiftKey && evt.key == "n") { //navigation
-            if (Layout.isMinimap)
-                Layout.normal();
-            else
-                Layout.minimap();
+            Layout.toggleMinimap();
         }
         else if (!evt.ctrlKey && !evt.shiftKey && evt.key == "c") // c => change color
             GUIActions.changeColor(true);

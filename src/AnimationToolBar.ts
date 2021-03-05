@@ -20,6 +20,10 @@ export class AnimationToolBar {
     static toggle(): void {
         if (!document.getElementById("buttonMovieMode").hidden) {
             document.getElementById("animationToolBar").hidden = !document.getElementById("animationToolBar").hidden;
+            if (document.getElementById("animationToolBar").hidden)
+                document.getElementById("buttonMovieMode").classList.remove("buttonselected");
+            else
+                document.getElementById("buttonMovieMode").classList.add("buttonselected");
             AnimationToolBar.update();
         }
 

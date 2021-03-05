@@ -10,6 +10,16 @@ export class Layout {
     static get isMinimap(): boolean {
         return Layout.isminimap;
     }
+
+
+    static toggleMinimap(): void {
+        if (Layout.isMinimap) {
+            Layout.normal();
+        }
+        else {
+            Layout.minimap();
+        }
+    }
     /**
  * @returns the number of pixels when scrolling a page
  * a page is either halfscreen (when you teach)
@@ -92,6 +102,7 @@ export class Layout {
 
 
     static normal(): void {
+        document.getElementById("buttonMap").classList.remove("buttonselected");
         const contentElement = document.getElementById("content");
         contentElement.style.transition = Layout.TRANSITION;
         contentElement.style.top = "0px";
@@ -112,6 +123,7 @@ export class Layout {
     }
 
     static minimap(): void {
+        document.getElementById("buttonMap").classList.add("buttonselected");
         console.log("minimap")
         const contentElement = document.getElementById("content");
         contentElement.style.transition = Layout.TRANSITION;

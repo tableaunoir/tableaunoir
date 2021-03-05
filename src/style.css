@@ -17,7 +17,8 @@ body {
 	background-color: rgb(68, 68, 68);
 }
 
-textarea, input {
+textarea,
+input {
 	background-color: rgb(47, 47, 47);
 	color: oldlace;
 	border: 1px solid black;
@@ -464,8 +465,7 @@ button:hover {
 
 
 .buttonselected {
-/*	border: 8px rgb(29, 108, 255) solid;*/
-	box-shadow: 1px 1px 10px black inset, 0 1px 0 rgba( 255, 255, 255, 0.4);
+	box-shadow: 3px 2px 1px inset black;
 }
 
 .alreadyShared {
@@ -945,7 +945,7 @@ h1 {
 #animationActionList {
 	display: inline-block;
 	width: max-content;
-	
+
 }
 
 .action {
