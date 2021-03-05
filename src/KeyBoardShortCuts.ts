@@ -9,7 +9,7 @@ import { UserManager } from './UserManager';
 import { Layout } from './Layout';
 import { Toolbar } from './Toolbar';
 import { Menu } from './Menu';
-import { S } from './Script';
+import { S, Script } from './Script';
 
 
 
@@ -89,6 +89,9 @@ export class KeyBoardShortCuts {
         }
         else if (evt.key == "ArrowRight") {
             BoardNavigation.rightNextPage();
+        }
+        else if (evt.ctrlKey && evt.key == "r") {
+            Script.toggle();
         }
         else if (UserManager.me.canWrite) {
             KeyBoardShortCuts.onKeyDownThatModifies(evt);

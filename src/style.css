@@ -464,7 +464,8 @@ button:hover {
 
 
 .buttonselected {
-	border: 8px rgb(29, 108, 255) solid;
+/*	border: 8px rgb(29, 108, 255) solid;*/
+	box-shadow: 1px 1px 10px black inset, 0 1px 0 rgba( 255, 255, 255, 0.4);
 }
 
 .alreadyShared {

@@ -232,14 +232,14 @@ export class CancelStack {
         for (let i = this.currentIndex - 1; i >= 0; i--)
             if (this.actions[i].pause)
                 return i;
-        return 0;
+        return this.currentIndex; //no "pause" action found, so we stay at the same frame
     }
 
     getNextPausedFrame(): number {
         for (let i = this.currentIndex + 1; i <= this.actions.length - 1; i++)
             if (this.actions[i].pause)
                 return i;
-        return this.actions.length - 1;
+        return this.currentIndex; //no "pause" action found, so we stay at the same frame // this.actions.length - 1;
     }
 
 
@@ -249,12 +249,15 @@ export class CancelStack {
         if (!this.canUndo)
             return;
 
-        this.currentIndex = this.getPreviousPausedFrame();
-
-        this.updateButtons();
-
-        getCanvas().width = getCanvas().width + 0;
-        await this.playUntilCurrentIndex();
+        const newIndex = this.getPreviousPausedFrame();
+        if(newIndex != this.currentIndex) {
+            this.currentIndex = newIndex;
+            this.updateButtons();
+    
+            getCanvas().width = getCanvas().width + 0;
+            await this.playUntilCurrentIndex();
+        }
+        
     }
 
 

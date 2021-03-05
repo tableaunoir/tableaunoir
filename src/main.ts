@@ -150,7 +150,7 @@ function installMouseEventsCanvas() {
 
 	document.getElementById("canvas").onpointermove = (evt) => {
 		evt.preventDefault();
-		S.mousemove({ x: evt.offsetX, y: evt.offsetY });
+		S.onmousemove({ x: evt.offsetX, y: evt.offsetY });
 
 		//	window["mv"]++;
 		if ((ismousedown && UserManager.me.canWrite) || timeToMouseMove) {

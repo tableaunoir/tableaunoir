@@ -7,8 +7,9 @@ import { Share } from './share';
 export class S {
 
     /** assign S.mousemove to execute sth when you move the chalk on the board */
-    static mousemove: ({ x, y }: { x: number, y: number }) => void = () => { /*do nothing*/ };
+    static onmousemove: ({ x, y }: { x: number, y: number }) => void = () => { /*do nothing*/ };
     static onkey: (keyname: string) => void = () => { /*do nothing*/ };
+    static onupdate: () => void = () => { /*do nothing*/ };
 
     /**
      * @param a magnet m 
@@ -95,8 +96,41 @@ window['S'] = S;
 
 
 export class Script {
+    static isRun = false;
     static init(): void {
         document.getElementById("script").onkeydown = () => {/*do nothing*/ };
+        document.getElementById("buttonScriptRun").onclick = Script.toggle;
+    }
+
+
+    static toggle(): void {
+        if (Script.isRun) {
+            Script.stop();
+        }
+        else Script.run();
+    }
+
+    static run(): void {
+        Script.isRun = true;
+
+        const step = () => {
+            S.onupdate();
+            if(Script.isRun)
+                requestAnimationFrame(step);
+        }
+        
+        eval((<HTMLTextAreaElement>document.getElementById("script")).value);
+
+        step();
+    }
+
+
+    static stop(): void {
+        Script.isRun = false;
+
+        S.onkey = () => {/*nothing*/};
+        S.onmousemove = () => {/*nothing*/};
+        S.onupdate = () => {/*nothing*/};       
     }
 }
 
@@ -105,3 +139,4 @@ export class Script {
 
 
 
+window['Script'] = Script;
