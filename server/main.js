@@ -342,11 +342,11 @@ server.on('connection', function (socket) {
    * if the server has not get any message from that socket (user) since CONNECTIVITYDELAY, we kick that user out
    * since her computer has crashed, her network is not reliable enough
    */
-  const CONNECTIVITYDELAY = 10000; //10sec
+  const CONNECTIVITYDELAY = 15000; //10sec
   const testConnectivity = setInterval(() => {
     if (Date.now() - socket.lastMessageTime > CONNECTIVITYDELAY)
       disconnect();
-  }, 10000);
+  }, CONNECTIVITYDELAY);
 
   /**
    * this function disconnects the user from the server

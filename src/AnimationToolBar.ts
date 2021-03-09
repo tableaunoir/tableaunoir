@@ -40,9 +40,7 @@ export class AnimationToolBar {
     /**
      * @returns true if we are in the animation mode
      */
-    static is(): boolean {
-        return !document.getElementById("animationToolBar").hidden;
-    }
+    static is(): boolean { return !document.getElementById("animationToolBar").hidden; }
 
     /**
      * @description updates the whole timeline

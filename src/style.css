@@ -26,7 +26,9 @@ input {
 }
 
 
-
+textarea:focus, input:focus {
+	border: 1px solid rgb(0, 156, 246);
+}
 
 
 .icon {
@@ -670,19 +672,6 @@ h1 {
 	margin: 8px;
 	padding: 0px;
 }
-
-
-
-#name {
-	border: none;
-	border-radius: 5px;
-	padding: 8px;
-	padding-top: 6px;
-	font-size: 14pt;
-	margin: 8px;
-	outline: none;
-}
-
 
 
 #shareUrl {
