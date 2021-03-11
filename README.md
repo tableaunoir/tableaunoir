@@ -1,8 +1,20 @@
 # tableaunoir
 
-Tableaunoir is an **online collaborative blackboard** tool. It can be used as a traditional blackboard but you can also create **interactive animations** via the use of "**fridge magnets**".
+Tableaunoir is an **online collaborative blackboard** tool.
 ["Tableau noir" means blackboard in french](https://www.deepl.com/translator#fr/en/Tableau%20noir).
 The online version is available here: [https://tableaunoir.github.io/] ([another one](https://tableaunoir.irisa.fr))
+
+
+## Raison d'être
+
+Contrary to plenty of other collaborative boards on the Internet, Tableaunoir  you can create **interactive animations** via the use of "**fridge magnets**".
+
+<img src="./imgREADME/screenshot.png" title="Screenshot of tableaunoir showcasing magnets to illustrate sorting algorithms" alt="Screenshot of tableaunoir showcasing magnets to illustrate sorting algorithms" width="300"/> <img src="./imgREADME/screenshot2.png" title="Screenshot of tableaunoir showcasing magnets to illustrate graph algorithms" alt="Screenshot of tableaunoir showcasing magnets to illustrate graph algorithms" width="150"/> <img src="./imgREADME/screenshot3.png" title="Screenshot of tableaunoir showcasing magnets to illustrate B-tree algorithms" alt="Screenshot of tableaunoir showcasing magnets to illustrate B-tree algorithms" width="300"/> <img src="./imgREADME/simcitygraph.png" title="Screenshot of tableaunoir showcasing magnets to illustrate large graph algorithms, using Sim City icons for nodes" alt="Screenshot of tableaunoir showcasing magnets to illustrate large graph algorithms, using Sim City icons for nodes" width="300"/> <img src="./imgREADME/euclide.png" title="Screenshot of tableaunoir showcasing a course using colors etc" alt="Screenshot of tableaunoir showcasing a course using colors etc" width="300"/> <img src="./imgREADME/screenshot_tablet.jpg" title="Screenshot of tableaunoir showcasing the latest toolbar, magnets, texts etc" alt="Screenshot of tableaunoir showcasing the latest toolbar, magnets, texts etc" width="300"/>
+
+Also Tableaunoir is ideal to give standard lectures. You may divide your board in panels and navigate panel by panel.
+
+<img src="./imgREADME/coursparcourslargeur.gif" alt="A small gif video showcasing the use of tableaunoir in a course on breadth-first search" width="680"/>
+
 
 
 
@@ -44,7 +56,7 @@ Tableaunoir is **used for teaching** at ENS Rennes. The main advantage is that, 
 <img src="./photos/tableaunoir_amphi.jpg" title="A photo showcasing the use of tableaunoir in a real course taught in an amphitheater (1/3)" alt="A photo showcasing the use of tableaunoir in a real course taught in an amphitheater (1/3)" width="300"/> <img src="./photos/tableaunoir_amphi2.jpg" title="A photo showcasing the use of tableaunoir in a real course taught in an amphitheater (2/3)" alt="A photo showcasing the use of tableaunoir in a real course taught in an amphitheater (2/3)" width="300"/> <img src="./photos/tableaunoir_amphi3.jpg" title="A photo showcasing the use of tableaunoir in a real course taught in an amphitheater (3/3)" alt="A photo showcasing the use of tableaunoir in a real course taught in an amphitheater (3/3)" width="300"/>
 
 
-<img src="./imgREADME/coursparcourslargeur.gif" alt="A small gif video showcasing the use of tableaunoir in a course on breadth-first search" width="680"/>
+
 
 
 ### Share ideas
@@ -57,9 +69,6 @@ Tableaunoir can simply be used to draw pictures: [https://team.inria.fr/erable/e
 
 
 
-## Screenshots
-
-<img src="./imgREADME/screenshot.png" title="Screenshot of tableaunoir showcasing magnets to illustrate sorting algorithms" alt="Screenshot of tableaunoir showcasing magnets to illustrate sorting algorithms" width="300"/> <img src="./imgREADME/screenshot2.png" title="Screenshot of tableaunoir showcasing magnets to illustrate graph algorithms" alt="Screenshot of tableaunoir showcasing magnets to illustrate graph algorithms" width="150"/> <img src="./imgREADME/screenshot3.png" title="Screenshot of tableaunoir showcasing magnets to illustrate B-tree algorithms" alt="Screenshot of tableaunoir showcasing magnets to illustrate B-tree algorithms" width="300"/> <img src="./imgREADME/simcitygraph.png" title="Screenshot of tableaunoir showcasing magnets to illustrate large graph algorithms, using Sim City icons for nodes" alt="Screenshot of tableaunoir showcasing magnets to illustrate large graph algorithms, using Sim City icons for nodes" width="300"/> <img src="./imgREADME/euclide.png" title="Screenshot of tableaunoir showcasing a course using colors etc" alt="Screenshot of tableaunoir showcasing a course using colors etc" width="300"/> <img src="./imgREADME/screenshot_tablet.jpg" title="Screenshot of tableaunoir showcasing the latest toolbar, magnets, texts etc" alt="Screenshot of tableaunoir showcasing the latest toolbar, magnets, texts etc" width="300"/>
 
 ---
 
