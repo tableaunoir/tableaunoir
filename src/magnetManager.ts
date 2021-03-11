@@ -183,7 +183,7 @@ export class MagnetManager {
 		let id = "";
 		do {
 			id = "m" + Math.round(Math.random() * 1000000);
-		} while(document.getElementById(id) != undefined)
+		} while (document.getElementById(id) != undefined)
 		return id;
 	}
 
@@ -322,7 +322,7 @@ export class MagnetManager {
 
 			nodes.push({ magnet: m, x: p.x, y: p.y });
 		}
-	//	console.log(nodes)
+		//	console.log(nodes)
 		return nodes;
 	}
 
@@ -418,6 +418,18 @@ export class MagnetManager {
 	}
 
 
+
+
+	/**
+	 * 
+	 * @param element 
+	 * @description remove the focus on the magnet (it is a text magnet for instance)
+	 */
+	private static magnetUnFocus(element: HTMLElement) {
+		element.blur();
+		if (element.children.length > 0)
+			(<HTMLElement>element.children[0]).blur();
+	}
 	/**
 	 * 
 	 * @param element 
@@ -466,20 +478,19 @@ export class MagnetManager {
 			x = evt.clientX * Layout.getZoom();
 			y = evt.clientY * Layout.getZoom();
 
-			document.onpointerup = closeDragElement;
-			document.onmouseup = closeDragElement;
+
+			MagnetManager.magnetUnFocus(element);
 			document.onpointermove = elementDrag;
+			document.onpointerup = closeDragElement;
+			//document.onmouseup = closeDragElement;
+
 
 			const magnets = MagnetManager.getMagnets();
 			otherElementsToMove = [];
 
-			//if(elmt.style.clipPath == undefined) //if not an image (otherwise bug)
 			for (let i = 0; i < magnets.length; i++)
-				if (magnets[i] != element && inside(magnets[i], element)) {
+				if (magnets[i] != element && inside(magnets[i], element))
 					otherElementsToMove.push(magnets[i]);
-				}
-
-
 		}
 
 
@@ -489,9 +500,10 @@ export class MagnetManager {
 
 			MagnetManager.currentMagnet = element;
 			e.target.classList.add("magnetDrag");
-			const canvas = getCanvas();
 
+			const canvas = getCanvas();
 			canvas.style.cursor = "none";
+
 			e = e || window.event;
 			e.preventDefault();
 			// calculate the new cursor position:
@@ -505,9 +517,9 @@ export class MagnetManager {
 			// set the element's new position:
 			Share.execute("magnetMove", [element.id, element.offsetLeft - dx, element.offsetTop - dy]);
 
-			for (const el of otherElementsToMove) {
+			for (const el of otherElementsToMove)
 				Share.execute("magnetMove", [el.id, el.offsetLeft - dx, el.offsetTop - dy]);
-			}
+
 
 			ConstraintDrawing.update();
 		}
@@ -517,7 +529,7 @@ export class MagnetManager {
 				return;
 
 			drag = false;
-			//console.log("close drag")
+			console.log("close drag")
 
 			const magnets = MagnetManager.getMagnets();
 
@@ -592,7 +604,11 @@ export class MagnetManager {
 
 		divText.onpointerdown = (e) => { e.stopPropagation(); }
 		divText.onpointermove = (e) => { e.stopPropagation(); }
-		divText.onpointerup = (e) => { e.stopPropagation(); }
+		divText.onpointerup = (e) => {
+			if (document.activeElement == divText) //if edit mode then the click should stop here
+				e.stopPropagation();
+			//otherwise, we do not stop (maybe the magnet is dragged! #144)
+		}
 
 		divText.onkeydown = (e) => {
 			const setFontSize = (size) => {
