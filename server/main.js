@@ -237,6 +237,8 @@ class TableauNoir {
     this.dispatch({ type: "join", userid: socket.userid }, socket);
 
     print("users are " + this.sockets.map((s) => s.userid).join(","));
+
+    this.treatCaseWithSingleUser();
   }
 
 
@@ -250,11 +252,29 @@ class TableauNoir {
     this.password = password;
   }
 
-
+  /**
+   * 
+   * @param {*} candidate 
+   * @returns true iff candidate is the correct password
+   */
   isPassWordCorrect(candidate) {
     return this.password == candidate;
   }
 
+  /**
+   * when called, as long there is only a single user, the server will send heartbeats for the client to be able to 
+   * test the quality of the connection
+   */
+  treatCaseWithSingleUser() {
+    const f = () => {
+      if (this.sockets.length == 1) {
+        this.dispatch({ type: "hearbeat" });
+        setTimeout(f, 1000);
+      }
+
+    }
+    f();
+  }
 
   isProtected() {
     return this.password != "";
@@ -270,6 +290,7 @@ class TableauNoir {
     this.sockets = this.sockets.filter(s => s !== socket);
     this.rootSockets = this.rootSockets.filter(s => s !== socket);
     this.dispatch({ type: "leave", userid: socket.userid }, socket); //tells the others that socket leaved
+    this.treatCaseWithSingleUser();
   }
 
 

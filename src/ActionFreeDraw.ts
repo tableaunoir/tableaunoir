@@ -37,19 +37,27 @@ export class ActionFreeDraw extends Action {
     public alreadyDrawnSth = false;
     public points: { x: number; y: number; pressure: number; color: string; }[] = [];
 
-    addPoint(pt: { x: number; y: number; pressure: number; color: string; }): void {
+    /**
+     * 
+     * @param pt 
+     * @returns true if the point was indeed added
+     */
+    addPoint(pt: { x: number; y: number; pressure: number; color: string; }): boolean {
         pt.x = Geometry.numberRound(pt.x);
         pt.y = Geometry.numberRound(pt.y);
-        
+
         if (this.points.length > 0) {
             const pointBefore = this.points[this.points.length - 1];
             if (Math.abs(pt.x - pointBefore.x) < 1 && Math.abs(pt.y - pointBefore.y) < 1)
-                return;
+            //if the point is too close, we will not add it
+                return false;
         }
 
         this.points.push(pt);
         if (Math.abs(pt.x - this.points[0].x) > 1 || Math.abs(pt.y - this.points[0].y) > 1)
             this.alreadyDrawnSth = true;
+
+        return true;
     }
 
 

@@ -39,8 +39,12 @@ export class ToolDraw extends Tool {
     }
 
 
+
+    private pointIndex = 0;
+
     mousedown(evt): void {
         ToolDrawAudio.mousedown(evt.pressure);
+        this.pointIndex = 0;
         this.lastDelineation.reset();
         this.lastDelineation.addPoint({ x: this.x, y: this.y });
         this.svgLines = [];
@@ -73,6 +77,18 @@ export class ToolDraw extends Tool {
 
 
 
+
+    /* updateWhenDrawing(): void {
+         const points = this.action.points;
+         for (let i = this.pointIndex; i < points.length - 1; i++) {
+             this.svgLines.push(ToolDraw.addSVGLine(points[i].x, points[i].y,
+                 points[i + 1].x, points[i + 1].y, points[i].pressure, points[i].color));
+         }
+         this.pointIndex = this.action.points.length - 1;
+ 
+     }*/
+
+
     mousemove(evt: PointerEvent): void {
         if (this.isDrawing) {
             const evtX = evt.offsetX;
@@ -82,10 +98,13 @@ export class ToolDraw extends Tool {
 
             if (this.lastDelineation.isDrawing()) {//this guard is because, when a magnet is created the user does not know the drawing stopped.
 
-                this.action.addPoint({ x: evtX, y: evtY, pressure: evt.pressure, color: this.user.color });
+                if (this.action.addPoint({ x: evtX, y: evtY, pressure: evt.pressure, color: this.user.color }))
+                    this.svgLines.push(ToolDraw.addSVGLine(this.x, this.y, evtX, evtY, evt.pressure, this.user.color));
                 // 
                 //  if (this.isSmoothing)
-                this.svgLines.push(ToolDraw.addSVGLine(this.x, this.y, evtX, evtY, evt.pressure, this.user.color));
+                //requestAnimationFrame(() => this.updateWhenDrawing());
+
+                //this.svgLines.push(ToolDraw.addSVGLine(this.x, this.y, evtX, evtY, evt.pressure, this.user.color));
                 /*else
                     Drawing.drawLine(getCanvas().getContext("2d"), this.x, this.y, evtX, evtY, evt.pressure, this.user.color);*/
             }
@@ -113,9 +132,7 @@ export class ToolDraw extends Tool {
                 if (this.action.alreadyDrawnSth && this.isSmoothing)
                     this.action.smoothify();
 
-                for (const p of this.action.points) {
-                    this.lastDelineation.addPoint({ x: p.x, y: p.y });
-                }
+                this.lastDelineation.setPoints(this.action.points);
                 this.lastDelineation.finish();
 
                 this.action.redo();
@@ -174,7 +191,7 @@ class ToolDrawAudio {
     static audioChalkDown: HTMLAudioElement = new Audio("sounds/chalkdown.ogg");
     static audioChalkMove: HTMLAudioElement = new Audio("sounds/chalkmove.ogg");
 
-    static mousedown(p: number) {
+    static mousedown(p: number): void {
         if (!Sound.is) return;
         ToolDrawAudio.audioChalkDown.pause();
         ToolDrawAudio.audioChalkDown.currentTime = 0;
@@ -184,9 +201,9 @@ class ToolDrawAudio {
     }
 
 
-    static mousemove(d: number) {
+    static mousemove(d: number): void {
         if (!Sound.is) return;
-        
+
         if (d <= 2) {
             ToolDrawAudio.audioChalkMove.pause();
         }
@@ -199,7 +216,7 @@ class ToolDrawAudio {
     }
 
 
-    static mouseup() {
+    static mouseup(): void {
         if (!Sound.is) return;
         ToolDrawAudio.audioChalkDown.pause();
         ToolDrawAudio.audioChalkMove.pause();

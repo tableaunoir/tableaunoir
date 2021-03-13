@@ -529,7 +529,7 @@ export class MagnetManager {
 				return;
 
 			drag = false;
-			console.log("close drag")
+			//console.log("close drag")
 
 			const magnets = MagnetManager.getMagnets();
 

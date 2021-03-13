@@ -22,6 +22,7 @@ export class Share {
 	static ws: WebSocket = undefined;
 	static id: string = undefined;
 	static canWriteValueByDefault = true;
+	static lastMessageTime = Date.now();
 
 	/**
 	 *
@@ -37,9 +38,12 @@ export class Share {
 
 		Share.ws.onerror = () => { ErrorMessage.show("Error during the connection to the server.") };
 		Share.ws.onclose = () => { ErrorMessage.show("The connection has been lost.") };
-		Share.ws.onopen = f;
+		Share.ws.onopen = () => {
+			Share.protocolTestConnection();
+			f();
+		};
 		Share.ws.onmessage = (msg) => {
-			//	console.log("I received the message: ");
+			Share.lastMessageTime = Date.now();
 			Share._treatReceivedMessage(JSON.parse(msg.data));
 		};
 
@@ -48,6 +52,19 @@ export class Share {
 	}
 
 
+
+
+	/**
+	 * when launched, this function will keep testing the quality of the connection
+	 */
+	static protocolTestConnection(): void {
+		const CONNECTIVITYDELAY = 15000;
+		setInterval(() => {
+			if (Date.now() - Share.lastMessageTime > CONNECTIVITYDELAY)
+				ErrorMessage.show("You seem disconnected...");
+		}, CONNECTIVITYDELAY);
+
+	}
 	/**
 	 * @returns true iff we are on github.io
 	 */
@@ -474,6 +491,4 @@ export class Share {
 			Share.execute("setUserCanWrite", [userid, b || canWrite]);
 		}
 	}
-
-
 }

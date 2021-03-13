@@ -11,6 +11,9 @@ import { MagnetManager } from './magnetManager';
  * This class represents a polyline drawn by a user
  */
 export class Delineation {
+    setPoints(points: { x: number; y: number }[]): void {
+        this.points = points;
+    }
 
     points: { x: number, y: number }[] = [];
     lastpoints = [];
@@ -111,7 +114,7 @@ export class Delineation {
             this._createMagnetFromImg();
 
         Sound.play("magnetcreationfromboard");
-        
+
         if (cut && removeContour) //if cut, remove the contour after having baked the magnet
             Drawing.removeContour(this.points);
 
@@ -129,7 +132,7 @@ export class Delineation {
     isSuitable(): boolean {
         for (const point of this.points) {
             if (Math.abs(point.x - this.points[0].x) > 16 &&
-                Math.abs(point.x - this.points[0].x) > 16)
+                Math.abs(point.y - this.points[0].y) > 16)
                 return true;
         }
         return false;
@@ -160,7 +163,6 @@ export class Delineation {
     _createMagnetFromImg: () => void = () => {
         const img = new Image();
         const rectangle = this._getRectangle();
-        console.log(rectangle)
         img.src = BoardManager.getDataURLOfRectangle(rectangle);
         img.style.clipPath = "polygon(" + this.points.map(point => `${point.x - rectangle.x1}px ${point.y - rectangle.y1}px`).join(", ") + ")";
         MagnetManager.addMagnet(img);
