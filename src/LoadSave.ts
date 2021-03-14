@@ -14,6 +14,18 @@ import { Menu } from './Menu'
  */
 export class LoadSave {
 
+    static loadFromLocalStorage(): void {
+        const name = Share.getTableauNoirID();
+        if (localStorage[name])
+            LoadSave.loadJSON(JSON.parse(localStorage[name]));
+    }
+
+
+    static saveLocalStorage(): void {
+        const name = Share.getTableauNoirID();
+        localStorage[name] = LoadSave.getTableauNoirString();
+    }
+
     /**
      * @description initialize the button Save and the drag and drop of files
      */
@@ -28,7 +40,7 @@ export class LoadSave {
 
 
         document.getElementById("save").onclick = LoadSave.save;
-        
+
         document.getElementById("buttonCancelStackFlatten").onclick = () => Share.execute("cancelStackFlatten", []);
 
 
@@ -171,7 +183,7 @@ export class LoadSave {
             BoardManager.load(obj.canvasDataURL);
         }
 
-        document.getElementById("documentPanel").innerHTML = obj.backgroundLayer ? obj.backgroundLayer : "";        
+        document.getElementById("documentPanel").innerHTML = obj.backgroundLayer ? obj.backgroundLayer : "";
 
         if (obj.actions)
             BoardManager.cancelStack.load(obj.actions, obj.t);
@@ -188,10 +200,10 @@ export class LoadSave {
         const magnets = document.getElementById("magnets").innerHTML;
         const backgroundLayer = document.getElementById("documentPanel").innerHTML;
         const svg = document.getElementById("svg").innerHTML;
-        const script = (<HTMLTextAreaElement> document.getElementById("script")).value;
+        const script = (<HTMLTextAreaElement>document.getElementById("script")).value;
         // const canvasDataURL = getCanvas().toDataURL();
         //const obj = { magnets: magnets, svg: svg, canvasDataURL: canvasDataURL };
-        return { backgroundLayer:backgroundLayer, magnets: magnets, width: getCanvas().width, height: getCanvas().height, svg: svg, actions: BoardManager.cancelStack.serialize(), t: BoardManager.cancelStack.t, script: script };
+        return { backgroundLayer: backgroundLayer, magnets: magnets, width: getCanvas().width, height: getCanvas().height, svg: svg, actions: BoardManager.cancelStack.serialize(), t: BoardManager.cancelStack.t, script: script };
     }
 
 
@@ -200,7 +212,7 @@ export class LoadSave {
     }
 
 
- 
+
     /**
      * @description save the blackboard and the magnets
      */

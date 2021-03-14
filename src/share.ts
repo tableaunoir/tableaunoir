@@ -1,3 +1,4 @@
+import { LoadSave } from './LoadSave';
 import { AnimationToolBar } from './AnimationToolBar';
 import { Wallpaper } from './Wallpaper';
 import { UserListComponent } from './UserListComponent';
@@ -23,6 +24,7 @@ export class Share {
 	static id: string = undefined;
 	static canWriteValueByDefault = true;
 	static lastMessageTime = Date.now();
+	static isTryingToConnect = false;
 
 	/**
 	 *
@@ -30,17 +32,21 @@ export class Share {
 	 * @description tries to connect to the server, when the connection is made, it executes f
 	 */
 	static tryConnect(f: () => void): void {
+		Share.isTryingToConnect = true;
+		Share.id = Share.getIDInSharedURL();
+
 		if (Share.ws != undefined)
 			return;
 
 		Share.ws = new WebSocket(config.server.websocket);
 		Share.ws.binaryType = "arraybuffer";
 
-		Share.ws.onerror = () => { ErrorMessage.show("Error during the connection to the server.") };
-		Share.ws.onclose = () => { ErrorMessage.show("The connection has been lost.") };
+		Share.ws.onerror = Share.whenDisconnected;
+		Share.ws.onclose = Share.whenDisconnected;
 		Share.ws.onopen = () => {
 			Share.protocolTestConnection();
 			f();
+			Share.isTryingToConnect = false;
 		};
 		Share.ws.onmessage = (msg) => {
 			Share.lastMessageTime = Date.now();
@@ -53,6 +59,16 @@ export class Share {
 
 
 
+	/**
+	 * executed when the connection is lost
+	 */
+	static whenDisconnected(): void {
+		ErrorMessage.show("You seem disconnected...");
+
+		if (!Share.isTryingToConnect) /*when an error occurs after the loading time, we could probably deduce that 
+		the board was used. Then store the data */
+			LoadSave.saveLocalStorage();
+	}
 
 	/**
 	 * when launched, this function will keep testing the quality of the connection
@@ -60,8 +76,10 @@ export class Share {
 	static protocolTestConnection(): void {
 		const CONNECTIVITYDELAY = 15000;
 		setInterval(() => {
-			if (Date.now() - Share.lastMessageTime > CONNECTIVITYDELAY)
-				ErrorMessage.show("You seem disconnected...");
+			if (Date.now() - Share.lastMessageTime > CONNECTIVITYDELAY) {
+				Share.whenDisconnected();
+			}
+
 		}, CONNECTIVITYDELAY);
 
 	}
@@ -97,7 +115,6 @@ export class Share {
 		if (Share.isSharedURL()) {
 			const tryJoin = () => {
 				try {
-					Share.id = Share.getIDInSharedURL();
 					if (Share.id != null) {
 						Share.join(Share.id);
 						(<HTMLInputElement>document.getElementById("shareUrl")).value = document.location.href;
@@ -239,7 +256,7 @@ export class Share {
 				console.log("a new user is joining: ", msg.userid)
 				UserManager.add(msg.userid);
 				// the leader is the user with the smallest ID
-				if (UserManager.isSmallestUserID())
+				if (UserManager.isIamResponsibleForData())
 					Share.sendAllDataTo(msg.userid);
 				break;
 			case "heartbeat":
@@ -459,7 +476,8 @@ export class Share {
 	static getTableauNoirID(): string { return Share.isSharedURL() ? Share.getIDInSharedURL() : "local"; }
 
 	/**
-	 * @returns the current tableaunoir ID
+	 * @returns the current tableaunoir ID in the URL
+	 * returns null if the URL does not contain a parameter id
 	 */
 	static getIDInSharedURL(): string { return (new URL(document.location.href)).searchParams.get('id'); }
 
@@ -471,6 +489,7 @@ export class Share {
 	 * @description say that the current user wants to join the tableaunoir id
 	 */
 	static join(id: string): void {
+		LoadSave.loadFromLocalStorage();
 		Share.execute("setUserCanWrite", [UserManager.me.userID, false]);//by default I can not write
 		Share.canWriteValueByDefault = false; //bydefault nobody... wait and see
 		Share.send({ type: "join", id: id });

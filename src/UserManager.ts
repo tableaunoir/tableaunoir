@@ -56,11 +56,13 @@ export class UserManager {
 
 
     /**
-     * @returns true if the userID of the current user is the minimum of all participants
+     * @returns true if the current user is the responsible of the data
+     * (minimum of all participants among the root one)
      */
-    static isSmallestUserID(): boolean {
+    static isIamResponsibleForData(): boolean {
         let minkey = "zzzzzzzzzzzzzzzz";
         for (const key in UserManager.users) {
+            if(UserManager.users[key].isRoot)
             if (key < minkey)
                 minkey = key;
         }
