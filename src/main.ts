@@ -140,12 +140,15 @@ function installMouseEventsCanvas() {
 	document.getElementById("canvas").onpointerdown = (evt) => {
 		evt.preventDefault();
 		ismousedown = true;
+		window["ismousedown"] = true;
 		Share.execute("mousedown", [UserManager.me.userID, evt])
 	};
 
 	document.getElementById("canvas").onpointermove = (evt) => {
 		evt.preventDefault();
-		S.onmousemove({ x: evt.offsetX, y: evt.offsetY });
+		const point = { x: evt.offsetX, y: evt.offsetY };
+		window["point"] = point;
+		S.onmousemove(point);
 
 		//	window["mv"]++;
 		if ((ismousedown && UserManager.me.canWrite) || timeToMouseMove) {
@@ -159,6 +162,7 @@ function installMouseEventsCanvas() {
 	document.getElementById("canvas").onpointerup = (evt) => {
 		evt.preventDefault();
 		ismousedown = false;
+		window["ismousedown"] = false;
 		Share.execute("mouseup", [UserManager.me.userID, evt])
 	};
 
@@ -166,6 +170,7 @@ function installMouseEventsCanvas() {
 	document.getElementById("canvas").onpointerleave = (evt) => {
 		evt.preventDefault();
 		ismousedown = false;
+		window["ismousedown"] = false;
 		Share.execute("mouseup", [UserManager.me.userID, evt])
 	};
 	//document.getElementById("canvas").onmousedown = mousedown;

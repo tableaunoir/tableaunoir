@@ -68,7 +68,7 @@ export class Layout {
     static STANDARDWIDTH = 10000;
 
     static getWindowWidth: () => number;
-    static getWindowHeight: () => number;
+    static getWindowHeight: () => number = () => Layout.STANDARDHEIGHT;
     static getZoom: () => number;
 
     /**

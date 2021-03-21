@@ -6,6 +6,44 @@ import { Share } from './share';
 /** this class contains the method that can be used in scripts of Tableaunoir */
 export class S {
 
+    private static audioCtx: AudioContext;
+
+
+    static newOscillator(): OscillatorNode {
+        if (!S.audioCtx)
+            S.audioCtx = new (window.AudioContext);
+
+        const oscillator = S.audioCtx.createOscillator();
+
+        oscillator.type = 'sawtooth';
+        oscillator.frequency.value = 440; // value in hertz
+        oscillator.connect(S.audioCtx.destination);
+        return oscillator;
+    }
+
+    static setFrequency(oscillator, frequency) {
+        oscillator.frequency.value = frequency;
+    }
+
+
+
+
+    static playNote(frequency, duration) {
+        if (!S.audioCtx)
+            S.audioCtx = new (window.AudioContext);
+
+        // create Oscillator node
+        const oscillator = S.audioCtx.createOscillator();
+
+        oscillator.type = 'square';
+        oscillator.frequency.value = frequency; // value in hertz
+        oscillator.connect(S.audioCtx.destination);
+        oscillator.start();
+
+        setTimeout(() => { oscillator.stop(); }, duration);
+    }
+
+
     /** assign S.mousemove to execute sth when you move the chalk on the board */
     static onmousemove: ({ x, y }: { x: number, y: number }) => void = () => { /*do nothing*/ };
     static onkey: (keyname: string) => void = () => { /*do nothing*/ };
@@ -115,10 +153,10 @@ export class Script {
 
         const step = () => {
             S.onupdate();
-            if(Script.isRun)
+            if (Script.isRun)
                 requestAnimationFrame(step);
         }
-        
+
         eval((<HTMLTextAreaElement>document.getElementById("script")).value);
 
         step();
@@ -128,9 +166,9 @@ export class Script {
     static stop(): void {
         Script.isRun = false;
 
-        S.onkey = () => {/*nothing*/};
-        S.onmousemove = () => {/*nothing*/};
-        S.onupdate = () => {/*nothing*/};       
+        S.onkey = () => {/*nothing*/ };
+        S.onmousemove = () => {/*nothing*/ };
+        S.onupdate = () => {/*nothing*/ };
     }
 }
 
@@ -140,3 +178,8 @@ export class Script {
 
 
 window['Script'] = Script;
+
+
+
+
+
