@@ -117,7 +117,10 @@ In order to share blackboards, you need a server. For installing the server:
 This software is open-source under [the GPLv3.0 license](https://github.com/tableaunoir/tableaunoir.github.io/blob/master/LICENSE).
 
 ## Credits
+Thank you to all contributors. Also thank you for your support. Please find the list of the source of the images.
+
 - Some pictures come from [@nicholas-ochoa/OpenSC2K](https://github.com/nicholas-ochoa/OpenSC2K), an open-source clone of Sim City 2000.
 - [https://openmoji.org/]
 - Some CC0 icons from [https://www.svgrepo.com/]
 - The sound of the chalk comes from [https://lasonotheque.org/detail-0541-craie-sur-tableau-noir.html]
+- [https://upload.wikimedia.org/wikipedia/commons/3/38/Icon_pdf_file.svg]
