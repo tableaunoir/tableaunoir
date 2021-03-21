@@ -5,6 +5,8 @@ import { Action } from "./Action";
 
 export class ActionEllipse extends Action {
     
+    get xMax(): number { return this.cx+ this.rx; }
+
     serializeData(): ActionSerialized {
         return {
             type: "ellipse",

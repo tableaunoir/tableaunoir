@@ -4,6 +4,11 @@ import { Action } from "./Action";
 
 
 export class ActionInit extends Action {
+    get xMax(): number {
+        if (this.img)
+            this.img.width;
+        else return 0;
+    }
 
     private img = undefined;
     constructor(userid: string, private canvasDataURL: string) {
@@ -31,13 +36,13 @@ export class ActionInit extends Action {
                 }
 
                 if (this.img.height != 0) {
-//                    console.log("image is already loaded: " + this.img.height);
+                    //                    console.log("image is already loaded: " + this.img.height);
                     drawAndResolve();
                 }
                 else
                     this.img.onload = drawAndResolve;
 
-  //              console.log("action init: redo")
+                //              console.log("action init: redo")
             }
             else
                 resolve();

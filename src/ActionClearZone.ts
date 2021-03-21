@@ -3,10 +3,13 @@ import { Action } from './Action';
 import { Drawing } from './Drawing';
 
 export class ActionClearZone extends Action {
+    
+    get xMax(): number { return Math.max(...this.points.map((p) => p.x)); }
+
     serializeData(): ActionSerialized {
         return {
             type: "clearzone",
-            pause: this.pause, 
+            pause: this.pause,
             userid: this.userid,
             points: this.points,
             cut: this.cut,

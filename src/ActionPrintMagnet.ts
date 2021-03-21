@@ -4,6 +4,8 @@ import { Action } from "./Action";
 
 export class ActionPrintMagnet extends Action {
 
+	get xMax(): number { return this.x + this.img.width; }
+
 	serializeData(): ActionSerialized {
 		return {
 			type: "printmagnet", 

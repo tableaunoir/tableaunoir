@@ -5,7 +5,8 @@ import { getCanvas } from './main';
 import { Action } from './Action';
 
 export class ActionFreeDraw extends Action {
-
+    get xMax(): number { return Math.max(...this.points.map((p) => p.x)); }
+    
     /**
      * @returns an object iff the freedraw is almost a line
      */

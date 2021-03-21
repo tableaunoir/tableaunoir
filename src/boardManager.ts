@@ -1,3 +1,4 @@
+import { MagnetManager } from './magnetManager';
 import { AnimationToolBar } from './AnimationToolBar';
 import { getCanvas } from "./main";
 import { Share } from "./share";
@@ -169,6 +170,19 @@ export class BoardManager {
         await BoardManager.cancelStack.nextPausedFrame();
         AnimationToolBar.update();
     }
+
+
+
+    private static get widthFromActions(): number { return Math.max(...this.cancelStack.actions.map((a) => a.xMax)); }
+    private static get widthFromMagnets(): number {
+        const magnets = MagnetManager.getMagnets();
+        let max = 0;
+        for (let i = 0; i < magnets.length; i++)
+            max = Math.max(max, magnets[i].offsetLeft + magnets[i].offsetWidth);
+        return max;
+    }
+
+    static get width(): number { return BoardManager.widthFromActions + BoardManager.widthFromMagnets; }
 }
 
 

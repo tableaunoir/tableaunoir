@@ -1,3 +1,4 @@
+import { BoardManager } from './boardManager';
 import { LoadSave } from './LoadSave';
 import { Layout } from './Layout';
 import { CircularMenu } from './CircularMenu';
@@ -37,7 +38,7 @@ export class Export {
         html2canvas(nodeContent).then(canvas => {
             const doc = new jspdf('l');
             let firstpage = true;
-            for (let x = 0; x < canvas.width; x += Layout.getWindowWidth()) {
+            for (let x = 0; x < BoardManager.width; x += Layout.getWindowWidth()) {
                 if (!firstpage)
                     doc.addPage();
                 const canvasPage = document.createElement("canvas");

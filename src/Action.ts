@@ -36,5 +36,7 @@ export abstract class Action {
      */
     abstract redo(): Promise<void>;
 
+    abstract get xMax(): number;
+
 
 }

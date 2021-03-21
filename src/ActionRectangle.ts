@@ -4,6 +4,8 @@ import { Action } from "./Action";
 
 
 export class ActionRectangle extends Action {
+    get xMax(): number { return Math.max(this.x1, this.x2); }
+
     serializeData(): ActionSerialized {
         return {
             type: "rectangle", pause: this.pause, userid: this.userid,
