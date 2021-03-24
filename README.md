@@ -124,3 +124,4 @@ Thank you to all contributors. Also thank you for your support. Please find the 
 - Some CC0 icons from [https://www.svgrepo.com/]
 - The sound of the chalk comes from [https://lasonotheque.org/detail-0541-craie-sur-tableau-noir.html]
 - [https://upload.wikimedia.org/wikipedia/commons/3/38/Icon_pdf_file.svg]
+- [https://pxhere.com/en/photo/1057578]
