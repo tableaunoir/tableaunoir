@@ -29,10 +29,11 @@ export class AnimationToolBar {
 
     }
     /**
-     * hide forever the animation mode
+     * hide forever the animation mode (because there is no animation mode when the Tableau is shared, at least for the moment)
      */
     static hideForever(): void {
         document.getElementById("animationToolBar").hidden = true;
+        document.getElementById("buttonMovieModeKey").hidden = true;
         document.getElementById("buttonMovieMode").hidden = true;
     }
 
