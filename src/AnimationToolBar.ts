@@ -28,6 +28,7 @@ export class AnimationToolBar {
         }
 
     }
+    
     /**
      * hide forever the animation mode (because there is no animation mode when the Tableau is shared, at least for the moment)
      */

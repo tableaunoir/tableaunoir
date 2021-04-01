@@ -430,6 +430,36 @@ export class MagnetManager {
 		if (element.children.length > 0)
 			(<HTMLElement>element.children[0]).blur();
 	}
+
+
+
+	/**
+	 * 
+	 * @param magnet 
+	 * @returns the set of all magnet that are "contained" in the magnet
+	 *  (the contained magnets are the magnet that should move with it etc.)
+	 */
+	private static getContainedMagnets(element: HTMLElement): HTMLElement[] {
+		/**
+		 * @param {*} element 
+		 * @param {*} bigElement 
+		 * @returns true if element is inside bigElement
+		 */
+		function inside(element, bigElement) {
+			return element.offsetLeft > bigElement.offsetLeft && element.offsetTop > bigElement.offsetTop &&
+				element.offsetLeft + element.clientWidth < bigElement.offsetLeft + bigElement.clientWidth &&
+				element.offsetTop + element.clientHeight < bigElement.offsetTop + bigElement.clientHeight;
+		}
+
+		const magnets = MagnetManager.getMagnets();
+		const otherElementsToMove = [];
+
+		for (let i = 0; i < magnets.length; i++)
+			if (magnets[i] != element && inside(magnets[i], element))
+				otherElementsToMove.push(magnets[i]);
+
+		return otherElementsToMove;
+	}
 	/**
 	 * 
 	 * @param element 
@@ -457,17 +487,7 @@ export class MagnetManager {
 				MagnetManager.addMagnet(copy);
 				Share.execute("magnetMove", [copy.id, element.style.left, element.style.top]);
 			}
-			/**
-			 * 
-			 * @param {*} element 
-			 * @param {*} bigElement 
-			 * @returns true if element is inside bigElement
-			 */
-			function inside(element, bigElement) {
-				return element.offsetLeft > bigElement.offsetLeft && element.offsetTop > bigElement.offsetTop &&
-					element.offsetLeft + element.clientWidth < bigElement.offsetLeft + bigElement.clientWidth &&
-					element.offsetTop + element.clientHeight < bigElement.offsetTop + bigElement.clientHeight;
-			}
+
 
 			const canvas = getCanvas();
 			canvasCursorStore = canvas.style.cursor;
@@ -484,13 +504,8 @@ export class MagnetManager {
 			document.onpointerup = closeDragElement;
 			//document.onmouseup = closeDragElement;
 
+			otherElementsToMove = MagnetManager.getContainedMagnets(element);
 
-			const magnets = MagnetManager.getMagnets();
-			otherElementsToMove = [];
-
-			for (let i = 0; i < magnets.length; i++)
-				if (magnets[i] != element && inside(magnets[i], element))
-					otherElementsToMove.push(magnets[i]);
 		}
 
 
@@ -546,6 +561,24 @@ export class MagnetManager {
 	}
 
 
+	/**
+	 * 
+	 * @param element 
+	 * @returns true if the element is a text magnet
+	 */
+	static isTextMagnet(element: HTMLElement): boolean {
+		return element.classList.contains("magnetText");
+	}
+
+
+	/**
+	 * 
+	 * @param element that is a text magnet
+	 * @returns the text in the text magnet
+	 */
+	static getText(element: HTMLElement): string {
+		return element.children[0].innerHTML;
+	}
 
 	/**
 	 * 
@@ -553,7 +586,7 @@ export class MagnetManager {
 	 * @description adds the event mousedown etc. to the magnet. Call LaTEX
 	 */
 	static _installMagnet(element: HTMLElement): void {
-		if (element.classList.contains("magnetText"))
+		if (MagnetManager.isTextMagnet(element))
 			MagnetManager.installMagnetText(element);
 
 		MagnetManager.makeDraggableElement(element);
@@ -719,25 +752,23 @@ export class MagnetManager {
 
 
 	/**
-	 * @param img
+	 * @param magnet
 	 * @description draw the current magnet to the canvas
 	 */
-	static printMagnet(img: HTMLElement): void {
-
-		if (!(img instanceof Image)) {
-			console.log("the current image is not an image! Could not be printed!")
-			return;
-		}
-
-		const x = parseInt(img.style.left);
-		const y = parseInt(img.style.top);
-
+	static printMagnet(magnet: HTMLElement): void {
 		Sound.play("magnetprint");
 
-		const action = new ActionPrintMagnet(UserManager.me.userID, img, x, y);
-		action.redo();
+		const magnetsOnTop = MagnetManager.getContainedMagnets(magnet);
 
-		BoardManager.addAction(action);
+		const doPrintMagnet = (m:HTMLElement) => {
+			const action = new ActionPrintMagnet(UserManager.me.userID, m,
+				parseInt(m.style.left), parseInt(m.style.top));
+			action.redo();
+			BoardManager.addAction(action);
+		};
+
+		doPrintMagnet(magnet);
+		magnetsOnTop.map(doPrintMagnet);
 	}
 
 
