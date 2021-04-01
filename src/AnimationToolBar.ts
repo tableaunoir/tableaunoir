@@ -33,7 +33,7 @@ export class AnimationToolBar {
      */
     static hideForever(): void {
         document.getElementById("animationToolBar").hidden = true;
-        document.getElementById("buttonMovieModeKey").hidden = true;
+        document.getElementById("buttonMovieModeKey").style.display = "none";
         document.getElementById("buttonMovieMode").hidden = true;
     }
 
