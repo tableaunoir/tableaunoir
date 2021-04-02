@@ -1,5 +1,6 @@
 import { Share } from './share';
 import { MagnetManager } from './magnetManager';
+import { image } from 'html2canvas/dist/types/css/types/image';
 
 
 
@@ -191,8 +192,8 @@ export class MyMagnets {
     }
 
 
-    static* magnetCircles(): Generator<HTMLElement> {
-        for(const size of [32, 48, 64, 80, 96, 128, 144, 164]) {
+    static * magnetCircles(): Generator<HTMLElement> {
+        for (const size of [32, 48, 64, 80, 96, 128, 144, 164]) {
             const magnet = document.createElement("div");
             magnet.style.backgroundColor = `rgb(${255}, ${size}, ${size})`;
             magnet.style.width = size + "px";
@@ -200,6 +201,18 @@ export class MyMagnets {
             magnet.style.borderRadius = size + "px";
             yield magnet;
         }
+    }
+
+
+    static * magnetCoin(): Generator<HTMLElement> {
+        const magnet = document.createElement("img");
+        magnet.src = "img/magnets/coin/face.svg";
+        magnet.classList.add("backgroundTransparent");
+        magnet.onclick = () => {
+            magnet.src = "img/magnets/coin/flipping.svg";
+            setTimeout(() => { magnet.src = `img/magnets/coin/${Math.random() < 0.5 ? "face" : "pile"}.svg`; }, 1000);
+        };
+        yield magnet;
     }
 
 
@@ -254,5 +267,6 @@ export class MyMagnets {
         MyMagnets.register("magnetGraphSimCity");
         MyMagnets.register("magnetFloydsAlgorithm");
         MyMagnets.register("magnetGo");
+        MyMagnets.register("magnetCoin");
     }
 }
