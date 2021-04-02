@@ -21,8 +21,8 @@ export class ActionPrintMagnet extends Action {
 	private magnet: HTMLElement;
 	constructor(userid: string, magnet: HTMLElement, private x: number, private y: number) {
 		super(userid);
-		this.magnet = <HTMLElement> magnet.cloneNode(true);
-		
+		this.magnet = <HTMLElement>magnet.cloneNode(true);
+
 	}
 
 
@@ -36,29 +36,27 @@ export class ActionPrintMagnet extends Action {
 				const f = () => {
 
 					const clipPath = magnet.style.clipPath;
+
+					context.globalCompositeOperation = "source-over";
+					context.globalAlpha = 1.0;
+
 					if (clipPath != "") {
 						const strPointsInClipPath = magnet.style.clipPath.substr("polygon(".length, clipPath.length - "polygon(".length - ")".length);
 
-						context.globalCompositeOperation = "source-over";
-						context.globalAlpha = 1.0;
 						context.save();
 						context.beginPath();
 						let begin = true;
-						for (let pointStr of strPointsInClipPath.split(",")) {
-							pointStr = pointStr.trim();
-							const a = pointStr.split(" ");
+						for (const pointStr of strPointsInClipPath.split(",")) {
+							const point = pointStr.trim().split(" ");
 							if (begin)
-								context.moveTo(this.x + parseInt(a[0]), this.y + parseInt(a[1]));
+								context.moveTo(this.x + parseInt(point[0]), this.y + parseInt(point[1]));
 							else
-								context.lineTo(this.x + parseInt(a[0]), this.y + parseInt(a[1]));
+								context.lineTo(this.x + parseInt(point[0]), this.y + parseInt(point[1]));
 							begin = false;
 						}
 						context.closePath();
 						context.clip();
 					}
-
-
-
 
 					context.drawImage(<HTMLImageElement>this.magnet, this.x, this.y);
 
@@ -73,38 +71,49 @@ export class ActionPrintMagnet extends Action {
 				magnet.onload = f;
 
 			}
-			else if(MagnetManager.isTextMagnet(this.magnet)) {
+			else if (MagnetManager.isTextMagnet(this.magnet)) {
 				//html2canvas should do the job but sometimes it bugs, it does not take the scale into account...
-				context.font = `${24}px  Arial`;
-				context.fillStyle = (<HTMLElement> this.magnet.children[0]).style.color;
-				context.fillText(MagnetManager.getText(this.magnet), this.x, this.y+24);
+				context.globalCompositeOperation = "source-over";
+				context.globalAlpha = 1.0;
+				const fontSize = 24;
+				context.font = `${fontSize}px`;
+				context.font = MagnetManager.getFont(this.magnet);
+				context.fillStyle = MagnetManager.getTextColor(this.magnet);
+				/*console.log(MagnetManager.getFont(this.magnet));
+				console.log(MagnetManager.getText(this.magnet));*/
+				let y = this.y + fontSize;
+				for (const line of MagnetManager.getText(this.magnet).split("\n")) {
+					context.fillText(line, this.x, y);
+					y = y += fontSize;
+				}
+
 				resolve();
 			}
 			else {
 				//html2canvas does not work
-			/*	if (this.canvasImg == undefined)
-					try {
-						html2canvas(magnet).then(canvas => {
-							try {
-								this.canvasImg = canvas;
-								context.drawImage(this.canvasImg, this.x, this.y);
-								resolve();
-							}
-							catch (e) {
-								console.log("error");
-								resolve();
-							}
-						});
-					}
-					catch (e) {
-						console.log("error");
+				/*	if (this.canvasImg == undefined)
+						try {
+							html2canvas(magnet).then(canvas => {
+								try {
+									this.canvasImg = canvas;
+									context.drawImage(this.canvasImg, this.x, this.y);
+									resolve();
+								}
+								catch (e) {
+									console.log("error");
+									resolve();
+								}
+							});
+						}
+						catch (e) {
+							console.log("error");
+							resolve();
+						}
+	
+					else {
+						context.drawImage(this.canvasImg, this.x, this.y);
 						resolve();
-					}
-
-				else {
-					context.drawImage(this.canvasImg, this.x, this.y);
-					resolve();
-				}*/
+					}*/
 			}
 		});
 	}
