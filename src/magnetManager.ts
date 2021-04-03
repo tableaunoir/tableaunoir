@@ -414,6 +414,7 @@ export class MagnetManager {
 	private static createCopyMagnet(element: HTMLElement): HTMLElement {
 		const copy = <HTMLElement>element.cloneNode(true);
 		copy.id = ""; //remove the ID so that a new ID will be given
+		copy.onclick = element.onclick;
 		return copy;
 	}
 

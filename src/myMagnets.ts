@@ -208,9 +208,10 @@ export class MyMagnets {
         const magnet = document.createElement("img");
         magnet.src = "img/magnets/coin/face.svg";
         magnet.classList.add("backgroundTransparent");
-        magnet.onclick = () => {
-            magnet.src = "img/magnets/coin/flipping.svg";
-            setTimeout(() => { magnet.src = `img/magnets/coin/${Math.random() < 0.5 ? "face" : "pile"}.svg`; }, 1000);
+        magnet.onclick = (evt) => {
+            const item = <HTMLImageElement> evt.target;
+            item.src = "img/magnets/coin/flipping.svg";
+            setTimeout(() => { item.src = `img/magnets/coin/${Math.random() < 0.5 ? "face" : "pile"}.svg`; }, 1000);
         };
         yield magnet;
     }

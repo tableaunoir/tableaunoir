@@ -57,12 +57,13 @@
      inkscape:groupmode="layer"
      id="layer1"
      transform="translate(-66.079762,-93.960713)">
-    <circle
+    <ellipse
        style="opacity:1;fill:#ffd42a;fill-opacity:1;fill-rule:evenodd;stroke:#ff6600;stroke-width:2.4000001;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:37.79527664;stroke-opacity:1"
        id="path817"
        cx="87.3125"
        cy="115.19345"
-       r="20.032738" />
-    <animate id="path817" href="#path817" attributeName="r" begin="0s" values="20;15;10;5;0;5;10;15;20" dur="0.4s" repeatCount="indefinite" /> 
+       rx="20.032738"
+       ry="20.032738"/>
+    <animate id="path817" href="#path817" attributeName="rx" begin="0s" values="20;15;10;5;0;5;10;15;20" dur="0.4s" repeatCount="indefinite" /> 
   </g>
 </svg>
