@@ -169,7 +169,7 @@
 				<span class="edit">
 					<div class="menuDiv">
 						<button class="buttonClear" id="blackboardClear">
-							<img src="img/clearboard.png" /><br /><span>Clear the board</span><br/>
+							<img src="img/clearboard.png" /><br /><span>Clear the board</span><br />
 							<span class="keyboardkeyhelp">Ctrl+Alt+K</span></button>
 						<button class="buttonClear" id="clearMagnet">
 							<img src="img/magnet_delete.png" /><br /><span>Remove all the magnets</span></button>
@@ -299,7 +299,7 @@
 				<input type="checkbox" id="inputSmoothing"></input><label for="inputToolbar">Smoothing (your drawing are
 					getting smoother after you draw)</label>
 				<h2>Toolbar</h2>
-				
+
 
 				<input type="checkbox" id="inputToolbar"></input><label for="inputToolbar">Show the toolbar (h)</label>
 
@@ -326,7 +326,10 @@
 
 				<h2>Palette</h2>
 				<input type="checkbox" id="inputPaletteShowOnKey"></input><label for="inputPaletteShowOnKey">Show the
-					palette when using keyboard shortcut c</label>
+					palette when using keyboard shortcut c/shift+c</label>
+				<helpbutton
+					title="By default, Tableaunoir shows the palette at the location of the cursor so that you may choose your appropriate color by clicking. However, you may prefer not get disturbed by the palette at all and just want to choose your color with the keyboard shortcuts.">
+				</helpbutton>
 				<br /><br />
 
 				<input type="radio" id="inputPaletteStandard" name="inputPalette"
@@ -357,8 +360,12 @@
     "#558800"]'><label for="inputPaletteCrazy">21 color palette</label><br />
 				<h2>Cursor</h2>
 				<input type="checkbox" id="inputLeftHanded"></input><label for="inputLeftHanded">Left-handed</label>
-				<br/>
-				<input type="checkbox" id="inputCursorVisible"></input><label for="inputCursorVisible">Show the mouse cursor (chalk, eraser, etc.)</label><span class="keyboardkeyhelp">Ctrl+Alt+h</span>
+				<br />
+				<input type="checkbox" id="inputCursorVisible"></input><label for="inputCursorVisible">Show the mouse
+					cursor (chalk, eraser, etc.)</label><span class="keyboardkeyhelp">Ctrl+Alt+h</span>
+				<helpbutton
+					title="By default, the cursors (chalk, eraser, etc.) are shown. But sometimes, as you work on a tablet with a screen, you do not need to see the cursor. Also, if you make videos, maybe it could annoying to see the cursors.">
+				</helpbutton>
 				<label hidden>Show a horizontal scrollbar</label>
 				<input hidden type="checkbox" id="inputHorizontalScrollbar" />
 

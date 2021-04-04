@@ -85,8 +85,8 @@ function load() {
 		Tool.init();
 
 		BoardManager.load();
-		
 
+		Array.from(document.getElementsByTagName("helpbutton")).map((b) => (<HTMLElement>b).onclick = (evt) => { alert((<HTMLElement>evt.target).title) });
 
 		document.getElementById("buttonMenu").onclick = Menu.toggle;
 		document.getElementById("buttonColors").onclick = () => GUIActions.changeColor();

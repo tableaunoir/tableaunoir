@@ -26,7 +26,8 @@ input {
 }
 
 
-textarea:focus, input:focus {
+textarea:focus,
+input:focus {
 	border: 1px solid rgb(0, 156, 246);
 }
 
@@ -55,6 +56,19 @@ canvas {
 	padding: 0px;
 }
 
+
+
+helpbutton::before {
+	content: '?';
+	color: yellow;
+}
+
+
+helpbutton {
+	display: inline-block;
+	background: gray;
+	padding: 8px;
+}
 
 #content {
 	transform-origin: left top;
