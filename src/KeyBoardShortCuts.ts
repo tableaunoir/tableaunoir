@@ -1,3 +1,4 @@
+import { OptionManager } from './OptionManager';
 import { AnimationToolBar } from './AnimationToolBar';
 import { BoardManager } from './boardManager';
 import { GUIActions } from './GUIActions';
@@ -55,6 +56,9 @@ export class KeyBoardShortCuts {
 
         if (evt.ctrlKey && evt.altKey && evt.key == "k") { // clear the board
             Share.execute("boardClear", []);
+        }
+        else if (evt.ctrlKey && evt.altKey && evt.key == "h") { // mouse cursor hidden or not
+            OptionManager.toggle("cursorVisible");
         }
         else if (!evt.ctrlKey && !evt.shiftKey && evt.key == "n") { //navigation
             Layout.toggleMinimap();

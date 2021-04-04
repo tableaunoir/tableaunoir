@@ -52,6 +52,13 @@ export class OptionManager {
         };
     }
 
+
+
+    static toggle(name: string): void {
+        const el = OptionManager.getInputElement(name);
+        el.click();
+    }
+
     static string({ name, defaultValue, onChange }: { name: string, defaultValue: string, onChange: (string) => void }): void {
         const initialValue: string = (localStorage[name] == undefined) ? defaultValue : localStorage[name];
         const el = OptionManager.getInputElement(name);
