@@ -24,6 +24,7 @@ import { Drawing } from './Drawing';
 import { KeyBoardShortCuts } from './KeyBoardShortCuts';
 import { S, Script } from './Script';
 import { Export } from './Export';
+import { Tool } from './Tool';
 
 TestPerformance.init();
 
@@ -81,8 +82,10 @@ function load() {
 		Sound.init();
 		Script.init();
 		Wallpaper.init();
+		Tool.init();
 
 		BoardManager.load();
+		
 
 
 		document.getElementById("buttonMenu").onclick = Menu.toggle;

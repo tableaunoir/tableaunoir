@@ -53,7 +53,10 @@ export class KeyBoardShortCuts {
         if (Menu.isShown())
             return;
 
-        if (!evt.ctrlKey && !evt.shiftKey && evt.key == "n") { //navigation
+        if (evt.ctrlKey && evt.altKey && evt.key == "k") { // clear the board
+            Share.execute("boardClear", []);
+        }
+        else if (!evt.ctrlKey && !evt.shiftKey && evt.key == "n") { //navigation
             Layout.toggleMinimap();
         }
         else if (!evt.ctrlKey && !evt.shiftKey && evt.key == "c") // c => change color

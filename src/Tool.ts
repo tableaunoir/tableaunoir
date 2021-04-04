@@ -1,3 +1,4 @@
+import { OptionManager } from './OptionManager';
 import { User } from './User';
 
 
@@ -19,9 +20,23 @@ export abstract class Tool {
     }
 
 
+    static cursorVisible = true;
+    static cursor: string;
+
+    static init(): void {
+        OptionManager.boolean({
+            name: "cursorVisible",
+            defaultValue: true,
+            onChange: (b) => {
+                Tool.cursorVisible = b;
+                document.getElementById("canvas").style.cursor = Tool.cursorVisible ? Tool.cursor : "none";
+            }
+        });
+    }
+
     destructor(): void {
         //empty destructur
-     }
+    }
 
     abstract mousedown(evt: MouseEvent): void;
     abstract mousemove(evt: MouseEvent): void;
@@ -30,7 +45,9 @@ export abstract class Tool {
 
 
     setToolCursorImage(srcImage: { data: string, x: number, y: number }): void {
-        document.getElementById("canvas").style.cursor = `url(${srcImage.data}) ${srcImage.x} ${srcImage.y}, auto`;
+        Tool.cursor = `url(${srcImage.data}) ${srcImage.x} ${srcImage.y}, auto`;
+        document.getElementById("canvas").style.cursor = Tool.cursorVisible ? Tool.cursor : "none";
+
         // this.toolCursor.src = srcImage;
     }
 
