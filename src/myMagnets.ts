@@ -217,6 +217,19 @@ export class MyMagnets {
     }
 
 
+    static * magnetDice(): Generator<HTMLElement> {
+        const magnet = document.createElement("img");
+        magnet.src = "img/magnets/dice/6.svg";
+        magnet.classList.add("backgroundTransparent");
+        magnet.onclick = (evt) => {
+            const item = <HTMLImageElement> evt.target;
+            item.src = "img/magnets/dice/anim.svg";
+            setTimeout(() => { item.src = `img/magnets/dice/${1+Math.floor(Math.random()*6)}.svg`; }, 1000);
+        };
+        yield magnet;
+    }
+
+
     /**
  *
  * @param magnetSetName
@@ -269,5 +282,6 @@ export class MyMagnets {
         MyMagnets.register("magnetFloydsAlgorithm");
         MyMagnets.register("magnetGo");
         MyMagnets.register("magnetCoin");
+        MyMagnets.register("magnetDice");
     }
 }
