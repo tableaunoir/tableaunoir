@@ -83,13 +83,14 @@ export class Wallpaper {
 
         const nbgridy = 18;
 
-        const COLORGRID = "rgb(50, 50, 255)";
-        const COLORGRID2 = "rgb(128, 168, 255)";
+        const COLORGRID = "rgba(96, 96, 255, 0.8)";
+        const COLORGRID2 = "rgba(128, 168, 192, 0.6)";
         const PRESSURE = 0.2;
         const PRESSURE2 = 0.05;
         const fullHeight = Layout.getWindowHeight();
         const canvas = Wallpaper._createCanvas(fullHeight / nbgridy, fullHeight / nbgridy);
         const ctx = canvas.getContext("2d");
+        
         const h = canvas.height;
 
         for(const ratio of [0.25, 0.5, 0.75]) {
