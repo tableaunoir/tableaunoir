@@ -15,6 +15,9 @@ export class Wallpaper {
         document.getElementById("buttonGrid").onclick = () => {
             Share.execute("backgroundGrid", []);
         };
+        document.getElementById("buttonSeyes").onclick = () => {
+            Share.execute("backgroundSeyes", []);
+        };
 
     }
 
@@ -62,12 +65,12 @@ export class Wallpaper {
 
     static grid(): void {
 
-        const gridy = 18;
+        const nbgridy = 18;
 
         const COLORGRID = "rgb(50, 50, 50)";
         const PRESSURE = 0.1;
         const fullHeight = Layout.getWindowHeight();
-        const canvas = Wallpaper._createCanvas(fullHeight / gridy, fullHeight / gridy);
+        const canvas = Wallpaper._createCanvas(fullHeight / nbgridy, fullHeight / nbgridy);
 
         Drawing.drawLine(canvas.getContext("2d"), 0, 0, 0, canvas.width, PRESSURE, COLORGRID);
         Drawing.drawLine(canvas.getContext("2d"), 0, 0, canvas.width, 0, PRESSURE, COLORGRID);
@@ -75,6 +78,29 @@ export class Wallpaper {
         Wallpaper.set(canvas.toDataURL());
     }
 
+
+    static seyes(): void {
+
+        const nbgridy = 18;
+
+        const COLORGRID = "rgb(50, 50, 255)";
+        const COLORGRID2 = "rgb(128, 168, 255)";
+        const PRESSURE = 0.2;
+        const PRESSURE2 = 0.05;
+        const fullHeight = Layout.getWindowHeight();
+        const canvas = Wallpaper._createCanvas(fullHeight / nbgridy, fullHeight / nbgridy);
+        const ctx = canvas.getContext("2d");
+        const h = canvas.height;
+
+        for(const ratio of [0.25, 0.5, 0.75]) {
+            const y = ratio * h;
+            Drawing.drawLine(ctx, 0, y, canvas.width, y, PRESSURE2, COLORGRID2);
+        }
+        Drawing.drawLine(canvas.getContext("2d"), 0, 0, 0, canvas.width, PRESSURE, COLORGRID);
+        Drawing.drawLine(ctx, 0, 0, canvas.width, 0, PRESSURE, COLORGRID);
+
+        Wallpaper.set(canvas.toDataURL());
+    }
 
 
 

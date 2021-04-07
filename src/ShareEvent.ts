@@ -188,7 +188,10 @@ export class ShareEvent {
         Wallpaper.grid();
     }
 
-
+    static backgroundSeyes(): void {
+        Wallpaper.seyes();
+    }
+    
     /**documents */
     static documentsRemoveAll(): void {
         Background.getDocumentPanel().innerHTML = "";

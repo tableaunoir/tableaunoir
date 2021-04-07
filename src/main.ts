@@ -127,6 +127,7 @@ function load() {
 
 	}
 	catch (e) {
+		console.log(e);
 		ErrorMessage.show("Problem in loading Tableaunoir... please try to clean the cache of your browser.");
 	}
 
