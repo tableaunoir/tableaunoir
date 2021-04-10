@@ -35,6 +35,7 @@ module.exports = {
         { from: 'src/style.css', to: 'style.css' }, // Use css loader ?
         { from: 'src/fr.json', to: 'fr.json' },
         { from: 'src/de.json', to: 'de.json' },
+        { from: 'src/es.json', to: 'es.json' },
         { from: 'favicon.svg', to: 'favicon.svg'},
         { from: 'img', to: 'img'//, // Use image loader ?
          // globOptions: { ignore: [ "**/img/*.jpg", "**/img/*.gif", "**/simcitygraph.png" ]}} // remove from repository

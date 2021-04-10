@@ -99,7 +99,7 @@ export class Translation {
                     console.log(`Element ${key} not found. I cannot translate..`);
                 else {
                     if (element.children.length > 0)
-                        console.log("I refuse to translate because the element has some children.");
+                        console.log(`I refuse to translate because element ${key}  has some children.`);
 
                     Translation.setEnglishDictEntry(key, element.innerHTML);
                     element.innerHTML = dict[key];
@@ -125,7 +125,7 @@ export class Translation {
                     Translation.setEnglishDictEntry(key, element.title);
                     element.title = dict[key];
                 }
-                
+
             }
         }
     }
@@ -149,9 +149,8 @@ export class Translation {
      */
     static translate(language: string): void {
         Translation.translateD(Translation.englishDict);
-        if (!(language == "en")) {
-            const dictionnary = Translation.fetchDictionary(language);
-            dictionnary.then(Translation.translateD);
-        }
+        if (language != "en")
+            Translation.fetchDictionary(language).then(Translation.translateD);
+
     }
 }
