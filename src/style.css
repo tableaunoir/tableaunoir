@@ -42,6 +42,7 @@ canvas {
 	padding: 0px;
 	z-index: 1;
 	cursor: none;
+	touch-action:none;
 	background-repeat: repeat;
 }
 
