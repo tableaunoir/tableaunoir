@@ -131,7 +131,7 @@ export class ToolDraw extends Tool {
                 this.svgLines = [];
 
                 if (this.action.alreadyDrawnSth && this.isSmoothing)
-                    this.action.smoothify();
+                    this.action.postTreatement();
 
                 this.lastDelineation.setPoints(this.action.points);
                 this.lastDelineation.finish();

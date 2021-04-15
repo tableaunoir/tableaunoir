@@ -6,7 +6,7 @@ import { Action } from './Action';
 
 export class ActionFreeDraw extends Action {
     get xMax(): number { return Math.max(...this.points.map((p) => p.x)); }
-    
+
     /**
      * @returns an object iff the freedraw is almost a line
      */
@@ -50,7 +50,7 @@ export class ActionFreeDraw extends Action {
         if (this.points.length > 0) {
             const pointBefore = this.points[this.points.length - 1];
             if (Math.abs(pt.x - pointBefore.x) < 1 && Math.abs(pt.y - pointBefore.y) < 1)
-            //if the point is too close, we will not add it
+                //if the point is too close, we will not add it
                 return false;
         }
 
@@ -85,13 +85,58 @@ export class ActionFreeDraw extends Action {
         this.points = newpoints;
     }
 
-    smoothify(): void {
-        // console.log("before: " + this.points.length);
+
+
+    private simplify() {
+        function dist2(v, w) { return (v.x - w.x) ** 2 + (v.y - w.y) ** 2 }
+        function perpendicularDistance(p, v, w) {
+            const l2 = dist2(v, w);
+            if (l2 == 0) return dist2(p, v);
+            let t = ((p.x - v.x) * (w.x - v.x) + (p.y - v.y) * (w.y - v.y)) / l2;
+            t = Math.max(0, Math.min(1, t));
+            return dist2(p, {
+                x: v.x + t * (w.x - v.x),
+                y: v.y + t * (w.y - v.y)
+            });
+        }
+
+        const EPSILON = 2;
+
+        const DouglasPeucker = (begin: number, end: number) => {
+            // Find the point with the maximum distance
+            let dmax = 0
+            let index = 0
+            
+            for (let i = begin; i < end; i++) {
+                
+                const d = perpendicularDistance(this.points[i], this.points[begin], this.points[end]);
+                if (d > dmax) {
+                    index = i;
+                    dmax = d;
+                }
+            }
+
+            // If max distance is greater than epsilon, recursively simplify
+            if (dmax > EPSILON) {
+                // Recursive call
+                const A1 = DouglasPeucker(begin, index)
+                const A2 = DouglasPeucker(index, end);
+                return A1.concat(A2.slice(1));
+            } else
+                return [this.points[begin], this.points[end]];
+
+        }
+
+        this.points = DouglasPeucker(0, this.points.length - 1);
+    }
+
+
+    postTreatement(): void {
+       // console.log("Original: " + this.points.length);
         this.smoothifyOnePass();
-        //console.log("after: " + this.points.length);
-        /*   this.smoothifyOnePass();
-           this.smoothifyOnePass();
-           this.smoothifyOnePass();*/
+        //console.log("After smoothing: " + this.points.length);
+        this.simplify();
+        //console.log("After simplifying: " + this.points.length);
     }
 
 
