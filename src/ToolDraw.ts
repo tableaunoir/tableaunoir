@@ -107,6 +107,7 @@ export class ToolDraw extends Tool {
                 //this.svgLines.push(ToolDraw.addSVGLine(this.x, this.y, evtX, evtY, evt.pressure, this.user.color));
                 /*else
                     Drawing.drawLine(getCanvas().getContext("2d"), this.x, this.y, evtX, evtY, evt.pressure, this.user.color);*/
+
             }
 
 

@@ -1,7 +1,5 @@
 import { Share } from './share';
 import { MagnetManager } from './magnetManager';
-import { image } from 'html2canvas/dist/types/css/types/image';
-
 
 
 

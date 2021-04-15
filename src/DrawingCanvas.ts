@@ -64,7 +64,19 @@ export class DrawingCanvas {
         context.moveTo(x1, y1);
         context.lineTo(x2, y2);
         context.stroke();
-        context.closePath();
+
+
+        /****** Chalk effect (too slow in real time!) ***/
+       /* context.fillStyle = color;
+        const dist = Math.round(Math.sqrt((x2 - x1) ** 2 + (y2 - y1) ** 2));
+        for (let i = 0; i < dist; i += 2) {
+            const x = x1 + (i * (x2 - x1) / dist);
+            const y = y1 + (i * (y2 - y1) / dist);
+            context.globalAlpha = 1;
+            context.fillRect(x + (Math.random() - 0.5) * context.lineWidth, y + (Math.random() - 0.5) * context.lineWidth,
+                1+Math.random(), 1+Math.random());
+        }
+        context.closePath();*/
     }
 
 
