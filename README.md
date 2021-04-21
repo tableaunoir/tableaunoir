@@ -1,6 +1,6 @@
 # tableaunoir
 
-Tableaunoir is an **online collaborative blackboard** tool.
+Tableaunoir is an **online collaborative blackboard** tool with **fridge magnets** available in many languages.
 ["Tableau noir" means blackboard in french](https://www.deepl.com/translator#fr/en/Tableau%20noir).
 The online version is available here: [https://tableaunoir.github.io/] ([another one](https://tableaunoir.irisa.fr))
 
