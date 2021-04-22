@@ -107,7 +107,7 @@ helpbutton {
 
 .toolbar {
 	position: absolute;
-	background-color: rgb(68, 68, 68);
+	background-color: rgba(32, 32, 32, 0.8);
 	color: white;
 	z-index: 1;
 	display:flex;

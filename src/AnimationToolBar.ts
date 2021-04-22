@@ -19,21 +19,21 @@ export class AnimationToolBar {
 
     static toggle(): void {
         if (!document.getElementById("buttonMovieMode").hidden) {
-            document.getElementById("animationToolBar").hidden = !document.getElementById("animationToolBar").hidden;
-            if (document.getElementById("animationToolBar").hidden)
-                document.getElementById("buttonMovieMode").classList.remove("buttonselected");
-            else
+            document.getElementById("animationToolBar").style.display = AnimationToolBar.is() ? "none" : "";
+            if (AnimationToolBar.is())
                 document.getElementById("buttonMovieMode").classList.add("buttonselected");
+            else
+                document.getElementById("buttonMovieMode").classList.remove("buttonselected");
             AnimationToolBar.update();
         }
 
     }
-    
+
     /**
      * hide forever the animation mode (because there is no animation mode when the Tableau is shared, at least for the moment)
      */
     static hideForever(): void {
-        document.getElementById("animationToolBar").hidden = true;
+        document.getElementById("animationToolBar").style.display = "none";
         document.getElementById("buttonMovieModeKey").style.display = "none";
         document.getElementById("buttonMovieMode").hidden = true;
     }
@@ -42,13 +42,13 @@ export class AnimationToolBar {
     /**
      * @returns true if we are in the animation mode
      */
-    static is(): boolean { return !document.getElementById("animationToolBar").hidden; }
+    static is(): boolean { return document.getElementById("animationToolBar").style.display != ""; }
 
     /**
      * @description updates the whole timeline
      */
     static update(): void {
-        if (document.getElementById("animationToolBar").hidden)
+        if (!AnimationToolBar.is())
             return;
 
         document.getElementById("animationActionList").innerHTML = "";
