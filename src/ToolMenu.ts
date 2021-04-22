@@ -2,6 +2,9 @@ import { Share } from './share';
 import { UserManager } from './UserManager';
 import { CircularMenu } from './CircularMenu';
 
+/**
+ * This class represents the circular menu of tools (shapes etc.)
+ */
 export class ToolMenu extends CircularMenu {
     constructor() {
         super();

@@ -7,16 +7,31 @@ import { EraserCursor } from './EraserCursor';
 import { Drawing } from './Drawing';
 import { Tool } from './Tool';
 
-
+/**
+ * eraser tool
+ * 
+ * actually, it contains different modes for different sizes. The first mode is 0 and is the smallest size.
+ * The current mode is iMode.
+ * When the eraser is calm, it tends to stay in the current mode.
+ * But, when the eraser is shaked, at some point, it goes in mode iMode + 1, and the size increases!
+ * 
+ */
 export class ToolEraser extends Tool {
 
-    private temperature = 0;
-    private action: ActionErase;
-    private iMode = 0;
+
+    private action: ActionErase; //the current action being constructed
+
+    private temperature = 0;// if too high, the eraser will increase its size
+    private iMode = 0; //the current mode index
+
+    /** size of the erasers */
     private readonly modeSizes = [4, 8, 16, 32, 64];
-    private readonly modeTheshold = [1, 2, 2, 2, 100000];
+
+    /**current eraser size (it is a field because it is needed in eraseSVG) */
     private eraseLineWidth = this.modeSizes[0];
-    static readonly temperatureThreshold = 15;
+
+    /** when the temperature passes this theeshold, go in the next mode */
+    static readonly temperatureThreshold = 128;
 
     constructor(user: User) {
         super(user);
@@ -46,31 +61,27 @@ export class ToolEraser extends Tool {
         const evtX = evt.offsetX;
         const evtY = evt.offsetY;
 
-        const THESHOLD = this.modeTheshold[this.iMode];
-        //this.eraseLineWidth = 10;
         if (this.isDrawing) {
 
             SoundToolEraser.mousemove(Math.abs(this.x - evtX) + Math.abs(this.y - evtY));
 
-            if (Math.abs(this.x - evtX) < THESHOLD &&
-                Math.abs(this.y - evtY) < THESHOLD)
-                this.temperature = Math.max(this.temperature - 1, 0);
-
-            if (Math.abs(this.x - evtX) > THESHOLD ||
-                Math.abs(this.y - evtY) > THESHOLD)
-                this.temperature++;
+            //not moving or last mode => the temperature is 0
+            if ((Math.abs(this.x - evtX) < 1 &&
+                Math.abs(this.y - evtY) < 1) || (this.iMode >= this.modeSizes.length - 1))
+                this.temperature = 0;
+            else //if moving and not last mode
+                this.temperature += Math.sqrt((this.x - evtX) ** 2 + (this.y - evtY) ** 2);
 
             if (this.temperature > ToolEraser.temperatureThreshold) {
                 this.iMode = Math.min(this.modeSizes.length - 1, this.iMode + 1);
-                this.temperature = -ToolEraser.temperatureThreshold;
+                this.temperature = 0;
             }
 
             this.eraseLineWidth = Math.max(2, this.modeSizes[this.iMode] + 5 * 2 * (evt.pressure - 0.5));
 
 
-            if (this.user.isCurrentUser) {
+            if (this.user.isCurrentUser)
                 this.updateEraserCursor();
-            }
 
             this.action.addPoint({ x: evtX, y: evtY, lineWidth: this.eraseLineWidth });
             Drawing.clearLine(this.x, this.y, evtX, evtY, this.eraseLineWidth);
@@ -101,10 +112,10 @@ export class ToolEraser extends Tool {
             this.iMode = 0;
             this.eraseLineWidth = this.modeSizes[0];
             this.temperature = 0;
-    
+
             if (this.user.isCurrentUser)
                 this.updateEraserCursor();
-    
+
             BoardManager.addAction(this.action);
         }
     }
