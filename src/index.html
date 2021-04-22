@@ -14,9 +14,12 @@
 
 <body>
 	<div class="toolbar" id="controls">
-		<button id="buttonMenu" title="Menu"><img class="icon"
-				src="img/icons/menu-three-outlined-bars-svgrepo-com.svg" /></button><span
-			class="keyboardkeyhelp">Esc</span>
+		<div>
+			<button id="buttonMenu" title="Menu"><img class="icon"
+					src="img/icons/menu-three-outlined-bars-svgrepo-com.svg" /></button><span
+				class="keyboardkeyhelp">Esc</span>
+		</div>
+
 		<span class="edit">
 			<button id="buttonColors" title="Choose your color"><img class="icon"
 					src="img/icons/1F3A8.svg" /></button><span class="keyboardkeyhelp">c</span>
@@ -28,8 +31,9 @@
 					src="img/icons/tools.svg" /></button><span class="keyboardkeyhelp">t</span>
 			<button id="buttonText" title="Add text (and/or LaTeX $...$)"><img class="icon"
 					src="img/icons/text-svgrepo-com.svg" /></button><span class="keyboardkeyhelp">Enter</span>
-			<button id="buttonDivide" title="Divide the screen vertically in two"><img class="icon"
-					src="img/icons/divide-svgrepo-com.svg" /></button><span class="keyboardkeyhelp">d</span>
+		</span>
+
+		<span class="edit">
 
 			<div class="toolbargroup">
 				<button id="buttonCancel" title="Cancel the last action"><img class="icon"
@@ -38,6 +42,13 @@
 						src="img/icons/21AA.svg" /></button>
 			</div>
 		</span>
+
+		<span class="edit">
+			<button id="buttonDivide" title="Divide the screen vertically in two"><img class="icon"
+					src="img/icons/divide-svgrepo-com.svg" /></button><span class="keyboardkeyhelp">d</span>
+
+		</span>
+
 		<div class="toolbargroup">
 			<button class="buttonNavigation" id="buttonLeft" title="Go left"><img class="icon"
 					src="img/icons/25C0.svg" /></button>
@@ -56,11 +67,13 @@
 		<div class="toolbargroup">
 			<button id="buttonShare" title="share and copy link to clipboard (if your system allows it)"><img
 					class="icon" src="img/icons/E253.svg" /></button>
-			<div id="numberOfUsers"></div>
+			<span id="numberOfUsers"></span>
 		</div>
-		<button hidden id="buttonCloseControls" title="Hide this toolbar (it can be shown again in the menu)"
-			onclick="controls.hidden = true; welcome.hidden = true;"><img class="icon"
-				src="img/icons/hidetoolbar.svg" /></button><span class="keyboardkeyhelp">hide toolbar = h</span>
+
+		<div>
+			<span class="keyboardkeyhelp">hide toolbar = h</span>
+		</div>
+
 
 	</div>
 
@@ -248,8 +261,8 @@
 						<img src="img/backgroundmusicscore.png" /><br /><span>Music score</span></button>
 					<button id="buttonGrid">
 						<img src="img/grid.png" /><br /><span>Grid</span></button>
-						<button id="buttonSeyes">
-							<img src="img/seyes.png" /><br /><span>Seyès ruling</span></button>
+					<button id="buttonSeyes">
+						<img src="img/seyes.png" /><br /><span>Seyès ruling</span></button>
 					<button class="buttonClear" id="buttonNoBackground">
 						<img src="img/nobackground.png" /><br /><span>No wallpaper</span></button>
 

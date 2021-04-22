@@ -3,15 +3,21 @@ import { Layout } from './Layout';
 import { ErrorMessage } from './ErrorMessage';
 import { OptionManager } from './OptionManager';
 
+
 export class Toolbar {
+
+    static isHidden():boolean {
+        return Toolbar.getToolbar().style.display == "none";
+    }
+
     /**
      * initialization
      */
     static init(): void {
 
         document.getElementById("buttonMovieMode").onclick = AnimationToolBar.toggle;
-            
- 
+
+
 
         if (Layout.isTactileDevice()) {
             try {
@@ -33,9 +39,9 @@ export class Toolbar {
             defaultValue: true,
             onChange: (isToolbar) => {
                 if (Layout.isTactileDevice()) //on android etc. the toolbar is ALWAYS visible
-                    Toolbar.getToolbar().hidden = false;
+                    Toolbar.getToolbar().style.display = undefined;
                 else
-                    Toolbar.getToolbar().hidden = !isToolbar;
+                    Toolbar.getToolbar().style.display = isToolbar ? "" : "none";
             }
         });
 
@@ -54,7 +60,7 @@ export class Toolbar {
 
 
         Toolbar.helpButtonDivide();
-        Toolbar.helpForButtonCloseControls();
+
 
     }
 
@@ -125,13 +131,7 @@ export class Toolbar {
     }
 
 
-    /**
-     * help animation for hiding the toolbar
-     */
-    static helpForButtonCloseControls(): void {
-        document.getElementById("buttonCloseControls").onmouseenter = () => { Toolbar.getToolbar().style.opacity = "0.5" };
-        document.getElementById("buttonCloseControls").onmouseleave = () => { Toolbar.getToolbar().style.opacity = "1" };
-    }
+
 
     /**
      * help animation for divide the screen
@@ -160,7 +160,10 @@ export class Toolbar {
      */
     static toggle(): void {
         const controls = Toolbar.getToolbar();
-        controls.hidden = !controls.hidden;
+        if (controls.style.display == "")
+            controls.style.display = "none"
+        else
+            controls.style.display = "";
         Layout.layout();
     }
 }

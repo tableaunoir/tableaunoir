@@ -110,6 +110,8 @@ helpbutton {
 	background-color: rgb(68, 68, 68);
 	color: white;
 	z-index: 1;
+	display:flex;
+	justify-content: space-between;
 }
 
 .toolbarTop {
@@ -117,6 +119,7 @@ helpbutton {
 	left: 0px;
 	right: 0px;
 	width: 100%;
+	flex-direction: row;
 }
 
 .toolbarBottom {
@@ -124,20 +127,23 @@ helpbutton {
 	left: 0px;
 	right: 0px;
 	width: 100%;
+	flex-direction: row;
 }
 
 .toolbarLeft {
 	top: 0px;
 	left: 0px;
-	width: 64px;
+	width: 90px;
 	height: 100%;
+	flex-direction: column;
 }
 
 .toolbarRight {
 	top: 0px;
 	right: 0px;
-	width: 64px;
+	width: 90px;
 	height: 100%;
+	flex-direction: column;
 }
 
 .keyboardkeyhelp {
@@ -146,8 +152,7 @@ helpbutton {
 	background-color: #222;
 	transform: rotate(-5deg);
 	display: inline-block;
-	margin-top: 2px;
-	vertical-align: -8px;
+	margin-top: 10px;
 	padding: 1px;
 }
 
@@ -757,13 +762,10 @@ h1 {
 
 
 
-#buttonCloseControls {
-	background-color: rgb(145, 70, 20);
-}
+
 
 #numberOfUsers {
 	display: inline;
-	margin-left: -10px;
 }
 
 

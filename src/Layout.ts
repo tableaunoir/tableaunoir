@@ -265,7 +265,7 @@ export class Layout {
         Layout.getWindowWidth = () => { return window.innerWidth * Layout.getZoom(); };
         Layout.getZoom = () => {
             const toolbar = Toolbar.getToolbar();
-            const innerHeight = window.innerHeight - (toolbar.hidden ? 0 : toolbar.clientHeight);
+            const innerHeight = window.innerHeight - (Toolbar.isHidden() ? 0 : toolbar.clientHeight);
             let heightused;
             if (toolbar.clientHeight < window.innerHeight / 10 || Toolbar.left || Toolbar.right) {
                 heightused = window.innerHeight;
