@@ -124,12 +124,18 @@ export class ToolEraser extends Tool {
 
 
 
-
+/**
+ * this class implements the sound played when the user is erasing
+ */
 class SoundToolEraser {
     static audioEraser = new Audio("sounds/eraser.ogg");
-    static mousemove(d: number) {
+
+    /**
+     * @param distance
+     * when mousemove, play some sound, depending on the distance between the previous point and the current point */
+    static mousemove(distance: number) {
         if (!Sound.is) return;
-        SoundToolEraser.audioEraser.volume = Math.min(1.0, d / 20);
+        SoundToolEraser.audioEraser.volume = Math.min(1.0, distance / 20);
         if (SoundToolEraser.audioEraser.paused) {
             (<any>SoundToolEraser.audioEraser).mozPreservesPitch = false;
             (<any>SoundToolEraser.audioEraser).webkitPreservesPitch = false;
@@ -138,6 +144,9 @@ class SoundToolEraser {
         }
     }
 
+    /**
+     * when mouseup, stop the sound
+     */
     static mouseup() {
         SoundToolEraser.audioEraser.pause();
     }
