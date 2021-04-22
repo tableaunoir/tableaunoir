@@ -182,7 +182,7 @@ export class BoardManager {
         return max;
     }
 
-    static get width(): number { return BoardManager.widthFromActions + BoardManager.widthFromMagnets; }
+    static get width(): number { return Math.max(BoardManager.widthFromActions, BoardManager.widthFromMagnets); }
 }
 
 
