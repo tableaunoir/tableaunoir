@@ -42,7 +42,7 @@ export class AnimationToolBar {
     /**
      * @returns true if we are in the animation mode
      */
-    static is(): boolean { return document.getElementById("animationToolBar").style.display != ""; }
+    static is(): boolean { return document.getElementById("animationToolBar").style.display == ""; }
 
     /**
      * @description updates the whole timeline
