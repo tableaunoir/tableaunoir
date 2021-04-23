@@ -6,7 +6,7 @@ import { OptionManager } from './OptionManager';
 
 export class Toolbar {
 
-    static isHidden():boolean {
+    static isHidden(): boolean {
         return Toolbar.getToolbar().style.display == "none";
     }
 
@@ -16,8 +16,7 @@ export class Toolbar {
     static init(): void {
 
         document.getElementById("buttonMovieMode").onclick = AnimationToolBar.toggle;
-
-
+        document.getElementById("hiddenToolbar").onclick = Toolbar.hideHiddenToolbarMessage;
 
         if (Layout.isTactileDevice()) {
             try {
@@ -151,19 +150,40 @@ export class Toolbar {
 
 
 
-    static getToolbar(): HTMLElement {
-        return document.getElementById("controls");
-    }
+    static getToolbar(): HTMLElement { return document.getElementById("controls"); }
 
     /**
      * @description toogle the visibility of the toolbar
      */
     static toggle(): void {
         const controls = Toolbar.getToolbar();
-        if (controls.style.display == "")
-            controls.style.display = "none"
-        else
+        if (controls.style.display == "") {
+            controls.style.display = "none";
+            Toolbar.showHiddenToolbarMessage();
+        }
+
+        else {
+            Toolbar.hideHiddenToolbarMessage();
             controls.style.display = "";
+        }
+
         Layout.layout();
+    }
+
+
+
+    static hideHiddenToolbarMessage(): void {
+        document.getElementById("hiddenToolbar").hidden = true;
+    }
+
+
+    static timerHiddenToolbarMessage = undefined;
+
+    static showHiddenToolbarMessage(): void {
+        document.getElementById("hiddenToolbar").hidden = false;
+        if (Toolbar.timerHiddenToolbarMessage)
+            clearTimeout(Toolbar.timerHiddenToolbarMessage);
+
+        Toolbar.timerHiddenToolbarMessage = setTimeout(Toolbar.hideHiddenToolbarMessage, 3000);
     }
 }

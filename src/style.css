@@ -42,7 +42,7 @@ canvas {
 	padding: 0px;
 	z-index: 1;
 	cursor: none;
-	touch-action:none;
+	touch-action: none;
 	background-repeat: repeat;
 }
 
@@ -110,7 +110,7 @@ helpbutton {
 	background-color: rgba(32, 32, 32, 0.8);
 	color: white;
 	z-index: 1;
-	display:flex;
+	display: flex;
 	justify-content: space-between;
 }
 
@@ -869,6 +869,20 @@ h1 {
 	position: absolute;
 }
 
+
+#hiddenToolbar {
+	z-index: 10000;
+	padding: 32px;
+	background-color: rgb(143, 64, 0);
+	left: 0;
+	top: 100px;
+	right: 0;
+	font-size: 24px;
+	color: white;
+	position: absolute;
+	margin: auto;
+	width: max-content;
+}
 
 
 #backgroundSnapshot {
