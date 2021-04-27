@@ -15,8 +15,8 @@ import { Layout } from './Layout';
 import { Toolbar } from './Toolbar';
 import { Discussion } from './Discussion';
 import { ChalkCursor } from './ChalkCursor';
-import { BlackVSWhiteBoard } from './BlackVSWhiteBoard';
-import { Background } from './Background';
+import { BackgroundTexture } from './BackgroundTexture';
+import { BackgroundDocuments } from './BackgroundDocuments';
 import { Translation } from './Translation';
 import { Menu } from './Menu';
 import { TouchScreen } from './TouchScreen';
@@ -60,7 +60,7 @@ function load() {
 		UserManager.init();
 
 
-		Background.init();
+		BackgroundDocuments.init();
 		Layout.init();
 
 		Translation.init();
@@ -75,7 +75,7 @@ function load() {
 		CSSStyleModifier.init();
 		Drawing.init();
 		BoardNavigation.init();
-		BlackVSWhiteBoard.init();
+		BackgroundTexture.init();
 		GUIActions.init();
 		MagnetManager.init();
 		MyMagnets.loadMagnets();

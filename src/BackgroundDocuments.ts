@@ -8,22 +8,22 @@ import { LoadSave } from './LoadSave';
 /**
  * this class is for the background (image) to be added behind your board
  */
-export class Background {
+export class BackgroundDocuments {
 
     static pdfdoc: PDFDocument = undefined; // current pdf document loaded
     static pdfviewer: PDFViewer = undefined;
 
 
     static async setPDF(dataURL: string): Promise<void> {
-        Background.pdfdoc = new PDFDocument();
-        await Background.pdfdoc.open(dataURL);
-        (<HTMLInputElement>document.getElementById("pdfNumPage")).max = "" + Background.pdfdoc.nbPages;
-        Background.pdfviewer = new PDFViewer(Background.pdfdoc);
+        BackgroundDocuments.pdfdoc = new PDFDocument();
+        await BackgroundDocuments.pdfdoc.open(dataURL);
+        (<HTMLInputElement>document.getElementById("pdfNumPage")).max = "" + BackgroundDocuments.pdfdoc.nbPages;
+        BackgroundDocuments.pdfviewer = new PDFViewer(BackgroundDocuments.pdfdoc);
     }
 
 
     static async getDataURLPDFPageToInsert(pagenum: number): Promise<string> {
-        const canvas = await Background.pdfdoc.getCanvasPage(pagenum);
+        const canvas = await BackgroundDocuments.pdfdoc.getCanvasPage(pagenum);
         return canvas.toDataURL();
     }
 
@@ -42,10 +42,10 @@ export class Background {
             const funcInsertDocImg = (dataURL) => Share.execute("insertDocumentImage", [dataURL, Layout.getWindowLeft()]);
 
             if (file.name.endsWith(".pdf")) {
-                LoadSave.fetchFromFile(file, (dataURL) => Background.setPDF(dataURL));
+                LoadSave.fetchFromFile(file, (dataURL) => BackgroundDocuments.setPDF(dataURL));
 
                 document.getElementById("buttonPDFInsertPage").onclick = () => {
-                    Background.getDataURLPDFPageToInsert(Background.pdfviewer.numPage).then(funcInsertDocImg);
+                    BackgroundDocuments.getDataURLPDFPageToInsert(BackgroundDocuments.pdfviewer.numPage).then(funcInsertDocImg);
                 };
 
                 document.getElementById("forpdf").hidden = false;

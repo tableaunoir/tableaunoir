@@ -251,12 +251,26 @@
 						<img id="backgroundSnapshotCanvas" src="img/animatedsmiley.gif" />
 					</div>
 
-					<h2><span>Background Color</span></h2>
+					<h2>Background Color</h2>
 
+					<button id="customBoardSwitch"><img
+							src="img/switchblack.png" /><br /><span>Customboard</span></button>
 					<button id="blackBoardSwitch"><img
 							src="img/switchblack.png" /><br /><span>Blackboard</span></button>
 					<button id="whiteBoardSwitch"><img
 							src="img/switchwhite.png" /><br /><span>Whiteboard</span></button>
+
+					<div id="backgroundCustomColor">
+						<input type="color" id="inputBackgroundColor" />
+
+
+						<input checked="false" type="checkbox" id="checkboxBackgroundGradient" />
+						<label for="checkboxBackgroundGradient">Vertical Gradient </label>
+
+						<div hidden id="backgroundIfGradient">
+							<input type="color" id="inputBackgroundColor2" /> (bottom color)
+						</div>
+					</div>
 
 					<h2><span>Wallpaper</span></h2>
 

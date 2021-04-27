@@ -25,6 +25,9 @@ input {
 	padding: 8px;
 }
 
+input[type="color"] {
+	height: 48px;
+}
 
 textarea:focus,
 input:focus {

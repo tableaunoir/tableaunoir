@@ -1,12 +1,12 @@
 import { Wallpaper } from './Wallpaper';
 import { UserListComponent } from './UserListComponent';
 import { ErrorMessage } from './ErrorMessage';
-import { BlackVSWhiteBoard } from './BlackVSWhiteBoard';
+import { BackgroundTexture } from './BackgroundTexture';
 import { Share } from './share';
 import { LoadSave } from './LoadSave';
 import { Layout } from './Layout';
 import { ConstraintDrawing } from './ConstraintDrawing';
-import { Background } from './Background';
+import { BackgroundDocuments } from './BackgroundDocuments';
 import { MagnetManager } from './magnetManager';
 import { BoardManager } from './boardManager';
 import { UserManager } from './UserManager';
@@ -194,7 +194,7 @@ export class ShareEvent {
     
     /**documents */
     static documentsRemoveAll(): void {
-        Background.getDocumentPanel().innerHTML = "";
+        BackgroundDocuments.getDocumentPanel().innerHTML = "";
     }
 
     static insertDocumentImage(dataURL: string, x: number): void {
@@ -204,7 +204,7 @@ export class ShareEvent {
         img.style.left = x + "px";
         img.style.top = "0px";
         img.style.height = Layout.STANDARDHEIGHT + "px";
-        Background.getDocumentPanel().appendChild(img);
+        BackgroundDocuments.getDocumentPanel().appendChild(img);
     }
 
     /**
@@ -217,7 +217,7 @@ export class ShareEvent {
     }
 
     static setBackgroundColor(color: "white" | "black"): void {
-        BlackVSWhiteBoard.switchTo(color);
+        BackgroundTexture.switchTo(color);
     }
 }
 

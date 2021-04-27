@@ -1,6 +1,6 @@
 import { ToolEraser } from './ToolEraser';
 import { Layout } from './Layout';
-import { BlackVSWhiteBoard } from './BlackVSWhiteBoard';
+import { BackgroundTexture } from './BackgroundTexture';
 
 
 export class EraserCursor {
@@ -51,7 +51,7 @@ export class EraserCursor {
         ctx.strokeStyle = borderColor;
         ctx.lineWidth = Math.max(1, 2 * temperature / ToolEraser.temperatureThreshold);
         ctx.stroke();
-        ctx.fillStyle = BlackVSWhiteBoard.getBackgroundColor() == "black" ? "rgba(255, 255, 255, 0.2)" : "rgba(0, 0, 0, 0.2)";
+        ctx.fillStyle = BackgroundTexture.getBackgroundTexture() == "black" ? "rgba(255, 255, 255, 0.2)" : "rgba(0, 0, 0, 0.2)";
         ctx.fill();
         return canvas.toDataURL();
     }

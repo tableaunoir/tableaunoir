@@ -2,9 +2,9 @@ import { LoadSave } from './LoadSave';
 import { AnimationToolBar } from './AnimationToolBar';
 import { Wallpaper } from './Wallpaper';
 import { UserListComponent } from './UserListComponent';
-import { BlackVSWhiteBoard } from './BlackVSWhiteBoard';
+import { BackgroundTexture } from './BackgroundTexture';
 import { ShareMessage, Parameter } from './ShareMessage';
-import { Background } from './Background';
+import { BackgroundDocuments } from './BackgroundDocuments';
 import { Loading } from './Loading';
 import { getCanvas } from './main';
 import { MagnetManager } from './magnetManager';
@@ -279,7 +279,7 @@ export class Share {
 				document.getElementById("svg").innerHTML = msg.data;
 				ConstraintDrawing.reset();
 				break;
-			case "documents": Background.getDocumentPanel().innerHTML = msg.data; break;
+			case "documents": BackgroundDocuments.getDocumentPanel().innerHTML = msg.data; break;
 			case "magnets":
 				document.getElementById("magnets").innerHTML = msg.magnets;
 				MagnetManager.installMagnets();
@@ -311,7 +311,7 @@ export class Share {
 		}
 
 		Share.send({ type: "setWidth", width: getCanvas().width, to: idNewUser });
-		Share.executeTo("setBackgroundColor", [BlackVSWhiteBoard.currentBackgroundColor], idNewUser);
+		Share.executeTo("setBackgroundColor", [BackgroundTexture.currentBackgroundTexture], idNewUser);
 		Share.sendMagnets(idNewUser);
 
 		//console.log("preparation of the list of actions");
@@ -325,7 +325,7 @@ export class Share {
 
 		Share.send({ type: "svg", to: idNewUser, data: document.getElementById("svg").innerHTML });
 		Share.send({ type: "ready", to: idNewUser });
-		Share.send({ type: "documents", to: idNewUser, data: Background.getDocumentPanel().innerHTML });
+		Share.send({ type: "documents", to: idNewUser, data: BackgroundDocuments.getDocumentPanel().innerHTML });
 
 		if (Wallpaper.is) Share.send({ type: "background", to: idNewUser, data: Wallpaper.dataURL });
 	}
