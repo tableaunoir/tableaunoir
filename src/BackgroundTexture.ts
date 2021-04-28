@@ -76,23 +76,20 @@ export class BackgroundTexture {
         GUIActions.palette.switchBlackAndWhite();
         document.getElementById("content").style.background = backgroundTexture;
 
-        const inputBackgroundColor = <HTMLInputElement>document.getElementById("inputBackgroundColor");
+     /*   const inputBackgroundColor = <HTMLInputElement>document.getElementById("inputBackgroundColor");
         const referenceColor = backgroundTexture.startsWith("linear-gradient") ? inputBackgroundColor.value : backgroundTexture; //  color used to compute the colors of magnets etc.
 
         const getSlightlyModify = function (ratio: number): string {
-            if (referenceColor == "black") //black deserves a special case since the library color does not handle it properly
-                return `rgba(${128*ratio},${128*ratio},${128*ratio}, 0.9 )`;
-
             const color = Color(referenceColor);
 
-            const newcolor = color.isLight() ? color.darken(ratio).fade(0.1) : color.lighten(ratio).fade(0.1);
+            const newcolor = color.isLight() ? Color("white").fade(0.9) : Color("black").lighten(ratio).fade(0.9);
             return newcolor.string();
         };
 
         CSSStyleModifier.setRule(".magnetText div", "background-color", getSlightlyModify(0.1));
         CSSStyleModifier.setRule("div.magnetText", "background-color", getSlightlyModify(0.2));
         CSSStyleModifier.setRule("img.magnet", "background-color", getSlightlyModify(0.2));
-        CSSStyleModifier.setRule(".magnetText div", "color", BackgroundTexture.getDefaultChalkColor());
+        CSSStyleModifier.setRule(".magnetText div", "color", BackgroundTexture.getDefaultChalkColor());*/
      
 
     }

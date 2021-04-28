@@ -256,14 +256,14 @@ a {
 }
 
 .magnetText div {
-	background-color: rgba(16, 16, 16, 0.9);
+	background-color: rgba(128, 128, 128, 0.2);
 	color: white;
 	font-size: 24px;
 	cursor: text;
 }
 
 div.magnetText {
-	background-color: rgba(32, 32, 32, 0.9);
+	background-color: rgba(128, 128, 128, 0.1);
 	color: white;
 }
 
@@ -307,7 +307,7 @@ div.magnet {
 
 img.magnet {
 	padding: 0px;
-	background-color: rgba(32, 32, 32, 0.9);
+	background-color: rgba(128,128, 128, 0.2);
 	animation: magnetCreation 500ms normal;
 }
 
