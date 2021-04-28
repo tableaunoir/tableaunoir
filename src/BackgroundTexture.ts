@@ -76,12 +76,14 @@ export class BackgroundTexture {
         GUIActions.palette.switchBlackAndWhite();
         document.getElementById("content").style.background = backgroundTexture;
 
+        const inputBackgroundColor = <HTMLInputElement>document.getElementById("inputBackgroundColor");
+        const referenceColor = backgroundTexture.startsWith("linear-gradient") ? inputBackgroundColor.value : backgroundTexture; //  color used to compute the colors of magnets etc.
 
         const getSlightlyModify = function (ratio: number): string {
-            if (backgroundTexture == "black") //black deserves a special case since the library color does not handle it properly
+            if (referenceColor == "black") //black deserves a special case since the library color does not handle it properly
                 return `rgba(${128*ratio},${128*ratio},${128*ratio}, 0.9 )`;
 
-            const color = Color(backgroundTexture);
+            const color = Color(referenceColor);
 
             const newcolor = color.isLight() ? color.darken(ratio).fade(0.1) : color.lighten(ratio).fade(0.1);
             return newcolor.string();
