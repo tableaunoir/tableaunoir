@@ -1,11 +1,14 @@
 import { Share } from './share';
 import { GUIActions } from './GUIActions';
-import { getCanvas } from './main';
 import { CSSStyleModifier } from './CSSStyleModifier';
+import Color from 'color';
+
 
 /**
  * 
- * This class implements the switch between whiteboard and blackboard
+ * This class implements the background texture.
+ * The background can be black (for a blackboard), or white for a whiteboard
+ * But it can technicallybe of any color, or actually any CSS style
  */
 export class BackgroundTexture {
 
@@ -73,28 +76,31 @@ export class BackgroundTexture {
         GUIActions.palette.switchBlackAndWhite();
         document.getElementById("content").style.background = backgroundTexture;
 
-        if (backgroundTexture == "black") {
-            CSSStyleModifier.setRule(".magnetText div", "background-color", "rgba(16, 16, 16, 0.9)");
-            CSSStyleModifier.setRule("div.magnetText", "background-color", "rgba(32, 32, 32, 0.9)");
-            CSSStyleModifier.setRule("img.magnet", "background-color", "rgba(32, 32, 32, 0.9)");
-            CSSStyleModifier.setRule(".magnetText div", "color", "white");
-        }
-        else {
-            CSSStyleModifier.setRule(".magnetText div", "background-color", "rgba(247, 247, 247, 0.9)");
-            CSSStyleModifier.setRule("img.magnet", "background-color", "rgba(227, 227, 227, 0.9)");
-            CSSStyleModifier.setRule("div.magnetText", "background-color", "rgba(227, 227, 227, 0.9)");
-            CSSStyleModifier.setRule(".magnetText div", "color", "black");
-        }
 
-        //BlackVSWhiteBoard._invertCanvas();
+        const getSlightlyModify = function (ratio: number): string {
+            if (backgroundTexture == "black") //black deserves a special case since the library color does not handle it properly
+                return `rgba(${128*ratio},${128*ratio},${128*ratio}, 0.9 )`;
+
+            const color = Color(backgroundTexture);
+
+            const newcolor = color.isLight() ? color.darken(ratio).fade(0.1) : color.lighten(ratio).fade(0.1);
+            return newcolor.string();
+        };
+
+        CSSStyleModifier.setRule(".magnetText div", "background-color", getSlightlyModify(0.1));
+        CSSStyleModifier.setRule("div.magnetText", "background-color", getSlightlyModify(0.2));
+        CSSStyleModifier.setRule("img.magnet", "background-color", getSlightlyModify(0.2));
+        CSSStyleModifier.setRule(".magnetText div", "color", BackgroundTexture.getDefaultChalkColor());
+     
+
     }
 
 
 
 
     /**
-     * @returns "black" if it is a blackboard
-     *          "white" if it is a whiteboard
+     * @returns the background texture, e.g. "black" if it is a blackboard, "white" if it is a whiteboard, 
+     * "rgb(0, 0, 255)", etc.
      */
     static getBackgroundTexture(): string {
         return document.getElementById("content").style.background;
@@ -105,7 +111,7 @@ export class BackgroundTexture {
      *                                   "black" if it is a whiteboard
      */
     static getDefaultChalkColor(): string {
-        return BackgroundTexture.getBackgroundTexture() == "white" ? "black" : "white";
+        return Color(BackgroundTexture.getBackgroundTexture()).isLight() ? "black" : "white";
     }
 
 }
