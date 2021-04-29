@@ -76,21 +76,21 @@ export class BackgroundTexture {
         GUIActions.palette.switchBlackAndWhite();
         document.getElementById("content").style.background = backgroundTexture;
 
-     /*   const inputBackgroundColor = <HTMLInputElement>document.getElementById("inputBackgroundColor");
-        const referenceColor = backgroundTexture.startsWith("linear-gradient") ? inputBackgroundColor.value : backgroundTexture; //  color used to compute the colors of magnets etc.
+        /*   const inputBackgroundColor = <HTMLInputElement>document.getElementById("inputBackgroundColor");
+           const referenceColor = backgroundTexture.startsWith("linear-gradient") ? inputBackgroundColor.value : backgroundTexture; //  color used to compute the colors of magnets etc.
+   
+           const getSlightlyModify = function (ratio: number): string {
+               const color = Color(referenceColor);
+   
+               const newcolor = color.isLight() ? Color("white").fade(0.9) : Color("black").lighten(ratio).fade(0.9);
+               return newcolor.string();
+           };
+   
+           CSSStyleModifier.setRule(".magnetText div", "background-color", getSlightlyModify(0.1));
+           CSSStyleModifier.setRule("div.magnetText", "background-color", getSlightlyModify(0.2));
+           CSSStyleModifier.setRule("img.magnet", "background-color", getSlightlyModify(0.2));
+           CSSStyleModifier.setRule(".magnetText div", "color", BackgroundTexture.getDefaultChalkColor());*/
 
-        const getSlightlyModify = function (ratio: number): string {
-            const color = Color(referenceColor);
-
-            const newcolor = color.isLight() ? Color("white").fade(0.9) : Color("black").lighten(ratio).fade(0.9);
-            return newcolor.string();
-        };
-
-        CSSStyleModifier.setRule(".magnetText div", "background-color", getSlightlyModify(0.1));
-        CSSStyleModifier.setRule("div.magnetText", "background-color", getSlightlyModify(0.2));
-        CSSStyleModifier.setRule("img.magnet", "background-color", getSlightlyModify(0.2));
-        CSSStyleModifier.setRule(".magnetText div", "color", BackgroundTexture.getDefaultChalkColor());*/
-     
 
     }
 
@@ -102,7 +102,7 @@ export class BackgroundTexture {
      * "rgb(0, 0, 255)", etc.
      */
     static getBackgroundTexture(): string {
-        return document.getElementById("content").style.background;
+        return this.currentBackgroundTexture;
     }
 
     /**
