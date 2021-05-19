@@ -1,0 +1,1033 @@
+/**main screen*/
+
+html {
+	overscroll-behavior-x: none;
+	width: 100%;
+	height: 100%;
+}
+
+body {
+	margin: 0px;
+	padding: 0px;
+	overflow: hidden;
+	user-select: none;
+	overscroll-behavior-x: none;
+	height: 100%;
+	width: 100%;
+	background-color: rgb(68, 68, 68);
+}
+
+textarea,
+input {
+	background-color: rgb(47, 47, 47);
+	color: oldlace;
+	border: 1px solid black;
+	padding: 8px;
+}
+
+input[type="color"] {
+	height: 48px;
+}
+
+textarea:focus,
+input:focus {
+	border: 1px solid rgb(0, 156, 246);
+}
+
+
+.icon {
+	height: 38px;
+	margin: 0px;
+}
+
+canvas {
+	margin: 0px;
+	padding: 0px;
+	z-index: 1;
+	cursor: none;
+	touch-action: none;
+	background-repeat: repeat;
+}
+
+#canvasBackground {
+	position: absolute;
+	z-index: -2;
+}
+
+#board {
+	position: relative;
+	margin: 0px;
+	padding: 0px;
+}
+
+
+
+helpbutton::before {
+	content: '?';
+	color: yellow;
+}
+
+
+helpbutton {
+	display: inline-block;
+	background: gray;
+	padding: 8px;
+}
+
+#content {
+	transform-origin: left top;
+	position: absolute;
+	margin: 0px;
+	padding: 0px;
+
+}
+
+#viewport {
+	position: absolute;
+	border: 20px solid brown;
+	background-color: rgb(248, 193, 157);
+	opacity: 0.25;
+	pointer-events: none;
+	cursor: grab;
+}
+
+
+#newviewport {
+	position: absolute;
+	border: 10px solid brown;
+	background-color: rgb(248, 193, 157);
+	opacity: 0.25;
+	pointer-events: none;
+	cursor: grab;
+}
+
+.pageNumberHidden {
+	visibility: hidden;
+}
+
+
+
+
+.toolbar {
+	position: absolute;
+	background-color: rgba(32, 32, 32, 0.8);
+	color: white;
+	z-index: 1;
+	display: flex;
+	justify-content: space-between;
+}
+
+
+
+.toolbarTop {
+	top: 0px;
+	left: 0px;
+	right: 0px;
+	width: 100%;
+	flex-direction: row;
+}
+
+.toolbarBottom {
+	bottom: 0px;
+	left: 0px;
+	right: 0px;
+	width: 100%;
+	flex-direction: row;
+}
+
+.toolbarLeft {
+	top: 0px;
+	left: 0px;
+	width: 90px;
+	height: 100%;
+	flex-direction: column;
+}
+
+.toolbarRight {
+	top: 0px;
+	right: 0px;
+	width: 90px;
+	height: 100%;
+	flex-direction: column;
+}
+
+.keyboardkeyhelp {
+	margin-right: 8px;
+	margin-left: 2px;
+	background-color: #222;
+	transform: rotate(-5deg);
+	display: inline-block;
+	margin-top: 10px;
+	padding: 1px;
+}
+
+
+#container {
+	overflow: hidden;
+	margin: 0px;
+	padding: 0px;
+	bottom: 0px;
+}
+
+#svg {
+	z-index: 0;
+	position: absolute;
+	top: 0;
+	left: 0;
+	pointer-events: none;
+}
+
+
+#documentPanel {
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 30000;
+	height: 1000;
+	pointer-events: none;
+	z-index: -1;
+}
+
+
+.pdfPage {
+	position: absolute;
+}
+
+
+
+#cursors {
+	position: absolute;
+	left: 0px;
+	top: 0px;
+}
+
+/*----------Eraser Gauge----------*/
+#gauge
+{
+	padding-top: 15px;
+	display: none;
+}
+
+#eraserGaugeFrame
+{
+	width : 384px;
+	height : 20px;
+	margin : auto;
+	border : 3px solid white;
+	border-radius : 3px;
+}
+
+#eraserGauge
+{
+	height: 20px;
+	width : 0px;
+	position: relative;
+	top: 0px;
+	left: 0px;
+	background-color: green;
+}
+
+#eraserLvl
+{
+	height: 20px;
+	width: 384px;
+	position: relative;
+	top: -20px;
+	left: 0px;
+	text-align: center;
+	color: white;
+}
+
+em {
+	color: rgb(220, 255, 168);
+	font-weight: italic;
+}
+
+a {
+	color: rgb(167, 167, 255);
+}
+
+/** Magnets **/
+
+.magnet {
+	position: absolute;
+	display: inline-block;
+	font-size: 32px;
+	font-weight: bold;
+	cursor: grab;
+}
+
+
+@keyframes pageNumberShow {
+	from {
+		visibility: visible;
+		opacity: 1.0;
+	}
+
+	to {
+		visibility: hidden;
+		opacity: 0.0;
+	}
+}
+
+.pageNumber {
+	position: absolute;
+	animation: pageNumberShow 2000ms forwards;
+	right: 0px;
+	top: 50px;
+	padding: 12px;
+	font-size: 24px;
+	color: white;
+	pointer-events: none;
+}
+
+.magnet:hover {
+	box-shadow: 0 2px 4px 0 rgba(255, 255, 255, 1);
+}
+
+.magnetDrag {
+	cursor: none;
+}
+
+.magnetText div {
+	background-color: rgba(128, 128, 128, 0.2);
+	color: white;
+	font-size: 24px;
+	cursor: text;
+}
+
+div.magnetText {
+	background-color: rgba(128, 128, 128, 0.1);
+	color: white;
+}
+
+
+div.magnet {
+	padding: 8px;
+}
+
+
+.wrapperMagnetPreview {
+	display: inline-block;
+	width: 164px;
+	height: 16px;
+	overflow: hidden;
+}
+
+.magnetPreview {
+	display: inline-flex;
+	position: relative;
+	transform: scale(0.25);
+	transform-origin: left top;
+	font-size: 32px;
+	font-weight: bold;
+	color: black;
+}
+
+
+@keyframes magnetCreation {
+	from {
+		background-color: rgb(0, 0, 0);
+		filter: blur(2px)
+	}
+
+	to {
+		background-color: rgba(32, 32, 32, 0.9);
+		background-image: none;
+	}
+}
+
+
+
+img.magnet {
+	padding: 0px;
+	background-color: rgba(128,128, 128, 0.2);
+	animation: magnetCreation 500ms normal;
+}
+
+img.magnet.backgroundTransparent {
+	background: none;
+}
+
+
+
+@keyframes magnetCreationPolygon {
+	0% {
+		opacity: 0;
+	}
+
+	50% {
+		stroke-dashoffset: 1000;
+		opacity: 0.5;
+	}
+
+	100% {
+		stroke-dashoffset: 2000;
+		opacity: 1;
+	}
+}
+
+
+
+
+#magnetCreationPolygon {
+	stroke: greenyellow;
+	fill: none;
+	stroke-width: 8px;
+	stroke-dasharray: 100 100;
+	animation: magnetCreationPolygon 2s infinite;
+
+
+}
+
+/** Gale-Shapley, the B's**/
+.GS_B {
+	color: orange;
+	border-radius: 32px;
+	padding: 16px;
+}
+
+
+
+
+
+
+/**menu **/
+
+@keyframes menuShow {
+	from {
+		opacity: 0;
+		top: 64px;
+		left: 64px;
+		right: 64px;
+		bottom: 64px;
+		scale: 0.2;
+		visibility: hidden;
+	}
+
+	to {
+		opacity: 1;
+		top: 0px;
+		left: 0px;
+		right: 0px;
+		bottom: 0px;
+		scale: 1;
+	}
+}
+
+.menuShow {
+	visibility: visible;
+	animation: menuShow 200ms normal;
+}
+
+.menuHide {
+	visibility: hidden;
+
+}
+
+#menu {
+	display: flex;
+}
+
+.tabs {
+	display: inline-block;
+	position: sticky;
+	left: 0px;
+	top: 0px;
+	background-color: black;
+}
+
+
+.divMenuHide {
+	position: sticky;
+	float: right;
+	top: 0px;
+}
+
+.tablink {
+	display: block;
+	border: none;
+	background-color: inherit;
+	color: rgb(180, 180, 180);
+	padding: 8px;
+	padding-top: 6px;
+	font-size: 14pt;
+	margin: 8px;
+	width: 300px;
+	outline: none;
+	text-align: left;
+}
+
+.tablink:hover {
+	background-color: rgb(51, 51, 51);
+}
+
+.selected {
+	background: rgb(51, 51, 51);
+	color: white;
+}
+
+.tabcontent {
+	padding: 8px;
+}
+
+h2 {
+	margin: 4px;
+	margin-top: 48px;
+	padding-top: 8px;
+	font-size: 16px;
+	font-family: monospace;
+	border-top: 1px solid white;
+}
+
+
+h3 {
+	margin-bottom: 0px;
+}
+
+table {
+	border-collapse: collapse;
+	color: white;
+}
+
+tr {
+	border-bottom: 1px solid #bbbbbb;
+}
+
+th,
+td {
+	border-bottom: 0px solid #ddd;
+	padding: 10px;
+}
+
+td:first-child {
+	white-space: nowrap;
+	background-color: #3d3d3d;
+	padding-right: 16px;
+}
+
+button {
+	background-color: rgb(108, 108, 255);
+	color: white;
+	border: none;
+	border-radius: 5px;
+	padding: 8px;
+	padding-top: 6px;
+	font-size: 14pt;
+	margin: 8px;
+	outline: none;
+	cursor: pointer;
+	min-width: 48px;
+}
+
+button:hover {
+	filter: brightness(1.3);
+}
+
+
+.buttonselected {
+	box-shadow: 3px 2px 1px inset black;
+}
+
+.alreadyShared {
+	background-color: rgb(127, 127, 206);
+}
+
+#controls button {
+	padding: 0px;
+	margin-top: 4px;
+	margin-bottom: 4px;
+	margin-left: 0px;
+	margin-right: 0px;
+	height: 52px;
+	width: 60px;
+	padding-top: 4px;
+	padding-bottom: 4px;
+	padding-left: 8px;
+	padding-right: 12px;
+}
+
+
+.buttonNavigation {
+	border-radius: 24px;
+}
+
+
+button img {
+	height: 64px;
+	padding: 0px;
+	margin: 0px;
+}
+
+
+
+.disabled {
+	background-color: gray;
+	filter: contrast(0.5);
+}
+
+
+.toolbargroup {
+	display: inline;
+	margin-right: 16px;
+}
+
+img {
+	vertical-align: middle;
+}
+
+.magnetCollectionButton {
+	display: inline;
+	background: rgba(191, 191, 255, 0.2);
+	color: rgb(191, 191, 255);
+	border: none;
+	outline: none;
+	padding: 8px;
+	margin: 16px;
+	cursor: pointer;
+}
+
+.magnetCollectionButton:hover {
+	background: none;
+	color: rgb(157, 157, 255);
+	border: none;
+	outline: none;
+	background: rgba(191, 191, 255, 0.3);
+}
+
+
+
+
+.buttonClear {
+	background-color: rgb(170, 73, 43);
+}
+
+
+.buttonClear:hover {
+	background-color: rgb(228, 86, 42);
+}
+
+
+h1 {
+	color: white;
+	margin: 0px;
+	padding: 8px;
+}
+
+
+.MenuPanel {
+	position: absolute;
+	background-color: rgb(61, 61, 61);
+	top: 0px;
+	left: 0px;
+	right: 0px;
+	bottom: 0px;
+	z-index: 10000;
+	overflow: auto;
+	color: white;
+}
+
+
+#welcome {
+	top: 15%;
+	bottom: 8%;
+	left: 5%;
+	right: 5%;
+}
+
+.explanation {
+	position: relative;
+	display: inline-block;
+	padding: 16px;
+	margin: 8px;
+	width: 42%;
+	vertical-align: top;
+}
+
+.explanation img {
+	width: 150px;
+	margin-left: 20px;
+	display: block;
+}
+
+.preview {
+	border: white 5px solid;
+	scale: 0.1;
+	height: 200px;
+	width: 300px;
+	pointer-events: none;
+}
+
+.center {
+	display: flex;
+	justify-content: center;
+	align-items: flex-start;
+}
+
+#number {
+	color: white;
+	position: absolute;
+	top: 0px;
+	right: 0px;
+}
+
+.keyboardkey {
+	display: inline-block;
+	padding: 5px;
+	border: 2px solid #bbbbbb;
+	margin: 5 px;
+	border-radius: 5px;
+	min-width: 20px;
+	text-align: center;
+}
+
+.CircularMenu {
+	position: absolute;
+	z-index: 10000;
+	transition: 400ms;
+}
+
+
+
+
+.CircularMenuShow {
+	opacity: 1;
+	transform: rotate(0deg), scale(1);
+	visibility: visible;
+
+}
+
+
+.CircularMenuHide {
+	opacity: 0;
+	transform: rotate(180deg) scale(0);
+	visibility: hidden;
+}
+
+.paletteColorButton {
+	position: absolute;
+	border-radius: 32px;
+	width: 46px;
+	padding-left: 16px;
+	padding-right: 16px;
+	padding-top: 8px;
+	padding-bottom: 8px;
+	background-color: #555555;
+	cursor: pointer;
+	user-select: none;
+}
+
+
+.paletteColorButton:hover {
+	background-color: gray;
+}
+
+
+.paletteColorButton.selected {
+	border: 2px white solid;
+}
+
+.menuDiv {
+	margin: 8px;
+	padding: 0px;
+}
+
+
+#shareUrl {
+	width: 500px;
+}
+
+#joinUrl {
+	width: 500px;
+}
+
+#error {
+	top: 0px;
+	left: 0px;
+	opacity: 0.8;
+	font-size: 32px;
+	background-color: white;
+	padding: 16px;
+	color: red;
+	position: absolute;
+	z-index: 10000;
+}
+
+.warning {
+	color: yellow;
+	padding: 8px;
+}
+
+.cursor {
+	position: absolute;
+	pointer-events: none;
+	opacity: 0.5;
+	width: 8px;
+	height: 8px;
+}
+
+
+.cursorinscreen {
+	border: 3px solid white;
+	border-radius: 8px;
+	width: 8px;
+	height: 8px;
+}
+
+
+.cursortoleft {
+	font-size: 0px;
+	line-height: 0%;
+	width: 0px;
+	border-top: 10px solid #fff0;
+	border-right: 20px solid white;
+	border-bottom: 10px solid #fff0;
+}
+
+.cursortoright {
+	font-size: 0px;
+	line-height: 0%;
+	width: 0px;
+	border-top: 10px solid #fff0;
+	border-left: 20px solid white;
+	border-bottom: 10px solid #fff0;
+}
+
+.toolcursor {
+	position: absolute;
+	pointer-events: none;
+}
+
+
+
+
+
+
+#numberOfUsers {
+	display: inline;
+}
+
+
+
+.user {
+	margin-right: 1px;
+	padding: 0px;
+	margin-left: 1px;
+
+}
+
+.me {
+	font-weight: bold;
+}
+
+
+
+
+
+#questions::before {
+	content: "Questions/comments: ";
+}
+
+#questions {
+	position: absolute;
+	left: 0px;
+	right: 0px;
+	bottom: 0px;
+	width: 100%;
+	max-height: 64px;
+	background-color: rgb(199, 199, 255);
+}
+
+
+@keyframes newQuestion {
+	from {
+		filter: blur(10px);
+	}
+
+	to {}
+}
+
+
+.question {
+	display: inline-block;
+	color: rgb(12, 78, 78);
+	font-size: 24;
+	padding: 8px;
+	margin-right: 32px;
+	animation: newQuestion 2000ms forwards;
+
+}
+
+
+.userImage {
+	width: 48px;
+	height: 48px;
+	vertical-align: middle;
+	margin-right: -8px;
+}
+
+
+@keyframes divideLineHelp {
+	from {
+		height: 0px;
+	}
+
+	to {
+		height: 100%
+	}
+}
+
+
+.divideLineHelp {
+	position: absolute;
+	background-color: grey;
+	width: 2px;
+	animation: divideLineHelp 2000ms infinite;
+}
+
+.userNameCursor {
+	font-size: 16px;
+	position: absolute;
+	pointer-events: none;
+	color: grey;
+}
+
+
+#loading {
+	z-index: 10000;
+	padding: 96px;
+	background-repeat: repeat;
+	text-align: center;
+	vertical-align: middle;
+	left: 0px;
+	top: 0px;
+	font-size: 24px;
+	color: white;
+	position: absolute;
+}
+
+
+#hiddenToolbar {
+	z-index: 10000;
+	padding: 32px;
+	background-color: rgb(143, 64, 0);
+	left: 0;
+	top: 100px;
+	right: 0;
+	font-size: 24px;
+	color: white;
+	position: absolute;
+	margin: auto;
+	width: max-content;
+}
+
+
+#backgroundSnapshot {
+	position: relative;
+	height: 152px;
+	width: 236px;
+	margin: 16px;
+}
+
+
+
+
+#backgroundSnapshotBackgroundColor {
+	position: relative;
+	width: 192px;
+	height: 128px;
+	border: black 1px solid;
+}
+
+
+
+
+#backgroundSnapshotBackgroundImageDiv {
+	position: absolute;
+	height: 128px;
+	width: 192px;
+	overflow: hidden;
+	left: 0px;
+	top: 0px;
+	border: gray 1px solid;
+}
+
+
+#backgroundSnapshotBackgroundImage {
+	height: 128px;
+}
+
+
+
+#backgroundSnapshotCanvas {
+	position: absolute;
+	width: 192px;
+	height: 128px;
+	left: 0px;
+	top: 0px;
+	border: gray 1px solid;
+}
+
+
+.handle {
+	position: absolute;
+	width: 32px;
+	height: 32px;
+}
+
+.handle:hover {
+	filter: brightness(150%);
+}
+
+.handleCenter {
+	background-image: url(img/center.svg);
+}
+
+.handleRadius {
+	background-image: url(img/radius.svg);
+}
+
+.eraser {
+	position: absolute;
+	background-color: #888888aa;
+	border: 1px solid #888888;
+	border-radius: 50%;
+	pointer-events: none;
+}
+
+#animationActionListWrapper {
+	display: inline-block;
+	overflow: auto;
+	width: 100%;
+}
+
+#animationActionList {
+	display: inline-block;
+	width: max-content;
+
+}
+
+.action {
+	width: 24px;
+	height: 24px;
+	background-color: white;
+	border: 2px solid black;
+	display: inline-block;
+	opacity: 0.5;
+}
+
+.actionExecuted {
+	opacity: 1.0;
+}
+
+
+.actionErase {
+	background-image: url(img/icons/erase.svg);
+	background-size: contain;
+
+}
+
+
+.actionPause {
+	transform: scale(1.2);
+}
