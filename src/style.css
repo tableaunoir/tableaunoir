@@ -125,6 +125,7 @@ helpbutton {
 	right: 0px;
 	width: 100%;
 	flex-direction: row;
+	flex-direction: row;
 }
 
 .toolbarBottom {
@@ -201,8 +202,52 @@ helpbutton {
 	top: 0px;
 }
 
+/*----------Eraser Gauge----------*/
+#gauge
+{
+	transform: translateY(20px);
+	flex-direction: row;
+	display: inline-block;
+	box-sizing: content-box;
+	height: 38px;
+	width: 128px;
+}
 
+#eraserGaugeFrame
+{
+	display: none;
+	position: relative;
+	box-sizing: content-box;
+	width : 128px;
+	height : 20px;
+	margin : auto;
+	border : 3px solid white;
+	border-radius : 3px;
+}
 
+#eraserGauge
+{
+	height: 20px;
+	box-sizing: content-box;
+	width : 0px;
+	position: relative;
+	top: 0px;
+	left: 0px;
+	background-color: green;
+}
+
+#eraserLvl
+{
+	display: none;
+	box-sizing: content-box;
+	height: 38px;
+	width: 128px;
+	position: absolute;
+	top: 5px;
+	left: 0px;
+	text-align: center;
+	color: white;
+}
 
 em {
 	color: rgb(220, 255, 168);
