@@ -51,8 +51,9 @@ export class EraserCursor {
         ctx.strokeStyle = borderColor;
         ctx.lineWidth = Math.max(1, 2 * temperature / ToolEraser.temperatureThreshold);
         ctx.stroke();
-        ctx.fillStyle = BackgroundTexture.getBackgroundTexture() == "black" ? "rgba(255, 255, 255, 0.2)" : "rgba(0, 0, 0, 0.2)";
+        ctx.fillStyle = "rgba(128,128, 128, 0.1)";
         ctx.fill();
         return canvas.toDataURL();
     }
 }
+    
