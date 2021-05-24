@@ -32,21 +32,32 @@ export class ConstraintDrawing {
                 const pm1 = MagnetManager.getMagnetCenter(magnet1);
                 const pm2 = MagnetManager.getMagnetCenter(magnet2);
 
-                const getSize = (magnet) => Math.min(magnet1.clientHeight, magnet1.clientWidth);
+                const getSize = (magnet) => Math.min(magnet.clientHeight, magnet.clientWidth);
                 const size1 = getSize(magnet1);
                 const size2 = getSize(magnet2);
+
                 const dtotal = parseFloat(svgLine.dataset.d);
                 const dm = (magnet1 == magnet2) ? 1 : Geometry.distance(pm1, pm2);
                 const anglem = (magnet1 == magnet2) ? 0 : Geometry.angle(pm1, pm2);
 
                 const getNewPosition = (d, angle) => {
-                    const dratio = d / parseFloat(svgLine.dataset.d);
-                    return Geometry.polar(pm1, dratio * dm, anglem + angle);
+                    if (d < size1) {
+                        return Geometry.polar(pm1, d, anglem + angle);
+                    }
+                    else if (d > dtotal - size2)
+                        return Geometry.polar(pm2, -(dtotal - d), anglem + angle);
+                    else {
+                        const dratio = (d - size1) / (dtotal - size1 - size2);
+                        return Geometry.polar(pm1, size1 + dratio * (dm - size1 - size2), anglem + angle);
+                    }
+
+
+
                 };
 
                 const p1 = getNewPosition(parseFloat(svgLine.dataset.d1), parseFloat(svgLine.dataset.angle1));
                 const p2 = getNewPosition(parseFloat(svgLine.dataset.d2), parseFloat(svgLine.dataset.angle2));
-                
+
                 svgLine.setAttributeNS(null, 'x1', "" + p1.x);
                 svgLine.setAttributeNS(null, 'y1', "" + p1.y);
                 svgLine.setAttributeNS(null, 'x2', "" + p2.x);
