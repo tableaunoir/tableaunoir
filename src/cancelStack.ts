@@ -268,7 +268,7 @@ export class CancelStack {
 
         const tGoal = this.getNextPausedFrame();
         for (let i = this.currentIndex + 1; i <= tGoal; i++)
-            await this.actions[i].redo();
+            await this.actions[i].redoAnimated();
 
         this.currentIndex = tGoal;
         this.updateButtons();

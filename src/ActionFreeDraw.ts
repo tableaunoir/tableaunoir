@@ -106,9 +106,9 @@ export class ActionFreeDraw extends Action {
             // Find the point with the maximum distance
             let dmax = 0
             let index = 0
-            
+
             for (let i = begin; i < end; i++) {
-                
+
                 const d = perpendicularDistance(this.points[i], this.points[begin], this.points[end]);
                 if (d > dmax) {
                     index = i;
@@ -132,7 +132,7 @@ export class ActionFreeDraw extends Action {
 
 
     postTreatement(): void {
-       // console.log("Original: " + this.points.length);
+        // console.log("Original: " + this.points.length);
         this.smoothifyOnePass();
         //console.log("After smoothing: " + this.points.length);
         this.simplify();
@@ -151,6 +151,24 @@ export class ActionFreeDraw extends Action {
 
         for (let i = 1; i < this.points.length; i++) {
             Drawing.drawLine(getCanvas().getContext("2d"), this.points[i - 1].x, this.points[i - 1].y, this.points[i].x, this.points[i].y, this.points[i].pressure, this.points[i].color);
+        }
+
+    }
+
+    private delay(nbMilleSeconds) {
+        return new Promise(function (resolve) {
+            setTimeout(resolve, nbMilleSeconds);
+        });
+    }
+
+
+    async redoAnimated(): Promise<void> {
+        if (!this.alreadyDrawnSth)
+            Drawing.drawDot(this.points[0].x, this.points[0].y, this.points[0].color);
+
+        for (let i = 1; i < this.points.length; i++) {
+            Drawing.drawLine(getCanvas().getContext("2d"), this.points[i - 1].x, this.points[i - 1].y, this.points[i].x, this.points[i].y, this.points[i].pressure, this.points[i].color);
+            await this.delay(1);
         }
 
     }

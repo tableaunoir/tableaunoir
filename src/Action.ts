@@ -26,7 +26,7 @@ export abstract class Action {
      */
     serialize(): ActionSerialized {
         const obj = this.serializeData();
-        if(!obj.pause)
+        if (!obj.pause)
             delete obj.pause;
         return obj;
     }
@@ -36,6 +36,7 @@ export abstract class Action {
      */
     abstract redo(): Promise<void>;
 
+    redoAnimated(): Promise<void> { return this.redo(); }
     abstract get xMax(): number;
 
 
