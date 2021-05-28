@@ -118,14 +118,14 @@ export class User {
     }
 
 
-
-    switchChalk(): void { this.tool.destructor(); this.tool = new ToolDraw(this); }
-    switchErase(): void { this.tool.destructor(); this.tool = new ToolEraser(this); }
-    switchLine(): void { this.tool.destructor(); this.tool = new ToolLine(this); }
-    switchRectangle(): void { this.tool.destructor(); this.tool = new ToolRectangle(this); }
-    switchEllipseByBorder(): void { this.tool.destructor(); this.tool = new ToolEllipseByBorder(this); }
-    switchEllipseByCenter(): void { this.tool.destructor(); this.tool = new ToolEllipseByCenter(this); }
-    switchArc(): void { this.tool.destructor(); this.tool = new ToolArc(this); }
+	//changing tools. The 2 style editions per line for the following statements are used to switch the eraser gauge display
+    switchChalk(): void { this.tool.destructor(); this.tool = new ToolDraw(this); document.getElementById("eraserGaugeFrame").setAttribute('style', 'display: none'); document.getElementById("eraserLvl").setAttribute('style', 'display: none'); }
+    switchErase(): void { this.tool.destructor(); this.tool = new ToolEraser(this); document.getElementById("eraserGaugeFrame").setAttribute('style', 'display: block'); document.getElementById("eraserLvl").setAttribute('style', 'display: block'); }
+    switchLine(): void { this.tool.destructor(); this.tool = new ToolLine(this); document.getElementById("eraserGaugeFrame").setAttribute('style', 'display: none'); document.getElementById("eraserLvl").setAttribute('style', 'display: none'); }
+    switchRectangle(): void { this.tool.destructor(); this.tool = new ToolRectangle(this); document.getElementById("eraserGaugeFrame").setAttribute('style', 'display: none'); document.getElementById("eraserLvl").setAttribute('style', 'display: none'); }
+    switchEllipseByBorder(): void { this.tool.destructor(); this.tool = new ToolEllipseByBorder(this); document.getElementById("eraserGaugeFrame").setAttribute('style', 'display: none'); document.getElementById("eraserLvl").setAttribute('style', 'display: none'); }
+    switchEllipseByCenter(): void { this.tool.destructor(); this.tool = new ToolEllipseByCenter(this); document.getElementById("eraserGaugeFrame").setAttribute('style', 'display: none'); document.getElementById("eraserLvl").setAttribute('style', 'display: none'); }
+    switchArc(): void { this.tool.destructor(); this.tool = new ToolArc(this); document.getElementById("eraserGaugeFrame").setAttribute('style', 'display: none'); document.getElementById("eraserLvl").setAttribute('style', 'display: none'); }
 
 
     mousedown(evt: MouseEvent): void {
