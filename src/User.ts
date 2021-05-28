@@ -63,8 +63,8 @@ export class User {
      * @returns true if there are some recent news from the user
      * (if it is you, perfect otherwise we look whether we received some heartbeat recently)
      */
-    isAlive() :boolean {
-        if(this == UserManager.me)
+    isAlive(): boolean {
+        if (this == UserManager.me)
             return true;
         else
             return Date.now() - this.lastHearBeat < 10000;
@@ -117,15 +117,25 @@ export class User {
         return this.color;
     }
 
+    eraserGaugeShow(): void {
+        document.getElementById("eraserGaugeFrame").setAttribute('style', 'display: block');
+        document.getElementById("eraserLvl").setAttribute('style', 'display: block');
+    }
 
-	//changing tools. The 2 style editions per line for the following statements are used to switch the eraser gauge display
-    switchChalk(): void { this.tool.destructor(); this.tool = new ToolDraw(this); document.getElementById("eraserGaugeFrame").setAttribute('style', 'display: none'); document.getElementById("eraserLvl").setAttribute('style', 'display: none'); }
-    switchErase(): void { this.tool.destructor(); this.tool = new ToolEraser(this); document.getElementById("eraserGaugeFrame").setAttribute('style', 'display: block'); document.getElementById("eraserLvl").setAttribute('style', 'display: block'); }
-    switchLine(): void { this.tool.destructor(); this.tool = new ToolLine(this); document.getElementById("eraserGaugeFrame").setAttribute('style', 'display: none'); document.getElementById("eraserLvl").setAttribute('style', 'display: none'); }
-    switchRectangle(): void { this.tool.destructor(); this.tool = new ToolRectangle(this); document.getElementById("eraserGaugeFrame").setAttribute('style', 'display: none'); document.getElementById("eraserLvl").setAttribute('style', 'display: none'); }
-    switchEllipseByBorder(): void { this.tool.destructor(); this.tool = new ToolEllipseByBorder(this); document.getElementById("eraserGaugeFrame").setAttribute('style', 'display: none'); document.getElementById("eraserLvl").setAttribute('style', 'display: none'); }
-    switchEllipseByCenter(): void { this.tool.destructor(); this.tool = new ToolEllipseByCenter(this); document.getElementById("eraserGaugeFrame").setAttribute('style', 'display: none'); document.getElementById("eraserLvl").setAttribute('style', 'display: none'); }
-    switchArc(): void { this.tool.destructor(); this.tool = new ToolArc(this); document.getElementById("eraserGaugeFrame").setAttribute('style', 'display: none'); document.getElementById("eraserLvl").setAttribute('style', 'display: none'); }
+    eraserGaugeHide(): void {
+        document.getElementById("eraserGaugeFrame").setAttribute('style', 'display: none');
+        document.getElementById("eraserLvl").setAttribute('style', 'display: none');
+    }
+
+
+    //changing tools. The 2 style editions per line for the following statements are used to switch the eraser gauge display
+    switchChalk(): void { this.tool.destructor(); this.tool = new ToolDraw(this); this.eraserGaugeHide() }
+    switchErase(): void { this.tool.destructor(); this.tool = new ToolEraser(this); this.eraserGaugeShow(); }
+    switchLine(): void { this.tool.destructor(); this.tool = new ToolLine(this); this.eraserGaugeHide() }
+    switchRectangle(): void { this.tool.destructor(); this.tool = new ToolRectangle(this); this.eraserGaugeHide() }
+    switchEllipseByBorder(): void { this.tool.destructor(); this.tool = new ToolEllipseByBorder(this); this.eraserGaugeHide() }
+    switchEllipseByCenter(): void { this.tool.destructor(); this.tool = new ToolEllipseByCenter(this); this.eraserGaugeHide() }
+    switchArc(): void { this.tool.destructor(); this.tool = new ToolArc(this); this.eraserGaugeHide() }
 
 
     mousedown(evt: MouseEvent): void {

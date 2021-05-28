@@ -25,9 +25,13 @@ export class EraserCursor {
 
 
 
-
-    private static temperatureToColor(temperature: number): string {
-        const colors = ["#9999FF", "#88FF00", "#FFFF00","#FFAA00", "#FF8800", "#FF4400", "#EE0000"];
+    /**
+     * 
+     * @param temperature 
+     * @returns the color corresponding to the temperature
+     */
+    public static temperatureToColor(temperature: number): string {
+        const colors = ["#9999FF", "#008800", "#88FF00","#FFFF00", "#FFAA00", "#FF8800", "#EE0000"];
         //blue because it is really rare to have a document with a blue background (white or black is not good)
         const i  = Math.round((colors.length-1)*temperature / ToolEraser.temperatureThreshold);
         return colors[i];

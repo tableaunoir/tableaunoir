@@ -50,10 +50,8 @@ export class ToolEraser extends Tool {
     updateEraserCursor(): void {
         this.setToolCursorImage(EraserCursor.getStyleCursor(this.eraseLineWidth, this.temperature));
         document.getElementById("eraserGauge").setAttribute('style', "width : " + this.temperature + ";");
-        if (this.iMode < 4)
-            document.getElementById("eraserLvl").innerHTML = "lvl " + this.iMode;
-        else
-            document.getElementById("eraserLvl").innerHTML = "lvl Max !";
+        document.getElementById("eraserGauge").style.backgroundColor = EraserCursor.temperatureToColor(this.temperature);
+        document.getElementById("eraserLvl").innerHTML = (this.iMode < 4) ? "level " + this.iMode : "level Max !";
     }
 
 
@@ -91,11 +89,11 @@ export class ToolEraser extends Tool {
             this.oldSpeed = speed;
 
             //the closer the cursor is to its max size the less the user needs to accelerat to reach it
-   /*         const acc_threshold = 0.01;
-            if (acc < acc_threshold)
-            {
-                acc = 0;
-            }*/
+            /*         const acc_threshold = 0.01;
+                     if (acc < acc_threshold)
+                     {
+                         acc = 0;
+                     }*/
             const tempIncr = speed * acc * 1000;
 
             SoundToolEraser.mousemove(Math.abs(this.x - evtX) + Math.abs(this.y - evtY));

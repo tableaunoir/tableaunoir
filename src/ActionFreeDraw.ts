@@ -155,13 +155,16 @@ export class ActionFreeDraw extends Action {
 
     }
 
-    private delay(nbMilleSeconds) {
+    private delay(nbMilleSeconds: number) {
         return new Promise(function (resolve) {
             setTimeout(resolve, nbMilleSeconds);
         });
     }
 
-
+    /**
+     * 
+     * @returns 
+     */
     async redoAnimated(): Promise<void> {
         if (!this.alreadyDrawnSth)
             Drawing.drawDot(this.points[0].x, this.points[0].y, this.points[0].color);
