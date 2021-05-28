@@ -33,7 +33,8 @@ export class ToolEraser extends Tool {
     /** when the temperature passes this theeshold, go in the next mode */
     static readonly temperatureThreshold = 128;
 
-	private timestamp = null ;
+    private timestamp = null;
+    private oldSpeed = 0;
 
 
     constructor(user: User) {
@@ -45,19 +46,20 @@ export class ToolEraser extends Tool {
 
         }
     }
-	
+
     updateEraserCursor(): void {
         this.setToolCursorImage(EraserCursor.getStyleCursor(this.eraseLineWidth, this.temperature));
-		document.getElementById("eraserGauge").setAttribute('style', "width : " + this.temperature + ";");
-		if(this.iMode < 4)
-			document.getElementById("eraserLvl").innerHTML = "lvl " + this.iMode;
-		else
-			document.getElementById("eraserLvl").innerHTML = "lvl Max !";
+        document.getElementById("eraserGauge").setAttribute('style', "width : " + this.temperature + ";");
+        if (this.iMode < 4)
+            document.getElementById("eraserLvl").innerHTML = "lvl " + this.iMode;
+        else
+            document.getElementById("eraserLvl").innerHTML = "lvl Max !";
     }
 
 
     mousedown(): void {
         this.iMode = 0;
+        this.oldSpeed = 0;
         this.eraseLineWidth = this.modeSizes[this.iMode];
         this.action = new ActionErase(this.user.userID);
         this.action.addPoint({ x: this.x, y: this.y, lineWidth: this.eraseLineWidth });
@@ -66,61 +68,62 @@ export class ToolEraser extends Tool {
     }
 
 
-    mousemove(evt: PointerEvent): void 
-	{
+    mousemove(evt: PointerEvent): void {
         if (this.timestamp == null)
-			this.timestamp = Date.now()
-		
-		const evtX = evt.offsetX;
+            this.timestamp = Date.now()
+
+        const evtX = evt.offsetX;
         const evtY = evt.offsetY;
 
         if (this.isDrawing) {
-			
-			//calculating the time difference between the 2 last points
-			var timeDiff = Date.now() - this.timestamp;
-			
-			//updating the timestamp
-			this.timestamp = Date.now();
-			
-			var dist = Math.sqrt((this.x - evtX) ** 2 + (this.y - evtY) ** 2);
-			var speed = dist / timeDiff;
-			var acc = speed / timeDiff;
-			
-			//the closer the cursor is to its max size the less the user needs to accelerat to reach it
-			var acc_threshold = 0.1;
-			if (acc < acc_threshold)
-			{
-				acc = 0;
-			}
-			var tempIncr = speed * acc * 20;
-			
+
+            //calculating the time difference between the 2 last points
+            const timeDiff = Date.now() - this.timestamp;
+
+            //updating the timestamp
+            this.timestamp = Date.now();
+
+            const dist = Math.sqrt((this.x - evtX) ** 2 + (this.y - evtY) ** 2);
+            const speed = dist / timeDiff;
+
+
+            const acc = (speed - this.oldSpeed) / timeDiff;
+            this.oldSpeed = speed;
+
+            //the closer the cursor is to its max size the less the user needs to accelerat to reach it
+            /*const acc_threshold = 0.1;
+            if (acc < acc_threshold)
+            {
+                acc = 0;
+            }*/
+            const tempIncr = speed * acc * 1000;
+
             SoundToolEraser.mousemove(Math.abs(this.x - evtX) + Math.abs(this.y - evtY));
-			
+
             //not moving or last mode => the temperature is 0				
             if ((Math.abs(this.x - evtX) < 1 &&
                 Math.abs(this.y - evtY) < 1) || (this.iMode >= this.modeSizes.length - 1))
                 this.temperature = 0;
-				
-            else //if moving and not last mode
-			{
-				// this.temperature += Math.sqrt((this.x - evtX) ** 2 + (this.y - evtY) ** 2);
-				this.temperature += tempIncr;
-			}
-			
 
-			//temperature is above the threshold, changing cursor size indicator (iMode) and reseting temperature
+            else { //if moving and not last mode
+                // this.temperature += Math.sqrt((this.x - evtX) ** 2 + (this.y - evtY) ** 2);
+                this.temperature += tempIncr;
+            }
+
+
+            //temperature is above the threshold, changing cursor size indicator (iMode) and reseting temperature
             if (this.temperature > ToolEraser.temperatureThreshold) {
                 this.iMode = Math.min(this.modeSizes.length - 1, this.iMode + 1);
                 this.temperature = 0;
             }
-			
-			//using cursor size indicator (iMode) to calculate the cursor size
+
+            //using cursor size indicator (iMode) to calculate the cursor size
             this.eraseLineWidth = Math.max(2, this.modeSizes[this.iMode] + 5 * 2 * (evt.pressure - 0.5));
 
-			//only call if the current user is the one currently drawing
+            //only call if the current user is the one currently drawing
             if (this.user.isCurrentUser)
                 this.updateEraserCursor();
-			
+
             this.action.addPoint({ x: evtX, y: evtY, lineWidth: this.eraseLineWidth });
             Drawing.clearLine(this.x, this.y, evtX, evtY, this.eraseLineWidth);
 
