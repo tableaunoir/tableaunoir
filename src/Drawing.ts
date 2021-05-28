@@ -32,4 +32,15 @@ export class Drawing extends DrawingCanvas {
         BoardManager.addAction(action);
     }
 
+    /**
+     * 
+     * @param nbMilleSeconds 
+     * @returns a promise resolved after nbMilleSeconds milliseconds. Useful for making pause in a drawing process
+     */
+    static delay(nbMilleSeconds: number): Promise<void> {
+        return new Promise(function (resolve) {
+            setTimeout(resolve, nbMilleSeconds);
+        });
+    }
+
 }

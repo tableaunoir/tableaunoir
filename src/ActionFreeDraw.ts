@@ -155,11 +155,7 @@ export class ActionFreeDraw extends Action {
 
     }
 
-    private delay(nbMilleSeconds: number) {
-        return new Promise(function (resolve) {
-            setTimeout(resolve, nbMilleSeconds);
-        });
-    }
+
 
     /**
      * 
@@ -171,7 +167,7 @@ export class ActionFreeDraw extends Action {
 
         for (let i = 1; i < this.points.length; i++) {
             Drawing.drawLine(getCanvas().getContext("2d"), this.points[i - 1].x, this.points[i - 1].y, this.points[i].x, this.points[i].y, this.points[i].pressure, this.points[i].color);
-            await this.delay(1);
+            await Drawing.delay(1);
         }
 
     }
