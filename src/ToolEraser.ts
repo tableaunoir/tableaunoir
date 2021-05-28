@@ -87,11 +87,11 @@ export class ToolEraser extends Tool {
             const speed = dist / timeDiff;
 
 
-            const acc = (speed - this.oldSpeed) / timeDiff;
+            let acc = (speed - this.oldSpeed) / timeDiff;
             this.oldSpeed = speed;
 
             //the closer the cursor is to its max size the less the user needs to accelerat to reach it
-            /*const acc_threshold = 0.1;
+   /*         const acc_threshold = 0.01;
             if (acc < acc_threshold)
             {
                 acc = 0;
