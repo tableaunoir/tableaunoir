@@ -69,9 +69,7 @@ export class ToolEraser extends Tool {
     mousemove(evt: PointerEvent): void 
 	{
         if (this.timestamp == null)
-		{
 			this.timestamp = Date.now()
-		}
 		
 		const evtX = evt.offsetX;
         const evtY = evt.offsetY;
