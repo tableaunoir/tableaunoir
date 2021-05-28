@@ -75,22 +75,26 @@ export class ToolEraser extends Tool {
 		
 		const evtX = evt.offsetX;
         const evtY = evt.offsetY;
-		// console.log("tarass");
+
         if (this.isDrawing) {
-			// console.log("n:" + this.n);
 			
+			//calculating the time difference between the 2 last points
 			var timeDiff = Date.now() - this.timestamp;
+			
+			//updating the timestamp
 			this.timestamp = Date.now();
 			
 			var dist = Math.sqrt((this.x - evtX) ** 2 + (this.y - evtY) ** 2);
 			var speed = dist / timeDiff;
 			var acc = speed / timeDiff;
-			var acc_threshold = (this.iMode + 1) / 10;
+			
+			//the closer the cursor is to its max size the less the user needs to accelerat to reach it
+			var acc_threshold = 0.1;
 			if (acc < acc_threshold)
 			{
 				acc = 0;
 			}
-			var tempIncr = speed * acc * 3;
+			var tempIncr = speed * acc * 20;
 			
             SoundToolEraser.mousemove(Math.abs(this.x - evtX) + Math.abs(this.y - evtY));
 			
