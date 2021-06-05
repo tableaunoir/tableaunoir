@@ -14,9 +14,6 @@ import { ActionPrintMagnet } from './ActionPrintMagnet';
 
 
 export class MagnetManager {
-
-	static magnetX = 0;
-	static magnetY = 64;
 	static currentMagnet = undefined; // last magnet used
 	static magnetUnderCursor = undefined;
 
@@ -107,10 +104,7 @@ export class MagnetManager {
 	}
 
 
-	/**
-	 * @returns the top Y when a set of magnets is automatically arranged
-	 */
-	static getYTopWhenNewMagnets(): number { return 64; }
+
 
 	/**
 	 * delete all the magnets
@@ -128,28 +122,7 @@ export class MagnetManager {
 	}
 
 
-	static resetPositionate(): void {
-		MagnetManager.magnetX = BoardManager.getCurrentScreenRectangle().x1;
-		MagnetManager.magnetY = MagnetManager.getYTopWhenNewMagnets();
-	}
 
-
-	/**
-	* @param {*} element
-	* @description add the DOM element element to the list of magnets. This function also gives a position to the element (typically for collection of magnets)
-	*/
-	static addMagnetAndPositionnate(element: HTMLElement): void {
-		if (MagnetManager.magnetX > BoardManager.getCurrentScreenRectangle().x2 - 10) {
-			MagnetManager.magnetX = BoardManager.getCurrentScreenRectangle().x1;
-			MagnetManager.magnetY += 64;
-		}
-		if (element.style.left == "") {
-			element.style.left = MagnetManager.magnetX + "px";
-			element.style.top = MagnetManager.magnetY + "px";
-		}
-		MagnetManager.magnetX += 64;
-		MagnetManager.addMagnet(element);
-	}
 
 	/**
 	 *

@@ -1,5 +1,6 @@
 import { Share } from './share';
 import { MagnetManager } from './magnetManager';
+import { MagnetPositionner } from './MagnetPositionner';
 
 
 
@@ -252,7 +253,7 @@ export class MyMagnets {
         document.getElementById(magnetSetName).prepend(wrapper);
         document.getElementById(magnetSetName).onclick =
             () => {
-                MagnetManager.resetPositionate();
+                MagnetPositionner.resetPositionate();
                 const ite = MyMagnets[magnetSetName]();
                 const b = true;//to avoid a lint error
 
@@ -260,7 +261,7 @@ export class MyMagnets {
                     const m = ite.next();
                     if (m.done)
                         break;
-                    MagnetManager.addMagnetAndPositionnate(m.value);
+                    MagnetManager.addMagnet(MagnetPositionner.positionnate(m.value));
                 }
             };
     }
