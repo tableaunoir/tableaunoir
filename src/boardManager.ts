@@ -1,3 +1,5 @@
+import { ActionMagnetDelete } from './ActionMagnetDelete';
+import { ActionMagnetNew } from './ActionMagnetNew';
 import { MagnetManager } from './magnetManager';
 import { AnimationToolBar } from './AnimationToolBar';
 import { getCanvas } from "./main";
@@ -5,6 +7,7 @@ import { Share } from "./share";
 import { Layout } from './Layout';
 import { CancelStack } from './cancelStack';
 import { Action } from './Action';
+import { ActionMagnetMove } from './ActionMagnetMove';
 
 
 
@@ -12,7 +15,7 @@ import { Action } from './Action';
  * Manage the board
  */
 export class BoardManager {
-
+    static readonly MAGNETCANCELLABLE = false;
 
     /** name of the board. Default is 0 (this name is used for storing in localStorage) */
     static boardName = "0";
@@ -94,6 +97,12 @@ export class BoardManager {
 
 
     static addAction(action: Action): void {
+        if (!BoardManager.MAGNETCANCELLABLE)
+            if (action instanceof ActionMagnetNew ||
+                action instanceof ActionMagnetMove ||
+                action instanceof ActionMagnetDelete
+            )
+                return;
         BoardManager.cancelStack.push(action);
         AnimationToolBar.update();
     }

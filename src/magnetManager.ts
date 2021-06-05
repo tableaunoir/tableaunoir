@@ -1,3 +1,6 @@
+import { ActionMagnetMove } from './ActionMagnetMove';
+import { ActionMagnetDelete } from './ActionMagnetDelete';
+import { ActionMagnetNew } from './ActionMagnetNew';
 import { Sound } from './Sound';
 import { UserManager } from './UserManager';
 import { ToolDraw } from './ToolDraw';
@@ -11,6 +14,8 @@ import { Layout } from './Layout';
 import { Menu } from './Menu';
 import { TouchScreen } from './TouchScreen';
 import { ActionPrintMagnet } from './ActionPrintMagnet';
+
+
 
 
 export class MagnetManager {
@@ -137,6 +142,7 @@ export class MagnetManager {
 		document.getElementById("magnets").appendChild(element);
 
 		const f = () => {
+			BoardManager.addAction(new ActionMagnetNew(UserManager.me.userID, element));
 			if (Share.isShared())
 				Share.sendNewMagnet(element);
 		}
@@ -152,7 +158,7 @@ export class MagnetManager {
 	/**
 	 * @returns a new ID for a new magnet
 	 */
-	static generateID(): string {
+	private static generateID(): string {
 		let id = "";
 		do {
 			id = "m" + Math.round(Math.random() * 1000000);
@@ -450,6 +456,8 @@ export class MagnetManager {
 		let canvasCursorStore = undefined;
 		let drag = true;
 
+		let magnetIDToPoints = {};
+
 
 		function dragMouseDown(evt) {
 			drag = true;
@@ -480,6 +488,13 @@ export class MagnetManager {
 
 			otherElementsToMove = MagnetManager.getContainedMagnets(element);
 
+			magnetIDToPoints[element.id] = [];
+			for (const m of otherElementsToMove) {
+				magnetIDToPoints[m.id] = [];
+			}
+
+			magnetIDToPoints[element.id] = [];
+
 		}
 
 
@@ -502,13 +517,17 @@ export class MagnetManager {
 			y = e.clientY * Layout.getZoom();
 
 
-
+			const treatPointForMagnet = (magnet) => {
+				const x = magnet.offsetLeft - dx;
+				const y = magnet.offsetTop - dy;
+				Share.execute("magnetMove", [magnet.id, x, y]);
+				magnetIDToPoints[magnet.id].push({ x: x, y: y });
+			};
 			// set the element's new position:
-			Share.execute("magnetMove", [element.id, element.offsetLeft - dx, element.offsetTop - dy]);
+			treatPointForMagnet(element);
 
 			for (const el of otherElementsToMove)
-				Share.execute("magnetMove", [el.id, el.offsetLeft - dx, el.offsetTop - dy]);
-
+				treatPointForMagnet(el);
 
 			ConstraintDrawing.update();
 		}
@@ -519,6 +538,15 @@ export class MagnetManager {
 
 			drag = false;
 			//console.log("close drag")
+
+			const storeActionForMagnet = (magnet) => {
+				BoardManager.addAction(new ActionMagnetMove(undefined, magnet.id, magnetIDToPoints[element.id]));
+
+			}
+			storeActionForMagnet(element);
+
+			for (const el of otherElementsToMove)
+				storeActionForMagnet(el);
 
 			const magnets = MagnetManager.getMagnets();
 
@@ -770,6 +798,7 @@ export class MagnetManager {
 	 * @description remove the magnet of id
 	 */
 	static magnetRemove(id: string): void {
+		BoardManager.addAction(new ActionMagnetDelete(undefined, id));
 		document.getElementById(id).remove();
 		//		document.getElementById(id).style.top = "-1000";
 		MagnetManager.currentMagnet == undefined;

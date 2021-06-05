@@ -1,3 +1,6 @@
+import { ActionMagnetNew } from './ActionMagnetNew';
+import { ActionMagnetMove } from './ActionMagnetMove';
+import { ActionMagnetDelete } from './ActionMagnetDelete';
 import { ActionSerialized } from './ActionSerialized';
 import { ActionPrintMagnet } from './ActionPrintMagnet';
 import { ActionClearZone } from './ActionClearZone';
@@ -31,12 +34,22 @@ export class ActionDeserializer {
                 action.addPoint(point)
             return action;
         }
-        if(obj.type == "clearzone") {
+        if (obj.type == "clearzone") {
             return new ActionClearZone(obj.userid, obj.points, obj.cut, obj.removeContour);
         }
-        if(obj.type == "printmagnet") {
-            return new ActionPrintMagnet(obj.userid, <HTMLImageElement> HTMLdeserialize(obj.magnet), obj.x, obj.y);
+        if (obj.type == "printmagnet") {
+            return new ActionPrintMagnet(obj.userid, <HTMLImageElement>HTMLdeserialize(obj.magnet), obj.x, obj.y);
         }
+        if (obj.type == "magnetnew") {
+            return new ActionMagnetNew(obj.userid, <HTMLImageElement>HTMLdeserialize(obj.magnet));
+        }
+        if (obj.type == "magnetmove") {
+            return new ActionMagnetMove(obj.userid, obj.magnetid, obj.points);
+        }
+        if (obj.type == "magnetdelete") {
+            return new ActionMagnetDelete(obj.userid, obj.magnetid);
+        }
+
         throw "ActionDeserializer: unknown type of action";
     }
 
@@ -57,5 +70,5 @@ export function HTMLdeserialize(outerHTML: string): HTMLElement {
     const el = document.createElement("div");
     el.innerHTML = outerHTML;
     //console.log("HTMLdeserialize: " + outerHTML);
-    return <HTMLElement> el.children[0];
+    return <HTMLElement>el.children[0];
 }

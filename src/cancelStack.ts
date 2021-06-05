@@ -1,3 +1,4 @@
+import { BoardManager } from './boardManager';
 import { AnimationToolBar } from './AnimationToolBar';
 import { ErrorMessage } from './ErrorMessage';
 import { ActionSerialized } from './ActionSerialized';
@@ -91,7 +92,10 @@ export class CancelStack {
      */
     async update(): Promise<void> {
         const canvas = getCanvas();
+
         canvas.width = canvas.width + 0;
+        if (BoardManager.MAGNETCANCELLABLE)
+            document.getElementById("magnets").innerHTML = "";
 
         this.updateButtons();
 
@@ -209,6 +213,9 @@ export class CancelStack {
         this.updateButtons();
 
         getCanvas().width = getCanvas().width + 0;
+
+        if (BoardManager.MAGNETCANCELLABLE)
+            document.getElementById("magnets").innerHTML = "";
         await this.playUntilCurrentIndex();
         // this.print();
     }
@@ -250,14 +257,16 @@ export class CancelStack {
             return;
 
         const newIndex = this.getPreviousPausedFrame();
-        if(newIndex != this.currentIndex) {
+        if (newIndex != this.currentIndex) {
             this.currentIndex = newIndex;
             this.updateButtons();
-    
+
             getCanvas().width = getCanvas().width + 0;
+            if (BoardManager.MAGNETCANCELLABLE)
+                document.getElementById("magnets").innerHTML = "";
             await this.playUntilCurrentIndex();
         }
-        
+
     }
 
 
