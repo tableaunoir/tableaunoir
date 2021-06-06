@@ -24,6 +24,8 @@ export class ActionMagnetNew extends Action {
 
     async redo(): Promise<void> {
         const previousElement = document.getElementById(this.magnet.id)
+
+        //if an element with the same id is present, we replace it, so we first remove it
         if (previousElement)
             previousElement.remove();
 

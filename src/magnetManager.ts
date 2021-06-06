@@ -169,15 +169,16 @@ export class MagnetManager {
 
 
 	/**
-	 *
+	 * @param {*} userid, id of the user that has created the magnet
 	 * @param {*} element
 	 * @description add the DOM element element to the list of magnets (but do not send to other users)
 	 */
-	static addMagnetLocalOnly(element: HTMLElement): void {
+	static addMagnetFromAnotherUser(userid: string, element: HTMLElement): void {
 		if (element.id == "")
 			element.id = MagnetManager.generateID();
 		MagnetManager.currentMagnet = element;
 		element.classList.add("magnet");
+		BoardManager.addAction(new ActionMagnetNew(userid, element));
 		document.getElementById("magnets").appendChild(element);
 		MagnetManager._installMagnet(element);
 	}

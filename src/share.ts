@@ -289,7 +289,8 @@ export class Share {
 				document.getElementById(msg.magnetid).outerHTML = msg.data;
 				MagnetManager.installMagnets();
 				break;
-			case "newmagnet": MagnetManager.addMagnetLocalOnly(HTMLdeserialize(msg.data)); break;
+			case "newmagnet":
+				MagnetManager.addMagnetFromAnotherUser(msg.userid, HTMLdeserialize(msg.data)); break;
 			case "execute": ShareEvent[msg.event](...msg.params); break;
 		}
 	}
@@ -393,7 +394,7 @@ export class Share {
 	 */
 	static sendNewMagnet(element: HTMLElement): void {
 		console.log("new magnet sent!")
-		Share.send({ type: "newmagnet", data: element.outerHTML });
+		Share.send({ type: "newmagnet", userid:UserManager.me.userID, data: element.outerHTML });
 	}
 
 
