@@ -76,11 +76,11 @@ export class AnimationToolBar {
         const action = BoardManager.cancelStack.actions[t];
         const el = document.createElement("div");
         el.classList.add("action");
-
-        if (action instanceof ActionFreeDraw)
+        el.style.background = action.getOverviewImage();
+        /*if (action instanceof ActionFreeDraw)
             el.style.backgroundColor = action.getMainColor();
         else if (action instanceof ActionErase)
-            el.classList.add("actionErase");
+            el.classList.add("actionErase");*/
 
         if (action.pause)
             el.classList.add("actionPause");

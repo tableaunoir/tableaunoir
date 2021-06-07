@@ -42,6 +42,11 @@ export class ActionErase extends Action {
     }
 
 
+
+    getOverviewImage(): string {
+        return "url(img/icons/erase.svg)";
+    }
+
     /**
     * 
     * @returns 

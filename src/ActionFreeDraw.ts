@@ -5,7 +5,10 @@ import { getCanvas } from './main';
 import { Action } from './Action';
 
 export class ActionFreeDraw extends Action {
+    get xMin(): number { return Math.min(...this.points.map((p) => p.x)); }
     get xMax(): number { return Math.max(...this.points.map((p) => p.x)); }
+    get yMin(): number { return Math.min(...this.points.map((p) => p.y)); }
+    get yMax(): number { return Math.max(...this.points.map((p) => p.y)); }
 
     /**
      * @returns an object iff the freedraw is almost a line
@@ -147,7 +150,7 @@ export class ActionFreeDraw extends Action {
 
     async redo(): Promise<void> {
         if (!this.alreadyDrawnSth)
-            Drawing.drawDot(this.points[0].x, this.points[0].y, this.points[0].color);
+            Drawing.drawDot(getCanvas().getContext("2d"), this.points[0].x, this.points[0].y, this.points[0].color);
 
         for (let i = 1; i < this.points.length; i++) {
             Drawing.drawLine(getCanvas().getContext("2d"), this.points[i - 1].x, this.points[i - 1].y, this.points[i].x, this.points[i].y, this.points[i].pressure, this.points[i].color);
@@ -156,6 +159,29 @@ export class ActionFreeDraw extends Action {
     }
 
 
+    getOverviewImage(): string {
+        const canvas = Action.createCanvasOverview();
+        const ctx = canvas.getContext("2d");
+        if (!this.alreadyDrawnSth)
+            Drawing.drawDot(ctx, canvas.width/2, canvas.height/2, this.points[0].color);
+
+        const xMin = this.xMin;
+        const xMax = this.xMax;
+        const yMin = this.yMin;
+        const yMax = this.yMax;
+        const ratioX = (xMax - xMin) < canvas.width ? 1 : canvas.width / (xMax - xMin);
+        const ratioY = (yMax - yMin) < canvas.height ? 1 : canvas.height / (yMax - yMin);
+        const ratio = Math.min(ratioX, ratioY);
+        const scaleX = (x) => (x - xMin) * ratio;
+        const scaleY = (y) => (y - yMin) * ratio;
+
+        for (let i = 1; i < this.points.length; i++) {
+            Drawing.drawLine(ctx,
+                scaleX(this.points[i - 1].x), scaleY(this.points[i - 1].y),
+                scaleX(this.points[i].x), scaleY(this.points[i].y), this.points[i].pressure*ratio, this.points[i].color);
+        }
+        return "url(" + canvas.toDataURL() + ")";
+    }
 
     /**
      * 
@@ -163,7 +189,7 @@ export class ActionFreeDraw extends Action {
      */
     async redoAnimated(): Promise<void> {
         if (!this.alreadyDrawnSth)
-            Drawing.drawDot(this.points[0].x, this.points[0].y, this.points[0].color);
+            Drawing.drawDot(getCanvas().getContext("2d"), this.points[0].x, this.points[0].y, this.points[0].color);
 
         for (let i = 1; i < this.points.length; i++) {
             Drawing.drawLine(getCanvas().getContext("2d"), this.points[i - 1].x, this.points[i - 1].y, this.points[i].x, this.points[i].y, this.points[i].pressure, this.points[i].color);

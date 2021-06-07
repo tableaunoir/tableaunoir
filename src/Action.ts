@@ -39,5 +39,15 @@ export abstract class Action {
     redoAnimated(): Promise<void> { return this.redo(); }
     abstract get xMax(): number;
 
+    protected static createCanvasOverview(): HTMLCanvasElement {
+        const canvas = document.createElement("canvas");
+        canvas.width = 24;
+        canvas.height = 24;
+        return canvas;
+    }
 
+
+    getOverviewImage(): string {
+        return "";
+    }
 }

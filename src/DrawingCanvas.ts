@@ -96,8 +96,7 @@ export class DrawingCanvas {
     }
 
 
-    static drawDot(x: number, y: number, color: string): void {
-        const context = getCanvas().getContext("2d");
+    static drawDot(context: CanvasRenderingContext2D,x: number, y: number, color: string): void {
         context.beginPath();
         context.fillStyle = color;
         context.lineWidth = this.lineWidth * 2;
