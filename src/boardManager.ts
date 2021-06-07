@@ -15,7 +15,7 @@ import { ActionMagnetMove } from './ActionMagnetMove';
  * Manage the board
  */
 export class BoardManager {
-    static readonly MAGNETCANCELLABLE = false;
+    static readonly MAGNETCANCELLABLE = true;
 
     /** name of the board. Default is 0 (this name is used for storing in localStorage) */
     static boardName = "0";

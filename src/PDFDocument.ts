@@ -5,20 +5,21 @@ const pdfWorkerSrc = `https://cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjsLib.v
 pdfjsLib.GlobalWorkerOptions.workerSrc = pdfWorkerSrc;
 
 export class PDFDocument {
-    pdfDoc : pdfjsLib.PDFDocumentProxy = null;
+    pdfDoc: pdfjsLib.PDFDocumentProxy = null;
     dataURL: string = undefined;
 
     /**
      * Asynchronously downloads PDF.
+     * The promise is resolved when the PDF is loaded
      */
     open(url: string): Promise<void> {
         this.dataURL = url;
         return new Promise((resolve) => {
-        pdfjsLib.getDocument(url).promise.then((pdfDoc_) => {
-            this.pdfDoc = pdfDoc_;
-            resolve();
+            pdfjsLib.getDocument(url).promise.then((pdfDoc_) => {
+                this.pdfDoc = pdfDoc_;
+                resolve();
+            });
         });
-    });
     }
 
     /**
@@ -76,9 +77,9 @@ export class PDFDocument {
     }
 
 
-
-    get nbPages(): number {
-        return this.pdfDoc.numPages;
-    }
+    /**
+     * @returns the number of pages in the PDF
+     */
+    get nbPages(): number { return this.pdfDoc.numPages; }
 
 }

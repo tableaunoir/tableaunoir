@@ -3,13 +3,20 @@ import { MagnetManager } from './magnetManager';
 import { MagnetPositionner } from './MagnetPositionner';
 
 
-
+/**
+ * this class contains the predefined magnets
+ */
 export class MyMagnets {
 
-    static createMagnet(content: string): HTMLElement {
+    /**
+     * 
+     * @param caption 
+     * @returns a magnet whose text is caption
+     */
+    static createMagnet(caption: string): HTMLElement {
         const o = document.createElement("div");
         o.style.backgroundColor = "#EEEEEE";
-        o.innerHTML = content;
+        o.innerHTML = caption;
         return o;
     }
 
@@ -27,61 +34,53 @@ export class MyMagnets {
     }
 
 
-    static magnetsClear(): void {
-        Share.execute("magnetsClear", []);
-    }
-
-
     /** Gale-Shapley */
-
-    static createMagnetGS_B(content: string): HTMLElement {
-        const o = document.createElement("div");
-        o.innerHTML = content;
-        o.classList.add("GS_B")
-        return o;
-    }
-
-
     static * magnetGS(): Generator<HTMLElement> {
+        const createMagnetGS_B: (content: string) => HTMLElement = (content) => {
+            const o = document.createElement("div");
+            o.innerHTML = content;
+            o.classList.add("GS_B")
+            return o;
+        }
+
         yield MyMagnets.createMagnet("1");
         yield MyMagnets.createMagnet("2");
         yield MyMagnets.createMagnet("3");
-        yield MyMagnets.createMagnetGS_B("1");
-        yield MyMagnets.createMagnetGS_B("2");
-        yield MyMagnets.createMagnetGS_B("3");
+        yield createMagnetGS_B("1");
+        yield createMagnetGS_B("2");
+        yield createMagnetGS_B("3");
     }
 
-    /** Sorting */
-
-    static createMagnetRainbow(content: number): HTMLElement {
-        const o = MyMagnets.createMagnet("" + content);
+    /**
+     * 
+     * @param n
+     * @returns create a magnet displaying the number n and the background is according the rainbow
+     */
+    static createMagnetRainbow(n: number): HTMLElement {
+        const o = MyMagnets.createMagnet("" + n);
         const colors = ['rgb(139, 97, 195)', 'rgb(115, 97, 195)', 'rgb(93, 105, 214)', 'rgb(40, 167, 226)', 'rgb(40, 204, 226)', 'rgb(40, 226, 201)', 'rgb(40, 226, 148)',
             'rgb(40, 226, 102)', 'rgb(130, 226, 40)', 'rgb(170, 226, 40)', 'rgb(223, 226, 40)', 'rgb(226, 183, 40)',
             'rgb(226, 152, 40)', 'rgb(226, 124, 40)', 'rgb(226, 77, 40)', 'rgb(255, 0, 0)', 'rgb(144, 24, 24)'];
-        o.style.backgroundColor = colors[content - 1];
+        o.style.backgroundColor = colors[n - 1];
         return o;
     }
 
-
+    /** Sorting */
     static * magnetSorting(): Generator<HTMLElement> {
         for (let i = 1; i <= 17; i++)
             yield MyMagnets.createMagnetRainbow(i);
     }
 
     /** B-trees */
-
     static * magnetBTrees(): Generator<HTMLElement> {
         for (let i = 1; i <= 17; i++)
             yield MyMagnets.createMagnetRainbow(i);
 
         for (let i = 1; i <= 7; i++)
             yield MyMagnets.createMagnetImage("Btreenode.png");
-
-
     }
 
     /** Graphs */
-
     static * magnetGraphNodes(): Generator<HTMLElement> {
         for (const i of ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O'])
             yield MyMagnets.createMagnet(i);
@@ -108,7 +107,6 @@ export class MyMagnets {
     }
 
     /** Tilings */
-
     static createTiling(leftColor: string, upColor: string, rightColor: string, bottomColor: string): HTMLElement {
         const xmlns = "http://www.w3.org/2000/svg";
         const div = document.createElement("div");
@@ -208,7 +206,7 @@ export class MyMagnets {
         magnet.src = "img/magnets/coin/face.svg";
         magnet.classList.add("backgroundTransparent");
         magnet.onclick = (evt) => {
-            const item = <HTMLImageElement> evt.target;
+            const item = <HTMLImageElement>evt.target;
             item.src = "img/magnets/coin/flipping.svg";
             setTimeout(() => { item.src = `img/magnets/coin/${Math.random() < 0.5 ? "face" : "pile"}.svg`; }, 1000);
         };
@@ -221,9 +219,9 @@ export class MyMagnets {
         magnet.src = "img/magnets/dice/6.svg";
         magnet.classList.add("backgroundTransparent");
         magnet.onclick = (evt) => {
-            const item = <HTMLImageElement> evt.target;
+            const item = <HTMLImageElement>evt.target;
             item.src = "img/magnets/dice/anim.svg";
-            setTimeout(() => { item.src = `img/magnets/dice/${1+Math.floor(Math.random()*6)}.svg`; }, 1000);
+            setTimeout(() => { item.src = `img/magnets/dice/${1 + Math.floor(Math.random() * 6)}.svg`; }, 1000);
         };
         yield magnet;
     }

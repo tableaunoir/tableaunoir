@@ -57,7 +57,7 @@ export class UserManager {
 
     /**
      * @returns true if the current user is the responsible of the data
-     * (minimum of all participants among the root one)
+     * (minimum of all participants among the root one, minimum in the sense of smallest userid with the order <)
      */
     static isIamResponsibleForData(): boolean {
         let minkey = "zzzzzzzzzzzzzzzz";

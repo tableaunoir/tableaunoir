@@ -18,7 +18,8 @@ export class ActionMagnetNew extends Action {
 
     constructor(userid: string, magnet: HTMLElement) {
         super(userid);
-        this.magnet = <HTMLElement>magnet.cloneNode(true);;
+        this.magnet = <HTMLElement>magnet.cloneNode(true);
+        this.magnet.onclick = magnet.onclick;
     }
 
 
@@ -30,6 +31,7 @@ export class ActionMagnetNew extends Action {
             previousElement.remove();
 
         const magnet = <HTMLElement>this.magnet.cloneNode(true);
+        magnet.onclick = this.magnet.onclick;
         document.getElementById("magnets").appendChild(magnet);
         MagnetManager._installMagnet(magnet);
     }

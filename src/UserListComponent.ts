@@ -1,9 +1,19 @@
 import { Share } from "./share";
 import { UserManager } from "./UserManager";
 
+
+/**
+ * this class handles the user list in the menu (GUI)
+ */
 export class UserListComponent {
 
-    private static readonly usersImageFileNames = ['1F9D1-200D-1F384.svg', '1F9D9.svg', '1F9DA-200D-2640-FE0F.svg', '1F9DD.svg'];
+    /**
+     * @description filenames of the avatars of the userss
+     */
+    private static readonly usersImageFileNames = ['1F9D1-200D-1F384.svg',
+        '1F9D9.svg',
+        '1F9DA-200D-2640-FE0F.svg',
+        '1F9DD.svg'];
 
 
     /**
@@ -66,8 +76,8 @@ export class UserListComponent {
 
     /**
      * 
-     * @param userid 
-     * @returns the image of the user
+     * @param userid (a userid is of the form "uXXX" where XXX is an integer)
+     * @returns the image/avatar of the user, depending on the integer XXX
      */
     public static getUserImage(userid: string): HTMLImageElement {
         const img = new Image();
@@ -79,8 +89,6 @@ export class UserListComponent {
     }
 
     /**
-     * 
-     * @param userid 
      * @returns an image of a crown for a root user
      */
     private static createRootImage(): HTMLImageElement {
@@ -112,7 +120,6 @@ export class UserListComponent {
             img.onclick = () => { Share.execute("setUserCanWrite", [userid, !UserManager.users[userid].canWrite]) };
         }
 
-
         return img;
     }
 
@@ -131,7 +138,7 @@ export class UserListComponent {
      * 
      * @param userID
      * @description creates an element corresponding to user of id userid
-     * @returns that created element
+     * @returns the created element
      */
     private static createUserHTMLElement(userID: string): HTMLElement {
         const userDOM = document.createElement("div");
@@ -140,11 +147,9 @@ export class UserListComponent {
 
         userDOM.appendChild(UserListComponent.getUserImage(userID));
 
-
         const userNameDOM = document.createElement("span");
         userNameDOM.innerHTML = UserManager.users[userID].name;
         userDOM.appendChild(userNameDOM);
-
 
         if (UserManager.users[userID].isRoot)
             userDOM.appendChild(UserListComponent.createRootImage());

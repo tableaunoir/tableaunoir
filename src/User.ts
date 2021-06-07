@@ -23,11 +23,13 @@ export class User {
     get isToolDraw(): boolean { return this.tool instanceof ToolDraw; }
     get isToolErase(): boolean { return this.tool instanceof ToolEraser; }
 
+    /**
+     * @returns the position x and y of the user cursor
+     */
     get x(): number { return this.tool.x; }
     get y(): number { return this.tool.y; }
 
-    alreadyDrawnSth = false; // true if something visible has been drawn (If still false, draw a dot)
-    canWrite = true;
+    canWrite = true; //permission of writing for that user
 
     color = "white";
     private cursor = undefined;
