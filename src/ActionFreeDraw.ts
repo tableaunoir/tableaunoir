@@ -163,7 +163,7 @@ export class ActionFreeDraw extends Action {
         const canvas = Action.createCanvasOverview();
         const ctx = canvas.getContext("2d");
         if (!this.alreadyDrawnSth)
-            Drawing.drawDot(ctx, canvas.width/2, canvas.height/2, this.points[0].color);
+            Drawing.drawDot(ctx, canvas.width / 2, canvas.height / 2, this.points[0].color);
 
         const xMin = this.xMin;
         const xMax = this.xMax;
@@ -172,13 +172,15 @@ export class ActionFreeDraw extends Action {
         const ratioX = (xMax - xMin) < canvas.width ? 1 : canvas.width / (xMax - xMin);
         const ratioY = (yMax - yMin) < canvas.height ? 1 : canvas.height / (yMax - yMin);
         const ratio = Math.min(ratioX, ratioY);
-        const scaleX = (x) => (x - xMin) * ratio;
-        const scaleY = (y) => (y - yMin) * ratio;
+        const x0 = ((xMax - xMin)* ratio <canvas.width ) ? (canvas.width - (xMax - xMin)* ratio) / 2 : 0;
+        const y0 = ((yMax - yMin)* ratio <canvas.height) ? (canvas.height - (yMax - yMin)* ratio) / 2 : 0;
+        const scaleX = (x: number) => x0 + (x - xMin) * ratio;
+        const scaleY = (y: number) => y0 + (y - yMin) * ratio;
 
         for (let i = 1; i < this.points.length; i++) {
             Drawing.drawLine(ctx,
                 scaleX(this.points[i - 1].x), scaleY(this.points[i - 1].y),
-                scaleX(this.points[i].x), scaleY(this.points[i].y), this.points[i].pressure*ratio, this.points[i].color);
+                scaleX(this.points[i].x), scaleY(this.points[i].y), this.points[i].pressure * ratio, this.points[i].color);
         }
         return "url(" + canvas.toDataURL() + ")";
     }
