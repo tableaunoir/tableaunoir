@@ -44,27 +44,24 @@ export class AnimationToolBar {
      */
     static is(): boolean { return document.getElementById("animationToolBar").style.display == ""; }
 
-    static spawnFoldDiv(n : number): HTMLElement
-    {
+    static spawnFoldDiv(n: number): HTMLElement {
         const el = document.createElement("div");
         el.id = "foldedDiv" + n;
         el.classList.add("foldedDiv");
         return el;
     }
 
-    static spawnFoldLabel(n : number): HTMLElement
-    {
+    static spawnFoldLabel(n: number): HTMLElement {
         const el = document.createElement("label");
-        el.htmlFor = "toggleSub"+n;
+        el.htmlFor = "toggleSub" + n;
         el.classList.add("unfold");
-        el.innerHTML= "<-|->";
+        el.innerHTML = "<-|->";
         return el;
     }
 
-    static spawnFoldCheckBox(n : number): HTMLElement
-    {
+    static spawnFoldCheckBox(n: number): HTMLElement {
         const el = document.createElement("input");
-        el.id="toggleSub"+n;
+        el.id = "toggleSub" + n;
         el.classList.add("toggleFOld");
         el.type = "checkbox";
         return el;
@@ -73,8 +70,7 @@ export class AnimationToolBar {
     /**
      * @description updates the whole timeline
      */
-    static update(): void
-    {
+    static update(): void {
         if (!AnimationToolBar.is())
             return;
 
@@ -84,23 +80,20 @@ export class AnimationToolBar {
         document.getElementById("animationActionList").innerHTML = "";
         document.getElementById("animationBarBuffer").append(foldedDiv);
 
-        for (let i = 0; i < BoardManager.cancelStack.actions.length; i++)
-        {
-            if(BoardManager.cancelStack.actions[i].pause)
-            {
+        for (let i = 0; i < BoardManager.cancelStack.actions.length; i++) {
+            if (BoardManager.cancelStack.actions[i].pause) {
 
                 const lab = AnimationToolBar.spawnFoldLabel(i);
 
                 const checkBox = AnimationToolBar.spawnFoldCheckBox(i);
 
-                if(foldedDiv.innerHTML != "")
-                {
+                if (foldedDiv.innerHTML != "") {
                     document.getElementById("animationActionList").append(lab);
                     document.getElementById("animationActionList").append(checkBox);
                 }
                 document.getElementById("animationActionList").append(foldedDiv);
                 document.getElementById("animationActionList").append(AnimationToolBar.HTMLElementForAction(i));
-                count ++;
+                count++;
 
                 document.getElementById("animationBarBuffer").innerHTML = "";
                 foldedDiv = AnimationToolBar.spawnFoldDiv(count);
