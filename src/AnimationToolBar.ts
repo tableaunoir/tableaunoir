@@ -44,18 +44,72 @@ export class AnimationToolBar {
      */
     static is(): boolean { return document.getElementById("animationToolBar").style.display == ""; }
 
+    static spawnFoldDiv(n : number): HTMLElement
+    {
+        const el = document.createElement("div");
+        el.id = "foldedDiv" + n;
+        el.classList.add("foldedDiv");
+        return el;
+    }
+
+    static spawnFoldLabel(n : number): HTMLElement
+    {
+        const el = document.createElement("label");
+        el.htmlFor = "toggleSub"+n;
+        el.classList.add("unfold");
+        el.innerHTML= "<-|->";
+        return el;
+    }
+
+    static spawnFoldCheckBox(n : number): HTMLElement
+    {
+        const el = document.createElement("input");
+        el.id="toggleSub"+n;
+        el.classList.add("toggleFOld");
+        el.type = "checkbox";
+        return el;
+    }
+
     /**
      * @description updates the whole timeline
      */
-    static update(): void {
+    static update(): void
+    {
         if (!AnimationToolBar.is())
             return;
 
-        document.getElementById("animationActionList").innerHTML = "";
+        let count = 0;
 
-        for (let i = 0; i < BoardManager.cancelStack.actions.length; i++) {
-            document.getElementById("animationActionList").append(AnimationToolBar.HTMLElementForAction(i));
+        let foldedDiv = AnimationToolBar.spawnFoldDiv(count);
+        document.getElementById("animationActionList").innerHTML = "";
+        document.getElementById("animationBarBuffer").append(foldedDiv);
+
+        for (let i = 0; i < BoardManager.cancelStack.actions.length; i++)
+        {
+            if(BoardManager.cancelStack.actions[i].pause)
+            {
+
+                const lab = AnimationToolBar.spawnFoldLabel(i);
+
+                const checkBox = AnimationToolBar.spawnFoldCheckBox(i);
+
+                if(foldedDiv.innerHTML != "")
+                {
+                    document.getElementById("animationActionList").append(lab);
+                    document.getElementById("animationActionList").append(checkBox);
+                }
+                document.getElementById("animationActionList").append(foldedDiv);
+                document.getElementById("animationActionList").append(AnimationToolBar.HTMLElementForAction(i));
+                count ++;
+
+                document.getElementById("animationBarBuffer").innerHTML = "";
+                foldedDiv = AnimationToolBar.spawnFoldDiv(count);
+                document.getElementById("animationBarBuffer").append(foldedDiv);
+            }
+            else
+                document.getElementById("foldedDiv" + count).append(AnimationToolBar.HTMLElementForAction(i));
         }
+        document.getElementById("animationActionList").append(foldedDiv);
 
         document.getElementById("canvas").ondrop = () => {
             if (AnimationToolBar.dragAndDropFrames) {
@@ -68,8 +122,8 @@ export class AnimationToolBar {
     }
 
     /**
-     * 
-     * @param t 
+     *
+     * @param t
      * @returns an HTML element (a small square) that represents the action
      */
     static HTMLElementForAction(t: number): HTMLElement {
@@ -99,7 +153,7 @@ export class AnimationToolBar {
 
         el.onclick = () => {
             BoardManager.cancelStack.setCurrentIndex(t);
-            for (let i = 0; i <= BoardManager.cancelStack.actions.length - 1; i++)
+            for (let i = 0; i < document.getElementById("animationActionList").children.length; i++)
                 if (i <= t)
                     document.getElementById("animationActionList").children[i].classList.add("actionExecuted")
                 else
