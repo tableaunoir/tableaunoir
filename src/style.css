@@ -1027,6 +1027,50 @@ h1 {
 	opacity: 0.5;
 }
 
+.toggleFold + .foldedDiv>.action
+{
+    display: none;
+    width: 0px;
+    transition: width 250ms ease-in-out 350ms;
+}
+
+.toggleFold
+{
+    display: none;
+}
+#animationBarBuffer>.toggleFold
+{
+    display: inline-block;
+}
+
+.toggleFold:checked + .foldedDiv>.action
+{
+    display: inline-block;
+    width: 24px;
+    transition: width 250ms ease-in-out 350ms;
+}
+
+.foldedDiv
+{
+    display: inline-block;
+}
+
+.unfold
+{
+    top: 50%;
+    vertical-align: middle;
+    transform: translateY(-50%);
+    height: 20px;
+    width: 30px;
+    color: white;
+    text-align: center;
+    box-sizing: border-box;
+    border: 2px solid white;
+    border-radius: 15px;
+    display: inline-block;
+    margin-left: 15px;
+}
+
 .actionExecuted {
 	opacity: 1.0;
 }
