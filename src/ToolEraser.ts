@@ -100,8 +100,8 @@ export class ToolEraser extends Tool {
 
             //not moving or last mode => decrease the temperature		
             if ((Math.abs(this.x - evtX) < 1 &&
-                Math.abs(this.y - evtY) < 1) || (this.iMode >= this.modeSizes.length - 1))
-                this.temperature--;
+                Math.abs(this.y - evtY) < 1) || (this.iMode >= this.modeSizes.length - 1)) 
+                this.temperature = Math.max(0, this.temperature-1);
 
             else { //if moving and not last mode
                 // this.temperature += Math.sqrt((this.x - evtX) ** 2 + (this.y - evtY) ** 2);
