@@ -55,7 +55,10 @@ export class AnimationToolBar {
         const el = document.createElement("label");
         el.htmlFor = "toggleSub" + n;
         el.classList.add("unfold");
-        el.innerHTML = "<-|->";
+        el.onclick = () =>
+        {
+            el.style.backgroundImage = "close.png";
+        }
         return el;
     }
 
