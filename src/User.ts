@@ -120,11 +120,13 @@ export class User {
     }
 
     eraserGaugeShow(): void {
+        if (!this.isCurrentUser) return;
         document.getElementById("eraserGaugeFrame").setAttribute('style', 'display: block');
         document.getElementById("eraserLvl").setAttribute('style', 'display: block');
     }
 
     eraserGaugeHide(): void {
+        if (!this.isCurrentUser) return;
         document.getElementById("eraserGaugeFrame").setAttribute('style', 'display: none');
         document.getElementById("eraserLvl").setAttribute('style', 'display: none');
     }
