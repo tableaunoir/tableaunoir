@@ -70,9 +70,7 @@ export class ToolEraser extends Tool {
         const evtY = evt.offsetY;
 
         if (this.isDrawing) {
-
-            //calculating the time difference between the 2 last points
-            const dt = 1;
+            const dt = 1; //the time difference between the 2 last points, by default equals 1
 
             const dist = Math.sqrt((this.x - evtX) ** 2 + (this.y - evtY) ** 2);
             const speed = dist / dt;

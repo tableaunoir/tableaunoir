@@ -1,3 +1,4 @@
+import { MagnetMovementRecorder } from './MagnetMovementRecorder';
 import { Wallpaper } from './Wallpaper';
 import { UserListComponent } from './UserListComponent';
 import { ErrorMessage } from './ErrorMessage';
@@ -139,13 +140,20 @@ export class ShareEvent {
         document.getElementById(idMagnet).outerHTML = outerHTML;
     }
 
+
+
+    static magnetMoveStart(idMagnet: string): void {
+        MagnetMovementRecorder.start(idMagnet);
+    }
+
     static magnetMove(idMagnet: string, x: string, y: string): void {
         const ix = parseInt(x);
         const iy = parseInt(y);
-        const el = document.getElementById(idMagnet);
-        el.style.top = iy + "px";
-        el.style.left = ix + "px";
-        ConstraintDrawing.update();
+        MagnetMovementRecorder.move(idMagnet, ix, iy);
+    }
+
+    static magnetMoveStop(idMagnet: string): void {
+        MagnetMovementRecorder.stop(idMagnet);
     }
 
 

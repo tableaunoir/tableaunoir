@@ -457,9 +457,6 @@ export class MagnetManager {
 		let canvasCursorStore = undefined;
 		let drag = true;
 
-		let magnetIDToPoints = {};
-
-
 		function dragMouseDown(evt) {
 			drag = true;
 			MagnetManager.currentMagnet = element;
@@ -489,13 +486,10 @@ export class MagnetManager {
 
 			otherElementsToMove = MagnetManager.getContainedMagnets(element);
 
-			magnetIDToPoints[element.id] = [];
-			for (const m of otherElementsToMove) {
-				magnetIDToPoints[m.id] = [];
-			}
+			Share.execute("magnetMoveStart", [element.id]);
 
-			magnetIDToPoints[element.id] = [];
-
+			for (const m of otherElementsToMove)
+				Share.execute("magnetMoveStart", [m.id]);
 		}
 
 
@@ -522,7 +516,6 @@ export class MagnetManager {
 				const x = magnet.offsetLeft - dx;
 				const y = magnet.offsetTop - dy;
 				Share.execute("magnetMove", [magnet.id, x, y]);
-				magnetIDToPoints[magnet.id].push({ x: x, y: y });
 			};
 			// set the element's new position:
 			treatPointForMagnet(element);
@@ -540,12 +533,9 @@ export class MagnetManager {
 			drag = false;
 			//console.log("close drag")
 
-			const storeActionForMagnet = (magnet) => {
-				BoardManager.addAction(new ActionMagnetMove(undefined, magnet.id, magnetIDToPoints[element.id]));
+			const storeActionForMagnet = (magnet) => { Share.execute("magnetMoveStop", [magnet.id]); }
 
-			}
 			storeActionForMagnet(element);
-
 			for (const el of otherElementsToMove)
 				storeActionForMagnet(el);
 
@@ -731,6 +721,7 @@ export class MagnetManager {
 				size++;
 				setFontSize(size);
 				e.preventDefault();
+
 			}
 			else if (e.ctrlKey && e.key == "-") { // Ctrl + -
 				let size = parseInt(divText.style.fontSize);
