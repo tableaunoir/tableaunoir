@@ -1,3 +1,4 @@
+import { ActionMagnetNew } from './ActionMagnetNew';
 import { MagnetMovementRecorder } from './MagnetMovementRecorder';
 import { Wallpaper } from './Wallpaper';
 import { UserListComponent } from './UserListComponent';
@@ -136,8 +137,13 @@ export class ShareEvent {
         MagnetManager.printMagnet(document.getElementById(magnetID));
     }
 
-    static magnetChange(idMagnet: string, outerHTML: string): void {
-        document.getElementById(idMagnet).outerHTML = outerHTML;
+    static magnetChange(userid: string, idMagnet: string, outerHTML: string): void {
+        const magnet = document.getElementById(idMagnet);
+        if (magnet.outerHTML != outerHTML) {
+            magnet.outerHTML = outerHTML;
+            MagnetManager.installMagnets();
+        }        
+        BoardManager.addAction(new ActionMagnetNew(userid, magnet));
     }
 
 
@@ -199,7 +205,7 @@ export class ShareEvent {
     static backgroundSeyes(): void {
         Wallpaper.seyes();
     }
-    
+
     /**documents */
     static documentsRemoveAll(): void {
         BackgroundDocuments.getDocumentPanel().innerHTML = "";

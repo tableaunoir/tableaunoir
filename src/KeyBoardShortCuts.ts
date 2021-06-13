@@ -1,3 +1,4 @@
+import { MagnetTextManager } from './MagnetTextManager';
 import { OptionManager } from './OptionManager';
 import { AnimationToolBar } from './AnimationToolBar';
 import { BoardManager } from './boardManager';
@@ -109,7 +110,7 @@ export class KeyBoardShortCuts {
      */
     static onKeyDownThatModifies(evt: KeyboardEvent): void {
         if (evt.key == "Enter") {
-            MagnetManager.addMagnetText(UserManager.me.x, UserManager.me.y);
+            MagnetTextManager.addMagnetText(UserManager.me.x, UserManager.me.y);
             evt.preventDefault(); //so that it will not add "new line" in the text element
         }
         else if (evt.key == "d")  //d = divide screen

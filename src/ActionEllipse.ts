@@ -15,9 +15,13 @@ export class ActionEllipse extends Action {
             cx: this.cx, cy: this.cy, rx: this.rx, ry: this.ry, color: this.color
         };
     }
+
     constructor(userid: string, private cx: number, private cy: number, private rx: number, private ry: number, private color: string) {
         super(userid);
     }
+
+    getOverviewImage(): string { return "url(img/icons/26AA.svg)"; }
+
 
     async redo(): Promise<void> {
         Drawing.drawEllipse({ cx: this.cx, cy: this.cy, rx: this.rx, ry: this.ry }, this.color);

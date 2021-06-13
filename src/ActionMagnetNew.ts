@@ -23,6 +23,8 @@ export class ActionMagnetNew extends Action {
     }
 
 
+    getOverviewImage(): string { return "url(img/icons/1F9F2.svg)"; }
+
     async redo(): Promise<void> {
         const previousElement = document.getElementById(this.magnet.id)
 

@@ -25,6 +25,8 @@ export class ActionMagnetMove extends Action {
         this.points = points;
     }
 
+    getOverviewImage(): string { return "url(img/icons/E103.svg)"; }
+
 
     private setPosition(point: { x: number, y: number }): void {
         document.getElementById(this.magnetid).style.left = point.x + "px";

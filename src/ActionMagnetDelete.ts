@@ -24,6 +24,8 @@ export class ActionMagnetDelete extends Action {
         this.magnetid = magnetid;
     }
 
+    getOverviewImage(): string { return "url(img/icons/E262.svg)"; }
+
 
     async redo(): Promise<void> {
         const element = document.getElementById(this.magnetid);
