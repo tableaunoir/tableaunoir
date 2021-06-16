@@ -15,6 +15,7 @@ export class AnimationToolBar {
      */
     static dragAndDropFrames = false;
 
+    static currFoldIndex = -1;
 
 
     static toggle(): void {
@@ -44,6 +45,54 @@ export class AnimationToolBar {
      */
     static is(): boolean { return document.getElementById("animationToolBar").style.display == ""; }
 
+    /*
+     * @returns a pair of indexes, the first one refers to the direct children of animationToolBar the action is in, the
+     * second one refers to the index of the folded div the action is in (-1 if not in one).
+     * Will return (-1, -1) in case of failure.
+     */
+    static WhereAmI (n: number) : [number, number]{
+        let fst = 0;
+        let snd = -1;
+        let currIndex = 0;
+
+        for(let i = 0; i <= document.getElementById("animationActionList").children.length; i++){
+            if(document.getElementById("animationActionList").children[i].classList.contains("unfold")){
+                i+=2;
+                let currFoldedDiv = document.getElementById("animationActionList").children[i].children;
+                if(n > currIndex + currFoldedDiv.length){
+                    currIndex += currFoldedDiv.length;
+                }
+                else if(n == currIndex + currFoldedDiv.length){
+                    fst = i+1;
+                    return [fst, snd];
+                }else{
+                    fst = i;
+                    snd = n - currIndex;
+                    return [fst, snd];
+                }
+            }
+            else if(n == currIndex){
+                fst = i;
+                return [fst, snd];
+            }else
+                currIndex ++;
+        }
+        return [-1, -1];
+    }
+
+    static addNewAction(): void{
+        let caca = AnimationToolBar.WhereAmI(AnimationToolBar.tSelected);
+        console.log(caca);
+        if(caca[0] == -1)
+            console.log("error in AnimationToolBar.WhereAmI");
+        if(caca[1] == -1)
+            document.getElementById("animationToolBar").children[caca[0]].append(AnimationToolBar.HTMLElementForAction(
+            AnimationToolBar.tSelected+1));
+        else
+            document.getElementById("animationToolBar").children[caca[0]].children[caca[1]].append(
+            AnimationToolBar.HTMLElementForAction(AnimationToolBar.tSelected + 1));
+    }
+
     static spawnFoldDiv(n: number): HTMLElement {
         const el = document.createElement("div");
         el.id = "foldedDiv" + n;
@@ -57,7 +106,15 @@ export class AnimationToolBar {
         el.classList.add("unfold");
         el.onclick = () =>
         {
-            el.style.backgroundImage = "close.png";
+            if(AnimationToolBar.currFoldIndex == n)
+                AnimationToolBar.currFoldIndex = -1;
+            else
+                AnimationToolBar.currFoldIndex = n;
+            console.log(AnimationToolBar.currFoldIndex);
+            if(el.style.backgroundImage == "url(img/open.png)")
+                el.style.backgroundImage = "url(img/close.png)";
+            else
+                el.style.backgroundImage = "url(img/open.png)";
         }
         return el;
     }
@@ -65,6 +122,8 @@ export class AnimationToolBar {
     static spawnFoldCheckBox(n: number): HTMLElement {
         const el = document.createElement("input");
         el.id = "toggleSub" + n;
+        if(AnimationToolBar.currFoldIndex == n)
+            el.checked = true;
         el.classList.add("toggleFOld");
         el.type = "checkbox";
         return el;
@@ -86,9 +145,9 @@ export class AnimationToolBar {
         for (let i = 0; i < BoardManager.cancelStack.actions.length; i++) {
             if (BoardManager.cancelStack.actions[i].pause) {
 
-                const lab = AnimationToolBar.spawnFoldLabel(i);
+                const lab = AnimationToolBar.spawnFoldLabel(count);
 
-                const checkBox = AnimationToolBar.spawnFoldCheckBox(i);
+                const checkBox = AnimationToolBar.spawnFoldCheckBox(count);
 
                 if (foldedDiv.innerHTML != "") {
                     document.getElementById("animationActionList").append(lab);
@@ -113,8 +172,7 @@ export class AnimationToolBar {
                 AnimationToolBar.update();
             }
             AnimationToolBar.dragAndDropFrames = false;
-
-        };
+        }
     }
 
     /**
@@ -150,12 +208,29 @@ export class AnimationToolBar {
         el.onclick = () => {
             BoardManager.cancelStack.setCurrentIndex(t);
             for (let i = 0; i < document.getElementById("animationActionList").children.length; i++)
-                if (i <= t)
-                    document.getElementById("animationActionList").children[i].classList.add("actionExecuted")
+            {
+                if(document.getElementById("animationActionList").children[i].classList.contains("unfold"))
+                {
+                    i += 2;
+                    let currFoldedDiv = document.getElementById("animationActionList").children[i];
+                    for(let j = 0; j<currFoldedDiv.children.length; j++)
+                    {
+                        if (i <= t)
+                            currFoldedDiv.children[j].classList.add("actionExecuted");
+                        else
+                            currFoldedDiv.children[j].classList.remove("actionExecuted");
+                    }
+                }
                 else
-                    document.getElementById("animationActionList").children[i].classList.remove("actionExecuted");
-            //AnimationToolBar.update();
-        };
+                {
+                    if(i <= t)
+                        document.getElementById("animationActionList").children[i].classList.add("actionExecuted");
+                    else
+                        document.getElementById("animationActionList").children[i].classList.remove("actionExecuted");
+                }
+                //AnimationToolBar.update();
+            }
+        }
 
         el.ondrop = () => {
             console.log(`move(${AnimationToolBar.tSelected}, ${t})`)
