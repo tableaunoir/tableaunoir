@@ -1038,7 +1038,7 @@ h1 {
 .action:hover
 {
 	transform: scale(1.2);
-	transform-origin: 50% 300%;
+	transform-origin: 50% 350%;
 	border: 2px solid white;
 	transition: transform 350ms;
 }
@@ -1058,10 +1058,6 @@ h1 {
 #animationBarBuffer>.toggleFold
 {
     display: inline-block;
-}
-
-.toggleFold +.foldedDiv
-{
 }
 
 .toggleFold + .foldedDiv>.action
@@ -1122,10 +1118,9 @@ h1 {
 .actionErase {
 	background-image: url(img/icons/erase.svg);
 	background-size: contain;
-
 }
 
 
 .actionPause {
-	/*transform: scale(1.2);*/
+	border: 2px solid white;
 }

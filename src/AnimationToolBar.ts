@@ -15,6 +15,9 @@ export class AnimationToolBar {
      */
     static dragAndDropFrames = false;
 
+    /*
+     * used to remember the golded div the user is currently working one
+     */
     static currFoldIndex = -1;
 
 
@@ -46,6 +49,8 @@ export class AnimationToolBar {
     static is(): boolean { return document.getElementById("animationToolBar").style.display == ""; }
 
     /*
+     * @param the index of the action in the cancelStack
+     *
      * @returns a pair of indexes, the first one refers to the direct children of animationToolBar the action is in, the
      * second one refers to the index of the folded div the action is in (-1 if not in one).
      * Will return (-1, -1) in case of failure.
@@ -80,19 +85,9 @@ export class AnimationToolBar {
         return [-1, -1];
     }
 
-    static addNewAction(): void{
-        let caca = AnimationToolBar.WhereAmI(AnimationToolBar.tSelected);
-        console.log(caca);
-        if(caca[0] == -1)
-            console.log("error in AnimationToolBar.WhereAmI");
-        if(caca[1] == -1)
-            document.getElementById("animationToolBar").children[caca[0]].append(AnimationToolBar.HTMLElementForAction(
-            AnimationToolBar.tSelected+1));
-        else
-            document.getElementById("animationToolBar").children[caca[0]].children[caca[1]].append(
-            AnimationToolBar.HTMLElementForAction(AnimationToolBar.tSelected + 1));
-    }
-
+    /*
+     * @returns a division containing all sub-actions coming before a pause one
+     */
     static spawnFoldDiv(n: number): HTMLElement {
         const el = document.createElement("div");
         el.id = "foldedDiv" + n;
@@ -100,6 +95,9 @@ export class AnimationToolBar {
         return el;
     }
 
+    /*
+     * @returns a label controlling an invisible checkBox
+     */
     static spawnFoldLabel(n: number): HTMLElement {
         const el = document.createElement("label");
         el.htmlFor = "toggleSub" + n;
@@ -110,15 +108,15 @@ export class AnimationToolBar {
                 AnimationToolBar.currFoldIndex = -1;
             else
                 AnimationToolBar.currFoldIndex = n;
-            console.log(AnimationToolBar.currFoldIndex);
-            if(el.style.backgroundImage == "url(img/open.png)")
-                el.style.backgroundImage = "url(img/close.png)";
-            else
-                el.style.backgroundImage = "url(img/open.png)";
+            el.style.backgroundImage = (el.style.backgroundImage == "url(\"img/open.png\")" ?  "url(\"img/close.png\")"
+            : "url(\"img/open.png\")");
         }
         return el;
     }
 
+    /*
+     * @returns a checkbox controlling the visibility of the next folded actions div
+     */
     static spawnFoldCheckBox(n: number): HTMLElement {
         const el = document.createElement("input");
         el.id = "toggleSub" + n;
@@ -136,7 +134,8 @@ export class AnimationToolBar {
         if (!AnimationToolBar.is())
             return;
 
-        let count = 0;
+        let count = 0;  //used to spawn the html elements needed for the folding system
+
 
         let foldedDiv = AnimationToolBar.spawnFoldDiv(count);
         document.getElementById("animationActionList").innerHTML = "";
@@ -207,26 +206,22 @@ export class AnimationToolBar {
 
         el.onclick = () => {
             BoardManager.cancelStack.setCurrentIndex(t);
-            for (let i = 0; i < document.getElementById("animationActionList").children.length; i++)
+            for (let i = 0; i < BoardManager.cancelStack.actions.length; i++)
             {
-                if(document.getElementById("animationActionList").children[i].classList.contains("unfold"))
+                let pos = AnimationToolBar.WhereAmI(i);
+                if (i <= t)
                 {
-                    i += 2;
-                    let currFoldedDiv = document.getElementById("animationActionList").children[i];
-                    for(let j = 0; j<currFoldedDiv.children.length; j++)
-                    {
-                        if (i <= t)
-                            currFoldedDiv.children[j].classList.add("actionExecuted");
-                        else
-                            currFoldedDiv.children[j].classList.remove("actionExecuted");
-                    }
+                    if(pos[1] == -1)
+                        document.getElementById("animationActionList").children[pos[0]].classList.add("actionExecuted");
+                    else
+                        document.getElementById("animationActionList").children[pos[0]].children[pos[1]].classList.add("actionExecuted");
                 }
                 else
                 {
-                    if(i <= t)
-                        document.getElementById("animationActionList").children[i].classList.add("actionExecuted");
+                    if(pos[1] == -1)
+                        document.getElementById("animationActionList").children[pos[0]].classList.remove("actionExecuted");
                     else
-                        document.getElementById("animationActionList").children[i].classList.remove("actionExecuted");
+                        document.getElementById("animationActionList").children[pos[0]].children[pos[1]].classList.remove("actionExecuted");
                 }
                 //AnimationToolBar.update();
             }
