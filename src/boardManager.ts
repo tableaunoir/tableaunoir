@@ -52,7 +52,7 @@ export class BoardManager {
     static setWidthAtLeast(atLeastWidth: number): void {
         const canvas = getCanvas();
         canvas.width = atLeastWidth;
-        BoardManager.cancelStack.playUntilCurrentIndex();
+        BoardManager.cancelStack.canvasRedraw();
     }
 
 
@@ -108,6 +108,10 @@ export class BoardManager {
     }
 
 
+
+    static getLastAction(): Action {
+        return BoardManager.cancelStack.getLastAction();
+    }
 
 
     static getCurrentScreenRectangle(): { x1: number, y1: number, x2: number, y2: number } {

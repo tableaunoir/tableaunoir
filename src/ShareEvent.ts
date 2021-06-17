@@ -1,3 +1,4 @@
+import { MagnetTextManager } from './MagnetTextManager';
 import { ActionMagnetNew } from './ActionMagnetNew';
 import { MagnetMovementRecorder } from './MagnetMovementRecorder';
 import { Wallpaper } from './Wallpaper';
@@ -142,8 +143,16 @@ export class ShareEvent {
         if (magnet.outerHTML != outerHTML) {
             magnet.outerHTML = outerHTML;
             MagnetManager.installMagnets();
-        }        
-        BoardManager.addAction(new ActionMagnetNew(userid, magnet));
+        }
+        if (MagnetTextManager.isTextMagnet(magnet)) {
+            const action = BoardManager.getLastAction();
+            if(action instanceof ActionMagnetNew) 
+                action.setMagnet(magnet);
+            else
+                 BoardManager.addAction(new ActionMagnetNew(userid, magnet));
+        }
+        else
+            BoardManager.addAction(new ActionMagnetNew(userid, magnet));
     }
 
 

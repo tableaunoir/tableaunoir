@@ -1,5 +1,4 @@
 import { BoardManager } from './boardManager';
-import { AnimationToolBar } from './AnimationToolBar';
 import { ErrorMessage } from './ErrorMessage';
 import { ActionSerialized } from './ActionSerialized';
 import { ActionDeserializer } from './ActionDeserializer';
@@ -35,6 +34,14 @@ export class CancelStack {
         this.updateButtons();
     }
 
+
+    /**
+     * @description clear the canvas
+     */
+    canvasClear(): void {
+        const canvas = getCanvas();
+        canvas.width = canvas.width + 0;
+    }
     /**
      * empty the cancel stack but keeps the current state
      */
@@ -45,17 +52,72 @@ export class CancelStack {
         this._push(actionInit);
     }
 
-    setCurrentIndex(i: number): void {
-        this.currentIndex = i;
+    /**    setCurrentIndex(i: number): void {
+            this.currentIndex = i;
+            this.update();
+        } */
+
+    /**
+     * goto frame t
+     */
+    setCurrentIndex(t: number): void {
+        const previousIndex = this.currentIndex;
+        this.currentIndex = t;
         this.updateButtons();
-        getCanvas().width = getCanvas().width + 0;
-        this.playUntilCurrentIndex();
+        this.updateState(previousIndex);
     }
 
 
-    getCurrentIndex(): number {
-        return this.currentIndex;
+    /**
+     * 
+     * @param previoust 
+     * @param nextt 
+     * @description update the state given that the current state time step is previoust, and that
+     * we aim to go time step nextt
+     */
+    async updateState(previoust: number): Promise<void> {
+        const nextt = this.currentIndex;
+        if (previoust <= nextt) { //go to the future
+            for (let i = previoust + 1; i <= nextt; i++)
+                await this.actions[i].redo();
+        }
+        else { //go to the past
+            let bug113 = false;
+            let sthToDoFromStart = false;
+            //perform the undo of the undoable actions
+            for (let t = previoust; t >= nextt + 1; t--)
+                if (this.actions[t] == undefined) {
+                    ErrorMessage.show("issue #113. error with t = " + t + " try to undo/redo again");
+                    bug113 = true;
+                }
+                else
+                    if (this.actions[t].isDirectlyUndoable)
+                        await this.actions[t].undo();
+                    else
+                        sthToDoFromStart = true;
+
+            if (sthToDoFromStart) {
+                this.canvasClear();
+                this.canvasRedraw();
+                
+            }
+
+            if (bug113) {
+                this.repair();
+            }
+        }
     }
+
+
+
+
+
+/**
+     * @returns the current timestep (that is performed)
+     * @description this.actions[this.getCurrentIndex()] is the last performed action
+     */
+    getCurrentIndex(): number { return this.currentIndex; }
+
 
     clearAndReset(canvasDataURL: string): void {
         this.actions = [];
@@ -67,12 +129,6 @@ export class CancelStack {
     }
 
     /**
-     * @returns the current timestep (that is performed)
-     * @example this.stack[t] has been performed and that is the last performed action
-     */
-    get t(): number { return this.currentIndex; }
-
-    /**
      * 
      * @param A the array of serialized action
      * @param t the current timestep
@@ -82,24 +138,22 @@ export class CancelStack {
         this.actions = A.map(ActionDeserializer.deserialize);
         this.currentIndex = t;
         console.log("loaded stack with " + this.actions.length + " elements");
-        this.update();
+        this.resetAndUpdate();
 
     }
 
 
     /**
-     * @description updates the canvas
+     * @description updates the canvas and the magnets completely from the start
      */
-    async update(): Promise<void> {
-        const canvas = getCanvas();
-
-        canvas.width = canvas.width + 0;
+    private async resetAndUpdate(): Promise<void> {
+        this.canvasClear();
         if (BoardManager.MAGNETCANCELLABLE)
             document.getElementById("magnets").innerHTML = "";
 
         this.updateButtons();
 
-        await this.playUntilCurrentIndex();
+        await this.doAllActionsUntilCurrentIndex();
     }
 
 
@@ -146,7 +200,7 @@ export class CancelStack {
         const action = this.actions[i];
         this.actions.splice(i, 1);
         this.actions.splice(j, 0, action);
-        this.update();
+        this.resetAndUpdate();
     }
 
 
@@ -163,7 +217,7 @@ export class CancelStack {
         this.actions.splice(t, 1);
         if (t <= this.currentIndex)
             this.currentIndex--;
-        this.update();
+        this.resetAndUpdate();
     }
 
     /**
@@ -171,21 +225,38 @@ export class CancelStack {
      * @param {*} data
      */
     push(action: Action): void {
-        //   if (Math.floor(100 * Math.random()) < 1/20000)
-        //     action.storePostState();
-
-        if (AnimationToolBar.is())
-            this._insert(action);
-        else
-            this._push(action);
+        //if (AnimationToolBar.is()) // the behavior should not change depending on the presence of the animation toolbar!
+            this._insert(action); 
+        //else
+          //  this._push(action);
         this.updateButtons();
         //this.print();
     }
 
+
+
+
+    async canvasRedraw(): Promise<void> {
+        let bug113 = false;
+
+        //perform the do actions from start for the actions that are not undoable
+        for (let t = 0; t <= this.currentIndex; t++) {
+            if (this.actions[t] == undefined) {
+                ErrorMessage.show("issue #113. error with t = " + t + " try to undo/redo again");
+                bug113 = true;
+            }
+            else if (!this.actions[t].isDirectlyUndoable)
+                await this.actions[t].redo();
+
+        }
+        if (bug113) 
+            this.repair();
+        
+    }
     /**
      * @description do all the actions until the current index
      */
-    async playUntilCurrentIndex(): Promise<void> {
+    private async doAllActionsUntilCurrentIndex(): Promise<void> {
         let bug113 = false;
         for (let t = 0; t <= this.currentIndex; t++) {
             if (this.actions[t] == undefined) {
@@ -196,10 +267,17 @@ export class CancelStack {
                 await this.actions[t].redo();
 
         }
-        if (bug113) {
+        if (bug113) 
             this.repair();
-        }
+        
     }
+
+
+    /**
+     * 
+     * @returns the last executed action
+     */
+    getLastAction(): Action { return this.actions[this.currentIndex]; }
 
     /**
      * @description undo the last action
@@ -207,17 +285,25 @@ export class CancelStack {
     async undo(userid: string): Promise<void> {
         if (!this.canUndo)
             return;
+        this.setCurrentIndex(this.currentIndex - 1);
 
-        this.currentIndex--;
+        /**
+    this.currentIndex--;
+    this.updateButtons();
 
-        this.updateButtons();
-
+    if (this.actions[this.currentIndex + 1].isDirectlyUndoable)
+        await this.actions[this.currentIndex + 1].undo();
+    else {
         getCanvas().width = getCanvas().width + 0;
 
         if (BoardManager.MAGNETCANCELLABLE)
             document.getElementById("magnets").innerHTML = "";
         await this.playUntilCurrentIndex();
         // this.print();
+
+    } */
+
+
     }
 
     /**
@@ -227,14 +313,13 @@ export class CancelStack {
         if (!this.canRedo)
             return;
 
-        this.currentIndex++;
-        await this.actions[this.currentIndex].redo();
-
-        this.updateButtons();
-
-        //  this.print();
+        this.setCurrentIndex(this.currentIndex + 1);
     }
 
+    /**
+     * 
+     * @returns the time step index of the previous paused frame
+     */
     getPreviousPausedFrame(): number {
         for (let i = this.currentIndex - 1; i >= 0; i--)
             if (this.actions[i].pause)
@@ -242,6 +327,10 @@ export class CancelStack {
         return this.currentIndex; //no "pause" action found, so we stay at the same frame
     }
 
+    /**
+     * 
+     * @returns the time step index of the next paused frame
+     */
     getNextPausedFrame(): number {
         for (let i = this.currentIndex + 1; i <= this.actions.length - 1; i++)
             if (this.actions[i].pause)
@@ -251,12 +340,16 @@ export class CancelStack {
 
 
 
-
+    /**
+     * go to the presvious paused frame
+     */
     async previousPausedFrame(): Promise<void> {
         if (!this.canUndo)
             return;
 
         const newIndex = this.getPreviousPausedFrame();
+        this.setCurrentIndex(newIndex);
+        /*
         if (newIndex != this.currentIndex) {
             this.currentIndex = newIndex;
             this.updateButtons();
@@ -265,12 +358,16 @@ export class CancelStack {
             if (BoardManager.MAGNETCANCELLABLE)
                 document.getElementById("magnets").innerHTML = "";
             await this.playUntilCurrentIndex();
-        }
+        }*/
 
     }
 
 
-
+    /**
+     * 
+     * @returns 
+     * @description go to the paused next frame by playing the animations
+     */
     async nextPausedFrame(): Promise<void> {
         if (!this.canRedo)
             return;
@@ -329,6 +426,9 @@ export class CancelStack {
     }
 
 
+    /**
+     * @description update the GUI
+     */
     updateButtons(): void {
         if (this.canUndo(UserManager.me.userID))
             document.getElementById("buttonCancel").classList.remove("disabled");

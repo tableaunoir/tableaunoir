@@ -1,3 +1,5 @@
+import { UserManager } from './UserManager';
+import { ActionMagnetNew } from './ActionMagnetNew';
 import { ErrorMessage } from './ErrorMessage';
 import { ActionSerialized } from './ActionSerialized';
 import { Share } from './share';
@@ -188,7 +190,21 @@ export class LoadSave {
         if (obj.actions)
             BoardManager.cancelStack.load(obj.actions, obj.t);
 
-        document.getElementById("magnets").innerHTML = obj.magnets;
+        if (obj.magnets) { //old format
+            document.getElementById("magnets").innerHTML = obj.magnets;
+            const magnets = document.getElementById("magnets").children;
+            for (let i = 0; i < magnets.length; i++) {
+                const exists = BoardManager.cancelStack.actions.find((a) => {
+                    if (a instanceof ActionMagnetNew)
+                        return a.magnet.id == magnets[i].id;
+                    else
+                        return false;
+                });
+                if (!exists)
+                    BoardManager.addAction(new ActionMagnetNew(UserManager.me.userID, <HTMLElement>magnets[i]));
+            }
+        }
+
         document.getElementById("svg").innerHTML = obj.svg;
         document.getElementById("script").innerHTML = obj.script ? obj.script : "";
         ConstraintDrawing.reset();
@@ -196,20 +212,18 @@ export class LoadSave {
     }
 
 
-    static getTableauNoirObject() {
+    static getTableauNoirObject(): any {
         const magnets = document.getElementById("magnets").innerHTML;
         const backgroundLayer = document.getElementById("documentPanel").innerHTML;
         const svg = document.getElementById("svg").innerHTML;
         const script = (<HTMLTextAreaElement>document.getElementById("script")).value;
         // const canvasDataURL = getCanvas().toDataURL();
         //const obj = { magnets: magnets, svg: svg, canvasDataURL: canvasDataURL };
-        return { backgroundLayer: backgroundLayer, magnets: magnets, width: getCanvas().width, height: getCanvas().height, svg: svg, actions: BoardManager.cancelStack.serialize(), t: BoardManager.cancelStack.t, script: script };
+        return { backgroundLayer: backgroundLayer, magnets: magnets, width: getCanvas().width, height: getCanvas().height, svg: svg, actions: BoardManager.cancelStack.serialize(), t: BoardManager.cancelStack.getCurrentIndex(), script: script };
     }
 
 
-    static getTableauNoirString(): string {
-        return JSON.stringify(LoadSave.getTableauNoirObject());
-    }
+    static getTableauNoirString(): string { return JSON.stringify(LoadSave.getTableauNoirObject()); }
 
 
 

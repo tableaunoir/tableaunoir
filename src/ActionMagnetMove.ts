@@ -23,18 +23,26 @@ export class ActionMagnetMove extends Action {
         super(userid);
         this.magnetid = magnetid;
         this.points = points;
+        this.isDirectlyUndoable = true;
     }
 
     getOverviewImage(): string { return "url(img/icons/E103.svg)"; }
 
 
     private setPosition(point: { x: number, y: number }): void {
-        document.getElementById(this.magnetid).style.left = point.x + "px";
-        document.getElementById(this.magnetid).style.top = point.y + "px";
+        if (document.getElementById(this.magnetid)) {
+            document.getElementById(this.magnetid).style.left = point.x + "px";
+            document.getElementById(this.magnetid).style.top = point.y + "px";
+        }
+
     }
 
     async redo(): Promise<void> {
         this.setPosition(this.points[this.points.length - 1]);
+    }
+
+    async undo(): Promise<void> {
+        this.setPosition(this.points[0]);
     }
 
     /**
