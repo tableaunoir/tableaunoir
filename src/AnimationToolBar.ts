@@ -102,12 +102,11 @@ export class AnimationToolBar {
         const el = document.createElement("label");
         el.htmlFor = "toggleSub" + n;
         el.classList.add("unfold");
+        el.style.backgroundImage = "url(\"img/open.png\")";
         el.onclick = () =>
         {
-            if(AnimationToolBar.currFoldIndex == n)
-                AnimationToolBar.currFoldIndex = -1;
-            else
-                AnimationToolBar.currFoldIndex = n;
+            AnimationToolBar.currFoldIndex = (AnimationToolBar.currFoldIndex == n ? -1 : n);
+
             el.style.backgroundImage = (el.style.backgroundImage == "url(\"img/open.png\")" ?  "url(\"img/close.png\")"
             : "url(\"img/open.png\")");
         }
