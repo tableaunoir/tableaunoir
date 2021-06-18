@@ -9,15 +9,14 @@ import { getCanvas } from './main';
 
 
 /**
- * data structure stack for cancel/redo
+ * data structure for the linear history of actions (draw a line, eraser here, etc.)
  * TODO: for the moment, it is single-user (we do not care who are performing actions)
  */
-export class CancelStack {
+export class History {
 
     /**
      * stack of actions
-     * some actions may contain a "poststate" (a full snapshot of the state after executing that action)
-     * remark: the first action is of Type ActionInit and always contains a postState
+     * remark: the first action is of Type ActionInit and is like a sentinelle
      */
     public actions: (Action)[] = [];
     private currentIndex = -1; //meaning that stack[currentIndex] is treated and is the last action executed
