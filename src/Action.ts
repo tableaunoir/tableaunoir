@@ -9,6 +9,7 @@ export abstract class Action {
      */
     public userid: string;
     public pause = false;
+    public isDirectlyUndoable = false;
 
     constructor(userid: string) {
         this.userid = userid;
@@ -35,6 +36,8 @@ export abstract class Action {
      * redo the action
      */
     abstract redo(): Promise<void>;
+
+    async undo(): Promise<void> {return} //by default it cannot be undone
 
     redoAnimated(): Promise<void> { return this.redo(); }
     abstract get xMax(): number;

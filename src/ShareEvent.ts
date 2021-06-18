@@ -1,3 +1,6 @@
+import { MagnetTextManager } from './MagnetTextManager';
+import { ActionMagnetNew } from './ActionMagnetNew';
+import { MagnetMovementRecorder } from './MagnetMovementRecorder';
 import { Wallpaper } from './Wallpaper';
 import { UserListComponent } from './UserListComponent';
 import { ErrorMessage } from './ErrorMessage';
@@ -135,17 +138,37 @@ export class ShareEvent {
         MagnetManager.printMagnet(document.getElementById(magnetID));
     }
 
-    static magnetChange(idMagnet: string, outerHTML: string): void {
-        document.getElementById(idMagnet).outerHTML = outerHTML;
+    static magnetChange(userid: string, idMagnet: string, outerHTML: string): void {
+        const magnet = document.getElementById(idMagnet);
+        if (magnet.outerHTML != outerHTML) {
+            magnet.outerHTML = outerHTML;
+            MagnetManager.installMagnets();
+        }
+        if (MagnetTextManager.isTextMagnet(magnet)) {
+            const action = BoardManager.getLastAction();
+            if(action instanceof ActionMagnetNew) 
+                action.setMagnet(magnet);
+            else
+                 BoardManager.addAction(new ActionMagnetNew(userid, magnet));
+        }
+        else
+            BoardManager.addAction(new ActionMagnetNew(userid, magnet));
+    }
+
+
+
+    static magnetMoveStart(idMagnet: string): void {
+        MagnetMovementRecorder.start(idMagnet);
     }
 
     static magnetMove(idMagnet: string, x: string, y: string): void {
         const ix = parseInt(x);
         const iy = parseInt(y);
-        const el = document.getElementById(idMagnet);
-        el.style.top = iy + "px";
-        el.style.left = ix + "px";
-        ConstraintDrawing.update();
+        MagnetMovementRecorder.move(idMagnet, ix, iy);
+    }
+
+    static magnetMoveStop(idMagnet: string): void {
+        MagnetMovementRecorder.stop(idMagnet);
     }
 
 
@@ -191,7 +214,7 @@ export class ShareEvent {
     static backgroundSeyes(): void {
         Wallpaper.seyes();
     }
-    
+
     /**documents */
     static documentsRemoveAll(): void {
         BackgroundDocuments.getDocumentPanel().innerHTML = "";

@@ -1,3 +1,4 @@
+import { MagnetTextManager } from './MagnetTextManager';
 import { Wallpaper } from './Wallpaper';
 import { ErrorMessage } from './ErrorMessage';
 import { GUIActions } from './GUIActions';
@@ -98,7 +99,7 @@ function load() {
 			GUIActions.toolmenu.show({ x: UserManager.me.x, y: UserManager.me.y });
 		}
 
-		document.getElementById("buttonText").onclick = () => MagnetManager.addMagnetText(UserManager.me.x, UserManager.me.y);
+		document.getElementById("buttonText").onclick = () => MagnetTextManager.addMagnetText(UserManager.me.x, UserManager.me.y);
 		document.getElementById("buttonDivide").onclick = () => Share.execute("divideScreen", [UserManager.me.userID, Layout.getXMiddle()]);
 
 		document.getElementById("buttonLeft").onclick = BoardNavigation.leftPreviousPage;

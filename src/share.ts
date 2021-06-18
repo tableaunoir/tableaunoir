@@ -316,7 +316,7 @@ export class Share {
 		Share.sendMagnets(idNewUser);
 
 		//console.log("preparation of the list of actions");
-		Share.send({ type: "actions", to: idNewUser, data: JSON.stringify(BoardManager.cancelStack.serialize()), t: BoardManager.cancelStack.t });
+		Share.send({ type: "actions", to: idNewUser, data: JSON.stringify(BoardManager.cancelStack.serialize()), t: BoardManager.cancelStack.getCurrentIndex() });
 		/**for(const action of BoardManager.cancelStack.stack) {
 			Share.send({ type: "action", to: msg.userid, action: action.serialize()});
 		}*/

@@ -1,3 +1,4 @@
+import { MagnetTextManager } from './MagnetTextManager';
 import { MagnetManager } from './magnetManager';
 import { ActionSerialized } from './ActionSerialized';
 import { getCanvas } from "./main";
@@ -25,6 +26,8 @@ export class ActionPrintMagnet extends Action {
 
 	}
 
+
+	getOverviewImage(): string { return "url(img/icons/stamp.svg)"; }
 
 	redo(): Promise<void> {
 		return new Promise((resolve) => {
@@ -71,7 +74,7 @@ export class ActionPrintMagnet extends Action {
 				magnet.onload = f;
 
 			}
-			else if (MagnetManager.isTextMagnet(this.magnet)) {
+			else if (MagnetTextManager.isTextMagnet(this.magnet)) {
 				//html2canvas should do the job but sometimes it bugs, it does not take the scale into account...
 				context.globalCompositeOperation = "source-over";
 				context.globalAlpha = 1.0;

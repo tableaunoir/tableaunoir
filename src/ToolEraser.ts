@@ -33,7 +33,6 @@ export class ToolEraser extends Tool {
     /** when the temperature passes this theeshold, go in the next mode */
     static readonly temperatureThreshold = 128;
 
-    private timestamp = null;
     private oldSpeed = 0;
 
 
@@ -67,25 +66,17 @@ export class ToolEraser extends Tool {
 
 
     mousemove(evt: PointerEvent): void {
-        if (this.timestamp == null)
-            this.timestamp = Date.now()
-
         const evtX = evt.offsetX;
         const evtY = evt.offsetY;
 
         if (this.isDrawing) {
-
-            //calculating the time difference between the 2 last points
-            const timeDiff = Date.now() - this.timestamp;
-
-            //updating the timestamp
-            this.timestamp = Date.now();
+            const dt = 1; //the time difference between the 2 last points, by default equals 1
 
             const dist = Math.sqrt((this.x - evtX) ** 2 + (this.y - evtY) ** 2);
-            const speed = dist / timeDiff;
+            const speed = dist / dt;
 
 
-            let acc = (speed - this.oldSpeed) / timeDiff;
+            const acc = (speed - this.oldSpeed) / dt;
             this.oldSpeed = speed;
 
             //the closer the cursor is to its max size the less the user needs to accelerat to reach it
@@ -94,14 +85,15 @@ export class ToolEraser extends Tool {
                      {
                          acc = 0;
                      }*/
-            const tempIncr = speed * acc * 1000;
+            const factor = 0.5; //to tune. If factor is big, the eraser size increases faster
+            const tempIncr = speed * acc * factor;// * 1000;
 
             SoundToolEraser.mousemove(Math.abs(this.x - evtX) + Math.abs(this.y - evtY));
 
             //not moving or last mode => decrease the temperature		
             if ((Math.abs(this.x - evtX) < 1 &&
-                Math.abs(this.y - evtY) < 1) || (this.iMode >= this.modeSizes.length - 1)) 
-                this.temperature = Math.max(0, this.temperature-1);
+                Math.abs(this.y - evtY) < 1) || (this.iMode >= this.modeSizes.length - 1))
+                this.temperature = Math.max(0, this.temperature - 1);
 
             else { //if moving and not last mode
                 // this.temperature += Math.sqrt((this.x - evtX) ** 2 + (this.y - evtY) ** 2);
