@@ -134,6 +134,8 @@ helpbutton {
 	right: 0px;
 	width: 100%;
 	flex-direction: row;
+	height: 34px;
+	box-sizing: content-box;
 }
 
 .toolbarLeft {
@@ -1008,67 +1010,104 @@ h1 {
 
 #animationActionListWrapper {
 	display: inline-block;
-	overflow: auto;
 	width: 100%;
+	height: 34px;
+	box-sizing: content-box;
 }
 
 #animationActionList {
 	display: inline-block;
 	width: max-content;
-
+	height: 34px;
+	box-sizing: content-box;
 }
 
 .action {
+    position: relative;
+    top: 50%;
+	transform: translateY(-50%);
 	width: 24px;
 	height: 24px;
 	background-color: white;
 	border: 2px solid black;
 	display: inline-block;
 	opacity: 0.5;
+	margin: 2px;
 }
 
-.toggleFold + .foldedDiv>.action
+.action:hover
 {
-    display: none;
-    width: 0px;
-    transition: width 250ms ease-in-out 350ms;
+	transform: scale(1.2);
+	transform-origin: 50% 350%;
+	border: 2px solid white;
+	transition: transform 350ms;
+}
+
+.foldedDiv
+{
+    display: inline-block;
+    height: 34px;
+    box-sizing: content-box;
 }
 
 .toggleFold
 {
     display: none;
 }
+
 #animationBarBuffer>.toggleFold
 {
     display: inline-block;
 }
 
-.toggleFold:checked + .foldedDiv>.action
+.toggleFold + .foldedDiv>.action
 {
-    display: inline-block;
-    width: 24px;
-    transition: width 250ms ease-in-out 350ms;
+    position: absolute;
+    width: 0px;
+    height: 0px;
+    margin: 0px;
+    transition: width 500ms, transform 350ms;
 }
 
-.foldedDiv
+.toggleFold:checked + .foldedDiv>.action
+{
+    position: relative;
+    width: 24px;
+    height: 24px;
+    margin: 2px;
+    transition: width 500ms, transform 350ms;
+}
+
+.toggleFold:checked +.foldedDiv
 {
     display: inline-block;
 }
 
 .unfold
 {
-    top: 50%;
-    vertical-align: middle;
-    transform: translateY(-50%);
+    position: relative;
     height: 20px;
     width: 30px;
-    color: white;
-    text-align: center;
+    background-image: url(img/open.png);
+	background-size: contain;
+	background-repeat: no-repeat;
+	background-position: center;
     box-sizing: border-box;
     border: 2px solid white;
     border-radius: 15px;
     display: inline-block;
-    margin-left: 15px;
+    margin-left: 5px;
+    margin-right: 5px;
+    top: 50%;
+	transform: translateY(-100%);
+    cursor: pointer;
+    transition: width 500ms;
+}
+
+.unfold:hover
+{
+    width: 40px;
+    transition: width 500ms;
 }
 
 .actionExecuted {
@@ -1079,10 +1118,9 @@ h1 {
 .actionErase {
 	background-image: url(img/icons/erase.svg);
 	background-size: contain;
-
 }
 
 
 .actionPause {
-	transform: scale(1.2);
+	border: 2px solid white;
 }
