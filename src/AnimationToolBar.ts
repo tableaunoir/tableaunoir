@@ -19,6 +19,8 @@ export class AnimationToolBar {
      * used to remember the golded div the user is currently working one
      */
     static foldIndexes:boolean[] = new Array(100);
+    static toBeMoved:number[] = new Array(100);
+    static toBeMovedCount = 0;
 
 
     static toggle(): void {
@@ -55,32 +57,22 @@ export class AnimationToolBar {
      * second one refers to the index of the folded div the action is in (-1 if not in one).
      * Will return (-1, -1) in case of failure.
      */
-    static WhereAmI (n: number) : [number, number]{
-        let fst = 0;
-        let snd = -1;
-        let currIndex = 0;
+    static WhereAmI (n: number) : [number, number] {
+        let currIndex = -1;
 
-        for(let i = 0; i <= document.getElementById("animationActionList").children.length; i++){
-            if(document.getElementById("animationActionList").children[i].classList.contains("unfold")){
-                i+=2;
-                let currFoldedDiv = document.getElementById("animationActionList").children[i].children;
-                if(n > currIndex + currFoldedDiv.length){
-                    currIndex += currFoldedDiv.length;
-                }
-                else if(n == currIndex + currFoldedDiv.length){
-                    fst = i+1;
-                    return [fst, snd];
-                }else{
-                    fst = i;
-                    snd = n - currIndex;
-                    return [fst, snd];
+        for(let i = 0; i < document.getElementById("animationActionList").children.length; i++) {
+            if(document.getElementById("animationActionList").children[i].classList.contains("foldedDiv")) {
+                for(let j = 0; j < document.getElementById("animationActionList").children[i].children.length; j++) {
+                    currIndex ++;
+                    if(currIndex == n)
+                        return [i, j];
                 }
             }
-            else if(n == currIndex){
-                fst = i;
-                return [fst, snd];
-            }else
+            else if(document.getElementById("animationActionList").children[i].classList.contains("actionPause")) {
                 currIndex ++;
+                if(currIndex == n)
+                    return [i, -1];
+            }
         }
         return [-1, -1];
     }
@@ -181,6 +173,7 @@ export class AnimationToolBar {
     static HTMLElementForAction(t: number): HTMLElement {
         const action = BoardManager.cancelStack.actions[t];
         const el = document.createElement("div");
+        let selectMode = false;
         el.classList.add("action");
         el.style.background = action.getOverviewImage();
         /*if (action instanceof ActionFreeDraw)
@@ -203,34 +196,67 @@ export class AnimationToolBar {
 
         el.ondragend = () => { AnimationToolBar.dragAndDropFrames = false; };
 
+        document.addEventListener("keydown", caca)
+
+        function caca(e) {
+            if(e.key == "Control")
+                selectMode = true;
+        }
+
+        document.addEventListener("keyup", prout)
+
+        function prout(e) {
+            selectMode = false;
+            console.log("keyUp");
+        }
+
         el.onclick = () => {
-            BoardManager.cancelStack.setCurrentIndex(t);
-            for (let i = 0; i < BoardManager.cancelStack.actions.length; i++)
+            if(selectMode) {
+                el.classList.add("green");
+                AnimationToolBar.toBeMoved[AnimationToolBar.toBeMovedCount] = t;
+                AnimationToolBar.toBeMovedCount++;
+                console.log(AnimationToolBar.toBeMoved);
+            }
+            else
             {
-                let pos = AnimationToolBar.WhereAmI(i);
-                if (i <= t)
+                BoardManager.cancelStack.setCurrentIndex(t);
+                console.log(t);
+                for (let i = 0; i < BoardManager.cancelStack.actions.length; i++)
                 {
-                    if(pos[1] == -1)
-                        document.getElementById("animationActionList").children[pos[0]].classList.add("actionExecuted");
+                    let pos = AnimationToolBar.WhereAmI(i);
+                    console.log(pos);
+                    if (i <= t)
+                    {
+                        if(pos[1] == -1)
+                            document.getElementById("animationActionList").children[pos[0]].classList.add("actionExecuted");
+                        else
+                            document.getElementById("animationActionList").children[pos[0]].children[pos[1]].classList.add("actionExecuted");
+                    }
                     else
-                        document.getElementById("animationActionList").children[pos[0]].children[pos[1]].classList.add("actionExecuted");
+                    {
+                        if(pos[1] == -1)
+                            document.getElementById("animationActionList").children[pos[0]].classList.remove("actionExecuted");
+                        else
+                            document.getElementById("animationActionList").children[pos[0]].children[pos[1]].classList.remove("actionExecuted");
+                    }
+                    //AnimationToolBar.update();
                 }
-                else
-                {
-                    if(pos[1] == -1)
-                        document.getElementById("animationActionList").children[pos[0]].classList.remove("actionExecuted");
-                    else
-                        document.getElementById("animationActionList").children[pos[0]].children[pos[1]].classList.remove("actionExecuted");
-                }
-                //AnimationToolBar.update();
             }
         }
 
         el.ondrop = () => {
-            console.log(`move(${AnimationToolBar.tSelected}, ${t})`)
-            BoardManager.cancelStack.move(AnimationToolBar.tSelected, t);
+            if(AnimationToolBar.toBeMoved[0] == 0)
+                BoardManager.cancelStack.move(AnimationToolBar.tSelected, t);
+            else {
+                for(let i = 0; i<=AnimationToolBar.toBeMovedCount; i++)
+                {
+                    BoardManager.cancelStack.move(AnimationToolBar.toBeMoved[i], t);
+                    AnimationToolBar.toBeMoved[i] = 0;
+                }
+            }
+            //console.log(`move(${AnimationToolBar.tSelected}, ${t})`)
+            AnimationToolBar.toBeMovedCount = 0;
             AnimationToolBar.update();
-
         }
 
         el.ondblclick = () => {
