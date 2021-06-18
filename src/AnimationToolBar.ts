@@ -18,7 +18,7 @@ export class AnimationToolBar {
     /*
      * used to remember the golded div the user is currently working one
      */
-    static currFoldIndex = -1;
+    static foldIndexes:boolean[] = new Array(100);
 
 
     static toggle(): void {
@@ -105,7 +105,7 @@ export class AnimationToolBar {
         el.style.backgroundImage = "url(\"img/open.png\")";
         el.onclick = () =>
         {
-            AnimationToolBar.currFoldIndex = (AnimationToolBar.currFoldIndex == n ? -1 : n);
+            AnimationToolBar.foldIndexes[n] = (AnimationToolBar.foldIndexes[n] ? false : true);
 
             el.style.backgroundImage = (el.style.backgroundImage == "url(\"img/open.png\")" ?  "url(\"img/close.png\")"
             : "url(\"img/open.png\")");
@@ -119,7 +119,7 @@ export class AnimationToolBar {
     static spawnFoldCheckBox(n: number): HTMLElement {
         const el = document.createElement("input");
         el.id = "toggleSub" + n;
-        if(AnimationToolBar.currFoldIndex == n)
+        if(AnimationToolBar.foldIndexes[n])
             el.checked = true;
         el.classList.add("toggleFOld");
         el.type = "checkbox";
