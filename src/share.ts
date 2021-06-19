@@ -267,12 +267,12 @@ export class Share {
 			case "actions":
 				Loading.hide();
 				console.log("list of actions received");
-				BoardManager.history.load(JSON.parse(msg.data), msg.t);
+				BoardManager.timeline.load(JSON.parse(msg.data), msg.t);
 				console.log("list of actions loaded");
 				break;
 			case "action":
 				//TODO buggy (and not used)
-				BoardManager.history.push(ActionDeserializer.deserialize(msg.action));
+				BoardManager.timeline.insertNowAlreadyExecuted(ActionDeserializer.deserialize(msg.action));
 				break;
 			case "svg":
 				console.log("received svg!")
@@ -316,7 +316,7 @@ export class Share {
 		Share.sendMagnets(idNewUser);
 
 		//console.log("preparation of the list of actions");
-		Share.send({ type: "actions", to: idNewUser, data: JSON.stringify(BoardManager.history.serialize()), t: BoardManager.history.getCurrentIndex() });
+		Share.send({ type: "actions", to: idNewUser, data: JSON.stringify(BoardManager.timeline.serialize()), t: BoardManager.timeline.getCurrentIndex() });
 		/**for(const action of BoardManager.cancelStack.stack) {
 			Share.send({ type: "action", to: msg.userid, action: action.serialize()});
 		}*/

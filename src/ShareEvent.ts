@@ -191,7 +191,7 @@ export class ShareEvent {
     }
 
     static cancelStackFlatten(): void {
-        BoardManager.history.flatten();
+        BoardManager.timeline.flatten();
     }
 
 
