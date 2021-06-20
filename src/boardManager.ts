@@ -1,3 +1,4 @@
+import { UserManager } from './UserManager';
 import { OperationAddAction } from './OperationAddAction';
 import { CancelStack } from './CancelStack';
 import { ActionMagnetDelete } from './ActionMagnetDelete';
@@ -114,7 +115,10 @@ export class BoardManager {
             )
                 return;
         const operation = new OperationAddAction(action, BoardManager.timeline.getCurrentIndex() + 1);
-        BoardManager.cancelStack.push(operation);
+        //BoardManager.cancelStack.updateTimeSteps((ts) => ts >= BoardManager.timeline.getCurrentIndex()+1 ? ts+1 : ts);
+        //add it to the cancel stack only if the action was performed by me! (I will be able to cancel directly only *my* actions)
+        if (action.userid == UserManager.me.userID)
+            BoardManager.cancelStack.push(operation);
 
         BoardManager.timeline.insertNowAlreadyExecuted(action);
         AnimationToolBar.update();

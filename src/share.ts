@@ -54,7 +54,7 @@ export class Share {
 		};
 
 		setInterval(() => this.send({ type: "heartbeat", userid: UserManager.me.userID }), 3000);
-		AnimationToolBar.hideForever();
+	//	AnimationToolBar.hideForever();
 	}
 
 

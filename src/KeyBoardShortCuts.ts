@@ -116,11 +116,13 @@ export class KeyBoardShortCuts {
         else if (evt.key == "d")  //d = divide screen
             Share.execute("divideScreen", [UserManager.me.userID, Layout.getXMiddle()]);
         else if ((evt.ctrlKey && evt.shiftKey && evt.key == "Z") || (evt.ctrlKey && evt.key == "y")) { //ctrl + shift + z OR Ctrl + Y = redo
-            Share.execute("redo", [UserManager.me.userID]);
+            //Share.execute("redo", [UserManager.me.userID]);
+            BoardManager.redo(UserManager.me.userID);
             evt.preventDefault();
         }
         else if (evt.ctrlKey && evt.key == "z") {// ctrl + z = undo
-            Share.execute("cancel", [UserManager.me.userID]);
+            // Share.execute("cancel", [UserManager.me.userID]);
+            BoardManager.cancel(UserManager.me.userID);
             evt.preventDefault();
         }
         else if (evt.key == "PageDown") {

@@ -64,6 +64,22 @@ export class Timeline {
 
     /**
      * 
+     * @param action 
+     * @return the timestep of the action, if the action is present in the timeline, returns -1 if not present
+     */
+    getTimeStepForActionCloseTo(action: Action, t: number): number {
+        if (this.actions[t] == action)
+            return t;
+
+        const actionSerialized = JSON.stringify(action.serialize());
+
+        if (JSON.stringify(this.actions[t].serialize()) == actionSerialized)
+            return t;
+
+        return this.actions.findIndex((a) => (actionSerialized == JSON.stringify(a.serialize())));
+    }
+    /**
+     * 
      * @param previoust 
      * @param nextt 
      * @description update the state given that the current state time step is previoust, and that
@@ -179,11 +195,17 @@ export class Timeline {
     insert(action: Action, t: number): void {
         this.actions.splice(t, 0, action);
         if (t == this.currentIndex + 1) {
+            //we insert an action just after the current moment
+            //no problem we execute that action and +1 to currentIndex
             this.currentIndex++;
             this.actions[t].redo();
         }
-        else
+        else {
+            if (t <= this.currentIndex)
+                this.currentIndex++;
             this.resetAndUpdate();
+        }
+
     }
 
 

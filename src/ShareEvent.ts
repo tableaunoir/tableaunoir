@@ -1,3 +1,4 @@
+import { ActionDeserializer } from './ActionDeserializer';
 import { MagnetTextManager } from './MagnetTextManager';
 import { ActionMagnetNew } from './ActionMagnetNew';
 import { MagnetMovementRecorder } from './MagnetMovementRecorder';
@@ -182,18 +183,29 @@ export class ShareEvent {
 
 
     /** undo/redo */
-    static cancel(userID: string): void {
+/*    static cancel(userID: string): void {
         BoardManager.cancel(userID);
     }
 
     static redo(userID: string): void {
         BoardManager.redo(userID);
-    }
+    }*/
 
     static cancelStackFlatten(): void {
         BoardManager.timeline.flatten();
     }
 
+
+    static timelineAddAction(t: number, actionSerialized: string): void {
+        BoardManager.timeline.insert(ActionDeserializer.deserialize(JSON.parse(actionSerialized)), t);
+      //  BoardManager.cancelStack.updateTimeSteps((ts) => ts >= t ? ts+1 : ts);
+    }
+
+
+    static timelineRemoveAction(t: number): void {
+        BoardManager.timeline.delete(t);
+      //  BoardManager.cancelStack.updateTimeSteps((ts) => ts >= t+1 ? ts-1 : ts);
+    }
 
 
 

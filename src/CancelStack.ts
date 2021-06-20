@@ -4,16 +4,16 @@ import { Operation } from './Operation';
 
 export class CancelStack {
     /**
- * stack of operations (add an action, remove an action, etc.)
- */
+    * stack of operations (add an action, remove an action, etc.)
+    */
     public operations: (Operation)[] = [];
     private currentIndex = -1; //meaning that operation[currentIndex] is treated and is the last operation executed
 
 
 
     /**
-         * @returns true if there is some previous operation to undo
-         */
+    * @returns true if there is some previous operation to undo
+    */
     canUndo(): boolean { return this.currentIndex >= 0; }
 
 
@@ -25,31 +25,14 @@ export class CancelStack {
 
 
     /**
-* @description undo the last action
-*/
+    * @description undo the last action
+    */
     undo(): void {
         if (!this.canUndo)
             return;
         this.operations[this.currentIndex].undo();
         this.currentIndex--;
         this.updateButtons();
-        /**
-    this.currentIndex--;
-    this.updateButtons();
-
-    if (this.actions[this.currentIndex + 1].isDirectlyUndoable)
-        await this.actions[this.currentIndex + 1].undo();
-    else {
-        getCanvas().width = getCanvas().width + 0;
-
-        if (BoardManager.MAGNETCANCELLABLE)
-            document.getElementById("magnets").innerHTML = "";
-        await this.playUntilCurrentIndex();
-        // this.print();
-
-    } */
-
-
     }
 
 
@@ -82,12 +65,8 @@ export class CancelStack {
      * @param {*} data
      */
     push(operation: Operation): void {
-        //if (AnimationToolBar.is()) // the behavior should not change depending on the presence of the animation toolbar!
         this._push(operation);
-        //else
-        //  this._push(action);
         this.updateButtons();
-        //this.print();
     }
 
 
@@ -105,8 +84,6 @@ export class CancelStack {
         this.operations[this.currentIndex].redo();
         this.updateButtons();
     }
-
-
 
 
 

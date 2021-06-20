@@ -106,8 +106,8 @@ function load() {
 
 		document.getElementById("buttonRight").onclick = BoardNavigation.rightNextPage;
 		document.getElementById("buttonMap").onclick = Layout.toggleMinimap;
-		document.getElementById("buttonCancel").onclick = () => Share.execute("cancel", [UserManager.me.userID]);
-		document.getElementById("buttonRedo").onclick = () => Share.execute("redo", [UserManager.me.userID]);
+		document.getElementById("buttonCancel").onclick = () => BoardManager.cancel(UserManager.me.userID);//Share.execute("cancel", [UserManager.me.userID]);
+		document.getElementById("buttonRedo").onclick = () => BoardManager.redo(UserManager.me.userID);//Share.execute("redo", [UserManager.me.userID]);
 
 		document.getElementById("buttonAskQuestion").onclick = Discussion.askQuestion;
 
