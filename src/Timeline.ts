@@ -76,7 +76,13 @@ export class Timeline {
         if (JSON.stringify(this.actions[t].serialize()) == actionSerialized)
             return t;
 
-        return this.actions.findIndex((a) => (actionSerialized == JSON.stringify(a.serialize())));
+        return this.actions.findIndex((a) => {
+            if (a.constructor == action.constructor)
+                return actionSerialized == JSON.stringify(a.serialize());
+            else
+                return false;
+        }
+        );
     }
     /**
      * 
