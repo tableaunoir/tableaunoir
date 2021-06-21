@@ -5,7 +5,7 @@ import { AnimationToolBar } from './AnimationToolBar';
 import { getCanvas } from "./main";
 import { Share } from "./share";
 import { Layout } from './Layout';
-import { CancelStack } from './cancelStack';
+import { History } from './History';
 import { Action } from './Action';
 import { ActionMagnetMove } from './ActionMagnetMove';
 
@@ -21,7 +21,7 @@ export class BoardManager {
     static boardName = "0";
 
     /** stack to store the cancel/redo actions */
-    static cancelStack = new CancelStack();
+    static history = new History();
 
 
     /**
@@ -41,7 +41,7 @@ export class BoardManager {
     static _clear(): void {
         const canvas = getCanvas();
         canvas.width = canvas.width + 0; //clear
-        BoardManager.cancelStack.clear();
+        BoardManager.history.clear();
     }
 
     /**
@@ -52,7 +52,7 @@ export class BoardManager {
     static setWidthAtLeast(atLeastWidth: number): void {
         const canvas = getCanvas();
         canvas.width = atLeastWidth;
-        BoardManager.cancelStack.canvasRedraw();
+        BoardManager.history.canvasRedraw();
     }
 
 
@@ -103,14 +103,14 @@ export class BoardManager {
                 action instanceof ActionMagnetDelete
             )
                 return;
-        BoardManager.cancelStack.push(action);
+        BoardManager.history.push(action);
         AnimationToolBar.update();
     }
 
 
 
     static getLastAction(): Action {
-        return BoardManager.cancelStack.getLastAction();
+        return BoardManager.history.getLastAction();
     }
 
 
@@ -133,7 +133,7 @@ export class BoardManager {
 
         if (data != undefined) {
             try {
-                BoardManager.cancelStack.clearAndReset(data);
+                BoardManager.history.clearAndReset(data);
             }
             catch (e) {
                 //TODO: handle error?
@@ -152,10 +152,10 @@ export class BoardManager {
      *
      */
     static async cancel(userid: string): Promise<void> {
-        if (!BoardManager.cancelStack.canUndo(userid))
+        if (!BoardManager.history.canUndo(userid))
             return;
 
-        await BoardManager.cancelStack.undo(userid);
+        await BoardManager.history.undo(userid);
         AnimationToolBar.update();
     }
 
@@ -165,28 +165,28 @@ export class BoardManager {
      *
      */
     static async redo(userid: string): Promise<void> {
-        if (!BoardManager.cancelStack.canRedo(userid))
+        if (!BoardManager.history.canRedo(userid))
             return;
 
-        await BoardManager.cancelStack.redo(userid);
+        await BoardManager.history.redo(userid);
         AnimationToolBar.update();
     }
 
 
 
     static async previousPausedFrame(): Promise<void> {
-        await BoardManager.cancelStack.previousPausedFrame();
+        await BoardManager.history.previousPausedFrame();
         AnimationToolBar.update();
     }
 
     static async nextPausedFrame(): Promise<void> {
-        await BoardManager.cancelStack.nextPausedFrame();
+        await BoardManager.history.nextPausedFrame();
         AnimationToolBar.update();
     }
 
 
 
-    private static get widthFromActions(): number { return Math.max(...this.cancelStack.actions.map((a) => a.xMax)); }
+    private static get widthFromActions(): number { return Math.max(...this.history.actions.map((a) => a.xMax)); }
     private static get widthFromMagnets(): number {
         const magnets = MagnetManager.getMagnets();
         let max = 0;

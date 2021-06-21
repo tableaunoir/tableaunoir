@@ -18,7 +18,8 @@ export class AnimationToolBar {
     /*
      * used to remember the golded div the user is currently working one
      */
-    static foldIndexes:boolean[] = new Array(100);
+    static currFoldIndex = -1;
+
 
     static toggle(): void {
         if (!document.getElementById("buttonMovieMode").hidden) {
@@ -54,22 +55,32 @@ export class AnimationToolBar {
      * second one refers to the index of the folded div the action is in (-1 if not in one).
      * Will return (-1, -1) in case of failure.
      */
-    static WhereAmI (n: number) : [number, number] {
-        let currIndex = -1;
+    static WhereAmI (n: number) : [number, number]{
+        let fst = 0;
+        let snd = -1;
+        let currIndex = 0;
 
-        for(let i = 0; i < document.getElementById("animationActionList").children.length; i++) {
-            if(document.getElementById("animationActionList").children[i].classList.contains("foldedDiv")) {
-                for(let j = 0; j < document.getElementById("animationActionList").children[i].children.length; j++) {
-                    currIndex ++;
-                    if(currIndex == n)
-                        return [i, j];
+        for(let i = 0; i <= document.getElementById("animationActionList").children.length; i++){
+            if(document.getElementById("animationActionList").children[i].classList.contains("unfold")){
+                i+=2;
+                let currFoldedDiv = document.getElementById("animationActionList").children[i].children;
+                if(n > currIndex + currFoldedDiv.length){
+                    currIndex += currFoldedDiv.length;
+                }
+                else if(n == currIndex + currFoldedDiv.length){
+                    fst = i+1;
+                    return [fst, snd];
+                }else{
+                    fst = i;
+                    snd = n - currIndex;
+                    return [fst, snd];
                 }
             }
-            else if(document.getElementById("animationActionList").children[i].classList.contains("actionPause")) {
+            else if(n == currIndex){
+                fst = i;
+                return [fst, snd];
+            }else
                 currIndex ++;
-                if(currIndex == n)
-                    return [i, -1];
-            }
         }
         return [-1, -1];
     }
@@ -94,7 +105,7 @@ export class AnimationToolBar {
         el.style.backgroundImage = "url(\"img/open.png\")";
         el.onclick = () =>
         {
-            AnimationToolBar.foldIndexes[n] = (AnimationToolBar.foldIndexes[n] ? false : true);
+            AnimationToolBar.currFoldIndex = (AnimationToolBar.currFoldIndex == n ? -1 : n);
 
             el.style.backgroundImage = (el.style.backgroundImage == "url(\"img/open.png\")" ?  "url(\"img/close.png\")"
             : "url(\"img/open.png\")");
@@ -108,7 +119,7 @@ export class AnimationToolBar {
     static spawnFoldCheckBox(n: number): HTMLElement {
         const el = document.createElement("input");
         el.id = "toggleSub" + n;
-        if(AnimationToolBar.foldIndexes[n])
+        if(AnimationToolBar.currFoldIndex == n)
             el.checked = true;
         el.classList.add("toggleFOld");
         el.type = "checkbox";
@@ -129,8 +140,8 @@ export class AnimationToolBar {
         document.getElementById("animationActionList").innerHTML = "";
         document.getElementById("animationBarBuffer").append(foldedDiv);
 
-        for (let i = 0; i < BoardManager.cancelStack.actions.length; i++) {
-            if (BoardManager.cancelStack.actions[i].pause) {
+        for (let i = 0; i < BoardManager.history.actions.length; i++) {
+            if (BoardManager.history.actions[i].pause) {
 
                 const lab = AnimationToolBar.spawnFoldLabel(count);
 
@@ -155,7 +166,7 @@ export class AnimationToolBar {
 
         document.getElementById("canvas").ondrop = () => {
             if (AnimationToolBar.dragAndDropFrames) {
-                BoardManager.cancelStack.delete(AnimationToolBar.tSelected);
+                BoardManager.history.delete(AnimationToolBar.tSelected);
                 AnimationToolBar.update();
             }
             AnimationToolBar.dragAndDropFrames = false;
@@ -168,9 +179,8 @@ export class AnimationToolBar {
      * @returns an HTML element (a small square) that represents the action
      */
     static HTMLElementForAction(t: number): HTMLElement {
-        const action = BoardManager.cancelStack.actions[t];
+        const action = BoardManager.history.actions[t];
         const el = document.createElement("div");
-
         el.classList.add("action");
         el.style.background = action.getOverviewImage();
         /*if (action instanceof ActionFreeDraw)
@@ -181,7 +191,7 @@ export class AnimationToolBar {
         if (action.pause)
             el.classList.add("actionPause");
 
-        if (t <= BoardManager.cancelStack.getCurrentIndex())
+        if (t <= BoardManager.history.getCurrentIndex())
             el.classList.add("actionExecuted");
 
         el.draggable = true;
@@ -194,12 +204,10 @@ export class AnimationToolBar {
         el.ondragend = () => { AnimationToolBar.dragAndDropFrames = false; };
 
         el.onclick = () => {
-            BoardManager.cancelStack.setCurrentIndex(t);
-            console.log(t);
-            for (let i = 0; i < BoardManager.cancelStack.actions.length; i++)
+            BoardManager.history.setCurrentIndex(t);
+            for (let i = 0; i < BoardManager.history.actions.length; i++)
             {
                 let pos = AnimationToolBar.WhereAmI(i);
-                console.log(pos);
                 if (i <= t)
                 {
                     if(pos[1] == -1)
@@ -219,9 +227,10 @@ export class AnimationToolBar {
         }
 
         el.ondrop = () => {
-            BoardManager.cancelStack.move(AnimationToolBar.tSelected, t);
             console.log(`move(${AnimationToolBar.tSelected}, ${t})`)
+            BoardManager.history.move(AnimationToolBar.tSelected, t);
             AnimationToolBar.update();
+
         }
 
         el.ondblclick = () => {

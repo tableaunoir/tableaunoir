@@ -188,13 +188,13 @@ export class LoadSave {
         document.getElementById("documentPanel").innerHTML = obj.backgroundLayer ? obj.backgroundLayer : "";
 
         if (obj.actions)
-            BoardManager.cancelStack.load(obj.actions, obj.t);
+            BoardManager.history.load(obj.actions, obj.t);
 
         if (obj.magnets) { //old format
             document.getElementById("magnets").innerHTML = obj.magnets;
             const magnets = document.getElementById("magnets").children;
             for (let i = 0; i < magnets.length; i++) {
-                const exists = BoardManager.cancelStack.actions.find((a) => {
+                const exists = BoardManager.history.actions.find((a) => {
                     if (a instanceof ActionMagnetNew)
                         return a.magnet.id == magnets[i].id;
                     else
@@ -219,7 +219,7 @@ export class LoadSave {
         const script = (<HTMLTextAreaElement>document.getElementById("script")).value;
         // const canvasDataURL = getCanvas().toDataURL();
         //const obj = { magnets: magnets, svg: svg, canvasDataURL: canvasDataURL };
-        return { backgroundLayer: backgroundLayer, magnets: magnets, width: getCanvas().width, height: getCanvas().height, svg: svg, actions: BoardManager.cancelStack.serialize(), t: BoardManager.cancelStack.getCurrentIndex(), script: script };
+        return { backgroundLayer: backgroundLayer, magnets: magnets, width: getCanvas().width, height: getCanvas().height, svg: svg, actions: BoardManager.history.serialize(), t: BoardManager.history.getCurrentIndex(), script: script };
     }
 
 
