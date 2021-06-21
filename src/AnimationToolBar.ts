@@ -18,7 +18,7 @@ export class AnimationToolBar {
     /*
      * used to remember the golded div the user is currently working one
      */
-    static currFoldIndex = -1;
+    static foldIndexes:boolean[] = new Array(100);
 
 
     static toggle(): void {
@@ -49,38 +49,28 @@ export class AnimationToolBar {
     static is(): boolean { return document.getElementById("animationToolBar").style.display == ""; }
 
     /*
-     * @param the index of the action in the cancelStack
+     * @param the index of the action in the history
      *
      * @returns a pair of indexes, the first one refers to the direct children of animationToolBar the action is in, the
      * second one refers to the index of the folded div the action is in (-1 if not in one).
      * Will return (-1, -1) in case of failure.
      */
-    static WhereAmI (n: number) : [number, number]{
-        let fst = 0;
-        let snd = -1;
-        let currIndex = 0;
+    static WhereAmI (n: number) : [number, number] {
+        let currIndex = -1;
 
-        for(let i = 0; i <= document.getElementById("animationActionList").children.length; i++){
-            if(document.getElementById("animationActionList").children[i].classList.contains("unfold")){
-                i+=2;
-                let currFoldedDiv = document.getElementById("animationActionList").children[i].children;
-                if(n > currIndex + currFoldedDiv.length){
-                    currIndex += currFoldedDiv.length;
-                }
-                else if(n == currIndex + currFoldedDiv.length){
-                    fst = i+1;
-                    return [fst, snd];
-                }else{
-                    fst = i;
-                    snd = n - currIndex;
-                    return [fst, snd];
+        for(let i = 0; i < document.getElementById("animationActionList").children.length; i++) {
+            if(document.getElementById("animationActionList").children[i].classList.contains("foldedDiv")) {
+                for(let j = 0; j < document.getElementById("animationActionList").children[i].children.length; j++) {
+                    currIndex ++;
+                    if(currIndex == n)
+                        return [i, j];
                 }
             }
-            else if(n == currIndex){
-                fst = i;
-                return [fst, snd];
-            }else
+            else if(document.getElementById("animationActionList").children[i].classList.contains("actionPause")) {
                 currIndex ++;
+                if(currIndex == n)
+                    return [i, -1];
+            }
         }
         return [-1, -1];
     }
@@ -105,7 +95,7 @@ export class AnimationToolBar {
         el.style.backgroundImage = "url(\"img/open.png\")";
         el.onclick = () =>
         {
-            AnimationToolBar.currFoldIndex = (AnimationToolBar.currFoldIndex == n ? -1 : n);
+            AnimationToolBar.foldIndexes[n] = (AnimationToolBar.foldIndexes[n] ? false : true);
 
             el.style.backgroundImage = (el.style.backgroundImage == "url(\"img/open.png\")" ?  "url(\"img/close.png\")"
             : "url(\"img/open.png\")");
@@ -119,7 +109,7 @@ export class AnimationToolBar {
     static spawnFoldCheckBox(n: number): HTMLElement {
         const el = document.createElement("input");
         el.id = "toggleSub" + n;
-        if(AnimationToolBar.currFoldIndex == n)
+        if(AnimationToolBar.foldIndexes[n])
             el.checked = true;
         el.classList.add("toggleFOld");
         el.type = "checkbox";
@@ -181,6 +171,7 @@ export class AnimationToolBar {
     static HTMLElementForAction(t: number): HTMLElement {
         const action = BoardManager.history.actions[t];
         const el = document.createElement("div");
+        let selectMode = false;
         el.classList.add("action");
         el.style.background = action.getOverviewImage();
         /*if (action instanceof ActionFreeDraw)
@@ -205,9 +196,11 @@ export class AnimationToolBar {
 
         el.onclick = () => {
             BoardManager.history.setCurrentIndex(t);
+            console.log(t);
             for (let i = 0; i < BoardManager.history.actions.length; i++)
             {
                 let pos = AnimationToolBar.WhereAmI(i);
+                console.log(pos);
                 if (i <= t)
                 {
                     if(pos[1] == -1)
@@ -227,10 +220,9 @@ export class AnimationToolBar {
         }
 
         el.ondrop = () => {
-            console.log(`move(${AnimationToolBar.tSelected}, ${t})`)
             BoardManager.history.move(AnimationToolBar.tSelected, t);
+            console.log(`move(${AnimationToolBar.tSelected}, ${t})`)
             AnimationToolBar.update();
-
         }
 
         el.ondblclick = () => {
