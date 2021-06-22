@@ -44,8 +44,6 @@ export class ActionMagnetNew extends Action {
         if (previousElement)
             previousElement.remove();
         
-            
-        console.trace();
         this._addMagnet(this.magnet);
     }
 

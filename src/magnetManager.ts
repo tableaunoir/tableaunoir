@@ -677,8 +677,9 @@ export class MagnetManager {
 	 * @description remove the magnet of id
 	 */
 	static magnetRemove(id: string): void {
-		BoardManager.addAction(new ActionMagnetDelete(undefined, id));
-		document.getElementById(id).remove();
+		console.log(`magnetRemove ${id}`);
+		BoardManager.addAction(new ActionMagnetDelete(UserManager.me.userID, id));
+//		document.getElementById(id).remove(); //do not remove here because ActionMagnetDelete is doing the job in add Action
 		//		document.getElementById(id).style.top = "-1000";
 		MagnetManager.currentMagnet == undefined;
 		MagnetManager.magnetUnderCursor = undefined;

@@ -14,7 +14,7 @@ export class OperationAddAction extends Operation {
     undo(): void {
         //    BoardManager.timeline.delete(this.t); 
         const t0 = BoardManager.timeline.getTimeStepForActionCloseTo(this.action, this.t);
-        console.log(t0)
+        console.log(`undo by removing the corresponding action that is at timestep ${t0}`);
         if (t0 >= 0)
             Share.execute("timelineRemoveAction", [t0]);
     }

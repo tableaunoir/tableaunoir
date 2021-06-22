@@ -72,9 +72,10 @@ export class Timeline {
             return t;
 
         const actionSerialized = JSON.stringify(action.serialize());
-
-        if (JSON.stringify(this.actions[t].serialize()) == actionSerialized)
-            return t;
+        
+        if (this.actions[t])
+            if (JSON.stringify(this.actions[t].serialize()) == actionSerialized)
+                return t;
 
         return this.actions.findIndex((a) => {
             if (a.constructor == action.constructor)
@@ -84,7 +85,7 @@ export class Timeline {
         }
         );
     }
-    
+
     /**
      * 
      * @param previoust 
@@ -331,7 +332,7 @@ export class Timeline {
      * go to the presvious paused frame
      */
     async previousPausedFrame(): Promise<void> {
-        if (!this.canUndo)
+        if (!this.isBegin())
             return;
 
         const newIndex = this.getPreviousPausedFrame();
@@ -356,7 +357,7 @@ export class Timeline {
      * @description go to the paused next frame by playing the animations
      */
     async nextPausedFrame(): Promise<void> {
-        if (!this.canRedo)
+        if (this.isEnd())
             return;
 
         const tGoal = this.getNextPausedFrame();
@@ -368,15 +369,15 @@ export class Timeline {
 
 
     /**
-     * @returns true if there is some previous action to undo
+     * @returns true if we are at the beginning of the timeline
      */
-    canUndo(userid: string): boolean { return this.currentIndex >= 1; }
+    isBegin(): boolean { return this.currentIndex <= 0; }
 
 
     /**
-     * @returns true if there is some next action to redo
+     * @returns true if we are at the end of the timeline
      */
-    canRedo(userid: string): boolean { return this.currentIndex < this.actions.length - 1; }
+    isEnd(): boolean { return this.currentIndex >= this.actions.length - 1; }
 
 
     /**

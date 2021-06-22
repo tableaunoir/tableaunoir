@@ -45,7 +45,11 @@ export class MagnetMovementRecorder {
      */
     static stop(id: string): void {
         //TODO: the user may not be me
-        BoardManager.addAction(new ActionMagnetMove(UserManager.me.userID, id, MagnetMovementRecorder.magnetIDToPoints[id]));
+        console.log(`number of points in the movement of magnet: ${MagnetMovementRecorder.magnetIDToPoints[id].length}`);
+
+        //add an action of moving the magnet if there are some points in the movement
+        if (MagnetMovementRecorder.magnetIDToPoints[id].length > 0)
+            BoardManager.addAction(new ActionMagnetMove(UserManager.me.userID, id, MagnetMovementRecorder.magnetIDToPoints[id]));
         delete MagnetMovementRecorder.magnetIDToPoints[id];
     }
 }
