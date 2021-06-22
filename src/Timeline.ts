@@ -84,6 +84,7 @@ export class Timeline {
         }
         );
     }
+    
     /**
      * 
      * @param previoust 

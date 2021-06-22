@@ -1,5 +1,4 @@
 import { MagnetTextManager } from './MagnetTextManager';
-import { ActionMagnetMove } from './ActionMagnetMove';
 import { ActionMagnetDelete } from './ActionMagnetDelete';
 import { ActionMagnetNew } from './ActionMagnetNew';
 import { Sound } from './Sound';
