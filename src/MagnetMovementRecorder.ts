@@ -1,3 +1,4 @@
+import { UserManager } from './UserManager';
 import { ActionMagnetMove } from './ActionMagnetMove';
 import { BoardManager } from './boardManager';
 import { ConstraintDrawing } from './ConstraintDrawing';
@@ -7,6 +8,9 @@ import { ConstraintDrawing } from './ConstraintDrawing';
  */
 export class MagnetMovementRecorder {
 
+    /**
+     * stores the points during the movement of a magnet
+     */
     static magnetIDToPoints = {};
 
     /**
@@ -14,9 +18,7 @@ export class MagnetMovementRecorder {
      * @param id 
      * @description start a new movement of magnet of id id
      */
-    static start(id: string): void {
-        MagnetMovementRecorder.magnetIDToPoints[id] = [];
-    }
+    static start(id: string): void { MagnetMovementRecorder.magnetIDToPoints[id] = []; }
 
     /**
      * 
@@ -42,7 +44,12 @@ export class MagnetMovementRecorder {
      * * @description stops the movement of magnet of id id and stores the corresponding action
      */
     static stop(id: string): void {
-        BoardManager.addAction(new ActionMagnetMove(undefined, id, MagnetMovementRecorder.magnetIDToPoints[id]));
+        //TODO: the user may not be me
+        console.log(`number of points in the movement of magnet: ${MagnetMovementRecorder.magnetIDToPoints[id].length}`);
+
+        //add an action of moving the magnet if there are some points in the movement
+        if (MagnetMovementRecorder.magnetIDToPoints[id].length > 0)
+            BoardManager.addAction(new ActionMagnetMove(UserManager.me.userID, id, MagnetMovementRecorder.magnetIDToPoints[id]));
         delete MagnetMovementRecorder.magnetIDToPoints[id];
     }
 }

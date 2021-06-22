@@ -1,5 +1,4 @@
-import { ActionErase } from './ActionErase';
-import { ActionFreeDraw } from './ActionFreeDraw';
+import { OperationDeleteAction } from './OperationDeleteAction';
 import { BoardManager } from './boardManager';
 
 
@@ -130,8 +129,8 @@ export class AnimationToolBar {
         document.getElementById("animationActionList").innerHTML = "";
         document.getElementById("animationBarBuffer").append(foldedDiv);
 
-        for (let i = 0; i < BoardManager.history.actions.length; i++) {
-            if (BoardManager.history.actions[i].pause) {
+        for (let i = 0; i < BoardManager.timeline.actions.length; i++) {
+            if (BoardManager.timeline.actions[i].pause) {
 
                 const lab = AnimationToolBar.spawnFoldLabel(count);
 
@@ -156,7 +155,8 @@ export class AnimationToolBar {
 
         document.getElementById("canvas").ondrop = () => {
             if (AnimationToolBar.dragAndDropFrames) {
-                BoardManager.history.delete(AnimationToolBar.tSelected);
+                BoardManager.executeOperation(new OperationDeleteAction(AnimationToolBar.tSelected));
+                
                 AnimationToolBar.update();
             }
             AnimationToolBar.dragAndDropFrames = false;
@@ -169,7 +169,7 @@ export class AnimationToolBar {
      * @returns an HTML element (a small square) that represents the action
      */
     static HTMLElementForAction(t: number): HTMLElement {
-        const action = BoardManager.history.actions[t];
+        const action = BoardManager.timeline.actions[t];
         const el = document.createElement("div");
         let selectMode = false;
         el.classList.add("action");
@@ -182,7 +182,7 @@ export class AnimationToolBar {
         if (action.pause)
             el.classList.add("actionPause");
 
-        if (t <= BoardManager.history.getCurrentIndex())
+        if (t <= BoardManager.timeline.getCurrentIndex())
             el.classList.add("actionExecuted");
 
         el.draggable = true;
@@ -195,9 +195,9 @@ export class AnimationToolBar {
         el.ondragend = () => { AnimationToolBar.dragAndDropFrames = false; };
 
         el.onclick = () => {
-            BoardManager.history.setCurrentIndex(t);
+            BoardManager.timeline.setCurrentIndex(t);
             console.log(t);
-            for (let i = 0; i < BoardManager.history.actions.length; i++)
+            for (let i = 0; i < BoardManager.timeline.actions.length; i++)
             {
                 let pos = AnimationToolBar.WhereAmI(i);
                 console.log(pos);
@@ -220,7 +220,7 @@ export class AnimationToolBar {
         }
 
         el.ondrop = () => {
-            BoardManager.history.move(AnimationToolBar.tSelected, t);
+            BoardManager.timeline.move(AnimationToolBar.tSelected, t);
             console.log(`move(${AnimationToolBar.tSelected}, ${t})`)
             AnimationToolBar.update();
         }

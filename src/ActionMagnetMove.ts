@@ -19,6 +19,12 @@ export class ActionMagnetMove extends Action {
     }
 
 
+    /**
+     * 
+     * @param userid 
+     * @param magnetid 
+     * @param points a NON-EMPTY list of points
+     */
     constructor(userid: string, magnetid: string, points: { x: number; y: number; }[]) {
         super(userid);
         this.magnetid = magnetid;

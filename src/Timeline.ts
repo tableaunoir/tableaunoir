@@ -12,7 +12,7 @@ import { getCanvas } from './main';
  * data structure for the linear history of actions (draw a line, eraser here, etc.)
  * TODO: for the moment, it is single-user (we do not care who are performing actions)
  */
-export class History {
+export class Timeline {
 
     /**
      * stack of actions
@@ -25,12 +25,9 @@ export class History {
      * empty the stack and set it with the current canvas as the initial state
      */
     clear(): void {
-        this.actions = [];
-        this.currentIndex = -1;
-
         const actionInit = new ActionInit(UserManager.me.userID, undefined);
-        this._push(actionInit);
-        this.updateButtons();
+        this.actions = [actionInit];
+        this.currentIndex = 0;
     }
 
 
@@ -45,10 +42,9 @@ export class History {
      * empty the cancel stack but keeps the current state
      */
     flatten(): void {
-        this.actions = [];
-        this.currentIndex = -1;
         const actionInit = new ActionInit(UserManager.me.userID, getCanvas().toDataURL());
-        this._push(actionInit);
+        this.actions = [actionInit];
+        this.currentIndex = 0;
     }
 
     /**    setCurrentIndex(i: number): void {
@@ -62,10 +58,33 @@ export class History {
     setCurrentIndex(t: number): void {
         const previousIndex = this.currentIndex;
         this.currentIndex = t;
-        this.updateButtons();
         this.updateState(previousIndex);
     }
 
+
+    /**
+     * 
+     * @param action 
+     * @return the timestep of the action, if the action is present in the timeline, returns -1 if not present
+     */
+    getTimeStepForActionCloseTo(action: Action, t: number): number {
+        if (this.actions[t] == action)
+            return t;
+
+        const actionSerialized = JSON.stringify(action.serialize());
+
+        if (this.actions[t])
+            if (JSON.stringify(this.actions[t].serialize()) == actionSerialized)
+                return t;
+
+        return this.actions.findIndex((a) => {
+            if (a.constructor == action.constructor)
+                return actionSerialized == JSON.stringify(a.serialize());
+            else
+                return false;
+        }
+        );
+    }
 
     /**
      * 
@@ -98,7 +117,7 @@ export class History {
             if (sthToDoFromStart) {
                 this.canvasClear();
                 this.canvasRedraw();
-                
+
             }
 
             if (bug113) {
@@ -111,20 +130,18 @@ export class History {
 
 
 
-/**
-     * @returns the current timestep (that is performed)
-     * @description this.actions[this.getCurrentIndex()] is the last performed action
-     */
+    /**
+         * @returns the current timestep (that is performed)
+         * @description this.actions[this.getCurrentIndex()] is the last performed action
+         */
     getCurrentIndex(): number { return this.currentIndex; }
 
 
     clearAndReset(canvasDataURL: string): void {
-        this.actions = [];
-        this.currentIndex = -1;
-
         const actionInit = new ActionInit(UserManager.me.userID, canvasDataURL);
         actionInit.redo();
-        this._push(actionInit);
+        this.actions = [actionInit];
+        this.currentIndex = 0;
     }
 
     /**
@@ -150,36 +167,12 @@ export class History {
         if (BoardManager.MAGNETCANCELLABLE)
             document.getElementById("magnets").innerHTML = "";
 
-        this.updateButtons();
-
         await this.doAllActionsUntilCurrentIndex();
     }
 
 
-    private _push(action: Action): void {
-
-        this.currentIndex++;
-
-        /** we remove all elements after the currentIndex */
-        while (this.actions.length > this.currentIndex)
-            this.actions.pop();
-
-        this.actions.push(action);
-
-        this.currentIndex = this.actions.length - 1; //because we removed
-
-    }
 
 
-    /**
-     * 
-     * @param action 
-     * @description insert action at the current index
-     */
-    private _insert(action: Action): void {
-        this.currentIndex++;
-        this.actions.splice(this.currentIndex, 0, action);
-    }
 
 
 
@@ -202,6 +195,42 @@ export class History {
         this.resetAndUpdate();
     }
 
+    /**
+     * @param action
+     * @param t
+     * @description insert action at time t, the action will be this.actions[t], update the state
+     */
+    insert(action: Action, t: number): void {
+        this.actions.splice(t, 0, action);
+        if (t == this.currentIndex + 1) {
+            //we insert an action just after the current moment
+            //no problem we execute that action and +1 to currentIndex
+            this.currentIndex++;
+            this.actions[t].redo();
+        }
+        else {
+            if (t <= this.currentIndex)
+                this.currentIndex++;
+            this.resetAndUpdate();
+        }
+
+    }
+
+
+
+    /**
+     *
+     * @param {*} action
+     * @description insert now an action that was already executed
+     */
+    insertNowAlreadyExecuted(action: Action): void {
+        //     this.currentIndex++;
+        //   this.actions.splice(this.currentIndex, 0, action);
+        this.insert(action, this.currentIndex + 1);
+
+    }
+
+
 
 
     /**
@@ -210,29 +239,24 @@ export class History {
      * @description delete action at time t
      */
     delete(t: number): void {
-        if (t == 0)
+        if (t == 0) //the first action cannot be removed
             return;
 
-        this.actions.splice(t, 1);
-        if (t <= this.currentIndex)
+        //if the action deleted is the current one, use the optimized version
+        if (t == this.currentIndex) {
             this.currentIndex--;
-        this.resetAndUpdate();
+            this.updateState(t);
+        }
+
+        this.actions.splice(t, 1); //really delete
+
+        //if the currentindex is after the deleted action, update
+        if (t < this.currentIndex) {
+            this.currentIndex--;
+            this.resetAndUpdate();
+        }
+
     }
-
-    /**
-     *
-     * @param {*} data
-     */
-    push(action: Action): void {
-        //if (AnimationToolBar.is()) // the behavior should not change depending on the presence of the animation toolbar!
-            this._insert(action); 
-        //else
-          //  this._push(action);
-        this.updateButtons();
-        //this.print();
-    }
-
-
 
 
     async canvasRedraw(): Promise<void> {
@@ -248,9 +272,9 @@ export class History {
                 await this.actions[t].redo();
 
         }
-        if (bug113) 
+        if (bug113)
             this.repair();
-        
+
     }
     /**
      * @description do all the actions until the current index
@@ -266,9 +290,9 @@ export class History {
                 await this.actions[t].redo();
 
         }
-        if (bug113) 
+        if (bug113)
             this.repair();
-        
+
     }
 
 
@@ -278,42 +302,7 @@ export class History {
      */
     getLastAction(): Action { return this.actions[this.currentIndex]; }
 
-    /**
-     * @description undo the last action
-     */
-    async undo(userid: string): Promise<void> {
-        if (!this.canUndo)
-            return;
-        this.setCurrentIndex(this.currentIndex - 1);
 
-        /**
-    this.currentIndex--;
-    this.updateButtons();
-
-    if (this.actions[this.currentIndex + 1].isDirectlyUndoable)
-        await this.actions[this.currentIndex + 1].undo();
-    else {
-        getCanvas().width = getCanvas().width + 0;
-
-        if (BoardManager.MAGNETCANCELLABLE)
-            document.getElementById("magnets").innerHTML = "";
-        await this.playUntilCurrentIndex();
-        // this.print();
-
-    } */
-
-
-    }
-
-    /**
-     * @description redo the next action
-     */
-    async redo(userid: string): Promise<void> {
-        if (!this.canRedo)
-            return;
-
-        this.setCurrentIndex(this.currentIndex + 1);
-    }
 
     /**
      * 
@@ -343,7 +332,7 @@ export class History {
      * go to the presvious paused frame
      */
     async previousPausedFrame(): Promise<void> {
-        if (!this.canUndo)
+        if (this.isBegin())
             return;
 
         const newIndex = this.getPreviousPausedFrame();
@@ -368,7 +357,7 @@ export class History {
      * @description go to the paused next frame by playing the animations
      */
     async nextPausedFrame(): Promise<void> {
-        if (!this.canRedo)
+        if (this.isEnd())
             return;
 
         const tGoal = this.getNextPausedFrame();
@@ -376,20 +365,19 @@ export class History {
             await this.actions[i].redoAnimated();
 
         this.currentIndex = tGoal;
-        this.updateButtons();
     }
 
 
     /**
-     * @returns true if there is some previous action to undo
+     * @returns true if we are at the beginning of the timeline
      */
-    canUndo(userid: string): boolean { return this.currentIndex >= 1; }
+    isBegin(): boolean { return this.currentIndex <= 0; }
 
 
     /**
-     * @returns true if there is some next action to redo
+     * @returns true if we are at the end of the timeline
      */
-    canRedo(userid: string): boolean { return this.currentIndex < this.actions.length - 1; }
+    isEnd(): boolean { return this.currentIndex >= this.actions.length - 1; }
 
 
     /**
@@ -425,18 +413,5 @@ export class History {
     }
 
 
-    /**
-     * @description update the GUI
-     */
-    updateButtons(): void {
-        if (this.canUndo(UserManager.me.userID))
-            document.getElementById("buttonCancel").classList.remove("disabled");
-        else
-            document.getElementById("buttonCancel").classList.add("disabled");
 
-        if (this.canRedo(UserManager.me.userID))
-            document.getElementById("buttonRedo").classList.remove("disabled");
-        else
-            document.getElementById("buttonRedo").classList.add("disabled");
-    }
 }
