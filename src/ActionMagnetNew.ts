@@ -45,6 +45,7 @@ export class ActionMagnetNew extends Action {
             previousElement.remove();
 
         this._addMagnet(this.magnet);
+        console.trace();
     }
 
 
