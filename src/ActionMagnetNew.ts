@@ -43,7 +43,9 @@ export class ActionMagnetNew extends Action {
         //if an element with the same id is present, we replace it, so we first remove it
         if (previousElement)
             previousElement.remove();
-
+        
+            
+        console.trace();
         this._addMagnet(this.magnet);
     }
 

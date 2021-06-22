@@ -159,7 +159,9 @@ export class Delineation {
 
 
 
-
+    /**
+     * remark: only the current user will create the magnet (the other users will receive it)
+     */
     _createMagnetFromImg: () => void = () => {
         const img = new Image();
         const rectangle = this._getRectangle();

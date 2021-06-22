@@ -178,8 +178,8 @@ export class MagnetManager {
 			element.id = MagnetManager.generateID();
 		MagnetManager.currentMagnet = element;
 		element.classList.add("magnet");
-		BoardManager.addAction(new ActionMagnetNew(userid, element));
 		document.getElementById("magnets").appendChild(element);
+		BoardManager.addAction(new ActionMagnetNew(userid, element));
 		MagnetManager._installMagnet(element);
 	}
 
