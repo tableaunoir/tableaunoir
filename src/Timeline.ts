@@ -108,11 +108,12 @@ export class Timeline {
                     ErrorMessage.show("issue #113. error with t = " + t + " try to undo/redo again");
                     bug113 = true;
                 }
-                else
-                    if (this.actions[t].isDirectlyUndoable)
-                        await this.actions[t].undo();
-                    else
+                else {
+                    await this.actions[t].undo(); //(if the action is not directly undoable, undo just do nothing)
+                    if (!this.actions[t].isDirectlyUndoable)
                         sthToDoFromStart = true;
+                }
+
 
             if (sthToDoFromStart) {
                 this.canvasClear();

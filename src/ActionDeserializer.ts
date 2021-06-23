@@ -25,7 +25,20 @@ export class ActionDeserializer {
         if (obj.type == "freedraw") {
             const action = new ActionFreeDraw(obj.userid);
             for (const point of obj.points)
-                action.addPoint(point)
+                action.addPoint(point);
+            return action;
+        }
+        if (obj.type == "freedrawinteractivegraph") {
+            const action = new ActionFreeDraw(obj.userid);
+            for (const point of obj.points)
+                action.addPoint(point);
+            
+            action.magnet1id = obj.magnet1id;
+            action.magnet2id = obj.magnet2id;
+            action.magnet1point = obj.magnet1point;
+            action.magnet2point = obj.magnet2point;
+
+            action.computeSVGLines();
             return action;
         }
         if (obj.type == "erase") {

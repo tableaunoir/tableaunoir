@@ -1,3 +1,5 @@
+import { ConstraintDrawing } from './ConstraintDrawing';
+import { ToolDraw } from './ToolDraw';
 import { Geometry } from './Geometry';
 import { ActionSerialized } from './ActionSerialized';
 import { Drawing } from './Drawing';
@@ -35,11 +37,25 @@ export class ActionFreeDraw extends Action {
     }
 
     serializeData(): ActionSerialized {
+        if (this.magnet1id) {
+            return {
+                type: "freedrawinteractivegraph",
+                pause: this.pause, userid: this.userid,
+                points: this.points, magnet1id: this.magnet1id,
+                magnet2id: this.magnet2id,
+                magnet1point: this.magnet1point,
+                magnet2point: this.magnet2point
+            };
+        }
         return { type: "freedraw", pause: this.pause, userid: this.userid, points: this.points };
     }
 
     public alreadyDrawnSth = false;
     public points: { x: number; y: number; pressure: number; color: string; }[] = [];
+    public magnet1id: string;
+    public magnet2id: string;
+    public magnet1point: { x: number, y: number };
+    public magnet2point: { x: number, y: number };
 
     /**
      * 
@@ -64,6 +80,22 @@ export class ActionFreeDraw extends Action {
         return true;
     }
 
+
+    svgLines: SVGLineElement[] = undefined;
+
+    public setSVGLines(svgLines: SVGLineElement[]): void {
+        this.svgLines = svgLines;
+        this.isDirectlyUndoable = true;
+    }
+
+
+    public computeSVGLines(): void {
+        this.svgLines = [];
+        for(let i = 0; i < this.points.length-1; i++) {
+            this.svgLines.push(ToolDraw.addSVGLine(this.points[i].x, this.points[i].y, this.points[i+1].x, this.points[i+1].y, this.points[i].pressure, this.points[i].color));
+        }
+        ConstraintDrawing.freeDraw(this.svgLines, this.magnet1id, this.magnet2id);
+    }
 
     private smoothifyOnePass() {
         const newpoints: { x: number; y: number; pressure: number; color: string; }[] = [];
@@ -143,19 +175,29 @@ export class ActionFreeDraw extends Action {
     }
 
 
-    getMainColor(): string {
-        return this.points[0].color;
-    }
+    getMainColor(): string { return this.points[0].color; }
 
 
     async redo(): Promise<void> {
-        if (!this.alreadyDrawnSth)
-            Drawing.drawDot(getCanvas().getContext("2d"), this.points[0].x, this.points[0].y, this.points[0].color);
+        if (this.svgLines) {
+            this.svgLines.forEach((line) => line.style.visibility = "visible");
+        }
+        else {
+            if (!this.alreadyDrawnSth)
+                Drawing.drawDot(getCanvas().getContext("2d"), this.points[0].x, this.points[0].y, this.points[0].color);
 
-        for (let i = 1; i < this.points.length; i++) {
-            Drawing.drawLine(getCanvas().getContext("2d"), this.points[i - 1].x, this.points[i - 1].y, this.points[i].x, this.points[i].y, this.points[i].pressure, this.points[i].color);
+            for (let i = 1; i < this.points.length; i++) {
+                Drawing.drawLine(getCanvas().getContext("2d"), this.points[i - 1].x, this.points[i - 1].y, this.points[i].x, this.points[i].y, this.points[i].pressure, this.points[i].color);
+            }
         }
 
+
+    }
+
+
+
+    async undo(): Promise<void> {
+        this.svgLines.forEach((line) => line.style.visibility = "hidden");
     }
 
 
@@ -172,8 +214,8 @@ export class ActionFreeDraw extends Action {
         const ratioX = (xMax - xMin) < canvas.width ? 1 : canvas.width / (xMax - xMin);
         const ratioY = (yMax - yMin) < canvas.height ? 1 : canvas.height / (yMax - yMin);
         const ratio = Math.min(ratioX, ratioY);
-        const x0 = ((xMax - xMin)* ratio <canvas.width ) ? (canvas.width - (xMax - xMin)* ratio) / 2 : 0;
-        const y0 = ((yMax - yMin)* ratio <canvas.height) ? (canvas.height - (yMax - yMin)* ratio) / 2 : 0;
+        const x0 = ((xMax - xMin) * ratio < canvas.width) ? (canvas.width - (xMax - xMin) * ratio) / 2 : 0;
+        const y0 = ((yMax - yMin) * ratio < canvas.height) ? (canvas.height - (yMax - yMin) * ratio) / 2 : 0;
         const scaleX = (x: number) => x0 + (x - xMin) * ratio;
         const scaleY = (y: number) => y0 + (y - yMin) * ratio;
 
@@ -190,13 +232,18 @@ export class ActionFreeDraw extends Action {
      * @returns 
      */
     async redoAnimated(): Promise<void> {
-        if (!this.alreadyDrawnSth)
-            Drawing.drawDot(getCanvas().getContext("2d"), this.points[0].x, this.points[0].y, this.points[0].color);
+        if (this.svgLines)
+            await this.redo();
+        else {
+            if (!this.alreadyDrawnSth)
+                Drawing.drawDot(getCanvas().getContext("2d"), this.points[0].x, this.points[0].y, this.points[0].color);
 
-        for (let i = 1; i < this.points.length; i++) {
-            Drawing.drawLine(getCanvas().getContext("2d"), this.points[i - 1].x, this.points[i - 1].y, this.points[i].x, this.points[i].y, this.points[i].pressure, this.points[i].color);
-            await Drawing.delay(1);
+            for (let i = 1; i < this.points.length; i++) {
+                Drawing.drawLine(getCanvas().getContext("2d"), this.points[i - 1].x, this.points[i - 1].y, this.points[i].x, this.points[i].y, this.points[i].pressure, this.points[i].color);
+                await Drawing.delay(1);
+            }
         }
+
 
     }
 

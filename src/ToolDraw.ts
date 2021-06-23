@@ -123,6 +123,10 @@ export class ToolDraw extends Tool {
 
             if (magnet1 && magnet2) {
                 ConstraintDrawing.freeDraw(this.svgLines, magnet1.id, magnet2.id);
+                this.action.magnet1id = magnet1.id;
+                this.action.magnet2id = magnet2.id;
+                this.action.setSVGLines(this.svgLines);
+                BoardManager.addAction(this.action);
                 this.svgLines = [];
             }
             else {
