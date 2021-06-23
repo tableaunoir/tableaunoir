@@ -259,7 +259,7 @@ export class Timeline {
             this.currentIndex--;
             this.resetAndUpdate();
         }
-
+        this.currentIndex = Math.min(this.actions.length-1, this.currentIndex);
     }
 
 
