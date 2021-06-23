@@ -18,6 +18,7 @@ export class AnimationToolBar {
      * used to remember the golded div the user is currently working one
      */
     static foldIndexes:boolean[] = new Array(100);
+    static actionsToBeMoved: number[] = [];
 
 
     static toggle(): void {
@@ -192,36 +193,72 @@ export class AnimationToolBar {
             AnimationToolBar.dragAndDropFrames = true;
         }
 
+        document.addEventListener("keydown", function(event)
+        {
+            if(event.ctrlKey)
+                selectMode = true;
+            console.log(selectMode);
+        });
+        document.addEventListener("keyup", function(event)
+        {
+            if(event.ctrlKey)
+                selectMode = false;
+        });
+
+
         el.ondragend = () => { AnimationToolBar.dragAndDropFrames = false; };
 
         el.onclick = () => {
-            BoardManager.timeline.setCurrentIndex(t);
-            console.log(t);
-            for (let i = 0; i < BoardManager.timeline.actions.length; i++)
+            if(selectMode)
             {
-                let pos = AnimationToolBar.WhereAmI(i);
-                console.log(pos);
-                if (i <= t)
+                if(el.classList.contains("green"))
                 {
-                    if(pos[1] == -1)
-                        document.getElementById("animationActionList").children[pos[0]].classList.add("actionExecuted");
-                    else
-                        document.getElementById("animationActionList").children[pos[0]].children[pos[1]].classList.add("actionExecuted");
+                    const index = AnimationToolBar.actionsToBeMoved.indexOf(t);
+                    AnimationToolBar.actionsToBeMoved.splice(index, 1);
+                    el.classList.remove("green");
                 }
                 else
                 {
-                    if(pos[1] == -1)
-                        document.getElementById("animationActionList").children[pos[0]].classList.remove("actionExecuted");
-                    else
-                        document.getElementById("animationActionList").children[pos[0]].children[pos[1]].classList.remove("actionExecuted");
+                    AnimationToolBar.actionsToBeMoved.push(t);
+                    el.classList.add("green");
                 }
-                //AnimationToolBar.update();
+            }
+            else
+            {
+                BoardManager.timeline.setCurrentIndex(t);
+                console.log(t);
+                for (let i = 0; i < BoardManager.timeline.actions.length; i++)
+                {
+                    let pos = AnimationToolBar.WhereAmI(i);
+                    console.log(pos);
+                    if (i <= t)
+                    {
+                        if(pos[1] == -1)
+                            document.getElementById("animationActionList").children[pos[0]].classList.add("actionExecuted");
+                        else
+                            document.getElementById("animationActionList").children[pos[0]].children[pos[1]].classList.add("actionExecuted");
+                    }
+                    else
+                    {
+                        if(pos[1] == -1)
+                            document.getElementById("animationActionList").children[pos[0]].classList.remove("actionExecuted");
+                        else
+                            document.getElementById("animationActionList").children[pos[0]].children[pos[1]].classList.remove("actionExecuted");
+                    }
+                    //AnimationToolBar.update();
+                }
             }
         }
 
         el.ondrop = () => {
-            BoardManager.timeline.move(AnimationToolBar.tSelected, t);
-            console.log(`move(${AnimationToolBar.tSelected}, ${t})`)
+            if(AnimationToolBar.actionsToBeMoved.length == 0)
+                BoardManager.timeline.move(AnimationToolBar.tSelected, AnimationToolBar.actionsToBeMoved, t);
+            else
+            {
+                AnimationToolBar.actionsToBeMoved.sort();
+                BoardManager.timeline.move(0, AnimationToolBar.actionsToBeMoved, t);
+                AnimationToolBar.actionsToBeMoved = [];
+            }
             AnimationToolBar.update();
         }
 

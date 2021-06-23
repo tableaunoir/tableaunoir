@@ -1043,6 +1043,11 @@ h1 {
 	transition: transform 350ms;
 }
 
+.green
+{
+    border: 2px solid green;
+}
+
 .foldedDiv
 {
     display: inline-block;

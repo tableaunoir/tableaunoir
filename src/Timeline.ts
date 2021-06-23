@@ -170,28 +170,38 @@ export class Timeline {
         await this.doAllActionsUntilCurrentIndex();
     }
 
-
-
-
-
-
-
     /**
-     * 
-     * @param i 
-     * @param j 
-     * @description move action at time i to actual time j
+     *
+     * @param elToInsert
+     * @param indexesArray
+     * @param insertIndex
+     *
+     * @description moves actions referred to in indexesArray (or elToInsert) to pos insertIndex in this.action
      */
-    move(i: number, j: number): void {
-        if (i == 0 || j == 0)
+    move(elToInsert: number, indexesArray: number[], insertIndex: number): void {
+        if (insertIndex == 0 || (elToInsert == 0 && indexesArray.length == 0))
             return;
 
-        if (i < j) //the position j shifts to the left since i is before
-            j--;
+        if(indexesArray.length == 0)
+        {
+            if (elToInsert < insertIndex) //the position j shifts to the left since i is before
+                insertIndex--;
 
-        const action = this.actions[i];
-        this.actions.splice(i, 1);
-        this.actions.splice(j, 0, action);
+            const action = this.actions[elToInsert];
+            this.actions.splice(elToInsert, 1);
+            this.actions.splice(insertIndex, 0, action);
+        }
+        else
+        {
+            const eltsToAdd: (Action)[] = indexesArray.map((i) => this.actions[i]);
+            let delIndex = indexesArray[0];
+
+            if (indexesArray[0] > insertIndex)
+                delIndex += indexesArray.length;
+
+            this.actions.splice(insertIndex, 0, ...eltsToAdd);
+            this.actions.splice(delIndex, indexesArray.length);
+        }
         this.resetAndUpdate();
     }
 
