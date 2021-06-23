@@ -91,9 +91,10 @@ export class ActionFreeDraw extends Action {
 
     public computeSVGLines(): void {
         this.svgLines = [];
-        for(let i = 0; i < this.points.length-1; i++) {
-            this.svgLines.push(ToolDraw.addSVGLine(this.points[i].x, this.points[i].y, this.points[i+1].x, this.points[i+1].y, this.points[i].pressure, this.points[i].color));
+        for (let i = 0; i < this.points.length - 1; i++) {
+            this.svgLines.push(ToolDraw.addSVGLine(this.points[i].x, this.points[i].y, this.points[i + 1].x, this.points[i + 1].y, this.points[i].pressure, this.points[i].color));
         }
+        this.isDirectlyUndoable = true;
         ConstraintDrawing.freeDraw(this.svgLines, this.magnet1id, this.magnet2id);
     }
 
@@ -197,7 +198,8 @@ export class ActionFreeDraw extends Action {
 
 
     async undo(): Promise<void> {
-        this.svgLines.forEach((line) => line.style.visibility = "hidden");
+        if (this.svgLines)
+            this.svgLines.forEach((line) => line.style.visibility = "hidden");
     }
 
 

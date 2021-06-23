@@ -9,8 +9,7 @@ import { getCanvas } from './main';
 
 
 /**
- * data structure for the linear history of actions (draw a line, eraser here, etc.)
- * TODO: for the moment, it is single-user (we do not care who are performing actions)
+ * data structure for the timeline, that is the linear history of actions (draw a line, eraser here, etc.)
  */
 export class Timeline {
 
@@ -109,12 +108,16 @@ export class Timeline {
                     bug113 = true;
                 }
                 else {
+                  //  console.log(`action of timestep ${t}`);
+                  //  console.log(`action: ${this.actions[t]}`);
                     await this.actions[t].undo(); //(if the action is not directly undoable, undo just do nothing)
+                  //  console.log(`action of timestep ${t}`);
+                  //  console.log(`action: ${this.actions[t]}`);
                     if (!this.actions[t].isDirectlyUndoable)
                         sthToDoFromStart = true;
                 }
 
-
+            //console.log(`we have to clean the canvas: ${sthToDoFromStart}`);
             if (sthToDoFromStart) {
                 this.canvasClear();
                 this.canvasRedraw();
@@ -239,14 +242,14 @@ export class Timeline {
      * @param t 
      * @description delete action at time t
      */
-    delete(t: number): void {
+    async delete(t: number): Promise<void> {
         if (t == 0) //the first action cannot be removed
             return;
 
         //if the action deleted is the current one, use the optimized version
         if (t == this.currentIndex) {
             this.currentIndex--;
-            this.updateState(t);
+            await this.updateState(t);
         }
 
         this.actions.splice(t, 1); //really delete
