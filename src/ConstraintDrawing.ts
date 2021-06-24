@@ -111,17 +111,14 @@ export class ConstraintDrawing {
      * @param svgLines 
      * @param magnet1id 
      * @param magnet2id
-     * @description adds constraints for the svgLines to be between magnet1 and magnet2 
+     * @param pm1, the center of the magnet1
+     * @param pm2, the center of the magnet2
+     * @description adds constraints for the svgLines to be between magnet1 and magnet2.
+     * 
+     * Remark: pm1 and pm2 are given because the current position of the magnets are maybe wrong (because actions have moved the magnets elsewhere, or because even the magnets are not here yet?)
      */
-    static freeDraw(svgLines: SVGLineElement[], magnet1id: string, magnet2id: string): void {
-
-        const magnet1 = document.getElementById(magnet1id);
-        const pm1 = MagnetManager.getMagnetCenter(magnet1);
-
-        const magnet2 = document.getElementById(magnet2id);
-        const pm2 = MagnetManager.getMagnetCenter(magnet2);
-
-        const d = (magnet1 == magnet2) ? 1 : Geometry.distance(pm1, pm2);
+    static freeDraw(svgLines: SVGLineElement[], magnet1id: string, magnet2id: string, pm1: {x:number, y:number}, pm2: {x:number, y:number} ): void {
+        const d = (magnet1id == magnet2id) ? 1 : Geometry.distance(pm1, pm2);
 
         let getInfoFromPoint: (p: { x: number, y: number }) => { x: number, y: number };
         if (magnet1id == magnet2id)

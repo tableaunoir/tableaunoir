@@ -117,30 +117,33 @@ export class ToolDraw extends Tool {
     mouseup(): void {
         ToolDrawAudio.mouseup();
         if (this.isDrawing) {
+
+            for (const l of this.svgLines)
+                l.remove();
+            this.svgLines = [];
+
+            if (this.action.alreadyDrawnSth && this.isSmoothing)
+                this.action.postTreatement();
+
             this.guessMagnetConnection.live(this.action);
+
             const magnet1 = this.guessMagnetConnection.magnet1;
             const magnet2 = this.guessMagnetConnection.magnet2;
 
             if (magnet1 && magnet2) {
-                ConstraintDrawing.freeDraw(this.svgLines, magnet1.id, magnet2.id);
-                this.action.magnet1id = magnet1.id;
-                this.action.magnet2id = magnet2.id;
-                this.action.setSVGLines(this.svgLines);
+
+                this.action.setInteractiveGraphInformation(magnet1.id, magnet2.id,
+                    MagnetManager.getMagnetCenter(magnet1),
+                    MagnetManager.getMagnetCenter(magnet2));
+
                 BoardManager.addAction(this.action);
-                this.svgLines = [];
+
             }
             else {
-                for (const l of this.svgLines)
-                    l.remove();
-                this.svgLines = [];
-
-                if (this.action.alreadyDrawnSth && this.isSmoothing)
-                    this.action.postTreatement();
 
                 this.lastDelineation.setPoints(this.action.points);
                 this.lastDelineation.finish();
 
-                this.action.redo();
                 BoardManager.addAction(this.action);
             }
         }

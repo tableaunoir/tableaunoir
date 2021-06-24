@@ -32,13 +32,8 @@ export class ActionDeserializer {
             const action = new ActionFreeDraw(obj.userid);
             for (const point of obj.points)
                 action.addPoint(point);
-            
-            action.magnet1id = obj.magnet1id;
-            action.magnet2id = obj.magnet2id;
-            action.magnet1point = obj.magnet1point;
-            action.magnet2point = obj.magnet2point;
 
-            action.computeSVGLines();
+            action.setInteractiveGraphInformation(obj.magnet1id, obj.magnet2id, obj.magnet1point, obj.magnet2point);
             return action;
         }
         if (obj.type == "erase") {

@@ -346,7 +346,7 @@ export class MagnetManager {
 				if (Math.abs(nodes[i].x - nodes[j].x) + Math.abs(nodes[i].y - nodes[j].y) < 400 && !isCrossing(i, j)) {
 					edges[i][j] = 1;
 					const line = ToolDraw.addSVGLine(nodes[i].x, nodes[i].y, nodes[j].x, nodes[j].y, 2.0, UserManager.me.color);
-					ConstraintDrawing.freeDraw([line], nodes[i].magnet.id, nodes[j].magnet.id);
+					ConstraintDrawing.freeDraw([line], nodes[i].magnet.id, nodes[j].magnet.id, MagnetManager.getMagnetCenter(nodes[i].magnet), MagnetManager.getMagnetCenter(nodes[j].magnet));
 				}
 			}
 

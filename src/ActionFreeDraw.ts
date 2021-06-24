@@ -12,6 +12,24 @@ export class ActionFreeDraw extends Action {
     get yMin(): number { return Math.min(...this.points.map((p) => p.y)); }
     get yMax(): number { return Math.max(...this.points.map((p) => p.y)); }
 
+
+    /**
+     * 
+     * @param magnet1id 
+     * @param magnet2id 
+     * @param magnet1point 
+     * @param magnet2point 
+     * @returns says that the drawing is interactive
+     */
+    setInteractiveGraphInformation(magnet1id: string, magnet2id: string, magnet1point: { x: number, y: number }, magnet2point: { x: number, y: number }): void {
+        this.magnet1id = magnet1id;
+        this.magnet2id = magnet2id;
+        this.magnet1point = magnet1point;
+        this.magnet2point = magnet2point;
+        this.isDirectlyUndoable = true;
+    }
+
+
     /**
      * @returns an object iff the freedraw is almost a line
      */
@@ -57,6 +75,16 @@ export class ActionFreeDraw extends Action {
     public magnet1point: { x: number, y: number };
     public magnet2point: { x: number, y: number };
 
+
+
+    /**
+     * 
+     * @returns true iff the drawing is interactive, i.e. depends on other magnets
+     */
+    isInteractive(): boolean { return (this.magnet1id != undefined); }
+
+
+
     /**
      * 
      * @param pt 
@@ -83,11 +111,6 @@ export class ActionFreeDraw extends Action {
 
     svgLines: SVGLineElement[] = undefined;
 
-    public setSVGLines(svgLines: SVGLineElement[]): void {
-        this.svgLines = svgLines;
-        this.isDirectlyUndoable = true;
-    }
-
 
     public computeSVGLines(): void {
         this.svgLines = [];
@@ -95,7 +118,7 @@ export class ActionFreeDraw extends Action {
             this.svgLines.push(ToolDraw.addSVGLine(this.points[i].x, this.points[i].y, this.points[i + 1].x, this.points[i + 1].y, this.points[i].pressure, this.points[i].color));
         }
         this.isDirectlyUndoable = true;
-        ConstraintDrawing.freeDraw(this.svgLines, this.magnet1id, this.magnet2id);
+        ConstraintDrawing.freeDraw(this.svgLines, this.magnet1id, this.magnet2id, this.magnet1point, this.magnet2point);
     }
 
     private smoothifyOnePass() {
@@ -179,9 +202,15 @@ export class ActionFreeDraw extends Action {
     getMainColor(): string { return this.points[0].color; }
 
 
+    async undo(): Promise<void> {
+        if (this.isInteractive())
+            if (this.svgLines)
+                this.svgLines.forEach((line) => line.remove());
+    }
+
     async redo(): Promise<void> {
-        if (this.svgLines) {
-            this.svgLines.forEach((line) => line.style.visibility = "visible");
+        if (this.isInteractive()) {
+            this.computeSVGLines();
         }
         else {
             if (!this.alreadyDrawnSth)
@@ -197,10 +226,31 @@ export class ActionFreeDraw extends Action {
 
 
 
-    async undo(): Promise<void> {
+
+
+    /**
+     * 
+     * @returns 
+     */
+    async redoAnimated(): Promise<void> {
         if (this.svgLines)
-            this.svgLines.forEach((line) => line.style.visibility = "hidden");
+            await this.redo();
+        else {
+            if (!this.alreadyDrawnSth)
+                Drawing.drawDot(getCanvas().getContext("2d"), this.points[0].x, this.points[0].y, this.points[0].color);
+
+            for (let i = 1; i < this.points.length; i++) {
+                Drawing.drawLine(getCanvas().getContext("2d"), this.points[i - 1].x, this.points[i - 1].y, this.points[i].x, this.points[i].y, this.points[i].pressure, this.points[i].color);
+                await Drawing.delay(1);
+            }
+        }
+
+
     }
+
+
+
+
 
 
     getOverviewImage(): string {
@@ -229,24 +279,5 @@ export class ActionFreeDraw extends Action {
         return "url(" + canvas.toDataURL() + ")";
     }
 
-    /**
-     * 
-     * @returns 
-     */
-    async redoAnimated(): Promise<void> {
-        if (this.svgLines)
-            await this.redo();
-        else {
-            if (!this.alreadyDrawnSth)
-                Drawing.drawDot(getCanvas().getContext("2d"), this.points[0].x, this.points[0].y, this.points[0].color);
-
-            for (let i = 1; i < this.points.length; i++) {
-                Drawing.drawLine(getCanvas().getContext("2d"), this.points[i - 1].x, this.points[i - 1].y, this.points[i].x, this.points[i].y, this.points[i].pressure, this.points[i].color);
-                await Drawing.delay(1);
-            }
-        }
-
-
-    }
 
 }
