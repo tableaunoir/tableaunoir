@@ -37,7 +37,7 @@ export abstract class Action {
      */
     abstract redo(): Promise<void>;
 
-    async undo(): Promise<void> {return} //by default it cannot be undone
+    async undo(): Promise<void> { return } //by default it cannot be undone
 
     redoAnimated(): Promise<void> { return this.redo(); }
     abstract get xMax(): number;
@@ -50,7 +50,5 @@ export abstract class Action {
     }
 
 
-    getOverviewImage(): string {
-        return "";
-    }
+    getOverviewImage(): string { return ""; }
 }
