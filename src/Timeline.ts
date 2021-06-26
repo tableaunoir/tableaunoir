@@ -108,11 +108,11 @@ export class Timeline {
                     bug113 = true;
                 }
                 else {
-                  //  console.log(`action of timestep ${t}`);
-                  //  console.log(`action: ${this.actions[t]}`);
+                    //  console.log(`action of timestep ${t}`);
+                    //  console.log(`action: ${this.actions[t]}`);
                     await this.actions[t].undo(); //(if the action is not directly undoable, undo just do nothing)
-                  //  console.log(`action of timestep ${t}`);
-                  //  console.log(`action: ${this.actions[t]}`);
+                    //  console.log(`action of timestep ${t}`);
+                    //  console.log(`action: ${this.actions[t]}`);
                     if (!this.actions[t].isDirectlyUndoable)
                         sthToDoFromStart = true;
                 }
@@ -259,7 +259,7 @@ export class Timeline {
             this.currentIndex--;
             this.resetAndUpdate();
         }
-        this.currentIndex = Math.min(this.actions.length-1, this.currentIndex);
+        this.currentIndex = Math.min(this.actions.length - 1, this.currentIndex);
     }
 
 
@@ -366,7 +366,10 @@ export class Timeline {
 
         const tGoal = this.getNextPausedFrame();
         for (let i = this.currentIndex + 1; i <= tGoal; i++)
-            await this.actions[i].redoAnimated();
+            if (this.actions[i].isBlocking)
+                await this.actions[i].redoAnimated();
+            else
+                this.actions[i].redoAnimated();
 
         this.currentIndex = tGoal;
     }

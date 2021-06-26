@@ -1,7 +1,11 @@
+/**
+ * Generic class for creating a circular menu
+ */
+
 export class CircularMenu {
 
     private container = document.createElement("div");
-    protected buttons = [];
+    protected buttons = []; // list of the buttons
     static radius = 96;
 
 
@@ -100,7 +104,8 @@ export class CircularMenu {
 
 
     /**
-     * @description hide the palette
+     * @description hide the palette + remove the elements (this is useful for saving the document where
+     * the DOM elements of the menu should not be included!)
      */
     static hideAndRemove(): void {
         const menus = document.getElementsByClassName("CircularMenu");
@@ -123,15 +128,5 @@ export class CircularMenu {
     /**
      * @returns true iff the palette is shown
      */
-    isShown(): boolean {
-        return this.container.classList.contains("CircularMenuShow");
-    }
-
-
-    /**
-     * @returns true iff the palette is shown
-     */
-    static isShown(): boolean {
-        return document.getElementsByClassName("CircularMenuShow").length > 0;
-    }
+    static isShown(): boolean { return document.getElementsByClassName("CircularMenuShow").length > 0; }
 }

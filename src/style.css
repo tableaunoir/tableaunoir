@@ -692,7 +692,7 @@ h1 {
 .CircularMenu {
 	position: absolute;
 	z-index: 10000;
-	transition: 400ms;
+	transition: 200ms;
 }
 
 
@@ -1105,4 +1105,12 @@ h1 {
 
 .actionPause {
 	border: 2px solid white;
+}
+
+
+.actionParallel:after {
+	content: url(img/icons/1F411.svg);
+	position:relative; 	
+	left: 20px;
+
 }

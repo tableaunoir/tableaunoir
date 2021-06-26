@@ -10,6 +10,7 @@ export abstract class Action {
     public userid: string;
     public pause = false;
     public isDirectlyUndoable = false;
+    public isBlocking = true;
 
     constructor(userid: string) {
         this.userid = userid;
