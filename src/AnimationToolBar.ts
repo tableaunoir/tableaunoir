@@ -173,7 +173,7 @@ export class AnimationToolBar {
         const el = document.createElement("div");
         let selectMode = false;
         el.classList.add("action");
-        el.style.background = action.getOverviewImage();
+        el.style.backgroundImage = action.getOverviewImage();
         /*if (action instanceof ActionFreeDraw)
             el.style.backgroundColor = action.getMainColor();
         else if (action instanceof ActionErase)

@@ -204,8 +204,7 @@ helpbutton {
 }
 
 /*----------Eraser Gauge----------*/
-#gauge
-{
+#gauge {
 	transform: translateY(20px);
 	flex-direction: row;
 	display: inline-block;
@@ -214,31 +213,28 @@ helpbutton {
 	width: 128px;
 }
 
-#eraserGaugeFrame
-{
+#eraserGaugeFrame {
 	display: none;
 	position: relative;
 	box-sizing: content-box;
-	width : 128px;
-	height : 20px;
-	margin : auto;
-	border : 3px solid white;
-	border-radius : 3px;
+	width: 128px;
+	height: 20px;
+	margin: auto;
+	border: 3px solid white;
+	border-radius: 3px;
 }
 
-#eraserGauge
-{
+#eraserGauge {
 	height: 20px;
 	box-sizing: content-box;
-	width : 0px;
+	width: 0px;
 	position: relative;
 	top: 0px;
 	left: 0px;
 	background-color: green;
 }
 
-#eraserLvl
-{
+#eraserLvl {
 	display: none;
 	box-sizing: content-box;
 	height: 38px;
@@ -353,7 +349,7 @@ div.magnet {
 
 img.magnet {
 	padding: 0px;
-	background-color: rgba(128,128, 128, 0.2);
+	background-color: rgba(128, 128, 128, 0.2);
 	animation: magnetCreation 500ms normal;
 }
 
@@ -1023,101 +1019,87 @@ h1 {
 }
 
 .action {
-    position: relative;
-    top: 50%;
+	position: relative;
+	top: 50%;
 	transform: translateY(-50%);
 	width: 24px;
 	height: 24px;
-	background-color: white;
+	background-color: rgb(64, 64, 64);
 	border: 2px solid black;
 	display: inline-block;
 	opacity: 0.5;
 	margin: 2px;
 }
 
-.action:hover
-{
+.action:hover {
 	transform: scale(1.2);
 	transform-origin: 50% 350%;
 	border: 2px solid white;
 	transition: transform 350ms;
 }
 
-.foldedDiv
-{
-    display: inline-block;
-    height: 34px;
-    box-sizing: content-box;
+.foldedDiv {
+	display: inline-block;
+	height: 34px;
+	box-sizing: content-box;
 }
 
-.toggleFold
-{
-    display: none;
+.toggleFold {
+	display: none;
 }
 
-#animationBarBuffer>.toggleFold
-{
-    display: inline-block;
+#animationBarBuffer>.toggleFold {
+	display: inline-block;
 }
 
-.toggleFold + .foldedDiv>.action
-{
-    position: absolute;
-    width: 0px;
-    height: 0px;
-    margin: 0px;
-    transition: width 500ms, transform 350ms;
+.toggleFold+.foldedDiv>.action {
+	position: absolute;
+	width: 0px;
+	height: 0px;
+	margin: 0px;
+	transition: width 500ms, transform 350ms;
 }
 
-.toggleFold:checked + .foldedDiv>.action
-{
-    position: relative;
-    width: 24px;
-    height: 24px;
-    margin: 2px;
-    transition: width 500ms, transform 350ms;
+.toggleFold:checked+.foldedDiv>.action {
+	position: relative;
+	width: 24px;
+	height: 24px;
+	margin: 2px;
+	transition: width 500ms, transform 350ms;
 }
 
-.toggleFold:checked +.foldedDiv
-{
-    display: inline-block;
+.toggleFold:checked+.foldedDiv {
+	display: inline-block;
 }
 
-.unfold
-{
-    position: relative;
-    height: 20px;
-    width: 30px;
-    background-image: url(img/open.png);
+.unfold {
+	position: relative;
+	height: 20px;
+	width: 30px;
+	background-image: url(img/open.png);
 	background-size: contain;
 	background-repeat: no-repeat;
 	background-position: center;
-    box-sizing: border-box;
-    border: 2px solid white;
-    border-radius: 15px;
-    display: inline-block;
-    margin-left: 5px;
-    margin-right: 5px;
-    top: 50%;
+	box-sizing: border-box;
+	border-radius: 15px;
+	display: inline-block;
+	margin-left: 5px;
+	margin-right: 5px;
+	top: 50%;
 	transform: translateY(-100%);
-    cursor: pointer;
-    transition: width 500ms;
+	cursor: pointer;
+	transition: width 500ms;
+	background-color: rgb(108, 108, 255);
 }
 
-.unfold:hover
-{
-    width: 40px;
-    transition: width 500ms;
+.unfold:hover {
+	width: 40px;
+	transition: width 500ms;
 }
 
 .actionExecuted {
 	opacity: 1.0;
-}
-
-
-.actionErase {
-	background-image: url(img/icons/erase.svg);
-	background-size: contain;
+	background-color: rgb(0, 96, 0);
 }
 
 
