@@ -9,13 +9,28 @@ export class ActionTimeLineMenu extends CircularMenu {
         super();
 
         this.addButtonImage({
-            src: "img/icons/1F411.svg",
+            src: "img/icons/parallel.svg",
             title: "Execute the action in parallel or not",
             onclick: () => {
                 action.isBlocking = !action.isBlocking;
                 AnimationToolBar.update();
                 CircularMenu.hide();
             }
+        });
+
+        const img = ["1F40C.svg", "1F416.svg", "1F406.svg"];
+        for(const i of [0, 1, 2]) {
+            this.addButtonImage({
+                src: `img/icons/${img[i]}`,
+                title: `Speed ${i}`,
+                onclick: () => { action.speed = i; CircularMenu.hide(); }
+            });
+        }
+        
+        this.addButtonImage({
+            src: "img/icons/26A1.svg",
+            title: "Actions are immediate",
+            onclick: () => { action.speed = 6; CircularMenu.hide(); }
         });
 
         this.addButtonImage({

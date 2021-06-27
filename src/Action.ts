@@ -1,3 +1,4 @@
+import { Drawing } from './Drawing';
 import { ActionSerialized } from './ActionSerialized';
 
 
@@ -11,6 +12,29 @@ export abstract class Action {
     public pause = false;
     public isDirectlyUndoable = false;
     public isBlocking = true;
+    private _speed = 3;
+    private _delay = 1;
+
+    private getDelay(speed: number): number {
+        switch (speed) {
+            case 0: return 100;
+            case 1: return 50;
+            case 2: return 1;
+        }
+        return 0;
+    }
+
+    set speed(speed: number) {
+        this._speed = speed;
+        this._delay = this.getDelay(speed);
+    }
+
+
+    async delay(): Promise<void> {
+        if (this._delay > 0)
+            await Drawing.delay(this._delay);
+    }
+
 
     constructor(userid: string) {
         this.userid = userid;

@@ -56,7 +56,7 @@ export class ActionMagnetMove extends Action {
     async redoAnimated(): Promise<void> {
         for (let i = 0; i < this.points.length; i++) {
             this.setPosition(this.points[i]);
-            await Drawing.delay(1);
+            await this.delay();
         }
 
     }

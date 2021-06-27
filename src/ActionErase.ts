@@ -67,7 +67,7 @@ export class ActionErase extends Action {
         this.svgLinesErasedErase();
         for (let i = 1; i < this.points.length; i++) {
             Drawing.clearLine(this.points[i - 1].x, this.points[i - 1].y, this.points[i].x, this.points[i].y, this.points[i].lineWidth);
-            await Drawing.delay(1);
+            await this.delay();
         }
 
     }
