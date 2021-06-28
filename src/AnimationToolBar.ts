@@ -1,3 +1,4 @@
+
 import { OperationDeleteAction } from './OperationDeleteAction';
 import { OperationMoveAction } from './OperationMoveAction';
 import { OperationMoveSevActions } from './OperationMoveSevActions';
@@ -176,7 +177,7 @@ export class AnimationToolBar {
         const el = document.createElement("div");
         let selectMode = false;
         el.classList.add("action");
-        el.style.background = action.getOverviewImage();
+        el.style.backgroundImage = action.getOverviewImage();
         /*if (action instanceof ActionFreeDraw)
             el.style.backgroundColor = action.getMainColor();
         else if (action instanceof ActionErase)
@@ -185,6 +186,8 @@ export class AnimationToolBar {
         if (action.pause)
             el.classList.add("actionPause");
 
+ if (!action.isBlocking)
+            el.classList.add("actionParallel");
         if (t <= BoardManager.timeline.getCurrentIndex())
             el.classList.add("actionExecuted");
 
@@ -206,6 +209,12 @@ export class AnimationToolBar {
                 selectMode = false;
         });
 
+ el.oncontextmenu = (evt) => {
+            const menu = new ActionTimeLineMenu(action);
+            menu.show({ x: 500, y: 500 });
+            evt.preventDefault();
+            return;
+        }
 
         el.ondragend = () => { AnimationToolBar.dragAndDropFrames = false; };
 

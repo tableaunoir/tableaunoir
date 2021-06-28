@@ -105,7 +105,7 @@ export class BoardManager {
     /**
      * 
      * @param action 
-     * @description add an action (that was just performed)
+     * @description add an action (and performs it!)
      */
     static addAction(action: Action): void {
         if (!BoardManager.MAGNETCANCELLABLE)

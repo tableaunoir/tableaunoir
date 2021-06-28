@@ -10,7 +10,7 @@ export class ToolMenu extends CircularMenu {
         super();
 
         this.addButtonImage({
-            src: "img/icons/magnetize.svg",
+            src: "img/icons/1F9F2.svg",
             title: "Magnetize the last drawn shape (Ctrl + X)",
             onclick: () => {
                 if (!UserManager.me.isDelineation)

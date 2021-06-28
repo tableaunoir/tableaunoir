@@ -1,3 +1,4 @@
+import { ConstraintDrawing } from './ConstraintDrawing';
 import { Drawing } from './Drawing';
 import { ActionSerialized } from './ActionSerialized';
 import { Action } from "./Action";
@@ -39,17 +40,14 @@ export class ActionMagnetMove extends Action {
         if (document.getElementById(this.magnetid)) {
             document.getElementById(this.magnetid).style.left = point.x + "px";
             document.getElementById(this.magnetid).style.top = point.y + "px";
+            ConstraintDrawing.update();
         }
 
     }
 
-    async redo(): Promise<void> {
-        this.setPosition(this.points[this.points.length - 1]);
-    }
+    async redo(): Promise<void> { this.setPosition(this.points[this.points.length - 1]); }
 
-    async undo(): Promise<void> {
-        this.setPosition(this.points[0]);
-    }
+    async undo(): Promise<void> { this.setPosition(this.points[0]); }
 
     /**
    * 
@@ -58,7 +56,7 @@ export class ActionMagnetMove extends Action {
     async redoAnimated(): Promise<void> {
         for (let i = 0; i < this.points.length; i++) {
             this.setPosition(this.points[i]);
-            await Drawing.delay(1);
+            await this.delay();
         }
 
     }

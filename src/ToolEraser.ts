@@ -35,6 +35,8 @@ export class ToolEraser extends Tool {
 
     private oldSpeed = 0;
 
+    private svgLinesErased = [];
+
 
     constructor(user: User) {
         super(user);
@@ -44,6 +46,7 @@ export class ToolEraser extends Tool {
             this.updateEraserCursor();
 
         }
+        
     }
 
     updateEraserCursor(): void {
@@ -57,6 +60,7 @@ export class ToolEraser extends Tool {
     mousedown(): void {
         this.iMode = 0;
         this.oldSpeed = 0;
+        this.svgLinesErased = [];
         this.eraseLineWidth = this.modeSizes[this.iMode];
         this.action = new ActionErase(this.user.userID);
         this.action.addPoint({ x: this.x, y: this.y, lineWidth: this.eraseLineWidth });
@@ -130,8 +134,11 @@ export class ToolEraser extends Tool {
             const p2 = { x: parseInt(svgLine.getAttributeNS(null, 'x2')), y: parseInt(svgLine.getAttributeNS(null, 'y2')) };
 
             const m = Geometry.middle(p1, p2);
-            if (Geometry.distance({ x: x, y: y }, m) < this.eraseLineWidth)
-                svgLine.remove();
+            if (Geometry.distance({ x: x, y: y }, m) < this.eraseLineWidth)  {
+                this.svgLinesErased.push(svgLine);
+                svgLine.style.visibility = "hidden";
+            }
+                
         }
 
 
@@ -146,6 +153,8 @@ export class ToolEraser extends Tool {
 
             if (this.user.isCurrentUser)
                 this.updateEraserCursor();
+
+                this.action.setSVGLinesErased(this.svgLinesErased);
 
             BoardManager.addAction(this.action);
         }

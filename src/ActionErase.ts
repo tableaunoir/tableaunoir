@@ -7,6 +7,12 @@ import { Action } from './Action';
  * Action for erasing
  */
 export class ActionErase extends Action {
+    private svgLinesErased = [];
+
+    setSVGLinesErased(svgLinesErased: SVGLineElement[]): void {
+        this.svgLinesErased = svgLinesErased;
+    }
+
     get xMax(): number { return Math.max(...this.points.map((p) => p.x)); }
 
     serializeData(): ActionSerialized {
@@ -35,6 +41,7 @@ export class ActionErase extends Action {
     }
 
     async redo(): Promise<void> {
+        this.svgLinesErasedErase();
         for (let i = 1; i < this.points.length; i++) {
             Drawing.clearLine(this.points[i - 1].x, this.points[i - 1].y, this.points[i].x, this.points[i].y, this.points[i].lineWidth);
         }
@@ -42,19 +49,25 @@ export class ActionErase extends Action {
     }
 
 
-
-    getOverviewImage(): string {
-        return "url(img/icons/erase.svg)";
+    async undo(): Promise<void> {
+        this.svgLinesErasedRestore();
     }
+
+    svgLinesErasedRestore(): void { this.svgLinesErased.forEach((line) => line.style.visibility = "visible"); }
+    svgLinesErasedErase(): void { this.svgLinesErased.forEach((line) => line.style.visibility = "hidden"); }
+
+
+    getOverviewImage(): string { return "url(img/icons/erase.svg)"; }
 
     /**
     * 
     * @returns 
     */
     async redoAnimated(): Promise<void> {
+        this.svgLinesErasedErase();
         for (let i = 1; i < this.points.length; i++) {
             Drawing.clearLine(this.points[i - 1].x, this.points[i - 1].y, this.points[i].x, this.points[i].y, this.points[i].lineWidth);
-            await Drawing.delay(1);
+            await this.delay();
         }
 
     }

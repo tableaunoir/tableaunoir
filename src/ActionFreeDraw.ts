@@ -1,3 +1,5 @@
+import { ConstraintDrawing } from './ConstraintDrawing';
+import { ToolDraw } from './ToolDraw';
 import { Geometry } from './Geometry';
 import { ActionSerialized } from './ActionSerialized';
 import { Drawing } from './Drawing';
@@ -9,6 +11,24 @@ export class ActionFreeDraw extends Action {
     get xMax(): number { return Math.max(...this.points.map((p) => p.x)); }
     get yMin(): number { return Math.min(...this.points.map((p) => p.y)); }
     get yMax(): number { return Math.max(...this.points.map((p) => p.y)); }
+
+
+    /**
+     * 
+     * @param magnet1id 
+     * @param magnet2id 
+     * @param magnet1point 
+     * @param magnet2point 
+     * @returns says that the drawing is interactive
+     */
+    setInteractiveGraphInformation(magnet1id: string, magnet2id: string, magnet1point: { x: number, y: number }, magnet2point: { x: number, y: number }): void {
+        this.magnet1id = magnet1id;
+        this.magnet2id = magnet2id;
+        this.magnet1point = magnet1point;
+        this.magnet2point = magnet2point;
+        this.isDirectlyUndoable = true;
+    }
+
 
     /**
      * @returns an object iff the freedraw is almost a line
@@ -35,11 +55,35 @@ export class ActionFreeDraw extends Action {
     }
 
     serializeData(): ActionSerialized {
+        if (this.magnet1id) {
+            return {
+                type: "freedrawinteractivegraph",
+                pause: this.pause, userid: this.userid,
+                points: this.points, magnet1id: this.magnet1id,
+                magnet2id: this.magnet2id,
+                magnet1point: this.magnet1point,
+                magnet2point: this.magnet2point
+            };
+        }
         return { type: "freedraw", pause: this.pause, userid: this.userid, points: this.points };
     }
 
     public alreadyDrawnSth = false;
     public points: { x: number; y: number; pressure: number; color: string; }[] = [];
+    public magnet1id: string;
+    public magnet2id: string;
+    public magnet1point: { x: number, y: number };
+    public magnet2point: { x: number, y: number };
+
+
+
+    /**
+     * 
+     * @returns true iff the drawing is interactive, i.e. depends on other magnets
+     */
+    isInteractive(): boolean { return (this.magnet1id != undefined); }
+
+
 
     /**
      * 
@@ -64,6 +108,18 @@ export class ActionFreeDraw extends Action {
         return true;
     }
 
+
+    svgLines: SVGLineElement[] = undefined;
+
+
+    public computeSVGLines(): void {
+        this.svgLines = [];
+        for (let i = 0; i < this.points.length - 1; i++) {
+            this.svgLines.push(ToolDraw.addSVGLine(this.points[i].x, this.points[i].y, this.points[i + 1].x, this.points[i + 1].y, this.points[i].pressure, this.points[i].color));
+        }
+        this.isDirectlyUndoable = true;
+        ConstraintDrawing.freeDraw(this.svgLines, this.magnet1id, this.magnet2id, this.magnet1point, this.magnet2point);
+    }
 
     private smoothifyOnePass() {
         const newpoints: { x: number; y: number; pressure: number; color: string; }[] = [];
@@ -143,20 +199,58 @@ export class ActionFreeDraw extends Action {
     }
 
 
-    getMainColor(): string {
-        return this.points[0].color;
-    }
+    getMainColor(): string { return this.points[0].color; }
 
+
+    async undo(): Promise<void> {
+        if (this.isInteractive())
+            if (this.svgLines)
+                this.svgLines.forEach((line) => line.remove());
+    }
 
     async redo(): Promise<void> {
-        if (!this.alreadyDrawnSth)
-            Drawing.drawDot(getCanvas().getContext("2d"), this.points[0].x, this.points[0].y, this.points[0].color);
+        if (this.isInteractive()) {
+            this.computeSVGLines();
+        }
+        else {
+            if (!this.alreadyDrawnSth)
+                Drawing.drawDot(getCanvas().getContext("2d"), this.points[0].x, this.points[0].y, this.points[0].color);
 
-        for (let i = 1; i < this.points.length; i++) {
-            Drawing.drawLine(getCanvas().getContext("2d"), this.points[i - 1].x, this.points[i - 1].y, this.points[i].x, this.points[i].y, this.points[i].pressure, this.points[i].color);
+            for (let i = 1; i < this.points.length; i++) {
+                Drawing.drawLine(getCanvas().getContext("2d"), this.points[i - 1].x, this.points[i - 1].y, this.points[i].x, this.points[i].y, this.points[i].pressure, this.points[i].color);
+            }
         }
 
+
     }
+
+
+
+
+
+    /**
+     * 
+     * @returns 
+     */
+    async redoAnimated(): Promise<void> {
+        if (this.svgLines)
+            await this.redo();
+        else {
+            if (!this.alreadyDrawnSth)
+                Drawing.drawDot(getCanvas().getContext("2d"), this.points[0].x, this.points[0].y, this.points[0].color);
+
+            for (let i = 1; i < this.points.length; i++) {
+                Drawing.drawLine(getCanvas().getContext("2d"), this.points[i - 1].x, this.points[i - 1].y, this.points[i].x, this.points[i].y, this.points[i].pressure, this.points[i].color);
+                await this.delay();
+            }
+        }
+
+
+    }
+
+
+
+
 
 
     getOverviewImage(): string {
@@ -172,8 +266,8 @@ export class ActionFreeDraw extends Action {
         const ratioX = (xMax - xMin) < canvas.width ? 1 : canvas.width / (xMax - xMin);
         const ratioY = (yMax - yMin) < canvas.height ? 1 : canvas.height / (yMax - yMin);
         const ratio = Math.min(ratioX, ratioY);
-        const x0 = ((xMax - xMin)* ratio <canvas.width ) ? (canvas.width - (xMax - xMin)* ratio) / 2 : 0;
-        const y0 = ((yMax - yMin)* ratio <canvas.height) ? (canvas.height - (yMax - yMin)* ratio) / 2 : 0;
+        const x0 = ((xMax - xMin) * ratio < canvas.width) ? (canvas.width - (xMax - xMin) * ratio) / 2 : 0;
+        const y0 = ((yMax - yMin) * ratio < canvas.height) ? (canvas.height - (yMax - yMin) * ratio) / 2 : 0;
         const scaleX = (x: number) => x0 + (x - xMin) * ratio;
         const scaleY = (y: number) => y0 + (y - yMin) * ratio;
 
@@ -185,19 +279,5 @@ export class ActionFreeDraw extends Action {
         return "url(" + canvas.toDataURL() + ")";
     }
 
-    /**
-     * 
-     * @returns 
-     */
-    async redoAnimated(): Promise<void> {
-        if (!this.alreadyDrawnSth)
-            Drawing.drawDot(getCanvas().getContext("2d"), this.points[0].x, this.points[0].y, this.points[0].color);
-
-        for (let i = 1; i < this.points.length; i++) {
-            Drawing.drawLine(getCanvas().getContext("2d"), this.points[i - 1].x, this.points[i - 1].y, this.points[i].x, this.points[i].y, this.points[i].pressure, this.points[i].color);
-            await Drawing.delay(1);
-        }
-
-    }
 
 }

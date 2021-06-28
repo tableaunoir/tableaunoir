@@ -4,7 +4,7 @@ import { MagnetManager } from './magnetManager';
 
 
 export class ActionMagnetNew extends Action {
-//    previousMagnet: HTMLElement;
+    //    previousMagnet: HTMLElement;
     magnet: HTMLElement;
 
     get xMax(): number { return 0; }
@@ -39,13 +39,21 @@ export class ActionMagnetNew extends Action {
     }
 
     async redo(): Promise<void> {
-        const previousElement = document.getElementById(this.magnet.id)
-        //if an element with the same id is present, we replace it, so we first remove it
-        if (previousElement)
-            previousElement.remove();
-        
+        const previousElement = document.getElementById(this.magnet.id);
+    
+        if (previousElement) {
+            /**
+             * if the element to add is already here with exactly the same properties, just do nothing
+             * This is important for text magnet! Indeed, if the previousElement would have been removed and replaced,
+             * then the text magnet would have lost the focus...
+             */
+            if (previousElement.isEqualNode(this.magnet))
+                return;
+
+            previousElement.remove(); //if an element with the same id is present, we replace it, so we first remove it
+        }
+
         this._addMagnet(this.magnet);
-        console.trace();
     }
 
 
@@ -55,7 +63,7 @@ export class ActionMagnetNew extends Action {
      * @param magnet 
      * @description add a copy of the magnet magnet
      */
-    private _addMagnet(magnet:HTMLElement) {
+    private _addMagnet(magnet: HTMLElement) {
         const copyMagnet = <HTMLElement>magnet.cloneNode(true);
         copyMagnet.onclick = magnet.onclick;
         document.getElementById("magnets").appendChild(copyMagnet);
@@ -68,11 +76,11 @@ export class ActionMagnetNew extends Action {
         //if an element with the same id is present, we replace it, so we first remove it
         if (previousElement)
             previousElement.remove();
-/*
-        if(this.previousMagnet) {
-            this._addMagnet(this.previousMagnet);
-        }*/
-        
+        /*
+                if(this.previousMagnet) {
+                    this._addMagnet(this.previousMagnet);
+                }*/
+
     }
 
 }

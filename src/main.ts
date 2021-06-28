@@ -140,9 +140,6 @@ function installMouseEventsCanvas() {
 	let ismousedown = false;
 	setInterval(() => { timeToMouseMove = true; }, minDurationMouseMove);
 
-	//window["mv"]=0;
-	//window["mvsent"]=0;
-
 	document.getElementById("canvas").onpointerdown = (evt) => {
 		evt.preventDefault();
 		ismousedown = true;
@@ -156,9 +153,7 @@ function installMouseEventsCanvas() {
 		window["point"] = point;
 		S.onmousemove(point);
 
-		//	window["mv"]++;
 		if ((ismousedown && UserManager.me.canWrite) || timeToMouseMove) {
-			//		window["mvsent"]++;
 			Share.execute("mousemove", [UserManager.me.userID, evt]);
 			timeToMouseMove = false;
 		}

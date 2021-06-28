@@ -207,7 +207,9 @@ export class LoadSave {
             }
         }
 
-        document.getElementById("svg").innerHTML = obj.svg;
+        if (obj.svg)
+            document.getElementById("svg").innerHTML = obj.svg;
+
         document.getElementById("script").innerHTML = obj.script ? obj.script : "";
         ConstraintDrawing.reset();
         MagnetManager.installMagnets();
@@ -215,13 +217,18 @@ export class LoadSave {
 
 
     static getTableauNoirObject(): any {
-        const magnets = document.getElementById("magnets").innerHTML;
+     //   const magnets = document.getElementById("magnets").innerHTML;
         const backgroundLayer = document.getElementById("documentPanel").innerHTML;
-        const svg = document.getElementById("svg").innerHTML;
+        //  const svg = document.getElementById("svg").innerHTML;
         const script = (<HTMLTextAreaElement>document.getElementById("script")).value;
         // const canvasDataURL = getCanvas().toDataURL();
         //const obj = { magnets: magnets, svg: svg, canvasDataURL: canvasDataURL };
-        return { backgroundLayer: backgroundLayer, magnets: magnets, width: getCanvas().width, height: getCanvas().height, svg: svg, actions: BoardManager.timeline.serialize(), t: BoardManager.timeline.getCurrentIndex(), script: script };
+        return {
+            backgroundLayer: backgroundLayer,
+             //magnets: magnets,
+              width: getCanvas().width, height: getCanvas().height,
+            actions: BoardManager.timeline.serialize(), t: BoardManager.timeline.getCurrentIndex(), script: script
+        };
     }
 
 
