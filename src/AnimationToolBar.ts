@@ -1,7 +1,7 @@
-
+import { ActionTimeLineMenu } from './ActionTimeLineMenu';
 import { OperationDeleteAction } from './OperationDeleteAction';
 import { OperationMoveAction } from './OperationMoveAction';
-import { OperationMoveSevActions } from './OperationMoveSevActions';
+import { OperationMoveSevActions } from './OperationMoveSeveralActions';
 import { BoardManager } from './boardManager';
 
 
@@ -22,6 +22,7 @@ export class AnimationToolBar {
      */
     static foldIndexes:boolean[] = new Array(100);
     static actionsToBeMoved: number[] = [];
+    static lastSelectedIndex = -1;
 
 
     static toggle(): void {
@@ -176,6 +177,7 @@ export class AnimationToolBar {
         const action = BoardManager.timeline.actions[t];
         const el = document.createElement("div");
         let selectMode = false;
+        let selectModeShift = false;
         el.classList.add("action");
         el.style.backgroundImage = action.getOverviewImage();
         /*if (action instanceof ActionFreeDraw)
@@ -186,8 +188,9 @@ export class AnimationToolBar {
         if (action.pause)
             el.classList.add("actionPause");
 
- if (!action.isBlocking)
+		if (!action.isBlocking)
             el.classList.add("actionParallel");
+
         if (t <= BoardManager.timeline.getCurrentIndex())
             el.classList.add("actionExecuted");
 
@@ -202,14 +205,31 @@ export class AnimationToolBar {
         {
             if(event.ctrlKey)
                 selectMode = true;
+            if(event.shiftKey)
+                selectModeShift = true;
+            if(event.key === "Escape")
+            {
+                for(let k = 0; k < AnimationToolBar.actionsToBeMoved.length; k++)
+                {
+                    let pos = AnimationToolBar.WhereAmI(k);
+                    if(pos[1] == -1)
+                        document.getElementById("animationActionList").children[pos[0]].classList.remove("green");
+                    else
+                        document.getElementById("animationActionList").children[pos[0]].children[pos[1]].classList.remove("green");
+                }
+                AnimationToolBar.lastSelectedIndex = -1;
+                AnimationToolBar.actionsToBeMoved = [];
+            }
         });
         document.addEventListener("keyup", function(event)
         {
             if(event.ctrlKey)
                 selectMode = false;
+            if(event.shiftKey)
+                selectModeShift = false;
         });
 
- el.oncontextmenu = (evt) => {
+        el.oncontextmenu = (evt) => {
             const menu = new ActionTimeLineMenu(action);
             menu.show({ x: 500, y: 500 });
             evt.preventDefault();
@@ -231,6 +251,52 @@ export class AnimationToolBar {
                 {
                     AnimationToolBar.actionsToBeMoved.push(t);
                     el.classList.add("green");
+                }
+            }
+            else if(selectModeShift)
+            {
+                if(AnimationToolBar.lastSelectedIndex == -1)
+                {
+					AnimationToolBar.lastSelectedIndex = t;
+                    AnimationToolBar.actionsToBeMoved.push(t);
+                    el.classList.add("green");
+                }
+                else if(AnimationToolBar.lastSelectedIndex != -1)
+                {
+                    if(t == AnimationToolBar.lastSelectedIndex)
+                    {
+                        const index = AnimationToolBar.actionsToBeMoved.indexOf(t);
+		                AnimationToolBar.actionsToBeMoved.splice(index, 1);
+		                el.classList.remove("green");
+                    }
+                    else if(t < AnimationToolBar.lastSelectedIndex)
+                    {
+                        AnimationToolBar.actionsToBeMoved.push(t);
+                        el.classList.add("green");
+                        for(let k = t + 1; k < AnimationToolBar.lastSelectedIndex; k++)
+                        {
+                            AnimationToolBar.actionsToBeMoved.push(k);
+                            let pos = AnimationToolBar.WhereAmI(k);
+	                        if(pos[1] == -1)
+	                            document.getElementById("animationActionList").children[pos[0]].classList.add("green");
+	                        else
+	                            document.getElementById("animationActionList").children[pos[0]].children[pos[1]].classList.add("green");
+                        }
+                    }
+                    else
+                    {
+                        AnimationToolBar.actionsToBeMoved.push(t);
+                        el.classList.add("green");
+                        for(let k = AnimationToolBar.lastSelectedIndex + 1; k < t; k++)
+                        {
+                            AnimationToolBar.actionsToBeMoved.push(k);
+                            let pos = AnimationToolBar.WhereAmI(k);
+                            if(pos[1] == -1)
+                                document.getElementById("animationActionList").children[pos[0]].classList.add("green");
+                            else
+                                document.getElementById("animationActionList").children[pos[0]].children[pos[1]].classList.add("green");
+                        }
+                    }
                 }
             }
             else
@@ -266,6 +332,7 @@ export class AnimationToolBar {
                 BoardManager.executeOperation(new OperationMoveSevActions(AnimationToolBar.actionsToBeMoved, t));
             }
             AnimationToolBar.actionsToBeMoved = [];
+            AnimationToolBar.lastSelectedIndex = -1;
             AnimationToolBar.update();
         }
 
