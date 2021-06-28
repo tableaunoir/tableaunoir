@@ -179,10 +179,8 @@ export class Timeline {
      * @description moves actions referred to in indexesArray (or elToInsert) to pos insertIndex in this.action
      */
     move(indexToMove: number, insertIndex: number): void {
-        if (insertIndex == 0 || indexToMove == 0) {
+        if (insertIndex == 0 || indexToMove == 0)
             return;
-            console.log("error move. insertIndex : " + insertIndex + ", indexToMove : " + indexToMove);
-        }
 
         const eltToAdd = this.actions[indexToMove];
 
