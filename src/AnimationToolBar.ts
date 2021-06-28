@@ -1,4 +1,6 @@
 import { OperationDeleteAction } from './OperationDeleteAction';
+import { OperationMoveAction } from './OperationMoveAction';
+import { OperationMoveSevActions } from './OperationMoveSevActions';
 import { BoardManager } from './boardManager';
 
 
@@ -197,7 +199,6 @@ export class AnimationToolBar {
         {
             if(event.ctrlKey)
                 selectMode = true;
-            console.log(selectMode);
         });
         document.addEventListener("keyup", function(event)
         {
@@ -226,11 +227,9 @@ export class AnimationToolBar {
             else
             {
                 BoardManager.timeline.setCurrentIndex(t);
-                console.log(t);
                 for (let i = 0; i < BoardManager.timeline.actions.length; i++)
                 {
                     let pos = AnimationToolBar.WhereAmI(i);
-                    console.log(pos);
                     if (i <= t)
                     {
                         if(pos[1] == -1)
@@ -251,14 +250,13 @@ export class AnimationToolBar {
         }
 
         el.ondrop = () => {
-            if(AnimationToolBar.actionsToBeMoved.length == 0)
-                BoardManager.timeline.move(AnimationToolBar.tSelected, AnimationToolBar.actionsToBeMoved, t);
-            else
-            {
-                AnimationToolBar.actionsToBeMoved.sort();
-                BoardManager.timeline.move(0, AnimationToolBar.actionsToBeMoved, t);
-                AnimationToolBar.actionsToBeMoved = [];
+            if(AnimationToolBar.actionsToBeMoved.length == 0) {
+                BoardManager.executeOperation(new OperationMoveAction(AnimationToolBar.tSelected, t));
+            } else {
+	            AnimationToolBar.actionsToBeMoved.sort((x, y) => x - y);
+                BoardManager.executeOperation(new OperationMoveSevActions(AnimationToolBar.actionsToBeMoved, t));
             }
+            AnimationToolBar.actionsToBeMoved = [];
             AnimationToolBar.update();
         }
 

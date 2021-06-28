@@ -178,30 +178,16 @@ export class Timeline {
      *
      * @description moves actions referred to in indexesArray (or elToInsert) to pos insertIndex in this.action
      */
-    move(elToInsert: number, indexesArray: number[], insertIndex: number): void {
-        if (insertIndex == 0 || (elToInsert == 0 && indexesArray.length == 0))
+    move(indexToMove: number, insertIndex: number): void {
+        if (insertIndex == 0 || indexToMove == 0) {
             return;
-
-        if(indexesArray.length == 0)
-        {
-            if (elToInsert < insertIndex) //the position j shifts to the left since i is before
-                insertIndex--;
-
-            const action = this.actions[elToInsert];
-            this.actions.splice(elToInsert, 1);
-            this.actions.splice(insertIndex, 0, action);
+            console.log("error move. insertIndex : " + insertIndex + ", indexToMove : " + indexToMove);
         }
-        else
-        {
-            const eltsToAdd: (Action)[] = indexesArray.map((i) => this.actions[i]);
-            let delIndex = indexesArray[0];
 
-            if (indexesArray[0] > insertIndex)
-                delIndex += indexesArray.length;
+        const eltToAdd = this.actions[indexToMove];
 
-            this.actions.splice(insertIndex, 0, ...eltsToAdd);
-            this.actions.splice(delIndex, indexesArray.length);
-        }
+        this.actions.splice(indexToMove, 1);
+        this.actions.splice(insertIndex, 0, eltToAdd);
         this.resetAndUpdate();
     }
 
