@@ -176,8 +176,7 @@ export class AnimationToolBar {
     static HTMLElementForAction(t: number): HTMLElement {
         const action = BoardManager.timeline.actions[t];
         const el = document.createElement("div");
-        let selectMode = false;
-        let selectModeShift = false;
+       
         el.classList.add("action");
         el.style.backgroundImage = action.getOverviewImage();
         /*if (action instanceof ActionFreeDraw)
@@ -203,10 +202,6 @@ export class AnimationToolBar {
 
         document.addEventListener("keydown", function(event)
         {
-            if(event.ctrlKey)
-                selectMode = true;
-            if(event.shiftKey)
-                selectModeShift = true;
             if(event.key === "Escape")
             {
                 for(let k = 0; k < AnimationToolBar.actionsToBeMoved.length; k++)
@@ -221,13 +216,6 @@ export class AnimationToolBar {
                 AnimationToolBar.actionsToBeMoved = [];
             }
         });
-        document.addEventListener("keyup", function(event)
-        {
-            if(event.ctrlKey)
-                selectMode = false;
-            if(event.shiftKey)
-                selectModeShift = false;
-        });
 
         el.oncontextmenu = (evt) => {
             const menu = new ActionTimeLineMenu(action);
@@ -238,7 +226,10 @@ export class AnimationToolBar {
 
         el.ondragend = () => { AnimationToolBar.dragAndDropFrames = false; };
 
-        el.onclick = () => {
+        el.onclick = (event) => {
+            const selectMode  = (event.ctrlKey);
+            const selectModeShift  = (event.shiftKey);
+        
             if(selectMode)
             {
                 if(el.classList.contains("green"))
