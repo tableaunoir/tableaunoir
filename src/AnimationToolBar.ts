@@ -1,6 +1,8 @@
+
 import { OperationDeleteAction } from './OperationDeleteAction';
+import { OperationMoveAction } from './OperationMoveAction';
+import { OperationMoveSevActions } from './OperationMoveSevActions';
 import { BoardManager } from './boardManager';
-import { ActionTimeLineMenu } from './ActionTimeLineMenu';
 
 
 export class AnimationToolBar {
@@ -18,7 +20,8 @@ export class AnimationToolBar {
     /*
      * used to remember the golded div the user is currently working one
      */
-    static foldIndexes: boolean[] = new Array(100);
+    static foldIndexes:boolean[] = new Array(100);
+    static actionsToBeMoved: number[] = [];
 
 
     static toggle(): void {
@@ -55,20 +58,20 @@ export class AnimationToolBar {
      * second one refers to the index of the folded div the action is in (-1 if not in one).
      * Will return (-1, -1) in case of failure.
      */
-    static WhereAmI(n: number): [number, number] {
+    static WhereAmI (n: number) : [number, number] {
         let currIndex = -1;
 
-        for (let i = 0; i < document.getElementById("animationActionList").children.length; i++) {
-            if (document.getElementById("animationActionList").children[i].classList.contains("foldedDiv")) {
-                for (let j = 0; j < document.getElementById("animationActionList").children[i].children.length; j++) {
-                    currIndex++;
-                    if (currIndex == n)
+        for(let i = 0; i < document.getElementById("animationActionList").children.length; i++) {
+            if(document.getElementById("animationActionList").children[i].classList.contains("foldedDiv")) {
+                for(let j = 0; j < document.getElementById("animationActionList").children[i].children.length; j++) {
+                    currIndex ++;
+                    if(currIndex == n)
                         return [i, j];
                 }
             }
-            else if (document.getElementById("animationActionList").children[i].classList.contains("actionPause")) {
-                currIndex++;
-                if (currIndex == n)
+            else if(document.getElementById("animationActionList").children[i].classList.contains("actionPause")) {
+                currIndex ++;
+                if(currIndex == n)
                     return [i, -1];
             }
         }
@@ -93,11 +96,12 @@ export class AnimationToolBar {
         el.htmlFor = "toggleSub" + n;
         el.classList.add("unfold");
         el.style.backgroundImage = "url(\"img/open.png\")";
-        el.onclick = () => {
+        el.onclick = () =>
+        {
             AnimationToolBar.foldIndexes[n] = (AnimationToolBar.foldIndexes[n] ? false : true);
 
-            el.style.backgroundImage = (el.style.backgroundImage == "url(\"img/open.png\")" ? "url(\"img/close.png\")"
-                : "url(\"img/open.png\")");
+            el.style.backgroundImage = (el.style.backgroundImage == "url(\"img/open.png\")" ?  "url(\"img/close.png\")"
+            : "url(\"img/open.png\")");
         }
         return el;
     }
@@ -108,7 +112,7 @@ export class AnimationToolBar {
     static spawnFoldCheckBox(n: number): HTMLElement {
         const el = document.createElement("input");
         el.id = "toggleSub" + n;
-        if (AnimationToolBar.foldIndexes[n])
+        if(AnimationToolBar.foldIndexes[n])
             el.checked = true;
         el.classList.add("toggleFOld");
         el.type = "checkbox";
@@ -156,7 +160,7 @@ export class AnimationToolBar {
         document.getElementById("canvas").ondrop = () => {
             if (AnimationToolBar.dragAndDropFrames) {
                 BoardManager.executeOperation(new OperationDeleteAction(AnimationToolBar.tSelected));
-
+                
                 AnimationToolBar.update();
             }
             AnimationToolBar.dragAndDropFrames = false;
@@ -182,9 +186,8 @@ export class AnimationToolBar {
         if (action.pause)
             el.classList.add("actionPause");
 
-        if (!action.isBlocking)
+ if (!action.isBlocking)
             el.classList.add("actionParallel");
-
         if (t <= BoardManager.timeline.getCurrentIndex())
             el.classList.add("actionExecuted");
 
@@ -195,42 +198,74 @@ export class AnimationToolBar {
             AnimationToolBar.dragAndDropFrames = true;
         }
 
-        el.ondragend = () => { AnimationToolBar.dragAndDropFrames = false; };
+        document.addEventListener("keydown", function(event)
+        {
+            if(event.ctrlKey)
+                selectMode = true;
+        });
+        document.addEventListener("keyup", function(event)
+        {
+            if(event.ctrlKey)
+                selectMode = false;
+        });
 
-        el.oncontextmenu = (evt) => {
+ el.oncontextmenu = (evt) => {
             const menu = new ActionTimeLineMenu(action);
             menu.show({ x: 500, y: 500 });
             evt.preventDefault();
             return;
         }
 
-        el.onclick = (evt) => {
+        el.ondragend = () => { AnimationToolBar.dragAndDropFrames = false; };
 
-
-            BoardManager.timeline.setCurrentIndex(t);
-            console.log(t);
-            for (let i = 0; i < BoardManager.timeline.actions.length; i++) {
-                let pos = AnimationToolBar.WhereAmI(i);
-                console.log(pos);
-                if (i <= t) {
-                    if (pos[1] == -1)
-                        document.getElementById("animationActionList").children[pos[0]].classList.add("actionExecuted");
-                    else
-                        document.getElementById("animationActionList").children[pos[0]].children[pos[1]].classList.add("actionExecuted");
+        el.onclick = () => {
+            if(selectMode)
+            {
+                if(el.classList.contains("green"))
+                {
+                    const index = AnimationToolBar.actionsToBeMoved.indexOf(t);
+                    AnimationToolBar.actionsToBeMoved.splice(index, 1);
+                    el.classList.remove("green");
                 }
-                else {
-                    if (pos[1] == -1)
-                        document.getElementById("animationActionList").children[pos[0]].classList.remove("actionExecuted");
-                    else
-                        document.getElementById("animationActionList").children[pos[0]].children[pos[1]].classList.remove("actionExecuted");
+                else
+                {
+                    AnimationToolBar.actionsToBeMoved.push(t);
+                    el.classList.add("green");
                 }
-                //AnimationToolBar.update();
+            }
+            else
+            {
+                BoardManager.timeline.setCurrentIndex(t);
+                for (let i = 0; i < BoardManager.timeline.actions.length; i++)
+                {
+                    let pos = AnimationToolBar.WhereAmI(i);
+                    if (i <= t)
+                    {
+                        if(pos[1] == -1)
+                            document.getElementById("animationActionList").children[pos[0]].classList.add("actionExecuted");
+                        else
+                            document.getElementById("animationActionList").children[pos[0]].children[pos[1]].classList.add("actionExecuted");
+                    }
+                    else
+                    {
+                        if(pos[1] == -1)
+                            document.getElementById("animationActionList").children[pos[0]].classList.remove("actionExecuted");
+                        else
+                            document.getElementById("animationActionList").children[pos[0]].children[pos[1]].classList.remove("actionExecuted");
+                    }
+                    //AnimationToolBar.update();
+                }
             }
         }
 
         el.ondrop = () => {
-            BoardManager.timeline.move(AnimationToolBar.tSelected, t);
-            console.log(`move(${AnimationToolBar.tSelected}, ${t})`)
+            if(AnimationToolBar.actionsToBeMoved.length == 0) {
+                BoardManager.executeOperation(new OperationMoveAction(AnimationToolBar.tSelected, t));
+            } else {
+	            AnimationToolBar.actionsToBeMoved.sort((x, y) => x - y);
+                BoardManager.executeOperation(new OperationMoveSevActions(AnimationToolBar.actionsToBeMoved, t));
+            }
+            AnimationToolBar.actionsToBeMoved = [];
             AnimationToolBar.update();
         }
 

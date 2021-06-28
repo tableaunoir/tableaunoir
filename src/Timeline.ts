@@ -9,7 +9,8 @@ import { getCanvas } from './main';
 
 
 /**
- * data structure for the timeline, that is the linear history of actions (draw a line, eraser here, etc.)
+ * data structure for the linear history of actions (draw a line, eraser here, etc.)
+ * TODO: for the moment, it is single-user (we do not care who are performing actions)
  */
 export class Timeline {
 
@@ -107,17 +108,12 @@ export class Timeline {
                     ErrorMessage.show("issue #113. error with t = " + t + " try to undo/redo again");
                     bug113 = true;
                 }
-                else {
-                    //  console.log(`action of timestep ${t}`);
-                    //  console.log(`action: ${this.actions[t]}`);
-                    await this.actions[t].undo(); //(if the action is not directly undoable, undo just do nothing)
-                    //  console.log(`action of timestep ${t}`);
-                    //  console.log(`action: ${this.actions[t]}`);
-                    if (!this.actions[t].isDirectlyUndoable)
+                else
+                    if (this.actions[t].isDirectlyUndoable)
+                        await this.actions[t].undo();
+                    else
                         sthToDoFromStart = true;
-                }
 
-            //console.log(`we have to clean the canvas: ${sthToDoFromStart}`);
             if (sthToDoFromStart) {
                 this.canvasClear();
                 this.canvasRedraw();
@@ -174,28 +170,24 @@ export class Timeline {
         await this.doAllActionsUntilCurrentIndex();
     }
 
-
-
-
-
-
-
     /**
-     * 
-     * @param i 
-     * @param j 
-     * @description move action at time i to actual time j
+     *
+     * @param elToInsert
+     * @param indexesArray
+     * @param insertIndex
+     *
+     * @description moves actions referred to in indexesArray (or elToInsert) to pos insertIndex in this.action
      */
-    move(i: number, j: number): void {
-        if (i == 0 || j == 0)
+    move(indexToMove: number, insertIndex: number): void {
+        if (insertIndex == 0 || indexToMove == 0) {
             return;
+            console.log("error move. insertIndex : " + insertIndex + ", indexToMove : " + indexToMove);
+        }
 
-        if (i < j) //the position j shifts to the left since i is before
-            j--;
+        const eltToAdd = this.actions[indexToMove];
 
-        const action = this.actions[i];
-        this.actions.splice(i, 1);
-        this.actions.splice(j, 0, action);
+        this.actions.splice(indexToMove, 1);
+        this.actions.splice(insertIndex, 0, eltToAdd);
         this.resetAndUpdate();
     }
 
@@ -242,14 +234,14 @@ export class Timeline {
      * @param t 
      * @description delete action at time t
      */
-    async delete(t: number): Promise<void> {
+    delete(t: number): void {
         if (t == 0) //the first action cannot be removed
             return;
 
         //if the action deleted is the current one, use the optimized version
         if (t == this.currentIndex) {
             this.currentIndex--;
-            await this.updateState(t);
+            this.updateState(t);
         }
 
         this.actions.splice(t, 1); //really delete
@@ -259,7 +251,7 @@ export class Timeline {
             this.currentIndex--;
             this.resetAndUpdate();
         }
-        this.currentIndex = Math.min(this.actions.length - 1, this.currentIndex);
+
     }
 
 
@@ -366,10 +358,7 @@ export class Timeline {
 
         const tGoal = this.getNextPausedFrame();
         for (let i = this.currentIndex + 1; i <= tGoal; i++)
-            if (this.actions[i].isBlocking)
-                await this.actions[i].redoAnimated();
-            else
-                this.actions[i].redoAnimated();
+            await this.actions[i].redoAnimated();
 
         this.currentIndex = tGoal;
     }
