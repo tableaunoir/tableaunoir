@@ -220,7 +220,7 @@ export class AnimationToolBar {
         el.oncontextmenu = (evt) => {
             const menu = new ActionTimeLineMenu(action);
             menu.show({ x: 500, y: 500 });
-            evt.preventDefault();
+            //evt.preventDefault();
             return;
         }
 

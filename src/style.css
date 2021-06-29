@@ -1083,16 +1083,16 @@ h1 {
 .unfold {
 	position: relative;
 	height: 20px;
-	width: 30px;
+	width: 20px;
 	background-image: url(img/open.png);
 	background-size: contain;
 	background-repeat: no-repeat;
 	background-position: center;
 	box-sizing: border-box;
-	border-radius: 15px;
+	border-radius: 15px 0px 0px 15px;
 	display: inline-block;
 	margin-left: 5px;
-	margin-right: 5px;
+	margin-right: 2px;
 	top: 50%;
 	transform: translateY(-100%);
 	cursor: pointer;
@@ -1101,7 +1101,7 @@ h1 {
 }
 
 .unfold:hover {
-	width: 40px;
+	width: 30px;
 	transition: width 500ms;
 }
 
@@ -1112,7 +1112,8 @@ h1 {
 
 
 .actionPause {
-	border: 2px solid white;
+	margin-right: 6px;
+	border-radius: 0px 12px 12px 0px;
 }
 
 
