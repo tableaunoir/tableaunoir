@@ -20,7 +20,7 @@ export class AnimationToolBar {
     /*
      * used to remember the golded div the user is currently working one
      */
-    static foldIndexes:boolean[] = new Array(100);
+    static foldIndexes:number[] = [];
     static actionsToBeMoved: number[] = [];
     static lastSelectedIndex = -1;
 
@@ -96,11 +96,17 @@ export class AnimationToolBar {
         const el = document.createElement("label");
         el.htmlFor = "toggleSub" + n;
         el.classList.add("unfold");
-        el.style.backgroundImage = "url(\"img/open.png\")";
+        const index = AnimationToolBar.foldIndexes.indexOf(n);
+        if(index == -1)
+            el.style.backgroundImage = "url(\"img/open.png\")";
+        else
+            el.style.backgroundImage = "url(\"img/close.png\")";
         el.onclick = () =>
         {
-            AnimationToolBar.foldIndexes[n] = (AnimationToolBar.foldIndexes[n] ? false : true);
-
+            if(index == -1)
+                AnimationToolBar.foldIndexes.push(n);
+			else
+				AnimationToolBar.foldIndexes.splice(index, 1);
             el.style.backgroundImage = (el.style.backgroundImage == "url(\"img/open.png\")" ?  "url(\"img/close.png\")"
             : "url(\"img/open.png\")");
         }
@@ -113,7 +119,7 @@ export class AnimationToolBar {
     static spawnFoldCheckBox(n: number): HTMLElement {
         const el = document.createElement("input");
         el.id = "toggleSub" + n;
-        if(AnimationToolBar.foldIndexes[n])
+        if(AnimationToolBar.foldIndexes.indexOf(n) != -1)
             el.checked = true;
         el.classList.add("toggleFOld");
         el.type = "checkbox";
@@ -176,7 +182,7 @@ export class AnimationToolBar {
     static HTMLElementForAction(t: number): HTMLElement {
         const action = BoardManager.timeline.actions[t];
         const el = document.createElement("div");
-       
+
         el.classList.add("action");
         el.style.backgroundImage = action.getOverviewImage();
         /*if (action instanceof ActionFreeDraw)
@@ -202,7 +208,7 @@ export class AnimationToolBar {
 
         document.addEventListener("keydown", function(event)
         {
-            if(event.key === "Escape")
+            if(event.key == "Escape")
             {
                 for(let k = 0; k < AnimationToolBar.actionsToBeMoved.length; k++)
                 {
@@ -229,19 +235,39 @@ export class AnimationToolBar {
         el.onclick = (event) => {
             const selectMode  = (event.ctrlKey);
             const selectModeShift  = (event.shiftKey);
-        
+
             if(selectMode)
             {
+                const index = AnimationToolBar.actionsToBeMoved.indexOf(t);
                 if(el.classList.contains("green"))
                 {
-                    const index = AnimationToolBar.actionsToBeMoved.indexOf(t);
                     AnimationToolBar.actionsToBeMoved.splice(index, 1);
                     el.classList.remove("green");
+	                if(action.pause)
+	                {
+	                    const pauseIndex = AnimationToolBar.WhereAmI(t);
+	                    const elsToRemove = document.getElementById("animationActionList").children[pauseIndex[0] - 1].children;
+	                    for(let k = 0; k < elsToRemove.length; k ++)
+	                    {
+	                        elsToRemove[k].classList.remove("green");
+	                    }
+                        AnimationToolBar.actionsToBeMoved.splice(index, elsToRemove.length);
+	                }
                 }
                 else
                 {
                     AnimationToolBar.actionsToBeMoved.push(t);
                     el.classList.add("green");
+	                if(action.pause)
+	                {
+	                    const pauseIndex = AnimationToolBar.WhereAmI(t);
+	                    const elsToAdd = document.getElementById("animationActionList").children[pauseIndex[0] - 1].children;
+	                    for(let k = 0; k < elsToAdd.length; k ++)
+	                    {
+	                        elsToAdd[k].classList.add("green");
+                            AnimationToolBar.actionsToBeMoved.push(t-(k+1));
+	                    }
+	                }
                 }
             }
             else if(selectModeShift)
