@@ -75,5 +75,13 @@ export abstract class Action {
     }
 
 
-    getOverviewImage(): string { return ""; }
+    _overviewImage: string = undefined;
+
+    getOverviewImage(): string {
+        if (this._overviewImage == undefined)
+            this._overviewImage = this.createOverviewImage();
+        return this._overviewImage;
+    }
+
+    createOverviewImage(): string { return ""; }
 }

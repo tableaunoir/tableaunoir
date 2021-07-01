@@ -27,7 +27,7 @@ export class ActionPrintMagnet extends Action {
 	}
 
 
-	getOverviewImage(): string { return "url(img/icons/stamp.svg)"; }
+	createOverviewImage(): string { return "url(img/icons/stamp.svg)"; }
 
 	redo(): Promise<void> {
 		return new Promise((resolve) => {

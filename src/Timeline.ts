@@ -356,8 +356,10 @@ export class Timeline {
 
         const tGoal = this.getNextPausedFrame();
         for (let i = this.currentIndex + 1; i <= tGoal; i++)
-            await this.actions[i].redoAnimated();
-
+            if (this.actions[i].isBlocking)
+                await this.actions[i].redoAnimated();
+            else
+                this.actions[i].redoAnimated();
         this.currentIndex = tGoal;
     }
 

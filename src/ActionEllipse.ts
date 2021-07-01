@@ -20,7 +20,7 @@ export class ActionEllipse extends Action {
         super(userid);
     }
 
-    getOverviewImage(): string { return "url(img/icons/26AA.svg)"; }
+    createOverviewImage(): string { return "url(img/icons/26AA.svg)"; }
 
 
     async redo(): Promise<void> {
