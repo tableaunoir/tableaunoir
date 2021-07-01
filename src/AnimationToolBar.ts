@@ -62,7 +62,7 @@ export class AnimationToolBar {
     static WhereAmI (n: number) : [number, number] {
         let currIndex = -1;
 
-        for(let i = 0; i < document.getElementById("animationActionList").children.length; i++) {
+        for(let i = 1; i < document.getElementById("animationActionList").children.length; i++) {
             if(document.getElementById("animationActionList").children[i].classList.contains("foldedDiv")) {
                 for(let j = 0; j < document.getElementById("animationActionList").children[i].children.length; j++) {
                     currIndex ++;
@@ -187,10 +187,6 @@ export class AnimationToolBar {
 
         el.classList.add("action");
         el.style.backgroundImage = action.getOverviewImage();
-        /*if (action instanceof ActionFreeDraw)
-            el.style.backgroundColor = action.getMainColor();
-        else if (action instanceof ActionErase)
-            el.classList.add("actionErase");*/
 
         if (action.pause)
             el.classList.add("actionPause");
@@ -296,9 +292,9 @@ export class AnimationToolBar {
                         {
                             AnimationToolBar.actionsToBeMoved.push(k);
                             let pos = AnimationToolBar.WhereAmI(k);
-	                        if(pos[1] == -1)
+	                        if(pos[1] == -1 && pos[0] != -1)
 	                            document.getElementById("animationActionList").children[pos[0]].classList.add("green");
-	                        else
+	                        else if(pos[0] != -1)
 	                            document.getElementById("animationActionList").children[pos[0]].children[pos[1]].classList.add("green");
                         }
                     }
@@ -310,9 +306,9 @@ export class AnimationToolBar {
                         {
                             AnimationToolBar.actionsToBeMoved.push(k);
                             let pos = AnimationToolBar.WhereAmI(k);
-                            if(pos[1] == -1)
+                            if(pos[1] == -1 && pos[0] != -1)
                                 document.getElementById("animationActionList").children[pos[0]].classList.add("green");
-                            else
+                            else if(pos[0] != -1)
                                 document.getElementById("animationActionList").children[pos[0]].children[pos[1]].classList.add("green");
                         }
                     }
@@ -321,24 +317,23 @@ export class AnimationToolBar {
             else
             {
                 BoardManager.timeline.setCurrentIndex(t);
-                for (let i = 0; i < BoardManager.timeline.actions.length; i++)
+                for (let i = 1; i < BoardManager.timeline.actions.length; i++)
                 {
                     let pos = AnimationToolBar.WhereAmI(i);
-                    if (i <= t)
+                    if (i < t)
                     {
-                        if(pos[1] == -1)
+                        if(pos[1] == -1 && pos[0] != -1)
                             document.getElementById("animationActionList").children[pos[0]].classList.add("actionExecuted");
-                        else
+                        else if(pos[0] != -1)
                             document.getElementById("animationActionList").children[pos[0]].children[pos[1]].classList.add("actionExecuted");
                     }
                     else
                     {
-                        if(pos[1] == -1)
+                        if(pos[1] == -1 && pos[0] != -1)
                             document.getElementById("animationActionList").children[pos[0]].classList.remove("actionExecuted");
-                        else
+                        else if (pos[0] != -1)
                             document.getElementById("animationActionList").children[pos[0]].children[pos[1]].classList.remove("actionExecuted");
                     }
-                    //AnimationToolBar.update();
                 }
             }
         }
