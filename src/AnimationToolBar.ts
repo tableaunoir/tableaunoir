@@ -140,7 +140,9 @@ export class AnimationToolBar {
         document.getElementById("animationActionList").innerHTML = "";
         document.getElementById("animationBarBuffer").append(foldedDiv);
 
-        for (let i = 0; i < BoardManager.timeline.actions.length; i++) {
+        document.getElementById("animationActionList").append(AnimationToolBar.HTMLElementForAction(0));
+
+        for (let i = 1; i < BoardManager.timeline.actions.length; i++) {
             if (BoardManager.timeline.actions[i].pause) {
 
                 const lab = AnimationToolBar.spawnFoldLabel(count);
