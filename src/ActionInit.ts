@@ -24,7 +24,7 @@ export class ActionInit extends Action {
         return { type: "init", pause: this.pause, userid: this.userid, canvasDataURL: this.canvasDataURL };
     }
 
-    getOverviewImage(): string { return "url(img/icons/start.svg)"; }
+    createOverviewImage(): string { return "url(img/icons/start.svg)"; }
 
     redo(): Promise<void> {
         return new Promise((resolve) => {

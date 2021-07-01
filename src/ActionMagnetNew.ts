@@ -26,7 +26,7 @@ export class ActionMagnetNew extends Action {
     }
 
 
-    getOverviewImage(): string { return "url(img/icons/1F9F2.svg)"; }
+    createOverviewImage(): string { return "url(img/icons/1F9F2.svg)"; }
 
     /**
      * 

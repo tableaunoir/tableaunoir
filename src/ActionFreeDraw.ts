@@ -253,7 +253,7 @@ export class ActionFreeDraw extends Action {
 
 
 
-    getOverviewImage(): string {
+    createOverviewImage(): string {
         const canvas = Action.createCanvasOverview();
         const ctx = canvas.getContext("2d");
         if (!this.alreadyDrawnSth)
