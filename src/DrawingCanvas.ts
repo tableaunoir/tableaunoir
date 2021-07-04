@@ -64,7 +64,7 @@ export class DrawingCanvas {
         context.moveTo(x1, y1);
         context.lineTo(x2, y2);
         context.stroke();
-
+        //context.closePath();
 
         /****** Chalk effect (too slow in real time!) ***/
        /* context.fillStyle = color;
@@ -80,6 +80,17 @@ export class DrawingCanvas {
     }
 
 
+
+    static clear() : void {
+        const canvas = getCanvas();
+        //canvas.width = canvas.width + 0;
+        const context = canvas.getContext("2d");        
+        context.clearRect(0, 0, canvas.width, canvas.height);
+    
+    }
+
+
+    
     static drawLineUndo(context: CanvasRenderingContext2D,
         x1: number, y1: number, x2: number, y2: number,
         pressure = 1.0): void {
@@ -102,7 +113,7 @@ export class DrawingCanvas {
         context.lineWidth = this.lineWidth * 2;
         context.arc(x, y, 2, 0, 2 * Math.PI);
         context.fill();
-        context.closePath();
+      //  context.closePath();
     }
 
 
@@ -118,7 +129,7 @@ export class DrawingCanvas {
         context.lineTo(x2, y2);
         context.lineCap = "round";
         context.stroke();
-        context.closePath();
+      //  context.closePath();
     }
 
 

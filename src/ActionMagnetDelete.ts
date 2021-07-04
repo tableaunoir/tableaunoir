@@ -24,7 +24,7 @@ export class ActionMagnetDelete extends Action {
         this.isDirectlyUndoable = true;
     }
 
-    getOverviewImage(): string { return "url(img/icons/E262.svg)"; }
+    createOverviewImage(): string { return "url(img/icons/E262.svg)"; }
 
 
 

@@ -27,8 +27,9 @@ export class MagnetManager {
 		const magnets = MagnetManager.getMagnets();
 
 		for (let i = 0; i < magnets.length; i++) {
-			if (MagnetManager.magnetNearContains(magnets[i], x, y))
-				return magnets[i];
+			if (magnets[i].style.visibility != "hidden")
+				if (MagnetManager.magnetNearContains(magnets[i], x, y))
+					return magnets[i];
 		}
 		return null;
 	}
@@ -679,7 +680,7 @@ export class MagnetManager {
 	static magnetRemove(id: string): void {
 		console.log(`magnetRemove ${id}`);
 		BoardManager.addAction(new ActionMagnetDelete(UserManager.me.userID, id));
-//		document.getElementById(id).remove(); //do not remove here because ActionMagnetDelete is doing the job in add Action
+		//		document.getElementById(id).remove(); //do not remove here because ActionMagnetDelete is doing the job in add Action
 		//		document.getElementById(id).style.top = "-1000";
 		MagnetManager.currentMagnet == undefined;
 		MagnetManager.magnetUnderCursor = undefined;

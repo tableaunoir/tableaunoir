@@ -12,14 +12,15 @@ export abstract class Action {
     public pause = false;
     public isDirectlyUndoable = false;
     public isBlocking = true;
-    private _speed = 3;
-    private _delay = 1;
+    private _speed = 1;
+    private _delay = this.getDelay(this._speed);
+    static delayCounter = 0;
 
     private getDelay(speed: number): number {
         switch (speed) {
-            case 0: return 100;
-            case 1: return 50;
-            case 2: return 1;
+            case 0: return 20;
+            case 1: return 10;
+            case 2: return 5;
         }
         return 0;
     }
@@ -31,8 +32,18 @@ export abstract class Action {
 
 
     async delay(): Promise<void> {
-        if (this._delay > 0)
+        const minRealDelay = 10;
+        if (this._delay >= minRealDelay) {
             await Drawing.delay(this._delay);
+        }
+        if (this._delay > 0) {
+            if (Action.delayCounter > minRealDelay / this._delay) {
+                await Drawing.delay(this._delay);
+                Action.delayCounter = 0;
+            }
+            Action.delayCounter++;
+        }
+
     }
 
 

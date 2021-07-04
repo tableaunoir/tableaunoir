@@ -1,3 +1,4 @@
+import { DrawingCanvas } from './DrawingCanvas';
 import { BoardManager } from './boardManager';
 import { ErrorMessage } from './ErrorMessage';
 import { ActionSerialized } from './ActionSerialized';
@@ -31,13 +32,7 @@ export class Timeline {
     }
 
 
-    /**
-     * @description clear the canvas
-     */
-    canvasClear(): void {
-        const canvas = getCanvas();
-        canvas.width = canvas.width + 0;
-    }
+
     /**
      * empty the cancel stack but keeps the current state
      */
@@ -115,7 +110,7 @@ export class Timeline {
                         sthToDoFromStart = true;
 
             if (sthToDoFromStart) {
-                this.canvasClear();
+                DrawingCanvas.clear();
                 this.canvasRedraw();
 
             }
@@ -163,7 +158,7 @@ export class Timeline {
      * @description updates the canvas and the magnets completely from the start
      */
     private async resetAndUpdate(): Promise<void> {
-        this.canvasClear();
+        DrawingCanvas.clear();
         if (BoardManager.MAGNETCANCELLABLE)
             document.getElementById("magnets").innerHTML = "";
 

@@ -1,3 +1,4 @@
+import { ActionClear } from './ActionClear';
 import { Sound } from './Sound';
 import { Geometry } from './Geometry';
 import { ActionErase } from './ActionErase';
@@ -36,7 +37,7 @@ export class ToolEraser extends Tool {
     private oldSpeed = 0;
 
     private svgLinesErased = [];
-
+    private nbClick = 0;
 
     constructor(user: User) {
         super(user);
@@ -46,7 +47,7 @@ export class ToolEraser extends Tool {
             this.updateEraserCursor();
 
         }
-        
+
     }
 
     updateEraserCursor(): void {
@@ -58,6 +59,9 @@ export class ToolEraser extends Tool {
 
 
     mousedown(): void {
+        setTimeout(() => { this.nbClick = 0 }, 300);
+        this.nbClick++;
+        console.log(this.nbClick)
         this.iMode = 0;
         this.oldSpeed = 0;
         this.svgLinesErased = [];
@@ -72,6 +76,7 @@ export class ToolEraser extends Tool {
     mousemove(evt: PointerEvent): void {
         const evtX = evt.offsetX;
         const evtY = evt.offsetY;
+        this.nbClick = 0;
 
         if (this.isDrawing) {
             const dt = 1; //the time difference between the 2 last points, by default equals 1
@@ -134,11 +139,11 @@ export class ToolEraser extends Tool {
             const p2 = { x: parseInt(svgLine.getAttributeNS(null, 'x2')), y: parseInt(svgLine.getAttributeNS(null, 'y2')) };
 
             const m = Geometry.middle(p1, p2);
-            if (Geometry.distance({ x: x, y: y }, m) < this.eraseLineWidth)  {
+            if (Geometry.distance({ x: x, y: y }, m) < this.eraseLineWidth) {
                 this.svgLinesErased.push(svgLine);
                 svgLine.style.visibility = "hidden";
             }
-                
+
         }
 
 
@@ -154,9 +159,17 @@ export class ToolEraser extends Tool {
             if (this.user.isCurrentUser)
                 this.updateEraserCursor();
 
-                this.action.setSVGLinesErased(this.svgLinesErased);
+            this.action.setSVGLinesErased(this.svgLinesErased);
 
-            BoardManager.addAction(this.action);
+            if (this.nbClick >= 2) {// && evt.ctrlKey 
+                //a double-click will erase all the board!
+                document.getElementById("content").style.filter = "invert(1)";
+                BoardManager.addAction(new ActionClear(this.user.userID));
+                setTimeout(() => document.getElementById("content").style.filter = "", 100);
+            }
+                
+            else
+                BoardManager.addAction(this.action);
         }
     }
 

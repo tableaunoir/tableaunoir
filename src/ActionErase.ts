@@ -9,9 +9,7 @@ import { Action } from './Action';
 export class ActionErase extends Action {
     private svgLinesErased = [];
 
-    setSVGLinesErased(svgLinesErased: SVGLineElement[]): void {
-        this.svgLinesErased = svgLinesErased;
-    }
+    setSVGLinesErased(svgLinesErased: SVGLineElement[]): void { this.svgLinesErased = svgLinesErased; }
 
     get xMax(): number { return Math.max(...this.points.map((p) => p.x)); }
 
@@ -31,8 +29,8 @@ export class ActionErase extends Action {
         pt.y = Geometry.numberRound(pt.y);
 
         if (this.points.length > 0) {
-            const pointBefore = this.points[this.points.length - 1];
-            if (Math.abs(pt.x - pointBefore.x) < 1 && Math.abs(pt.y - pointBefore.y) < 1)
+            const lastPoint = this.points[this.points.length - 1];
+            if (Math.abs(pt.x - lastPoint.x) < 1 && Math.abs(pt.y - lastPoint.y) < 1)
                 return;
         }
 
@@ -43,21 +41,20 @@ export class ActionErase extends Action {
     async redo(): Promise<void> {
         this.svgLinesErasedErase();
         for (let i = 1; i < this.points.length; i++) {
-            Drawing.clearLine(this.points[i - 1].x, this.points[i - 1].y, this.points[i].x, this.points[i].y, this.points[i].lineWidth);
+            Drawing.clearLine(this.points[i - 1].x, this.points[i - 1].y,
+                this.points[i].x, this.points[i].y, this.points[i].lineWidth);
         }
 
     }
 
 
-    async undo(): Promise<void> {
-        this.svgLinesErasedRestore();
-    }
+    async undo(): Promise<void> { this.svgLinesErasedRestore(); }
 
     svgLinesErasedRestore(): void { this.svgLinesErased.forEach((line) => line.style.visibility = "visible"); }
     svgLinesErasedErase(): void { this.svgLinesErased.forEach((line) => line.style.visibility = "hidden"); }
 
 
-    getOverviewImage(): string { return "url(img/icons/erase.svg)"; }
+    createOverviewImage(): string { return "url(img/icons/erase.svg)"; }
 
     /**
     * 
@@ -66,8 +63,11 @@ export class ActionErase extends Action {
     async redoAnimated(): Promise<void> {
         this.svgLinesErasedErase();
         for (let i = 1; i < this.points.length; i++) {
-            Drawing.clearLine(this.points[i - 1].x, this.points[i - 1].y, this.points[i].x, this.points[i].y, this.points[i].lineWidth);
-            await this.delay();
+            Drawing.clearLine(this.points[i - 1].x, this.points[i - 1].y,
+                this.points[i].x, this.points[i].y,
+                this.points[i].lineWidth);
+            if (i % 3 == 0)
+                await this.delay();
         }
 
     }

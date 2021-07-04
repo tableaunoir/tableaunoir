@@ -11,6 +11,7 @@ import { ActionEllipse } from './ActionEllipse';
 import { Action } from "./Action";
 import { ActionFreeDraw } from './ActionFreeDraw';
 import { ActionLine } from './ActionLine';
+import { ActionClear } from './ActionClear';
 
 export class ActionDeserializer {
     static deserializeSub(obj: ActionSerialized): Action {
@@ -44,6 +45,9 @@ export class ActionDeserializer {
         }
         if (obj.type == "clearzone") {
             return new ActionClearZone(obj.userid, obj.points, obj.cut, obj.removeContour);
+        }
+        if (obj.type == "clear") {
+            return new ActionClear(obj.userid);
         }
         if (obj.type == "printmagnet") {
             return new ActionPrintMagnet(obj.userid, <HTMLImageElement>HTMLdeserialize(obj.magnet), obj.x, obj.y);
