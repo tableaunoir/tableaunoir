@@ -59,7 +59,6 @@ export class ToolEraser extends Tool {
 
 
     mousedown(): void {
-        setTimeout(() => { this.nbClick = 0 }, 300);
         this.nbClick++;
         console.log(this.nbClick)
         this.iMode = 0;
@@ -149,7 +148,7 @@ export class ToolEraser extends Tool {
 
     }
 
-    mouseup(): void {
+    mouseup(evt): void {
         if (this.isDrawing) {
             SoundToolEraser.mouseup();
             this.iMode = 0;
@@ -161,15 +160,18 @@ export class ToolEraser extends Tool {
 
             this.action.setSVGLinesErased(this.svgLinesErased);
 
-            if (this.nbClick >= 2) {// && evt.ctrlKey 
-                //a double-click will erase all the board!
+            if (this.nbClick >= 1 && evt.ctrlKey) {
+                //ctrl + click => erase all the board
+                //dblclick is not working in shared mode!! (since the latency is not the same on the different devices)
                 document.getElementById("content").style.filter = "invert(1)";
                 BoardManager.addAction(new ActionClear(this.user.userID));
                 setTimeout(() => document.getElementById("content").style.filter = "", 100);
             }
-                
+
             else
                 BoardManager.addAction(this.action);
+
+            this.nbClick = 0;
         }
     }
 

@@ -410,7 +410,10 @@ export class Share {
 
 	private static _adaptObjectForExecute(obj) {
 		if (obj instanceof MouseEvent) {
-			return { pressure: (<PointerEvent>obj).pressure, offsetX: obj.offsetX, offsetY: obj.offsetY, shiftKey: obj.shiftKey };
+			return { pressure: (<PointerEvent>obj).pressure, offsetX: obj.offsetX, offsetY: obj.offsetY, shiftKey: obj.shiftKey, 
+		    ctrlKey: obj.ctrlKey
+			//detail: obj.detail //should give the number of clicks but does not work with pointerup	
+			};
 		}
 		else
 			return obj;
