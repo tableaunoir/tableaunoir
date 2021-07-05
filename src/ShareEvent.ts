@@ -99,10 +99,16 @@ export class ShareEvent {
 
 
     /** board */
-    static boardClear(): void {
-        BoardManager._clear();
+    static boardReset(): void {
+        BoardManager._reset();
         Menu.hide();
     }
+
+    static boardClear(): void {
+        BoardManager.newSlideAndClear(UserManager.me.userID);
+    }
+
+
 
     static setWidthAtLeast(atLeastWidth: number): void {
         BoardManager.setWidthAtLeast(atLeastWidth);
@@ -147,10 +153,10 @@ export class ShareEvent {
         }
         if (MagnetTextManager.isTextMagnet(magnet)) {
             const action = BoardManager.getLastAction();
-            if(action instanceof ActionMagnetNew) 
+            if (action instanceof ActionMagnetNew)
                 action.setMagnet(magnet);
             else
-                 BoardManager.addAction(new ActionMagnetNew(userid, magnet));
+                BoardManager.addAction(new ActionMagnetNew(userid, magnet));
         }
         else
             BoardManager.addAction(new ActionMagnetNew(userid, magnet));
@@ -184,13 +190,13 @@ export class ShareEvent {
 
     static timelineAddAction(t: number, actionSerialized: string): void {
         BoardManager.timeline.insert(ActionDeserializer.deserialize(JSON.parse(actionSerialized)), t);
-      //  BoardManager.cancelStack.updateTimeSteps((ts) => ts >= t ? ts+1 : ts);
+        //  BoardManager.cancelStack.updateTimeSteps((ts) => ts >= t ? ts+1 : ts);
     }
 
 
     static timelineRemoveAction(t: number): void {
         BoardManager.timeline.delete(t);
-      //  BoardManager.cancelStack.updateTimeSteps((ts) => ts >= t+1 ? ts-1 : ts);
+        //  BoardManager.cancelStack.updateTimeSteps((ts) => ts >= t+1 ? ts-1 : ts);
     }
 
 

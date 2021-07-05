@@ -172,7 +172,7 @@ export class LoadSave {
     static loadJSON(obj: { canvasDataURL?: string, actions: ActionSerialized[], t: number, width: number, height: number, magnets: string, svg: string, backgroundLayer: string, script: string }): void {
         console.log("loadJSON");
 
-        BoardManager._clear();
+        BoardManager._reset();
 
         if (obj.width) {
             getCanvas().width = obj.width;

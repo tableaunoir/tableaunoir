@@ -37,7 +37,7 @@ export class BoardManager {
    */
     static init(): void {
         document.getElementById("blackboardClear").onclick = () => {
-            Share.execute("boardClear", []);
+            Share.execute("boardReset", []);
         }
 
     }
@@ -46,7 +46,7 @@ export class BoardManager {
     /**
     * erase the board
     */
-    static _clear(): void {
+    static _reset(): void {
         const canvas = getCanvas();
         canvas.width = canvas.width + 0; //clear
         BoardManager.timeline.clear();
@@ -164,7 +164,7 @@ export class BoardManager {
             }
         }
         else {
-            BoardManager._clear();
+            BoardManager._reset();
         }
 
     }

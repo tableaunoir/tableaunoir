@@ -76,6 +76,16 @@ export class ToolMenu extends CircularMenu {
             }
         });
 
+
+        this.addButtonImage({
+            src: "img/icons/supererase.svg",
+            title: "Clear all the board",
+            onclick: () => {
+                Share.execute("boardClear", [UserManager.me.userID]);
+                CircularMenu.hide();
+            }
+        });
+
         this.layout();
     }
 

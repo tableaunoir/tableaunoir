@@ -56,7 +56,7 @@ export class KeyBoardShortCuts {
             return;
 
         if (evt.ctrlKey && evt.altKey && evt.key == "k") { // clear the board
-            Share.execute("boardClear", []);
+            Share.execute("boardReset", []);
         }
         else if (evt.ctrlKey && evt.altKey && evt.key == "h") { // mouse cursor hidden or not
             OptionManager.toggle("cursorVisible");

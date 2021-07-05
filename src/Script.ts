@@ -8,8 +8,8 @@ export class S {
 
     private static audioCtx: AudioContext;
 
-    static boardClear(): void {
-        Share.execute("boardClear", []);
+    static boardReset(): void {
+        Share.execute("boardReset", []);
     }
 
     static newOscillator(): OscillatorNode {
