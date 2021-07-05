@@ -6,15 +6,21 @@ export class CircularMenu {
 
     private container = document.createElement("div");
     protected buttons = []; // list of the buttons
-    static radius = 96;
+    protected radius = 96;
 
-
-    constructor() {
+    /**
+     * immediate is by default false meaning that the menu will be added 1sec later to the DOM (it would be nice to improve that)
+     * immediate = true means that the menu is added directly
+     */
+    constructor(immediate = false) {
         this.container.classList.add("CircularMenu");
         this.container.classList.add("CircularMenuHide");
         this.container.innerHTML = "";
-        setTimeout(() =>
-            document.getElementById("board").appendChild(this.container), 1000);
+        if (immediate)
+            document.getElementById("board").appendChild(this.container);
+        else
+            setTimeout(() =>
+                document.getElementById("board").appendChild(this.container), 1000);
     }
 
     /**
@@ -62,7 +68,7 @@ export class CircularMenu {
 
         for (let i = 0; i < this.buttons.length; i++) {
             const button = this.buttons[i];
-            const r = this.buttons.length <= 8 ? CircularMenu.radius : CircularMenu.radius + i * 48 / 8;
+            const r = this.buttons.length <= 8 ? this.radius : this.radius + i * 48 / 8;
             const angle = this.buttons.length <= 8 ? -Math.PI / 2 + 2 * Math.PI * i / this.buttons.length
                 : -Math.PI / 2 + 2 * Math.PI * Math.pow(i, 0.8) / 8;
 
@@ -79,8 +85,8 @@ export class CircularMenu {
     show(position: { x: number, y: number }): void {
         CircularMenu.hide();
 
-        position.y = Math.max(position.y, CircularMenu.radius + 32 + 48);
-        position.x = Math.max(position.x, CircularMenu.radius + 32 + 48);
+        position.y = Math.max(position.y, this.radius + 32 + 48);
+        position.x = Math.max(position.x, this.radius + 32 + 48);
 
         this.container.style.left = position.x + "px";
         this.container.style.top = position.y + "px";

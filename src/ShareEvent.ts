@@ -9,7 +9,6 @@ import { BackgroundTexture } from './BackgroundTexture';
 import { Share } from './share';
 import { LoadSave } from './LoadSave';
 import { Layout } from './Layout';
-import { ConstraintDrawing } from './ConstraintDrawing';
 import { BackgroundDocuments } from './BackgroundDocuments';
 import { MagnetManager } from './magnetManager';
 import { BoardManager } from './boardManager';
@@ -99,38 +98,56 @@ export class ShareEvent {
 
 
     /** board */
+
+    /**
+     * reset the board: it means
+     * - we clear the board
+     * - we clear the timeline
+     * - we clear the cancel stack
+     */
     static boardReset(): void {
         BoardManager._reset();
         Menu.hide();
     }
 
-    static boardClear(): void {
-        BoardManager.newSlideAndClear(UserManager.me.userID);
-    }
+
+    /**
+     * clear the board
+     * - we clear the board
+     * - we add the action "clear the board" in the timeline
+     */
+    static boardClear(): void { BoardManager.newSlideAndClear(UserManager.me.userID); }
 
 
+    /**
+     * @param atLeastWidth
+     * @description 
+     */
+    static setWidthAtLeast(atLeastWidth: number): void { BoardManager.setWidthAtLeast(atLeastWidth); }
 
-    static setWidthAtLeast(atLeastWidth: number): void {
-        BoardManager.setWidthAtLeast(atLeastWidth);
-    }
 
-    static divideScreen(userid: string, x: number): void {
-        Drawing.divideScreen(userid, x);
-    }
+    /**
+     * 
+     * @param userid 
+     * @param x 
+     * @description 
+     */
+    static divideScreen(userid: string, x: number): void { Drawing.divideScreen(userid, x); }
 
     /**questions */
     static questionAdd(userID: string, idquestion: string, question: string): void {
         Discussion.addQuestion(userID, idquestion, question);
     }
 
-    static setRoot(userid: string): void {
-        Share.setRoot(userid);
-    }
+
+    /**
+     * @param userid
+     * @description set the user of userid to be a root
+     */
+    static setRoot(userid: string): void { Share.setRoot(userid); }
 
 
-    static questionRemove(questionID: string): void {
-        Discussion.removeQuestion(questionID);
-    }
+    static questionRemove(questionID: string): void { Discussion.removeQuestion(questionID); }
 
     /** magnets */
     static magnetize(userID: string, cut: boolean, removeContour: boolean): void {
@@ -179,13 +196,9 @@ export class ShareEvent {
     }
 
 
-    static magnetsClear(): void {
-        MagnetManager.clearMagnet();
-    }
+    static magnetsClear(): void { MagnetManager.clearMagnet(); }
 
-    static magnetRemove(idMagnet: string): void {
-        MagnetManager.magnetRemove(idMagnet);
-    }
+    static magnetRemove(idMagnet: string): void { MagnetManager.magnetRemove(idMagnet); }
 
 
     static timelineAddAction(t: number, actionSerialized: string): void {
@@ -203,21 +216,13 @@ export class ShareEvent {
 
     /**backgrounds */
 
-    static backgroundClear(): void {
-        Wallpaper.clear();
-    }
+    static backgroundClear(): void { Wallpaper.clear(); }
 
-    static backgroundMusicScore(): void {
-        Wallpaper.musicScore();
-    }
+    static backgroundMusicScore(): void { Wallpaper.musicScore(); }
 
-    static backgroundGrid(): void {
-        Wallpaper.grid();
-    }
+    static backgroundGrid(): void { Wallpaper.grid(); }
 
-    static backgroundSeyes(): void {
-        Wallpaper.seyes();
-    }
+    static backgroundSeyes(): void { Wallpaper.seyes(); }
 
     /**documents */
     static documentsRemoveAll(): void {
@@ -239,13 +244,9 @@ export class ShareEvent {
      * @param data 
      * @descripttion loads a .tableaunoir file!
      */
-    static loadBoard(data: string): void {
-        LoadSave.loadJSON(JSON.parse(data));
-    }
+    static loadBoard(data: string): void { LoadSave.loadJSON(JSON.parse(data)); }
 
-    static setBackgroundColor(color: "white" | "black"): void {
-        BackgroundTexture.switchTo(color);
-    }
+    static setBackgroundColor(color: "white" | "black"): void { BackgroundTexture.switchTo(color); }
 }
 
 

@@ -13,7 +13,7 @@ import { Timeline } from './Timeline';
 import { Action } from './Action';
 import { ActionMagnetMove } from './ActionMagnetMove';
 import { Operation } from 'Operation';
-
+import { AnimationManager } from './AnimationManager';
 
 
 /**
@@ -204,8 +204,15 @@ export class BoardManager {
     }
 
     static async nextPausedFrame(): Promise<void> {
-        await BoardManager.timeline.nextPausedFrame();
-        AnimationToolBar.update();
+        if (AnimationManager.isRunning)
+            AnimationManager.end();
+        else {
+            AnimationManager.begin();
+            await BoardManager.timeline.nextPausedFrame();
+            AnimationManager.end();
+            AnimationToolBar.update();
+        }
+
     }
 
 
@@ -220,9 +227,15 @@ export class BoardManager {
     }
 
 
+    /**
+     * 
+     * @param userid 
+     * @description declare the last action as a "pause" (meaning it ends a "slide")
+     * and then clear the board
+     */
     static newSlideAndClear(userid: string): void {
         BoardManager.timeline.getLastAction().pause = true;
-        document.getElementById("content").style.filter = "invert(1)";
+        document.getElementById("content").style.filter = "invert(0.5)";
         BoardManager.addAction(new ActionClear(userid));
         setTimeout(() => document.getElementById("content").style.filter = "", 100);
     }

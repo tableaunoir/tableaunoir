@@ -1,3 +1,4 @@
+import { AnimationManager } from './AnimationManager';
 import { Drawing } from './Drawing';
 import { ActionSerialized } from './ActionSerialized';
 
@@ -14,7 +15,6 @@ export abstract class Action {
     public isBlocking = true;
     private _speed = 1;
     private _delay = this.getDelay(this._speed);
-    static delayCounter = 0;
 
     private getDelay(speed: number): number {
         switch (speed) {
@@ -31,23 +31,10 @@ export abstract class Action {
     }
 
 
-    async delay(): Promise<void> {
-        const minRealDelay = 10;
-        if (this._delay >= minRealDelay) {
-            await Drawing.delay(this._delay);
-        }
-        if (this._delay > 0) {
-            if (Action.delayCounter > minRealDelay / this._delay) {
-                await Drawing.delay(this._delay);
-                Action.delayCounter = 0;
-            }
-            Action.delayCounter++;
-        }
-
-    }
+    async delay(): Promise<void> { await AnimationManager.delay(this._delay); }
 
 
-    constructor(userid: string) {        this.userid = userid;    }
+    constructor(userid: string) { this.userid = userid; }
 
 
     /**

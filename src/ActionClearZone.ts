@@ -36,7 +36,7 @@ export class ActionClearZone extends Action {
     }
 
 
-    getOverviewImage(): string {
+    createOverviewImage(): string {
         return "url(img/icons/erase.svg)";
     }
 

@@ -1,3 +1,4 @@
+import { CircularMenu } from './CircularMenu';
 import { MagnetTextManager } from './MagnetTextManager';
 import { Wallpaper } from './Wallpaper';
 import { ErrorMessage } from './ErrorMessage';
@@ -90,13 +91,17 @@ function load() {
 		Array.from(document.getElementsByTagName("helpbutton")).map((b) => (<HTMLElement>b).onclick = (evt) => { alert((<HTMLElement>evt.target).title) });
 
 		document.getElementById("buttonMenu").onclick = Menu.toggle;
-		document.getElementById("buttonColors").onclick = () => GUIActions.changeColor();
+		document.getElementById("buttonColors").onclick = (evt) => {
+			GUIActions.changeColor();
+			evt.stopPropagation();
+		}
 
 		document.getElementById("buttonChalk").onclick = GUIActions.switchChalkEraser;
 		document.getElementById("buttonEraser").onclick = GUIActions.switchChalkEraser;
 
-		document.getElementById("buttonTools").onclick = () => {
+		document.getElementById("buttonTools").onclick = (evt) => {
 			GUIActions.toolmenu.show({ x: UserManager.me.x, y: UserManager.me.y });
+			evt.stopPropagation();
 		}
 
 		document.getElementById("buttonText").onclick = () => MagnetTextManager.addMagnetText(UserManager.me.x, UserManager.me.y);
@@ -122,6 +127,9 @@ function load() {
 
 		document.getElementById("canvasBackground").onpointermove = () => { console.log("mousemove on the background should not occur") };
 
+		document.getElementById("previousSlide").onclick = () => BoardManager.previousPausedFrame();
+		document.getElementById("nextSlide").onclick = () => BoardManager.nextPausedFrame();
+		
 		installMouseEventsCanvas();
 
 		/*ErrorMessage.show("Tableaunoir works, but maybe not in share mode since INRIA servers are down see <a href='https://intranet.inria.fr/Actualite/Important-arret-complet-des-services-informatiques-locaux-le-mercredi-24-mars'>here</a>");*/
@@ -177,6 +185,10 @@ function installMouseEventsCanvas() {
 	//document.getElementById("canvas").onmousedown = mousedown;
 
 	TouchScreen.addTouchEvents(document.getElementById("canvas"));
+
+
+	document.getElementById("controls").onclick = CircularMenu.hide;
+	document.getElementById("animationToolBar").onclick = CircularMenu.hide;
 }
 
 export function getCanvas(): HTMLCanvasElement {

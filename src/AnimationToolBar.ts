@@ -1,3 +1,4 @@
+import { Layout } from './Layout';
 import { ActionTimeLineMenu } from './ActionTimeLineMenu';
 import { OperationDeleteAction } from './OperationDeleteAction';
 import { OperationMoveAction } from './OperationMoveAction';
@@ -223,8 +224,8 @@ export class AnimationToolBar {
 
         el.oncontextmenu = (evt) => {
             const menu = new ActionTimeLineMenu(action);
-            menu.show({ x: 500, y: 500 });
-            //evt.preventDefault();
+            menu.show({ x: Layout.getXMiddle(), y: 800 });
+            evt.preventDefault();
             return;
         }
 
