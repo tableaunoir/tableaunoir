@@ -47,9 +47,7 @@ export abstract class Action {
     }
 
 
-    constructor(userid: string) {
-        this.userid = userid;
-    }
+    constructor(userid: string) {        this.userid = userid;    }
 
 
     /**

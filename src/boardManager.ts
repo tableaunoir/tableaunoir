@@ -1,3 +1,4 @@
+import { ActionClear } from './ActionClear';
 import { UserManager } from './UserManager';
 import { OperationAddAction } from './OperationAddAction';
 import { CancelStack } from './CancelStack';
@@ -19,6 +20,7 @@ import { Operation } from 'Operation';
  * Manage the board
  */
 export class BoardManager {
+
     static readonly MAGNETCANCELLABLE = true;
 
     /** name of the board. Default is 0 (this name is used for storing in localStorage) */
@@ -216,6 +218,16 @@ export class BoardManager {
             max = Math.max(max, magnets[i].offsetLeft + magnets[i].offsetWidth);
         return max;
     }
+
+
+    static newSlideAndClear(userid: string): void {
+        BoardManager.timeline.getLastAction().pause = true;
+        document.getElementById("content").style.filter = "invert(1)";
+        BoardManager.addAction(new ActionClear(userid));
+        setTimeout(() => document.getElementById("content").style.filter = "", 100);
+    }
+
+
 
     static get width(): number { return Math.max(BoardManager.widthFromActions, BoardManager.widthFromMagnets); }
 }

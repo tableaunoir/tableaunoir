@@ -163,9 +163,8 @@ export class ToolEraser extends Tool {
             if (this.nbClick >= 1 && evt.ctrlKey) {
                 //ctrl + click => erase all the board
                 //dblclick is not working in shared mode!! (since the latency is not the same on the different devices)
-                document.getElementById("content").style.filter = "invert(1)";
-                BoardManager.addAction(new ActionClear(this.user.userID));
-                setTimeout(() => document.getElementById("content").style.filter = "", 100);
+                BoardManager.newSlideAndClear(this.user.userID);
+                
             }
 
             else

@@ -32,21 +32,6 @@ export class Timeline {
     }
 
 
-
-    /**
-     * empty the cancel stack but keeps the current state
-     */
-    flatten(): void {
-        const actionInit = new ActionInit(UserManager.me.userID, getCanvas().toDataURL());
-        this.actions = [actionInit];
-        this.currentIndex = 0;
-    }
-
-    /**    setCurrentIndex(i: number): void {
-            this.currentIndex = i;
-            this.update();
-        } */
-
     /**
      * goto frame t
      */
@@ -306,13 +291,13 @@ export class Timeline {
 
     /**
      * 
-     * @returns the time step index of the next paused frame
+     * @returns the time step index of the next paused frame (or the last action index)
      */
     getNextPausedFrame(): number {
         for (let i = this.currentIndex + 1; i <= this.actions.length - 1; i++)
             if (this.actions[i].pause)
                 return i;
-        return this.currentIndex; //no "pause" action found, so we stay at the same frame // this.actions.length - 1;
+        return this.actions.length - 1;//this.currentIndex; //no "pause" action found, so we stay at the same frame // this.actions.length - 1;
     }
 
 

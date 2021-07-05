@@ -43,9 +43,6 @@ export class LoadSave {
 
         document.getElementById("save").onclick = LoadSave.save;
 
-        document.getElementById("buttonCancelStackFlatten").onclick = () => Share.execute("cancelStackFlatten", []);
-
-
 
         document.body.ondragover = (event) => {
             // Prevent default behavior (Prevent file from being opened)
