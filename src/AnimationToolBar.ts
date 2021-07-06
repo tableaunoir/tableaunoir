@@ -1,6 +1,7 @@
 import { Layout } from './Layout';
 import { ActionTimeLineMenu } from './ActionTimeLineMenu';
 import { OperationDeleteAction } from './OperationDeleteAction';
+import { OperationDeleteSeveralActions } from './OperationDeleteSeveralActions';
 import { OperationMoveAction } from './OperationMoveAction';
 import { OperationMoveSevActions } from './OperationMoveSeveralActions';
 import { BoardManager } from './boardManager';
@@ -169,8 +170,15 @@ export class AnimationToolBar {
 
         document.getElementById("canvas").ondrop = () => {
             if (AnimationToolBar.dragAndDropFrames) {
-                BoardManager.executeOperation(new OperationDeleteAction(AnimationToolBar.tSelected));
-                
+                if(AnimationToolBar.actionsToBeMoved.length != 0)
+                {
+                    AnimationToolBar.actionsToBeMoved.sort((x, y) => x - y);
+                    BoardManager.executeOperation(new OperationDeleteSeveralActions(AnimationToolBar.actionsToBeMoved));
+                    AnimationToolBar.actionsToBeMoved = [];
+                    AnimationToolBar.lastSelectedIndex = -1;
+                }
+                else
+                    BoardManager.executeOperation(new OperationDeleteAction(AnimationToolBar.tSelected));
                 AnimationToolBar.update();
             }
             AnimationToolBar.dragAndDropFrames = false;
@@ -279,13 +287,7 @@ export class AnimationToolBar {
                 }
                 else if(AnimationToolBar.lastSelectedIndex != -1)
                 {
-                    if(t == AnimationToolBar.lastSelectedIndex)
-                    {
-                        const index = AnimationToolBar.actionsToBeMoved.indexOf(t);
-		                AnimationToolBar.actionsToBeMoved.splice(index, 1);
-		                el.classList.remove("green");
-                    }
-                    else if(t < AnimationToolBar.lastSelectedIndex)
+                    if(t < AnimationToolBar.lastSelectedIndex)
                     {
                         AnimationToolBar.actionsToBeMoved.push(t);
                         el.classList.add("green");
@@ -299,7 +301,7 @@ export class AnimationToolBar {
 	                            document.getElementById("animationActionList").children[pos[0]].children[pos[1]].classList.add("green");
                         }
                     }
-                    else
+                    else if(t > AnimationToolBar.lastSelectedIndex)
                     {
                         AnimationToolBar.actionsToBeMoved.push(t);
                         el.classList.add("green");
