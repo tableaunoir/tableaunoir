@@ -1,4 +1,4 @@
-import { DrawingCanvas } from './DrawingCanvas';
+import { Drawing } from './Drawing';
 import { ActionSerialized } from './ActionSerialized';
 import { Action } from './Action';
 
@@ -15,7 +15,7 @@ export class ActionClear extends Action {
     }
 
     async redo(): Promise<void> {
-        DrawingCanvas.clear();
+        Drawing.clear();
     }
 
 
