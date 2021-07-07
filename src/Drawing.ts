@@ -17,7 +17,7 @@ export class Drawing {
 
 
 
-    static init() : void {
+    static init(): void {
         OptionManager.number({
             name: "lineWidth",
             defaultValue: 1.5,
@@ -92,24 +92,20 @@ export class Drawing {
         /****** Chalk effect (too slow in real time!) ***/
         if (Drawing.isChalkEffect) {
             context.fillStyle = color;
+            context.globalAlpha = 1;
             const dist = Math.round(Math.sqrt((x2 - x1) ** 2 + (y2 - y1) ** 2));
-            for (let i = 0; i < dist; i += 4) {
-                // eslint-disable-next-line no-constant-condition
-                {
-                    const x = x1 + (i * (x2 - x1) / dist);
-                    const y = y1 + (i * (y2 - y1) / dist);
-                    context.clearRect(x + (Math.random() - 0.5) * context.lineWidth, y + (Math.random() - 0.5) * context.lineWidth,
-                       1 + Math.random(), 1 + Math.random());
-                }
-                {
-                    const x = x1 + (i * (x2 - x1) / dist);
-                    const y = y1 + (i * (y2 - y1) / dist);
-                    context.globalAlpha = 1;
-                    context.fillRect(x + (Math.random() - 0.5) * context.lineWidth, y + (Math.random() - 0.5) * context.lineWidth,
-                        1 + Math.random(), 1 + Math.random());
-                }
-                
 
+            for (let i = 0; i < dist; i += 4) {
+                const x = x1 + (i * (x2 - x1) / dist);
+                const y = y1 + (i * (y2 - y1) / dist);
+
+                context.clearRect(x + (Math.random() - 0.5) * context.lineWidth,
+                    y + (Math.random() - 0.5) * context.lineWidth,
+                    1 + Math.random(), 1 + Math.random());
+    
+                context.fillRect(x + (Math.random() - 0.5) * context.lineWidth,
+                    y + (Math.random() - 0.5) * context.lineWidth,
+                    1 + Math.random(), 1 + Math.random());
             }
         }
 
@@ -194,7 +190,7 @@ export class Drawing {
     }
 
 
-    
+
 
 
 
