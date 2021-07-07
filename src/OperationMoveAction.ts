@@ -15,7 +15,10 @@ export class OperationMoveAction extends Operation {
     }
 
     redo(): void {
-        BoardManager.timeline.move(this.actionIndex, this.insertIndex);
+        if(this.actionIndex < this.insertIndex)
+            BoardManager.timeline.move(this.actionIndex, this.insertIndex--);
+        else
+            BoardManager.timeline.move(this.actionIndex, this.insertIndex);
     }
 
 }

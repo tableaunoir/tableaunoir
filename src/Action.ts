@@ -11,6 +11,7 @@ export abstract class Action {
      */
     public userid: string;
     public pause = false;
+    public hash;
     public isDirectlyUndoable = false;
     public isBlocking = true;
     private _speed = 1;
@@ -48,8 +49,19 @@ export abstract class Action {
      */
     serialize(): ActionSerialized {
         const obj = this.serializeData();
+
+        if(this.hash == undefined)
+        {
+            const serializedString = JSON.stringify(obj);
+            for(let k = 0; k < serializedString.length; k++)
+            {
+                this.hash += serializedString.charCodeAt(k);
+            }
+        }
+
         if (!obj.pause)
             delete obj.pause;
+
         return obj;
     }
 
