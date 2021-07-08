@@ -104,7 +104,7 @@ export class Delineation {
      * If removeContour is true: the contour will not be part of the magnet
      */
     magnetize(userid: string, cut: boolean, removeContour: boolean): void {
-        if (!this.isSuitable())
+        if (!this.isSuitableForMagnetisation())
             return;
 
         if (removeContour)
@@ -121,15 +121,18 @@ export class Delineation {
         if (cut)
             Drawing.clearPolygon(this.points);
 
-        //the code above can not beexecuted bythe action because the magnet has to be created
+        //the code above can not be executed by the action because the magnet has to be created
         const action = new ActionClearZone(userid, this.points, cut, removeContour);
         BoardManager.addAction(action);
         this.reset();
     }
 
 
-
-    isSuitable(): boolean {
+    /**
+     * @returns true iff the delineation can be magnetized (the surface is not too small)
+     * TODO: to be improved. Make that a polygon with intersection cannot be magnetized
+     */
+    isSuitableForMagnetisation(): boolean {
         for (const point of this.points) {
             if (Math.abs(point.x - this.points[0].x) > 16 &&
                 Math.abs(point.y - this.points[0].y) > 16)
