@@ -1,3 +1,4 @@
+import { Drawing } from './Drawing';
 import { CircularMenu } from './CircularMenu';
 import { MagnetTextManager } from './MagnetTextManager';
 import { Wallpaper } from './Wallpaper';
@@ -22,7 +23,6 @@ import { BackgroundDocuments } from './BackgroundDocuments';
 import { Translation } from './Translation';
 import { Menu } from './Menu';
 import { TouchScreen } from './TouchScreen';
-import { Drawing } from './Drawing';
 import { KeyBoardShortCuts } from './KeyBoardShortCuts';
 import { S, Script } from './Script';
 import { Export } from './Export';
@@ -85,6 +85,7 @@ function load() {
 		Script.init();
 		Wallpaper.init();
 		Tool.init();
+		Drawing.init();
 
 		BoardManager.load();
 
