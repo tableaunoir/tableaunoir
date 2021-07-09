@@ -13,7 +13,7 @@ export abstract class Action {
     public pause = false;
     public isDirectlyUndoable = false;
     public isBlocking = true;
-    private hash;
+    private hash = 0;
     private _speed = 1;
     private _delay = this.getDelay(this._speed);
 
@@ -47,7 +47,7 @@ export abstract class Action {
      * returns hash
      */
     public getHash(): number {
-        if(this.hash == undefined)
+        if(this.hash == 0)
         {
             const serializedString = JSON.stringify(this.serialize());
             for(let k = 0; k < serializedString.length; k++)
