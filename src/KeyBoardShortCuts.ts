@@ -36,6 +36,8 @@ export class KeyBoardShortCuts {
         if ((evt.key != "F11") &&
             (evt.key != "F12") &&
             (evt.key != "F5") &&
+            !(evt.ctrlKey && evt.key == "s") &&
+            !(evt.ctrlKey && evt.key == "o") &&
             !(document.activeElement instanceof HTMLInputElement) &&
             !(document.activeElement instanceof HTMLTextAreaElement))
             evt.preventDefault();

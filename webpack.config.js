@@ -23,6 +23,19 @@ module.exports = {
       { test: /\.tsx?$/, use: ["ts-loader"], exclude: /node_modules/ },
     ],
   },
+    externals: [
+    (function () {
+      var IGNORES = [
+        'electron'
+      ];
+      return function (context, request, callback) {
+        if (IGNORES.indexOf(request) >= 0) {
+          return callback(null, "require('" + request + "')");
+        }
+        return callback();
+      };
+    })()
+  ],
   plugins: [
     new webpack.EnvironmentPlugin({
       NODE_ENV: 'development',

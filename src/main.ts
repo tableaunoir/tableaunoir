@@ -27,15 +27,14 @@ import { KeyBoardShortCuts } from './KeyBoardShortCuts';
 import { S, Script } from './Script';
 import { Export } from './Export';
 import { Tool } from './Tool';
+import { DesktopApplicationManager } from './DesktopApplicationManager';
 
 TestPerformance.init();
 
 window.onload = load;
 window['Menu'] = Menu; //for Menu to be used in index.html
 
-window.onbeforeunload = function () {
-	return "If you leave Tableaunoir, you will lose any unsaved changes."; //this will probably not be shown since modern browser do not care
-}
+
 
 
 //let loaded = false;
@@ -88,6 +87,7 @@ function load() {
 		Drawing.init();
 
 		BoardManager.load();
+		DesktopApplicationManager.init();
 
 		Array.from(document.getElementsByTagName("helpbutton")).map((b) => (<HTMLElement>b).onclick = (evt) => { alert((<HTMLElement>evt.target).title) });
 
