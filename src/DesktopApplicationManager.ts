@@ -5,7 +5,13 @@ import { LoadSave } from './LoadSave';
 export class DesktopApplicationManager {
     private static _desktop = true;
 
-    static init() {
+    static setFilename(fullpathfilename: string): void {
+        if(DesktopApplicationManager.is) {
+            const ipc = require('electron').ipcRenderer;
+            ipc.send("filename", fullpathfilename);
+        }
+    }
+    static init(): void {
         try {
             /** setting when desktop app*/
             const ipc = require('electron').ipcRenderer;// window.require('electron').remote.ipcRenderer;

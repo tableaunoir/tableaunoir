@@ -71,7 +71,7 @@ export class AnimationManager {
      */
     static get isRunning(): boolean {
         console.log(`is running: ${!AnimationManager.mustEnd}`);
-        return !AnimationManager.mustEnd
+        return !AnimationManager.mustEnd;
     }
 
 }

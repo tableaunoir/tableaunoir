@@ -14,6 +14,8 @@ let filename = undefined;
 
 ipcMain.on("open", (event, arg) => { openFile(arg) });
 ipcMain.on("save", (event, arg) => { fs.writeFileSync(filename, arg) })
+ipcMain.on("filename", (event, arg) => { setFilename(arg) })
+
 
 
 app.on('ready', () => {
@@ -27,7 +29,7 @@ app.on('ready', () => {
         title: 'Tableaunoir',
         movable: false,
         webPreferences: {
-            nodeIntegration: true //makes that require('electron') is possible in the web-side
+            nodeIntegration: true, //makes that require('electron') is possible in the web-side,
         }
     });
 
@@ -113,9 +115,13 @@ function openDocument() {
 }
 
 
+
+function setFilename(newfilename) {
+    win.title = "Tableaunoir - " + newfilename;
+    filename = newfilename;
+}
 function openFile(filenameToOpen) {
-    win.title = "Tableaunoir - " + filenameToOpen;
-    filename = filenameToOpen;
+    setFilename(filenameToOpen);
     fs.readFile(filenameToOpen, 'utf8', (err, data) => {
         win.webContents.send("open", data)
     });

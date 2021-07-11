@@ -20,8 +20,8 @@ export abstract class Action {
     private getDelay(speed: number): number {
         switch (speed) {
             case 0: return 20;
-            case 1: return 10;
-            case 2: return 5;
+            case 1: return 4; //default
+            case 2: return 1;
         }
         return 0;
     }
@@ -50,11 +50,9 @@ export abstract class Action {
     serialize(): ActionSerialized {
         const obj = this.serializeData();
 
-        if(this.hash == undefined)
-        {
+        if (this.hash == undefined) {
             const serializedString = JSON.stringify(obj);
-            for(let k = 0; k < serializedString.length; k++)
-            {
+            for (let k = 0; k < serializedString.length; k++) {
                 this.hash += serializedString.charCodeAt(k);
             }
         }

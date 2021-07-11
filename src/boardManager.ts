@@ -199,6 +199,7 @@ export class BoardManager {
 
 
     static async previousPausedFrame(): Promise<void> {
+        AnimationManager.end();
         await BoardManager.timeline.previousPausedFrame();
         AnimationToolBar.update();
     }

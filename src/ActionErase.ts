@@ -51,7 +51,7 @@ export class ActionErase extends Action {
     async undo(): Promise<void> { this.svgLinesErasedRestore(); }
 
     svgLinesErasedRestore(): void { /*nothing*/    }
-    
+
     svgLinesErasedErase(): void {
         for (let i = 0; i < this.points.length; i++) {
             ActionErase.eraseSVG(this.points[i].x, this.points[i].y, this.points[i].lineWidth);
@@ -92,6 +92,7 @@ export class ActionErase extends Action {
 
             const m = Geometry.middle(p1, p2);
             if (Geometry.distance({ x: x, y: y }, m) < eraseLineWidth) {
+                svgLine.remove();
                 //    this.svgLinesErased.push(svgLine);
                 //  svgLine.style.visibility = "hidden";
             }
