@@ -1,12 +1,14 @@
 import { Share } from './share';
 import { LoadSave } from './LoadSave';
 
-
+/**
+ * @description this class looks whether Tableaunoir is running in a browser or as a desktop application (electron)
+ */
 export class DesktopApplicationManager {
     private static _desktop = true;
 
     static setFilename(fullpathfilename: string): void {
-        if(DesktopApplicationManager.is) {
+        if (DesktopApplicationManager.is) {
             const ipc = require('electron').ipcRenderer;
             ipc.send("filename", fullpathfilename);
         }
@@ -41,7 +43,5 @@ export class DesktopApplicationManager {
     /**
      * @returns true if you are running the Tableaunoir desktop application
      */
-    static get is(): boolean {
-        return DesktopApplicationManager._desktop;
-    }
+    static get is(): boolean { return DesktopApplicationManager._desktop; }
 }

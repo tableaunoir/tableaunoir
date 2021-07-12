@@ -114,7 +114,7 @@ export class ToolDraw extends Tool {
         }
     }
 
-    mouseup(): void {
+    mouseup(evt): void {
         ToolDrawAudio.mouseup();
         if (this.isDrawing) {
 
@@ -130,7 +130,7 @@ export class ToolDraw extends Tool {
             const magnet1 = this.guessMagnetConnection.magnet1;
             const magnet2 = this.guessMagnetConnection.magnet2;
 
-            if (magnet1 && magnet2) {
+            if (magnet1 && magnet2 && evt.ctrlKey) {
 
                 this.action.setInteractiveGraphInformation(magnet1.id, magnet2.id,
                     MagnetManager.getMagnetCenter(magnet1),
