@@ -640,23 +640,6 @@ export class MagnetManager {
 
 
 
-	/**
-	 * 
-	 * @param element 
-	 * @param LaTEXCode 
-	 * @description update the magnet element to be the rendering of the latex code LaTEXCode
-	 */
-	static setLaTEX(element: HTMLElement, LaTEXCode: string): void {
-		const divText = <HTMLElement>element.children[0];
-		element.dataset.type = "LaTEX";
-		element.dataset.code = LaTEXCode;
-		divText.contentEditable = "false";
-		divText.innerHTML = `\\[${element.dataset.code}\\]`;
-		eval("MathJax.typeset();");
-
-		if (Share.isShared())
-			Share.sendMagnetChanged(element);
-	}
 
 
 

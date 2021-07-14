@@ -1,3 +1,4 @@
+import { DesktopApplicationManager } from './DesktopApplicationManager';
 import { UserManager } from './UserManager';
 import { ActionMagnetNew } from './ActionMagnetNew';
 import { ErrorMessage } from './ErrorMessage';
@@ -60,6 +61,11 @@ export class LoadSave {
                     if (event.dataTransfer.items[i].kind === 'file') {
                         const file = event.dataTransfer.items[i].getAsFile();
                         LoadSave.loadFile(file);
+
+                        if (DesktopApplicationManager.is)
+                            /*cast to <any> because electron is adding the field .path to get
+                            the full path of the file*/
+                            DesktopApplicationManager.setFilename((<any>file).path);
                     }
                     else {
                         /*
@@ -214,7 +220,7 @@ export class LoadSave {
 
 
     static getTableauNoirObject(): any {
-     //   const magnets = document.getElementById("magnets").innerHTML;
+        //   const magnets = document.getElementById("magnets").innerHTML;
         const backgroundLayer = document.getElementById("documentPanel").innerHTML;
         //  const svg = document.getElementById("svg").innerHTML;
         const script = (<HTMLTextAreaElement>document.getElementById("script")).value;
@@ -222,8 +228,8 @@ export class LoadSave {
         //const obj = { magnets: magnets, svg: svg, canvasDataURL: canvasDataURL };
         return {
             backgroundLayer: backgroundLayer,
-             //magnets: magnets,
-              width: getCanvas().width, height: getCanvas().height,
+            //magnets: magnets,
+            width: getCanvas().width, height: getCanvas().height,
             actions: BoardManager.timeline.serialize(), t: BoardManager.timeline.getCurrentIndex(), script: script
         };
     }

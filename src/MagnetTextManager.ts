@@ -11,12 +11,63 @@ export class MagnetTextManager {
 	 * @param element 
 	 * @returns true if the element is a text magnet
 	 */
-     static isTextMagnet(element: HTMLElement): boolean {
+	static isTextMagnet(element: HTMLElement): boolean {
 		return element.classList.contains("magnetText");
 	}
 
 
-    /**
+
+
+	/**
+	 * 
+	 * @param element 
+	 * @param LaTEXCode 
+	 * @description update the magnet element to be the rendering of the latex code LaTEXCode
+	 */
+	static setLaTEX(element: HTMLElement, LaTEXCode: string): void {
+		const divText = <HTMLElement>element.children[0];
+		element.dataset.type = "LaTEX";
+		element.dataset.code = LaTEXCode;
+		divText.contentEditable = "false";
+		divText.innerHTML = `\\[${element.dataset.code}\\]`;
+		eval("MathJax.typeset();");
+
+		if (Share.isShared())
+			Share.sendMagnetChanged(element);
+	}
+
+
+	/**
+	 * 
+	 * @param element
+	 * @returns the corresponding latex that is written raw in element, or undefined otherwise if there is no such raw LaTEX code
+	 */
+	static recognizeLaTEXCode(element: HTMLElement): string {
+		function recognizeLaTEXCodeInDiv(divText): string {
+			const text = divText.innerHTML;
+			if (text.startsWith("$") && text.endsWith("$")) { //the magnet is transformed into a LaTEX magnet
+				return text.substring(1, text.length - 1);
+			}
+			else if (text.startsWith("\\[") && text.endsWith("\\]")) {
+				return text.substring(2, text.length - 2);
+			}
+			else return undefined;
+		}
+
+		const divText = <HTMLElement>element.children[0];
+
+		if (divText.children.length == 0)
+			return recognizeLaTEXCodeInDiv(divText);
+		else if (divText.children.length == 1)
+			return recognizeLaTEXCodeInDiv(<HTMLElement>divText.children[0]);
+		else
+			return undefined;
+
+
+
+	}
+
+	/**
 	 *
 	 * @param element
 	 * @description set up the text magnet: add the mouse event, key event for editing the text magnet
@@ -30,7 +81,7 @@ export class MagnetTextManager {
 				const answer = prompt("Type the LaTEX code:", element.dataset.code);
 
 				if (answer)
-					MagnetManager.setLaTEX(element, answer);
+					MagnetTextManager.setLaTEX(element, answer);
 			}
 		}
 
@@ -54,14 +105,12 @@ export class MagnetTextManager {
 			if (e.key == "Escape") {
 				divText.blur();
 
-				const text = divText.innerHTML;
 
-				if (text.startsWith("$") && text.endsWith("$")) { //the magnet is transformed into a LaTEX magnet
-					MagnetManager.setLaTEX(element, text.substring(1, text.length - 1));
-				}
-				else if (text.startsWith("\\[") && text.endsWith("\\]")) {
-					MagnetManager.setLaTEX(element, text.substring(2, text.length - 2));
-				}
+
+				const latexCode = MagnetTextManager.recognizeLaTEXCode(element);
+
+				if (latexCode != undefined)
+					MagnetTextManager.setLaTEX(element, latexCode);
 				else //else there may be some standard LaTEX "\[...\]" inside the text magnet
 					eval("MathJax.typeset();")
 				window.getSelection().removeAllRanges();
@@ -88,7 +137,7 @@ export class MagnetTextManager {
 		}
 
 		divText.onkeyup = evt => {
-            Share.execute("magnetChange", [UserManager.me.userID, element.id, element.outerHTML]);
+			Share.execute("magnetChange", [UserManager.me.userID, element.id, element.outerHTML]);
 			/*if (Share.isShared())
 				Share.sendMagnetChanged(element);*/
 			evt.stopPropagation();

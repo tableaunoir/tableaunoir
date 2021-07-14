@@ -50,8 +50,14 @@ export class ActionErase extends Action {
 
     async undo(): Promise<void> { this.svgLinesErasedRestore(); }
 
-    svgLinesErasedRestore(): void { this.svgLinesErased.forEach((line) => line.style.visibility = "visible"); }
-    svgLinesErasedErase(): void { this.svgLinesErased.forEach((line) => line.style.visibility = "hidden"); }
+    svgLinesErasedRestore(): void { /*nothing*/    }
+
+    svgLinesErasedErase(): void {
+        for (let i = 0; i < this.points.length; i++) {
+            ActionErase.eraseSVG(this.points[i].x, this.points[i].y, this.points[i].lineWidth);
+        }
+        //this.svgLinesErased.forEach((line) => line.style.visibility = "hidden"); 
+    }
 
 
     createOverviewImage(): string { return "url(img/icons/erase.svg)"; }
@@ -70,6 +76,28 @@ export class ActionErase extends Action {
                 await this.delay();
         }
 
+    }
+
+
+
+
+
+    static eraseSVG(x: number, y: number, eraseLineWidth: number): void {
+        const lines = document.getElementsByTagName("line");
+
+        for (let i = 0; i < lines.length; i++) {
+            const svgLine = <SVGLineElement>lines[i];
+            const p1 = { x: parseInt(svgLine.getAttributeNS(null, 'x1')), y: parseInt(svgLine.getAttributeNS(null, 'y1')) };
+            const p2 = { x: parseInt(svgLine.getAttributeNS(null, 'x2')), y: parseInt(svgLine.getAttributeNS(null, 'y2')) };
+
+            const m = Geometry.middle(p1, p2);
+            if (Geometry.distance({ x: x, y: y }, m) < eraseLineWidth) {
+                svgLine.remove();
+                //    this.svgLinesErased.push(svgLine);
+                //  svgLine.style.visibility = "hidden";
+            }
+
+        }
     }
 
 }

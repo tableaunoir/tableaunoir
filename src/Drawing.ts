@@ -95,7 +95,7 @@ export class Drawing {
             context.globalAlpha = 1;
             const dist = Math.round(Math.sqrt((x2 - x1) ** 2 + (y2 - y1) ** 2));
 
-            for (let i = 0; i < dist; i += 4) {
+            for (let i = 0; i < dist; i += 8) {
                 const x = x1 + (i * (x2 - x1) / dist);
                 const y = y1 + (i * (y2 - y1) / dist);
 

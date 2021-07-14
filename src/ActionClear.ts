@@ -21,7 +21,11 @@ export class ActionClear extends Action {
         };
     }
 
-    async redo(): Promise<void> { Drawing.clear(); }
+    async redo(): Promise<void> { 
+        Drawing.clear();
+        document.getElementById("svg").innerHTML = "";
+        document.getElementById("magnets").innerHTML = "";
+     }
 
     createOverviewImage(): string { return "url(img/icons/erase.svg)"; }
 

@@ -69,6 +69,8 @@ export class ToolEraser extends Tool {
         this.action.addPoint({ x: this.x, y: this.y, lineWidth: this.eraseLineWidth });
         this.action.addPoint({ x: this.x, y: this.y, lineWidth: this.eraseLineWidth });//double
         Drawing.clearLine(this.x, this.y, this.x, this.y, this.eraseLineWidth);
+
+        ActionErase.eraseSVG(this.x, this.y, this.eraseLineWidth);
     }
 
 
@@ -125,28 +127,11 @@ export class ToolEraser extends Tool {
             this.action.addPoint({ x: evtX, y: evtY, lineWidth: this.eraseLineWidth });
             Drawing.clearLine(this.x, this.y, evtX, evtY, this.eraseLineWidth);
 
-            this.eraseSVG(this.x, this.y);
+            ActionErase.eraseSVG(this.x, this.y, this.eraseLineWidth);
         }
     }
 
-    eraseSVG(x: number, y: number): void {
-        const lines = document.getElementsByTagName("line");
 
-        for (let i = 0; i < lines.length; i++) {
-            const svgLine = <SVGLineElement>lines[i];
-            const p1 = { x: parseInt(svgLine.getAttributeNS(null, 'x1')), y: parseInt(svgLine.getAttributeNS(null, 'y1')) };
-            const p2 = { x: parseInt(svgLine.getAttributeNS(null, 'x2')), y: parseInt(svgLine.getAttributeNS(null, 'y2')) };
-
-            const m = Geometry.middle(p1, p2);
-            if (Geometry.distance({ x: x, y: y }, m) < this.eraseLineWidth) {
-                this.svgLinesErased.push(svgLine);
-                svgLine.style.visibility = "hidden";
-            }
-
-        }
-
-
-    }
 
     mouseup(evt): void {
         if (this.isDrawing) {

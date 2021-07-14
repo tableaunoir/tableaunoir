@@ -1,3 +1,4 @@
+import { ActionClear } from './ActionClear';
 import { Drawing } from './Drawing';
 import { BoardManager } from './boardManager';
 import { ErrorMessage } from './ErrorMessage';
@@ -11,7 +12,6 @@ import { ActionInit } from './ActionInit';
 
 /**
  * data structure for the linear history of actions (draw a line, eraser here, etc.)
- * TODO: for the moment, it is single-user (we do not care who are performing actions)
  */
 export class Timeline {
 
@@ -232,12 +232,27 @@ export class Timeline {
 
     }
 
+    /**
+     * 
+     * @returns the last index of the clear action
+     * or 0 if no clear action was found
+     */
+    getLastClearAction(): number {
+        for (let t = this.currentIndex; t >= 0; t--) {
+            if (this.actions[t] instanceof ActionClear)
+                return t;
+        }
+        return 0;
+    }
+
+
 
     async canvasRedraw(): Promise<void> {
         let bug113 = false;
 
-        //perform the do actions from start for the actions that are not undoable
-        for (let t = 0; t <= this.currentIndex; t++) {
+        //perform the do actions from the last time we cleared the canvas until this.currentIndex
+        // for the actions that are not undoable
+        for (let t = this.getLastClearAction(); t <= this.currentIndex; t++) {
             if (this.actions[t] == undefined) {
                 ErrorMessage.show("issue #113. error with t = " + t + " try to undo/redo again");
                 bug113 = true;
@@ -339,7 +354,7 @@ export class Timeline {
             if (this.actions[i].isBlocking)
                 await this.actions[i].redoAnimated();
             else
-                this.actions[i].redoAnimated();
+                this.actions[i].redoAnimated();  //execution in parallel
         this.currentIndex = tGoal;
     }
 

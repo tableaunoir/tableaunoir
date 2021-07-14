@@ -6,7 +6,9 @@ import { OperationMoveAction } from './OperationMoveAction';
 import { OperationMoveSevActions } from './OperationMoveSeveralActions';
 import { BoardManager } from './boardManager';
 
-
+/**
+ * this class handles the toolbar at the bottom for the animation
+ */
 export class AnimationToolBar {
 
     /**
