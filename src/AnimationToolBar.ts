@@ -28,7 +28,7 @@ export class AnimationToolBar {
     static foldIndexes: number[] = [];
     static selectedActionIndices: number[] = [];
     static shiftSelectIndex = -1;   //starting index for shift selection
-    static actionsAmount = 0;   //number of actions still displayed in the bottom toolbar (can be different from timeline.actions.length until update)
+    static nbActions = 0;   //number of actions still displayed in the bottom toolbar (can be different from timeline.actions.length until update)
 
     /**
      * toggles the display of the animation toolbar
@@ -145,16 +145,19 @@ export class AnimationToolBar {
      * @description update the timeline toolbar given that the indices are those that are deleted 
      **/
     static updateDelete(indices: number[]): void {
+        if (!AnimationToolBar.is())
+            return;
+
         if (indices.length != 0) {
             console.log("indices : " + indices);
-            console.log("actions amount : " + AnimationToolBar.actionsAmount);
+            console.log("actions amount : " + AnimationToolBar.nbActions);
             for (let k = indices.length - 1; k > -1; k--) {
                 let element = AnimationToolBar.getActionElement(indices[k]);
                 console.log("removed element : " + element);
                 console.log("element's index : " + element.dataset.index);
                 element.remove();
-                AnimationToolBar.actionsAmount--;
-                for (let n = indices[k]; n < AnimationToolBar.actionsAmount; n++) {
+                AnimationToolBar.nbActions--;
+                for (let n = indices[k]; n < AnimationToolBar.nbActions; n++) {
                     element = AnimationToolBar.getActionElement(n);
                     console.log("element to modify : " + element);
                     element.dataset.index = (+element.dataset.index - 1).toString();
@@ -166,16 +169,57 @@ export class AnimationToolBar {
 
 
 
+
+
+
+
+
+    /**
+     * 
+     * @param index 
+     * @description update the timeline bar given that there was only the insertion of action at index that have been produced
+     */
     static updateAddAction(index: number): void {
-        for (let n = index; n < AnimationToolBar.actionsAmount; n++) {
+        if (!AnimationToolBar.is())
+            return;
+
+        console.log("updateAddAction at index:" + index);
+        console.log("pb actions: " + AnimationToolBar.nbActions);
+        for (let n = index; n < AnimationToolBar.nbActions; n++) {
             const element = AnimationToolBar.getActionElement(n);
             console.log("element to modify : " + element);
             element.dataset.index = (+element.dataset.index + 1).toString();
         }
-        AnimationToolBar.HTMLElementForAction(index);
-        AnimationToolBar.actionsAmount++;
+        const elementToInsert = AnimationToolBar.createHTMLElementForAction(index);
+        const elementBefore = AnimationToolBar.getActionElement(index - 1);
+        if (elementBefore.parentElement.classList.contains("ActionPause"))
+            (<HTMLDivElement>elementBefore.nextSibling).prepend(elementToInsert);
+        else
+            elementBefore.insertAdjacentElement('afterend', elementToInsert);
+        AnimationToolBar.nbActions++;
 
     }
+
+
+
+
+    /**
+     * @description update the fact that the current index has changed
+     */
+    static updateCurrentIndex(): void {
+        if (!AnimationToolBar.is())
+            return;
+
+        const currentIndex = BoardManager.timeline.getCurrentIndex();
+        for (let i = 1; i < BoardManager.timeline.actions.length; i++) {
+            const elem = AnimationToolBar.getActionElement(i);
+            if (i <= currentIndex)
+                elem.classList.add("actionExecuted");
+            else
+                elem.classList.remove("actionExecuted");
+        }
+    }
+
     /**
      * @description updates the whole timeline
      */
@@ -190,7 +234,7 @@ export class AnimationToolBar {
         document.getElementById("animationActionList").innerHTML = "";
         document.getElementById("animationBarBuffer").append(foldedDiv);
 
-        document.getElementById("animationActionList").append(AnimationToolBar.HTMLElementForAction(0));
+        document.getElementById("animationActionList").append(AnimationToolBar.createHTMLElementForAction(0));
 
         for (let i = 1; i < BoardManager.timeline.actions.length; i++) {
             if (BoardManager.timeline.actions[i].pause) {
@@ -204,7 +248,7 @@ export class AnimationToolBar {
                     document.getElementById("animationActionList").append(checkBox);
                 }
                 document.getElementById("animationActionList").append(foldedDiv);
-                document.getElementById("animationActionList").append(AnimationToolBar.HTMLElementForAction(i));
+                document.getElementById("animationActionList").append(AnimationToolBar.createHTMLElementForAction(i));
                 count++;
 
                 document.getElementById("animationBarBuffer").innerHTML = "";
@@ -212,14 +256,14 @@ export class AnimationToolBar {
                 document.getElementById("animationBarBuffer").append(foldedDiv);
             }
             else {
-                document.getElementById("foldedDiv" + count).append(AnimationToolBar.HTMLElementForAction(i));
+                document.getElementById("foldedDiv" + count).append(AnimationToolBar.createHTMLElementForAction(i));
             }
         }
         document.getElementById("animationActionList").append(foldedDiv);
 
         document.getElementById("canvas").ondrop = () => {
             if (AnimationToolBar.dragAndDropFrames) {
-                AnimationToolBar.actionsAmount = BoardManager.timeline.actions.length;
+                AnimationToolBar.nbActions = BoardManager.timeline.actions.length;
                 if (AnimationToolBar.selectedActionIndices.length != 0) {
                     AnimationToolBar.selectedActionIndices.sort((x, y) => x - y);
                     if (AnimationToolBar.selectedActionIndices[0] == 0)
@@ -245,7 +289,7 @@ export class AnimationToolBar {
      * @param t
      * @returns an HTML element (a small square) that represents the action
      */
-    static HTMLElementForAction(t: number): HTMLElement {
+    static createHTMLElementForAction(t: number): HTMLElement {
         const action = BoardManager.timeline.actions[t];
         const el = document.createElement("div");
 
@@ -346,13 +390,7 @@ export class AnimationToolBar {
                 if (!AnimationToolBar.isSelected(+el.dataset.index))
                     AnimationToolBar.deselect();
                 BoardManager.timeline.setCurrentIndex(+el.dataset.index);
-                for (let i = 1; i < BoardManager.timeline.actions.length; i++) {
-                    const elem = AnimationToolBar.getActionElement(i);
-                    if (i <= +el.dataset.index)
-                        elem.classList.add("actionExecuted");
-                    else
-                        elem.classList.remove("actionExecuted");
-                }
+                AnimationToolBar.updateCurrentIndex();
             }
         }
 

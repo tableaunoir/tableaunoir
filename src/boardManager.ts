@@ -123,7 +123,8 @@ export class BoardManager {
             BoardManager.cancelStack.push(operation);
 
         BoardManager.timeline.insertNowAlreadyExecuted(action);
-        AnimationToolBar.update();
+        //AnimationToolBar.update();
+        AnimationToolBar.updateAddAction(BoardManager.timeline.getCurrentIndex());
     }
 
 
@@ -201,7 +202,7 @@ export class BoardManager {
     static async previousPausedFrame(): Promise<void> {
         AnimationManager.end();
         await BoardManager.timeline.previousPausedFrame();
-        AnimationToolBar.update();
+        AnimationToolBar.updateCurrentIndex();
     }
 
     static async nextPausedFrame(): Promise<void> {
@@ -211,7 +212,7 @@ export class BoardManager {
             AnimationManager.begin();
             await BoardManager.timeline.nextPausedFrame();
             AnimationManager.end();
-            AnimationToolBar.update();
+            AnimationToolBar.updateCurrentIndex();
         }
 
     }
