@@ -1039,9 +1039,8 @@ h1 {
 }
 
 
-.green
-{
-    border: 2px solid green;
+.actionSelected {
+	border: 2px solid green;
 }
 
 
@@ -1123,7 +1122,7 @@ h1 {
 
 .actionParallel:after {
 	content: url(img/icons/1F411.svg);
-	position:relative; 	
+	position: relative;
 	left: 20px;
 
 }

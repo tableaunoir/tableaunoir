@@ -253,8 +253,8 @@ export class AnimationToolBar {
         document.addEventListener("keydown", function (event) {
             if (event.key == "Escape") {
                 for (let k = 0; k < AnimationToolBar.selectedActionIndices.length; k++) {
-                    let element = AnimationToolBar.getActionElement(k);
-                    element.classList.remove("green");
+                    const element = AnimationToolBar.getActionElement(k);
+                    element.classList.remove("actionSelected");
                 }
                 AnimationToolBar.shiftSelectIndex = -1;
                 AnimationToolBar.selectedActionIndices = [];
@@ -276,26 +276,26 @@ export class AnimationToolBar {
 
             if (selectMode) {
                 const index = AnimationToolBar.selectedActionIndices.indexOf(+el.dataset.index);
-                if (el.classList.contains("green")) {
+                if (el.classList.contains("actionSelected")) {
                     AnimationToolBar.selectedActionIndices.splice(index, 1);
-                    el.classList.remove("green");
+                    el.classList.remove("actionSelected");
                     if (action.pause) {
                         const pauseElement = AnimationToolBar.getActionElement(+el.dataset.index);
                         const elsToRemove = pauseElement.previousSibling as HTMLElement;
                         for (let k = 0; k < elsToRemove.children.length; k++) {
-                            elsToRemove.children[k].classList.remove("green");
+                            elsToRemove.children[k].classList.remove("actionSelected");
                         }
                         AnimationToolBar.selectedActionIndices.splice(index, elsToRemove.children.length);
                     }
                 }
                 else {
                     AnimationToolBar.selectedActionIndices.push(+el.dataset.index);
-                    el.classList.add("green");
+                    el.classList.add("actionSelected");
                     if (action.pause) {
                         const pauseElement = AnimationToolBar.getActionElement(+el.dataset.index);
                         const elsToAdd = pauseElement.previousSibling as HTMLElement;
                         for (let k = 0; k < elsToAdd.children.length; k++) {
-                            elsToAdd.children[k].classList.add("green");
+                            elsToAdd.children[k].classList.add("actionSelected");
                             AnimationToolBar.selectedActionIndices.push(+el.dataset.index - (k + 1));
                         }
                     }
@@ -305,23 +305,23 @@ export class AnimationToolBar {
                 if (AnimationToolBar.shiftSelectIndex == -1) {
                     AnimationToolBar.shiftSelectIndex = +el.dataset.index;
                     AnimationToolBar.selectedActionIndices.push(+el.dataset.index);
-                    el.classList.add("green");
+                    el.classList.add("actionSelected");
                 }
                 else if (AnimationToolBar.shiftSelectIndex != -1) {
                     if (t < AnimationToolBar.shiftSelectIndex) {
                         AnimationToolBar.selectedActionIndices.push(+el.dataset.index);
-                        el.classList.add("green");
+                        el.classList.add("actionSelected");
                         for (let k = +el.dataset.index + 1; k < AnimationToolBar.shiftSelectIndex; k++) {
                             AnimationToolBar.selectedActionIndices.push(k);
-                            AnimationToolBar.getActionElement(k).classList.add("green");
+                            AnimationToolBar.getActionElement(k).classList.add("actionSelected");
                         }
                     }
                     else if (+el.dataset.index > AnimationToolBar.shiftSelectIndex) {
                         AnimationToolBar.selectedActionIndices.push(+el.dataset.index);
-                        el.classList.add("green");
+                        el.classList.add("actionSelected");
                         for (let k = AnimationToolBar.shiftSelectIndex + 1; k < +el.dataset.index; k++) {
                             AnimationToolBar.selectedActionIndices.push(k);
-                            AnimationToolBar.getActionElement(k).classList.add("green");
+                            AnimationToolBar.getActionElement(k).classList.add("actionSelected");
                         }
                     }
                 }
