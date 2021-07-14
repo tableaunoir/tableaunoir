@@ -9,14 +9,12 @@ export class OperationDeleteSeveralActions extends Operation {
     constructor(private indexesTable: number[]) {
         super();
         this.actionsTable = this.indexesTable.map(index => BoardManager.timeline.actions[index]);
-        console.log("coucou : " + this.actionsTable);
     }
 
     undo(): void {
         for(let i = 0; i < this.actionsTable.length; i++)
         {
             Share.execute("timelineAddAction", [this.indexesTable[i], JSON.stringify(this.actionsTable[i].serialize())]);
-            //BoardManager.timeline.insert(this.actionsTable[i], this.indexesTable[i]);
         }
     }
 

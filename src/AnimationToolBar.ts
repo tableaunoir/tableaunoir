@@ -20,13 +20,17 @@ export class AnimationToolBar {
     static dragAndDropFrames = false;
 
     /*
-     * used to remember the golded div the user is currently working one
+     * used to remember the folded div the user is currently working one
+     * foldedIndices[i] = true iff the ith action is pause and the corresponding slide is unfolded
      */
     static foldIndexes:number[] = [];
-    static actionsToBeMoved: number[] = [];
-    static lastSelectedIndex = -1;
+    static selectedActionIndices: number[] = [];
+    static shiftSelectIndex = -1;   //starting index for shift selection
+    static actionsAmount = 0;   //number of actions still displayed in the bottom toolbar (can be different from timeline.actions.length until update)
 
-
+    /**
+     * toggles the display of the animation toolbar
+     */
     static toggle(): void {
         if (!document.getElementById("buttonMovieMode").hidden) {
             document.getElementById("animationToolBar").style.display = AnimationToolBar.is() ? "none" : "";
@@ -57,31 +61,32 @@ export class AnimationToolBar {
     /*
      * @param the index of the action in the history
      *
-     * @returns a pair of indexes, the first one refers to the direct children of animationToolBar the action is in, the
-     * second one refers to the index of the folded div the action is in (-1 if not in one).
-     * Will return (-1, -1) in case of failure.
+     * @returns the element of animationActionList corresponding to the nth action
+     *
      */
-    static WhereAmI (n: number) : [number, number] {
-        let currIndex = -1;
+    static getActionElement (n: number) : HTMLElement {
+        let currIndex = 0;
 
-        for(let i = 1; i < document.getElementById("animationActionList").children.length; i++) {
+        for(let i = 0; i < document.getElementById("animationActionList").children.length; i++) {
             if(document.getElementById("animationActionList").children[i].classList.contains("foldedDiv")) {
-                for(let j = 0; j < document.getElementById("animationActionList").children[i].children.length; j++) {
-                    currIndex ++;
-                    if(currIndex == n)
-                        return [i, j];
+                const len = document.getElementById("animationActionList").children[i].children.length;
+                if (n > currIndex + len - 1) {
+                    currIndex += len;
+                }
+                else {
+                    return document.getElementById("animationActionList").children[i].children[n - currIndex] as HTMLElement;
                 }
             }
-            else if(document.getElementById("animationActionList").children[i].classList.contains("actionPause")) {
-                currIndex ++;
+            else if(document.getElementById("animationActionList").children[i].classList.contains("action")) {
                 if(currIndex == n)
-                    return [i, -1];
+                    return document.getElementById("animationActionList").children[i] as HTMLElement;
+                currIndex ++;
             }
         }
-        return [-1, -1];
     }
 
     /*
+     * @param the index of the pause action corresponding to the slide
      * @returns a division containing all sub-actions coming before a pause one
      */
     static spawnFoldDiv(n: number): HTMLElement {
@@ -92,6 +97,7 @@ export class AnimationToolBar {
     }
 
     /*
+     * @param the index of the pause action corresponding to the slide
      * @returns a label controlling an invisible checkBox
      */
     static spawnFoldLabel(n: number): HTMLElement {
@@ -116,6 +122,7 @@ export class AnimationToolBar {
     }
 
     /*
+     * @param the index of the pause action corresponding to the slide
      * @returns a checkbox controlling the visibility of the next folded actions div
      */
     static spawnFoldCheckBox(n: number): HTMLElement {
@@ -126,6 +133,28 @@ export class AnimationToolBar {
         el.classList.add("toggleFOld");
         el.type = "checkbox";
         return el;
+    }
+
+    static updateDelete(indexesTable: number[]): void
+    {
+        if (indexesTable.length != 0)
+        {
+            console.log("indexesTable : " + indexesTable);
+            console.log("actions amount : " + AnimationToolBar.actionsAmount);
+            for(let k = indexesTable.length - 1; k > -1; k--)
+            {
+                let element = AnimationToolBar.getActionElement(indexesTable[k]);
+                console.log("removed element : " + element);
+                console.log("element's index : " + element.dataset.index);
+                element.remove();
+                AnimationToolBar.actionsAmount --;
+                for(let n = indexesTable[k]; n < AnimationToolBar.actionsAmount; n++) {
+                    element = AnimationToolBar.getActionElement(n);
+                    console.log("element to modify : " + element);
+                    element.dataset.index = (+element.dataset.index - 1).toString();
+                }
+            }
+        }
     }
 
     /**
@@ -164,22 +193,32 @@ export class AnimationToolBar {
                 document.getElementById("animationBarBuffer").append(foldedDiv);
             }
             else
+            {
                 document.getElementById("foldedDiv" + count).append(AnimationToolBar.HTMLElementForAction(i));
+            }
         }
         document.getElementById("animationActionList").append(foldedDiv);
 
         document.getElementById("canvas").ondrop = () => {
             if (AnimationToolBar.dragAndDropFrames) {
-                if(AnimationToolBar.actionsToBeMoved.length != 0)
+                AnimationToolBar.actionsAmount = BoardManager.timeline.actions.length;
+                if(AnimationToolBar.selectedActionIndices.length != 0)
                 {
-                    AnimationToolBar.actionsToBeMoved.sort((x, y) => x - y);
-                    BoardManager.executeOperation(new OperationDeleteSeveralActions(AnimationToolBar.actionsToBeMoved));
-                    AnimationToolBar.actionsToBeMoved = [];
-                    AnimationToolBar.lastSelectedIndex = -1;
+                    AnimationToolBar.selectedActionIndices.sort((x, y) => x - y);
+                    if(AnimationToolBar.selectedActionIndices[0] == 0)
+                        AnimationToolBar.selectedActionIndices.splice(0, 1);
+                    BoardManager.executeOperation(new OperationDeleteSeveralActions(AnimationToolBar.selectedActionIndices));
+                    AnimationToolBar.updateDelete(AnimationToolBar.selectedActionIndices);
+                    AnimationToolBar.selectedActionIndices = [];
+                    AnimationToolBar.shiftSelectIndex = -1;
                 }
-                else
+                else if(AnimationToolBar.tSelected != 0)
+                {
                     BoardManager.executeOperation(new OperationDeleteAction(AnimationToolBar.tSelected));
-                AnimationToolBar.update();
+                    AnimationToolBar.selectedActionIndices.push(AnimationToolBar.tSelected);
+                    AnimationToolBar.updateDelete(AnimationToolBar.selectedActionIndices);
+                    AnimationToolBar.selectedActionIndices = [];
+                }
             }
             AnimationToolBar.dragAndDropFrames = false;
         }
@@ -193,6 +232,8 @@ export class AnimationToolBar {
     static HTMLElementForAction(t: number): HTMLElement {
         const action = BoardManager.timeline.actions[t];
         const el = document.createElement("div");
+
+        el.dataset.index = t.toString();
 
         el.classList.add("action");
         el.style.backgroundImage = action.getOverviewImage();
@@ -209,7 +250,8 @@ export class AnimationToolBar {
         el.draggable = true;
 
         el.ondrag = () => {
-            AnimationToolBar.tSelected = t;
+            AnimationToolBar.tSelected = +el.dataset.index;
+            console.log("drag index :  " + AnimationToolBar.tSelected);
             AnimationToolBar.dragAndDropFrames = true;
         }
 
@@ -217,16 +259,13 @@ export class AnimationToolBar {
         {
             if(event.key == "Escape")
             {
-                for(let k = 0; k < AnimationToolBar.actionsToBeMoved.length; k++)
+                for(let k = 0; k < AnimationToolBar.selectedActionIndices.length; k++)
                 {
-                    let pos = AnimationToolBar.WhereAmI(k);
-                    if(pos[1] == -1)
-                        document.getElementById("animationActionList").children[pos[0]].classList.remove("green");
-                    else
-                        document.getElementById("animationActionList").children[pos[0]].children[pos[1]].classList.remove("green");
+                    let element = AnimationToolBar.getActionElement(k);
+                    element.classList.remove("green");
                 }
-                AnimationToolBar.lastSelectedIndex = -1;
-                AnimationToolBar.actionsToBeMoved = [];
+                AnimationToolBar.shiftSelectIndex = -1;
+                AnimationToolBar.selectedActionIndices = [];
             }
         });
 
@@ -245,111 +284,93 @@ export class AnimationToolBar {
 
             if(selectMode)
             {
-                const index = AnimationToolBar.actionsToBeMoved.indexOf(t);
+                const index = AnimationToolBar.selectedActionIndices.indexOf(+el.dataset.index);
                 if(el.classList.contains("green"))
                 {
-                    AnimationToolBar.actionsToBeMoved.splice(index, 1);
+                    AnimationToolBar.selectedActionIndices.splice(index, 1);
                     el.classList.remove("green");
 	                if(action.pause)
 	                {
-	                    const pauseIndex = AnimationToolBar.WhereAmI(t);
-	                    const elsToRemove = document.getElementById("animationActionList").children[pauseIndex[0] - 1].children;
-	                    for(let k = 0; k < elsToRemove.length; k ++)
+	                    const pauseElement = AnimationToolBar.getActionElement(+el.dataset.index);
+	                    const elsToRemove = pauseElement.previousSibling as HTMLElement;
+	                    for(let k = 0; k < elsToRemove.children.length; k ++)
 	                    {
-	                        elsToRemove[k].classList.remove("green");
+	                        elsToRemove.children[k].classList.remove("green");
 	                    }
-                        AnimationToolBar.actionsToBeMoved.splice(index, elsToRemove.length);
+                        AnimationToolBar.selectedActionIndices.splice(index, elsToRemove.children.length);
 	                }
                 }
                 else
                 {
-                    AnimationToolBar.actionsToBeMoved.push(t);
+                    AnimationToolBar.selectedActionIndices.push(+el.dataset.index);
                     el.classList.add("green");
 	                if(action.pause)
 	                {
-	                    const pauseIndex = AnimationToolBar.WhereAmI(t);
-	                    const elsToAdd = document.getElementById("animationActionList").children[pauseIndex[0] - 1].children;
-	                    for(let k = 0; k < elsToAdd.length; k ++)
+	                    const pauseElement = AnimationToolBar.getActionElement(+el.dataset.index);
+	                    const elsToAdd = pauseElement.previousSibling as HTMLElement;
+	                    for(let k = 0; k < elsToAdd.children.length; k ++)
 	                    {
-	                        elsToAdd[k].classList.add("green");
-                            AnimationToolBar.actionsToBeMoved.push(t-(k+1));
+	                        elsToAdd.children[k].classList.add("green");
+                            AnimationToolBar.selectedActionIndices.push(+el.dataset.index-(k+1));
 	                    }
 	                }
                 }
             }
             else if(selectModeShift)
             {
-                if(AnimationToolBar.lastSelectedIndex == -1)
+                if(AnimationToolBar.shiftSelectIndex == -1)
                 {
-					AnimationToolBar.lastSelectedIndex = t;
-                    AnimationToolBar.actionsToBeMoved.push(t);
+					AnimationToolBar.shiftSelectIndex = +el.dataset.index;
+                    AnimationToolBar.selectedActionIndices.push(+el.dataset.index);
                     el.classList.add("green");
                 }
-                else if(AnimationToolBar.lastSelectedIndex != -1)
+                else if(AnimationToolBar.shiftSelectIndex != -1)
                 {
-                    if(t < AnimationToolBar.lastSelectedIndex)
+                    if(t < AnimationToolBar.shiftSelectIndex)
                     {
-                        AnimationToolBar.actionsToBeMoved.push(t);
+                        AnimationToolBar.selectedActionIndices.push(+el.dataset.index);
                         el.classList.add("green");
-                        for(let k = t + 1; k < AnimationToolBar.lastSelectedIndex; k++)
+                        for(let k = +el.dataset.index + 1; k < AnimationToolBar.shiftSelectIndex; k++)
                         {
-                            AnimationToolBar.actionsToBeMoved.push(k);
-                            let pos = AnimationToolBar.WhereAmI(k);
-	                        if(pos[1] == -1 && pos[0] != -1)
-	                            document.getElementById("animationActionList").children[pos[0]].classList.add("green");
-	                        else if(pos[0] != -1)
-	                            document.getElementById("animationActionList").children[pos[0]].children[pos[1]].classList.add("green");
+                            AnimationToolBar.selectedActionIndices.push(k);
+                            AnimationToolBar.getActionElement(k).classList.add("green");
                         }
                     }
-                    else if(t > AnimationToolBar.lastSelectedIndex)
+                    else if(+el.dataset.index > AnimationToolBar.shiftSelectIndex)
                     {
-                        AnimationToolBar.actionsToBeMoved.push(t);
+                        AnimationToolBar.selectedActionIndices.push(+el.dataset.index);
                         el.classList.add("green");
-                        for(let k = AnimationToolBar.lastSelectedIndex + 1; k < t; k++)
+                        for(let k = AnimationToolBar.shiftSelectIndex + 1; k < +el.dataset.index; k++)
                         {
-                            AnimationToolBar.actionsToBeMoved.push(k);
-                            let pos = AnimationToolBar.WhereAmI(k);
-                            if(pos[1] == -1 && pos[0] != -1)
-                                document.getElementById("animationActionList").children[pos[0]].classList.add("green");
-                            else if(pos[0] != -1)
-                                document.getElementById("animationActionList").children[pos[0]].children[pos[1]].classList.add("green");
+                            AnimationToolBar.selectedActionIndices.push(k);
+                            AnimationToolBar.getActionElement(k).classList.add("green");
                         }
                     }
                 }
             }
             else
             {
-                BoardManager.timeline.setCurrentIndex(t);
+                BoardManager.timeline.setCurrentIndex(+el.dataset.index);
                 for (let i = 1; i < BoardManager.timeline.actions.length; i++)
                 {
-                    let pos = AnimationToolBar.WhereAmI(i);
-                    if (i < t)
-                    {
-                        if(pos[1] == -1 && pos[0] != -1)
-                            document.getElementById("animationActionList").children[pos[0]].classList.add("actionExecuted");
-                        else if(pos[0] != -1)
-                            document.getElementById("animationActionList").children[pos[0]].children[pos[1]].classList.add("actionExecuted");
-                    }
+                    let elem = AnimationToolBar.getActionElement(i);
+                    if (i < +el.dataset.index)
+                        elem.classList.add("actionExecuted");
                     else
-                    {
-                        if(pos[1] == -1 && pos[0] != -1)
-                            document.getElementById("animationActionList").children[pos[0]].classList.remove("actionExecuted");
-                        else if (pos[0] != -1)
-                            document.getElementById("animationActionList").children[pos[0]].children[pos[1]].classList.remove("actionExecuted");
-                    }
+                        elem.classList.remove("actionExecuted");
                 }
             }
         }
 
         el.ondrop = () => {
-            if(AnimationToolBar.actionsToBeMoved.length == 0) {
-                BoardManager.executeOperation(new OperationMoveAction(AnimationToolBar.tSelected, t));
+            if(AnimationToolBar.selectedActionIndices.length == 0) {
+                BoardManager.executeOperation(new OperationMoveAction(AnimationToolBar.tSelected, +el.dataset.index));
             } else {
-	            AnimationToolBar.actionsToBeMoved.sort((x, y) => x - y);
-                BoardManager.executeOperation(new OperationMoveSevActions(AnimationToolBar.actionsToBeMoved, t));
+	            AnimationToolBar.selectedActionIndices.sort((x, y) => x - y);
+                BoardManager.executeOperation(new OperationMoveSevActions(AnimationToolBar.selectedActionIndices, +el.dataset.index));
             }
-            AnimationToolBar.actionsToBeMoved = [];
-            AnimationToolBar.lastSelectedIndex = -1;
+            AnimationToolBar.selectedActionIndices = [];
+            AnimationToolBar.shiftSelectIndex = -1;
             AnimationToolBar.update();
         }
 
