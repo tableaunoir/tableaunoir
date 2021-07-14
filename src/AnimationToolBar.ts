@@ -192,8 +192,11 @@ export class AnimationToolBar {
         }
         const elementToInsert = AnimationToolBar.createHTMLElementForAction(index);
         const elementBefore = AnimationToolBar.getActionElement(index - 1);
-        if (elementBefore.parentElement.classList.contains("ActionPause"))
+        if (elementBefore.parentElement.classList.contains("ActionPause")){
+            //TODO: improve to handle the label+checkbox
             (<HTMLDivElement>elementBefore.nextSibling).prepend(elementToInsert);
+        }
+            
         else
             elementBefore.insertAdjacentElement('afterend', elementToInsert);
         AnimationToolBar.nbActions++;
