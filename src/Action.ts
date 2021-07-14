@@ -49,6 +49,7 @@ export abstract class Action {
     public getHash(): number {
         if (this.hash == undefined) {
             this.hash = 0;
+            const obj = this.serializeData();
             const serializedString = JSON.stringify(obj);
             for (let k = 0; k < serializedString.length; k++) {
                 this.hash += serializedString.charCodeAt(k);

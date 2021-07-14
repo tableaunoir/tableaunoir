@@ -25,7 +25,7 @@ export class AnimationToolBar {
      * used to remember the folded div the user is currently working one
      * foldedIndices[i] = true iff the ith action is pause and the corresponding slide is unfolded
      */
-    static foldIndexes:number[] = [];
+    static foldIndexes: number[] = [];
     static selectedActionIndices: number[] = [];
     static shiftSelectIndex = -1;   //starting index for shift selection
     static actionsAmount = 0;   //number of actions still displayed in the bottom toolbar (can be different from timeline.actions.length until update)
@@ -66,11 +66,11 @@ export class AnimationToolBar {
      * @returns the element of animationActionList corresponding to the nth action
      *
      */
-    static getActionElement (n: number) : HTMLElement {
+    static getActionElement(n: number): HTMLElement {
         let currIndex = 0;
 
-        for(let i = 0; i < document.getElementById("animationActionList").children.length; i++) {
-            if(document.getElementById("animationActionList").children[i].classList.contains("foldedDiv")) {
+        for (let i = 0; i < document.getElementById("animationActionList").children.length; i++) {
+            if (document.getElementById("animationActionList").children[i].classList.contains("foldedDiv")) {
                 const len = document.getElementById("animationActionList").children[i].children.length;
                 if (n > currIndex + len - 1) {
                     currIndex += len;
@@ -79,10 +79,10 @@ export class AnimationToolBar {
                     return document.getElementById("animationActionList").children[i].children[n - currIndex] as HTMLElement;
                 }
             }
-            else if(document.getElementById("animationActionList").children[i].classList.contains("action")) {
-                if(currIndex == n)
+            else if (document.getElementById("animationActionList").children[i].classList.contains("action")) {
+                if (currIndex == n)
                     return document.getElementById("animationActionList").children[i] as HTMLElement;
-                currIndex ++;
+                currIndex++;
             }
         }
     }
@@ -107,18 +107,17 @@ export class AnimationToolBar {
         el.htmlFor = "toggleSub" + n;
         el.classList.add("unfold");
         const index = AnimationToolBar.foldIndexes.indexOf(n);
-        if(index == -1)
+        if (index == -1)
             el.style.backgroundImage = "url(\"img/open.png\")";
         else
             el.style.backgroundImage = "url(\"img/close.png\")";
-        el.onclick = () =>
-        {
-            if(index == -1)
+        el.onclick = () => {
+            if (index == -1)
                 AnimationToolBar.foldIndexes.push(n);
-			else
-				AnimationToolBar.foldIndexes.splice(index, 1);
-            el.style.backgroundImage = (el.style.backgroundImage == "url(\"img/open.png\")" ?  "url(\"img/close.png\")"
-            : "url(\"img/open.png\")");
+            else
+                AnimationToolBar.foldIndexes.splice(index, 1);
+            el.style.backgroundImage = (el.style.backgroundImage == "url(\"img/open.png\")" ? "url(\"img/close.png\")"
+                : "url(\"img/open.png\")");
         }
         return el;
     }
@@ -130,27 +129,24 @@ export class AnimationToolBar {
     static spawnFoldCheckBox(n: number): HTMLElement {
         const el = document.createElement("input");
         el.id = "toggleSub" + n;
-        if(AnimationToolBar.foldIndexes.indexOf(n) != -1)
+        if (AnimationToolBar.foldIndexes.indexOf(n) != -1)
             el.checked = true;
         el.classList.add("toggleFOld");
         el.type = "checkbox";
         return el;
     }
 
-    static updateDelete(indexesTable: number[]): void
-    {
-        if (indexesTable.length != 0)
-        {
+    static updateDelete(indexesTable: number[]): void {
+        if (indexesTable.length != 0) {
             console.log("indexesTable : " + indexesTable);
             console.log("actions amount : " + AnimationToolBar.actionsAmount);
-            for(let k = indexesTable.length - 1; k > -1; k--)
-            {
+            for (let k = indexesTable.length - 1; k > -1; k--) {
                 let element = AnimationToolBar.getActionElement(indexesTable[k]);
                 console.log("removed element : " + element);
                 console.log("element's index : " + element.dataset.index);
                 element.remove();
-                AnimationToolBar.actionsAmount --;
-                for(let n = indexesTable[k]; n < AnimationToolBar.actionsAmount; n++) {
+                AnimationToolBar.actionsAmount--;
+                for (let n = indexesTable[k]; n < AnimationToolBar.actionsAmount; n++) {
                     element = AnimationToolBar.getActionElement(n);
                     console.log("element to modify : " + element);
                     element.dataset.index = (+element.dataset.index - 1).toString();
@@ -194,8 +190,7 @@ export class AnimationToolBar {
                 foldedDiv = AnimationToolBar.spawnFoldDiv(count);
                 document.getElementById("animationBarBuffer").append(foldedDiv);
             }
-            else
-            {
+            else {
                 document.getElementById("foldedDiv" + count).append(AnimationToolBar.HTMLElementForAction(i));
             }
         }
@@ -204,18 +199,16 @@ export class AnimationToolBar {
         document.getElementById("canvas").ondrop = () => {
             if (AnimationToolBar.dragAndDropFrames) {
                 AnimationToolBar.actionsAmount = BoardManager.timeline.actions.length;
-                if(AnimationToolBar.selectedActionIndices.length != 0)
-                {
+                if (AnimationToolBar.selectedActionIndices.length != 0) {
                     AnimationToolBar.selectedActionIndices.sort((x, y) => x - y);
-                    if(AnimationToolBar.selectedActionIndices[0] == 0)
+                    if (AnimationToolBar.selectedActionIndices[0] == 0)
                         AnimationToolBar.selectedActionIndices.splice(0, 1);
                     BoardManager.executeOperation(new OperationDeleteSeveralActions(AnimationToolBar.selectedActionIndices));
                     AnimationToolBar.updateDelete(AnimationToolBar.selectedActionIndices);
                     AnimationToolBar.selectedActionIndices = [];
                     AnimationToolBar.shiftSelectIndex = -1;
                 }
-                else if(AnimationToolBar.tSelected != 0)
-                {
+                else if (AnimationToolBar.tSelected != 0) {
                     BoardManager.executeOperation(new OperationDeleteAction(AnimationToolBar.tSelected));
                     AnimationToolBar.selectedActionIndices.push(AnimationToolBar.tSelected);
                     AnimationToolBar.updateDelete(AnimationToolBar.selectedActionIndices);
@@ -243,7 +236,7 @@ export class AnimationToolBar {
         if (action.pause)
             el.classList.add("actionPause");
 
-		if (!action.isBlocking)
+        if (!action.isBlocking)
             el.classList.add("actionParallel");
 
         if (t <= BoardManager.timeline.getCurrentIndex())
@@ -257,12 +250,9 @@ export class AnimationToolBar {
             AnimationToolBar.dragAndDropFrames = true;
         }
 
-        document.addEventListener("keydown", function(event)
-        {
-            if(event.key == "Escape")
-            {
-                for(let k = 0; k < AnimationToolBar.selectedActionIndices.length; k++)
-                {
+        document.addEventListener("keydown", function (event) {
+            if (event.key == "Escape") {
+                for (let k = 0; k < AnimationToolBar.selectedActionIndices.length; k++) {
                     let element = AnimationToolBar.getActionElement(k);
                     element.classList.remove("green");
                 }
@@ -281,80 +271,64 @@ export class AnimationToolBar {
         el.ondragend = () => { AnimationToolBar.dragAndDropFrames = false; };
 
         el.onclick = (event) => {
-            const selectMode  = (event.ctrlKey);
-            const selectModeShift  = (event.shiftKey);
+            const selectMode = (event.ctrlKey);
+            const selectModeShift = (event.shiftKey);
 
-            if(selectMode)
-            {
+            if (selectMode) {
                 const index = AnimationToolBar.selectedActionIndices.indexOf(+el.dataset.index);
-                if(el.classList.contains("green"))
-                {
+                if (el.classList.contains("green")) {
                     AnimationToolBar.selectedActionIndices.splice(index, 1);
                     el.classList.remove("green");
-	                if(action.pause)
-	                {
-	                    const pauseElement = AnimationToolBar.getActionElement(+el.dataset.index);
-	                    const elsToRemove = pauseElement.previousSibling as HTMLElement;
-	                    for(let k = 0; k < elsToRemove.children.length; k ++)
-	                    {
-	                        elsToRemove.children[k].classList.remove("green");
-	                    }
+                    if (action.pause) {
+                        const pauseElement = AnimationToolBar.getActionElement(+el.dataset.index);
+                        const elsToRemove = pauseElement.previousSibling as HTMLElement;
+                        for (let k = 0; k < elsToRemove.children.length; k++) {
+                            elsToRemove.children[k].classList.remove("green");
+                        }
                         AnimationToolBar.selectedActionIndices.splice(index, elsToRemove.children.length);
-	                }
+                    }
                 }
-                else
-                {
+                else {
                     AnimationToolBar.selectedActionIndices.push(+el.dataset.index);
                     el.classList.add("green");
-	                if(action.pause)
-	                {
-	                    const pauseElement = AnimationToolBar.getActionElement(+el.dataset.index);
-	                    const elsToAdd = pauseElement.previousSibling as HTMLElement;
-	                    for(let k = 0; k < elsToAdd.children.length; k ++)
-	                    {
-	                        elsToAdd.children[k].classList.add("green");
-                            AnimationToolBar.selectedActionIndices.push(+el.dataset.index-(k+1));
-	                    }
-	                }
+                    if (action.pause) {
+                        const pauseElement = AnimationToolBar.getActionElement(+el.dataset.index);
+                        const elsToAdd = pauseElement.previousSibling as HTMLElement;
+                        for (let k = 0; k < elsToAdd.children.length; k++) {
+                            elsToAdd.children[k].classList.add("green");
+                            AnimationToolBar.selectedActionIndices.push(+el.dataset.index - (k + 1));
+                        }
+                    }
                 }
             }
-            else if(selectModeShift)
-            {
-                if(AnimationToolBar.shiftSelectIndex == -1)
-                {
-					AnimationToolBar.shiftSelectIndex = +el.dataset.index;
+            else if (selectModeShift) {
+                if (AnimationToolBar.shiftSelectIndex == -1) {
+                    AnimationToolBar.shiftSelectIndex = +el.dataset.index;
                     AnimationToolBar.selectedActionIndices.push(+el.dataset.index);
                     el.classList.add("green");
                 }
-                else if(AnimationToolBar.shiftSelectIndex != -1)
-                {
-                    if(t < AnimationToolBar.shiftSelectIndex)
-                    {
+                else if (AnimationToolBar.shiftSelectIndex != -1) {
+                    if (t < AnimationToolBar.shiftSelectIndex) {
                         AnimationToolBar.selectedActionIndices.push(+el.dataset.index);
                         el.classList.add("green");
-                        for(let k = +el.dataset.index + 1; k < AnimationToolBar.shiftSelectIndex; k++)
-                        {
+                        for (let k = +el.dataset.index + 1; k < AnimationToolBar.shiftSelectIndex; k++) {
                             AnimationToolBar.selectedActionIndices.push(k);
                             AnimationToolBar.getActionElement(k).classList.add("green");
                         }
                     }
-                    else if(+el.dataset.index > AnimationToolBar.shiftSelectIndex)
-                    {
+                    else if (+el.dataset.index > AnimationToolBar.shiftSelectIndex) {
                         AnimationToolBar.selectedActionIndices.push(+el.dataset.index);
                         el.classList.add("green");
-                        for(let k = AnimationToolBar.shiftSelectIndex + 1; k < +el.dataset.index; k++)
-                        {
+                        for (let k = AnimationToolBar.shiftSelectIndex + 1; k < +el.dataset.index; k++) {
                             AnimationToolBar.selectedActionIndices.push(k);
                             AnimationToolBar.getActionElement(k).classList.add("green");
                         }
                     }
                 }
             }
-            else
-            {
+            else {
                 BoardManager.timeline.setCurrentIndex(+el.dataset.index);
-                for (let i = 1; i < BoardManager.timeline.actions.length; i++)
-                {
+                for (let i = 1; i < BoardManager.timeline.actions.length; i++) {
                     let elem = AnimationToolBar.getActionElement(i);
                     if (i < +el.dataset.index)
                         elem.classList.add("actionExecuted");
@@ -365,10 +339,10 @@ export class AnimationToolBar {
         }
 
         el.ondrop = () => {
-            if(AnimationToolBar.selectedActionIndices.length == 0) {
+            if (AnimationToolBar.selectedActionIndices.length == 0) {
                 BoardManager.executeOperation(new OperationMoveAction(AnimationToolBar.tSelected, +el.dataset.index));
             } else {
-	            AnimationToolBar.selectedActionIndices.sort((x, y) => x - y);
+                AnimationToolBar.selectedActionIndices.sort((x, y) => x - y);
                 BoardManager.executeOperation(new OperationMoveSevActions(AnimationToolBar.selectedActionIndices, +el.dataset.index));
             }
             AnimationToolBar.selectedActionIndices = [];
