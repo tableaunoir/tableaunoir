@@ -61,15 +61,18 @@ export class AnimationToolBar {
     static is(): boolean { return document.getElementById("animationToolBar").style.display == ""; }
 
     /*
-     * @param the index of the action in the history
+     * @param the index n of the action in the history
      *
-     * @returns the element of animationActionList corresponding to the nth action
+     * @returns the element of animationActionList corresponding to the n-th action
      *
      */
     static getActionElement(n: number): HTMLElement {
         let currIndex = 0;
 
+        //browse the timeline toolbar
         for (let i = 0; i < document.getElementById("animationActionList").children.length; i++) {
+
+            //if it is a "directory"
             if (document.getElementById("animationActionList").children[i].classList.contains("foldedDiv")) {
                 const len = document.getElementById("animationActionList").children[i].children.length;
                 if (n > currIndex + len - 1) {
@@ -79,6 +82,7 @@ export class AnimationToolBar {
                     return document.getElementById("animationActionList").children[i].children[n - currIndex] as HTMLElement;
                 }
             }
+            //if it is an action
             else if (document.getElementById("animationActionList").children[i].classList.contains("action")) {
                 if (currIndex == n)
                     return document.getElementById("animationActionList").children[i] as HTMLElement;
@@ -88,8 +92,8 @@ export class AnimationToolBar {
     }
 
     /*
-     * @param the index of the pause action corresponding to the slide
-     * @returns a division containing all sub-actions coming before a pause one
+     * @param the index n of the pause action corresponding to the slide
+     * @returns a new division that will contain all sub-actions coming before a pause one
      */
     static spawnFoldDiv(n: number): HTMLElement {
         const el = document.createElement("div");
@@ -100,7 +104,7 @@ export class AnimationToolBar {
 
     /*
      * @param the index of the pause action corresponding to the slide
-     * @returns a label controlling an invisible checkBox
+     * @returns a new label controlling an invisible checkBox
      */
     static spawnFoldLabel(n: number): HTMLElement {
         const el = document.createElement("label");
@@ -124,7 +128,7 @@ export class AnimationToolBar {
 
     /*
      * @param the index of the pause action corresponding to the slide
-     * @returns a checkbox controlling the visibility of the next folded actions div
+     * @returns a new checkbox controlling the visibility of the next folded actions div
      */
     static spawnFoldCheckBox(n: number): HTMLElement {
         const el = document.createElement("input");
@@ -136,17 +140,21 @@ export class AnimationToolBar {
         return el;
     }
 
-    static updateDelete(indexesTable: number[]): void {
-        if (indexesTable.length != 0) {
-            console.log("indexesTable : " + indexesTable);
+
+    /** 
+     * @description update the timeline toolbar given that the indices are those that are deleted 
+     **/
+    static updateDelete(indices: number[]): void {
+        if (indices.length != 0) {
+            console.log("indices : " + indices);
             console.log("actions amount : " + AnimationToolBar.actionsAmount);
-            for (let k = indexesTable.length - 1; k > -1; k--) {
-                let element = AnimationToolBar.getActionElement(indexesTable[k]);
+            for (let k = indices.length - 1; k > -1; k--) {
+                let element = AnimationToolBar.getActionElement(indices[k]);
                 console.log("removed element : " + element);
                 console.log("element's index : " + element.dataset.index);
                 element.remove();
                 AnimationToolBar.actionsAmount--;
-                for (let n = indexesTable[k]; n < AnimationToolBar.actionsAmount; n++) {
+                for (let n = indices[k]; n < AnimationToolBar.actionsAmount; n++) {
                     element = AnimationToolBar.getActionElement(n);
                     console.log("element to modify : " + element);
                     element.dataset.index = (+element.dataset.index - 1).toString();
@@ -155,6 +163,19 @@ export class AnimationToolBar {
         }
     }
 
+
+
+
+    static updateAddAction(index: number): void {
+        for (let n = index; n < AnimationToolBar.actionsAmount; n++) {
+            const element = AnimationToolBar.getActionElement(n);
+            console.log("element to modify : " + element);
+            element.dataset.index = (+element.dataset.index + 1).toString();
+        }
+        AnimationToolBar.HTMLElementForAction(index);
+        AnimationToolBar.actionsAmount++;
+
+    }
     /**
      * @description updates the whole timeline
      */
@@ -252,12 +273,7 @@ export class AnimationToolBar {
 
         document.addEventListener("keydown", function (event) {
             if (event.key == "Escape") {
-                for (let k = 0; k < AnimationToolBar.selectedActionIndices.length; k++) {
-                    const element = AnimationToolBar.getActionElement(k);
-                    element.classList.remove("actionSelected");
-                }
-                AnimationToolBar.shiftSelectIndex = -1;
-                AnimationToolBar.selectedActionIndices = [];
+                AnimationToolBar.deselect();
             }
         });
 
@@ -327,6 +343,8 @@ export class AnimationToolBar {
                 }
             }
             else {
+                if (!AnimationToolBar.isSelected(+el.dataset.index))
+                    AnimationToolBar.deselect();
                 BoardManager.timeline.setCurrentIndex(+el.dataset.index);
                 for (let i = 1; i < BoardManager.timeline.actions.length; i++) {
                     const elem = AnimationToolBar.getActionElement(i);
@@ -357,5 +375,34 @@ export class AnimationToolBar {
         }
 
         return el;
+    }
+
+
+    /**
+     * deselect all actions
+     */
+    static deselect(): void {
+        for (let k = 0; k < AnimationToolBar.selectedActionIndices.length; k++) {
+            const element = AnimationToolBar.getActionElement(AnimationToolBar.selectedActionIndices[k]);
+            element.classList.remove("actionSelected");
+        }
+        AnimationToolBar.shiftSelectIndex = -1;
+        AnimationToolBar.selectedActionIndices = [];
+    }
+
+    /**
+     * 
+     * @param t 
+     * @returns true if action at time t is selected
+     */
+    static isSelected(t: number): boolean {
+        return AnimationToolBar.selectedActionIndices.indexOf(t) >= 0;
+    }
+    /**
+     * 
+     * @returns true iff there is a selection
+     */
+    static isSelection(): boolean {
+        return AnimationToolBar.selectedActionIndices.length > 0;
     }
 }
