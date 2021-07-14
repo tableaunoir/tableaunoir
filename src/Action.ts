@@ -11,9 +11,9 @@ export abstract class Action {
      */
     public userid: string;
     public pause = false;
-    public hash;
     public isDirectlyUndoable = false;
     public isBlocking = true;
+    private hash = 0;
     private _speed = 1;
     private _delay = this.getDelay(this._speed);
 
@@ -43,7 +43,21 @@ export abstract class Action {
      */
     protected abstract serializeData(): ActionSerialized;
 
-
+    /**
+     * returns hash
+     */
+    public getHash(): number {
+        if (this.hash == undefined) {
+            this.hash = 0;
+            const serializedString = JSON.stringify(obj);
+            for (let k = 0; k < serializedString.length; k++) {
+                this.hash += serializedString.charCodeAt(k);
+            }
+        }
+        return this.hash;
+    }
+  
+  
     /**
      * serialize the action
      */
@@ -51,17 +65,21 @@ export abstract class Action {
         const obj = this.serializeData();
 
         if (this.hash == undefined) {
+            this.hash = 0;
             const serializedString = JSON.stringify(obj);
             for (let k = 0; k < serializedString.length; k++) {
                 this.hash += serializedString.charCodeAt(k);
             }
         }
-
+      
         if (!obj.pause)
             delete obj.pause;
 
         return obj;
     }
+
+
+
 
     /**
      * redo the action
