@@ -57,8 +57,8 @@ export abstract class Action {
         }
         return this.hash;
     }
-  
-  
+
+
     /**
      * serialize the action
      */
@@ -72,7 +72,7 @@ export abstract class Action {
                 this.hash += serializedString.charCodeAt(k);
             }
         }
-      
+
         if (!obj.pause)
             delete obj.pause;
 
