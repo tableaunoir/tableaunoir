@@ -329,8 +329,8 @@ export class AnimationToolBar {
             else {
                 BoardManager.timeline.setCurrentIndex(+el.dataset.index);
                 for (let i = 1; i < BoardManager.timeline.actions.length; i++) {
-                    let elem = AnimationToolBar.getActionElement(i);
-                    if (i < +el.dataset.index)
+                    const elem = AnimationToolBar.getActionElement(i);
+                    if (i <= +el.dataset.index)
                         elem.classList.add("actionExecuted");
                     else
                         elem.classList.remove("actionExecuted");
