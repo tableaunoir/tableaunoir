@@ -1025,8 +1025,8 @@ h1 {
 	width: 24px;
 	height: 24px;
 	background-color: rgb(64, 64, 64);
-	border: 2px solid black;
 	display: inline-block;
+	border: 2px solid rgb(64, 64, 64);
 	opacity: 0.5;
 	margin: 2px;
 }
@@ -1034,15 +1034,34 @@ h1 {
 .action:hover {
 	transform: scale(1.2);
 	transform-origin: 50% 350%;
-	border: 2px solid white;
+	border: 2px solid black;
 	transition: transform 350ms;
 }
 
 
 .actionSelected {
-	border: 2px solid rgb(137, 137, 255);
+	border: 2px solid rgb(77, 169, 255);
 }
 
+
+.actionExecuted {
+	opacity: 1.0;
+	background-color: rgb(177, 86, 25);
+}
+
+
+.actionPause {
+	margin-right: 6px;
+	border-radius: 0px 12px 12px 0px;
+}
+
+
+.actionParallel:after {
+	content: url(img/icons/1F411.svg);
+	position: relative;
+	left: 20px;
+
+}
 
 
 .foldedDiv {
@@ -1108,21 +1127,3 @@ h1 {
 	transition: width 500ms;
 }
 
-.actionExecuted {
-	opacity: 1.0;
-	background-color: rgb(0, 96, 0);
-}
-
-
-.actionPause {
-	margin-right: 6px;
-	border-radius: 0px 12px 12px 0px;
-}
-
-
-.actionParallel:after {
-	content: url(img/icons/1F411.svg);
-	position: relative;
-	left: 20px;
-
-}
