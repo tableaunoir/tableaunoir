@@ -45,14 +45,10 @@ export class LoadSave {
         document.getElementById("save").onclick = LoadSave.save;
 
 
-        document.body.ondragover = (event) => {
-            // Prevent default behavior (Prevent file from being opened)
-            event.preventDefault();
-        }
-        document.body.ondrop = (event) => {
-            // Prevent default behavior (Prevent file from being opened)
-            event.preventDefault();
 
+
+
+        function* getFilesFromDragEvent(event: DragEvent) {
             if (event.dataTransfer.items) {
                 // Use DataTransferItemList interface to access the file(s)
                 for (let i = 0; i < event.dataTransfer.items.length; i++) {
@@ -60,12 +56,9 @@ export class LoadSave {
                     // If dropped items aren't files, reject them
                     if (event.dataTransfer.items[i].kind === 'file') {
                         const file = event.dataTransfer.items[i].getAsFile();
-                        LoadSave.loadFile(file);
+                        yield file;
 
-                        if (DesktopApplicationManager.is)
-                            /*cast to <any> because electron is adding the field .path to get
-                            the full path of the file*/
-                            DesktopApplicationManager.setFilename((<any>file).path);
+
                     }
                     else {
                         /*
@@ -83,10 +76,57 @@ export class LoadSave {
                 // Use DataTransfer interface to access the file(s)
                 for (let i = 0; i < event.dataTransfer.files.length; i++) {
                     const file = event.dataTransfer.items[i].getAsFile();
-                    LoadSave.loadFile(file[i]);
+                    yield file; //before file[i] ?
                 }
             }
+        }
 
+
+
+        function getTypeFilesDrag(event): "tableaunoir" | "images" | "error" {
+            let containsImages = false;
+            let containsTableaunoir = false;
+            let containsError = false;
+            let count = 0;
+            for (const file of getFilesFromDragEvent(event)) {
+                console.log(file);
+                if (file.name.endsWith(".tableaunoir"))
+                    containsTableaunoir = true;
+                else if (file.name.endsWith(".png") || file.name.endsWith(".jpg") || file.name.endsWith(".gif") || file.name.endsWith(".svg"))
+                    containsImages = true;
+                else
+                    containsError = true;
+                count++;
+            }
+
+            if (containsError)
+                return "error";
+
+            if (containsTableaunoir && count > 1)
+                return "error";
+
+            if (containsTableaunoir)
+                return "tableaunoir";
+
+            return "images";
+        }
+
+        document.body.ondragover = (event) => {
+            /** prevent the browser to load the file */
+            event.preventDefault();
+        };
+
+        document.body.ondrop = (event) => {
+            console.log("drop!");
+            // Prevent default behavior (Prevent file from being opened)
+            event.preventDefault();
+
+            if (getTypeFilesDrag(event) == "error")
+                ErrorMessage.show("Impossible to drop these kind of files");
+
+            for (const file of getFilesFromDragEvent(event))
+                LoadSave.loadFile(file, event.clientX, event.clientY);
+            event.preventDefault();
         };
     }
 
@@ -94,8 +134,10 @@ export class LoadSave {
      *
      * @param {File} file
      * @description load the file file
+     * If the file is a .tableaunoir file, then it loads the board
+     * If the file is an image, it loads the image as a magnet
      */
-    static loadFile(file: File): void {
+    static loadFile(file: File, x = 0, y = 0): void {
         if (file) {
             const reader = new FileReader();
             reader.onerror = () => {
@@ -109,6 +151,10 @@ export class LoadSave {
                     const s: string = <string>evt.target.result;
                     Share.execute("loadBoard", [s]);
                 }
+                if (DesktopApplicationManager.is)
+                    /*cast to <any> because electron is adding the field .path to get
+                    the full path of the file*/
+                    DesktopApplicationManager.setFilename((<any>file).path);
             }
             else {
                 /** load an image and add it as a magnet */
@@ -119,8 +165,8 @@ export class LoadSave {
                 reader.onload = function (evt) {
                     const img = new Image();
                     img.src = <string>evt.target.result;
-                    img.style.left = Layout.getWindowLeft() + "px";
-                    img.style.top = "0px";
+                    img.style.left = (Layout.getWindowLeft() + x) + "px";
+                    img.style.top = y + "px";
                     MagnetManager.addMagnet(img);
                 }
             }
