@@ -1037,7 +1037,6 @@ h1 {
 .action:hover {
 	transform: scale(1.2);
 	transform-origin: 50% 350%;
-	border: 2px solid black;
 	transition: transform 350ms;
 }
 
