@@ -1,5 +1,6 @@
 /**
- * Main file to be launched by Electron
+ * Tableaunoir - desktop version
+ * Main file to be launched with electron
  * The command line "electron <nameofthisfile>" will launch this file
  */
 
@@ -37,10 +38,8 @@ app.on('ready', () => {
     buildMenu();
     if (DEBUGMODE) win.webContents.openDevTools()
 
-    //win.webContents.once('dom-ready', () => { setTimeout(() => win.webContents.send("desktop"), 1000 )});
-
     win.on('close', function (e) {
-        let choice = require('electron').dialog.showMessageBoxSync(this,
+        const choice = dialog.showMessageBoxSync(this,
             {
                 type: 'question',
                 buttons: ['Yes', 'No'],
@@ -102,16 +101,28 @@ function buildMenu() {
 }
 
 function newDocument() {
-    filename = undefined;
-    win.title = "Tableaunoir - (new board)";
-    win.webContents.send("new");
+    const choice = dialog.showMessageBoxSync(win,
+        {
+            type: 'question',
+            buttons: ['Yes', 'No'],
+            title: 'Confirm',
+            message: 'Are you sure you want to create a new fresh board?'
+        });
+    if (choice == 0) {
+        filename = undefined;
+        win.title = "Tableaunoir - (new board)";
+        win.webContents.send("new");
+    }
+
 }
 
 
 function openDocument() {
-    let files = dialog.showOpenDialogSync({ title: "Open file", filters: [{ name: "Tableaunoir file", extensions: "tableaunoir" }] });
-    if (files.length > 0)
-        openFile(files[0]);
+    const files = dialog.showOpenDialogSync(win, { title: "Open file", filters: [{ name: "Tableaunoir file", extensions: "tableaunoir" }] });
+    if (files)
+        if (files.length)
+            if (files.length > 0)
+                openFile(files[0]);
 }
 
 
@@ -139,7 +150,7 @@ function saveDocument() {
 
 
 function saveAsDocument() {
-    let newFilename = dialog.showSaveDialogSync({ title: "Save file", filters: [{ name: "Tableaunoir file", extensions: ".tableaunoir" }] });
+    const newFilename = dialog.showSaveDialogSync(win, { title: "Save file", filters: [{ name: "Tableaunoir file", extensions: ".tableaunoir" }] });
     if (newFilename == undefined) return;
 
     filename = newFilename;

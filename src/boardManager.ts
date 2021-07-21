@@ -37,7 +37,8 @@ export class BoardManager {
    */
     static init(): void {
         document.getElementById("blackboardClear").onclick = () => {
-            Share.execute("boardReset", []);
+            if (confirm("Do you want to clear and reset the board?"))
+                Share.execute("boardReset", []);
         }
 
     }
@@ -51,6 +52,7 @@ export class BoardManager {
         canvas.width = canvas.width + 0; //clear
         BoardManager.timeline.clear();
         BoardManager.cancelStack = new CancelStack();
+        AnimationToolBar.update();
     }
 
     /**

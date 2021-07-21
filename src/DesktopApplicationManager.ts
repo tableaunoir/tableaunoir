@@ -1,3 +1,4 @@
+import { BoardManager } from './boardManager';
 import { Share } from './share';
 import { LoadSave } from './LoadSave';
 
@@ -18,11 +19,8 @@ export class DesktopApplicationManager {
             /** setting when desktop app*/
             const ipc = require('electron').ipcRenderer;// window.require('electron').remote.ipcRenderer;
 
-            ipc.on("desktop", () => alert("desktop"));
-            ipc.on("open", (evt, data) => {
-                Share.execute("loadBoard", [data]);
-
-            });
+            ipc.on("new", () => Share.execute("boardReset", []));
+            ipc.on("open", (evt, data) => { Share.execute("loadBoard", [data]); });
             ipc.on("save", () => ipc.send("save", LoadSave.getTableauNoirString()));
 
             console.log("Desktop version of Tableaunoir");
