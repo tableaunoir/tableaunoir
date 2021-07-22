@@ -272,7 +272,7 @@ export class Share {
 				break;
 			case "action":
 				//TODO buggy (and not used)
-				BoardManager.timeline.insertNowAlreadyExecuted(ActionDeserializer.deserialize(msg.action));
+				BoardManager.timeline.insertActionNowAlreadyExecuted(ActionDeserializer.deserialize(msg.action));
 				break;
 			case "svg":
 				console.log("received svg!")

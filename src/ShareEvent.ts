@@ -202,13 +202,13 @@ export class ShareEvent {
 
 
     static timelineAddAction(t: number, actionSerialized: string): void {
-        BoardManager.timeline.insert(ActionDeserializer.deserialize(JSON.parse(actionSerialized)), t);
+        BoardManager.timeline.insertAction(ActionDeserializer.deserialize(JSON.parse(actionSerialized)), t);
         //  BoardManager.cancelStack.updateTimeSteps((ts) => ts >= t ? ts+1 : ts);
     }
 
 
     static timelineRemoveAction(t: number): void {
-        BoardManager.timeline.delete(t);
+        BoardManager.timeline.deleteAction(t);
         //  BoardManager.cancelStack.updateTimeSteps((ts) => ts >= t+1 ? ts-1 : ts);
     }
 

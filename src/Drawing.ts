@@ -112,7 +112,9 @@ export class Drawing {
     }
 
 
-
+    /**
+     * @description clear the canvas
+     */
     static clear(): void {
         const canvas = getCanvas();
         //canvas.width = canvas.width + 0;

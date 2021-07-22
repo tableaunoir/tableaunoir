@@ -1,3 +1,4 @@
+import { AnimationToolBar } from './AnimationToolBar';
 import { DesktopApplicationManager } from './DesktopApplicationManager';
 import { UserManager } from './UserManager';
 import { ActionMagnetNew } from './ActionMagnetNew';
@@ -262,6 +263,8 @@ export class LoadSave {
         document.getElementById("script").innerHTML = obj.script ? obj.script : "";
         ConstraintDrawing.reset();
         MagnetManager.installMagnets();
+
+        AnimationToolBar.update();
     }
 
 

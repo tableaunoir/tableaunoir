@@ -11,14 +11,14 @@ export class OperationMoveAction extends Operation {
     constructor(private actionIndex: number, private insertIndex: number) { super(); }
 
     undo(): void {
-        BoardManager.timeline.move(this.insertIndex, this.actionIndex);
+        BoardManager.timeline.moveAction(this.insertIndex, this.actionIndex);
     }
 
     redo(): void {
         if(this.actionIndex < this.insertIndex)
-            BoardManager.timeline.move(this.actionIndex, this.insertIndex--);
+            BoardManager.timeline.moveAction(this.actionIndex, this.insertIndex--);
         else
-            BoardManager.timeline.move(this.actionIndex, this.insertIndex);
+            BoardManager.timeline.moveAction(this.actionIndex, this.insertIndex);
     }
 
 }

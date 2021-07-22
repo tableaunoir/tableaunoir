@@ -96,13 +96,13 @@ export class Timeline {
 
             if (sthToDoFromStart) {
                 Drawing.clear();
-                this.canvasRedraw();
+                await this.canvasRedraw();
 
             }
 
-            if (bug113) {
+            if (bug113) 
                 this.repair();
-            }
+            
         }
     }
 
@@ -150,6 +150,26 @@ export class Timeline {
         await this.doAllActionsUntilCurrentIndex();
     }
 
+
+    /**
+     * @description do all the actions until the current index
+     */
+     private async doAllActionsUntilCurrentIndex(): Promise<void> {
+        let bug113 = false;
+        for (let t = 0; t <= this.currentIndex; t++) {
+            if (this.actions[t] == undefined) {
+                ErrorMessage.show("issue #113. error with t = " + t + " try to undo/redo again");
+                bug113 = true;
+            }
+            else
+                await this.actions[t].redo();
+
+        }
+        if (bug113)
+            this.repair();
+
+    }
+
     /**
      *
      * @param elToInsert
@@ -158,7 +178,7 @@ export class Timeline {
      *
      * @description moves actions referred to in indexesArray (or elToInsert) to pos insertIndex in this.action
      */
-    move(indexToMove: number, insertIndex: number): void {
+    moveAction(indexToMove: number, insertIndex: number): void {
         if (insertIndex == 0 || indexToMove == 0)
             return;
 
@@ -174,7 +194,7 @@ export class Timeline {
      * @param t
      * @description insert action at time t, the action will be this.actions[t], update the state
      */
-    insert(action: Action, t: number): void {
+    insertAction(action: Action, t: number): void {
         this.actions.splice(t, 0, action);
         if (t == this.currentIndex + 1) {
             //we insert an action just after the current moment
@@ -197,10 +217,10 @@ export class Timeline {
      * @param {*} action
      * @description insert now an action that was already executed
      */
-    insertNowAlreadyExecuted(action: Action): void {
+    insertActionNowAlreadyExecuted(action: Action): void {
         //     this.currentIndex++;
         //   this.actions.splice(this.currentIndex, 0, action);
-        this.insert(action, this.currentIndex + 1);
+        this.insertAction(action, this.currentIndex + 1);
 
     }
 
@@ -212,7 +232,7 @@ export class Timeline {
      * @param t 
      * @description delete action at time t
      */
-    delete(t: number): void {
+    deleteAction(t: number): void {
         if (t == 0) //the first action cannot be removed
             return;
 
@@ -246,13 +266,16 @@ export class Timeline {
     }
 
 
-
+    /**
+     * @property the canvas should have been clearer before (otherwise, it is a mess ;) )
+     * @description redraw the canvas (from the last clear action, but we do not clear)
+     */
     async canvasRedraw(): Promise<void> {
         let bug113 = false;
 
         //perform the do actions from the last time we cleared the canvas until this.currentIndex
         // for the actions that are not undoable
-        for (let t = this.getLastClearAction(); t <= this.currentIndex; t++) {
+        for (let t = this.getLastClearAction()+1; t <= this.currentIndex; t++) {
             if (this.actions[t] == undefined) {
                 ErrorMessage.show("issue #113. error with t = " + t + " try to undo/redo again");
                 bug113 = true;
@@ -265,24 +288,7 @@ export class Timeline {
             this.repair();
 
     }
-    /**
-     * @description do all the actions until the current index
-     */
-    private async doAllActionsUntilCurrentIndex(): Promise<void> {
-        let bug113 = false;
-        for (let t = 0; t <= this.currentIndex; t++) {
-            if (this.actions[t] == undefined) {
-                ErrorMessage.show("issue #113. error with t = " + t + " try to undo/redo again");
-                bug113 = true;
-            }
-            else
-                await this.actions[t].redo();
-
-        }
-        if (bug113)
-            this.repair();
-
-    }
+    
 
 
     /**

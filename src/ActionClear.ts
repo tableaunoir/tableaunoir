@@ -27,6 +27,6 @@ export class ActionClear extends Action {
         document.getElementById("magnets").innerHTML = "";
      }
 
-    createOverviewImage(): string { return "url(img/icons/erase.svg)"; }
+    createOverviewImage(): string { return "url(img/icons/supererase.svg)"; }
 
 }

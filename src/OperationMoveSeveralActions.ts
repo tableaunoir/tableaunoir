@@ -43,7 +43,7 @@ export class OperationMoveSevActions extends Operation {
         const indexes = this.prepareUndo(this.indexesTable, this.insertIndex);
         for(let k = indexes.length - 1; k > -1; k--)
         {
-            BoardManager.timeline.move(indexes[k][1], indexes[k][0]);
+            BoardManager.timeline.moveAction(indexes[k][1], indexes[k][0]);
         }
     }
 
@@ -52,7 +52,7 @@ export class OperationMoveSevActions extends Operation {
         console.log("indexes : " + indexes);
         for(let k = 0; k < indexes.length; k++)
         {
-            BoardManager.timeline.move(indexes[k][0], indexes[k][1]);
+            BoardManager.timeline.moveAction(indexes[k][0], indexes[k][1]);
         }
     }
 

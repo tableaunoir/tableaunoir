@@ -124,7 +124,7 @@ export class BoardManager {
         if (action.userid == UserManager.me.userID)
             BoardManager.cancelStack.push(operation);
 
-        BoardManager.timeline.insertNowAlreadyExecuted(action);
+        BoardManager.timeline.insertActionNowAlreadyExecuted(action);
         //AnimationToolBar.update();
         AnimationToolBar.updateAddAction(BoardManager.timeline.getCurrentIndex());
     }
