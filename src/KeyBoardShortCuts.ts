@@ -46,12 +46,12 @@ export class KeyBoardShortCuts {
             evt.preventDefault();*/
 
         if (evt.key == "Escape" || evt.key == "F1") {//escape => show menu
-            if (AnimationToolBar.is() && AnimationToolBar.isSelection())
-                AnimationToolBar.deselect();
-            else if (Layout.isMinimap)
+            if (Layout.isMinimap)
                 Layout.normal();
             else if (CircularMenu.isShown())
                 CircularMenu.hide();
+            else if (AnimationToolBar.is() && AnimationToolBar.isSelection())
+                AnimationToolBar.deselect();
             else
                 Menu.toggle();
         }
