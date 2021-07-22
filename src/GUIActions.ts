@@ -17,6 +17,7 @@ export class GUIActions {
             if (UserManager.me.isToolErase)
                 Share.execute("switchChalk", [UserManager.me.userID]);
             Share.execute("setCurrentColor", [UserManager.me.userID, GUIActions.palette.getCurrentColor()]);
+            //TODO: recolorize the actions that are selected in the timeline :)
         }
 
 
