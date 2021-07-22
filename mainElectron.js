@@ -11,6 +11,8 @@ const DEBUGMODE = false;
 
 //the main window containing Tableaunoir
 let win = null;
+
+//the filename of the current board (undefined if no filename were given yet)
 let filename = undefined;
 
 ipcMain.on("open", (event, arg) => { openFile(arg) });
@@ -53,9 +55,13 @@ app.on('ready', () => {
 });
 let isFullScreen = false;
 
-function buildMenu() {
 
-    let menu = Menu.buildFromTemplate([
+
+/**
+ * @description build the menubar of the desktop application
+ */
+function buildMenu() {
+    const menu = Menu.buildFromTemplate([
         {
             label: 'File',
             submenu: [
@@ -120,17 +126,18 @@ function newDocument() {
 function openDocument() {
     const files = dialog.showOpenDialogSync(win, { title: "Open file", filters: [{ name: "Tableaunoir file", extensions: "tableaunoir" }] });
     if (files)
-        if (files.length)
-            if (files.length > 0)
-                openFile(files[0]);
+        if (files.length > 0)
+            openFile(files[0]);
 }
-
 
 
 function setFilename(newfilename) {
     win.title = "Tableaunoir - " + newfilename;
     filename = newfilename;
 }
+
+
+
 function openFile(filenameToOpen) {
     setFilename(filenameToOpen);
     fs.readFile(filenameToOpen, 'utf8', (err, data) => {
@@ -157,7 +164,4 @@ function saveAsDocument() {
     win.title = "Tableaunoir - " + filename;
     saveDocument();
 }
-
-
-
 
