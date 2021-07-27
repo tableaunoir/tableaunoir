@@ -43,6 +43,11 @@ export class Timeline {
 
 
     /**
+     * @returns the number of actions
+     */
+    get nbActions(): number { return this.actions.length; }
+
+    /**
      * 
      * @param action 
      * @return the timestep of the action, if the action is present in the timeline, returns -1 if not present
@@ -100,9 +105,9 @@ export class Timeline {
 
             }
 
-            if (bug113) 
+            if (bug113)
                 this.repair();
-            
+
         }
     }
 
@@ -154,7 +159,7 @@ export class Timeline {
     /**
      * @description do all the actions until the current index
      */
-     private async doAllActionsUntilCurrentIndex(): Promise<void> {
+    private async doAllActionsUntilCurrentIndex(): Promise<void> {
         let bug113 = false;
         for (let t = 0; t <= this.currentIndex; t++) {
             if (this.actions[t] == undefined) {
@@ -275,7 +280,7 @@ export class Timeline {
 
         //perform the do actions from the last time we cleared the canvas until this.currentIndex
         // for the actions that are not undoable
-        for (let t = this.getLastClearAction()+1; t <= this.currentIndex; t++) {
+        for (let t = this.getLastClearAction() + 1; t <= this.currentIndex; t++) {
             if (this.actions[t] == undefined) {
                 ErrorMessage.show("issue #113. error with t = " + t + " try to undo/redo again");
                 bug113 = true;
@@ -288,7 +293,7 @@ export class Timeline {
             this.repair();
 
     }
-    
+
 
 
     /**
