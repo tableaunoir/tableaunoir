@@ -41,7 +41,7 @@ export class ActionPrintMagnet extends Action {
 					const clipPath = magnet.style.clipPath;
 
 					context.globalCompositeOperation = "source-over";
-					context.globalAlpha = 1.0;
+					context.globalAlpha = 0.9;
 
 					if (clipPath != "") {
 						const strPointsInClipPath = magnet.style.clipPath.substr("polygon(".length, clipPath.length - "polygon(".length - ")".length);

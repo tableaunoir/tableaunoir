@@ -54,7 +54,7 @@ export class ToolEraser extends Tool {
         this.setToolCursorImage(EraserCursor.getStyleCursor(this.eraseLineWidth, this.temperature));
         document.getElementById("eraserGauge").setAttribute('style', "width : " + this.temperature + ";");
         document.getElementById("eraserGauge").style.backgroundColor = EraserCursor.temperatureToColor(this.temperature);
-        document.getElementById("eraserLvl").innerHTML = (this.iMode < 4) ? "size " + this.iMode : "size max!";
+        document.getElementById("eraserLvl").innerHTML = (this.iMode < this.modeSizes.length - 1) ? "size " + this.iMode : "size max!";
     }
 
 
@@ -149,7 +149,7 @@ export class ToolEraser extends Tool {
                 //ctrl + click => erase all the board
                 //dblclick is not working in shared mode!! (since the latency is not the same on the different devices)
                 BoardManager.newSlideAndClear(this.user.userID);
-                
+
             }
 
             else
@@ -186,7 +186,5 @@ class SoundToolEraser {
     /**
      * when mouseup, stop the sound
      */
-    static mouseup() {
-        SoundToolEraser.audioEraser.pause();
-    }
+    static mouseup() { SoundToolEraser.audioEraser.pause(); }
 }
