@@ -4,7 +4,6 @@ import { Layout } from './Layout';
 import { CircularMenu } from './CircularMenu';
 import html2canvas from 'html2canvas'
 import jspdf from 'jspdf'
-import { getCanvas } from './main';
 
 
 
@@ -25,15 +24,13 @@ export class Export {
     /**
      * @description export the board as a .png image file
      */
-    static exportPng(): void {
+    static async exportPng(): Promise<void> {
         CircularMenu.hideAndRemove();
-        const nodeContent = document.getElementById("content");
         Layout.setForExportPng();
-        html2canvas(nodeContent).then(bigCanvas => {
-            console.log(BoardManager.width);
-            const canvas = Export.extractFromCanvas(bigCanvas, 0, BoardManager.width);
-            LoadSave.downloadDataURL((<HTMLInputElement>document.getElementById("exportPngName")).value + ".png", canvas.toDataURL());
-        });
+        const bigCanvas = await Export.getCanvasBoard();
+        console.log(BoardManager.width);
+        const canvas = Export.extractFromCanvas(bigCanvas, 0, BoardManager.width);
+        LoadSave.downloadDataURL((<HTMLInputElement>document.getElementById("exportPngName")).value + ".png", canvas.toDataURL());
         Layout.restoreForUse();
     }
 
@@ -65,10 +62,11 @@ export class Export {
     private static getCanvasBoard(): Promise<HTMLCanvasElement> {
         const nodeContent = document.getElementById("content");
         return new Promise((resolve) => {
-            if (document.getElementById("magnets").hasChildNodes())
-                html2canvas(nodeContent).then(canvas => resolve(canvas))
-            else
-                resolve(getCanvas());
+            // if (document.getElementById("magnets").hasChildNodes())
+             html2canvas(nodeContent).then(canvas => resolve(canvas))
+            //htmlToImage.toCanvas(nodeContent).then(canvas => resolve(canvas)); 
+            // else
+            //   resolve(getCanvas());
         });
     }
 
