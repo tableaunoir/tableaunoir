@@ -35,10 +35,10 @@ export class Timeline {
     /**
      * goto frame t
      */
-    setCurrentIndex(t: number): void {
+    async setCurrentIndex(t: number): Promise<void> {
         const previousIndex = this.currentIndex;
         this.currentIndex = t;
-        this.updateState(previousIndex);
+        await this.updateState(previousIndex);
     }
 
 
@@ -415,5 +415,15 @@ export class Timeline {
     }
 
 
+    /**
+     * @returns true if there are several slides
+     */
+    isSeveralSlides(): boolean {
+        for (const action of this.actions) {
+            if (action.pause)
+                return true;
+        }
+        return false;
+    }
 
 }

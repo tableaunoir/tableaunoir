@@ -1023,26 +1023,20 @@ h1 {
 
 .action {
 	position: relative;
-	top: 50%;
-	transform: translateY(-50%);
-	width: 24px;
+	width: 8px;
 	height: 24px;
-	background-color: rgb(64, 64, 64);
+	background-color: rgb(128, 64, 64);
+	border:1px solid rgb(64,64,64);
 	display: inline-block;
-	border: 2px solid rgb(64, 64, 64);
-	opacity: 0.5;
-	margin: 2px;
+	opacity: 0.7;
+	margin: 0px;
+	background-size: 8px 24px;
 }
 
-.action:hover {
-	transform: scale(1.2);
-	transform-origin: 50% 350%;
-	transition: transform 350ms;
-}
 
 
 .actionSelected {
-	border: 2px solid rgb(77, 169, 255);
+	border: 1px solid rgb(77, 169, 255);
 }
 
 
@@ -1052,9 +1046,11 @@ h1 {
 }
 
 
-.actionPause {
+.actionPause, .actionStart {
+	width: 24px;
 	margin-right: 6px;
 	border-radius: 0px 12px 12px 0px;
+	background-size: 24px 24px;
 }
 
 
@@ -1088,16 +1084,21 @@ h1 {
 	position: absolute;
 	width: 0px;
 	height: 0px;
-	margin: 0px;
 	transition: width 500ms, transform 350ms;
 }
 
 .toggleFold:checked+.foldedDiv>.action {
 	position: relative;
-	width: 24px;
+	width: 8px;
 	height: 24px;
-	margin: 2px;
 	transition: width 500ms, transform 350ms;
+}
+
+
+.toggleFold:checked+.foldedDiv>.action:hover {
+	width: 24px;
+	background-size: 24px 24px;
+	transition: none;
 }
 
 .toggleFold:checked+.foldedDiv {
@@ -1129,3 +1130,8 @@ h1 {
 	transition: width 500ms;
 }
 
+
+.action:hover {
+	width: 24px;
+	background-size: 24px 24px;
+}

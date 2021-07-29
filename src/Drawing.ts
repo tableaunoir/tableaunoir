@@ -99,9 +99,11 @@ export class Drawing {
                 const x = x1 + (i * (x2 - x1) / dist);
                 const y = y1 + (i * (y2 - y1) / dist);
 
-                context.clearRect(x + (Math.random() - 0.5) * context.lineWidth,
-                    y + (Math.random() - 0.5) * context.lineWidth,
-                    1 + Math.random(), 1 + Math.random());
+                const shiftForChalkEffectClear = 0.35;
+                context.clearRect(x + (Math.random() - shiftForChalkEffectClear) * context.lineWidth,
+                y + (Math.random() - shiftForChalkEffectClear) * context.lineWidth,
+                2 * shiftForChalkEffectClear * (1 + Math.random()),
+                2 * shiftForChalkEffectClear * (1 + Math.random()));
 
                 const shiftForChalkEffectDrawing = 0.35;
                 context.fillRect(x + (Math.random() - shiftForChalkEffectDrawing) * context.lineWidth,

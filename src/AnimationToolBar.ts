@@ -12,6 +12,8 @@ import { OperationPauseAction } from './OperationPauseAction';
  */
 export class AnimationToolBar {
 
+    static currentIndex = 0;
+
     /**
      * the selection action timestep
      */
@@ -69,7 +71,7 @@ export class AnimationToolBar {
      *
      */
     static getActionElement(n: number): HTMLElement { return AnimationToolBar.actionElements[n]; }
-   
+
 
 
     /*
@@ -189,6 +191,7 @@ export class AnimationToolBar {
      * @description update the fact that the current index has changed
      */
     static updateCurrentIndex(): void {
+        AnimationToolBar.currentIndex = BoardManager.timeline.getCurrentIndex();
         if (!AnimationToolBar.is())
             return;
 
@@ -206,6 +209,8 @@ export class AnimationToolBar {
      * @description updates the whole timeline
      */
     static update(): void {
+        AnimationToolBar.currentIndex = BoardManager.timeline.getCurrentIndex();
+
         if (!AnimationToolBar.is())
             return;
 
@@ -284,6 +289,10 @@ export class AnimationToolBar {
 
         el.classList.add("action");
         el.style.backgroundImage = action.getOverviewImage();
+
+
+        if (t == 0)
+            el.classList.add("actionStart");
 
         if (action.pause)
             el.classList.add("actionPause");
@@ -376,10 +385,22 @@ export class AnimationToolBar {
             else {
                 if (!AnimationToolBar.isSelected(+el.dataset.index))
                     AnimationToolBar.deselect();
+                AnimationToolBar.currentIndex = +el.dataset.index;
                 BoardManager.timeline.setCurrentIndex(+el.dataset.index);
                 AnimationToolBar.updateCurrentIndex();
             }
         }
+
+
+        el.onmousemove = () => {
+            BoardManager.timeline.setCurrentIndex(+el.dataset.index);
+        }
+
+
+        el.onmouseleave = () => {
+            BoardManager.timeline.setCurrentIndex(AnimationToolBar.currentIndex);
+        }
+
 
         el.ondrop = () => {
             if (AnimationToolBar.selectedActionIndices.length == 0) {
