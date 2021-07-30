@@ -1,3 +1,4 @@
+import { BoardManager } from './boardManager';
 import { BoardNavigation } from './BoardNavigation';
 import { OptionManager } from './OptionManager';
 import { getCanvas, getCanvasBackground, getContainer } from './main';
@@ -65,7 +66,7 @@ export class Layout {
     }
 
     static STANDARDHEIGHT = 1000;
-    static STANDARDWIDTH = 10000;
+    static STANDARDWIDTH = 2000;
 
     static getWindowWidth: () => number;
     static getWindowHeight: () => number = () => Layout.STANDARDHEIGHT;
@@ -79,12 +80,12 @@ export class Layout {
         const canvas = getCanvas();
         const canvasBackground = getCanvasBackground();
 
+        Layout.initWorWT();
+
         canvas.height = Layout.STANDARDHEIGHT;
         canvas.width = Layout.STANDARDWIDTH;
         canvasBackground.height = Layout.STANDARDHEIGHT;
-        canvasBackground.width = 4800;
-
-        Layout.initWorWT();
+        canvasBackground.width = Layout.STANDARDWIDTH;
 
         OptionManager.boolean({
             name: "horizontalScrollbar",
@@ -119,7 +120,8 @@ export class Layout {
         const nodeBoard = document.getElementById("board");
         nodeBoard.onmousemove = undefined;
         nodeBoard.onmouseup = undefined;
-
+        nodeBoard.onmouseleave = undefined;
+        nodeBoard.onmouseenter = undefined;
     }
 
     static minimap(): void {
@@ -128,7 +130,6 @@ export class Layout {
         const contentElement = document.getElementById("content");
         contentElement.style.transition = Layout.TRANSITION;
         Layout.isminimap = true;
-        const canvas = getCanvas();
         getCanvas().style.pointerEvents = "none";
         const x = Layout.getWindowLeft();
         BoardNavigation.setScroll(0);
@@ -155,13 +156,25 @@ export class Layout {
             x = Math.min(x, getCanvas().width - parseInt(viewport.style.width));
             newviewport.style.left = x + "";
         }
-        nodeBoard.onmouseup = () => { Layout.normal();  }
+        nodeBoard.onmouseup = () => { Layout.normal(); }
 
-        contentElement.style.top = "100px";
+        nodeBoard.onmouseleave = () => {
+            newviewport.hidden = true;
+            viewport.hidden = true;
+        }
+
+        nodeBoard.onmouseenter = () => {
+            newviewport.hidden = false;
+            viewport.hidden = false;
+        }
+
         Layout.getWindowHeight = () => { return Layout.STANDARDHEIGHT; };
         Layout.getWindowWidth = () => { return window.innerWidth * Layout.getZoom(); };
         Layout.getZoom = () => {
-            return canvas.width / window.innerWidth;
+            if (BoardManager.width / window.innerWidth > 1)
+                return BoardManager.width / window.innerWidth;
+            else
+                return 1;
         };
         Layout.layout();
     }
@@ -183,75 +196,6 @@ export class Layout {
             || navigator.userAgent.match(/Windows Phone/i);
     }
 
-
-/**
- * unused
- */
-    static initClassic(): void {
-        const WIDTH = 4800;
-        const HEIGHT = 1500;
-
-        const canvas = getCanvas();
-
-        if (canvas.width < WIDTH)
-            canvas.width = WIDTH;
-
-        if (canvas.height < HEIGHT)
-            canvas.height = HEIGHT;
-
-        Layout.getWindowWidth = () => { return window.innerWidth; };
-        Layout.getWindowHeight = () => { return window.innerHeight; };
-        Layout.getZoom = () => { return 1; }
-        Layout.layout();
-
-    }
-
-
-    /**
-     * * unused
-     * rescaling with the screen
-     */
-    static initS(): void {
-        const canvas = getCanvas();
-        const canvasBackground = getCanvasBackground();
-        canvas.height = Layout.STANDARDHEIGHT;
-        canvas.width = 4800;
-
-        canvasBackground.height = Layout.STANDARDHEIGHT;
-        canvasBackground.width = 4800;
-
-
-
-        Layout.getWindowHeight = () => { return Layout.STANDARDHEIGHT; };
-        Layout.getWindowWidth = () => { return window.innerWidth * Layout.getZoom(); };
-        Layout.getZoom = () => { return Layout.STANDARDHEIGHT / screen.height; };
-        Layout.layout();
-    }
-
-
-    /**
-     * * unused
-        * rescaling with the screen
-        */
-    static initW(): void {
-        const canvas = getCanvas();
-        const canvasBackground = getCanvasBackground();
-        canvas.height = Layout.STANDARDHEIGHT;
-        canvas.width = 4800;
-
-        canvasBackground.height = Layout.STANDARDHEIGHT;
-        canvasBackground.width = 4800;
-
-
-        Layout.getWindowHeight = () => { return Layout.STANDARDHEIGHT; };
-        Layout.getWindowWidth = () => { return window.innerWidth * Layout.getZoom(); };
-        Layout.getZoom = () => {
-            const innerHeight = window.innerHeight;
-
-            return Layout.STANDARDHEIGHT / innerHeight;
-        };
-        Layout.layout();
-    }
 
 
     /**
@@ -303,8 +247,14 @@ export class Layout {
         //contentElement.style.transition = `scale(${1 / Layout.getZoom()})`;
         contentElement.style.transform = `scale(${1 / Layout.getZoom()})`;
         //BoardManager.resize(window.innerWidth, window.innerHeight);
-
+        if (this.isMinimap) {
+            const h = Layout.STANDARDHEIGHT / zoom;
+            const top = (window.innerHeight - h) / 2;
+            //            console.log(`top: ${top}`);
+            contentElement.style.top = top + "px";
+        }
     }
+
 
 
     private static saveValueForContainerScrollleft = 0;

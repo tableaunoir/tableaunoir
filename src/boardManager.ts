@@ -62,8 +62,11 @@ export class BoardManager {
      */
     static setWidthAtLeast(atLeastWidth: number): void {
         const canvas = getCanvas();
-        canvas.width = atLeastWidth;
-        BoardManager.timeline.canvasRedraw();
+        if (canvas.width < atLeastWidth) {
+            canvas.width = atLeastWidth;
+            BoardManager.timeline.canvasRedraw();
+        }
+
     }
 
 
@@ -123,6 +126,8 @@ export class BoardManager {
         //add it to the cancel stack only if the action was performed by me! (I will be able to cancel directly only *my* actions)
         if (action.userid == UserManager.me.userID)
             BoardManager.cancelStack.push(operation);
+
+        BoardManager.setWidthAtLeast(action.xMax);
 
         BoardManager.timeline.insertActionNowAlreadyExecuted(action);
         //AnimationToolBar.update();

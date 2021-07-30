@@ -130,7 +130,7 @@ export class ToolDraw extends Tool {
             const magnet1 = this.guessMagnetConnection.magnet1;
             const magnet2 = this.guessMagnetConnection.magnet2;
 
-            if (magnet1 && magnet2 && evt.ctrlKey) {
+            if (magnet1 && magnet2 && evt.shiftKey) {
 
                 this.action.setInteractiveGraphInformation(magnet1.id, magnet2.id,
                     MagnetManager.getMagnetCenter(magnet1),
