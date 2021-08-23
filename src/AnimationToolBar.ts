@@ -131,12 +131,14 @@ export class AnimationToolBar {
             return;
 
         console.log("indices: " + indices);
+
+
         for (let k = indices.length - 1; k >= 0; k--) {
             const elementToRemove = AnimationToolBar.getActionElement(indices[k]);
             console.log("removed element: " + elementToRemove);
             console.log("element's index: " + elementToRemove.dataset.index);
             elementToRemove.remove();
-            for (let n = indices[k]; n < BoardManager.timeline.nbActions + k; n++) {
+            for (let n = indices[k]+1; n < BoardManager.timeline.nbActions + k+1; n++) {
                 const elementToShift = AnimationToolBar.getActionElement(n);
                 console.log("element to modify: " + elementToShift);
                 elementToShift.dataset.index = (+elementToShift.dataset.index - 1).toString();

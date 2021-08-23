@@ -116,14 +116,19 @@ export class MagnetManager {
 	 * delete all the magnets
 	 */
 	static clearMagnet(): void {
-		MagnetManager.currentMagnet = undefined;
+	/*	MagnetManager.currentMagnet = undefined;
 		const magnets = MagnetManager.getMagnets();
 
 		while (magnets.length > 0)
 			magnets[0].remove();
 
-		Share.sendMagnets();
+		Share.sendMagnets();*/
 
+		const magnets = MagnetManager.getMagnets();
+		for (let i = 0; i < magnets.length; i++) {
+			Share.execute("magnetRemove", [magnets[i].id]);
+		}
+		
 		Menu.hide();
 	}
 

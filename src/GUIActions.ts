@@ -1,3 +1,4 @@
+import { AnimationToolBar } from './AnimationToolBar';
 import { OptionManager } from './OptionManager';
 import { ToolMenu } from './ToolMenu';
 import { Palette } from "./Palette";
@@ -14,10 +15,15 @@ export class GUIActions {
 
     static init(): void {
         GUIActions.palette.onchange = () => {
+            if(AnimationToolBar.isSelected) {
+//TODO: recolorize the actions that are selected in the timeline :)
+            }
+
+
             if (UserManager.me.isToolErase)
                 Share.execute("switchChalk", [UserManager.me.userID]);
             Share.execute("setCurrentColor", [UserManager.me.userID, GUIActions.palette.getCurrentColor()]);
-            //TODO: recolorize the actions that are selected in the timeline :)
+            
         }
 
 
