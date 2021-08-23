@@ -52,9 +52,9 @@ export class ToolEraser extends Tool {
 
     updateEraserCursor(): void {
         this.setToolCursorImage(EraserCursor.getStyleCursor(this.eraseLineWidth, this.temperature));
-        document.getElementById("eraserGauge").setAttribute('style', "width : " + this.temperature + ";");
+        document.getElementById("eraserGauge").setAttribute('style', "width : " + this.temperature/2 + ";");
         document.getElementById("eraserGauge").style.backgroundColor = EraserCursor.temperatureToColor(this.temperature);
-        document.getElementById("eraserLvl").innerHTML = (this.iMode < this.modeSizes.length - 1) ? "size " + this.iMode : "size max!";
+        document.getElementById("eraserLvl").innerHTML = (this.iMode < this.modeSizes.length - 1) ? "size " + this.iMode : "max!";
     }
 
 

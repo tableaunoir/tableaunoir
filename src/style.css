@@ -36,7 +36,7 @@ input:focus {
 
 
 .icon {
-	height: 38px;
+	height: 32px;
 	margin: 0px;
 }
 
@@ -164,6 +164,12 @@ helpbutton {
 }
 
 
+@media (max-width: 1280px) {
+	.keyboardkeyhelp {
+		display: none;
+	}
+}
+
 #container {
 	overflow: hidden;
 	margin: 0px;
@@ -205,19 +211,16 @@ helpbutton {
 
 /*----------Eraser Gauge----------*/
 #gauge {
-	transform: translateY(20px);
 	flex-direction: row;
 	display: inline-block;
 	box-sizing: content-box;
-	height: 38px;
-	width: 128px;
 }
 
 #eraserGaugeFrame {
 	display: none;
 	position: relative;
 	box-sizing: content-box;
-	width: 128px;
+	width: 64px;
 	height: 20px;
 	margin: auto;
 	border: 3px solid white;
@@ -238,12 +241,13 @@ helpbutton {
 	display: none;
 	box-sizing: content-box;
 	height: 38px;
-	width: 128px;
+	width: 64px;
 	position: absolute;
-	top: 5px;
-	left: 0px;
+	top: 0px;
+	left: 2px;
 	text-align: center;
 	color: white;
+	font-size: 14px;
 }
 
 em {
@@ -543,16 +547,14 @@ button:hover {
 
 #controls button {
 	padding: 0px;
-	margin-top: 4px;
-	margin-bottom: 4px;
+	margin-top: 2px;
+	margin-bottom: 2px;
 	margin-left: 0px;
 	margin-right: 0px;
-	height: 52px;
-	width: 60px;
 	padding-top: 4px;
 	padding-bottom: 4px;
-	padding-left: 8px;
-	padding-right: 12px;
+	padding-left: 6px;
+	padding-right: 10px;
 }
 
 
@@ -1026,7 +1028,7 @@ h1 {
 	width: 8px;
 	height: 24px;
 	background-color: rgb(128, 64, 64);
-	border:1px solid rgb(64,64,64);
+	border: 1px solid rgb(64, 64, 64);
 	display: inline-block;
 	opacity: 0.7;
 	margin: 0px;
@@ -1046,7 +1048,8 @@ h1 {
 }
 
 
-.actionPause, .actionStart {
+.actionPause,
+.actionStart {
 	width: 24px;
 	margin-right: 6px;
 	border-radius: 0px 12px 12px 0px;
