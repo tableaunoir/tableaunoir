@@ -1,4 +1,3 @@
-import { Share } from './share';
 import { MagnetManager } from './magnetManager';
 import { MagnetPositionner } from './MagnetPositionner';
 
@@ -189,6 +188,17 @@ export class MyMagnets {
     }
 
 
+
+    static * magnetCars(): Generator<HTMLElement> {
+        for(let i = 0; i<360; i+=120) {
+            const img = MyMagnets.createMagnetImage("car.svg");
+            img.classList.add("car");
+            img.style.filter=`hue-rotate(${i}deg)`;
+            yield img;
+        }
+        
+    }
+
     static * magnetCircles(): Generator<HTMLElement> {
         for (const size of [32, 48, 64, 80, 96, 128, 144, 164]) {
             const magnet = document.createElement("div");
@@ -280,5 +290,6 @@ export class MyMagnets {
         MyMagnets.register("magnetGo");
         MyMagnets.register("magnetCoin");
         MyMagnets.register("magnetDice");
+        MyMagnets.register("magnetCars");
     }
 }

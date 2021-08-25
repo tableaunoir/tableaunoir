@@ -100,7 +100,6 @@ export class Export {
                 if (!firstpage)
                     doc.addPage();
 
-                const pw = doc.internal.pageSize.getWidth();
                 const ph = doc.internal.pageSize.getHeight();
                 const h = canvas.height;
                 const w = canvas.width;

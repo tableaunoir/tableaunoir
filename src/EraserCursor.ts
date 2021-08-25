@@ -42,22 +42,25 @@ export class EraserCursor {
         function colorStrToArray(c: string) {
             return [c.substr(1, 2), c.substr(3, 2), c.substr(5, 2)].map(hexaToNumber);
         }
+
         function mix(c1: string, c2: string, ratio: number): string {
             const ac1 = colorStrToArray(c1);
             const ac2 = colorStrToArray(c2);
             const result = [0, 0, 0];
-            for (const i in result) {
+            for (const i in result)
                 result[i] = ac1[i] * (1 - ratio) + ac2[i] * ratio;
-            }
+
             return `rgb(${result[0]}, ${result[1]}, ${result[2]})`;
         }
 
         const colors = ["#9999FF", "#00AA00", "#88FF00", "#FFFF00", "#FFAA00", "#EE0000", "#CC0000", "#AA0000", "#FFFFFF"];
         //blue because it is really rare to have a document with a blue background (white or black is not good)
         const r = (colors.length - 1) * temperature / ToolEraser.temperatureThreshold;
-        const i = Math.floor((colors.length - 1) * temperature / ToolEraser.temperatureThreshold);
+        const i = Math.max(0, Math.floor((colors.length - 1) * temperature / ToolEraser.temperatureThreshold));
         if (i >= colors.length - 1)
             return colors[i];
+
+        console.log(i, colors.length);
         return mix(colors[i], colors[i + 1], r - i);
     }
 

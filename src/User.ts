@@ -119,27 +119,15 @@ export class User {
         return this.color;
     }
 
-    eraserGaugeShow(): void {
-        if (!this.isCurrentUser) return;
-        document.getElementById("eraserGaugeFrame").setAttribute('style', 'display: block');
-        document.getElementById("eraserLvl").setAttribute('style', 'display: block');
-    }
-
-    eraserGaugeHide(): void {
-        if (!this.isCurrentUser) return;
-        document.getElementById("eraserGaugeFrame").setAttribute('style', 'display: none');
-        document.getElementById("eraserLvl").setAttribute('style', 'display: none');
-    }
-
 
     //changing tools. The 2 style editions per line for the following statements are used to switch the eraser gauge display
-    switchChalk(): void { this.tool.destructor(); this.tool = new ToolDraw(this); this.eraserGaugeHide() }
-    switchErase(): void { this.tool.destructor(); this.tool = new ToolEraser(this); this.eraserGaugeShow(); }
-    switchLine(): void { this.tool.destructor(); this.tool = new ToolLine(this); this.eraserGaugeHide() }
-    switchRectangle(): void { this.tool.destructor(); this.tool = new ToolRectangle(this); this.eraserGaugeHide() }
-    switchEllipseByBorder(): void { this.tool.destructor(); this.tool = new ToolEllipseByBorder(this); this.eraserGaugeHide() }
-    switchEllipseByCenter(): void { this.tool.destructor(); this.tool = new ToolEllipseByCenter(this); this.eraserGaugeHide() }
-    switchArc(): void { this.tool.destructor(); this.tool = new ToolArc(this); this.eraserGaugeHide() }
+    switchChalk(): void { this.tool.destructor(); this.tool = new ToolDraw(this); }
+    switchErase(): void { this.tool.destructor(); this.tool = new ToolEraser(this); }
+    switchLine(): void { this.tool.destructor(); this.tool = new ToolLine(this); }
+    switchRectangle(): void { this.tool.destructor(); this.tool = new ToolRectangle(this); }
+    switchEllipseByBorder(): void { this.tool.destructor(); this.tool = new ToolEllipseByBorder(this); }
+    switchEllipseByCenter(): void { this.tool.destructor(); this.tool = new ToolEllipseByCenter(this); }
+    switchArc(): void { this.tool.destructor(); this.tool = new ToolArc(this); }
 
 
     mousedown(evt: MouseEvent): void {

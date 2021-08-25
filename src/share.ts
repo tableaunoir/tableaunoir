@@ -1,5 +1,4 @@
 import { LoadSave } from './LoadSave';
-import { AnimationToolBar } from './AnimationToolBar';
 import { Wallpaper } from './Wallpaper';
 import { UserListComponent } from './UserListComponent';
 import { BackgroundTexture } from './BackgroundTexture';
@@ -54,7 +53,7 @@ export class Share {
 		};
 
 		setInterval(() => this.send({ type: "heartbeat", userid: UserManager.me.userID }), 3000);
-	//	AnimationToolBar.hideForever();
+		//	AnimationToolBar.hideForever();
 	}
 
 
@@ -394,7 +393,7 @@ export class Share {
 	 */
 	static sendNewMagnet(element: HTMLElement): void {
 		console.log("new magnet sent!")
-		Share.send({ type: "newmagnet", userid:UserManager.me.userID, data: element.outerHTML });
+		Share.send({ type: "newmagnet", userid: UserManager.me.userID, data: element.outerHTML });
 	}
 
 
@@ -410,9 +409,10 @@ export class Share {
 
 	private static _adaptObjectForExecute(obj) {
 		if (obj instanceof MouseEvent) {
-			return { pressure: (<PointerEvent>obj).pressure, offsetX: obj.offsetX, offsetY: obj.offsetY, shiftKey: obj.shiftKey, 
-		    ctrlKey: obj.ctrlKey
-			//detail: obj.detail //should give the number of clicks but does not work with pointerup	
+			return {
+				pressure: (<PointerEvent>obj).pressure, offsetX: obj.offsetX, offsetY: obj.offsetY, shiftKey: obj.shiftKey,
+				ctrlKey: obj.ctrlKey
+				//detail: obj.detail //should give the number of clicks but does not work with pointerup	
 			};
 		}
 		else

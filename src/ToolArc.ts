@@ -1,4 +1,3 @@
-import { UserManager } from './UserManager';
 import { Layout } from './Layout';
 import { User } from './User';
 import { ChalkCursor } from './ChalkCursor';

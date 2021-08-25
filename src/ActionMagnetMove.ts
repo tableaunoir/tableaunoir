@@ -1,7 +1,7 @@
 import { ConstraintDrawing } from './ConstraintDrawing';
-import { Drawing } from './Drawing';
 import { ActionSerialized } from './ActionSerialized';
 import { Action } from "./Action";
+import { MagnetMovementUpdater } from './MagnetMovementRecorder';
 
 
 
@@ -38,8 +38,7 @@ export class ActionMagnetMove extends Action {
 
     private setPosition(point: { x: number, y: number }): void {
         if (document.getElementById(this.magnetid)) {
-            document.getElementById(this.magnetid).style.left = point.x + "px";
-            document.getElementById(this.magnetid).style.top = point.y + "px";
+            MagnetMovementUpdater.update(document.getElementById(this.magnetid), point.x, point.y);
             ConstraintDrawing.update();
         }
 

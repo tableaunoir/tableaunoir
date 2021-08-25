@@ -211,24 +211,23 @@ helpbutton {
 
 /*----------Eraser Gauge----------*/
 #gauge {
-	flex-direction: row;
-	display: inline-block;
-	box-sizing: content-box;
+	
 }
 
 #eraserGaugeFrame {
 	display: none;
 	position: relative;
 	box-sizing: content-box;
-	width: 64px;
-	height: 20px;
+	width: 32px;
+	height: 3px;
 	margin: auto;
-	border: 3px solid white;
+	border: 2px solid white;
 	border-radius: 3px;
+	margin-bottom: -7px;
 }
 
 #eraserGauge {
-	height: 20px;
+	height: 3px;
 	box-sizing: content-box;
 	width: 0px;
 	position: relative;
@@ -239,15 +238,13 @@ helpbutton {
 
 #eraserLvl {
 	display: none;
-	box-sizing: content-box;
-	height: 38px;
-	width: 64px;
+	width: 32px;
 	position: absolute;
-	top: 0px;
+	top: 5px;
 	left: 2px;
 	text-align: center;
 	color: white;
-	font-size: 14px;
+	font-size: 12px;
 }
 
 em {
@@ -526,7 +523,7 @@ button {
 	padding: 8px;
 	padding-top: 6px;
 	font-size: 14pt;
-	margin: 8px;
+	margin: 4px;
 	outline: none;
 	cursor: pointer;
 	min-width: 48px;
@@ -549,7 +546,7 @@ button:hover {
 	padding: 0px;
 	margin-top: 2px;
 	margin-bottom: 2px;
-	margin-left: 0px;
+	margin-left: 2px;
 	margin-right: 0px;
 	padding-top: 4px;
 	padding-bottom: 4px;
@@ -590,18 +587,11 @@ img {
 	display: inline;
 	background: rgba(191, 191, 255, 0.2);
 	color: rgb(191, 191, 255);
-	border: none;
-	outline: none;
-	padding: 8px;
-	margin: 16px;
 	cursor: pointer;
 }
 
 .magnetCollectionButton:hover {
-	background: none;
 	color: rgb(157, 157, 255);
-	border: none;
-	outline: none;
 	background: rgba(191, 191, 255, 0.3);
 }
 

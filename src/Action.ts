@@ -1,5 +1,4 @@
 import { AnimationManager } from './AnimationManager';
-import { Drawing } from './Drawing';
 import { ActionSerialized } from './ActionSerialized';
 
 

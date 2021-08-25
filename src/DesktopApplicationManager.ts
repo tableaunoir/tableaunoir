@@ -1,4 +1,3 @@
-import { BoardManager } from './boardManager';
 import { Share } from './share';
 import { LoadSave } from './LoadSave';
 

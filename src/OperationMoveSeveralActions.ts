@@ -1,5 +1,4 @@
 import { BoardManager } from './boardManager';
-import { Action } from "Action";
 import { Operation } from "./Operation";
 
 
@@ -11,7 +10,7 @@ export class OperationMoveSevActions extends Operation {
     constructor(private indexesTable: number[], private insertIndex: number) { super(); }
 
 	prepareUndo(indexesTable: number[], insertIndex: number): [number, number][]{
-		let returnMap: [number, number][] = [];
+		const returnMap: [number, number][] = [];
 
 		for(let i = 0; i < indexesTable.length; i++){
 			returnMap.push([indexesTable[i], insertIndex]);
@@ -22,7 +21,7 @@ export class OperationMoveSevActions extends Operation {
 	}
 
 	prepareRedo(indexesTable: number[], insertIndex: number): [number, number][]{
-		let returnMap: [number, number][] = [];
+		const returnMap: [number, number][] = [];
 
 		for(let i = 0; i < indexesTable.length; i++) {
 			returnMap.push([indexesTable[i], insertIndex]);

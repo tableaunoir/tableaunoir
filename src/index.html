@@ -24,20 +24,24 @@
 			<button id="buttonColors" title="Choose your color"><img class="icon"
 					src="img/icons/1F984.svg" /></button><span class="keyboardkeyhelp">c</span>
 			<button hidden id="buttonChalk" title="Switch between erase and draw"><img class="icon"
-					src="img/icons/270F.svg" /></button><button id="buttonEraser"
-				title="Switch between erase and draw"><img class="icon"
-					src="img/icons/eraser-svgrepo-com.svg" /></button><span class="keyboardkeyhelp">e</span>
+					src="img/icons/270F.svg" />
+				<span id="gauge">
+					<div id="eraserGaugeFrame">
+						<div id="eraserGauge"></div>
+						<div id="eraserLvl">lvl 0</div>
+					</div>
+
+				</span>
+			</button>
+			<button id="buttonEraser" title="Switch between erase and draw"><img class="icon"
+					src="img/icons/eraser-svgrepo-com.svg" />
+			</button>
+			<span class="keyboardkeyhelp">e</span>
 			<button id="buttonTools" title="Open a menu with a lot of tools"><img class="icon"
 					src="img/icons/tools.svg" /></button><span class="keyboardkeyhelp">t</span>
 			<button id="buttonText" title="Add text (and/or LaTeX $...$)"><img class="icon"
 					src="img/icons/text-svgrepo-com.svg" /></button><span class="keyboardkeyhelp">Enter</span>
-			<span id="gauge">
-				<div id="eraserGaugeFrame">
-					<div id="eraserGauge"></div>
-					<div id="eraserLvl">lvl 0</div>
-				</div>
-				
-			</span>
+
 		</div>
 
 		<div class="edit">
@@ -635,6 +639,7 @@
 						<button class="magnetCollectionButton" id="magnetGo">Go</button>
 						<button class="magnetCollectionButton" id="magnetCoin">Random coin</button>
 						<button class="magnetCollectionButton" id="magnetDice">Dice</button>
+						<button class="magnetCollectionButton" id="magnetCars">Cars</button>
 					</div>
 
 

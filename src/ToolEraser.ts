@@ -1,6 +1,4 @@
-import { ActionClear } from './ActionClear';
 import { Sound } from './Sound';
-import { Geometry } from './Geometry';
 import { ActionErase } from './ActionErase';
 import { User } from './User';
 import { BoardManager } from './boardManager';
@@ -50,15 +48,29 @@ export class ToolEraser extends Tool {
 
     }
 
+
+    eraserGaugeShow(): void {
+        if (!this.user.isCurrentUser) return;
+        document.getElementById("eraserGaugeFrame").setAttribute('style', 'display: block');
+        document.getElementById("eraserLvl").setAttribute('style', 'display: block');
+    }
+
+    eraserGaugeHide(): void {
+        if (!this.user.isCurrentUser) return;
+        document.getElementById("eraserGaugeFrame").setAttribute('style', 'display: none');
+        document.getElementById("eraserLvl").setAttribute('style', 'display: none');
+    }
+
     updateEraserCursor(): void {
         this.setToolCursorImage(EraserCursor.getStyleCursor(this.eraseLineWidth, this.temperature));
-        document.getElementById("eraserGauge").setAttribute('style', "width : " + this.temperature/2 + ";");
+        document.getElementById("eraserGauge").setAttribute('style', "width : " + this.temperature/4 + ";");
         document.getElementById("eraserGauge").style.backgroundColor = EraserCursor.temperatureToColor(this.temperature);
         document.getElementById("eraserLvl").innerHTML = (this.iMode < this.modeSizes.length - 1) ? "size " + this.iMode : "max!";
     }
 
 
     mousedown(): void {
+        this.eraserGaugeShow();
         this.nbClick++;
         console.log(this.nbClick)
         this.iMode = 0;
@@ -107,7 +119,7 @@ export class ToolEraser extends Tool {
 
             else { //if moving and not last mode
                 // this.temperature += Math.sqrt((this.x - evtX) ** 2 + (this.y - evtY) ** 2);
-                this.temperature += tempIncr;
+                this.temperature =  Math.max(0, this.temperature+tempIncr);
             }
 
 
@@ -135,6 +147,7 @@ export class ToolEraser extends Tool {
 
     mouseup(evt): void {
         if (this.isDrawing) {
+            this.eraserGaugeHide();
             SoundToolEraser.mouseup();
             this.iMode = 0;
             this.eraseLineWidth = this.modeSizes[0];

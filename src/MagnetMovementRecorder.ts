@@ -28,9 +28,12 @@ export class MagnetMovementRecorder {
      * @description move the magnet at position x and y and stores that action
      */
     static move(id: string, x: number, y: number): void {
-        const el = document.getElementById(id);
-        el.style.top = y + "px";
-        el.style.left = x + "px";
+        const magnet = document.getElementById(id);
+
+
+        MagnetMovementUpdater.update(magnet, x, y);
+
+     
         ConstraintDrawing.update();
 
         if (MagnetMovementRecorder.magnetIDToPoints[id])
@@ -51,5 +54,51 @@ export class MagnetMovementRecorder {
         if (MagnetMovementRecorder.magnetIDToPoints[id].length > 0)
             BoardManager.addAction(new ActionMagnetMove(UserManager.me.userID, id, MagnetMovementRecorder.magnetIDToPoints[id]));
         delete MagnetMovementRecorder.magnetIDToPoints[id];
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+export class MagnetMovementUpdater {
+    static update(magnet: HTMLElement, x: number, y: number): void {
+        const previousx = parseFloat(magnet.style.left);
+        const previousy = parseFloat(magnet.style.top);
+
+        if (magnet.classList.contains("car"))
+            MagnetMovementUpdater.carUpdate(magnet, x, y, previousx, previousy);
+        else
+            MagnetMovementUpdater.simpleUpdate(magnet, x, y);
+
+    }
+
+    private static simpleUpdate(magnet: HTMLElement, x: number, y: number) {
+        magnet.style.top = y + "px";
+        magnet.style.left = x + "px";
+    }
+
+
+
+    private static previousAngle = 0;
+
+    private static carUpdate(magnet: HTMLElement, x: number, y: number, previousx: number, previousy: number): void {
+        MagnetMovementUpdater.simpleUpdate(magnet, x, y);
+
+        // const previousAngle = magnet.style.rotate ? parseInt(magnet.style.rotate) : 0;
+        const angle = Math.atan2(y - previousy, x - previousx);
+
+        if (Math.abs(MagnetMovementUpdater.previousAngle - angle) <= 0.1)
+            magnet.style.rotate = angle + "rad";
+
+        MagnetMovementUpdater.previousAngle = angle;
     }
 }

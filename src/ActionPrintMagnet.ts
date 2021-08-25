@@ -3,7 +3,6 @@ import { MagnetManager } from './magnetManager';
 import { ActionSerialized } from './ActionSerialized';
 import { getCanvas } from "./main";
 import { Action } from "./Action";
-import html2canvas from 'html2canvas';
 
 export class ActionPrintMagnet extends Action {
 

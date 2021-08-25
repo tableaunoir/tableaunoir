@@ -1,6 +1,5 @@
 import { Sound } from './Sound';
 import { OptionManager } from './OptionManager';
-import { ConstraintDrawing } from './ConstraintDrawing';
 import { MagnetManager } from './magnetManager';
 import { UserManager } from './UserManager';
 import { ActionFreeDraw } from './ActionFreeDraw';
