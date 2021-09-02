@@ -14,6 +14,7 @@ export class Drawing {
 
     static lineWidth: number;
     private static isChalkEffect = false;
+    private static isEraserEffect = false;
 
 
 
@@ -29,6 +30,14 @@ export class Drawing {
             defaultValue: false,
             onChange: (s) => {
                 Drawing.isChalkEffect = s;
+            }
+        });
+
+        OptionManager.boolean({
+            name: "eraserEffect",
+            defaultValue: false,
+            onChange: (s) => {
+                Drawing.isEraserEffect = s;
             }
         });
     }
@@ -101,9 +110,9 @@ export class Drawing {
 
                 const shiftForChalkEffectClear = 0.35;
                 context.clearRect(x + (Math.random() - shiftForChalkEffectClear) * context.lineWidth,
-                y + (Math.random() - shiftForChalkEffectClear) * context.lineWidth,
-                2 * shiftForChalkEffectClear * (1 + Math.random()),
-                2 * shiftForChalkEffectClear * (1 + Math.random()));
+                    y + (Math.random() - shiftForChalkEffectClear) * context.lineWidth,
+                    2 * shiftForChalkEffectClear * (1 + Math.random()),
+                    2 * shiftForChalkEffectClear * (1 + Math.random()));
 
                 const shiftForChalkEffectDrawing = 0.35;
                 context.fillRect(x + (Math.random() - shiftForChalkEffectDrawing) * context.lineWidth,
@@ -156,20 +165,64 @@ export class Drawing {
 
 
     static clearLine(x1: number, y1: number, x2: number, y2: number, lineWidth = 10): void {
-        const context = getCanvas().getContext("2d");
-        context.beginPath();
-        //context.strokeStyle = BACKGROUND_COLOR;
-        context.globalCompositeOperation = "destination-out";
-        context.strokeStyle = "rgba(255,255,255,1)";
+        
 
+        const context = getCanvas().getContext("2d");
+        let r = 0;
+        let g = 0;
+        let b = 0;
+        let a = 0;
+
+        const lineWidth2 = Math.floor(lineWidth / 2);
+        if (Drawing.isEraserEffect) {
+            let n = 0;
+            const pixels = context.getImageData(x1 - lineWidth2, y1 - lineWidth2, lineWidth, lineWidth).data;
+            const nbPixels = 6;
+            let maxAlpha = 0;
+            for (let j = 0; j < nbPixels; j++) {
+                const i = Math.floor(Math.random() * pixels.length / 4);
+                if (pixels[4 * i + 3] > 0) {
+                    n += pixels[4 * i + 3];
+                    r += pixels[4 * i];
+                    g += pixels[4 * i + 1];
+                    b += pixels[4 * i + 2];
+
+                    maxAlpha = Math.max(pixels[4 * i + 3], maxAlpha);
+                }
+            }
+
+            if (n > 0) {
+                const seuil = (x: number) => (Math.min(255, x / nbPixels));
+                r = seuil(r);
+                g = seuil(g);
+                b = seuil(b);
+                a = Math.min(0.2, maxAlpha * 0.7 / 255, 255 * n / (nbPixels * 255));
+            }
+
+        }
+
+        context.beginPath();
+        context.globalCompositeOperation = "destination-out";
+        context.strokeStyle = `rgba(${255},${255},${255},${0.9})`;
         context.lineWidth = lineWidth;
         context.moveTo(x1, y1);
         context.lineTo(x2, y2);
         context.lineCap = "round";
         context.stroke();
         //  context.closePath();
-    }
 
+        if (Drawing.isEraserEffect) {
+            context.beginPath();
+            context.globalCompositeOperation = "source-over";
+            context.strokeStyle = `rgba(${r},${g},${b},${a})`;
+
+            context.lineWidth = lineWidth;
+            context.moveTo(x1, y1);
+            context.lineTo(x2, y2);
+            context.lineCap = "round";
+            context.stroke();
+        }
+    }
 
     static drawRectangle({ x1, y1, x2, y2 }: { x1: number, y1: number, x2: number, y2: number }, color: string): void {
         const context = getCanvas().getContext("2d");

@@ -112,9 +112,10 @@ export class BoardManager {
     /**
      * 
      * @param action 
+     * @param executeAgain: true means that we execute the action again if it is the moment to execute it (if false, we just add it and it assumed the action was just performed)
      * @description add an action (and performs it!)
      */
-    static addAction(action: Action): void {
+    static addAction(action: Action, executeAgain = true): void {
         if (!BoardManager.MAGNETCANCELLABLE)
             if (action instanceof ActionMagnetNew ||
                 action instanceof ActionMagnetMove ||
@@ -129,7 +130,7 @@ export class BoardManager {
 
         BoardManager.setWidthAtLeast(action.xMax);
 
-        BoardManager.timeline.insertActionNowAlreadyExecuted(action);
+        BoardManager.timeline.insertActionNowAlreadyExecuted(action, executeAgain);
         //AnimationToolBar.update();
         AnimationToolBar.updateAddAction(BoardManager.timeline.getCurrentIndex());
     }

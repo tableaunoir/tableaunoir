@@ -199,13 +199,14 @@ export class Timeline {
      * @param t
      * @description insert action at time t, the action will be this.actions[t], update the state
      */
-    insertAction(action: Action, t: number): void {
+    insertAction(action: Action, t: number, executeAgain = true): void {
         this.actions.splice(t, 0, action);
         if (t == this.currentIndex + 1) {
             //we insert an action just after the current moment
             //no problem we execute that action and +1 to currentIndex
             this.currentIndex++;
-            this.actions[t].redo();
+            if (executeAgain)
+                this.actions[t].redo();
         }
         else {
             if (t <= this.currentIndex)
@@ -222,10 +223,10 @@ export class Timeline {
      * @param {*} action
      * @description insert now an action that was already executed
      */
-    insertActionNowAlreadyExecuted(action: Action): void {
+    insertActionNowAlreadyExecuted(action: Action, executeAgain: boolean = true): void {
         //     this.currentIndex++;
         //   this.actions.splice(this.currentIndex, 0, action);
-        this.insertAction(action, this.currentIndex + 1);
+        this.insertAction(action, this.currentIndex + 1, executeAgain);
 
     }
 

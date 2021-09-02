@@ -166,7 +166,7 @@ export class ToolEraser extends Tool {
             }
 
             else
-                BoardManager.addAction(this.action);
+                BoardManager.addAction(this.action, false);
 
             this.nbClick = 0;
         }
