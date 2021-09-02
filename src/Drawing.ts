@@ -196,7 +196,7 @@ export class Drawing {
                 r = seuil(r);
                 g = seuil(g);
                 b = seuil(b);
-                a = Math.min(0.2, maxAlpha * 0.7 / 255, 255 * n / (nbPixels * 255));
+                a = Math.min(0.5, maxAlpha * 0.7 / 255, 255 * n / (nbPixels * 255));
             }
 
         }
