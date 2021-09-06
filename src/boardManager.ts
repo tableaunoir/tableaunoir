@@ -132,7 +132,7 @@ export class BoardManager {
 
         BoardManager.timeline.insertActionNowAlreadyExecuted(action, executeAgain);
         //AnimationToolBar.update();
-        AnimationToolBar.updateAddAction(BoardManager.timeline.getCurrentIndex());
+        
     }
 
 
@@ -189,7 +189,6 @@ export class BoardManager {
             return;
 
         BoardManager.cancelStack.undo();
-        AnimationToolBar.update();
     }
 
 
@@ -202,7 +201,6 @@ export class BoardManager {
             return;
 
         BoardManager.cancelStack.redo();
-        AnimationToolBar.update();
     }
 
 

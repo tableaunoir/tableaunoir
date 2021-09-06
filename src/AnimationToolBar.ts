@@ -11,6 +11,21 @@ import { OperationPauseAction } from './OperationPauseAction';
  * this class handles the toolbar at the bottom for the animation
  */
 export class AnimationToolBar {
+    static updateActionPause(t: number): void {
+        if (!this.is())
+            return;
+
+        const el = AnimationToolBar.getActionElement(t);
+        if (BoardManager.timeline.actions[t].pause) {
+            el.classList.add("actionPause");
+            this.slideCut(el);
+        }
+        else {
+            el.classList.remove("actionPause");
+            this.slideMerge(el);
+        }
+            
+    }
 
     static currentIndex = 0;
 
@@ -65,109 +80,91 @@ export class AnimationToolBar {
     static is(): boolean { return document.getElementById("animationToolBar").style.display == ""; }
 
     /*
-     * @param the index n of the action in the history
+     * @param the index t of the action in the history
      *
-     * @returns the element of animationActionList corresponding to the n-th action
+     * @returns the element of animationActionList corresponding to the t-th action
      *
      */
-    static getActionElement(n: number): HTMLElement { return AnimationToolBar.actionElements[n]; }
+    static getActionElement(t: number): HTMLElement { return AnimationToolBar.actionElements[t]; }
 
 
 
     /*
-     * @param the index n of the pause action corresponding to the slide
-     * @returns a new division that will contain all sub-actions coming before a pause one
+     * @returns a new slide that will contain all actions of the slide
      */
-    static spawnFoldDiv(n: number): HTMLElement {
-        const actionContainer = document.createElement("div");
-        actionContainer.id = "foldedDiv" + n;
-        actionContainer.classList.add("foldedDiv");
-        return actionContainer;
+    static createSlideDiv(): HTMLElement {
+        const slide = document.createElement("div");
+        slide.classList.add("slide");
+        slide.appendChild(AnimationToolBar.createFoldButton());
+        return slide;
     }
 
     /*
-     * @param the index of the pause action corresponding to the slide
-     * @returns a new label controlling an invisible checkBox
+     * @returns a button that will be in slide and that will toggle the fold/unfoldness of the slide
      */
-    static spawnFoldLabel(n: number): HTMLElement {
-        const el = document.createElement("label");
-        el.htmlFor = "toggleSub" + n;
-        el.classList.add("unfold");
-        const index = AnimationToolBar.foldIndexes.indexOf(n);
-        if (index == -1)
-            el.style.backgroundImage = "url(\"img/open.png\")";
-        else
-            el.style.backgroundImage = "url(\"img/close.png\")";
-        el.onclick = () => {
-            if (index == -1)
-                AnimationToolBar.foldIndexes.push(n);
-            else
-                AnimationToolBar.foldIndexes.splice(index, 1);
-            el.style.backgroundImage = (el.style.backgroundImage == "url(\"img/open.png\")" ? "url(\"img/close.png\")"
-                : "url(\"img/open.png\")");
-        }
+    static createFoldButton(): HTMLElement {
+        const el = document.createElement("div");
+        el.onclick = () => el.parentElement.classList.toggle("folded");
         return el;
     }
 
-    /*
-     * @param the index of the pause action corresponding to the slide
-     * @returns a new checkbox controlling the visibility of the next folded actions div
+
+
+    /**
+     * 
+     * @param t 
+     * @returns update and take into account that the action n° t has been removed
      */
-    static spawnFoldCheckBox(n: number): HTMLElement {
-        const checkboxElement = document.createElement("input");
-        checkboxElement.id = "toggleSub" + n;
-        checkboxElement.checked = (AnimationToolBar.foldIndexes.indexOf(n) != -1);
-        checkboxElement.classList.add("toggleFold");
-        checkboxElement.type = "checkbox";
-        return checkboxElement;
-    }
-
-
-    /** 
-     * @description update the timeline toolbar given that the indices are those that are deleted 
-     **/
-    static updateDelete(indices: number[]): void {
-        if (!AnimationToolBar.is())
-            return;
-
-        console.log("indices: " + indices);
-
-
-        for (let k = indices.length - 1; k >= 0; k--) {
-            const elementToRemove = AnimationToolBar.getActionElement(indices[k]);
-            console.log("removed element: " + elementToRemove);
-            console.log("element's index: " + elementToRemove.dataset.index);
-            elementToRemove.remove();
-            for (let n = indices[k] + 1; n < BoardManager.timeline.nbActions + k + 1; n++) {
-                const elementToShift = AnimationToolBar.getActionElement(n);
-                console.log("element to modify: " + elementToShift);
-                elementToShift.dataset.index = (+elementToShift.dataset.index - 1).toString();
-                AnimationToolBar.actionElements[n - 1] = AnimationToolBar.actionElements[n];
-            }
-        }
-    }
-
-
-
-
     static updateDeleteAction(t: number): void {
         if (!AnimationToolBar.is())
             return;
 
-    /*    const elementToRemove = AnimationToolBar.getActionElement(t);
+        const elementToRemove = AnimationToolBar.getActionElement(t);
         console.log("removed element: " + elementToRemove);
         console.log("element's index: " + elementToRemove.dataset.index);
+
+        if (elementToRemove.classList.contains("actionPause")) {
+            this.slideMerge(elementToRemove);
+        }
+
         elementToRemove.remove();
         for (let n = t + 1; n < BoardManager.timeline.nbActions + 1; n++) {
             const elementToShift = AnimationToolBar.getActionElement(n);
             console.log("element to modify: " + elementToShift);
             elementToShift.dataset.index = (+elementToShift.dataset.index - 1).toString();
             AnimationToolBar.actionElements[n - 1] = AnimationToolBar.actionElements[n];
-        }*/
+        }
+
     }
 
+    /**
+     * merge the slide containing the current element with the next slide
+     */
+    static slideMerge(el: HTMLElement): void {
+        const slide = el.parentElement;
+        const nextSlide = slide.nextElementSibling;
+        if (nextSlide) {
+            nextSlide.removeChild(nextSlide.firstChild);//remove the button;
+            while (nextSlide.childNodes.length > 0) {
+                slide.appendChild(nextSlide.childNodes[0]);
+            }
+            nextSlide.remove();
+        }
 
+    }
 
+    /**
+     * cut the slide containing el at el. el remains in the first slide
+     */
+    static slideCut(el: HTMLElement): void {
+        const slide = el.parentElement;
+        const nextSlide = this.createSlideDiv();
+        while (el.nextSibling) {
+            nextSlide.append(el.nextSibling);
+        }
+        slide.insertAdjacentElement('afterend', nextSlide);
+
+    }
 
     /**
      * 
@@ -181,19 +178,41 @@ export class AnimationToolBar {
         console.log("updateAddAction at index:" + index);
         for (let n = BoardManager.timeline.nbActions - 2; n >= index; n--) {
             const element = AnimationToolBar.getActionElement(n);
-            console.log("element to modify: " + element);
             element.dataset.index = (+element.dataset.index + 1).toString();
-            AnimationToolBar.actionElements[n + 1] = AnimationToolBar.actionElements[n];
+            this.actionElements[n + 1] = AnimationToolBar.actionElements[n];
         }
-        const elementToInsert = AnimationToolBar.createHTMLElementForAction(index);
-        AnimationToolBar.actionElements[index] = elementToInsert;
-        const elementBefore = AnimationToolBar.getActionElement(index - 1);
+
+        const elementToInsert = this.createActionElement(index);
+        this.actionElements[index] = elementToInsert;
+        const elementBefore = this.getActionElement(index - 1);
 
         /*console.log("element just before:");
         console.log(elementBefore);*/
-        if (elementBefore.parentElement.classList.contains("ActionPause")) {
-            //TODO: improve to handle the label+checkbox
-            (<HTMLDivElement>elementBefore.nextSibling).prepend(elementToInsert);
+
+        if (index == 1) {
+            if (this.animationActionList.children.length == 1) {
+                const slide = this.createSlideDiv();
+                console.log("there is not slide, I create one...")
+                slide.appendChild(elementToInsert);
+                this.animationActionList.appendChild(slide);
+
+            }
+            else {
+                const slide = this.animationActionList.children[1];
+                console.log("I go to the slide 1:", slide);
+                slide.children[0].insertAdjacentElement('afterend', elementToInsert);
+            }
+        }
+        else if (elementBefore.classList.contains("actionPause")) {
+            if (elementBefore.parentElement.nextElementSibling) {
+                const slide = elementBefore.parentElement.nextElementSibling;
+                slide.children[0].insertAdjacentElement('afterend', elementToInsert);
+            }
+            else {
+                const slide = this.createSlideDiv();
+                slide.appendChild(elementToInsert);
+                elementBefore.parentElement.insertAdjacentElement('afterend', slide);
+            }
         }
         else
             elementBefore.insertAdjacentElement('afterend', elementToInsert);
@@ -212,14 +231,20 @@ export class AnimationToolBar {
             return;
 
         const currentIndex = BoardManager.timeline.getCurrentIndex();
-        for (let i = 1; i < BoardManager.timeline.actions.length; i++) {
-            const elem = AnimationToolBar.getActionElement(i);
-            if (i <= currentIndex)
+        for (let t = 1; t < BoardManager.timeline.actions.length; t++) {
+            const elem = AnimationToolBar.getActionElement(t);
+            if (t <= currentIndex)
                 elem.classList.add("actionExecuted");
             else
                 elem.classList.remove("actionExecuted");
         }
     }
+
+
+    static get animationActionList(): HTMLDivElement {
+        return <HTMLDivElement>document.getElementById("animationActionList");
+    }
+
 
     /**
      * @description updates the whole timeline
@@ -230,45 +255,27 @@ export class AnimationToolBar {
         if (!AnimationToolBar.is())
             return;
 
-        let count = 0;  //used to spawn the html elements needed for the folding system
         AnimationToolBar.actionElements = [];
+        this.animationActionList.innerHTML = "";
 
-        let foldedDiv = AnimationToolBar.spawnFoldDiv(count);
-        document.getElementById("animationActionList").innerHTML = "";
-        document.getElementById("animationBarBuffer").append(foldedDiv);
-
-        const elementForActionStart = AnimationToolBar.createHTMLElementForAction(0)
-        document.getElementById("animationActionList").append(elementForActionStart);
+        const elementForActionStart = AnimationToolBar.createActionElement(0)
+        this.animationActionList.append(elementForActionStart);
         AnimationToolBar.actionElements[0] = elementForActionStart;
 
+
+        let slide = AnimationToolBar.createSlideDiv();
+        this.animationActionList.append(slide);
+
         for (let i = 1; i < BoardManager.timeline.actions.length; i++) {
+            const actionElement = AnimationToolBar.createActionElement(i);
+            AnimationToolBar.actionElements[i] = actionElement;
+            slide.append(actionElement);
+
             if (BoardManager.timeline.actions[i].pause) {
-
-                const lab = AnimationToolBar.spawnFoldLabel(count);
-
-                const checkBox = AnimationToolBar.spawnFoldCheckBox(count);
-
-                if (foldedDiv.innerHTML != "") {
-                    document.getElementById("animationActionList").append(lab);
-                    document.getElementById("animationActionList").append(checkBox);
-                }
-                document.getElementById("animationActionList").append(foldedDiv);
-                const actionElement = AnimationToolBar.createHTMLElementForAction(i);
-                AnimationToolBar.actionElements[i] = actionElement;
-                document.getElementById("animationActionList").append(actionElement);
-                count++;
-
-                document.getElementById("animationBarBuffer").innerHTML = "";
-                foldedDiv = AnimationToolBar.spawnFoldDiv(count);
-                document.getElementById("animationBarBuffer").append(foldedDiv);
-            }
-            else {
-                const actionElement = AnimationToolBar.createHTMLElementForAction(i);
-                AnimationToolBar.actionElements[i] = actionElement;
-                document.getElementById("foldedDiv" + count).append(actionElement);
+                slide = AnimationToolBar.createSlideDiv();
+                this.animationActionList.append(slide);
             }
         }
-        document.getElementById("animationActionList").append(foldedDiv);
 
         document.getElementById("canvas").ondrop = () => {
             if (AnimationToolBar.dragAndDropFrames) {
@@ -277,14 +284,12 @@ export class AnimationToolBar {
                     if (AnimationToolBar.selectedActionIndices[0] == 0)
                         AnimationToolBar.selectedActionIndices.splice(0, 1);
                     BoardManager.executeOperation(new OperationDeleteSeveralActions(AnimationToolBar.selectedActionIndices));
-                    AnimationToolBar.updateDelete(AnimationToolBar.selectedActionIndices);
                     AnimationToolBar.selectedActionIndices = [];
                     AnimationToolBar.shiftSelectIndex = -1;
                 }
                 else if (AnimationToolBar.tSelected != 0) {
                     BoardManager.executeOperation(new OperationDeleteAction(AnimationToolBar.tSelected));
                     AnimationToolBar.selectedActionIndices.push(AnimationToolBar.tSelected);
-                    AnimationToolBar.updateDelete(AnimationToolBar.selectedActionIndices);
                     AnimationToolBar.selectedActionIndices = [];
                 }
             }
@@ -297,7 +302,7 @@ export class AnimationToolBar {
      * @param t
      * @returns an HTML element (a small square) that represents the action
      */
-    static createHTMLElementForAction(t: number): HTMLElement {
+    static createActionElement(t: number): HTMLElement {
         const action = BoardManager.timeline.actions[t];
         const el = document.createElement("div");
 
@@ -334,7 +339,7 @@ export class AnimationToolBar {
         });
 
         el.oncontextmenu = (evt) => {
-            const menu = new ActionTimeLineMenu(action);
+            const menu = new ActionTimeLineMenu(t);
             menu.show({ x: Layout.getXMiddle(), y: 800 });
             evt.preventDefault();
             return;
@@ -399,7 +404,7 @@ export class AnimationToolBar {
                 }
             }
             else {
-                if (!AnimationToolBar.isSelected(+el.dataset.index))
+                if (!AnimationToolBar.isActionSelected(+el.dataset.index))
                     AnimationToolBar.deselect();
                 AnimationToolBar.currentIndex = +el.dataset.index;
                 BoardManager.timeline.setCurrentIndex(+el.dataset.index);
@@ -453,7 +458,7 @@ export class AnimationToolBar {
      * @param t 
      * @returns true if action at time t is selected
      */
-    static isSelected(t: number): boolean { return AnimationToolBar.selectedActionIndices.indexOf(t) >= 0; }
+    static isActionSelected(t: number): boolean { return AnimationToolBar.selectedActionIndices.indexOf(t) >= 0; }
 
 
     /**

@@ -9,7 +9,7 @@ export class OperationPauseAction extends Operation {
     private do(): void {
         const action = BoardManager.timeline.actions[this.t];
         action.pause = !action.pause;
-        AnimationToolBar.update();
+        AnimationToolBar.updateActionPause(this.t);
     }
 
     undo(): void { this.do() }

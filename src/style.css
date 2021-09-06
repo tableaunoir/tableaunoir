@@ -1055,7 +1055,7 @@ h1 {
 }
 
 
-.foldedDiv {
+.slide {
 	display: inline-block;
 	height: 34px;
 	box-sizing: content-box;
@@ -1065,44 +1065,24 @@ h1 {
 	display: none;
 }
 
-#animationBarBuffer {
-	display: none;
-}
-
-#animationBarBuffer>.toggleFold {
-	display: inline-block;
-}
-
-.toggleFold+.foldedDiv>.action {
+.slide.folded>.action:not(:first-child):not(:last-child) {
 	position: absolute;
 	width: 0px;
 	height: 0px;
 	transition: width 500ms, transform 350ms;
 }
 
-.toggleFold:checked+.foldedDiv>.action {
-	position: relative;
+
+.slide:not(.folded)>.action:not(:first-child):not(:last-child) {
 	width: 8px;
 	height: 24px;
 	transition: width 500ms, transform 350ms;
 }
 
-
-.toggleFold:checked+.foldedDiv>.action:hover {
-	width: 24px;
-	background-size: 24px 24px;
-	transition: none;
-}
-
-.toggleFold:checked+.foldedDiv {
-	display: inline-block;
-}
-
-.unfold {
+.slide>:first-child {
 	position: relative;
 	height: 20px;
 	width: 20px;
-	background-image: url(img/open.png);
 	background-size: contain;
 	background-repeat: no-repeat;
 	background-position: center;
@@ -1118,7 +1098,16 @@ h1 {
 	background-color: rgb(108, 108, 255);
 }
 
-.unfold:hover {
+.slide.folded>:first-child {
+	background-image: url(img/open.png);
+}
+
+.slide:not(.folded)>:first-child {
+	background-image: url(img/close.png);
+}
+
+
+.slide>:first-child:hover {
 	width: 30px;
 	transition: width 500ms;
 }

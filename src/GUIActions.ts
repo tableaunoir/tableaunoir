@@ -15,7 +15,7 @@ export class GUIActions {
 
     static init(): void {
         GUIActions.palette.onchange = () => {
-            if(AnimationToolBar.isSelected) {
+            if(AnimationToolBar.isActionSelected) {
 //TODO: recolorize the actions that are selected in the timeline :)
             }
 
