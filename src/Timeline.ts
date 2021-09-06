@@ -201,6 +201,7 @@ export class Timeline {
      */
     insertAction(action: Action, t: number, executeAgain = true): void {
         this.actions.splice(t, 0, action);
+        
         if (t == this.currentIndex + 1) {
             //we insert an action just after the current moment
             //no problem we execute that action and +1 to currentIndex

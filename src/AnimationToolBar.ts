@@ -138,7 +138,7 @@ export class AnimationToolBar {
             console.log("removed element: " + elementToRemove);
             console.log("element's index: " + elementToRemove.dataset.index);
             elementToRemove.remove();
-            for (let n = indices[k]+1; n < BoardManager.timeline.nbActions + k+1; n++) {
+            for (let n = indices[k] + 1; n < BoardManager.timeline.nbActions + k + 1; n++) {
                 const elementToShift = AnimationToolBar.getActionElement(n);
                 console.log("element to modify: " + elementToShift);
                 elementToShift.dataset.index = (+elementToShift.dataset.index - 1).toString();
@@ -150,7 +150,21 @@ export class AnimationToolBar {
 
 
 
+    static updateDeleteAction(t: number): void {
+        if (!AnimationToolBar.is())
+            return;
 
+    /*    const elementToRemove = AnimationToolBar.getActionElement(t);
+        console.log("removed element: " + elementToRemove);
+        console.log("element's index: " + elementToRemove.dataset.index);
+        elementToRemove.remove();
+        for (let n = t + 1; n < BoardManager.timeline.nbActions + 1; n++) {
+            const elementToShift = AnimationToolBar.getActionElement(n);
+            console.log("element to modify: " + elementToShift);
+            elementToShift.dataset.index = (+elementToShift.dataset.index - 1).toString();
+            AnimationToolBar.actionElements[n - 1] = AnimationToolBar.actionElements[n];
+        }*/
+    }
 
 
 

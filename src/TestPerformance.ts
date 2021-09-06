@@ -31,10 +31,7 @@ export class TestPerformance {
 
 
 
-    static testBigCanvas(): void {
-        const w = 20000;
-        const h = 1000;
-        const S = 16;
+    static testBigCanvas(w = 20000, h = 1000, S = 16): void {
         let nbObject = 0;
         getCanvas().width = w;
         for (let x = 0; x < w; x += S) {
