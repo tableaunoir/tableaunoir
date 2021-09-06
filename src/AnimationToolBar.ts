@@ -95,6 +95,7 @@ export class AnimationToolBar {
     static createSlideDiv(): HTMLElement {
         const slide = document.createElement("div");
         slide.classList.add("slide");
+        slide.classList.add("folded");
         slide.appendChild(AnimationToolBar.createFoldButton());
         return slide;
     }
