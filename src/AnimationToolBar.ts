@@ -143,6 +143,8 @@ export class AnimationToolBar {
             AnimationToolBar.actionElements[n - 1] = this.actionElements[n];
         }
 
+        AnimationToolBar.currentIndex = BoardManager.timeline.getCurrentIndex();
+
     }
 
     /**
@@ -223,8 +225,10 @@ export class AnimationToolBar {
         else
             elementBefore.insertAdjacentElement('afterend', elementToInsert);
 
+        AnimationToolBar.currentIndex = BoardManager.timeline.getCurrentIndex();
 
-        //elementToInsert.parentElement.scrollIntoView(); //make that the slide is visible, but there is a bug if the slide is toooo long :(
+        if (elementToInsert.parentElement.clientWidth < document.getElementById("animationActionListWrapper").clientWidth - 100)
+            elementToInsert.parentElement.scrollIntoView(); //make that the slide is visible, but there is a bug if the slide is toooo long :(, hence the if!
     }
 
 
