@@ -11,6 +11,10 @@ import { OperationPauseAction } from './OperationPauseAction';
  * this class handles the toolbar at the bottom for the animation
  */
 export class AnimationToolBar {
+
+    /**
+     * @description update the state of the action n° t
+     */
     static updateActionPause(t: number): void {
         if (!this.is())
             return;
@@ -24,9 +28,13 @@ export class AnimationToolBar {
             el.classList.remove("actionPause");
             this.slideMerge(el);
         }
-            
+
     }
 
+    /**
+     * @description current index in the timeline (maybe different from the real current index shown because
+     * the user may move her mouse over actions and show a snapshat that is different from currentIndex)
+     */
     static currentIndex = 0;
 
     /**
@@ -124,22 +132,21 @@ export class AnimationToolBar {
         console.log("removed element: " + elementToRemove);
         console.log("element's index: " + elementToRemove.dataset.index);
 
-        if (elementToRemove.classList.contains("actionPause")) {
+        if (elementToRemove.classList.contains("actionPause"))
             this.slideMerge(elementToRemove);
-        }
 
         elementToRemove.remove();
+
         for (let n = t + 1; n < BoardManager.timeline.nbActions + 1; n++) {
-            const elementToShift = AnimationToolBar.getActionElement(n);
-            console.log("element to modify: " + elementToShift);
+            const elementToShift = this.getActionElement(n);
             elementToShift.dataset.index = (+elementToShift.dataset.index - 1).toString();
-            AnimationToolBar.actionElements[n - 1] = AnimationToolBar.actionElements[n];
+            AnimationToolBar.actionElements[n - 1] = this.actionElements[n];
         }
 
     }
 
     /**
-     * merge the slide containing the current element with the next slide
+     * @decription merge the slide containing the current element with the next slide
      */
     static slideMerge(el: HTMLElement): void {
         const slide = el.parentElement;
@@ -187,9 +194,7 @@ export class AnimationToolBar {
         this.actionElements[index] = elementToInsert;
         const elementBefore = this.getActionElement(index - 1);
 
-        /*console.log("element just before:");
-        console.log(elementBefore);*/
-
+        //at the beginning of the timeline (a bit different because of the start action)
         if (index == 1) {
             if (this.animationActionList.children.length == 1) {
                 const slide = this.createSlideDiv();
@@ -218,6 +223,8 @@ export class AnimationToolBar {
         else
             elementBefore.insertAdjacentElement('afterend', elementToInsert);
 
+
+        //elementToInsert.parentElement.scrollIntoView(); //make that the slide is visible, but there is a bug if the slide is toooo long :(
     }
 
 
@@ -241,7 +248,9 @@ export class AnimationToolBar {
         }
     }
 
-
+    /**
+     * @returns the DIV where the slides are put
+     */
     static get animationActionList(): HTMLDivElement {
         return <HTMLDivElement>document.getElementById("animationActionList");
     }
@@ -259,9 +268,9 @@ export class AnimationToolBar {
         AnimationToolBar.actionElements = [];
         this.animationActionList.innerHTML = "";
 
-        const elementForActionStart = AnimationToolBar.createActionElement(0)
-        this.animationActionList.append(elementForActionStart);
-        AnimationToolBar.actionElements[0] = elementForActionStart;
+        const elementActionStart = AnimationToolBar.createActionElement(0)
+        this.animationActionList.append(elementActionStart);
+        AnimationToolBar.actionElements[0] = elementActionStart;
 
 
         let slide = AnimationToolBar.createSlideDiv();
@@ -312,18 +321,10 @@ export class AnimationToolBar {
         el.classList.add("action");
         el.style.backgroundImage = action.getOverviewImage();
 
-
-        if (t == 0)
-            el.classList.add("actionStart");
-
-        if (action.pause)
-            el.classList.add("actionPause");
-
-        if (!action.isBlocking)
-            el.classList.add("actionParallel");
-
-        if (t <= BoardManager.timeline.getCurrentIndex())
-            el.classList.add("actionExecuted");
+        if (t == 0) el.classList.add("actionStart");
+        if (action.pause) el.classList.add("actionPause");
+        if (!action.isBlocking) el.classList.add("actionParallel");
+        if (t <= BoardManager.timeline.getCurrentIndex()) el.classList.add("actionExecuted");
 
         el.draggable = true;
 
@@ -414,14 +415,8 @@ export class AnimationToolBar {
         }
 
 
-        el.onmousemove = () => {
-            BoardManager.timeline.setCurrentIndex(+el.dataset.index);
-        }
-
-
-        el.onmouseleave = () => {
-            BoardManager.timeline.setCurrentIndex(AnimationToolBar.currentIndex);
-        }
+        el.onmousemove = () => { BoardManager.timeline.setCurrentIndex(+el.dataset.index); }
+        el.onmouseleave = () => { BoardManager.timeline.setCurrentIndex(AnimationToolBar.currentIndex); }
 
 
         el.ondrop = () => {
