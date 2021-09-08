@@ -167,12 +167,14 @@ export class AnimationToolBar {
      * cut the slide containing el at el. el remains in the first slide
      */
     static slideCut(el: HTMLElement): void {
-        const slide = el.parentElement;
-        const nextSlide = this.createSlideDiv();
-        while (el.nextSibling) {
-            nextSlide.append(el.nextSibling);
+        if (el.nextSibling) {
+            const slide = el.parentElement;
+            const nextSlide = this.createSlideDiv();
+            while (el.nextSibling) {
+                nextSlide.append(el.nextSibling);
+            }
+            slide.insertAdjacentElement('afterend', nextSlide);
         }
-        slide.insertAdjacentElement('afterend', nextSlide);
 
     }
 
@@ -277,19 +279,24 @@ export class AnimationToolBar {
         AnimationToolBar.actionElements[0] = elementActionStart;
 
 
-        let slide = AnimationToolBar.createSlideDiv();
-        this.animationActionList.append(slide);
+        if (BoardManager.timeline.actions.length > 1) {
+            let slide = AnimationToolBar.createSlideDiv();
+            this.animationActionList.append(slide);
 
-        for (let i = 1; i < BoardManager.timeline.actions.length; i++) {
-            const actionElement = AnimationToolBar.createActionElement(i);
-            AnimationToolBar.actionElements[i] = actionElement;
-            slide.append(actionElement);
+            for (let i = 1; i < BoardManager.timeline.actions.length; i++) {
+                const actionElement = AnimationToolBar.createActionElement(i);
+                AnimationToolBar.actionElements[i] = actionElement;
+                slide.append(actionElement);
 
-            if (BoardManager.timeline.actions[i].pause) {
-                slide = AnimationToolBar.createSlideDiv();
-                this.animationActionList.append(slide);
+                if (BoardManager.timeline.actions[i].pause && i < BoardManager.timeline.actions.length - 1) {
+                    slide = AnimationToolBar.createSlideDiv();
+                    this.animationActionList.append(slide);
+                }
             }
         }
+
+
+
 
         document.getElementById("canvas").ondrop = () => {
             if (AnimationToolBar.dragAndDropFrames) {
