@@ -345,7 +345,7 @@ export class AnimationToolBar {
         if (!action.isBlocking) el.classList.add("actionParallel");
         if (t <= BoardManager.timeline.getCurrentIndex()) el.classList.add("actionExecuted");
 
-        el.draggable = true;
+        if (t > 0) el.draggable = true;
 
         el.ondrag = () => {
             AnimationToolBar.tSelected = +el.dataset.index;
@@ -369,8 +369,8 @@ export class AnimationToolBar {
         el.ondragend = () => { AnimationToolBar.dragAndDropFrames = false; };
 
         el.onclick = (event) => {
-            const selectMode = (event.ctrlKey);
-            const selectModeShift = (event.shiftKey);
+            const selectMode = (event.ctrlKey) && (t > 0);
+            const selectModeShift = (event.shiftKey) && (t > 0);
 
             if (selectMode) {
                 const iAction = +el.dataset.index;
@@ -381,7 +381,7 @@ export class AnimationToolBar {
                     if (action.pause && slide.classList.contains("folded")) {
                         for (let k = 1; k < slide.children.length; k++) {
                             slide.children[k].classList.remove("actionSelected");
-                            AnimationToolBar.selectedActionIndices.delete(iAction - (slide.children.length-1) + k);
+                            AnimationToolBar.selectedActionIndices.delete(iAction - (slide.children.length - 1) + k);
                         }
                     }
                 }
@@ -392,7 +392,7 @@ export class AnimationToolBar {
                     if (action.pause && slide.classList.contains("folded")) {
                         for (let k = 1; k < slide.children.length; k++) {
                             slide.children[k].classList.add("actionSelected");
-                            AnimationToolBar.selectedActionIndices.add(iAction - (slide.children.length-1) + k);
+                            AnimationToolBar.selectedActionIndices.add(iAction - (slide.children.length - 1) + k);
                         }
                     }
                 }

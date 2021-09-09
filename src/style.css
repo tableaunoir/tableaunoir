@@ -1073,6 +1073,13 @@ h1 {
 	transition: width 500ms, transform 350ms;
 }
 
+/*
+no matter what, the last action in a slide is "big" (24px)
+*/
+.slide>.action:last-child {
+	width:24px;
+	background-size: 24px 24px;
+}
 
 .slide:not(.folded)>.action:not(:first-child):not(:last-child) {
 	width: 8px;
