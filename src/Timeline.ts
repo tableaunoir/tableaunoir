@@ -193,6 +193,8 @@ export class Timeline {
         this.actions.splice(indexToMove, 1);
         this.actions.splice(insertIndex, 0, eltToAdd);
         this.resetAndUpdate();
+
+        
     }
 
     /**
