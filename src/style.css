@@ -1052,7 +1052,10 @@ h1 {
 
 }
 
-
+.actionDrag {
+	border-right: 4px solid green;
+	margin-right:6px;
+}
 .slide {
 	display: inline-block;
 	height: 34px;
