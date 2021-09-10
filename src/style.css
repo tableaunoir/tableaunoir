@@ -1081,12 +1081,27 @@ no matter what, the last action in a slide is "big" (24px)
 	background-size: 24px 24px;
 }
 
+/*
+actions in between are not big
+*/
 .slide:not(.folded)>.action:not(:first-child):not(:last-child) {
 	width: 8px;
 	height: 24px;
 	transition: width 500ms, transform 350ms;
 }
 
+
+.slide:not(.folded)>.action:not(:first-child):not(:last-child):hover {
+	width: 24px;
+	height: 24px;
+	background-size: 24px 24px;
+	transition: width 500ms, transform 350ms;
+}
+
+
+/*
+the button for unfolding/folding a slide
+*/
 .slide>:first-child {
 	position: relative;
 	height: 20px;
