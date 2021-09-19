@@ -12,4 +12,6 @@ export type ActionSerialized =
     { type: "printmagnet", userid: string, pause?: boolean, magnet: string, x: number, y: number } |
     { type: "magnetnew", userid: string, pause?: boolean, magnet: string } |
     { type: "magnetdelete", userid: string, pause?: boolean, magnetid: string } |
-    { type: "magnetmove", userid: string, pause?: boolean, magnetid: string, points: { x: number; y: number; }[]};
+    { type: "magnetmove", userid: string, pause?: boolean, magnetid: string, points: { x: number; y: number; }[]} |
+    { type: "magnetswitchbackgroundforeground", userid: string, pause?: boolean, magnetid: string}
+    ;

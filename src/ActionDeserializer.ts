@@ -1,3 +1,4 @@
+import { ActionMagnetSwitchBackgroundForeground } from './ActionMagnetSwitchBackgroundForeground';
 import { ActionMagnetNew } from './ActionMagnetNew';
 import { ActionMagnetMove } from './ActionMagnetMove';
 import { ActionMagnetDelete } from './ActionMagnetDelete';
@@ -60,6 +61,9 @@ export class ActionDeserializer {
         }
         if (obj.type == "magnetdelete") {
             return new ActionMagnetDelete(obj.userid, obj.magnetid);
+        }
+        if (obj.type == "magnetswitchbackgroundforeground") {
+            return new ActionMagnetSwitchBackgroundForeground(obj.userid, obj.magnetid);
         }
 
         throw "ActionDeserializer: unknown type of action";

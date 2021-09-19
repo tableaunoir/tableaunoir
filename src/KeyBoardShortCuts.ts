@@ -75,6 +75,12 @@ export class KeyBoardShortCuts {
         else if (!evt.ctrlKey && !evt.shiftKey && evt.key == "t") { // t => tool menu 
             GUIActions.toolmenu.show({ x: UserManager.me.x, y: UserManager.me.y });
         }
+        else if (evt.key == "+")
+            GUIActions.magnetIncreaseSize();
+        else if (evt.key == "-")
+            GUIActions.magnetDecreaseSize();
+        else if (evt.key == "b")
+            GUIActions.magnetSwitchBackgroundForeground();
         else if (evt.key == "e")  //e = switch eraser and chalk
             GUIActions.switchChalkEraser();
         else if (evt.key == "h")

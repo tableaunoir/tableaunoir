@@ -1,3 +1,4 @@
+import { S } from './Script';
 import { AnimationToolBar } from './AnimationToolBar';
 import { OptionManager } from './OptionManager';
 import { ToolMenu } from './ToolMenu';
@@ -5,6 +6,8 @@ import { Palette } from "./Palette";
 import { Share } from "./share";
 import { MagnetManager } from './magnetManager';
 import { UserManager } from './UserManager';
+import { ActionMagnetSwitchBackgroundForeground } from './ActionMagnetSwitchBackgroundForeground';
+import { BoardManager } from './boardManager';
 
 export class GUIActions {
 
@@ -15,21 +18,21 @@ export class GUIActions {
 
     static init(): void {
         GUIActions.palette.onchange = () => {
-            if(AnimationToolBar.isActionSelected) {
-//TODO: recolorize the actions that are selected in the timeline :)
+            if (AnimationToolBar.isActionSelected) {
+                //TODO: recolorize the actions that are selected in the timeline :)
             }
 
 
             if (UserManager.me.isToolErase)
                 Share.execute("switchChalk", [UserManager.me.userID]);
             Share.execute("setCurrentColor", [UserManager.me.userID, GUIActions.palette.getCurrentColor()]);
-            
+
         }
 
 
         OptionManager.boolean({
             name: "paletteShowOnKey", defaultValue: true,
-            onChange: (b) => { GUIActions.paletteShowOnKey = b}
+            onChange: (b) => { GUIActions.paletteShowOnKey = b }
         });
     }
 
@@ -65,10 +68,60 @@ export class GUIActions {
             Share.execute("switchChalk", [UserManager.me.userID]);
         else
             Share.execute("switchErase", [UserManager.me.userID]);
-
-
     }
 
 
+
+    static magnetChangeSize(ratio): void {
+        const magnet = MagnetManager.getMagnetUnderCursor();
+        if (!magnet.style.width)
+            magnet.style.width = magnet.clientWidth + "px";
+        magnet.style.width = (parseInt(magnet.style.width) * ratio) + "px";
+    }
+
+    static magnetIncreaseSize(): void {
+        GUIActions.magnetChangeSize(1.1);
+    }
+
+
+
+    static magnetDecreaseSize(): void {
+        GUIActions.magnetChangeSize(0.9);
+    }
+
+
+
+
+
+
+
+    static magnetSwitchBackgroundForeground(): void {
+        const magnetGetRectangle = (m: HTMLElement) => {
+            const rect = m.getBoundingClientRect();
+            return { x1: rect.x, y1: rect.y, x2: rect.x + rect.width, y2: rect.y + rect.height };
+        }
+
+
+        const switchBackgroundForegrounOfMagnet = (m) => {
+            BoardManager.addAction(new ActionMagnetSwitchBackgroundForeground(UserManager.me.userID, m.id));
+        }
+
+        const magnet = MagnetManager.getMagnetUnderCursor();
+        const x = UserManager.me.tool.x;
+        const y = UserManager.me.tool.y;
+        if (magnet == undefined) {
+            const magnets = MagnetManager.getMagnets();
+            for (let i = 0; i < magnets.length; i++) {
+                let m = magnets[i];
+                if (S.inRectangle({ x: x, y: y },
+                    magnetGetRectangle(m))) {
+                    switchBackgroundForegrounOfMagnet(m);
+                }
+                /**TODO: search for the magnet in the background that is under the cursor**/
+            }
+        }
+        else switchBackgroundForegrounOfMagnet(magnet);
+
+    }
 
 }

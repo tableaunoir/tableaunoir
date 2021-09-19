@@ -62,14 +62,15 @@ export class LoadSave {
 
                     }
                     else {
-                        /*
+
                         event.dataTransfer.items[i].getAsString((s) => {
-                            const img = new Image();
-                            img.style.left = Layout.getWindowLeft() + "px";
-                            img.style.top = "0px";
-                            img.src = s;
-                            MagnetManager.addMagnet(img);
-                        });*/
+                            /* const img = new Image();
+                             img.style.left = Layout.getWindowLeft() + "px";
+                             img.style.top = "0px";
+                             img.src = s;
+                             MagnetManager.addMagnet(img);*/
+                            console.log(s)
+                        });
 
                     }
                 }
@@ -83,7 +84,13 @@ export class LoadSave {
         }
 
 
-
+        /**
+         * 
+         * @param event a drag of some files in Tableaunoir
+         * @returns "tableaunoir" if there is a single .tableaunoir file dropped
+         * "images" if there are several images dropped
+         * "error" otherwise
+         */
         function getTypeFilesDrag(event): "tableaunoir" | "images" | "error" {
             let containsImages = false;
             let containsTableaunoir = false;
@@ -122,12 +129,28 @@ export class LoadSave {
             // Prevent default behavior (Prevent file from being opened)
             event.preventDefault();
 
-            if (getTypeFilesDrag(event) == "error")
-                ErrorMessage.show("Impossible to drop these kind of files");
+            const url = event.dataTransfer.getData('text/plain');
+            const x = event.clientX;
+            const y = event.clientY;
 
-            for (const file of getFilesFromDragEvent(event))
-                LoadSave.loadFile(file, event.clientX, event.clientY);
-            event.preventDefault();
+            if (url) {
+                /** this corresponds to a drag and drop of an image of another website  */
+                const img = new Image();
+                img.style.left = x + "px";
+                img.style.top = y + "px";
+                img.src = url;
+                MagnetManager.addMagnet(img);
+            }
+            else {
+                if (getTypeFilesDrag(event) == "error")
+                    ErrorMessage.show("Impossible to drop these kind of files");
+                else {
+                    for (const file of getFilesFromDragEvent(event))
+                        LoadSave.loadFile(file, x, y);
+                    event.preventDefault();
+                }
+            }
+
         };
     }
 

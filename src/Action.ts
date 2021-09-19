@@ -84,11 +84,10 @@ export abstract class Action {
     /**
      * redo the action
      */
-    abstract redo(): Promise<void>;
-
+    abstract redo(): Promise<void>; //to be implemented in concrete classes
     async undo(): Promise<void> { return } //by default it cannot be undone
+    redoAnimated(): Promise<void> { return this.redo(); } // by default the redo with animation is the same
 
-    redoAnimated(): Promise<void> { return this.redo(); }
     abstract get xMax(): number;
 
     protected static createCanvasOverview(): HTMLCanvasElement {
