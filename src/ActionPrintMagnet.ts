@@ -31,19 +31,20 @@ export class ActionPrintMagnet extends Action {
 	redo(): Promise<void> {
 		return new Promise((resolve) => {
 			const context = getCanvas().getContext("2d");
-			const magnet = this.magnet;
 
-			if (magnet instanceof HTMLImageElement) {
+			if (this.magnet instanceof HTMLImageElement) {
+
+				const img = <HTMLImageElement>this.magnet;
 
 				const f = () => {
 
-					const clipPath = magnet.style.clipPath;
+					const clipPath = img.style.clipPath;
 
 					context.globalCompositeOperation = "source-over";
 					context.globalAlpha = 0.9;
 
 					if (clipPath != "") {
-						const strPointsInClipPath = magnet.style.clipPath.substr("polygon(".length, clipPath.length - "polygon(".length - ")".length);
+						const strPointsInClipPath = img.style.clipPath.substr("polygon(".length, clipPath.length - "polygon(".length - ")".length);
 
 						context.save();
 						context.beginPath();
@@ -60,7 +61,19 @@ export class ActionPrintMagnet extends Action {
 						context.clip();
 					}
 
-					context.drawImage(<HTMLImageElement>this.magnet, this.x, this.y);
+
+					if (img.style.width) {
+						const w = parseInt(img.style.width);
+						const h = img.height * w / img.width;
+						console.log(w);
+						console.log(h);
+						context.drawImage(img,
+							///	0, 0, img.naturalWidth, img.naturalHeight,
+							this.x, this.y, w, h
+						);
+					}
+					else
+						context.drawImage(img, this.x, this.y);
 
 					if (clipPath != "")
 						context.restore();
@@ -68,9 +81,9 @@ export class ActionPrintMagnet extends Action {
 					resolve();
 				};
 
-				if (magnet.complete)
+				if (img.complete)
 					f();
-				magnet.onload = f;
+				img.onload = f;
 
 			}
 			else if (MagnetTextManager.isTextMagnet(this.magnet)) {

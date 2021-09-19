@@ -49,9 +49,8 @@ export class ActionMagnetSwitchBackgroundForeground extends Action {
         m.style.zIndex = z + "";
     }
 
-
+    /** switching between back/foreground is an involution */
     async redo(): Promise<void> { this.do(); }
-
     async undo(): Promise<void> { this.do(); }
 
 

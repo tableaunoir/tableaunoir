@@ -124,6 +124,7 @@ export class LoadSave {
             event.preventDefault();
         };
 
+
         document.body.ondrop = (event) => {
             console.log("drop!");
             // Prevent default behavior (Prevent file from being opened)

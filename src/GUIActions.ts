@@ -1,3 +1,5 @@
+import { Layout } from './Layout';
+import { ErrorMessage } from './ErrorMessage';
 import { S } from './Script';
 import { AnimationToolBar } from './AnimationToolBar';
 import { OptionManager } from './OptionManager';
@@ -10,6 +12,37 @@ import { ActionMagnetSwitchBackgroundForeground } from './ActionMagnetSwitchBack
 import { BoardManager } from './boardManager';
 
 export class GUIActions {
+
+    /**
+     * @description tries to paste a magnet from the content of the clipboard
+     */
+    static pasteFromClipBoard(): void {
+        try {
+            //the <any> is because Typescript does not infer properly the types :(
+            (<any>(navigator.clipboard)).read().then((items) => {
+                function blobToDataURL(blob: Blob, callback: (dataURL: string) => void) {
+                    const a = new FileReader();
+                    a.onload = function (e) { callback(<string>e.target.result); }
+                    a.readAsDataURL(blob);
+                }
+                console.log(items[0])
+
+                console.log(items[0].types)
+                console.log(items[0].getType("image/png"));
+                items[0].getType("image/png").then((blob: Blob) => blobToDataURL(blob, (dataURL) => {
+                    const magnet = new Image();
+                    magnet.src = dataURL;
+                    magnet.style.left = Layout.getWindowLeft()+"px";
+                    magnet.style.top = "0px";
+                    console.log(dataURL);
+                    MagnetManager.addMagnet(magnet);
+                }));
+            })
+        }
+        catch (e) {
+            ErrorMessage.show(e);
+        }
+    }
 
     static palette = new Palette();
     static toolmenu = new ToolMenu();
@@ -112,9 +145,8 @@ export class GUIActions {
         if (magnet == undefined) {
             const magnets = MagnetManager.getMagnets();
             for (let i = 0; i < magnets.length; i++) {
-                let m = magnets[i];
-                if (S.inRectangle({ x: x, y: y },
-                    magnetGetRectangle(m))) {
+                const m = magnets[i];
+                if (S.inRectangle({ x: x, y: y }, magnetGetRectangle(m))) {
                     switchBackgroundForegrounOfMagnet(m);
                 }
                 /**TODO: search for the magnet in the background that is under the cursor**/

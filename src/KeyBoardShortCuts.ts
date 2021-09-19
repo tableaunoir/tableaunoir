@@ -1,3 +1,4 @@
+import { ErrorMessage } from './ErrorMessage';
 import { MagnetTextManager } from './MagnetTextManager';
 import { OptionManager } from './OptionManager';
 import { AnimationToolBar } from './AnimationToolBar';
@@ -22,7 +23,7 @@ window['keys'] = keys;
 
 export class KeyBoardShortCuts {
 
-    private static available = true;
+    private static available = true; /** a semaphor to avoid keyboard shortcuts to be triggered a lot */
 
 
     static onKeyUp(evt: KeyboardEvent): void {
@@ -77,7 +78,7 @@ export class KeyBoardShortCuts {
         }
         else if (evt.key == "+")
             GUIActions.magnetIncreaseSize();
-        else if (evt.key == "-")
+        else if (evt.key == "-" || evt.key == "=")
             GUIActions.magnetDecreaseSize();
         else if (evt.key == "b")
             GUIActions.magnetSwitchBackgroundForeground();
@@ -160,12 +161,18 @@ export class KeyBoardShortCuts {
                 Share.execute("magnetize", [UserManager.me.userID, false, evt.key == "c"]);
             evt.preventDefault();
         }
-        else if (evt.ctrlKey && evt.key == "v") { //Ctrl + v = print the current magnet
+        else if (evt.ctrlKey && evt.key == "v") { //Ctrl + v = print the current magnet or (implementing in progress) paste the clipboard
             CircularMenu.hide();
             if (KeyBoardShortCuts.available) {
                 KeyBoardShortCuts.available = false;
                 setTimeout(() => KeyBoardShortCuts.available = true, 1000);
-                Share.execute("printMagnet", [MagnetManager.getCurrentMagnetID()]);
+
+                if (MagnetManager.getMagnetUnderCursor())
+                    Share.execute("printMagnet", [MagnetManager.getCurrentMagnetID()]);
+                else
+                GUIActions.pasteFromClipBoard();                
+
+
             }
         }
         else if (evt.key.toLowerCase() == "m") { //m = make new magnets
