@@ -84,6 +84,8 @@ export class KeyBoardShortCuts {
             GUIActions.magnetSwitchBackgroundForeground();
         else if (evt.key == "e")  //e = switch eraser and chalk
             GUIActions.switchChalkEraser();
+        else if (evt.key == "f")
+            GUIActions.fill();
         else if (evt.key == "h")
             Toolbar.toggle();
         else if (evt.key == "a")
@@ -170,7 +172,7 @@ export class KeyBoardShortCuts {
                 if (MagnetManager.getMagnetUnderCursor())
                     Share.execute("printMagnet", [MagnetManager.getCurrentMagnetID()]);
                 else
-                GUIActions.pasteFromClipBoard();                
+                    GUIActions.pasteFromClipBoard();
 
 
             }

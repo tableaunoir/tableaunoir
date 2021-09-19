@@ -1,3 +1,4 @@
+import { GUIActions } from './GUIActions';
 import { Share } from './share';
 import { UserManager } from './UserManager';
 import { CircularMenu } from './CircularMenu';
@@ -75,6 +76,17 @@ export class ToolMenu extends CircularMenu {
                 CircularMenu.hide();
             }
         });
+
+/*
+        this.addButtonImage({
+            src: "img/icons/1F58C.svg",
+            title: "Fill the last shape that was drawn",
+            onclick: () => {
+                GUIActions.fill();
+                CircularMenu.hide();
+            }
+        });*/
+
 
 
         this.addButtonImage({

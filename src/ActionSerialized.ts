@@ -6,7 +6,7 @@ export type ActionSerialized =
     { type: "rectangle", userid: string, pause?: boolean, x1: number, y1: number, x2: number, y2: number, color: string } |
     { type: "line", userid: string, pause?: boolean, x1: number, y1: number, x2: number, y2: number, color: string } |
     { type: "freedraw", userid: string, pause?: boolean, points: any } |
-    { type: "freedraw", userid: string, pause?: boolean, points: any } |
+    { type: "fill", userid: string, pause?: boolean, points: any, color: string } |
     { type: "freedrawinteractivegraph", userid: string, pause?: boolean, points: any, magnet1id: string, magnet2id: string, magnet1point: {x:number, y:number}, magnet2point: {x:number, y:number} } |
     { type: "erase", userid: string, pause?: boolean, points: any } |
     { type: "printmagnet", userid: string, pause?: boolean, magnet: string, x: number, y: number } |

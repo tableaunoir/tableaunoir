@@ -12,6 +12,58 @@ import { UserManager } from './UserManager';
  */
 export class Drawing {
 
+    private static patterns = {};
+    static createChalkPatternCanvas(color: string): HTMLCanvasElement {
+        const patternCanvas = document.createElement('canvas');
+        const context = patternCanvas.getContext('2d');
+
+        const size = 128;
+        patternCanvas.width = size;
+        patternCanvas.height = size;
+        const lineWidth = 2;
+        context.fillStyle = color;
+
+        for (let i = 0; i < size * size / 20; i++) {
+            const x = size * Math.random();
+            const y = size * Math.random();
+
+            const shiftForChalkEffectDrawing = 0.65;
+            context.globalAlpha = Math.random() * 0.5;
+            context.fillRect(x + (-lineWidth + Math.random() - shiftForChalkEffectDrawing) * context.lineWidth,
+                y + (- lineWidth + Math.random() - shiftForChalkEffectDrawing) * context.lineWidth,
+                2 * lineWidth * shiftForChalkEffectDrawing * (1 + Math.random()),
+                2 * lineWidth * shiftForChalkEffectDrawing * (1 + Math.random()));
+
+            const shiftForChalkEffectClear = 0.35;
+            context.clearRect(x + (- lineWidth + Math.random() - shiftForChalkEffectClear) * context.lineWidth,
+                y + (- lineWidth + Math.random() - shiftForChalkEffectClear) * context.lineWidth,
+                2 * lineWidth * shiftForChalkEffectClear * (1 + Math.random()),
+                2 * lineWidth * shiftForChalkEffectClear * (1 + Math.random()));
+        }
+
+        return patternCanvas;
+    }
+
+
+
+    static getChalkPatternCanvas(color: string): HTMLCanvasElement {
+        if (Drawing.patterns[color] == undefined)
+            Drawing.patterns[color] = Drawing.createChalkPatternCanvas(color);
+        return Drawing.patterns[color];
+    }
+
+    static fill(ctx: CanvasRenderingContext2D, points: { x: number; y: number; }[], color: string): void {
+        ctx.beginPath();
+        ctx.moveTo(points[0].x, points[0].y);
+        for (let i = 1; i < points.length; i++)
+            ctx.lineTo(points[i].x, points[i].y);
+        ctx.closePath();
+        ctx.fillStyle = ctx.createPattern(Drawing.getChalkPatternCanvas(color), "repeat");
+        ctx.fill();
+    }
+
+
+
     static lineWidth: number;
     private static isChalkEffect = false;
     private static isEraserEffect = false;
@@ -165,7 +217,7 @@ export class Drawing {
 
 
     static clearLine(x1: number, y1: number, x2: number, y2: number, lineWidth = 10): void {
-        
+
 
         const context = getCanvas().getContext("2d");
         let r = 0;

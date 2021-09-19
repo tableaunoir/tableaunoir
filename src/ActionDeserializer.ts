@@ -1,3 +1,4 @@
+import { ActionFill } from './ActionFill';
 import { ActionMagnetSwitchBackgroundForeground } from './ActionMagnetSwitchBackgroundForeground';
 import { ActionMagnetNew } from './ActionMagnetNew';
 import { ActionMagnetMove } from './ActionMagnetMove';
@@ -29,6 +30,9 @@ export class ActionDeserializer {
             for (const point of obj.points)
                 action.addPoint(point);
             return action;
+        }
+        if(obj.type == "fill") {
+            return new ActionFill(obj.userid, obj.points, obj.color);
         }
         if (obj.type == "freedrawinteractivegraph") {
             const action = new ActionFreeDraw(obj.userid);

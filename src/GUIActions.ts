@@ -1,3 +1,4 @@
+import { ActionFill } from './ActionFill';
 import { Layout } from './Layout';
 import { ErrorMessage } from './ErrorMessage';
 import { S } from './Script';
@@ -12,6 +13,9 @@ import { ActionMagnetSwitchBackgroundForeground } from './ActionMagnetSwitchBack
 import { BoardManager } from './boardManager';
 
 export class GUIActions {
+    static fill(): void {
+        BoardManager.addAction(new ActionFill(UserManager.me.userID, UserManager.me.lastDelineation.points, UserManager.me.color));
+    }
 
     /**
      * @description tries to paste a magnet from the content of the clipboard
@@ -32,7 +36,7 @@ export class GUIActions {
                 items[0].getType("image/png").then((blob: Blob) => blobToDataURL(blob, (dataURL) => {
                     const magnet = new Image();
                     magnet.src = dataURL;
-                    magnet.style.left = Layout.getWindowLeft()+"px";
+                    magnet.style.left = Layout.getWindowLeft() + "px";
                     magnet.style.top = "0px";
                     console.log(dataURL);
                     MagnetManager.addMagnet(magnet);
