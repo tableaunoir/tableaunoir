@@ -81,8 +81,11 @@ export class MyMagnets {
 
     /** Graphs */
     static * magnetGraphNodes(): Generator<HTMLElement> {
-        for (const i of ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O'])
-            yield MyMagnets.createMagnet(i);
+        for (const i of ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z']) {
+            const m = MyMagnets.createMagnet(i);
+            m.classList.add("graphNode");
+            yield m;
+        }
     }
 
 

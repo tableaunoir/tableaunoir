@@ -287,7 +287,9 @@ a {
 
 
 
-
+.graphNode {
+	border-radius: 16px;
+}
 
 @keyframes magnetToForeground {
 	0% {

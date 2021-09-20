@@ -25,7 +25,7 @@ export class Palette extends CircularMenu {
             defaultValue: Palette.defaultColorSet,
             onChange: (s) => {
                 //console.log("change colors of the palette")
-                this.colors = eval(s); 
+                this.colors = eval(s);
                 this._createPalette();
             }
         }), 1000);
@@ -113,7 +113,5 @@ export class Palette extends CircularMenu {
     /**
      * @returns the selected color
      */
-    getCurrentColor(): string {
-        return this.colors[this.currentColorID];
-    }
+    getCurrentColor(): string { return this.colors[this.currentColorID]; }
 }

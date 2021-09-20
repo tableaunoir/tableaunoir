@@ -13,8 +13,17 @@ import { ActionMagnetSwitchBackgroundForeground } from './ActionMagnetSwitchBack
 import { BoardManager } from './boardManager';
 
 export class GUIActions {
+
+    /**
+     * fill either the last zone that was drawn
+     * or the magnet under the cursor if there is one
+     */
     static fill(): void {
-        BoardManager.addAction(new ActionFill(UserManager.me.userID, UserManager.me.lastDelineation.points, UserManager.me.color));
+        const magnet = MagnetManager.getMagnetUnderCursor();
+        if (magnet)
+            magnet.style.backgroundColor = UserManager.me.color;//MagnetManager.nextBackgroundColor
+        else
+            BoardManager.addAction(new ActionFill(UserManager.me.userID, UserManager.me.lastDelineation.points, UserManager.me.color));
     }
 
     /**
@@ -59,12 +68,16 @@ export class GUIActions {
                 //TODO: recolorize the actions that are selected in the timeline :)
             }
 
-
             if (UserManager.me.isToolErase)
                 Share.execute("switchChalk", [UserManager.me.userID]);
             Share.execute("setCurrentColor", [UserManager.me.userID, GUIActions.palette.getCurrentColor()]);
 
+
+
         }
+
+
+
 
 
         OptionManager.boolean({
@@ -75,15 +88,10 @@ export class GUIActions {
 
 
     static changeColor(calledFromKeyBoard = false): void {
-        if (MagnetManager.getMagnetUnderCursor() == undefined) { //if no magnet under the cursor, change the color of the chalk
-            if (!UserManager.me.tool.isDrawing && (GUIActions.paletteShowOnKey || !calledFromKeyBoard))
-                GUIActions.palette.show({ x: UserManager.me.tool.x, y: UserManager.me.tool.y });
-            GUIActions.palette.next();
-        }
-        else { // if there is a magnet change the background of the magnet
-            const magnet = MagnetManager.getMagnetUnderCursor();
-            magnet.style.backgroundColor = MagnetManager.nextBackgroundColor(magnet.style.backgroundColor);
-        }
+        if (!UserManager.me.tool.isDrawing && (GUIActions.paletteShowOnKey || !calledFromKeyBoard))
+            GUIActions.palette.show({ x: UserManager.me.tool.x, y: UserManager.me.tool.y });
+        GUIActions.palette.next();
+
     }
 
     static previousColor(calledFromKeyBoard = false): void {
@@ -116,45 +124,49 @@ export class GUIActions {
         magnet.style.width = (parseInt(magnet.style.width) * ratio) + "px";
     }
 
-    static magnetIncreaseSize(): void {
-        GUIActions.magnetChangeSize(1.1);
-    }
+    static magnetIncreaseSize(): void { GUIActions.magnetChangeSize(1.1); }
+    static magnetDecreaseSize(): void { GUIActions.magnetChangeSize(0.9); }
 
 
-
-    static magnetDecreaseSize(): void {
-        GUIActions.magnetChangeSize(0.9);
-    }
-
-
-
-
-
-
-
+    /**
+     * switch the "background/foreground state" of the magnet under the cursor
+     * if the magnet is in the foreground, it moves that magnet background
+     * if the magnet is in the background, it moves that magnet foreground
+     */
     static magnetSwitchBackgroundForeground(): void {
         const magnetGetRectangle = (m: HTMLElement) => {
-            const rect = m.getBoundingClientRect();
-            return { x1: rect.x, y1: rect.y, x2: rect.x + rect.width, y2: rect.y + rect.height };
+            const x1 = parseInt(m.style.left);
+            const y1 = parseInt(m.style.top);
+            return { x1: x1, y1: y1, x2: x1 + m.clientWidth, y2: y1 + m.clientHeight };
         }
 
 
-        const switchBackgroundForegrounOfMagnet = (m) => {
+        const switchBackgroundForegrounOfMagnet = (m: HTMLElement) => {
             BoardManager.addAction(new ActionMagnetSwitchBackgroundForeground(UserManager.me.userID, m.id));
         }
 
-        const magnet = MagnetManager.getMagnetUnderCursor();
-        const x = UserManager.me.tool.x;
-        const y = UserManager.me.tool.y;
-        if (magnet == undefined) {
+        /** get the magnet under the cursor for magnet that are in the background (cannot use the standard mousemove
+         * because these magnets are hidden by the canvas) */
+        const getMagnetBackgroundUnderCursor = () => {
             const magnets = MagnetManager.getMagnets();
             for (let i = 0; i < magnets.length; i++) {
                 const m = magnets[i];
                 if (S.inRectangle({ x: x, y: y }, magnetGetRectangle(m))) {
-                    switchBackgroundForegrounOfMagnet(m);
+                    return m;
                 }
-                /**TODO: search for the magnet in the background that is under the cursor**/
             }
+            return undefined;
+        }
+        const magnet = MagnetManager.getMagnetUnderCursor();
+        const x = UserManager.me.x;
+        const y = UserManager.me.y;
+        console.log(x, y);
+
+
+        if (magnet == undefined) {
+            const m = getMagnetBackgroundUnderCursor();
+            if (m)
+                switchBackgroundForegrounOfMagnet(m);
         }
         else switchBackgroundForegrounOfMagnet(magnet);
 
