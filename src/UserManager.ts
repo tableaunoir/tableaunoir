@@ -93,7 +93,7 @@ export class UserManager {
     /**
      *
      * @param {*} userid
-     * @description renaUserManager.me the current user (UserManager.me) as userid
+     * @description rename the current user (UserManager.me) as userid
      */
     static setMyUserID(userid: string): void {
         for (const key in UserManager.users) {

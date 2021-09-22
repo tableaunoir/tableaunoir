@@ -540,13 +540,19 @@
 				</div>
 			</div>
 			<div id="Share" class="tabcontent">
-				<div hidden class="warning" id="ShareGithub">Warning: tableaunoir.github.io is
-					a showcase! For sharing, please try <a
-						href="https://tableaunoir.irisa.fr">https://tableaunoir.irisa.fr</a> instead.</div>
-
 
 				<div id="sharePrivacyExplanation">For privacy reasons, this board is <em>not stored</em> on the server.
-					Save the board on your device at the end of the session if needed.</div>
+					Save it on your device at the end of the session if needed.</div>
+
+
+
+				<div hidden class="visibleIfShared">
+					<h2>Link</h2>
+					<input readonly id="shareUrl" value="" /><button id="buttonCopyShareUrl">Copy</button><span
+						id="shareUrlCopied" hidden="true">Copied!</span> <br/>
+					<img src="https://chart.googleapis.com/chart?cht=qr&chl=https://www.1formatik.com&chs=200x200&chld=L|0"
+						id="qrcode">
+				</div>
 
 				<h2>Pseudo</h2>
 				<div>
@@ -580,19 +586,15 @@
 					</div>
 				</div>
 
-				<div hidden id="shareInfo">
+				<div hidden class="visibleIfShared">
 
 					<div hidden id="shareMode">
 						<h2>Permissions</h2>
-
-						<div>You have all the <em>privileges</em> to modify the permissions on this board.</div>
-
 						<div>
 							<button id="buttonOnlyRootCanWrite"><img id="imgWritePermissionfalse"
-									src="img/shareInTeacherMode.png" /><br />Make that only root users can
-								write</button>
+									src="img/shareInTeacherMode.png" /><br />Teaching mode:<br /> incoming and non-root users can not write</button>
 							<button id="buttonAllCanWrite"><img id="imgWritePermissiontrue"
-									src="img/shareInEverybodyWritesMode.png" /><br />Make that all existing and incoming
+									src="img/shareInEverybodyWritesMode.png" /><br />Collaborative mode:<br /> existing and incoming
 								users can write</button>
 
 						</div>
@@ -607,11 +609,7 @@
 					<button id="buttonAskQuestion" title="Ask a question because you do not understand the course">
 						<img class="icon" src="img/icons/say.svg" /></button>
 
-					<h2>Share with others</h2>
-					<div>
-						In order to <em>share</em> the board with your friends, give them the following URL:</div>
-					<input readonly id="shareUrl" value="" /><button id="buttonCopyShareUrl">Copy</button><span
-						id="shareUrlCopied" hidden="true">Copied!</span>
+
 
 					<div id="askPrivilege">
 						<h2>Get privileges</h2>

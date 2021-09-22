@@ -1,6 +1,6 @@
 {
   "server": {
     "websocket": "wss://tableaunoir.irisa.fr/ws",
-    "frontend": "https://tableaunoir.irisa.fr"
+    "frontend": "https://tableaunoir.github.io"
   }
 }

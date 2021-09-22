@@ -116,7 +116,7 @@ export class Share {
 				try {
 					if (Share.id != null) {
 						Share.join(Share.id);
-						(<HTMLInputElement>document.getElementById("shareUrl")).value = document.location.href;
+						Share.updateQRCodeAndTextBoxWithURL();
 					}
 				}
 				catch (e) {
@@ -196,7 +196,6 @@ export class Share {
 
 			Share.tryConnect(() => Share.send({ type: "share", password: password }));
 
-			document.getElementById("shareInfo").hidden = false;
 			document.getElementById("buttonShare").classList.add("alreadyShared");
 			document.getElementById("join").hidden = true;
 
@@ -445,6 +444,36 @@ export class Share {
 	}
 
 
+
+	/**
+	 * @description update the QR code and the textbox "shareUrl"
+	 */
+	static updateQRCodeAndTextBoxWithURL(): void {
+		Array.from(document.getElementsByClassName("visibleIfShared")).forEach(element => {
+			(<HTMLElement>element).hidden = false;
+		});
+		
+		const url = document.location.href;
+
+		/**
+				 * 
+				 * @param newUrl 
+				 * @description update the QR code in the menu
+				 */
+		const generateQRCode = (url) => {
+			const imgQRCode = <HTMLImageElement>document.getElementById("qrcode");
+			imgQRCode.hidden = false;
+			imgQRCode.src = "https://chart.googleapis.com/chart?cht=qr&chl=" + url + "&chs=200x200&chld=L|0";
+		}
+
+		const urlCorrected = url.startsWith("file://") ? config.server.frontend + "?id=" + Share.id : url;
+		generateQRCode(urlCorrected);
+
+		(<HTMLInputElement>document.getElementById("shareUrl")).value = urlCorrected;
+
+
+	}
+
 	/**
 	 *
 	 * @param id
@@ -458,7 +487,7 @@ export class Share {
 		const newUrl = url + "?id=" + id;
 		history.pushState({}, null, newUrl);
 
-		(<HTMLInputElement>document.getElementById("shareUrl")).value = url.startsWith("file://") ? config.server.frontend + "?id=" + id : newUrl;
+		Share.updateQRCodeAndTextBoxWithURL();
 
 		UserListComponent.updateGUIUsers(); //update the user because now the tableau is shared
 
