@@ -120,11 +120,8 @@ helpbutton {
 
 
 .toolbarTop {
-	top: 0px;
 	left: 0px;
 	right: 0px;
-	width: 100%;
-	flex-direction: row;
 	flex-direction: row;
 }
 
@@ -140,8 +137,7 @@ helpbutton {
 .toolbarLeft {
 	top: 0px;
 	left: 0px;
-	width: 90px;
-	height: 100%;
+	width: 0px;
 	flex-direction: column;
 }
 
@@ -164,11 +160,7 @@ helpbutton {
 }
 
 
-@media (max-width: 1280px) {
-	.keyboardkeyhelp {
-		display: none;
-	}
-}
+
 
 #container {
 	overflow: hidden;
@@ -515,7 +507,7 @@ img.magnet.backgroundTransparent {
 	padding-top: 6px;
 	font-size: 14pt;
 	margin: 8px;
-	width: 300px;
+	width: 150px;
 	outline: none;
 	text-align: left;
 }
@@ -1193,4 +1185,46 @@ the button for unfolding/folding a slide
 .action:hover {
 	width: 24px;
 	background-size: 24px 24px;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+@media only screen and (max-width: 768px) and (orientation: landscape) {
+	/* smartphone and cie landscape, we do not care, the toolbar is on the left side*/
+
+	.toolbarTop, .toolbarBottom, .toolbarLeft, .toolbarRight {
+		top: 0px;
+		left: 0px;
+		width: 0px;
+		flex-direction: column;
+	}
+}
+
+
+
+
+@media only screen and (max-width: 768px) {
+	/* smartphone and cie*/
+	.onlyForDesktop, .illustration {
+		display: none;
+	}
+}
+
+
+@media only screen and (max-width: 1180px) {
+	.keyboardkeyhelp {
+		display: none;
+	}
 }

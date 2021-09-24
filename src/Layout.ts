@@ -211,10 +211,10 @@ export class Layout {
             const toolbar = Toolbar.getToolbar();
             const innerHeight = window.innerHeight - (Toolbar.isHidden() ? 0 : toolbar.clientHeight);
             let heightused;
-            if (toolbar.clientHeight < window.innerHeight / 10 || Toolbar.left || Toolbar.right) {
+          //  if (toolbar.clientHeight < window.innerHeight / 10 || Toolbar.left || Toolbar.right) {
                 heightused = window.innerHeight;
                 content.style.top = "0px";
-                if (Toolbar.left)
+      /*          if (Toolbar.left)
                     content.style.left = "" + toolbar.clientWidth;
                 else
                     content.style.left = "0px";
@@ -228,7 +228,7 @@ export class Layout {
                 else if (Toolbar.top)
                     content.style.top = "" + toolbar.clientHeight;
 
-            }
+            }*/
 
 
             return Layout.STANDARDHEIGHT / heightused;
