@@ -752,7 +752,7 @@ h1 {
 .paletteColorButton {
 	position: absolute;
 	border-radius: 32px;
-	width: 46px;
+	width: 64px;
 	padding-left: 16px;
 	padding-right: 16px;
 	padding-top: 8px;
@@ -1219,6 +1219,11 @@ the button for unfolding/folding a slide
 	/* smartphone and cie*/
 	.onlyForDesktop, .illustration {
 		display: none;
+	}
+
+	.paletteColorButton {
+		width: 128px;
+		padding-left: 16px;
 	}
 }
 

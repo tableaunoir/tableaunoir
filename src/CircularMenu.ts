@@ -1,12 +1,19 @@
+import { Layout } from './Layout';
 /**
  * Generic class for creating a circular menu
  */
 
+
+const RADIUSDESKTOP = 128;
+const RADIUSSMARTPHONE = 300;
+
 export class CircularMenu {
 
+    private static allHidden = true;
     private container = document.createElement("div");
     protected buttons = []; // list of the buttons
-    protected radius = 96;
+    protected radius = RADIUSDESKTOP;
+    private readonly buttonWidth = 64;
 
     /**
      * immediate is by default false meaning that the menu will be added 1sec later to the DOM (it would be nice to improve that)
@@ -84,9 +91,20 @@ export class CircularMenu {
      */
     show(position: { x: number, y: number }): void {
         CircularMenu.hide();
+        CircularMenu.allHidden = false;
 
-        position.y = Math.max(position.y, this.radius + 32 + 48);
-        position.x = Math.max(position.x, this.radius + 32 + 48);
+        if (window.innerWidth <= 768) {
+            position.y = Layout.STANDARDHEIGHT / 2;
+            position.x = Layout.getWindowLeft() + Layout.getWindowWidth() / 2;
+            this.radius = RADIUSSMARTPHONE;
+        }
+        else {
+            position.y = Math.min(Layout.STANDARDHEIGHT - this.radius - this.buttonWidth,
+                Math.max(position.y, this.radius + 32 + this.buttonWidth));
+            position.x = Math.max(position.x, this.radius + 32 + this.buttonWidth);
+            this.radius = RADIUSDESKTOP;
+        }
+
 
         this.container.style.left = position.x + "px";
         this.container.style.top = position.y + "px";
@@ -101,11 +119,14 @@ export class CircularMenu {
      * @description hide the palette
      */
     static hide(): void {
+        if (CircularMenu.allHidden)
+            return;
         const menus = document.getElementsByClassName("CircularMenu");
         for (let i = 0; i < menus.length; i++) {
             menus[i].classList.remove("CircularMenuShow");
             menus[i].classList.add("CircularMenuHide");
         }
+        CircularMenu.allHidden = true;
     }
 
 
@@ -120,6 +141,7 @@ export class CircularMenu {
             menus[i].classList.add("CircularMenuHide");
             (<HTMLElement>menus[i]).hidden = true;
         }
+        CircularMenu.allHidden = true;
     }
 
     /**
