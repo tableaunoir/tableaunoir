@@ -70,6 +70,15 @@ export class MyMagnets {
             yield MyMagnets.createMagnetRainbow(i);
     }
 
+    /** Sorting (big) */
+    static * magnetSortingBig(): Generator<HTMLElement> {
+        for (let i = 1; i <= 17; i++) {
+            const m = MyMagnets.createMagnetRainbow(i);
+            m.style.fontSize = "96px";
+            yield m;
+        }
+    }
+
     /** B-trees */
     static * magnetBTrees(): Generator<HTMLElement> {
         for (let i = 1; i <= 17; i++)
@@ -419,6 +428,7 @@ export class MyMagnets {
         MyMagnets.register("magnetCircles");
         MyMagnets.register("magnetGS");
         MyMagnets.register("magnetSorting");
+        MyMagnets.register("magnetSortingBig");
         MyMagnets.register("magnetBTrees");
         MyMagnets.register("magnetGraphNodes");
         MyMagnets.register("magnetTilings");
