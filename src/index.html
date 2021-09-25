@@ -7,7 +7,7 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
 	<meta name="mobile-web-app-capable" content="yes">
 	<meta name="apple-mobile-web-app-capable" content="yes">
-
+	<link rel="manifest" href="/manifest.webmanifest">
 	<link rel="stylesheet" type="text/css" href="style.css" />
 	<script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
 	<script src="tableaunoir.js"></script>
@@ -551,7 +551,7 @@
 				<div hidden class="visibleIfShared">
 					<h2>Link</h2>
 					<input readonly id="shareUrl" value="" /><button id="buttonCopyShareUrl">Copy</button><span
-						id="shareUrlCopied" hidden="true">Copied!</span> <br/>
+						id="shareUrlCopied" hidden="true">Copied!</span> <br />
 					<img src="https://chart.googleapis.com/chart?cht=qr&chl=https://www.1formatik.com&chs=200x200&chld=L|0"
 						id="qrcode">
 				</div>
@@ -594,9 +594,11 @@
 						<h2>Permission mode</h2>
 						<div>
 							<button id="buttonOnlyRootCanWrite"><img id="imgWritePermissionfalse"
-									src="img/shareInTeacherMode.png" /><br />Teaching:<br /> incoming and non-root users can not write</button>
+									src="img/shareInTeacherMode.png" /><br />Teaching:<br /> incoming and non-root users
+								can not write</button>
 							<button id="buttonAllCanWrite"><img id="imgWritePermissiontrue"
-									src="img/shareInEverybodyWritesMode.png" /><br />Collaborative:<br /> existing and incoming
+									src="img/shareInEverybodyWritesMode.png" /><br />Collaborative:<br /> existing and
+								incoming
 								users can write</button>
 
 						</div>

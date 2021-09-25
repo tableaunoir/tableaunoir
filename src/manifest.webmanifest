@@ -1,0 +1,8 @@
+{
+  "name": "Tableaunoir",
+  "short_name": "Tableaunoir",
+  "display": "fullscreen",
+  "background_color": "black",
+  "description": "Tableaunoir is an online collaborative blackboard tool with fridge magnets available in many languages.",
+  "orientation": "landscape-primary"
+}

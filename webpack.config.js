@@ -46,6 +46,7 @@ module.exports = {
       patterns: [
         { from: 'src/index.html', to: 'index.html' },
         { from: 'src/style.css', to: 'style.css' }, // Use css loader ?
+        { from: 'src/manifest.webmanifest', to: 'manifest.webmanifest' },
         { from: 'src/fr.json', to: 'fr.json' },
         { from: 'src/de.json', to: 'de.json' },
         { from: 'src/es.json', to: 'es.json' },
