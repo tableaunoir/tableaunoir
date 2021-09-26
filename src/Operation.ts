@@ -6,6 +6,6 @@
  * 2. remove an action in the timeline
  */
 export abstract class Operation {
-    abstract undo():void;
-    abstract redo():void;
+    abstract undo(): void;
+    abstract redo(): void;
 }

@@ -229,8 +229,6 @@ export class Share {
 				UserManager.setMyUserID(msg.userid);
 
 				document.getElementById("shareAndJoin").hidden = true;
-				document.getElementById("shareInfo").hidden = false;
-
 				document.getElementById("buttonShare").classList.add("alreadyShared");
 
 				break;
