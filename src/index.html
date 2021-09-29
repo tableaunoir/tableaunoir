@@ -17,69 +17,79 @@
 <body>
 	<div class="toolbar" id="controls">
 		<div>
-			<button id="buttonMenu" title="Menu"><img class="icon"
-					src="img/icons/menu-three-outlined-bars-svgrepo-com.svg" /></button><span
-				class="keyboardkeyhelp">Esc</span>
+			<button id="buttonMenu" title="Menu">
+				<img draggable="false" class="icon" src="img/icons/menu-three-outlined-bars-svgrepo-com.svg" />
+			</button>
+			<span class="keyboardkeyhelp">Esc</span>
 		</div>
 
 		<div class="edit" id="toolsMenu">
-			<button id="buttonColors" title="Choose your color"><img class="icon"
-					src="img/icons/1F984.svg" /></button><span class="keyboardkeyhelp">c</span>
-			<button hidden id="buttonChalk" title="Switch between erase and draw"><img class="icon"
-					src="img/icons/270F.svg" />
+			<button id="buttonColors" title="Choose your color">
+				<img draggable="false" class="icon" src="img/icons/1F984.svg" />
+			</button>
+			<span class="keyboardkeyhelp">c</span>
+			<button hidden id="buttonChalk" title="Switch between erase and draw">
+				<img draggable="false" class="icon" src="img/icons/270F.svg" />
 				<span id="gauge">
 					<div id="eraserGaugeFrame">
 						<div id="eraserGauge"></div>
 						<div id="eraserLvl">lvl 0</div>
 					</div>
-
 				</span>
 			</button>
-			<button id="buttonEraser" title="Switch between erase and draw"><img class="icon"
-					src="img/icons/eraser-svgrepo-com.svg" />
+			<button id="buttonEraser" title="Switch between erase and draw">
+				<img draggable="false" class="icon" src="img/icons/eraser-svgrepo-com.svg" />
 			</button>
 			<span class="keyboardkeyhelp">e</span>
-			<button class="onlyForDesktop" id="buttonTools" title="Open a menu with a lot of tools"><img class="icon"
-					src="img/icons/tools.svg" /></button><span class="keyboardkeyhelp">t</span>
-			<button class="onlyForDesktop" id="buttonText" title="Add text (and/or LaTeX $...$)"><img class="icon"
-					src="img/icons/text-svgrepo-com.svg" /></button><span class="keyboardkeyhelp">Enter</span>
+			<button class="onlyForDesktop" id="buttonTools" title="Open a menu with a lot of tools">
+				<img draggable="false" class="icon" src="img/icons/tools.svg" />
+			</button>
+			<span class="keyboardkeyhelp">t</span>
+			<button class="onlyForDesktop" id="buttonText" title="Add text (and/or LaTeX $...$)">
+				<img draggable="false" class="icon" src="img/icons/text-svgrepo-com.svg" />
+			</button>
+			<span class="keyboardkeyhelp">Enter</span>
 
 		</div>
 
 		<div class="edit">
 
 			<div class="toolbargroup onlyForDesktop">
-				<button id="buttonCancel" title="Cancel the last action"><img class="icon"
-						src="img/icons/21A9.svg" /></button>
-				<button id="buttonRedo" title="Redo the last action"><img class="icon"
-						src="img/icons/21AA.svg" /></button>
+				<button id="buttonCancel" title="Cancel the last action">
+					<img draggable="false" class="icon" src="img/icons/21A9.svg" />
+				</button>
+				<button id="buttonRedo" title="Redo the last action">
+					<img draggable="false" class="icon" src="img/icons/21AA.svg" />
+				</button>
 			</div>
 		</div>
 
 		<div class="edit onlyForDesktop">
-			<button id="buttonDivide" title="Divide the screen vertically in two"><img class="icon"
-					src="img/icons/divide-svgrepo-com.svg" /></button><span class="keyboardkeyhelp">d</span>
-
+			<button id="buttonDivide" title="Divide the screen vertically in two">
+				<img draggable="false" class="icon" src="img/icons/divide-svgrepo-com.svg" />
+			</button>
+			<span class="keyboardkeyhelp">d</span>
 		</div>
 
 		<div class="toolbargroup">
-			<button class="buttonNavigation" id="buttonLeft" title="Go left"><img class="icon"
-					src="img/icons/25C0.svg" /></button>
-			<button class="buttonNavigation" id="buttonRight" title="Go right"><img class="icon"
-					src="img/icons/25B6.svg" /></button>
+			<button class="buttonNavigation" id="buttonLeft" title="Go left">
+				<img draggable="false" class="icon" src="img/icons/25C0.svg" /></button>
+			<button class="buttonNavigation" id="buttonRight" title="Go right">
+				<img draggable="false" class="icon" src="img/icons/25B6.svg" /></button>
 			<span class="keyboardkeyhelp">← →</span>
-			<button class="buttonNavigation onlyForDesktop" id="buttonMap" title="Map"><img class="icon"
-					src="img/icons/map.svg" /></button>
+			<button class="buttonNavigation onlyForDesktop" id="buttonMap" title="Map">
+				<img draggable="false" class="icon" src="img/icons/map.svg" /></button>
 			<span class="keyboardkeyhelp">n</span>
 			<button class="onlyForDesktop" id="buttonMovieMode" title="Show the timeline (only for non-shared boards)">
-				<img class="icon" src="img/icons/1F3AC.svg" /></button>
+				<img draggable="false" class="icon" src="img/icons/1F3AC.svg" /></button>
 			<span id="buttonMovieModeKey" class="keyboardkeyhelp">a</span>
 
 		</div>
 
 		<div class="toolbargroup onlyForDesktop">
-			<button id="buttonShare" title="share and copy link to clipboard (if your system allows it)"><img
-					class="icon" src="img/icons/E253.svg" /></button>
+			<button id="buttonShare" title="share and copy link to clipboard (if your system allows it)">
+				<img draggable="false" class="icon" src="img/icons/E253.svg" />
+			</button>
 			<span id="numberOfUsers"></span>
 		</div>
 
@@ -364,7 +374,7 @@
 					<input type="radio" id="inputToolbarPositionBottom" name="inputToolbarPosition" value="bottom">
 					<label for="inputToolbarPositionBottom">Bottom</label>
 				</div>
-				
+
 				<h2>Language</h2>
 				<input type="radio" id="inputLanguageEn" name="inputLanguage" value='en'>
 				<label for="inputLanguageEn">English</label><br />
