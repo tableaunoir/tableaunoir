@@ -23,11 +23,24 @@ export class MagnetManager {
 	static magnetUnderCursor = undefined;
 
 
+	/**
+	 * 
+	 * @param magnet 
+	 * @returns true if the magnet is visible
+	 * Remark: invisible magnets are magnets have been deleted
+	 */
+	static isVisible(magnet: HTMLElement): boolean { return magnet.style.visibility != "hidden" }
+
+	/**
+	 * 
+	 * @param point 
+	 * @returns a magnet that is close to the point
+	 */
 	static getMagnetNearPoint({ x, y }: { x: number, y: number }): HTMLElement {
 		const magnets = MagnetManager.getMagnets();
 
 		for (let i = 0; i < magnets.length; i++) {
-			if (magnets[i].style.visibility != "hidden")
+			if (MagnetManager.isVisible(magnets[i]))
 				if (MagnetManager.magnetNearContains(magnets[i], x, y))
 					return magnets[i];
 		}
@@ -116,19 +129,19 @@ export class MagnetManager {
 	 * delete all the magnets
 	 */
 	static clearMagnet(): void {
-	/*	MagnetManager.currentMagnet = undefined;
-		const magnets = MagnetManager.getMagnets();
-
-		while (magnets.length > 0)
-			magnets[0].remove();
-
-		Share.sendMagnets();*/
+		/*	MagnetManager.currentMagnet = undefined;
+			const magnets = MagnetManager.getMagnets();
+	
+			while (magnets.length > 0)
+				magnets[0].remove();
+	
+			Share.sendMagnets();*/
 
 		const magnets = MagnetManager.getMagnets();
 		for (let i = 0; i < magnets.length; i++) {
 			Share.execute("magnetRemove", [magnets[i].id]);
 		}
-		
+
 		Menu.hide();
 	}
 
@@ -424,7 +437,7 @@ export class MagnetManager {
 	 * 
 	 * @param magnet 
 	 * @returns the set of all magnet that are "contained" in the magnet
-	 *  (the contained magnets are the magnet that should move with it etc.)
+	 *  (the contained magnets are the magnets that should move with it etc.)
 	 */
 	private static getContainedMagnets(element: HTMLElement): HTMLElement[] {
 		/**
@@ -432,7 +445,7 @@ export class MagnetManager {
 		 * @param {*} bigElement 
 		 * @returns true if element is inside bigElement
 		 */
-		function inside(element, bigElement) {
+		function inside(element: HTMLElement, bigElement: HTMLElement): boolean {
 			return element.offsetLeft > bigElement.offsetLeft && element.offsetTop > bigElement.offsetTop &&
 				element.offsetLeft + element.clientWidth < bigElement.offsetLeft + bigElement.clientWidth &&
 				element.offsetTop + element.clientHeight < bigElement.offsetTop + bigElement.clientHeight;
@@ -442,7 +455,7 @@ export class MagnetManager {
 		const otherElementsToMove = [];
 
 		for (let i = 0; i < magnets.length; i++)
-			if (magnets[i] != element && inside(magnets[i], element))
+			if (magnets[i] != element && inside(magnets[i], element) && MagnetManager.isVisible(magnets[i]))
 				otherElementsToMove.push(magnets[i]);
 
 		return otherElementsToMove;
