@@ -90,15 +90,18 @@ export class ActionPrintMagnet extends Action {
 				//html2canvas should do the job but sometimes it bugs, it does not take the scale into account...
 				context.globalCompositeOperation = "source-over";
 				context.globalAlpha = 1.0;
+				//TODO: needs to be cleaned
 				const fontSize = 24;
-				context.font = `${fontSize}px`;
-				context.font = MagnetManager.getFont(this.magnet);
+				const SHIFTX = 8;
+				const SHIFTY = 8;
+				contextSetFontSize(context, fontSize);
 				context.fillStyle = MagnetManager.getTextColor(this.magnet);
-				/*console.log(MagnetManager.getFont(this.magnet));
-				console.log(MagnetManager.getText(this.magnet));*/
+				console.log(MagnetManager.getFont(this.magnet));
+				console.log(MagnetManager.getText(this.magnet));
+				console.log(MagnetManager.getTextColor(this.magnet));
 				let y = this.y + fontSize;
 				for (const line of MagnetManager.getText(this.magnet).split("\n")) {
-					context.fillText(line, this.x, y);
+					context.fillText(line, this.x + SHIFTX, y + SHIFTY);
 					y = y += fontSize;
 				}
 
@@ -133,4 +136,11 @@ export class ActionPrintMagnet extends Action {
 		});
 	}
 
+}
+
+
+
+function contextSetFontSize(context, fontSize) {
+	const fontArgs = context.font.split(' ');
+	context.font = fontSize + "px" + ' ' + fontArgs[fontArgs.length - 1];
 }

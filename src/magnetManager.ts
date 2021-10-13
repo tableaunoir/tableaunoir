@@ -594,43 +594,7 @@ export class MagnetManager {
 	 * @returns the font description
 	 */
 	static getFont(element: HTMLElement): string {
-		//from https://stackoverflow.com/questions/50574064/firefox-returning-empty-string-for-font-when-using-getcomputedstyle/50574065
-		function getFontFromComputedStyle(computedStyle) {
-			let font = computedStyle.font;
-			// Firefox returns the empty string for .font, so create the .font property manually
-			if (font === '') {
-				// Firefox uses percentages for font-stretch, but Canvas does not accept percentages
-				// so convert to keywords, as listed at:
-				//   https://developer.mozilla.org/en-US/docs/Web/CSS/font-stretch
-				const fontStretchLookupTable = {
-					'50%': 'ultra-condensed',
-					'62.5%': 'extra-condensed',
-					'75%': 'condensed',
-					'87.5%': 'semi-condensed',
-					'100%': 'normal',
-					'112.5%': 'semi-expanded',
-					'125%': 'expanded',
-					'150%': 'extra-expanded',
-					'200%': 'ultra-expanded'
-				};
-				// If the retrieved font-stretch percentage isn't found in the lookup table, use
-				// 'normal' as a last resort.
-				const fontStretch = /*fontStretchLookupTable.hasOwnProperty(computedStyle.fontStretch)
-					? fontStretchLookupTable[computedStyle.fontStretch]
-					:*/ 'normal';
-				font = computedStyle.fontStyle
-					+ ' ' + computedStyle.fontVariant
-					+ ' ' + computedStyle.fontWeight
-					+ ' ' + fontStretch
-					+ ' ' + computedStyle.fontSize
-					+ '/' + computedStyle.lineHeight
-					+ ' ' + computedStyle.fontFamily;
-			}
-			return font;
-		}
-
-
-		return getFontFromComputedStyle(window.getComputedStyle(element.children[0]));
+		return (<HTMLElement> element.children[0]).style.fontSize;
 	}
 
 
