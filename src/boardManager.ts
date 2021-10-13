@@ -48,10 +48,14 @@ export class BoardManager {
     * erase the board
     */
     static _reset(): void {
+        
         const canvas = getCanvas();
-        canvas.width = canvas.width + 0; //clear
+        canvas.width = canvas.width + 0; //clear the board
+        MagnetManager.resetMagnets(); // clear the magnets
+
         BoardManager.timeline.clear();
         BoardManager.cancelStack = new CancelStack();
+        
         AnimationToolBar.update();
     }
 

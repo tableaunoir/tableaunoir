@@ -1,3 +1,4 @@
+import { S } from './Script';
 import { MagnetTextManager } from './MagnetTextManager';
 import { ActionMagnetDelete } from './ActionMagnetDelete';
 import { ActionMagnetNew } from './ActionMagnetNew';
@@ -123,10 +124,13 @@ export class MagnetManager {
 	}
 
 
-
+	/**
+	 * reset all magnets (performed when the board is reset)
+	 */
+	static resetMagnets(): void { document.getElementById("magnets").innerHTML = ""; }
 
 	/**
-	 * delete all the magnets
+	 * delete all the magnets, i.e. magnet deletion actions are added in the timeline
 	 */
 	static clearMagnet(): void {
 		/*	MagnetManager.currentMagnet = undefined;
@@ -307,8 +311,14 @@ export class MagnetManager {
 
 
 	static getMagnetCenter(m: HTMLElement): { x: number, y: number } {
-		return { x: parseInt(m.style.left) + m.clientWidth / 2, y: parseInt(m.style.top) + m.clientHeight / 2 }
+		return { x: Math.round(parseInt(m.style.left) + m.clientWidth / 2), y: Math.round(parseInt(m.style.top) + m.clientHeight / 2) };
 	}
+
+
+	static getMagnetMiddleButton(m: HTMLElement): { x: number, y: number } {
+		return { x: Math.round(parseInt(m.style.left) + m.clientWidth / 2), y: Math.round(parseInt(m.style.top) + m.clientHeight) };
+	}
+
 	/**
 	 * @returns the array of center points of existing magnets
 	 */
@@ -543,6 +553,8 @@ export class MagnetManager {
 				treatPointForMagnet(el);
 
 			ConstraintDrawing.update();
+
+			S.onmagnetmove(e);
 		}
 
 		function closeDragElement() {

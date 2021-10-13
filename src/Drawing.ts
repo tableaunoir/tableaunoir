@@ -58,7 +58,13 @@ export class Drawing {
         for (let i = 1; i < points.length; i++)
             ctx.lineTo(points[i].x, points[i].y);
         ctx.closePath();
-        ctx.fillStyle = ctx.createPattern(Drawing.getChalkPatternCanvas(color), "repeat");
+        if (Drawing.isChalkEffect)
+            ctx.fillStyle = ctx.createPattern(Drawing.getChalkPatternCanvas(color), "repeat");
+        else {
+            ctx.globalAlpha = 0.5;
+            ctx.fillStyle = color;
+        }
+
         ctx.fill();
     }
 
@@ -74,7 +80,12 @@ export class Drawing {
         OptionManager.number({
             name: "lineWidth",
             defaultValue: 1.5,
-            onChange: (lineWidth) => this.lineWidth = lineWidth
+            onChange: (lineWidth) => {
+                this.lineWidth = lineWidth;
+                Drawing.clear();
+                BoardManager.timeline.canvasRedraw();
+            }
+
         });
 
         OptionManager.boolean({
@@ -82,6 +93,8 @@ export class Drawing {
             defaultValue: false,
             onChange: (s) => {
                 Drawing.isChalkEffect = s;
+                Drawing.clear();
+                BoardManager.timeline.canvasRedraw();
             }
         });
 
@@ -90,6 +103,8 @@ export class Drawing {
             defaultValue: false,
             onChange: (s) => {
                 Drawing.isEraserEffect = s;
+                Drawing.clear();
+                BoardManager.timeline.canvasRedraw();
             }
         });
     }
