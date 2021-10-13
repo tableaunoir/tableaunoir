@@ -85,11 +85,11 @@ export class Timeline {
             for (let i = previoust + 1; i <= nextt; i++)
                 await this.actions[i].redo();
         }
-        else { //go to the past
-            this.resetAndUpdate();
-        }
-           /*
-           TODO: code to optimize at some point let bug113 = false;
+        // nextt < previoust and nextt < this.getNextClearAction()
+        else if (this.getNextClearAction() > previoust)  //go a lot in the past (i.e. in a previous slide)
+        // nextt  < previoust < this.getNextClearAction()
+        {
+            let bug113 = false;
             let sthToDoFromStart = false;
             //perform the undo of the undoable actions
             for (let t = previoust; t >= nextt + 1; t--)
@@ -112,9 +112,12 @@ export class Timeline {
             if (bug113)
                 this.repair();
 
-        }*/
+        } //go in the past but not so much (in particular no clear the board action)
+        else {
+            this.resetAndUpdate();
+        }
 
-        
+
     }
 
 
@@ -167,7 +170,7 @@ export class Timeline {
      */
     private async doAllActionsUntilCurrentIndex(): Promise<void> {
         let bug113 = false;
-        for (let t = 0; t <= this.currentIndex; t++) {
+        for (let t = this.getLastClearAction() + 1; t <= this.currentIndex; t++) {
             if (this.actions[t] == undefined) {
                 ErrorMessage.show("issue #113. error with t = " + t + " try to undo/redo again");
                 bug113 = true;
@@ -280,6 +283,20 @@ export class Timeline {
                 return t;
         }
         return 0;
+    }
+
+
+    /**
+     * 
+     * @returns the next index of the clear action
+     * or 0 if no clear action was found
+     */
+    getNextClearAction(): number {
+        for (let t = this.currentIndex; t < this.actions.length; t++) {
+            if (this.actions[t] instanceof ActionClear)
+                return t;
+        }
+        return Infinity;
     }
 
 
