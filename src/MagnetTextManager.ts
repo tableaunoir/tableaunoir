@@ -11,7 +11,7 @@ export class MagnetTextManager {
 	 * @param element 
 	 * @returns true if the element is a text magnet
 	 */
-	static isTextMagnet(element: HTMLElement): boolean {
+	public static isTextMagnet(element: HTMLElement): boolean {
 		return element.classList.contains("magnetText");
 	}
 
@@ -24,7 +24,7 @@ export class MagnetTextManager {
 	 * @param LaTEXCode 
 	 * @description update the magnet element to be the rendering of the latex code LaTEXCode
 	 */
-	static setLaTEX(element: HTMLElement, LaTEXCode: string): void {
+	private static setLaTEX(element: HTMLElement, LaTEXCode: string): void {
 		const divText = <HTMLElement>element.children[0];
 		element.dataset.type = "LaTEX";
 		element.dataset.code = LaTEXCode;
@@ -42,7 +42,7 @@ export class MagnetTextManager {
 	 * @param element
 	 * @returns the corresponding latex that is written raw in element, or undefined otherwise if there is no such raw LaTEX code
 	 */
-	static recognizeLaTEXCode(element: HTMLElement): string {
+	private static recognizeLaTEXCode(element: HTMLElement): string {
 		function recognizeLaTEXCodeInDiv(divText): string {
 			const text = divText.innerHTML;
 			if (text.startsWith("$") && text.endsWith("$")) { //the magnet is transformed into a LaTEX magnet
@@ -67,13 +67,30 @@ export class MagnetTextManager {
 
 	}
 
+
+
+	/**
+	 * 
+	 * @param element 
+	 * @decription this function tries to see whether the element is a LaTEX magnet.
+	 * If yes it parses it and shows the formula
+	 */
+	private static maybeRecognizeLaTEX(element: HTMLElement): void {
+		const latexCode = MagnetTextManager.recognizeLaTEXCode(element);
+
+		if (latexCode != undefined)
+			MagnetTextManager.setLaTEX(element, latexCode);
+		else //else there may be some standard LaTEX "\[...\]" inside the text magnet
+			eval("MathJax.typeset();")
+	}
+
 	/**
 	 *
 	 * @param element
 	 * @description set up the text magnet: add the mouse event, key event for editing the text magnet
 	 */
-	static installMagnetText(element: HTMLElement): void {
-
+	public static installMagnetText(element: HTMLElement): void {
+		MagnetTextManager.maybeRecognizeLaTEX(element);
 		const divText = <HTMLElement>element.children[0];
 
 		element.ondblclick = () => {
@@ -105,14 +122,9 @@ export class MagnetTextManager {
 			if (e.key == "Escape") {
 				divText.blur();
 
+				MagnetTextManager.maybeRecognizeLaTEX(element);
 
 
-				const latexCode = MagnetTextManager.recognizeLaTEXCode(element);
-
-				if (latexCode != undefined)
-					MagnetTextManager.setLaTEX(element, latexCode);
-				else //else there may be some standard LaTEX "\[...\]" inside the text magnet
-					eval("MathJax.typeset();")
 				window.getSelection().removeAllRanges();
 				/*if(divText.innerHTML == "")
 					MagnetManager.remove(div);*/
@@ -151,7 +163,7 @@ export class MagnetTextManager {
 	 * @param {*} y
 	 * @description adds a new magnet text at position x and y
 	 */
-	static addMagnetText(x: number, y: number): void {
+	public static addMagnetText(x: number, y: number): void {
 		const div = document.createElement("div");
 		const divText = document.createElement("div");
 

@@ -86,7 +86,10 @@ export class Timeline {
                 await this.actions[i].redo();
         }
         else { //go to the past
-            let bug113 = false;
+            this.resetAndUpdate();
+        }
+           /*
+           TODO: code to optimize at some point let bug113 = false;
             let sthToDoFromStart = false;
             //perform the undo of the undoable actions
             for (let t = previoust; t >= nextt + 1; t--)
@@ -109,7 +112,9 @@ export class Timeline {
             if (bug113)
                 this.repair();
 
-        }
+        }*/
+
+        
     }
 
 
@@ -194,7 +199,7 @@ export class Timeline {
         this.actions.splice(insertIndex, 0, eltToAdd);
         this.resetAndUpdate();
 
-        
+
     }
 
     /**
@@ -203,7 +208,7 @@ export class Timeline {
      * @description insert action at time t, the action will be this.actions[t], update the state
      */
     insertAction(action: Action, t: number, executeAgain = true): void {
-        this.actions.splice(t, 0, action);        
+        this.actions.splice(t, 0, action);
 
         if (t == this.currentIndex + 1) {
             //we insert an action just after the current moment
