@@ -1,3 +1,4 @@
+import { ClipPathManager } from './ClipPathManager';
 import { ActionFill } from './ActionFill';
 import { Layout } from './Layout';
 import { ErrorMessage } from './ErrorMessage';
@@ -117,10 +118,12 @@ export class GUIActions {
 
 
 
-    static magnetChangeSize(ratio): void {
+    static magnetChangeSize(ratio: number): void {
         const magnet = MagnetManager.getMagnetUnderCursor();
         if (!magnet.style.width)
             magnet.style.width = magnet.clientWidth + "px";
+
+        magnet.style.clipPath = ClipPathManager.clipPathChangeSize(magnet.style.clipPath, ratio);
         magnet.style.width = (parseInt(magnet.style.width) * ratio) + "px";
     }
 
