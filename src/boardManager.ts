@@ -48,14 +48,14 @@ export class BoardManager {
     * erase the board
     */
     static _reset(): void {
-        
+
         const canvas = getCanvas();
         canvas.width = canvas.width + 0; //clear the board
         MagnetManager.resetMagnets(); // clear the magnets
 
         BoardManager.timeline.clear();
         BoardManager.cancelStack = new CancelStack();
-        
+
         AnimationToolBar.update();
     }
 
@@ -136,7 +136,7 @@ export class BoardManager {
 
         BoardManager.timeline.insertActionNowAlreadyExecuted(action, executeAgain);
         //AnimationToolBar.update();
-        
+
     }
 
 
@@ -215,6 +215,9 @@ export class BoardManager {
         AnimationToolBar.updateCurrentIndex();
     }
 
+    /**
+     * @decription go the next slide by executing the animation
+     */
     static async nextPausedFrame(): Promise<void> {
         if (AnimationManager.isRunning)
             AnimationManager.end();
@@ -225,6 +228,15 @@ export class BoardManager {
             AnimationToolBar.updateCurrentIndex();
         }
 
+    }
+
+    /**
+     * @description go the next slide (instantly)
+     */
+    static fastNextPausedFrame(): void {
+        AnimationManager.end();
+        BoardManager.timeline.nextPausedFrame();
+        AnimationToolBar.updateCurrentIndex();
     }
 
 

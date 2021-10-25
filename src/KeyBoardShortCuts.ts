@@ -138,6 +138,10 @@ export class KeyBoardShortCuts {
             BoardManager.cancel(UserManager.me.userID);
             evt.preventDefault();
         }
+        else if (evt.shiftKey && evt.key == "PageDown") {
+            if (!Share.isShared())
+                BoardManager.fastNextPausedFrame();
+        }
         else if (evt.key == "PageDown") {
             if (!Share.isShared())
                 BoardManager.nextPausedFrame();
