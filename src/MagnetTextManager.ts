@@ -48,7 +48,7 @@ export class MagnetTextManager {
 			if (text.startsWith("$") && text.endsWith("$")) { //recognize $....$
 				return text.substring(1, text.length - 1);
 			}
-			else if (text.startsWith("$") && text.endsWith("$<br>")) { //for some reasons, add a space adds a fake "<br>" at the end
+			else if (text.startsWith("$") && text.endsWith("$<br>")) { //for some reasons, on Firefox, adding a space adds a fake "<br>" at the end
 				return text.substring(1, text.length - "$<br>".length);
 			}
 			else if (text.startsWith("\\[") && text.endsWith("\\]")) {
