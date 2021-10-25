@@ -1,3 +1,4 @@
+import { ActionMagnetChangeSizeRatio } from './ActionMagnetChangeSizeRatio';
 import { ActionFill } from './ActionFill';
 import { ActionMagnetSwitchBackgroundForeground } from './ActionMagnetSwitchBackgroundForeground';
 import { ActionMagnetNew } from './ActionMagnetNew';
@@ -31,7 +32,7 @@ export class ActionDeserializer {
                 action.addPoint(point);
             return action;
         }
-        if(obj.type == "fill") {
+        if (obj.type == "fill") {
             return new ActionFill(obj.userid, obj.points, obj.color);
         }
         if (obj.type == "freedrawinteractivegraph") {
@@ -68,6 +69,9 @@ export class ActionDeserializer {
         }
         if (obj.type == "magnetswitchbackgroundforeground") {
             return new ActionMagnetSwitchBackgroundForeground(obj.userid, obj.magnetid);
+        }
+        if (obj.type == "magnetchangesizeratio") {
+            return new ActionMagnetChangeSizeRatio(obj.userid, obj.magnetid, obj.ratio);
         }
 
         throw "ActionDeserializer: unknown type of action";

@@ -13,5 +13,6 @@ export type ActionSerialized =
     { type: "magnetnew", userid: string, pause?: boolean, magnet: string } |
     { type: "magnetdelete", userid: string, pause?: boolean, magnetid: string } |
     { type: "magnetmove", userid: string, pause?: boolean, magnetid: string, points: { x: number; y: number; }[]} |
-    { type: "magnetswitchbackgroundforeground", userid: string, pause?: boolean, magnetid: string}
+    { type: "magnetswitchbackgroundforeground", userid: string, pause?: boolean, magnetid: string} |
+    { type: "magnetchangesizeratio", userid: string, pause?: boolean, magnetid: string, ratio: number}
     ;

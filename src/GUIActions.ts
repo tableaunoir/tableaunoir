@@ -1,3 +1,4 @@
+import { ActionMagnetChangeSizeRatio } from './ActionMagnetChangeSizeRatio';
 import { ClipPathManager } from './ClipPathManager';
 import { ActionFill } from './ActionFill';
 import { Layout } from './Layout';
@@ -120,11 +121,8 @@ export class GUIActions {
 
     static magnetChangeSize(ratio: number): void {
         const magnet = MagnetManager.getMagnetUnderCursor();
-        if (!magnet.style.width)
-            magnet.style.width = magnet.clientWidth + "px";
-
-        magnet.style.clipPath = ClipPathManager.clipPathChangeSize(magnet.style.clipPath, ratio);
-        magnet.style.width = (parseInt(magnet.style.width) * ratio) + "px";
+        const id = magnet.id;
+        BoardManager.addAction(new ActionMagnetChangeSizeRatio(UserManager.me.userID, id, ratio), true);
     }
 
     static magnetIncreaseSize(): void { GUIActions.magnetChangeSize(1.1); }
