@@ -670,6 +670,11 @@ export class MagnetManager {
 	 * @description draw the current magnet to the canvas
 	 */
 	static printMagnet(magnet: HTMLElement): void {
+
+		//decision taken in issue #191: only image magnets are printable
+		if(!(magnet instanceof HTMLImageElement))
+			return;
+
 		Sound.play("magnetprint");
 
 		const magnetsOnTop = MagnetManager.getContainedMagnets(magnet);

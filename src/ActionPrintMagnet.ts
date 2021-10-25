@@ -1,5 +1,3 @@
-import { MagnetTextManager } from './MagnetTextManager';
-import { MagnetManager } from './magnetManager';
 import { ActionSerialized } from './ActionSerialized';
 import { getCanvas } from "./main";
 import { Action } from "./Action";
@@ -86,7 +84,11 @@ export class ActionPrintMagnet extends Action {
 				img.onload = f;
 
 			}
-			else if (MagnetTextManager.isTextMagnet(this.magnet)) {
+			/* issue #191: actually printing a text magnet is not robust enough
+			 and it is not useful
+			 better to remove the functionnality
+			*/
+			/*else if (MagnetTextManager.isTextMagnet(this.magnet)) {
 				//html2canvas should do the job but sometimes it bugs, it does not take the scale into account...
 				context.globalCompositeOperation = "source-over";
 				context.globalAlpha = 1.0;
@@ -106,10 +108,10 @@ export class ActionPrintMagnet extends Action {
 				}
 
 				resolve();
-			}
-			else {
+			}*/
+			/*else {
 				//html2canvas does not work
-				/*	if (this.canvasImg == undefined)
+					if (this.canvasImg == undefined)
 						try {
 							html2canvas(magnet).then(canvas => {
 								try {
@@ -131,8 +133,8 @@ export class ActionPrintMagnet extends Action {
 					else {
 						context.drawImage(this.canvasImg, this.x, this.y);
 						resolve();
-					}*/
-			}
+					}
+			}*/
 		});
 	}
 
