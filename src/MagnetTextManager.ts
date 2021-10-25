@@ -45,8 +45,11 @@ export class MagnetTextManager {
 	private static recognizeLaTEXCode(element: HTMLElement): string {
 		function recognizeLaTEXCodeInDiv(divText): string {
 			const text = divText.innerHTML;
-			if (text.startsWith("$") && text.endsWith("$")) { //the magnet is transformed into a LaTEX magnet
+			if (text.startsWith("$") && text.endsWith("$")) { //recognize $....$
 				return text.substring(1, text.length - 1);
+			}
+			else if (text.startsWith("$") && text.endsWith("$<br>")) { //for some reasons, add a space adds a fake "<br>" at the end
+				return text.substring(1, text.length - "$<br>".length);
 			}
 			else if (text.startsWith("\\[") && text.endsWith("\\]")) {
 				return text.substring(2, text.length - 2);
@@ -55,10 +58,11 @@ export class MagnetTextManager {
 		}
 
 		const divText = <HTMLElement>element.children[0];
+		const laTEXCodeDirect = recognizeLaTEXCodeInDiv(divText); //LaTEX code directly extracted from the HTML code of divText
 
-		if (divText.children.length == 0)
-			return recognizeLaTEXCodeInDiv(divText);
-		else if (divText.children.length == 1)
+		if (laTEXCodeDirect)
+			return laTEXCodeDirect;
+		else if (divText.children.length == 1) //maybe divText contains a unique div (it happens when new lines were created and deleted)
 			return recognizeLaTEXCodeInDiv(<HTMLElement>divText.children[0]);
 		else
 			return undefined;
