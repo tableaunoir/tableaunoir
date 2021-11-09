@@ -384,6 +384,13 @@ export class MyMagnets {
     }
 
 
+
+
+    static * magnetMapMarkers(): Generator<HTMLElement> {
+        yield MyMagnets.createMagnetImage("mapmarkers/mapmarker_source.svg");
+        yield MyMagnets.createMagnetImage("mapmarkers/mapmarker_target.svg");
+    }
+
     /**
  *
  * @param magnetSetName
@@ -440,5 +447,6 @@ export class MyMagnets {
         MyMagnets.register("magnetCoin");
         MyMagnets.register("magnetDice");
         MyMagnets.register("magnetCars");
+        MyMagnets.register("magnetMapMarkers");
     }
 }
