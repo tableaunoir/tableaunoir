@@ -1234,3 +1234,10 @@ the button for unfolding/folding a slide
 		display: none;
 	}
 }
+
+
+@keyframes dash {
+	to {
+	  stroke-dashoffset: 1000;
+	}
+  }

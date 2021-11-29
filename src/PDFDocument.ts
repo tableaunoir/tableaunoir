@@ -1,11 +1,11 @@
 import { Layout } from './Layout';
-import * as pdfjsLib from 'pdfjs-dist';
+import { GlobalWorkerOptions, PDFDocumentProxy, getDocument , version} from 'pdfjs-dist';
 
-const pdfWorkerSrc = `https://cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjsLib.version}/pdf.worker.min.js`;
-pdfjsLib.GlobalWorkerOptions.workerSrc = pdfWorkerSrc;
+const pdfWorkerSrc = `https://cdnjs.cloudflare.com/ajax/libs/pdf.js/${version}/pdf.worker.min.js`;
+GlobalWorkerOptions.workerSrc = pdfWorkerSrc;
 
 export class PDFDocument {
-    pdfDoc: pdfjsLib.PDFDocumentProxy = null;
+    pdfDoc: PDFDocumentProxy = null;
     dataURL: string = undefined;
 
     /**
@@ -15,7 +15,7 @@ export class PDFDocument {
     open(url: string): Promise<void> {
         this.dataURL = url;
         return new Promise((resolve) => {
-            pdfjsLib.getDocument(url).promise.then((pdfDoc_) => {
+            getDocument(url).promise.then((pdfDoc_) => {
                 this.pdfDoc = pdfDoc_;
                 resolve();
             });

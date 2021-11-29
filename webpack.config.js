@@ -1,6 +1,8 @@
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const CopyPlugin = require('copy-webpack-plugin');
 const webpack = require('webpack');
+const WebpackBundleAnalyzer = require("webpack-bundle-analyzer")
+  .BundleAnalyzerPlugin;
 
 const path = require('path');
 
@@ -37,6 +39,7 @@ module.exports = {
     })()
   ],
   plugins: [
+ //   new WebpackBundleAnalyzer(),
     new webpack.EnvironmentPlugin({
       NODE_ENV: 'development',
       DEBUG: false
