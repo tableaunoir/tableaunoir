@@ -72,6 +72,8 @@ export class Menu {
     static show(): void {
         Menu.getMenu().classList.add("menuShow");
         Menu.getMenu().classList.remove("menuHide");
+
+        
     }
 
 

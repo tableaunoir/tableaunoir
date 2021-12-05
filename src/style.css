@@ -248,6 +248,10 @@ a {
 
 /** Magnets **/
 
+#magnetCollectionSearch {
+	width: 100%;
+
+}
 .magnet {
 	position: absolute;
 	display: inline-block;
@@ -364,14 +368,14 @@ div.magnet {
 .wrapperMagnetPreview {
 	display: inline-block;
 	width: 164px;
-	height: 16px;
+	height: 24px;
 	overflow: hidden;
 }
 
 .magnetPreview {
 	display: inline-flex;
 	position: relative;
-	transform: scale(0.25);
+	transform: scale(0.4);
 	transform-origin: left top;
 	font-size: 32px;
 	font-weight: bold;
@@ -531,7 +535,7 @@ h2 {
 	padding-top: 8px;
 	font-size: 16px;
 	font-family: monospace;
-	border-top: 1px solid white;
+/*	border-top: 1px solid white;*/
 }
 
 
@@ -631,14 +635,15 @@ img {
 
 .magnetCollectionButton {
 	display: inline;
-	background: rgba(191, 191, 255, 0.2);
-	color: rgb(191, 191, 255);
+	background: none;
+	color: initial;
 	cursor: pointer;
+	margin:0px;
+	padding:4px;
 }
 
 .magnetCollectionButton:hover {
-	color: rgb(157, 157, 255);
-	background: rgba(191, 191, 255, 0.3);
+	background: rgba(191, 191, 255, 0.2);
 }
 
 

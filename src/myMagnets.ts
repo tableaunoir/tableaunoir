@@ -2,6 +2,75 @@ import { MagnetManager } from './magnetManager';
 import { MagnetPositionner } from './MagnetPositionner';
 
 
+
+let emojis = undefined;
+/**
+@returns a promise on an array containing all the emojis
+**/
+async function fetchAllEmojis() {
+    const r = await fetch(`https://raw.githubusercontent.com/hfg-gmuend/openmoji/master/data/openmoji.json`);
+    if (r.ok) {
+        emojis = (await r.json()).filter(emoji => emoji.hexcode.length <= 5);
+        return emojis;
+    }
+    else
+        throw "Impossible to connect to OpenMoji";
+
+}
+
+
+/**
+ * 
+ * @param hexcode 
+ * @returns the url to the SVG filename
+ */
+function openMojiSVGurl(hexcode: string): string {
+    return `https://raw.githubusercontent.com/hfg-gmuend/openmoji/master/color/svg/${hexcode}.svg`;
+}
+
+
+/**
+ * 
+ * @param hexcode 
+ * @returns the magnet corresponing to the image of hexcode
+ */
+function openMojiMagnet(hexcode) {
+    const el = document.createElement("img");
+    el.src = openMojiSVGurl(hexcode);
+    el.style.width = "96px";
+    return el;
+}
+
+
+/**
+ * 
+ * @param groupName 
+ * @returns a generator of some magnets for a given group name 
+ */
+function collectionOpenMojiSlice(groupName: string): () => Generator<HTMLElement> {
+    return function* () {
+        for (const emoji of emojis.filter((emoji => emoji.group == groupName)).slice(0, 32)) {
+            yield openMojiMagnet(emoji.hexcode)
+        }
+    }
+
+}
+
+
+/**
+ * 
+ * @param hexcodes 
+ * @returns a generator of magnets for the hexcodes
+ */
+function explicitCollectionOpenMoji(hexcodes: string[]): () => Generator<HTMLElement> {
+    return function* () {
+        for (const hexcode of hexcodes) {
+            yield openMojiMagnet(hexcode)
+        }
+    }
+
+}
+
 /**
  * this class contains the predefined magnets
  */
@@ -391,18 +460,28 @@ export class MyMagnets {
         yield MyMagnets.createMagnetImage("mapmarkers/mapmarker_target.svg");
     }
 
+
+
+    static createMagnetCollectionButton(magnet: HTMLElement): HTMLButtonElement {
+        const el = document.createElement("button"); //document.getElementById(magnetSetName)
+        el.classList.add("magnetCollectionButton");
+        el.appendChild(magnet);
+
+        el.onclick = () => { MagnetManager.addMagnet(MagnetPositionner.positionnate((<HTMLElement>magnet.cloneNode(true)))); };
+        return el;
+    }
     /**
  *
  * @param magnetSetName
  * @description register a set of magnets. Add it to the magnet menu.
  */
-    static register(magnetSetName: string): void {
+    static registerMagnetCollection(magnetSetName: () => Generator<HTMLElement>): void {
         const wrapper = document.createElement("div");
         const snapshot = document.createElement("div");
         wrapper.appendChild(snapshot);
         wrapper.classList.add("wrapperMagnetPreview");
         snapshot.classList.add("magnetPreview");
-        const ite = MyMagnets[magnetSetName]();
+        const ite = magnetSetName();
         const b = true;//to avoid a lint error
         while (b) {
             const m = ite.next();
@@ -411,12 +490,14 @@ export class MyMagnets {
             snapshot.appendChild(m.value);
         }
 
-        document.getElementById(magnetSetName).prepend(document.createElement("br"));
-        document.getElementById(magnetSetName).prepend(wrapper);
-        document.getElementById(magnetSetName).onclick =
+        const el = document.createElement("button"); //document.getElementById(magnetSetName)
+        el.classList.add("magnetCollectionButton");
+        el.prepend(document.createElement("br"));
+        el.prepend(wrapper);
+        el.onclick =
             () => {
                 MagnetPositionner.resetPositionate();
-                const ite = MyMagnets[magnetSetName]();
+                const ite = magnetSetName();
                 const b = true;//to avoid a lint error
 
                 while (b) {
@@ -426,27 +507,161 @@ export class MyMagnets {
                     MagnetManager.addMagnet(MagnetPositionner.positionnate(m.value));
                 }
             };
+        document.getElementById("magnetCollection").appendChild(el);
     }
 
 
 
 
-    static loadMagnets(): void {
-        MyMagnets.register("magnetCircles");
-        MyMagnets.register("magnetGS");
-        MyMagnets.register("magnetSorting");
-        MyMagnets.register("magnetSortingBig");
-        MyMagnets.register("magnetBTrees");
-        MyMagnets.register("magnetGraphNodes");
-        MyMagnets.register("magnetTilings");
-        MyMagnets.register("magnetTilingsTM");
-        MyMagnets.register("magnetStatesForAutomata");
-        MyMagnets.register("magnetGraphSimCity");
-        MyMagnets.register("magnetFloydsAlgorithm");
-        MyMagnets.register("magnetGo");
-        MyMagnets.register("magnetCoin");
-        MyMagnets.register("magnetDice");
-        MyMagnets.register("magnetCars");
-        MyMagnets.register("magnetMapMarkers");
+    static registerIndividualAndCollectionMagnets(magnetSetName: () => Generator<HTMLElement>): void {
+        MyMagnets.registerIndividualMagnets(magnetSetName);
+        MyMagnets.registerMagnetCollection(magnetSetName);
+    }
+
+    /**
+*
+* @param magnetSetName
+* @description register a set of magnets. Add it to the magnet menu.
+*/
+    static registerIndividualMagnets(magnetSetName: () => Generator<HTMLElement>): void {
+        const wrapper = document.createElement("div");
+        const snapshot = document.createElement("div");
+        wrapper.appendChild(snapshot);
+        wrapper.classList.add("wrapperMagnetPreview");
+        snapshot.classList.add("magnetPreview");
+        const ite = magnetSetName();
+        const b = true;//to avoid a lint error
+        while (b) {
+            const m = ite.next();
+            if (m.done)
+                break;
+
+
+            document.getElementById("magnetCollection").appendChild(MyMagnets.createMagnetCollectionButton(m.value));
+
+        }
+
+
+    }
+
+
+
+    static reset(): void {
+        document.getElementById("magnetCollection").innerHTML = "";
+    }
+
+
+    static newSection(name: string): void {
+        const el = document.createElement("h3");
+        el.innerHTML = name;
+        document.getElementById("magnetCollection").appendChild(el);
+    }
+
+
+    static newLine(): void {
+        const el = document.createElement("br");
+        document.getElementById("magnetCollection").appendChild(el);
+    }
+
+    static async loadMagnets(): Promise<void> {
+        MyMagnets.reset();
+
+        document.getElementById("magnetCollectionSearch").oninput = () => {
+            const txt = (<HTMLInputElement>document.getElementById("magnetCollectionSearch")).value;
+            const bSearch = (txt != "");
+
+            document.getElementById("magnetCollection").hidden = bSearch;
+            document.getElementById("magnetCollectionSearchResult").hidden = !bSearch;
+
+            if (bSearch) {
+                const emojisResult = emojis.filter((emoji) => emoji.tags.indexOf(txt) >= 0);
+                document.getElementById("magnetCollectionSearchResult").innerHTML = "";
+                if (emojisResult.length < 30) {
+                    document.getElementById("magnetCollectionSearchResult").innerHTML = "";
+                    for (const emoji of emojisResult) {
+                        document.getElementById("magnetCollectionSearchResult").appendChild(this.createMagnetCollectionButton(openMojiMagnet(emoji.hexcode)));
+                    }
+
+                }
+                else {
+                    document.getElementById("magnetCollectionSearchResult").innerHTML = "too many magnets: please do not be shy and tell me more";
+                }
+            }
+        }
+
+
+
+
+        MyMagnets.newSection("Digits and letters");
+        MyMagnets.registerIndividualAndCollectionMagnets(MyMagnets.magnetSorting);
+        MyMagnets.newLine();
+
+        MyMagnets.registerIndividualAndCollectionMagnets(MyMagnets.magnetGraphNodes);
+        MyMagnets.registerMagnetCollection(MyMagnets.magnetBTrees);
+        MyMagnets.registerMagnetCollection(MyMagnets.magnetStatesForAutomata);
+
+
+        MyMagnets.newSection("Tilings");
+
+        MyMagnets.registerMagnetCollection(MyMagnets.magnetTilings);
+        MyMagnets.registerMagnetCollection(MyMagnets.magnetTilingsTM);
+
+        /* MyMagnets.newSection("Buildings");
+         MyMagnets.registerMagnetCollection(MyMagnets.magnetGraphSimCity);*/
+
+        MyMagnets.newSection("Games");
+        //MyMagnets.registerMagnetCollection("magnetFloydsAlgorithm");
+        MyMagnets.registerMagnetCollection(MyMagnets.magnetGo);
+        MyMagnets.registerMagnetCollection(MyMagnets.magnetCoin);
+        MyMagnets.registerMagnetCollection(MyMagnets.magnetDice);
+        MyMagnets.registerMagnetCollection(MyMagnets.magnetCircles);
+
+        MyMagnets.newSection("Vehicules");
+        MyMagnets.registerIndividualAndCollectionMagnets(MyMagnets.magnetCars);
+
+
+        MyMagnets.newSection("Markers");
+        MyMagnets.registerMagnetCollection(MyMagnets.magnetMapMarkers);
+
+        try {
+            await fetchAllEmojis();
+
+            MyMagnets.newSection("Persons")
+            MyMagnets.registerIndividualAndCollectionMagnets(explicitCollectionOpenMoji(["1F9D2", "1F9D1-200D-2695-FE0F", "1F469-200D-1F393", "1F468-200D-1F373", "1F9D1-200D-1F52C", "1F478", "1F9D1-200D-1F384", "1F9D9-200D-2640-FE0F", "1F9DA-200D-2642-FE0F", "1F9DE-200D-2642-FE0F"]));
+
+            MyMagnets.newSection("Activities")
+            MyMagnets.registerIndividualMagnets(collectionOpenMojiSlice("activities"));
+
+            MyMagnets.newSection("Fruits and vegetables")
+            MyMagnets.registerIndividualMagnets(collectionOpenMojiSlice("food-drink"));
+
+            MyMagnets.newSection("Places")
+            MyMagnets.registerIndividualMagnets(collectionOpenMojiSlice("travel-places"));
+        }
+        catch (e) {
+            //no network! no internet!
+            console.log(e)
+        }
+
+
+
+
+
+
+
+
+        /*     fetchAllEmojis().then(emojis => {
+                 for (const emoji of emojis) {
+                     const f = function* () {
+                         const el = document.createElement("img");
+                         console.log(emoji)
+                         el.src = `https://raw.githubusercontent.com/hfg-gmuend/openmoji/master/color/svg/${emoji.hexcode}.svg`;
+                         el.style.width = "96px";
+                         yield el;
+                     }
+                     MyMagnets.registerIndividualMagnets(f);
+                 }
+             });
+     */
     }
 }

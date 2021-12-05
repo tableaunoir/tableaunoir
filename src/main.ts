@@ -55,7 +55,6 @@ function installBodyNoScroll() {
 
 function load() {
 	try {
-
 		installBodyNoScroll();
 
 		UserManager.init();
@@ -130,7 +129,7 @@ function load() {
 
 		document.getElementById("previousSlide").onclick = () => BoardManager.previousPausedFrame();
 		document.getElementById("nextSlide").onclick = () => BoardManager.nextPausedFrame();
-		
+
 		installMouseEventsCanvas();
 
 		/*ErrorMessage.show("Tableaunoir works, but maybe not in share mode since INRIA servers are down see <a href='https://intranet.inria.fr/Actualite/Important-arret-complet-des-services-informatiques-locaux-le-mercredi-24-mars'>here</a>");*/
