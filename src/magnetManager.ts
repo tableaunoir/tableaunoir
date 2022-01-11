@@ -519,6 +519,8 @@ export class MagnetManager {
 
 			for (const m of otherElementsToMove)
 				Share.execute("magnetMoveStart", [m.id]);
+
+			S.onmagnetmousedown(evt);
 		}
 
 

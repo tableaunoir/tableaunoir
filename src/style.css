@@ -252,6 +252,7 @@ a {
 	width: 100%;
 
 }
+
 .magnet {
 	position: absolute;
 	display: inline-block;
@@ -535,7 +536,7 @@ h2 {
 	padding-top: 8px;
 	font-size: 16px;
 	font-family: monospace;
-/*	border-top: 1px solid white;*/
+	/*	border-top: 1px solid white;*/
 }
 
 
@@ -638,8 +639,8 @@ img {
 	background: none;
 	color: initial;
 	cursor: pointer;
-	margin:0px;
-	padding:4px;
+	margin: 0px;
+	padding: 4px;
 }
 
 .magnetCollectionButton:hover {
@@ -1210,7 +1211,10 @@ the button for unfolding/folding a slide
 @media only screen and (max-width: 768px) and (orientation: landscape) {
 	/* smartphone and cie landscape, we do not care, the toolbar is on the left side*/
 
-	.toolbarTop, .toolbarBottom, .toolbarLeft, .toolbarRight {
+	.toolbarTop,
+	.toolbarBottom,
+	.toolbarLeft,
+	.toolbarRight {
 		top: 0px;
 		left: 0px;
 		width: 0px;
@@ -1222,8 +1226,10 @@ the button for unfolding/folding a slide
 
 
 @media only screen and (max-width: 768px) {
+
 	/* smartphone and cie*/
-	.onlyForDesktop, .illustration {
+	.onlyForDesktop,
+	.illustration {
 		display: none;
 	}
 
@@ -1243,6 +1249,41 @@ the button for unfolding/folding a slide
 
 @keyframes dash {
 	to {
-	  stroke-dashoffset: 1000;
+		stroke-dashoffset: 1000;
 	}
-  }
+}
+
+
+
+
+
+@keyframes shake {
+
+	10%,
+	90% {
+		transform: translate3d(-1px, 0, 0);
+	}
+
+	20%,
+	80% {
+		transform: translate3d(2px, 0, 0);
+	}
+
+	30%,
+	50%,
+	70% {
+		transform: translate3d(-4px, 0, 0);
+	}
+
+	40%,
+	60% {
+		transform: translate3d(4px, 0, 0);
+	}
+}
+
+
+
+
+.shake {
+	animation: shake 0.82s cubic-bezier(.36, .07, .19, .97) both;
+}

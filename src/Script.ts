@@ -84,6 +84,15 @@ export class S {
     }
 
 
+    /**
+     * shake a magnet during 500ms
+     */
+    static shake(magnet: HTMLElement): void {
+        magnet.classList.add("shake");
+        setTimeout(() => { magnet.classList.remove("shake");}, 500);
+    }
+
+
     static playNote(frequency: number, duration: number): void {
         if (!S.audioCtx)
             S.audioCtx = new (window.AudioContext);
@@ -91,7 +100,7 @@ export class S {
         // create Oscillator node
         const oscillator = S.audioCtx.createOscillator();
 
-        oscillator.type = 'square';
+        oscillator.type = 'triangle';
         oscillator.frequency.value = frequency; // value in hertz
         oscillator.connect(S.audioCtx.destination);
         oscillator.start();
@@ -101,10 +110,11 @@ export class S {
 
 
     /** assign S.mousemove to execute sth when you move the chalk on the board */
+    static onmagnetmousedown: (evt) => void = () => { /*do nothing*/ };
     static onmousemove: ({ x, y }: { x: number, y: number }) => void = () => { /*do nothing*/ };
     static onkey: (keyname: string) => void = () => { /*do nothing*/ };
     static onupdate: () => void = () => { /*do nothing*/ };
-    static onmagnetmove: (element: HTMLElement) => void = () => { /*do nothing*/ };
+    static onmagnetmove: (evt) => void = () => { /*do nothing*/ };
 
     /**
      * @param a magnet m 
@@ -305,6 +315,7 @@ export class Script {
         S.onkey = () => {/*nothing*/ };
         S.onmousemove = () => {/*nothing*/ };
         S.onupdate = () => {/*nothing*/ };
+        S.onmagnetmousedown = () => {/*nothing*/ };
         S.onmagnetmove = () => {/*nothing*/ };
     }
 }
