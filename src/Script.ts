@@ -288,9 +288,13 @@ export class Script {
 
     static toggle(): void {
         if (Script.isRun) {
+            document.getElementById("buttonScriptRun").innerHTML = "▷";
             Script.stop();
         }
-        else Script.run();
+        else {
+            document.getElementById("buttonScriptRun").innerHTML = "□";
+            Script.run();
+        }
     }
 
     static run(): void {
