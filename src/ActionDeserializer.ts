@@ -78,9 +78,7 @@ export class ActionDeserializer {
     }
 
     static deserialize(obj: ActionSerialized): Action {
-        const action = ActionDeserializer.deserializeSub(obj);
-        action.pause = obj.pause;
-        return action;
+        return ActionDeserializer.deserializeSub(obj);
     }
 }
 

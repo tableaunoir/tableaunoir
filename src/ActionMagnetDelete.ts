@@ -13,7 +13,7 @@ export class ActionMagnetDelete extends Action {
     serializeData(): ActionSerialized {
         return {
             type: "magnetdelete",
-            pause: this.pause, userid: this.userid, magnetid: this.magnetid
+             userid: this.userid, magnetid: this.magnetid
         };
     }
 

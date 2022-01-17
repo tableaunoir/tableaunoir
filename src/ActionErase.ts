@@ -14,7 +14,7 @@ export class ActionErase extends Action {
     get xMax(): number { return Math.max(...this.points.map((p) => p.x)); }
 
     serializeData(): ActionSerialized {
-        return { type: "erase", pause: this.pause, userid: this.userid, points: this.points };
+        return { type: "erase",  userid: this.userid, points: this.points };
     }
 
     private points: { x: number; y: number; lineWidth: number }[] = [];

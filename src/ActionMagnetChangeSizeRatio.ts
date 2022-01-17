@@ -14,7 +14,7 @@ export class ActionMagnetChangeSizeRatio extends Action {
     serializeData(): ActionSerialized {
         return {
             type: "magnetchangesizeratio",
-            pause: this.pause, userid: this.userid, magnetid: this.magnetid, ratio: this.ratio
+             userid: this.userid, magnetid: this.magnetid, ratio: this.ratio
         };
     }
 

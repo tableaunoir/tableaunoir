@@ -15,7 +15,7 @@ export class ActionMagnetMove extends Action {
     serializeData(): ActionSerialized {
         return {
             type: "magnetmove",
-            pause: this.pause, userid: this.userid, magnetid: this.magnetid, points: this.points
+            userid: this.userid, magnetid: this.magnetid, points: this.points
         };
     }
 

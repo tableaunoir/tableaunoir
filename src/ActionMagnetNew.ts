@@ -12,7 +12,7 @@ export class ActionMagnetNew extends Action {
     serializeData(): ActionSerialized {
         return {
             type: "magnetnew",
-            pause: this.pause, userid: this.userid, magnet: this.magnet.outerHTML
+            userid: this.userid, magnet: this.magnet.outerHTML
         };
     }
 
@@ -40,7 +40,7 @@ export class ActionMagnetNew extends Action {
 
     async redo(): Promise<void> {
         const previousElement = document.getElementById(this.magnet.id);
-    
+
         if (previousElement) {
             /**
              * if the element to add is already here with exactly the same properties, just do nothing

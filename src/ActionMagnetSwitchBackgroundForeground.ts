@@ -15,7 +15,7 @@ export class ActionMagnetSwitchBackgroundForeground extends Action {
     serializeData(): ActionSerialized {
         return {
             type: "magnetswitchbackgroundforeground",
-            pause: this.pause, userid: this.userid, magnetid: this.magnetid
+             userid: this.userid, magnetid: this.magnetid
         };
     }
 

@@ -13,8 +13,7 @@ export class ActionClearZone extends Action {
 
     serializeData(): ActionSerialized {
         return {
-            type: "clearzone",
-            pause: this.pause,
+            type: "clearzone",            
             userid: this.userid,
             points: this.points,
             cut: this.cut,

@@ -1,3 +1,4 @@
+import { ActionPause } from './ActionPause';
 import { Layout } from './Layout';
 import { ActionTimeLineMenu } from './ActionTimeLineMenu';
 import { OperationDeleteAction } from './OperationDeleteAction';
@@ -20,7 +21,7 @@ export class AnimationToolBar {
             return;
 
         const el = AnimationToolBar.getActionElement(t);
-        if (BoardManager.timeline.actions[t].pause) {
+        if (BoardManager.timeline.actions[t] instanceof ActionPause) {
             el.classList.add("actionPause");
             this.slideCut(el);
         }
@@ -299,7 +300,7 @@ export class AnimationToolBar {
                 AnimationToolBar.actionElements[i] = actionElement;
                 slide.append(actionElement);
 
-                if (BoardManager.timeline.actions[i].pause && i < BoardManager.timeline.actions.length - 1) {
+                if (BoardManager.timeline.actions[i] instanceof ActionPause && i < BoardManager.timeline.actions.length - 1) {
                     slide = AnimationToolBar.createSlideDiv();
                     this.animationActionList.append(slide);
                 }
@@ -341,7 +342,7 @@ export class AnimationToolBar {
         el.style.backgroundImage = action.getOverviewImage();
 
         if (t == 0) el.classList.add("actionStart");
-        if (action.pause) el.classList.add("actionPause");
+        if (action instanceof ActionPause) el.classList.add("actionPause");
         if (!action.isBlocking) el.classList.add("actionParallel");
         if (t <= BoardManager.timeline.getCurrentIndex()) el.classList.add("actionExecuted");
 
@@ -378,7 +379,7 @@ export class AnimationToolBar {
                     AnimationToolBar.selectedActionIndices.delete(iAction);
                     el.classList.remove("actionSelected");
                     const slide = el.parentElement;
-                    if (action.pause && slide.classList.contains("folded")) {
+                    if (action instanceof ActionPause && slide.classList.contains("folded")) {
                         for (let k = 1; k < slide.children.length; k++) {
                             slide.children[k].classList.remove("actionSelected");
                             AnimationToolBar.selectedActionIndices.delete(iAction - (slide.children.length - 1) + k);
@@ -389,7 +390,7 @@ export class AnimationToolBar {
                     AnimationToolBar.selectedActionIndices.add(iAction);
                     el.classList.add("actionSelected");
                     const slide = el.parentElement;
-                    if (action.pause && slide.classList.contains("folded")) {
+                    if (action instanceof ActionPause && slide.classList.contains("folded")) {
                         for (let k = 1; k < slide.children.length; k++) {
                             slide.children[k].classList.add("actionSelected");
                             AnimationToolBar.selectedActionIndices.add(iAction - (slide.children.length - 1) + k);

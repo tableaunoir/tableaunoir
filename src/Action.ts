@@ -72,9 +72,6 @@ export abstract class Action {
             }
         }
 
-        if (!obj.pause)
-            delete obj.pause;
-
         return obj;
     }
 

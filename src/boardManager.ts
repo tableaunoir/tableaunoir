@@ -1,3 +1,4 @@
+import { ActionPause } from './ActionPause';
 import { ActionClear } from './ActionClear';
 import { UserManager } from './UserManager';
 import { OperationAddAction } from './OperationAddAction';
@@ -258,7 +259,7 @@ export class BoardManager {
      * and then clear the board
      */
     static newSlideAndClear(userid: string): void {
-        BoardManager.timeline.getLastAction().pause = true;
+        BoardManager.addAction(new ActionPause(userid));
         document.getElementById("content").style.filter = "invert(0.5)";
         BoardManager.addAction(new ActionClear(userid));
         setTimeout(() => document.getElementById("content").style.filter = "", 100);

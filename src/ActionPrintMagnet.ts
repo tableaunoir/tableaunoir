@@ -11,7 +11,7 @@ export class ActionPrintMagnet extends Action {
 	serializeData(): ActionSerialized {
 		return {
 			type: "printmagnet",
-			pause: this.pause, userid: this.userid, magnet: this.magnet.outerHTML,
+			 userid: this.userid, magnet: this.magnet.outerHTML,
 			x: this.x, y: this.y
 		};
 	}

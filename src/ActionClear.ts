@@ -16,7 +16,6 @@ export class ActionClear extends Action {
     serializeData(): ActionSerialized {
         return {
             type: "clear",
-            pause: this.pause,
             userid: this.userid
         };
     }

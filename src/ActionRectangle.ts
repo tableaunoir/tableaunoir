@@ -8,7 +8,7 @@ export class ActionRectangle extends Action {
 
     serializeData(): ActionSerialized {
         return {
-            type: "rectangle", pause: this.pause, userid: this.userid,
+            type: "rectangle",  userid: this.userid,
             x1: this.x1, y1: this.y1, x2: this.x2, y2: this.y2, color: this.color
         };
     }

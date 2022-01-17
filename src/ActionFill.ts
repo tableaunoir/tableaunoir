@@ -20,7 +20,7 @@ export class ActionFill extends Action {
 
 
     serializeData(): ActionSerialized {
-        return { type: "fill", pause: this.pause, userid: this.userid, points: this.points, color: this.color };
+        return { type: "fill",  userid: this.userid, points: this.points, color: this.color };
     }
 
 

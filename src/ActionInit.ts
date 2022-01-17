@@ -21,7 +21,7 @@ export class ActionInit extends Action {
     }
 
     serializeData(): ActionSerialized {
-        return { type: "init", pause: this.pause, userid: this.userid, canvasDataURL: this.canvasDataURL };
+        return { type: "init",  userid: this.userid, canvasDataURL: this.canvasDataURL };
     }
 
     createOverviewImage(): string { return "url(img/icons/start.svg)"; }

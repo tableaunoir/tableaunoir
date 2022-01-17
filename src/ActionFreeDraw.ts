@@ -58,14 +58,14 @@ export class ActionFreeDraw extends Action {
         if (this.magnet1id) {
             return {
                 type: "freedrawinteractivegraph",
-                pause: this.pause, userid: this.userid,
+                 userid: this.userid,
                 points: this.points, magnet1id: this.magnet1id,
                 magnet2id: this.magnet2id,
                 magnet1point: this.magnet1point,
                 magnet2point: this.magnet2point
             };
         }
-        return { type: "freedraw", pause: this.pause, userid: this.userid, points: this.points };
+        return { type: "freedraw",  userid: this.userid, points: this.points };
     }
 
     public alreadyDrawnSth = false;
