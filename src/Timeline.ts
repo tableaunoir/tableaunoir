@@ -147,9 +147,9 @@ export class Timeline {
      */
     public async load(A: ActionSerialized[], t: number): Promise<void> {
         this.actions = [];
-        for(const actionSerialized of A) {
+        for (const actionSerialized of A) {
             this.actions.push(ActionDeserializer.deserialize(actionSerialized));
-            if((<any> actionSerialized).pause)
+            if ((<any>actionSerialized).pause)
                 this.actions.push(new ActionPause(undefined));
         }
         //this.actions = A.map(ActionDeserializer.deserialize);
@@ -347,7 +347,7 @@ export class Timeline {
     getPreviousPausedFrame(): number {
         for (let i = this.currentIndex - 1; i >= 0; i--)
             if (this.actions[i] instanceof ActionPause)
-                return i-1;  //end of slide is just before the pause
+                return i - 1;  //end of slide is just before the pause
         return this.currentIndex; //no "pause" action found, so we stay at the same frame
     }
 
@@ -359,7 +359,7 @@ export class Timeline {
         // if this.currentIndex is the end Action of a silde, then this.currentIndex + 1 is the index of ActionPause so we start at this.currentIndex + 2.
         for (let i = this.currentIndex + 2; i <= this.actions.length - 1; i++)
             if (this.actions[i] instanceof ActionPause)
-                return i-1; //end of slide is just before the pause
+                return i - 1; //end of slide is just before the pause
         return this.actions.length - 1;//this.currentIndex; //no "pause" action found, so we stay at the same frame // this.actions.length - 1;
     }
 
@@ -388,6 +388,21 @@ export class Timeline {
     }
 
 
+
+    /**
+     * go to the presvious frame
+     */
+    async previousFrame(): Promise<void> {
+        if (this.isBegin())
+            return;
+
+        const newIndex = this.getCurrentIndex() - 1;
+        this.setCurrentIndex(newIndex);
+
+
+    }
+
+
     /**
      * 
      * @returns 
@@ -406,6 +421,19 @@ export class Timeline {
         this.currentIndex = tGoal;
     }
 
+
+    /**
+ * go to the next frame
+ */
+    async nextFrame(): Promise<void> {
+        if (this.isEnd())
+            return;
+
+        const newIndex = this.getCurrentIndex() + 1;
+        this.setCurrentIndex(newIndex);
+
+
+    }
 
     /**
      * @returns true if we are at the beginning of the timeline

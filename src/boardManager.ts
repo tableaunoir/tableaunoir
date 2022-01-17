@@ -231,6 +231,20 @@ export class BoardManager {
 
     }
 
+
+
+    static async previousFrame() : Promise<void>  {
+        AnimationManager.end();
+        await BoardManager.timeline.previousFrame();
+        AnimationToolBar.updateCurrentIndex();
+    }
+
+    static async nextFrame() : Promise<void>  {
+        AnimationManager.end();
+        await BoardManager.timeline.nextFrame();
+        AnimationToolBar.updateCurrentIndex();
+    }
+
     /**
      * @description go the next slide (instantly)
      */
@@ -255,13 +269,25 @@ export class BoardManager {
     /**
      * 
      * @param userid 
-     * @description declare the last action as a "pause" (meaning it ends a "slide")
+     * @description ad a pause action (i.e. make a new slide)
      * and then clear the board
      */
     static newSlideAndClear(userid: string): void {
         BoardManager.addAction(new ActionPause(userid));
         document.getElementById("content").style.filter = "invert(0.5)";
         BoardManager.addAction(new ActionClear(userid));
+        setTimeout(() => document.getElementById("content").style.filter = "", 100);
+    }
+
+
+    /**
+ * 
+ * @param userid 
+ * @description add a pause action for making a new slide
+ */
+    static newSlide(userid: string): void {
+        BoardManager.addAction(new ActionPause(userid));
+        document.getElementById("content").style.filter = "invert(0.5)";
         setTimeout(() => document.getElementById("content").style.filter = "", 100);
     }
 

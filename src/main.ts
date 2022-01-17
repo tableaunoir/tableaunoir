@@ -129,6 +129,11 @@ function load() {
 
 		document.getElementById("previousSlide").onclick = () => BoardManager.previousPausedFrame();
 		document.getElementById("nextSlide").onclick = () => BoardManager.nextPausedFrame();
+		document.getElementById("newSlide").onclick = () => BoardManager.newSlide(UserManager.me.userID);
+
+		document.getElementById("previousFrame").onclick = () => BoardManager.previousFrame();
+		document.getElementById("nextFrame").onclick = () => BoardManager.nextFrame();
+		
 
 		installMouseEventsCanvas();
 
