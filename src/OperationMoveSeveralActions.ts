@@ -48,7 +48,8 @@ export class OperationMoveSevActions extends Operation {
 
 	redo(): void {
 		const indexes = this.prepareRedo(this.indexesTable, this.insertIndex);
-		console.log("indexes : " + indexes);
+		console.log("nb of indexes: " + indexes.length);
+		console.log("indexes: " + indexes);
 		for (let k = 0; k < indexes.length; k++) {
 			BoardManager.timeline.moveAction(indexes[k][0], indexes[k][1]);
 		}

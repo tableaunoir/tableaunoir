@@ -15,6 +15,7 @@ import { Action } from "./Action";
 import { ActionFreeDraw } from './ActionFreeDraw';
 import { ActionLine } from './ActionLine';
 import { ActionClear } from './ActionClear';
+import { ActionPause } from './ActionPause';
 
 export class ActionDeserializer {
     static deserializeSub(obj: ActionSerialized): Action {
@@ -73,7 +74,8 @@ export class ActionDeserializer {
         if (obj.type == "magnetchangesizeratio") {
             return new ActionMagnetChangeSizeRatio(obj.userid, obj.magnetid, obj.ratio);
         }
-
+        if (obj.type == "pause")
+            return new ActionPause(obj.userid);
         throw "ActionDeserializer: unknown type of action";
     }
 

@@ -1104,10 +1104,6 @@ h1 {
 
 }
 
-.actionDrag {
-	border-right: 4px solid green;
-	margin-right: 6px;
-}
 
 .slide {
 	display: inline-block;
@@ -1115,17 +1111,22 @@ h1 {
 	width: 32px;
 	box-sizing: content-box;
 	background-color: grey;
-	border-left: 2px solid rgba(32, 32, 32, 0.8);
-	border-right: 2px solid rgba(32, 32, 32, 0.8);
 	border-bottom: 2px solid rgba(32, 32, 32, 0.8);
 	border-top: 2px solid rgba(32, 32, 32, 0.8);
+	border-left: 2px solid rgba(32, 32, 32, 0.8);
+	border-right: 2px solid rgba(32, 32, 32, 0.8);
 	flex-grow: 1;
 	cursor: pointer;
 }
 
 
-.slidePlayed {
-	background-color: red;
+.slideCurrent {
+	border-left: 2px solid red;
+}
+
+
+.dragover {
+	border-right: 4px solid lightgreen;
 }
 
 
