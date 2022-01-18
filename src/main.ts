@@ -1,3 +1,4 @@
+import { AnimationToolBar } from './AnimationToolBar';
 import { Drawing } from './Drawing';
 import { CircularMenu } from './CircularMenu';
 import { MagnetTextManager } from './MagnetTextManager';
@@ -139,6 +140,12 @@ function load() {
 
 		/*ErrorMessage.show("Tableaunoir works, but maybe not in share mode since INRIA servers are down see <a href='https://intranet.inria.fr/Actualite/Important-arret-complet-des-services-informatiques-locaux-le-mercredi-24-mars'>here</a>");*/
 
+
+		document.addEventListener("keydown", function (event) {
+            if (event.key == "Escape") {
+                AnimationToolBar.deselect();
+            }
+        });
 	}
 	catch (e) {
 		console.log(e);

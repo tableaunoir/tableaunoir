@@ -1,3 +1,4 @@
+import { SelectionActions } from './SelectionActions';
 import { ActionPause } from './ActionPause';
 import { Layout } from './Layout';
 import { ActionTimeLineMenu } from './ActionTimeLineMenu';
@@ -16,9 +17,9 @@ export class AnimationToolBar {
     static currentIndex = 0;
 
     static isActionSelected(): boolean { return false }
-    static selection: Set<number> = new Set();
+    static selection: SelectionActions = new SelectionActions();
 
-    static deselect(): void { AnimationToolBar.selection.clear(); }
+    static deselect(): void { AnimationToolBar.selection = new SelectionActions(); }
     static isSelection(): boolean { return AnimationToolBar.length > 0; }
 
     /**
@@ -52,8 +53,8 @@ export class AnimationToolBar {
 
 
     /*
-@param slideNumber (1, 2, 3)...
-@param from (either ActionInit, or ActionPause)   
+    @param slideNumber (1, 2, 3)...
+    @param from (either ActionInit, or ActionPause)   
      * @returns a new slide that will contain all actions of the slide
      */
     static createSlideDiv(slideNumber: number, from: number, to: number): HTMLElement {
@@ -62,6 +63,7 @@ export class AnimationToolBar {
         slide.dataset.to = to + "";
         slide.classList.add("slide");
         slide.title = "slide n°" + slideNumber;
+        slide.style.flexFlow = "" + (to - from);
 
         const i = AnimationToolBar.currentIndex;
         const isCurrentSlide = (from <= i) && (i <= to);
@@ -74,50 +76,46 @@ export class AnimationToolBar {
             }
         }
 
+
+        if (this.selection.includesInterval(from, to))
+            slide.classList.add("selected");
+
         if (isCurrentSlide)
             slide.classList.add("slideCurrent");
 
-        if (isCurrentSlide) {
-            slide.onclick = (evt) => {
-                console.log("onclick on currentslide")
+        const actionIndex = (evt) => {
+            if (isCurrentSlide) {
                 const x = evt.clientX - slide.offsetLeft;
-                const j = from + Math.round(x * (to - from) / slide.clientWidth);
-                BoardManager.timeline.setCurrentIndex(j)
-                AnimationToolBar.currentIndex = j;
-                AnimationToolBar.update();
+                return from + Math.round(x * (to - from) / slide.clientWidth);
             }
-            slide.onmousemove = (evt) => {
-                const x = evt.clientX - slide.offsetLeft;
-                const j = from + Math.round(x * (to - from) / slide.clientWidth);
-                BoardManager.timeline.setCurrentIndex(j);
-                //BoardManager.timeline.setCurrentIndex(to);
-            }
+            else
+                return to;
         }
-        else {
-            slide.onclick = (evt) => {
-                const j = to;
-                BoardManager.timeline.setCurrentIndex(j)
-                AnimationToolBar.currentIndex = j;
-                AnimationToolBar.update();
 
+        slide.onclick = (evt) => {
+            const j = actionIndex(evt);
+            BoardManager.timeline.setCurrentIndex(j)
+            AnimationToolBar.currentIndex = j;
 
-            }
-            slide.onmousemove = (evt) => {
-                const j = to;
-                BoardManager.timeline.setCurrentIndex(j);
-                //BoardManager.timeline.setCurrentIndex(to);
-            }
+            if (evt.ctrlKey)
+                this.selection.addInterval(from, to);
+
+            AnimationToolBar.update();
         }
+        slide.onmousemove = (evt) => {
+            const j = actionIndex(evt);
+            BoardManager.timeline.setCurrentIndex(j);
+        }
+
 
         slide.onmouseleave = () => { BoardManager.timeline.setCurrentIndex(AnimationToolBar.currentIndex); }
 
-
-
         slide.draggable = true;
-        slide.ondrag = () => {
-            AnimationToolBar.selection = new Set();
-            for (let k = from; k <= to; k++)
-                AnimationToolBar.selection.add(k);
+
+        slide.ondrag = (evt) => {
+            if (this.selection.isEmpty || evt.ctrlKey)
+                this.selection.addInterval(from, to);
+
             AnimationToolBar.update();
         }
 
@@ -125,16 +123,78 @@ export class AnimationToolBar {
         slide.ondragleave = () => { slide.classList.remove("dragover"); }
 
         slide.ondrop = () => {
-            const dest = to;
-            console.log(AnimationToolBar.selection)
-            console.log(Array.from(AnimationToolBar.selection))
-            BoardManager.executeOperation(new OperationMoveSevActions(Array.from(AnimationToolBar.selection), dest));
-            AnimationToolBar.selection.clear();
+            AnimationToolBar.selection.moveTo(to);
             AnimationToolBar.update();
         }
         return slide;
     }
 
+
+
+
+
+
+
+    /**
+    *
+    * @param t
+    * @returns an HTML element (a small square) that represents the action
+    */
+    static createActionElement(t: number): HTMLElement {
+        const action = BoardManager.timeline.actions[t];
+        const el = document.createElement("div");
+
+        el.dataset.index = t.toString();
+
+        el.classList.add("action");
+        el.style.backgroundImage = action.getOverviewImage();
+
+        if (t == 0) el.classList.add("actionStart");
+        if (action.pause) el.classList.add("actionPause");
+        if (!action.isBlocking) el.classList.add("actionParallel");
+        if (t <= BoardManager.timeline.getCurrentIndex()) el.classList.add("actionExecuted");
+
+        if (t > 0) el.draggable = true;
+
+        el.oncontextmenu = (evt) => {
+            const menu = new ActionTimeLineMenu(t);
+            menu.show({ x: Layout.getXMiddle(), y: 800 });
+            evt.preventDefault();
+            return;
+        }
+
+        el.ondragend = () => { };
+
+        el.onclick = (event) => {
+            if (!event.ctrlKey)
+                AnimationToolBar.deselect();
+            else
+                AnimationToolBar.selection.add(t);
+
+            AnimationToolBar.update();
+        }
+
+        el.ondrag = (evt) => {
+            if (this.selection.isEmpty || evt.ctrlKey)
+                this.selection.add(t);
+
+            AnimationToolBar.update();
+        }
+
+        el.onmousemove = () => { BoardManager.timeline.setCurrentIndex(t); }
+        el.onmouseleave = () => { BoardManager.timeline.setCurrentIndex(AnimationToolBar.currentIndex); }
+
+        el.ondragover = () => { el.classList.add("dragover"); }
+
+        el.ondragleave = () => { el.classList.remove("dragover"); }
+
+        el.ondrop = () => {
+            this.selection.moveTo(t);
+            AnimationToolBar.update();
+        }
+
+        return el;
+    }
 
 
     /**
@@ -146,7 +206,7 @@ export class AnimationToolBar {
         if (!AnimationToolBar.is())
             return;
 
-        AnimationToolBar.update();
+        AnimationToolBar.requestUpdate();
 
     }
 
@@ -159,7 +219,7 @@ export class AnimationToolBar {
         if (!AnimationToolBar.is())
             return;
 
-        AnimationToolBar.update();
+        AnimationToolBar.requestUpdate();
     }
 
 
@@ -169,13 +229,18 @@ export class AnimationToolBar {
      * @description update the fact that the current index has changed
      */
     static updateCurrentIndex(): void {
-
-        AnimationToolBar.update();
+        AnimationToolBar.requestUpdate();
     }
 
+    static request = undefined;
 
+    static requestUpdate() {
+        if (AnimationToolBar.request == undefined)
+            AnimationToolBar.request = setTimeout(AnimationToolBar.update, 5);
+    }
 
     static get timelineSlideList(): HTMLDivElement { return <HTMLDivElement>document.getElementById("timeline"); }
+    static get slideActionList(): HTMLDivElement { return <HTMLDivElement>document.getElementById("timelineSlideActions"); }
 
     /**
      * @description updates the whole timeline
@@ -188,24 +253,48 @@ export class AnimationToolBar {
 
         this.timelineSlideList.innerHTML = "";
 
+        const loadSlideActionList = (from, to) => {
+            this.slideActionList.innerHTML = "";
+            for (let i = from; i <= to; i++) {
+                const actionElement = AnimationToolBar.createActionElement(i);
+                if (this.selection.has(i))
+                    actionElement.classList.add("selected");
+                this.slideActionList.append(actionElement);
+            }
+        }
+
         let previousi = 0;
-        let j = 1;
+        let slideNumber = 1;
         for (let i = 0; i < BoardManager.timeline.actions.length; i++) {
             if (BoardManager.timeline.actions[i] instanceof ActionPause) {
-                const slide = AnimationToolBar.createSlideDiv(j, previousi, i - 1);
+                const slide = AnimationToolBar.createSlideDiv(slideNumber, previousi, i - 1);
+                if (previousi <= AnimationToolBar.currentIndex && AnimationToolBar.currentIndex <= i - 1)
+                    loadSlideActionList(previousi, i - 1);
+
                 previousi = i;
-                j++;
+                slideNumber++;
                 this.timelineSlideList.append(slide);
+
             }
             if (i == BoardManager.timeline.actions.length - 1) {
-                const slide = AnimationToolBar.createSlideDiv(j, previousi, i);
+                const slide = AnimationToolBar.createSlideDiv(slideNumber, previousi, i);
                 this.timelineSlideList.append(slide);
+                if (previousi <= AnimationToolBar.currentIndex && AnimationToolBar.currentIndex <= i)
+                    loadSlideActionList(previousi, i);
+
                 previousi = i;
-                j++;
+
+                slideNumber++;
             }
         }
 
 
+        document.getElementById("canvas").ondrop = () => {
+            this.selection.delete();
+
+        }
+
+        AnimationToolBar.request = undefined;
     }
 
 

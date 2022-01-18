@@ -521,10 +521,6 @@ img.magnet.backgroundTransparent {
 	background-color: rgb(51, 51, 51);
 }
 
-.selected {
-	background: rgb(51, 51, 51);
-	color: white;
-}
 
 .tabcontent {
 	padding: 8px;
@@ -1239,7 +1235,28 @@ h1 {
 
 
 
+#timelineSlideActionsWrapper {
+	display:inline-block;
+}
+
+
+
+#timelineSlideActions {
+	display:inline;
+}
+
+
 
 .shake {
 	animation: shake 0.82s cubic-bezier(.36, .07, .19, .97) both;
 }
+
+
+.selected {
+	border:2px solid rgb(0, 195, 255);
+}
+
+.selected:hover {
+	border:2px solid rgb(0, 195, 255);
+}
+
