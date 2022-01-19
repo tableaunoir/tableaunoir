@@ -15,8 +15,11 @@ export class AnimationToolBar {
     static isActionSelected(): boolean { return false }
     static selection: SelectionActions = new SelectionActions();
 
-    static deselect(): void { AnimationToolBar.selection = new SelectionActions(); }
-    static isSelection(): boolean { return AnimationToolBar.length > 0; }
+    static deselect(): void {
+        AnimationToolBar.selection = new SelectionActions();
+        AnimationToolBar.update();
+    }
+    static isSelection(): boolean { return !AnimationToolBar.selection.isEmpty; }
 
     /**
      * toggles the display of the animation toolbar
@@ -117,10 +120,10 @@ export class AnimationToolBar {
         slide.draggable = true;
 
         slide.ondrag = (evt) => {
-            if (AnimationToolBar.selection.isEmpty || evt.ctrlKey)
+            if (AnimationToolBar.selection.isEmpty || evt.ctrlKey) {
                 AnimationToolBar.selection.addInterval(from, to);
-
-            AnimationToolBar.update();
+                slide.classList.add("selected");
+            }
         }
 
         slide.ondragover = () => { slide.classList.add("dragover"); }
@@ -181,17 +184,19 @@ export class AnimationToolBar {
         }
 
         el.ondrag = (evt) => {
-            if (AnimationToolBar.selection.isEmpty || evt.ctrlKey)
+            if (AnimationToolBar.selection.isEmpty || evt.ctrlKey) {
                 AnimationToolBar.selection.add(t);
+                el.classList.add("selected");
+            }
 
-            AnimationToolBar.update();
+
+            //AnimationToolBar.update();
         }
 
         el.onmousemove = () => { BoardManager.timeline.setCurrentIndex(t); }
         el.onmouseleave = () => { BoardManager.timeline.setCurrentIndex(AnimationToolBar.currentIndex); }
 
-        el.ondragover = () => { el.classList.add("dragover"); }
-
+        el.ondragover = () => { console.log("dragover"); el.classList.add("dragover"); }
         el.ondragleave = () => { el.classList.remove("dragover"); }
 
         el.ondrop = () => {

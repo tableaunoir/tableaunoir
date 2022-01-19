@@ -1121,9 +1121,6 @@ h1 {
 }
 
 
-.dragover {
-	border-right: 4px solid lightgreen;
-}
 
 
 .slide:hover {
@@ -1153,6 +1150,10 @@ h1 {
 
 
 
+.dragover {
+	border-right: 4px solid rgb(0, 255, 0);
+	margin-right: 6px;
+}
 
 
 
@@ -1242,6 +1243,7 @@ h1 {
 	overflow: auto;
 	flex-grow: 1;
 	height: 40px;
+	margin: 4px;
 }
 
 
