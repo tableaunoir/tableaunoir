@@ -235,6 +235,24 @@ export class Timeline {
     }
 
 
+    /**
+     * 
+     * @param indices 
+     * @param actionTable 
+     * @description insert actions actionTable at the indices given in indices, update the state at the end of all insertions
+     */
+    insertActions(indices: number[], actionTable: Action[]):void {
+        for (let i = 0; i < actionTable.length; i++) {
+            const t = indices[i];
+            const action = actionTable[i];
+            this.actions.splice(t, 0, action);
+            if (t <= this.currentIndex)
+                this.currentIndex++;
+        }
+        this.resetAndUpdate();
+        AnimationToolBar.update();
+    }
+
 
     /**
      *

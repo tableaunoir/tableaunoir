@@ -32,6 +32,7 @@ export class AnimationToolBar {
         }
     }
 
+
     /**
      * hide forever the animation mode (because there is no animation mode when the Tableau is shared, at least for the moment)
      */
@@ -95,6 +96,13 @@ export class AnimationToolBar {
 
             if (evt.ctrlKey)
                 AnimationToolBar.selection.addInterval(from, to);
+            else if (evt.shiftKey) {
+                AnimationToolBar.selection.contiguousAdd(from);
+                AnimationToolBar.selection.contiguousAdd(to);
+            }
+            else if (!AnimationToolBar.selection.includesInterval(from, to))
+                AnimationToolBar.deselect();
+
 
             AnimationToolBar.update();
         }
@@ -162,10 +170,12 @@ export class AnimationToolBar {
         el.ondragend = () => { };
 
         el.onclick = (event) => {
-            if (!event.ctrlKey)
-                AnimationToolBar.deselect();
-            else
+            if (event.ctrlKey)
                 AnimationToolBar.selection.add(t);
+            else if (event.shiftKey)
+                AnimationToolBar.selection.contiguousAdd(t);
+            else if (!AnimationToolBar.selection.has(t))
+                AnimationToolBar.deselect();
 
             AnimationToolBar.update();
         }
