@@ -2,10 +2,6 @@ import { SelectionActions } from './SelectionActions';
 import { ActionPause } from './ActionPause';
 import { Layout } from './Layout';
 import { ActionTimeLineMenu } from './ActionTimeLineMenu';
-import { OperationDeleteAction } from './OperationDeleteAction';
-import { OperationDeleteSeveralActions } from './OperationDeleteSeveralActions';
-import { OperationMoveAction } from './OperationMoveAction';
-import { OperationMoveSevActions } from './OperationMoveSeveralActions';
 import { BoardManager } from './boardManager';
 
 

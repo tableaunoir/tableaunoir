@@ -163,7 +163,7 @@ export class Timeline {
     /**
      * @description updates the canvas and the magnets completely from the start
      */
-    private async resetAndUpdate(): Promise<void> {
+    public async resetAndUpdate(): Promise<void> {
         Drawing.clear();
         if (BoardManager.MAGNETCANCELLABLE)
             document.getElementById("magnets").innerHTML = "";
@@ -198,6 +198,7 @@ export class Timeline {
      * @param insertIndex
      *
      * @description moves actions referred to in indexesArray (or elToInsert) to pos insertIndex in this.action
+     * DO NOT REFRESH THE BOARD
      */
     moveAction(indexToMove: number, insertIndex: number): void {
         if (insertIndex == 0 || indexToMove == 0)
@@ -207,9 +208,6 @@ export class Timeline {
 
         this.actions.splice(indexToMove, 1);
         this.actions.splice(insertIndex, 0, eltToAdd);
-        this.resetAndUpdate();
-
-
     }
 
     /**
@@ -251,6 +249,22 @@ export class Timeline {
     }
 
 
+    /**
+         * 
+         * @param t 
+         * @description delete actions at timesteps given by the indices (that should be ordered by increasing indices)
+         */
+    deleteActions(indices: number[]): void {
+        for (let i = indices.length - 1; i >= 0; i--) {
+            const t = indices[i];
+            if (t <= this.currentIndex)
+                this.currentIndex--;
+            this.actions.splice(t, 1); //really delete
+        }
+        this.resetAndUpdate();
+
+        AnimationToolBar.update();
+    }
 
 
     /**
