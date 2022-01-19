@@ -1,4 +1,4 @@
-import { ActionPause } from './ActionPause';
+import { ActionSlideStart } from './ActionSlideStart';
 import { AnimationToolBar } from './AnimationToolBar';
 import { ActionClear } from './ActionClear';
 import { Drawing } from './Drawing';
@@ -19,7 +19,7 @@ export class Timeline {
 
     /**
      * stack of actions
-     * remark: the first action is of Type ActionInit and is like a sentinelle
+     * remark: the first action is of Type ActionSlideStart and is like a sentinelle
      */
     public actions: (Action)[] = [];
     private currentIndex = -1; //meaning that stack[currentIndex] is treated and is the last action executed
@@ -28,7 +28,7 @@ export class Timeline {
      * empty the stack and set it with the current canvas as the initial state
      */
     clear(): void {
-        const actionInit = new ActionInit(UserManager.me.userID, undefined);
+        const actionInit = new ActionSlideStart(UserManager.me.userID);
         this.actions = [actionInit];
         this.currentIndex = 0;
     }
@@ -36,10 +36,11 @@ export class Timeline {
 
     /**
      * goto frame t
+     * if t is greater than the number of frames, go at the end
      */
     async setCurrentIndex(t: number): Promise<void> {
         const previousIndex = this.currentIndex;
-        this.currentIndex = t;
+        this.currentIndex = Math.min(this.actions.length - 1, t);
         await this.updateState(previousIndex);
     }
 
@@ -148,9 +149,11 @@ export class Timeline {
     public async load(A: ActionSerialized[], t: number): Promise<void> {
         this.actions = [];
         for (const actionSerialized of A) {
-            this.actions.push(ActionDeserializer.deserialize(actionSerialized));
+            const action = (actionSerialized.type == "init" && actionSerialized.canvasDataURL == undefined) ? new ActionSlideStart(undefined) :
+                ActionDeserializer.deserialize(actionSerialized);
+            this.actions.push(action);
             if ((<any>actionSerialized).pause)
-                this.actions.push(new ActionPause(undefined));
+                this.actions.push(new ActionSlideStart(undefined));
         }
         //this.actions = A.map(ActionDeserializer.deserialize);
         this.currentIndex = t;
@@ -201,9 +204,6 @@ export class Timeline {
      * DO NOT REFRESH THE BOARD
      */
     moveAction(indexToMove: number, insertIndex: number): void {
-        if (insertIndex == 0 || indexToMove == 0)
-            return;
-
         const eltToAdd = this.actions[indexToMove];
 
         this.actions.splice(indexToMove, 1);
@@ -241,7 +241,7 @@ export class Timeline {
      * @param actionTable 
      * @description insert actions actionTable at the indices given in indices, update the state at the end of all insertions
      */
-    insertActions(indices: number[], actionTable: Action[]):void {
+    insertActions(indices: number[], actionTable: Action[]): void {
         for (let i = 0; i < actionTable.length; i++) {
             const t = indices[i];
             const action = actionTable[i];
@@ -279,6 +279,10 @@ export class Timeline {
                 this.currentIndex--;
             this.actions.splice(t, 1); //really delete
         }
+
+        if (this.actions.length == 0)
+            this.clear();
+
         this.resetAndUpdate();
 
         AnimationToolBar.update();
@@ -307,6 +311,9 @@ export class Timeline {
             this.currentIndex--;
             this.resetAndUpdate();
         }
+
+        if (this.actions.length == 0)
+            this.clear();
 
         AnimationToolBar.updateDeleteAction(t);
     }
@@ -378,7 +385,7 @@ export class Timeline {
      */
     getPreviousPausedFrame(): number {
         for (let i = this.currentIndex - 1; i >= 0; i--)
-            if (this.actions[i] instanceof ActionPause)
+            if (this.actions[i] instanceof ActionSlideStart)
                 return i - 1;  //end of slide is just before the pause
         return this.currentIndex; //no "pause" action found, so we stay at the same frame
     }
@@ -390,7 +397,7 @@ export class Timeline {
     getNextPausedFrame(): number {
         // if this.currentIndex is the end Action of a silde, then this.currentIndex + 1 is the index of ActionPause so we start at this.currentIndex + 2.
         for (let i = this.currentIndex + 2; i <= this.actions.length - 1; i++)
-            if (this.actions[i] instanceof ActionPause)
+            if (this.actions[i] instanceof ActionSlideStart)
                 return i - 1; //end of slide is just before the pause
         return this.actions.length - 1;//this.currentIndex; //no "pause" action found, so we stay at the same frame // this.actions.length - 1;
     }

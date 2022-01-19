@@ -3,6 +3,9 @@ import { getCanvas } from "./main";
 import { Action } from "./Action";
 
 
+/**
+ * for backward compatibility
+ */
 export class ActionInit extends Action {
     get xMax(): number {
         if (this.img)

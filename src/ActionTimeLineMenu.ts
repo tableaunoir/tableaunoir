@@ -1,5 +1,5 @@
 import { UserManager } from './UserManager';
-import { ActionPause } from './ActionPause';
+import { ActionSlideStart } from './ActionSlideStart';
 import { OperationAddAction } from './OperationAddAction';
 import { BoardManager } from './boardManager';
 import { AnimationToolBar } from './AnimationToolBar';
@@ -44,7 +44,7 @@ export class ActionTimeLineMenu extends CircularMenu {
             src: "img/icons/1F6D1.svg",
             title: "Make that action a key action or not",
             onclick: () => {
-                BoardManager.executeOperation(new OperationAddAction(new ActionPause(UserManager.me.userID), t));
+                BoardManager.executeOperation(new OperationAddAction(new ActionSlideStart(UserManager.me.userID), t));
                 CircularMenu.hide();
             }
         });

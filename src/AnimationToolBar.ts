@@ -1,5 +1,5 @@
 import { SelectionActions } from './SelectionActions';
-import { ActionPause } from './ActionPause';
+import { ActionSlideStart } from './ActionSlideStart';
 import { Layout } from './Layout';
 import { ActionTimeLineMenu } from './ActionTimeLineMenu';
 import { BoardManager } from './boardManager';
@@ -156,12 +156,10 @@ export class AnimationToolBar {
         el.classList.add("action");
         el.style.backgroundImage = action.getOverviewImage();
 
-        if (t == 0) el.classList.add("actionStart");
-        if (action.pause) el.classList.add("actionPause");
         if (!action.isBlocking) el.classList.add("actionParallel");
         if (t <= BoardManager.timeline.getCurrentIndex()) el.classList.add("actionExecuted");
 
-        if (t > 0) el.draggable = true;
+        el.draggable = true;
 
         el.oncontextmenu = (evt) => {
             const menu = new ActionTimeLineMenu(t);
@@ -279,7 +277,7 @@ export class AnimationToolBar {
         let previousi = 0;
         let slideNumber = 1;
         for (let i = 0; i < BoardManager.timeline.actions.length; i++) {
-            if (BoardManager.timeline.actions[i] instanceof ActionPause) {
+            if (BoardManager.timeline.actions[i] instanceof ActionSlideStart && i > 0) {
                 const slide = AnimationToolBar.createSlideDiv(slideNumber, previousi, i - 1);
                 if (previousi <= AnimationToolBar.currentIndex && AnimationToolBar.currentIndex <= i - 1)
                     loadSlideActionList(previousi, i - 1);

@@ -1,4 +1,4 @@
-import { ActionPause } from './ActionPause';
+import { ActionSlideStart } from './ActionSlideStart';
 import { ActionClear } from './ActionClear';
 import { UserManager } from './UserManager';
 import { OperationAddAction } from './OperationAddAction';
@@ -273,7 +273,7 @@ export class BoardManager {
      * and then clear the board
      */
     static newSlideAndClear(userid: string): void {
-        BoardManager.addAction(new ActionPause(userid));
+        BoardManager.addAction(new ActionSlideStart(userid));
         document.getElementById("content").style.filter = "invert(0.5)";
         BoardManager.addAction(new ActionClear(userid));
         setTimeout(() => document.getElementById("content").style.filter = "", 100);
@@ -286,7 +286,7 @@ export class BoardManager {
  * @description add a pause action for making a new slide
  */
     static newSlide(userid: string): void {
-        BoardManager.addAction(new ActionPause(userid));
+        BoardManager.addAction(new ActionSlideStart(userid));
         document.getElementById("content").style.filter = "invert(0.5)";
         setTimeout(() => document.getElementById("content").style.filter = "", 100);
     }
