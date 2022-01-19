@@ -63,7 +63,7 @@ export class AnimationToolBar {
         slide.dataset.to = to + "";
         slide.classList.add("slide");
         slide.title = "slide n°" + slideNumber;
-        slide.style.flexFlow = "" + (to - from);
+        slide.style.flexGrow = "" + (to - from);
 
         const i = AnimationToolBar.currentIndex;
         const isCurrentSlide = (from <= i) && (i <= to);
@@ -77,7 +77,7 @@ export class AnimationToolBar {
         }
 
 
-        if (this.selection.includesInterval(from, to))
+        if (AnimationToolBar.selection.includesInterval(from, to))
             slide.classList.add("selected");
 
         if (isCurrentSlide)
@@ -98,7 +98,7 @@ export class AnimationToolBar {
             AnimationToolBar.currentIndex = j;
 
             if (evt.ctrlKey)
-                this.selection.addInterval(from, to);
+                AnimationToolBar.selection.addInterval(from, to);
 
             AnimationToolBar.update();
         }
@@ -113,8 +113,8 @@ export class AnimationToolBar {
         slide.draggable = true;
 
         slide.ondrag = (evt) => {
-            if (this.selection.isEmpty || evt.ctrlKey)
-                this.selection.addInterval(from, to);
+            if (AnimationToolBar.selection.isEmpty || evt.ctrlKey)
+                AnimationToolBar.selection.addInterval(from, to);
 
             AnimationToolBar.update();
         }
@@ -175,8 +175,8 @@ export class AnimationToolBar {
         }
 
         el.ondrag = (evt) => {
-            if (this.selection.isEmpty || evt.ctrlKey)
-                this.selection.add(t);
+            if (AnimationToolBar.selection.isEmpty || evt.ctrlKey)
+                AnimationToolBar.selection.add(t);
 
             AnimationToolBar.update();
         }
@@ -189,7 +189,7 @@ export class AnimationToolBar {
         el.ondragleave = () => { el.classList.remove("dragover"); }
 
         el.ondrop = () => {
-            this.selection.moveTo(t);
+            AnimationToolBar.selection.moveTo(t);
             AnimationToolBar.update();
         }
 
@@ -234,7 +234,7 @@ export class AnimationToolBar {
 
     static request = undefined;
 
-    static requestUpdate() {
+    static requestUpdate(): void {
         if (AnimationToolBar.request == undefined)
             AnimationToolBar.request = setTimeout(AnimationToolBar.update, 5);
     }
@@ -246,20 +246,22 @@ export class AnimationToolBar {
      * @description updates the whole timeline
      */
     static update(): void {
+        AnimationToolBar.request = undefined;
+
         if (!AnimationToolBar.is())
             return;
 
         AnimationToolBar.currentIndex = BoardManager.timeline.getCurrentIndex();
 
-        this.timelineSlideList.innerHTML = "";
+        AnimationToolBar.timelineSlideList.innerHTML = "";
 
         const loadSlideActionList = (from, to) => {
-            this.slideActionList.innerHTML = "";
+            AnimationToolBar.slideActionList.innerHTML = "";
             for (let i = from; i <= to; i++) {
                 const actionElement = AnimationToolBar.createActionElement(i);
-                if (this.selection.has(i))
+                if (AnimationToolBar.selection.has(i))
                     actionElement.classList.add("selected");
-                this.slideActionList.append(actionElement);
+                AnimationToolBar.slideActionList.append(actionElement);
             }
         }
 
@@ -273,12 +275,12 @@ export class AnimationToolBar {
 
                 previousi = i;
                 slideNumber++;
-                this.timelineSlideList.append(slide);
+                AnimationToolBar.timelineSlideList.append(slide);
 
             }
             if (i == BoardManager.timeline.actions.length - 1) {
                 const slide = AnimationToolBar.createSlideDiv(slideNumber, previousi, i);
-                this.timelineSlideList.append(slide);
+                AnimationToolBar.timelineSlideList.append(slide);
                 if (previousi <= AnimationToolBar.currentIndex && AnimationToolBar.currentIndex <= i)
                     loadSlideActionList(previousi, i);
 
@@ -288,16 +290,11 @@ export class AnimationToolBar {
             }
         }
 
+        //when things are dropped in the canvas then the selection is deleted
+        document.getElementById("canvas").ondrop = () => { AnimationToolBar.selection.delete(); }
 
-        document.getElementById("canvas").ondrop = () => {
-            this.selection.delete();
 
-        }
-
-        AnimationToolBar.request = undefined;
     }
 
 
 }
-
-function range(start, end): number[] { return Array(end - start + 1).map((_, idx) => start + idx) }

@@ -1061,14 +1061,14 @@ h1 {
 
 .action {
 	position: relative;
-	width: 8px;
-	height: 24px;
+	width: 16px;
+	height: 16px;
 	background-color: rgb(128, 64, 64);
 	border: 1px solid rgb(64, 64, 64);
 	display: inline-block;
 	opacity: 0.7;
 	margin: 0px;
-	background-size: 8px 24px;
+	background-size: 16px 16px;
 }
 
 
@@ -1138,8 +1138,7 @@ h1 {
 
 
 .action:hover {
-	width: 24px;
-	background-size: 24px 24px;
+	transform: scale(1.1);
 }
 
 
@@ -1234,15 +1233,21 @@ h1 {
 }
 
 
+.timelinecontrols {
+	display: flex;
+}
 
 #timelineSlideActionsWrapper {
-	display:inline-block;
+	display: inline-block;
+	overflow: auto;
+	flex-grow: 1;
+	height: 40px;
 }
 
 
 
 #timelineSlideActions {
-	display:inline;
+	display: inline;
 }
 
 
@@ -1253,10 +1258,9 @@ h1 {
 
 
 .selected {
-	border:2px solid rgb(0, 195, 255);
+	border: 2px solid rgb(0, 195, 255);
 }
 
 .selected:hover {
-	border:2px solid rgb(0, 195, 255);
+	border: 2px solid rgb(0, 195, 255);
 }
-
