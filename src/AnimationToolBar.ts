@@ -1,3 +1,4 @@
+import { Share } from './share';
 import { SelectionActions } from './SelectionActions';
 import { ActionSlideStart } from './ActionSlideStart';
 import { Layout } from './Layout';
@@ -93,10 +94,6 @@ export class AnimationToolBar {
         }
 
         slide.onclick = (evt) => {
-            const j = actionIndex(evt);
-            BoardManager.timeline.setCurrentIndex(j)
-            AnimationToolBar.currentIndex = j;
-
             if (evt.ctrlKey)
                 AnimationToolBar.selection.addInterval(from, to);
             else if (evt.shiftKey) {
@@ -107,7 +104,9 @@ export class AnimationToolBar {
                 AnimationToolBar.deselect();
 
 
-            AnimationToolBar.update();
+            const j = actionIndex(evt);
+            Share.execute("timelineSetCurrentIndex", [j]);
+            
         }
         slide.onmousemove = (evt) => {
             const j = actionIndex(evt);
@@ -122,7 +121,7 @@ export class AnimationToolBar {
         slide.ondrag = (evt) => {
             if (AnimationToolBar.selection.isEmpty || evt.ctrlKey) {
                 AnimationToolBar.selection.addInterval(from, to);
-                slide.classList.add("selected");
+                slide.classList.add("selected"); // /!\ we should not call update because the DOM elements should be the same otherwise the drag & drop does not work
             }
         }
 
@@ -178,7 +177,7 @@ export class AnimationToolBar {
             else if (!AnimationToolBar.selection.has(t))
                 AnimationToolBar.deselect();
 
-            AnimationToolBar.update();
+                Share.execute("timelineSetCurrentIndex", [t]);
         }
 
         el.ondrag = (evt) => {

@@ -412,7 +412,10 @@ export class Timeline {
             return;
 
         const newIndex = this.getPreviousPausedFrame();
-        this.setCurrentIndex(newIndex);
+
+        //if newIndex = 0 means that we are already in the first slide
+        if (newIndex > 0) 
+            this.setCurrentIndex(newIndex);
         /*
         if (newIndex != this.currentIndex) {
             this.currentIndex = newIndex;

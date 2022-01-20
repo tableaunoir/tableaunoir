@@ -1,3 +1,4 @@
+import { AnimationToolBar } from './AnimationToolBar';
 import { ActionDeserializer } from './ActionDeserializer';
 import { MagnetTextManager } from './MagnetTextManager';
 import { ActionMagnetNew } from './ActionMagnetNew';
@@ -208,7 +209,14 @@ export class ShareEvent {
 
     static timelineRemoveAction(t: number): void { BoardManager.timeline.deleteAction(t); }
 
-
+    static timelineSetCurrentIndex(t: number): void {
+        BoardManager.timeline.setCurrentIndex(t);
+        AnimationToolBar.update();
+    }
+    static timelinePreviousFrame(): void { BoardManager.previousFrame() }
+    static timelinePreviousPausedFrame(): void { BoardManager.previousPausedFrame() }
+    static timelineNextFrame(): void { BoardManager.nextFrame() }
+    static timelineNextPausedFrame(): void { BoardManager.nextPausedFrame() }
 
     /**backgrounds */
 

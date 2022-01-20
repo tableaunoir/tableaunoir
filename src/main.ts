@@ -128,12 +128,12 @@ function load() {
 
 		document.getElementById("canvasBackground").onpointermove = () => { console.log("mousemove on the background should not occur") };
 
-		document.getElementById("previousSlide").onclick = () => BoardManager.previousPausedFrame();
-		document.getElementById("nextSlide").onclick = () => BoardManager.nextPausedFrame();
+		document.getElementById("previousSlide").onclick = () => Share.execute("timelinePreviousPausedFrame", []);
+		document.getElementById("nextSlide").onclick = () => Share.execute("timelineNextPausedFrame", []);  
 		document.getElementById("newSlide").onclick = () => BoardManager.newSlide(UserManager.me.userID);
 
-		document.getElementById("previousFrame").onclick = () => BoardManager.previousFrame();
-		document.getElementById("nextFrame").onclick = () => BoardManager.nextFrame();
+		document.getElementById("previousFrame").onclick = () => Share.execute("timelinePreviousFrame", []);
+		document.getElementById("nextFrame").onclick = () => Share.execute("timelineNextFrame", []);
 		
 
 		installMouseEventsCanvas();

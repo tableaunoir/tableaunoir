@@ -143,12 +143,10 @@ export class KeyBoardShortCuts {
                 BoardManager.fastNextPausedFrame();
         }
         else if (evt.key == "PageDown") {
-            if (!Share.isShared())
-                BoardManager.nextPausedFrame();
+            Share.execute("timelineNextPausedFrame", []);
         }
         else if (evt.key == "PageUp") {
-            if (!Share.isShared())
-                BoardManager.previousPausedFrame();
+            Share.execute("timelinePreviousPausedFrame", []);
         }
         else if (evt.ctrlKey && evt.key.toLowerCase() == 'x') {//Ctrl + x
             CircularMenu.hide();
