@@ -1,3 +1,4 @@
+import { OperationDeleteSeveralActions } from './OperationDeleteSeveralActions';
 import { ActionSlideStart } from './ActionSlideStart';
 import { ActionClear } from './ActionClear';
 import { UserManager } from './UserManager';
@@ -233,13 +234,13 @@ export class BoardManager {
 
 
 
-    static async previousFrame() : Promise<void>  {
+    static async previousFrame(): Promise<void> {
         AnimationManager.end();
         await BoardManager.timeline.previousFrame();
         AnimationToolBar.updateCurrentIndex();
     }
 
-    static async nextFrame() : Promise<void>  {
+    static async nextFrame(): Promise<void> {
         AnimationManager.end();
         await BoardManager.timeline.nextFrame();
         AnimationToolBar.updateCurrentIndex();
@@ -291,7 +292,17 @@ export class BoardManager {
         setTimeout(() => document.getElementById("content").style.filter = "", 100);
     }
 
-
+    /**
+ * 
+ * @param userid 
+ * @description remove the next pause action for merging the current slide with the next one
+ */
+    static mergeSlide(userid: string): void {
+        const nextNewSlideActionIndex = BoardManager.timeline.getNextNewSlideActionIndex();
+        console.log("merge: remove action of index " + nextNewSlideActionIndex);
+        if (nextNewSlideActionIndex)
+            BoardManager.executeOperation(new OperationDeleteSeveralActions([nextNewSlideActionIndex]));
+    }
 
     static get width(): number { return Math.max(BoardManager.widthFromActions, BoardManager.widthFromMagnets); }
 }

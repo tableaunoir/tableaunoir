@@ -130,7 +130,8 @@ function load() {
 
 		document.getElementById("previousSlide").onclick = () => Share.execute("timelinePreviousPausedFrame", []);
 		document.getElementById("nextSlide").onclick = () => Share.execute("timelineNextPausedFrame", []);  
-		document.getElementById("newSlide").onclick = () => BoardManager.newSlide(UserManager.me.userID);
+		document.getElementById("newSlide").onclick = () => Share.execute("newSlide", [UserManager.me.userID]);
+		document.getElementById("mergeSlide").onclick = () => Share.execute("mergeSlide", [UserManager.me.userID]);
 
 		document.getElementById("previousFrame").onclick = () => Share.execute("timelinePreviousFrame", []);
 		document.getElementById("nextFrame").onclick = () => Share.execute("timelineNextFrame", []);

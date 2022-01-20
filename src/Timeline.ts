@@ -381,21 +381,34 @@ export class Timeline {
 
     /**
      * 
-     * @returns the time step index of the previous paused frame
+     * @returns the last time step index of the previous slide
      */
-    getPreviousPausedFrame(): number {
+    getPreviousSlideLastFrame(): number {
         for (let i = this.currentIndex - 1; i >= 0; i--)
             if (this.actions[i] instanceof ActionSlideStart)
                 return i - 1;  //end of slide is just before the pause
         return this.currentIndex; //no "pause" action found, so we stay at the same frame
     }
 
+
+      /**
+     * 
+     * @returns the time step of the next "newslide" after the current slide
+     */
+       getNextNewSlideActionIndex(): number {
+        for (let i = this.currentIndex + 1; i <= this.actions.length - 1; i++)
+            if (this.actions[i] instanceof ActionSlideStart)
+                return i;
+        return undefined;
+    }
+
+
     /**
      * 
-     * @returns the time step index of the next paused frame (or the last action index)
+     * @returns the last time step index of the next slide (or the current one if it is not completed)
      */
-    getNextPausedFrame(): number {
-        // if this.currentIndex is the end Action of a silde, then this.currentIndex + 1 is the index of ActionPause so we start at this.currentIndex + 2.
+    getNextSlideLastFrame(): number {
+        // if this.currentIndex is the end Action of a silde, then this.currentIndex + 1 is the index of ActionNewSlide (that starts the next slide) so we start at this.currentIndex + 2.
         for (let i = this.currentIndex + 2; i <= this.actions.length - 1; i++)
             if (this.actions[i] instanceof ActionSlideStart)
                 return i - 1; //end of slide is just before the pause
@@ -411,14 +424,14 @@ export class Timeline {
         if (this.isBegin())
             return;
 
-        const newIndex = this.getPreviousPausedFrame();
+        const newIndex = this.getPreviousSlideLastFrame();
 
         //if newIndex = 0 means that we are already in the first slide
         if (newIndex > 0) 
             this.setCurrentIndex(newIndex);
         /*
         if (newIndex != this.currentIndex) {
-            this.currentIndex = newIndex;
+            this.currentIndex = newIndex;s
             this.updateButtons();
 
             getCanvas().width = getCanvas().width + 0;
@@ -454,7 +467,7 @@ export class Timeline {
         if (this.isEnd())
             return;
 
-        const tGoal = this.getNextPausedFrame();
+        const tGoal = this.getNextSlideLastFrame();
         for (let i = this.currentIndex + 1; i <= tGoal; i++)
             if (this.actions[i].isBlocking)
                 await this.actions[i].redoAnimated();
