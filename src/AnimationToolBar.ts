@@ -94,6 +94,8 @@ export class AnimationToolBar {
         }
 
         slide.onclick = (evt) => {
+            const j = actionIndex(evt); // /!\ compute first (to be sure it is not updated because if the DOM is changed you may get wrong values)
+
             if (evt.ctrlKey)
                 AnimationToolBar.selection.addInterval(from, to);
             else if (evt.shiftKey) {
@@ -104,7 +106,7 @@ export class AnimationToolBar {
                 AnimationToolBar.deselect();
 
 
-            const j = actionIndex(evt);
+            
             Share.execute("timelineSetCurrentIndex", [j]);
             
         }
