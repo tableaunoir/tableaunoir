@@ -64,7 +64,7 @@ export class AnimationToolBar {
         slide.dataset.to = to + "";
         slide.classList.add("slide");
         slide.title = "slide n°" + slideNumber;
-        slide.style.flexGrow = "" + (to - from);
+        slide.style.flexGrow = "" + Math.max(1, to - from);
 
         const i = AnimationToolBar.currentIndex;
         const isCurrentSlide = (from <= i) && (i <= to);
@@ -106,9 +106,9 @@ export class AnimationToolBar {
                 AnimationToolBar.deselect();
 
 
-            
+
             Share.execute("timelineSetCurrentIndex", [j]);
-            
+
         }
         slide.onmousemove = (evt) => {
             const j = actionIndex(evt);
@@ -179,7 +179,7 @@ export class AnimationToolBar {
             else if (!AnimationToolBar.selection.has(t))
                 AnimationToolBar.deselect();
 
-                Share.execute("timelineSetCurrentIndex", [t]);
+            Share.execute("timelineSetCurrentIndex", [t]);
         }
 
         el.ondrag = (evt) => {
