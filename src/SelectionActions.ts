@@ -51,15 +51,20 @@ export class SelectionActions {
     }
 
 
+
+    get indicesArray(): number[] {
+        return Array.from(this.selection).sort();
+    }
+
     delete(): void {
-        BoardManager.executeOperation(new OperationDeleteSeveralActions(Array.from(this.selection)));
+        BoardManager.executeOperation(new OperationDeleteSeveralActions(this.indicesArray));
         this.selection.clear();
         AnimationToolBar.update();
     }
 
 
     moveTo(dest: number): void {
-        BoardManager.executeOperation(new OperationMoveSevActions(Array.from(this.selection), dest));
+        BoardManager.executeOperation(new OperationMoveSevActions(this.indicesArray, dest));
         this.selection.clear();
         AnimationToolBar.update();
     }
