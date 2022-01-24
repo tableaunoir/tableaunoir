@@ -217,8 +217,8 @@ export class ShareEvent {
     static timelinePreviousPausedFrame(): void { BoardManager.previousPausedFrame() }
     static timelineNextFrame(): void { BoardManager.nextFrame() }
     static timelineNextPausedFrame(): void { BoardManager.nextPausedFrame() }
-
     static newSlide(userid: string): void {BoardManager.newSlide(userid)}
+    static newSlideAndClear(userid: string): void {BoardManager.newSlideAndClear(userid)}
     static mergeSlide(userid: string): void {BoardManager.mergeSlide(userid)}
 
     /**backgrounds */

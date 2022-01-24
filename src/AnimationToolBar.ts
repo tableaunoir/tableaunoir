@@ -163,8 +163,7 @@ export class AnimationToolBar {
         el.draggable = true;
 
         el.oncontextmenu = (evt) => {
-            const menu = new ActionTimeLineMenu(t);
-            menu.show({ x: Layout.getXMiddle(), y: 800 });
+            AnimationToolBar.showMenu();
             evt.preventDefault();
             return;
         }
@@ -306,5 +305,16 @@ export class AnimationToolBar {
 
     }
 
+    private static menu = undefined;
+
+    /**
+     * @description show the menu with the command newslide, newlideandclear, mergeslide etc.
+     */
+    static showMenu(): void {
+        if (AnimationToolBar.menu == undefined)
+            AnimationToolBar.menu = new ActionTimeLineMenu();
+        AnimationToolBar.menu.show({ x: Layout.getXMiddle(), y: 800 });
+
+    }
 
 }

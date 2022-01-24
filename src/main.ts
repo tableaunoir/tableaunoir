@@ -129,13 +129,15 @@ function load() {
 		document.getElementById("canvasBackground").onpointermove = () => { console.log("mousemove on the background should not occur") };
 
 		document.getElementById("previousSlide").onclick = () => Share.execute("timelinePreviousPausedFrame", []);
-		document.getElementById("nextSlide").onclick = () => Share.execute("timelineNextPausedFrame", []);  
-		document.getElementById("newSlide").onclick = () => Share.execute("newSlide", [UserManager.me.userID]);
-		document.getElementById("mergeSlide").onclick = () => Share.execute("mergeSlide", [UserManager.me.userID]);
+		document.getElementById("nextSlide").onclick = () => Share.execute("timelineNextPausedFrame", []);
+		document.getElementById("timelineMenu").onclick = (evt) => {
+			AnimationToolBar.showMenu();
+			evt.stopPropagation();//prevent the menu to be hidden because of a click on the toolbar
+		}
 
 		document.getElementById("previousFrame").onclick = () => Share.execute("timelinePreviousFrame", []);
 		document.getElementById("nextFrame").onclick = () => Share.execute("timelineNextFrame", []);
-		
+
 
 		installMouseEventsCanvas();
 
