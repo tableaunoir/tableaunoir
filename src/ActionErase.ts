@@ -66,7 +66,7 @@ export class ActionErase extends Action {
     * 
     * @returns 
     */
-    async redoAnimated(): Promise<void> {
+    /*async redoAnimated(): Promise<void> {
         this.svgLinesErasedErase();
         for (let i = 1; i < this.points.length; i++) {
             Drawing.clearLine(this.points[i - 1].x, this.points[i - 1].y,
@@ -76,7 +76,7 @@ export class ActionErase extends Action {
                 await this.delay();
         }
 
-    }
+    }*/
 
 
 

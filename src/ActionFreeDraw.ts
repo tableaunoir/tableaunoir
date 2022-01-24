@@ -232,7 +232,7 @@ export class ActionFreeDraw extends Action {
      * 
      * @returns 
      */
-    async redoAnimated(): Promise<void> {
+  /*  async redoAnimated(): Promise<void> {
         if (this.svgLines)
             await this.redo();
         else {
@@ -246,7 +246,7 @@ export class ActionFreeDraw extends Action {
         }
 
 
-    }
+    }*/
 
 
 
