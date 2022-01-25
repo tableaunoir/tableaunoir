@@ -1,6 +1,5 @@
 import { Share } from './share';
 import { GUIActions } from './GUIActions';
-import { CSSStyleModifier } from './CSSStyleModifier';
 import Color from 'color';
 
 

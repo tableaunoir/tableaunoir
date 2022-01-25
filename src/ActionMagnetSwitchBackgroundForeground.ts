@@ -1,7 +1,5 @@
-import { ConstraintDrawing } from './ConstraintDrawing';
 import { ActionSerialized } from './ActionSerialized';
 import { Action } from "./Action";
-import { MagnetMovementUpdater } from './MagnetMovementRecorder';
 
 
 

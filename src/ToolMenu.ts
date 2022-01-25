@@ -1,4 +1,3 @@
-import { GUIActions } from './GUIActions';
 import { Share } from './share';
 import { UserManager } from './UserManager';
 import { CircularMenu } from './CircularMenu';

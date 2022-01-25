@@ -1,4 +1,3 @@
-import { ErrorMessage } from './ErrorMessage';
 import { MagnetTextManager } from './MagnetTextManager';
 import { OptionManager } from './OptionManager';
 import { AnimationToolBar } from './AnimationToolBar';
@@ -76,7 +75,7 @@ export class KeyBoardShortCuts {
         else if (!evt.ctrlKey && !evt.shiftKey && evt.key == "t") { // t => tool menu 
             GUIActions.toolmenu.show({ x: UserManager.me.x, y: UserManager.me.y });
         }
-        else if (evt.key == "+")
+        else if (evt.key == "+" || (evt.ctrlKey && evt.key == "="))
             GUIActions.magnetIncreaseSize();
         else if (evt.key == "-" || evt.key == "=")
             GUIActions.magnetDecreaseSize();

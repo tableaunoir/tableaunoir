@@ -23,24 +23,29 @@ export class SelectionActions {
     /** @description makes the selection empty */
     clear(): void { this.selection.clear(); }
 
-
+    /**
+     * 
+     * @param from 
+     * @param to 
+     * @description add all actions whose indices are between from and to (included)
+     */
     addInterval(from: number, to: number): void {
         for (let k = from; k <= to; k++)
             this.selection.add(k);
     }
 
-
-    private min() { return Math.min(...this.selection); }
-    private max() { return Math.max(...this.selection); }
+    /**
+     * 
+     * @returns the min (resp.) max of the indices of actions in the selection
+     */
+    private get min() { return Math.min(...this.selection); }
+    private get max() { return Math.max(...this.selection); }
 
     /**
      * @description fill in the holes to make the selection contiguous (an interval)
      */
     private makeContiguous(): void {
-        const min = this.min();
-        const max = this.max();
-
-        for (let i = min; i <= max; i++)
+        for (let i = this.min; i <= this.max; i++)
             this.selection.add(i);
     }
 

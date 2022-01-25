@@ -1,5 +1,4 @@
 import { ActionMagnetChangeSizeRatio } from './ActionMagnetChangeSizeRatio';
-import { ClipPathManager } from './ClipPathManager';
 import { ActionFill } from './ActionFill';
 import { Layout } from './Layout';
 import { ErrorMessage } from './ErrorMessage';

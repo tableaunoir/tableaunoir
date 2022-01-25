@@ -11,7 +11,7 @@ export class ActionPrintMagnet extends Action {
 	serializeData(): ActionSerialized {
 		return {
 			type: "printmagnet",
-			 userid: this.userid, magnet: this.magnet.outerHTML,
+			userid: this.userid, magnet: this.magnet.outerHTML,
 			x: this.x, y: this.y
 		};
 	}
@@ -141,8 +141,9 @@ export class ActionPrintMagnet extends Action {
 }
 
 
-
+/**
 function contextSetFontSize(context, fontSize) {
 	const fontArgs = context.font.split(' ');
 	context.font = fontSize + "px" + ' ' + fontArgs[fontArgs.length - 1];
 }
+ */

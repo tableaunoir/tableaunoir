@@ -168,7 +168,7 @@ export class AnimationToolBar {
             return;
         }
 
-        el.ondragend = () => { };
+        el.ondragend = () => { /* nothing */ };
 
         el.onclick = (event) => {
             if (event.ctrlKey)

@@ -1,9 +1,5 @@
 import { Share } from './share';
 import { UserManager } from './UserManager';
-import { ActionSlideStart } from './ActionSlideStart';
-import { OperationAddAction } from './OperationAddAction';
-import { BoardManager } from './boardManager';
-import { AnimationToolBar } from './AnimationToolBar';
 import { CircularMenu } from './CircularMenu';
 
 

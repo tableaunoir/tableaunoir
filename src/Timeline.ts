@@ -259,11 +259,8 @@ export class Timeline {
      * @param {*} action
      * @description insert now an action that was already executed
      */
-    insertActionNowAlreadyExecuted(action: Action, executeAgain: boolean = true): void {
-        //     this.currentIndex++;
-        //   this.actions.splice(this.currentIndex, 0, action);
+    insertActionNowAlreadyExecuted(action: Action, executeAgain = true): void {
         this.insertAction(action, this.currentIndex + 1, executeAgain);
-
     }
 
 
