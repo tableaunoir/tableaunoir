@@ -21,4 +21,6 @@ export class ActionLine extends Action {
         Drawing.drawLine(getCanvas().getContext("2d"), this.x1, this.y1, this.x2, this.y2, 1.0, this.color);
     }
 
+    createOverviewImage(): string { return "url(img/icons/line.svg)"; }
+
 }

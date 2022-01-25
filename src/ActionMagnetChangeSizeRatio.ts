@@ -49,4 +49,5 @@ export class ActionMagnetChangeSizeRatio extends Action {
     async redo(): Promise<void> { this.magnetChangeSize(this.ratio); }
     async undo(): Promise<void> { this.magnetChangeSize(1/this.ratio); }
 
+    createOverviewImage(): string { return "url(img/icons/resize.svg)"; }
 }

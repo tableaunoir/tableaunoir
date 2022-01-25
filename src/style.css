@@ -1061,14 +1061,14 @@ h1 {
 
 .action {
 	position: relative;
-	width: 16px;
-	height: 16px;
+	width: 24px;
+	height: 24px;
 	background-color: rgb(128, 64, 64);
 	border: 1px solid rgb(64, 64, 64);
 	display: inline-block;
 	opacity: 0.7;
 	margin: 0px;
-	background-size: 16px 16px;
+	background-size: 24px 24px;
 }
 
 
