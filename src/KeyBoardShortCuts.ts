@@ -50,6 +50,8 @@ export class KeyBoardShortCuts {
                 Layout.normal();
             else if (CircularMenu.isShown())
                 CircularMenu.hide();
+            else if (AnimationToolBar.isMenu())
+                AnimationToolBar.hideMenu();
             else if (AnimationToolBar.is() && AnimationToolBar.isSelection())
                 AnimationToolBar.deselect();
             else

@@ -131,14 +131,16 @@ function load() {
 		document.getElementById("previousSlide").onclick = () => Share.execute("timelinePreviousPausedFrame", []);
 		document.getElementById("nextSlide").onclick = () => Share.execute("timelineNextPausedFrame", []);
 		document.getElementById("timelineMenu").onclick = (evt) => {
-			AnimationToolBar.showMenu();
+			AnimationToolBar.showMenu(evt.pageX, evt.pageY);
 			evt.stopPropagation();//prevent the menu to be hidden because of a click on the toolbar
 		}
 
 		document.getElementById("previousFrame").onclick = () => Share.execute("timelinePreviousFrame", []);
 		document.getElementById("nextFrame").onclick = () => Share.execute("timelineNextFrame", []);
 
-
+		window.addEventListener("click", e => {
+			AnimationToolBar.hideMenu();
+		});
 		installMouseEventsCanvas();
 
 		/*ErrorMessage.show("Tableaunoir works, but maybe not in share mode since INRIA servers are down see <a href='https://intranet.inria.fr/Actualite/Important-arret-complet-des-services-informatiques-locaux-le-mercredi-24-mars'>here</a>");*/

@@ -122,12 +122,28 @@
 		<div class="timelinecontrols">
 			<button id="previousSlide" title="Previous slide (Page Up)">◀◀</button>
 			<button id="nextSlide" title="Next slide (Page Down)">▶▶</button>
-			<button id="timelineMenu" title="Menu for modifying the timeline"><img draggable="false" class="icon" src="img/icons/1F49E.svg"/></button>
-			<button id="previousFrame" title="Previous action in the timeline">◀</button>
-			<button id="nextFrame" title="Next action in the timeline">▶</button>
-			<div id="timelineSlideActionsWrapper"><div id="timelineSlideActions"></div></div>
+			<button id="timelineMenu" title="Menu for modifying the timeline"><img draggable="false" class="icon"
+					src="img/icons/1F49E.svg" /></button>
+			<button hidden id="previousFrame" title="Previous action in the timeline">◀</button>
+			<button hidden id="nextFrame" title="Next action in the timeline">▶</button>
+			<div id="timelineSlideActionsWrapper">
+				<div id="timelineSlideActions"></div>
+			</div>
 		</div>
 	</div>
+
+
+
+	<div id="contextMenuTimeLine" class="contextmenu" style="display: none">
+		<ul class="menu">
+			<li id="mergeSlide" title="Merge this slde with the next one"><img src="img/icons/2194.svg">Merge slide</li>
+			<li id="newSlide" title="Add a new slide after this one (without erasing the board)"><img
+					src="img/icons/1F5BC.svg"> New slide</li>
+			<li id="newSlideAndClear" title="Add a new clear slide after this one"><img
+					src="img/icons/1F5BCclear.svg">New clear slide</li>
+		</ul>
+	</div>
+
 
 	<div hidden id="loading">
 		<div id="welcomeMessage">Welcome to tableaunoir. The shared board you are trying to reach will appear soon.

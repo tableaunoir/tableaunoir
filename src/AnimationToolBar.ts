@@ -1,8 +1,7 @@
+import { UserManager } from './UserManager';
 import { Share } from './share';
 import { SelectionActions } from './SelectionActions';
 import { ActionSlideStart } from './ActionSlideStart';
-import { Layout } from './Layout';
-import { ActionTimeLineMenu } from './ActionTimeLineMenu';
 import { BoardManager } from './boardManager';
 
 
@@ -94,7 +93,7 @@ export class AnimationToolBar {
         }
 
         slide.onclick = (evt) => {
-            const j = actionIndex(evt); // /!\ compute first (to be sure it is not updated because if the DOM is changed you may get wrong values)
+            const t = actionIndex(evt); // /!\ compute first (to be sure it is not updated because if the DOM is changed you may get wrong values)
 
             if (evt.ctrlKey)
                 AnimationToolBar.selection.addInterval(from, to);
@@ -105,19 +104,23 @@ export class AnimationToolBar {
             else if (!AnimationToolBar.selection.includesInterval(from, to))
                 AnimationToolBar.deselect();
 
-
-
-            Share.execute("timelineSetCurrentIndex", [j]);
-
+            Share.execute("timelineSetCurrentIndex", [t]);
         }
+
         slide.onmousemove = (evt) => {
-            const j = actionIndex(evt);
-            BoardManager.timeline.setCurrentIndex(j);
+            const t = actionIndex(evt);
+            BoardManager.timeline.setCurrentIndex(t);
         }
 
+        slide.oncontextmenu = (evt) => {
+            const t = actionIndex(evt);
+            Share.execute("timelineSetCurrentIndex", [t]);
+            AnimationToolBar.showMenu(evt.pageX, evt.pageY);
+            evt.preventDefault();
+            return;
+        }
 
         slide.onmouseleave = () => { BoardManager.timeline.setCurrentIndex(AnimationToolBar.currentIndex); }
-
         slide.draggable = true;
 
         slide.ondrag = (evt) => {
@@ -163,7 +166,8 @@ export class AnimationToolBar {
         el.draggable = true;
 
         el.oncontextmenu = (evt) => {
-            AnimationToolBar.showMenu();
+            Share.execute("timelineSetCurrentIndex", [t]);
+            AnimationToolBar.showMenu(evt.pageX, evt.pageY);
             evt.preventDefault();
             return;
         }
@@ -305,16 +309,40 @@ export class AnimationToolBar {
 
     }
 
-    private static menu = undefined;
+
+    static hideMenu(): void { document.getElementById("contextMenuTimeLine").style.display = "none" }
+    static isMenu(): boolean { return document.getElementById("contextMenuTimeLine").style.display == "block"; }
 
     /**
      * @description show the menu with the command newslide, newlideandclear, mergeslide etc.
      */
-    static showMenu(): void {
-        if (AnimationToolBar.menu == undefined)
+    static showMenu(x: number, y: number): void {
+        /*if (AnimationToolBar.menu == undefined)
             AnimationToolBar.menu = new ActionTimeLineMenu();
-        AnimationToolBar.menu.show({ x: Layout.getXMiddle(), y: 800 });
+        AnimationToolBar.menu.show({ x: Layout.getXMiddle(), y: 800 });*/
 
+        const menu = document.getElementById("contextMenuTimeLine")
+        menu.style.display = 'block';
+
+
+        if (y + menu.clientHeight > window.innerHeight)
+            y = window.innerHeight - menu.clientHeight;
+
+        menu.style.left = x + "px";
+        menu.style.top = y + "px";
+
+        document.getElementById("mergeSlide").onclick = () => {
+            Share.execute("mergeSlide", [UserManager.me.userID]);
+            AnimationToolBar.hideMenu();
+        }
+
+        document.getElementById("newSlideAndClear").onclick = () => {
+            Share.execute("newSlideAndClear", [UserManager.me.userID]);
+            AnimationToolBar.hideMenu();
+        }
+        document.getElementById("newSlide").onclick = () => {
+            Share.execute("newSlide", [UserManager.me.userID]);
+            AnimationToolBar.hideMenu();
+        };
     }
-
 }

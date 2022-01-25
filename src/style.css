@@ -1069,6 +1069,7 @@ h1 {
 	opacity: 0.7;
 	margin: 0px;
 	background-size: 24px 24px;
+	cursor: pointer;
 }
 
 
@@ -1266,3 +1267,40 @@ h1 {
 .selected:hover {
 	border: 2px solid rgb(0, 195, 255);
 }
+
+
+
+.contextmenu {
+	position: absolute;
+	z-index: 100000;
+}
+
+.menu {
+	display: flex;
+	flex-direction: column;
+	background-color: rgb(97, 97, 97);
+	border-radius: 10px;
+	box-shadow: 0 10px 20px rgb(64 64 64 / 5%);
+	padding: 10px 0;
+}
+
+.menu>li {
+	border: 0;
+	padding: 10px 30px 10px 15px;
+	display: flex;
+	align-items: center;
+	position: relative;
+	text-decoration: unset;
+	color: rgb(223, 223, 223);
+	font-weight: 500;
+	width:200px;
+}
+
+.menu>li>img {
+	width:32px;
+}
+
+.menu>li:hover {
+	background: grey;
+}
+
