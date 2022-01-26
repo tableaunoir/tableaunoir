@@ -36,15 +36,16 @@ export class ActionPrintMagnet extends Action {
 
 				const f = () => {
 
-					const clipPath = img.style.clipPath;
+
 
 					context.globalCompositeOperation = "source-over";
 					context.globalAlpha = 0.9;
-
+					context.save();
+					const clipPath = img.style.clipPath;
 					if (clipPath != "") {
 						const strPointsInClipPath = img.style.clipPath.substr("polygon(".length, clipPath.length - "polygon(".length - ")".length);
 
-						context.save();
+
 						context.beginPath();
 						let begin = true;
 						for (const pointStr of strPointsInClipPath.split(",")) {
@@ -59,22 +60,27 @@ export class ActionPrintMagnet extends Action {
 						context.clip();
 					}
 
+					const w = img.style.width ? parseInt(img.style.width) : img.width;
+					const h = img.height * w / img.width;
 
-					if (img.style.width) {
-						const w = parseInt(img.style.width);
-						const h = img.height * w / img.width;
-						console.log(w);
-						console.log(h);
-						context.drawImage(img,
-							///	0, 0, img.naturalWidth, img.naturalHeight,
-							this.x, this.y, w, h
-						);
+					context.translate(this.x + w / 2, this.y + h / 2);
+					if (img.style.transform != "") {
+						if (img.style.transform.startsWith("rotate(") && img.style.transform.endsWith("rad)")) {
+							const args = img.style.transform.split("(");
+							const angle = parseFloat(args[1]);
+							context.rotate(angle);
+						}
 					}
-					else
-						context.drawImage(img, this.x, this.y);
 
-					if (clipPath != "")
-						context.restore();
+
+					context.filter = img.style.filter;
+
+
+					context.drawImage(img, -w / 2, -h / 2, w, h);
+
+
+					context.filter = "none";
+					context.restore();
 
 					resolve();
 				};
@@ -106,7 +112,7 @@ export class ActionPrintMagnet extends Action {
 					context.fillText(line, this.x + SHIFTX, y + SHIFTY);
 					y = y += fontSize;
 				}
-
+	
 				resolve();
 			}*/
 			/*else {
