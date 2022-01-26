@@ -97,7 +97,7 @@ export class MagnetMovementUpdater {
         const angle = Math.atan2(y - previousy, x - previousx);
 
         if (Math.abs(MagnetMovementUpdater.previousAngle - angle) <= 0.1)
-            magnet.style.rotate = angle + "rad";
+            magnet.style.transform = `rotate${angle}rad)`;
 
         MagnetMovementUpdater.previousAngle = angle;
     }
