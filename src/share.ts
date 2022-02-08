@@ -408,7 +408,7 @@ export class Share {
 		if (obj instanceof MouseEvent) {
 			return {
 				pressure: (<PointerEvent>obj).pressure, offsetX: obj.offsetX, offsetY: obj.offsetY, shiftKey: obj.shiftKey,
-				ctrlKey: obj.ctrlKey
+				ctrlKey: obj.ctrlKey, button: obj.button
 				//detail: obj.detail //should give the number of clicks but does not work with pointerup	
 			};
 		}
@@ -450,7 +450,7 @@ export class Share {
 		Array.from(document.getElementsByClassName("visibleIfShared")).forEach(element => {
 			(<HTMLElement>element).hidden = false;
 		});
-		
+
 		const url = document.location.href;
 
 		/**

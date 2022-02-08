@@ -158,13 +158,28 @@ function installMouseEventsCanvas() {
 	const minDurationMouseMove = 100;//minimum duration between two mousemove without drawing
 	let timeToMouseMove = true;
 	let ismousedown = false;
-	setInterval(() => { timeToMouseMove = true; }, minDurationMouseMove);
+	let hasFocus = true;
+	let changeToErase = false;
 
+	setInterval(() => {
+		timeToMouseMove = true;
+		hasFocus = document.hasFocus()
+	}, minDurationMouseMove);
+
+	document.getElementById("canvas").oncontextmenu = (evt) => evt.preventDefault();
 	document.getElementById("canvas").onpointerdown = (evt) => {
 		evt.preventDefault();
-		ismousedown = true;
-		window["ismousedown"] = true;
-		Share.execute("mousedown", [UserManager.me.userID, evt])
+		if (hasFocus) {
+			ismousedown = true;
+			if (evt.button == 2 && UserManager.me.isToolDraw) {
+				changeToErase = true;
+				Share.execute("switchErase", [UserManager.me.userID]);
+			}
+			else
+				changeToErase = false;
+			window["ismousedown"] = true;
+			Share.execute("mousedown", [UserManager.me.userID, evt])
+		}
 	};
 
 	document.getElementById("canvas").onpointermove = (evt) => {
@@ -185,6 +200,8 @@ function installMouseEventsCanvas() {
 		ismousedown = false;
 		window["ismousedown"] = false;
 		Share.execute("mouseup", [UserManager.me.userID, evt])
+		if (changeToErase)
+			Share.execute("switchChalk", [UserManager.me.userID]);
 	};
 
 	//onpointerleave: stop the drawing to prevent bugs (like it draws a small line)
