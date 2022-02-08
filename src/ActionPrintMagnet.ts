@@ -2,6 +2,10 @@ import { ActionSerialized } from './ActionSerialized';
 import { getCanvas } from "./main";
 import { Action } from "./Action";
 
+
+/**
+ * operation that consists in printing (pasting) the magnet
+ */
 export class ActionPrintMagnet extends Action {
 
 	get xMax(): number { return this.x + this.magnet.clientWidth; }
@@ -34,7 +38,7 @@ export class ActionPrintMagnet extends Action {
 
 				const img = <HTMLImageElement>this.magnet;
 
-				const f = () => {
+				const printImage = () => {
 
 
 
@@ -84,10 +88,11 @@ export class ActionPrintMagnet extends Action {
 
 					resolve();
 				};
-
+				console.log("printing magnet. img.complete = " + img.complete);
 				if (img.complete)
-					f();
-				img.onload = f;
+					printImage();
+				else
+					img.onload = printImage;
 
 			}
 			/* issue #191: actually printing a text magnet is not robust enough
