@@ -172,10 +172,10 @@ export class KeyBoardShortCuts {
                 KeyBoardShortCuts.available = false;
                 setTimeout(() => KeyBoardShortCuts.available = true, 1000);
 
-                if (MagnetManager.getMagnetUnderCursor())
-                    Share.execute("printMagnet", [MagnetManager.getCurrentMagnetID()]);
-                else
-                    GUIActions.pasteFromClipBoard();
+                //   if (MagnetManager.getMagnetUnderCursor())
+                Share.execute("printMagnet", [MagnetManager.getCurrentMagnetID()]);
+                /* else
+                     GUIActions.pasteFromClipBoard();*/
 
 
             }
