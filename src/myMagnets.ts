@@ -19,14 +19,6 @@ async function fetchAllEmojis() {
 }
 
 
-/**
- * 
- * @param hexcode 
- * @returns the url to the SVG filename
- */
-function openMojiSVGurl(hexcode: string): string {
-    return `https://raw.githubusercontent.com/hfg-gmuend/openmoji/master/color/svg/${hexcode}.svg`;
-}
 
 
 /**
@@ -34,9 +26,20 @@ function openMojiSVGurl(hexcode: string): string {
  * @param hexcode 
  * @returns the magnet corresponing to the image of hexcode
  */
-function openMojiMagnet(hexcode) {
+function openMojiMagnet(hexcode: string): HTMLImageElement {
+    /**
+    * @param hexcode 
+    * @returns the url to the SVG filename
+    */
+    const openMojiSVGurl = (hexcode: string) => `https://raw.githubusercontent.com/hfg-gmuend/openmoji/master/color/svg/${hexcode}.svg`;
+
     const el = document.createElement("img");
-    el.src = openMojiSVGurl(hexcode);
+    fetch(openMojiSVGurl(hexcode)).then((response) => response.text().then(
+        (txt) => {
+            const svgStr = txt.replace("<svg ", '<svg width="72" height="72" ');
+            const blob = new Blob([svgStr], { type: 'image/svg+xml' });
+            el.src = URL.createObjectURL(blob);
+        }));
     el.style.width = "96px";
     return el;
 }
