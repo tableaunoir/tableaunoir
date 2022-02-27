@@ -36,9 +36,9 @@ function openMojiMagnet(hexcode: string): HTMLImageElement {
     const el = document.createElement("img");
     fetch(openMojiSVGurl(hexcode)).then((response) => response.text().then(
         (txt) => {
-            const svgStr = txt.replace("<svg ", '<svg width="72" height="72" ');
-            const blob = new Blob([svgStr], { type: 'image/svg+xml' });
-            el.src = URL.createObjectURL(blob);
+            const svgStr = encodeURIComponent(txt.replace("<svg ", '<svg width="72" height="72" '));
+            // const blob = new Blob([svgStr], { type: 'image/svg+xml' });//blob can not be saved :(
+            el.src = 'data:image/svg+xml;utf8,' + svgStr;//URL.createObjectURL(blob);
         }));
     el.style.width = "96px";
     return el;

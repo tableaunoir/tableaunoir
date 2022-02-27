@@ -171,7 +171,8 @@ export class Drawing {
             context.globalAlpha = 1;
             const dist = Math.round(Math.sqrt((x2 - x1) ** 2 + (y2 - y1) ** 2));
 
-            for (let i = 0; i < dist; i += 8) {
+            const STEP = 4;//8
+            for (let i = 0; i < dist; i += STEP) {
                 const x = x1 + (i * (x2 - x1) / dist);
                 const y = y1 + (i * (y2 - y1) / dist);
 
@@ -244,12 +245,12 @@ export class Drawing {
         if (Drawing.isEraserEffect) {
             let n = 0;
             const pixels = context.getImageData(x1 - lineWidth2, y1 - lineWidth2, lineWidth, lineWidth).data;
-            const nbPixels = 6;
+            const nbPixels = 64; //nb of pixels in the sample
             let maxAlpha = 0;
             for (let j = 0; j < nbPixels; j++) {
                 const i = Math.floor(Math.random() * pixels.length / 4);
                 if (pixels[4 * i + 3] > 0) {
-                    n += pixels[4 * i + 3];
+                    n += pixels[4 * i + 3]; //sum of alpha channel (one solid pixel counts for 255)
                     r += pixels[4 * i];
                     g += pixels[4 * i + 1];
                     b += pixels[4 * i + 2];
@@ -263,7 +264,7 @@ export class Drawing {
                 r = seuil(r);
                 g = seuil(g);
                 b = seuil(b);
-                a = Math.min(0.5, maxAlpha * 0.7 / 255, 255 * n / (nbPixels * 255));
+                a = Math.min(0.4, maxAlpha * 0.4 / 255, 255 * n / (nbPixels * 255));
             }
 
         }
