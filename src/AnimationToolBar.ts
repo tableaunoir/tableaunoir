@@ -107,11 +107,17 @@ export class AnimationToolBar {
             Share.execute("timelineSetCurrentIndex", [t]);
         }
 
+
+
         slide.onmousemove = (evt) => {
-            const t = actionIndex(evt);
-            BoardManager.timeline.setCurrentIndex(t);
+            SnapshotGoToTimeStep.goto(actionIndex(evt));
         }
 
+        slide.onmouseleave = () => {
+            SnapshotGoToTimeStep.goto(AnimationToolBar.currentIndex);
+        }
+
+        
         slide.oncontextmenu = (evt) => {
             const t = actionIndex(evt);
             Share.execute("timelineSetCurrentIndex", [t]);
@@ -120,7 +126,7 @@ export class AnimationToolBar {
             return;
         }
 
-        slide.onmouseleave = () => { BoardManager.timeline.setCurrentIndex(AnimationToolBar.currentIndex); }
+
         slide.draggable = true;
 
         slide.ondrag = (evt) => {
@@ -344,5 +350,29 @@ export class AnimationToolBar {
             Share.execute("newSlide", [UserManager.me.userID]);
             AnimationToolBar.hideMenu();
         };
+    }
+}
+
+
+
+
+
+
+
+
+
+class SnapshotGoToTimeStep {
+    private static t = 0;
+    static timeoutSnapshot = null;
+
+    private static _update() {
+        BoardManager.timeline.setCurrentIndex(SnapshotGoToTimeStep.t);
+        SnapshotGoToTimeStep.timeoutSnapshot = null;
+    }
+
+    static goto(t: number) {
+        SnapshotGoToTimeStep.t = t;
+        if (SnapshotGoToTimeStep.timeoutSnapshot == null)
+            SnapshotGoToTimeStep.timeoutSnapshot = setTimeout(SnapshotGoToTimeStep._update, 200);
     }
 }
