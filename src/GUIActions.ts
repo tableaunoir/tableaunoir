@@ -23,7 +23,7 @@ export class GUIActions {
         const magnet = MagnetManager.getMagnetUnderCursor();
         if (magnet)
             magnet.style.backgroundColor = UserManager.me.color;//MagnetManager.nextBackgroundColor
-        else
+        else if (UserManager.me.lastDelineation.points.length > 1)
             BoardManager.addAction(new ActionFill(UserManager.me.userID, UserManager.me.lastDelineation.points, UserManager.me.color));
     }
 

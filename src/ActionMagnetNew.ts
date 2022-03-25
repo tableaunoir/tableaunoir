@@ -1,3 +1,4 @@
+import { MagnetTextManager } from './MagnetTextManager';
 import { ActionSerialized } from './ActionSerialized';
 import { Action } from "./Action";
 import { MagnetManager } from './magnetManager';
@@ -26,7 +27,12 @@ export class ActionMagnetNew extends Action {
     }
 
 
-    createOverviewImage(): string { return "url(img/icons/1F9F2.svg)"; }
+    createOverviewImage(): string {
+        if (MagnetTextManager.isTextMagnet(this.magnet))
+            return "url(img/icons/text-svgrepo-com.svg)"; //special icon for text magnet
+        else
+            return "url(img/icons/1F9F2.svg)";
+    }
 
     /**
      * 
