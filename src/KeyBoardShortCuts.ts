@@ -61,7 +61,12 @@ export class KeyBoardShortCuts {
         if (Menu.isShown())
             return;
 
-        if (evt.ctrlKey && evt.altKey && evt.key == "k") { // clear the board
+        if (evt.altKey && evt.key == "n" && UserManager.me.canWrite) {// alt + n = new slide
+            Share.execute("newSlideAndClear", [UserManager.me.userID]);
+            AnimationToolBar.hideMenu();
+            evt.preventDefault();
+        }
+        else if (evt.ctrlKey && evt.altKey && evt.key == "k") { // clear the board
             Share.execute("boardReset", []);
         }
         else if (evt.ctrlKey && evt.altKey && evt.key == "h") { // mouse cursor hidden or not
