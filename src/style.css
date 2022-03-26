@@ -398,24 +398,10 @@ div.magnet {
 }
 
 
-@keyframes magnetCreation {
-	from {
-		background-color: rgb(0, 0, 0);
-		filter: blur(2px)
-	}
-
-	to {
-		background-color: rgba(32, 32, 32, 0.9);
-		background-image: none;
-	}
-}
-
-
 
 img.magnet {
 	padding: 0px;
 	background-color: rgba(128, 128, 128, 0.2);
-	animation: magnetCreation 500ms normal;
 }
 
 img.magnet.backgroundTransparent {
@@ -424,34 +410,6 @@ img.magnet.backgroundTransparent {
 
 
 
-@keyframes magnetCreationPolygon {
-	0% {
-		opacity: 0;
-	}
-
-	50% {
-		stroke-dashoffset: 1000;
-		opacity: 0.5;
-	}
-
-	100% {
-		stroke-dashoffset: 2000;
-		opacity: 1;
-	}
-}
-
-
-
-
-#magnetCreationPolygon {
-	stroke: greenyellow;
-	fill: none;
-	stroke-width: 8px;
-	stroke-dasharray: 100 100;
-	animation: magnetCreationPolygon 2s infinite;
-
-
-}
 
 /** Gale-Shapley, the B's**/
 .GS_B {
