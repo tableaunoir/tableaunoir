@@ -119,7 +119,10 @@ export class BoardNavigation {
         BoardNavigation.showPageNumber(xCorrected);
     }
 
-
+    /**
+     * 
+     * @param x show the page number on the top right
+     */
     static showPageNumber(x: number): void {
         const pageNumber = document.getElementById("pageNumber");
         const canvas = getCanvas();

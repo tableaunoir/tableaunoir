@@ -210,7 +210,7 @@ export class ShareEvent {
     static timelineRemoveAction(t: number): void { BoardManager.timeline.deleteAction(t); }
 
     static timelineSetCurrentIndex(t: number): void {
-        BoardManager.timeline.setCurrentIndex(t);
+        BoardManager.setTimeLineCurrentIndex(t);
         AnimationToolBar.update();
     }
     static timelinePreviousFrame(): void { BoardManager.previousFrame() }

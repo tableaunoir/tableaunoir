@@ -16,6 +16,14 @@ import { ActionInit } from './ActionInit';
  * data structure for the linear history of actions (draw a line, eraser here, etc.)
  */
 export class Timeline {
+    getSlideNumber(): number {
+        let c = 1;
+        for (let i = 1; i <= this.currentIndex; i++) {
+            if (this.actions[i] instanceof ActionSlideStart)
+                c++;
+        }
+        return c;
+    }
 
     /**
      * stack of actions
@@ -388,11 +396,11 @@ export class Timeline {
     }
 
 
-      /**
-     * 
-     * @returns the time step of the next "newslide" after the current slide
-     */
-       getNextNewSlideActionIndex(): number {
+    /**
+   * 
+   * @returns the time step of the next "newslide" after the current slide
+   */
+    getNextNewSlideActionIndex(): number {
         for (let i = this.currentIndex + 1; i <= this.actions.length - 1; i++)
             if (this.actions[i] instanceof ActionSlideStart)
                 return i;
@@ -424,7 +432,7 @@ export class Timeline {
         const newIndex = this.getPreviousSlideLastFrame();
 
         //if newIndex = 0 means that we are already in the first slide
-        if (newIndex > 0) 
+        if (newIndex > 0)
             this.setCurrentIndex(newIndex);
         /*
         if (newIndex != this.currentIndex) {

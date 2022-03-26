@@ -22,6 +22,11 @@ import { AnimationManager } from './AnimationManager';
  * Manage the board
  */
 export class BoardManager {
+    static setTimeLineCurrentIndex(t: number): void {
+        BoardManager.timeline.setCurrentIndex(t);
+        BoardManager.updateSlideNumber();
+
+    }
 
     static readonly MAGNETCANCELLABLE = true;
 
@@ -215,12 +220,14 @@ export class BoardManager {
         AnimationManager.end();
         await BoardManager.timeline.previousPausedFrame();
         AnimationToolBar.updateCurrentIndex();
+        BoardManager.updateSlideNumber(0);
     }
 
     /**
      * @decription go the next slide by executing the animation
      */
     static async nextPausedFrame(): Promise<void> {
+        BoardManager.updateSlideNumber(1);
         if (AnimationManager.isRunning)
             AnimationManager.end();
         else {
@@ -232,6 +239,17 @@ export class BoardManager {
 
     }
 
+
+    /**
+     * 
+     * @param shift 
+     * @description update the slide number in the bottom right corner (+shift to the slide number)
+     */
+    private static updateSlideNumber(shift = 0): void {
+        const slideNumberElement = document.getElementById("slideNumber");
+        slideNumberElement.hidden = false;
+        slideNumberElement.innerHTML = "" + (BoardManager.timeline.getSlideNumber() + shift);
+    }
 
 
     static async previousFrame(): Promise<void> {
