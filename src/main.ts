@@ -97,8 +97,8 @@ function load() {
 			evt.stopPropagation();
 		}
 
-		document.getElementById("buttonChalk").onclick = GUIActions.switchChalkEraser;
-		document.getElementById("buttonEraser").onclick = GUIActions.switchChalkEraser;
+		document.getElementById("buttonChalk").onclick = GUIActions.switchDrawEraser;
+		document.getElementById("buttonEraser").onclick = GUIActions.switchDrawEraser;
 
 		document.getElementById("buttonTools").onclick = (evt) => {
 			GUIActions.toolmenu.show({ x: UserManager.me.x, y: UserManager.me.y });
@@ -173,7 +173,7 @@ function installMouseEventsCanvas() {
 			ismousedown = true;
 			if (evt.button == 2 && UserManager.me.isToolDraw) {
 				changeToErase = true;
-				Share.execute("switchErase", [UserManager.me.userID]);
+				Share.execute("switchEraser", [UserManager.me.userID]);
 			}
 			else
 				changeToErase = false;
@@ -201,7 +201,7 @@ function installMouseEventsCanvas() {
 		window["ismousedown"] = false;
 		Share.execute("mouseup", [UserManager.me.userID, evt])
 		if (changeToErase)
-			Share.execute("switchChalk", [UserManager.me.userID]);
+			Share.execute("switchDraw", [UserManager.me.userID]);
 	};
 
 	//onpointerleave: stop the drawing to prevent bugs (like it draws a small line)

@@ -105,6 +105,7 @@ export class AnimationToolBar {
                 AnimationToolBar.deselect();
 
             Share.execute("timelineSetCurrentIndex", [t]);
+            
         }
 
 
@@ -117,7 +118,7 @@ export class AnimationToolBar {
             SnapshotGoToTimeStep.goto(AnimationToolBar.currentIndex);
         }
 
-        
+
         slide.oncontextmenu = (evt) => {
             const t = actionIndex(evt);
             Share.execute("timelineSetCurrentIndex", [t]);

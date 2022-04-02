@@ -16,7 +16,7 @@ import { Tool } from './Tool';
  * 
  */
 export class ToolEraser extends Tool {
-
+    name = "ToolEraser";
 
     private action: ActionErase; //the current action being constructed
 
@@ -63,7 +63,7 @@ export class ToolEraser extends Tool {
 
     updateEraserCursor(): void {
         this.setToolCursorImage(EraserCursor.getStyleCursor(this.eraseLineWidth, this.temperature));
-        document.getElementById("eraserGauge").setAttribute('style', "width : " + this.temperature/4 + ";");
+        document.getElementById("eraserGauge").setAttribute('style', "width : " + this.temperature / 4 + ";");
         document.getElementById("eraserGauge").style.backgroundColor = EraserCursor.temperatureToColor(this.temperature);
         document.getElementById("eraserLvl").innerHTML = (this.iMode < this.modeSizes.length - 1) ? "size " + this.iMode : "max!";
     }
@@ -119,7 +119,7 @@ export class ToolEraser extends Tool {
 
             else { //if moving and not last mode
                 // this.temperature += Math.sqrt((this.x - evtX) ** 2 + (this.y - evtY) ** 2);
-                this.temperature =  Math.max(0, this.temperature+tempIncr);
+                this.temperature = Math.max(0, this.temperature + tempIncr);
             }
 
 

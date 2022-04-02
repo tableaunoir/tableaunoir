@@ -1,7 +1,7 @@
 import { ToolEllipse } from './ToolEllipse';
 
 export class ToolEllipseByBorder extends ToolEllipse {
-
+    name = "ToolEllipseByBorder";
     compute: (evt:PointerEvent) => void = (evt:PointerEvent) => {
         const x1 = Math.min(this.xInit, this.x);
         const y1 = Math.min(this.yInit, this.y);

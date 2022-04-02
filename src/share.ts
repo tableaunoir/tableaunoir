@@ -287,12 +287,21 @@ export class Share {
 				break;
 			case "newmagnet":
 				MagnetManager.addMagnetFromAnotherUser(msg.userid, HTMLdeserialize(msg.data)); break;
-			case "execute": ShareEvent[msg.event](...msg.params); break;
+			case "execute":
+				if (ShareEvent[msg.event])
+					ShareEvent[msg.event](...msg.params);
+				else
+					throw "Event " + msg.event + " not found. I do not understand what I received from the server.";
+				break;
 		}
 	}
 
 
-
+	/**
+	 * 
+	 * @param idNewUser 
+	 * @description send the information about all the users to the new incoming user idNewUser
+	 */
 	private static sendAllDataTo(idNewUser: string): void {
 		Share.send({ type: "wait", to: idNewUser });
 		Share.executeTo("setCanWriteValueByDefault", [Share.canWriteValueByDefault], idNewUser);
@@ -303,7 +312,13 @@ export class Share {
 			Share.executeTo("setCurrentColor", [userid, UserManager.users[userid].color], idNewUser);
 			Share.executeTo("setUserCanWrite", [userid, UserManager.users[userid].canWrite], idNewUser);
 
-			if (UserManager.users[userid].isRoot)
+			const user = UserManager.users[userid];
+
+			//switch to the correct tool
+			const toolClassName = user.tool.name; 
+			Share.executeTo("switch" + toolClassName.substring("Tool".length), [userid], idNewUser);
+
+			if (user.isRoot)
 				Share.executeTo("setRoot", [userid], idNewUser);
 		}
 

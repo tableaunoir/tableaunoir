@@ -2,6 +2,7 @@ import { ActionEllipse } from './ActionEllipse';
 import { ToolAbstractShape } from './ToolAbstractShape';
 
 export abstract class ToolEllipse extends ToolAbstractShape {
+    
 
     cx: number;
     cy: number;

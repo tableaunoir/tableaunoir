@@ -25,7 +25,7 @@ export class ToolMenu extends CircularMenu {
             src: "img/icons/free.svg",
             title: "Draw and write freely",
             onclick: () => {
-                Share.execute("switchChalk", [UserManager.me.userID]);
+                Share.execute("switchDraw", [UserManager.me.userID]);
                 CircularMenu.hide();
             }
         });

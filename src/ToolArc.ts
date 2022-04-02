@@ -9,6 +9,7 @@ import { Share } from './share';
 import { ActionFreeDraw } from './ActionFreeDraw';
 
 export class ToolArc extends Tool {
+    name = "ToolArc";
     private elementCenter: HTMLElement;
     private elementRadius: HTMLElement;
     private elementCircle: SVGEllipseElement;
@@ -213,7 +214,7 @@ export class ToolArc extends Tool {
         }
 
     }
-    
+
     mouseup(): void {
         this.isDrawing = false;
         this.elementRadius.style.visibility = "visible";

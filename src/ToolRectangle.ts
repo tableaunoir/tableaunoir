@@ -2,7 +2,7 @@ import { ActionRectangle } from './ActionRectangle';
 import { ToolAbstractShape } from './ToolAbstractShape';
 
 export class ToolRectangle extends ToolAbstractShape {
-
+    name = "ToolRectangle";
     x1: number;
     y1: number;
     x2: number;

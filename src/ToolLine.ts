@@ -2,6 +2,7 @@ import { ActionLine } from './ActionLine';
 import { ToolAbstractShape } from './ToolAbstractShape';
 
 export class ToolLine extends ToolAbstractShape {
+    name = "ToolLine";
 
     x1: number;
     y1: number;
@@ -15,7 +16,7 @@ export class ToolLine extends ToolAbstractShape {
         this.y2 = this.y;
 
         if (evt.shiftKey) {
-            if(Math.abs(this.x1 - this.x2) > Math.abs(this.y1 - this.y2))
+            if (Math.abs(this.x1 - this.x2) > Math.abs(this.y1 - this.y2))
                 this.y2 = this.y1;
             else
                 this.x2 = this.x1;

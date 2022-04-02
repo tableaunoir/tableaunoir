@@ -122,8 +122,8 @@ export class User {
 
 
     //changing tools. The 2 style editions per line for the following statements are used to switch the eraser gauge display
-    switchChalk(): void { this.tool.destructor(); this.tool = new ToolDraw(this); }
-    switchErase(): void { this.tool.destructor(); CircularMenu.hide(); this.tool = new ToolEraser(this); }
+    switchDraw(): void { this.tool.destructor(); this.tool = new ToolDraw(this); }
+    switchEraser(): void { this.tool.destructor(); CircularMenu.hide(); this.tool = new ToolEraser(this); }
     switchLine(): void { this.tool.destructor(); this.tool = new ToolLine(this); }
     switchRectangle(): void { this.tool.destructor(); this.tool = new ToolRectangle(this); }
     switchEllipseByBorder(): void { this.tool.destructor(); this.tool = new ToolEllipseByBorder(this); }

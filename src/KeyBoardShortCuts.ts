@@ -89,7 +89,7 @@ export class KeyBoardShortCuts {
         else if (evt.key == "b")
             GUIActions.magnetSwitchBackgroundForeground();
         else if (evt.key == "e")  //e = switch eraser and chalk
-            GUIActions.switchChalkEraser();
+            GUIActions.switchDrawEraser();
         else if (evt.key == "f")
             GUIActions.fill();
         else if (evt.key == "h")

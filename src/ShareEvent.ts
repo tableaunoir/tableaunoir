@@ -44,33 +44,13 @@ export class ShareEvent {
         UserManager.users[userId].setCurrentColor(color);
     }
 
-    static switchErase(userId: string): void {
-        UserManager.users[userId].switchErase();
-    }
-
-    static switchChalk(userId: string): void {
-        UserManager.users[userId].switchChalk();
-    }
-
-    static switchLine(userId: string): void {
-        UserManager.users[userId].switchLine();
-    }
-
-    static switchRectangle(userId: string): void {
-        UserManager.users[userId].switchRectangle();
-    }
-
-    static switchEllipseByBorder(userId: string): void {
-        UserManager.users[userId].switchEllipseByBorder();
-    }
-
-    static switchEllipseByCenter(userId: string): void {
-        UserManager.users[userId].switchEllipseByCenter();
-    }
-
-    static switchArc(userId: string): void {
-        UserManager.users[userId].switchArc();
-    }
+    static switchEraser(userId: string): void { UserManager.users[userId].switchEraser(); }
+    static switchDraw(userId: string): void { UserManager.users[userId].switchDraw(); }
+    static switchLine(userId: string): void { UserManager.users[userId].switchLine(); }
+    static switchRectangle(userId: string): void { UserManager.users[userId].switchRectangle(); }
+    static switchEllipseByBorder(userId: string): void { UserManager.users[userId].switchEllipseByBorder(); }
+    static switchEllipseByCenter(userId: string): void { UserManager.users[userId].switchEllipseByCenter(); }
+    static switchArc(userId: string): void { UserManager.users[userId].switchArc(); }
 
     static toolArcSetAttributes(userId: string, center: { x: number, y: number }, radiusHandlePosition: { x: number, y: number }): void {
         console.log(userId)
@@ -217,9 +197,9 @@ export class ShareEvent {
     static timelinePreviousPausedFrame(): void { BoardManager.previousPausedFrame() }
     static timelineNextFrame(): void { BoardManager.nextFrame() }
     static timelineNextPausedFrame(): void { BoardManager.nextPausedFrame() }
-    static newSlide(userid: string): void {BoardManager.newSlide(userid)}
-    static newSlideAndClear(userid: string): void {BoardManager.newSlideAndClear(userid)}
-    static mergeSlide(userid: string): void {BoardManager.mergeSlide(userid)}
+    static newSlide(userid: string): void { BoardManager.newSlide(userid) }
+    static newSlideAndClear(userid: string): void { BoardManager.newSlideAndClear(userid) }
+    static mergeSlide(userid: string): void { BoardManager.mergeSlide(userid) }
 
     /**backgrounds */
 

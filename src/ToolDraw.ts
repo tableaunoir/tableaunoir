@@ -12,6 +12,7 @@ import { Tool } from './Tool';
 
 
 export class ToolDraw extends Tool {
+    name = "ToolDraw";
     lastDelineation = new Delineation();
     private action: ActionFreeDraw;
     private guessMagnetConnection = new ToolDrawGuessMagnetConnection();

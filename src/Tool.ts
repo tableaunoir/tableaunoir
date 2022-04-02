@@ -6,6 +6,7 @@ import { User } from './User';
  * This is an abstract tool (like erasing, drawing, drawing a line, rectangle, drawing a circle)
  */
 export abstract class Tool {
+    readonly abstract name: string;
     xInit = 0;
     yInit = 0;
 

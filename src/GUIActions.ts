@@ -70,7 +70,7 @@ export class GUIActions {
             }
 
             if (UserManager.me.isToolErase)
-                Share.execute("switchChalk", [UserManager.me.userID]);
+                Share.execute("switchDraw", [UserManager.me.userID]);
             Share.execute("setCurrentColor", [UserManager.me.userID, GUIActions.palette.getCurrentColor()]);
 
 
@@ -97,7 +97,7 @@ export class GUIActions {
 
     static previousColor(calledFromKeyBoard = false): void {
         if (MagnetManager.getMagnetUnderCursor() == undefined) { //if no magnet under the cursor, change the color of the chalk
-            UserManager.me.switchChalk();
+            UserManager.me.switchDraw();
 
             if (!UserManager.me.tool.isDrawing && (GUIActions.paletteShowOnKey || !calledFromKeyBoard))
                 GUIActions.palette.show({ x: UserManager.me.tool.x, y: UserManager.me.tool.y });
@@ -109,11 +109,11 @@ export class GUIActions {
         }
     }
 
-    static switchChalkEraser(): void {
+    static switchDrawEraser(): void {
         if (!UserManager.me.isToolDraw)
-            Share.execute("switchChalk", [UserManager.me.userID]);
+            Share.execute("switchDraw", [UserManager.me.userID]);
         else
-            Share.execute("switchErase", [UserManager.me.userID]);
+            Share.execute("switchEraser", [UserManager.me.userID]);
     }
 
 
