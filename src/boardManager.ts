@@ -220,21 +220,24 @@ export class BoardManager {
         AnimationManager.end();
         await BoardManager.timeline.previousPausedFrame();
         AnimationToolBar.updateCurrentIndex();
-        BoardManager.updateSlideNumber(0);
+        BoardManager.updateSlideNumber();
     }
 
     /**
      * @decription go the next slide by executing the animation
      */
     static async nextPausedFrame(): Promise<void> {
-        BoardManager.updateSlideNumber(1);
-        if (AnimationManager.isRunning)
+        if (AnimationManager.isRunning) {
             AnimationManager.end();
+            BoardManager.updateSlideNumber();
+        }
         else {
+            BoardManager.updateSlideNumber(1);
             AnimationManager.begin();
             await BoardManager.timeline.nextPausedFrame();
             AnimationManager.end();
             AnimationToolBar.updateCurrentIndex();
+            BoardManager.updateSlideNumber();
         }
 
     }
@@ -293,6 +296,7 @@ export class BoardManager {
      */
     static newSlideAndClear(userid: string): void {
         BoardManager.addAction(new ActionSlideStart(userid));
+        BoardManager.updateSlideNumber();
         document.getElementById("content").style.filter = "invert(0.5)";
         BoardManager.addAction(new ActionClear(userid));
         setTimeout(() => document.getElementById("content").style.filter = "", 100);
@@ -306,6 +310,7 @@ export class BoardManager {
  */
     static newSlide(userid: string): void {
         BoardManager.addAction(new ActionSlideStart(userid));
+        BoardManager.updateSlideNumber();
         document.getElementById("content").style.filter = "invert(0.5)";
         setTimeout(() => document.getElementById("content").style.filter = "", 100);
     }
