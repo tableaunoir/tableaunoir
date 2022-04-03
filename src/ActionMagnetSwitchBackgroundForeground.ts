@@ -30,7 +30,7 @@ export class ActionMagnetSwitchBackgroundForeground extends Action {
         this.isDirectlyUndoable = true;
     }
 
-    createOverviewImage(): string { return "url(img/icons/E103.svg)"; }
+    createOverviewImage(): string { return "url(img/icons/magnetMove.svg)"; }
 
     do(): void {
         const m = document.getElementById(this.magnetid);

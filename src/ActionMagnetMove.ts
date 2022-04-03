@@ -33,7 +33,7 @@ export class ActionMagnetMove extends Action {
         this.isDirectlyUndoable = true;
     }
 
-    createOverviewImage(): string { return "url(img/icons/E103.svg)"; }
+    createOverviewImage(): string { return "url(img/icons/magnetMove.svg)"; }
 
 
     private setPosition(point: { x: number, y: number }): void {
