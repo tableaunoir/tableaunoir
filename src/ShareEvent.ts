@@ -1,3 +1,4 @@
+import { ActionMagnetDelete } from './ActionMagnetDelete';
 import { AnimationToolBar } from './AnimationToolBar';
 import { ActionDeserializer } from './ActionDeserializer';
 import { MagnetTextManager } from './MagnetTextManager';
@@ -151,7 +152,7 @@ export class ShareEvent {
         }
         if (MagnetTextManager.isTextMagnet(magnet)) {
             const action = BoardManager.getLastAction();
-            if (action instanceof ActionMagnetNew)
+            if (action instanceof ActionMagnetNew) //if the text magnet was just added, modifying it will just update it
                 action.setMagnet(magnet);
             else
                 BoardManager.addAction(new ActionMagnetNew(userid, magnet));

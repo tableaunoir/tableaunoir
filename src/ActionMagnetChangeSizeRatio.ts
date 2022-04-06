@@ -14,7 +14,7 @@ export class ActionMagnetChangeSizeRatio extends Action {
     serializeData(): ActionSerialized {
         return {
             type: "magnetchangesizeratio",
-             userid: this.userid, magnetid: this.magnetid, ratio: this.ratio
+            userid: this.userid, magnetid: this.magnetid, ratio: this.ratio
         };
     }
 
@@ -38,16 +38,20 @@ export class ActionMagnetChangeSizeRatio extends Action {
      */
     private magnetChangeSize(ratio: number): void {
         const magnet = document.getElementById(this.magnetid);
-        if (!magnet.style.width)
-            magnet.style.width = magnet.clientWidth + "px";
 
-        magnet.style.clipPath = ClipPathManager.clipPathChangeSize(magnet.style.clipPath, ratio);
-        magnet.style.width = (parseInt(magnet.style.width) * ratio) + "px";
+        if (magnet) {
+            if (!magnet.style.width)
+                magnet.style.width = magnet.clientWidth + "px";
+
+            magnet.style.clipPath = ClipPathManager.clipPathChangeSize(magnet.style.clipPath, ratio);
+            magnet.style.width = (parseInt(magnet.style.width) * ratio) + "px";
+        }
+
     }
 
 
     async redo(): Promise<void> { this.magnetChangeSize(this.ratio); }
-    async undo(): Promise<void> { this.magnetChangeSize(1/this.ratio); }
+    async undo(): Promise<void> { this.magnetChangeSize(1 / this.ratio); }
 
     createOverviewImage(): string { return "url(img/icons/resize.svg)"; }
 }

@@ -1,3 +1,4 @@
+import { MagnetTextManager } from './MagnetTextManager';
 import { ActionMagnetChangeSizeRatio } from './ActionMagnetChangeSizeRatio';
 import { ActionFill } from './ActionFill';
 import { Layout } from './Layout';
@@ -120,8 +121,12 @@ export class GUIActions {
 
     static magnetChangeSize(ratio: number): void {
         const magnet = MagnetManager.getMagnetUnderCursor();
-        const id = magnet.id;
-        BoardManager.addAction(new ActionMagnetChangeSizeRatio(UserManager.me.userID, id, ratio), true);
+        if (magnet) {
+            if (!MagnetTextManager.isTextMagnet(magnet)) {
+                const id = magnet.id;
+                BoardManager.addAction(new ActionMagnetChangeSizeRatio(UserManager.me.userID, id, ratio), true);
+            }
+        }
     }
 
     static magnetIncreaseSize(): void { GUIActions.magnetChangeSize(1.1); }

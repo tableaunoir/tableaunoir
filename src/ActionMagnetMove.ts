@@ -37,8 +37,9 @@ export class ActionMagnetMove extends Action {
 
 
     private setPosition(point: { x: number, y: number }): void {
-        if (document.getElementById(this.magnetid)) {
-            MagnetMovementUpdater.update(document.getElementById(this.magnetid), point.x, point.y);
+        const magnet = document.getElementById(this.magnetid);
+        if (magnet) {
+            MagnetMovementUpdater.update(magnet, point.x, point.y);
             ConstraintDrawing.update();
         }
 

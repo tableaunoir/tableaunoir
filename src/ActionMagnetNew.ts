@@ -5,7 +5,7 @@ import { MagnetManager } from './magnetManager';
 
 
 export class ActionMagnetNew extends Action {
-    //    previousMagnet: HTMLElement;
+    previousMagnet: HTMLElement; // the new magnet is maybe a replacement. We store here the previous magnet.
     magnet: HTMLElement;
 
     get xMax(): number { return 0; }
@@ -20,10 +20,11 @@ export class ActionMagnetNew extends Action {
 
     constructor(userid: string, magnet: HTMLElement) {
         super(userid);
-        //this.previousMagnet = document.getElementById(this.magnet.id)
         this.magnet = <HTMLElement>magnet.cloneNode(true);
         this.magnet.onclick = magnet.onclick;
         this.isDirectlyUndoable = true;
+
+        this.previousMagnet = document.getElementById(this.magnet.id);
     }
 
 
@@ -44,8 +45,27 @@ export class ActionMagnetNew extends Action {
         this.magnet.onclick = magnet.onclick;
     }
 
+
+
+
+
+    /**
+     * 
+     * @param magnet 
+     * @description add a copy of the magnet magnet
+     */
+    private _addMagnet(magnet: HTMLElement) {
+        const copyMagnet = <HTMLElement>magnet.cloneNode(true);
+        copyMagnet.onclick = magnet.onclick;
+        document.getElementById("magnets").appendChild(copyMagnet);
+        MagnetManager._installMagnet(copyMagnet);
+    }
+
+
+
     async redo(): Promise<void> {
         const previousElement = document.getElementById(this.magnet.id);
+        this.previousMagnet = previousElement;
 
         if (previousElement) {
             /**
@@ -64,28 +84,13 @@ export class ActionMagnetNew extends Action {
 
 
 
-    /**
-     * 
-     * @param magnet 
-     * @description add a copy of the magnet magnet
-     */
-    private _addMagnet(magnet: HTMLElement) {
-        const copyMagnet = <HTMLElement>magnet.cloneNode(true);
-        copyMagnet.onclick = magnet.onclick;
-        document.getElementById("magnets").appendChild(copyMagnet);
-        MagnetManager._installMagnet(copyMagnet);
-    }
-
-
     async undo(): Promise<void> {
-        const previousElement = document.getElementById(this.magnet.id)
-        //if an element with the same id is present, we replace it, so we first remove it
-        if (previousElement)
-            previousElement.remove();
-        /*
-                if(this.previousMagnet) {
-                    this._addMagnet(this.previousMagnet);
-                }*/
+        const element = document.getElementById(this.magnet.id)
+        if (element)
+            element.remove();
+
+        if (this.previousMagnet)
+            this._addMagnet(this.previousMagnet);
 
     }
 

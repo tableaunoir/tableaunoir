@@ -117,7 +117,7 @@ export class MagnetTextManager {
 		divText.onkeydown = (e) => {
 			const setFontSize = (size) => {
 				divText.style.fontSize = size + "px";
-				for (const i in divText.children) {
+				for (let i = 0; i < divText.children.length; i++) {
 					(<HTMLElement>divText.children[i]).style.fontSize = size + "px";
 				}
 			}

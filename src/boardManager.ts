@@ -302,8 +302,7 @@ export class BoardManager {
         setTimeout(() => document.getElementById("content").style.filter = "", 100);
     }
 
-
-    /**
+/**
  * 
  * @param userid 
  * @description add a pause action for making a new slide
