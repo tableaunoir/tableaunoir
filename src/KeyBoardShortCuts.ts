@@ -61,7 +61,12 @@ export class KeyBoardShortCuts {
         if (Menu.isShown())
             return;
 
-        if (evt.altKey && evt.key == "n" && UserManager.me.canWrite) {// alt + n = new slide
+        if (evt.ctrlKey && evt.altKey && evt.key == "n" && UserManager.me.canWrite) {// alt + n = new slide
+            Share.execute("newSlide", [UserManager.me.userID]);
+            AnimationToolBar.hideMenu();
+            evt.preventDefault();
+        }
+        else if (evt.altKey && evt.key == "n" && UserManager.me.canWrite) {// alt + n = new slide
             Share.execute("newSlideAndClear", [UserManager.me.userID]);
             AnimationToolBar.hideMenu();
             evt.preventDefault();
