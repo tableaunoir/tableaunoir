@@ -9,7 +9,7 @@ export abstract class ToolEllipse extends ToolAbstractShape {
     rx: number;
     ry: number;
 
-    abstract compute = undefined;
+    abstract compute;
 
 
     getShape: () => SVGEllipseElement = () => {

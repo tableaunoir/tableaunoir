@@ -162,7 +162,6 @@ export class MagnetManager {
 			element.id = MagnetManager.generateID();
 		MagnetManager.currentMagnet = element;
 		element.classList.add("magnet");
-		document.getElementById("magnets").appendChild(element);
 
 		const f = () => {
 			BoardManager.addAction(new ActionMagnetNew(UserManager.me.userID, element));
@@ -174,8 +173,6 @@ export class MagnetManager {
 			element.addEventListener("load", f);
 		else
 			f();
-
-		MagnetManager._installMagnet(element);
 	}
 
 	/**
@@ -194,16 +191,15 @@ export class MagnetManager {
 	/**
 	 * @param {*} userid, id of the user that has created the magnet
 	 * @param {*} element
-	 * @description add the DOM element element to the list of magnets (but do not send to other users)
+	 * @description add the DOM element element to the list of magnets 
+	 * (the only difference with addMagnet is that it does not share the magnet with the other users)
 	 */
 	static addMagnetFromAnotherUser(userid: string, element: HTMLElement): void {
 		if (element.id == "")
 			element.id = MagnetManager.generateID();
 		MagnetManager.currentMagnet = element;
 		element.classList.add("magnet");
-		document.getElementById("magnets").appendChild(element);
 		BoardManager.addAction(new ActionMagnetNew(userid, element));
-		MagnetManager._installMagnet(element);
 	}
 
 
