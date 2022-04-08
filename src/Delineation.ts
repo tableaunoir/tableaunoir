@@ -170,9 +170,9 @@ export class Delineation {
         const rectangle = this._getRectangle();
         img.src = BoardManager.getDataURLOfRectangle(rectangle);
         img.style.clipPath = "polygon(" + this.points.map(point => `${point.x - rectangle.x1}px ${point.y - rectangle.y1}px`).join(", ") + ")";
-        MagnetManager.addMagnet(img);
         img.style.left = rectangle.x1 + "px";
         img.style.top = rectangle.y1 + "px";
+        MagnetManager.addMagnet(img);
     }
 
 }

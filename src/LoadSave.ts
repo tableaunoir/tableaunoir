@@ -120,7 +120,7 @@ export class LoadSave {
         }
 
         document.body.ondragover = (event) => {
-            /** prevent the browser to load the file */
+            // prevent the browser to load the file 
             event.preventDefault();
         };
 

@@ -162,6 +162,7 @@ export class MagnetManager {
 			element.id = MagnetManager.generateID();
 		MagnetManager.currentMagnet = element;
 		element.classList.add("magnet");
+		//	document.getElementById("magnets").appendChild(element);
 
 		const f = () => {
 			BoardManager.addAction(new ActionMagnetNew(UserManager.me.userID, element));
@@ -169,10 +170,15 @@ export class MagnetManager {
 				Share.sendNewMagnet(element);
 		}
 
+		/*
 		if (element.tagName == "IMG")
 			element.addEventListener("load", f);
 		else
-			f();
+			f();*/
+		f();
+
+
+		//	MagnetManager._installMagnet(element);
 	}
 
 	/**
@@ -490,7 +496,7 @@ export class MagnetManager {
 				/**makes a copy. The copy does not move. */
 				const copy = MagnetManager.createCopyMagnet(element);
 				MagnetManager.addMagnet(copy);
-				Share.execute("magnetMove", [copy.id, element.style.left, element.style.top]);
+				//Share.execute("magnetMove", [copy.id, element.style.left, element.style.top]);
 			}
 
 
@@ -592,7 +598,7 @@ export class MagnetManager {
 	 * @returns the font description
 	 */
 	static getFont(element: HTMLElement): string {
-		return (<HTMLElement> element.children[0]).style.fontSize;
+		return (<HTMLElement>element.children[0]).style.fontSize;
 	}
 
 
@@ -670,7 +676,7 @@ export class MagnetManager {
 	static printMagnet(magnet: HTMLElement): void {
 
 		//decision taken in issue #191: only image magnets are printable
-		if(!(magnet instanceof HTMLImageElement))
+		if (!(magnet instanceof HTMLImageElement))
 			return;
 
 		Sound.play("magnetprint");
