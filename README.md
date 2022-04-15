@@ -1,25 +1,36 @@
 <p align="center"><a href="https://github.com/tableaunoir/tableaunoir"><img src="./favicon.svg" alt="Tableaunoir logo" height="32"/></a></p>
 <h1 align="center">Tableaunoir</h1>
 <p align="center">
-  https://tableaunoir.github.io/: an <b>online collaborative blackboard</b> tool with <b>fridge magnets</b> available in <b>many languages</b>
+  https://tableaunoir.github.io/
 </p>
 
+Tableaunoir is  an <b>online collaborative blackboard</b> tool with <b>fridge magnets</b> available in <b>many languages</b>. ["Tableau noir" means blackboard in French](https://www.deepl.com/translator#fr/en/Tableau%20noir). Contrary to plenty of other collaborative boards on the Internet, with Tableaunoir  you can create <b>interactive animations</b> via the use of <b>fridge magnets</b>. The full documentation is available [here](https://github.com/tableaunoir/documentation).
 
-## Raison d'être
 
-Contrary to plenty of other collaborative boards on the Internet, with Tableaunoir  you can create **interactive animations** via the use of "**fridge magnets**".
 
-<img src="./imgREADME/screenshot.png" title="Screenshot of tableaunoir showcasing magnets to illustrate sorting algorithms" alt="Screenshot of tableaunoir showcasing magnets to illustrate sorting algorithms" width="300"/> <img src="./imgREADME/screenshot2.png" title="Screenshot of tableaunoir showcasing magnets to illustrate graph algorithms" alt="Screenshot of tableaunoir showcasing magnets to illustrate graph algorithms" width="150"/> <img src="./imgREADME/screenshot3.png" title="Screenshot of tableaunoir showcasing magnets to illustrate B-tree algorithms" alt="Screenshot of tableaunoir showcasing magnets to illustrate B-tree algorithms" width="300"/> <img src="./imgREADME/simcitygraph.png" title="Screenshot of tableaunoir showcasing magnets to illustrate large graph algorithms, using Sim City icons for nodes" alt="Screenshot of tableaunoir showcasing magnets to illustrate large graph algorithms, using Sim City icons for nodes" width="300"/> <img src="./imgREADME/euclide.png" title="Screenshot of tableaunoir showcasing a course using colors etc" alt="Screenshot of tableaunoir showcasing a course using colors etc" width="300"/> <img src="./imgREADME/screenshot_tablet.jpg" title="Screenshot of tableaunoir showcasing the latest toolbar, magnets, texts etc" alt="Screenshot of tableaunoir showcasing the latest toolbar, magnets, texts etc" width="300"/>
+## Screenshots
 
-["Tableau noir" means blackboard in french](https://www.deepl.com/translator#fr/en/Tableau%20noir). It is ideal to give standard lectures. You may divide your board in panels and navigate panel by panel.
+Tableaunoir has been designed to give lectures. Tableaunoir enables to easily divide your board in panels and navigate panel by panel.
 
-<img src="./imgREADME/coursparcourslargeur.gif" alt="A small gif video showcasing the use of tableaunoir in a course on breadth-first search" width="680"/>
+
+
+<img src="./imgREADME/euclide.png" title="Screenshot of tableaunoir showcasing a course using colors etc" alt="Screenshot of tableaunoir showcasing a course using colors etc" height="300"/>
+<img src="./imgREADME/coursparcourslargeur.gif" alt="A small gif video showcasing the use of tableaunoir in a course on breadth-first search" height="300"/>
+
+
+
+
+Tableaunoir offers **magnets**, like fridge magnets. They are small images, numbers, texts. The user can add/move/delete magnets to create animations. The screenshot below shows the use of magnets when teaching algorithms in a computer science curriculum. In the examples below, magnets data in some data structure, nodes in some graph, etc.
+
+<img src="./imgREADME/screenshot_tablet.jpg" title="Screenshot of tableaunoir showcasing the latest toolbar, magnets, texts etc" alt="Screenshot of tableaunoir showcasing the latest toolbar, magnets, texts etc" width="300"/><img src="./imgREADME/screenshot.png" title="Screenshot of tableaunoir showcasing magnets to illustrate sorting algorithms" alt="Screenshot of tableaunoir showcasing magnets to illustrate sorting algorithms" width="300"/> <img src="./imgREADME/screenshot2.png" title="Screenshot of tableaunoir showcasing magnets to illustrate graph algorithms" alt="Screenshot of tableaunoir showcasing magnets to illustrate graph algorithms" width="150"/> <img src="./imgREADME/screenshot3.png" title="Screenshot of tableaunoir showcasing magnets to illustrate B-tree algorithms" alt="Screenshot of tableaunoir showcasing magnets to illustrate B-tree algorithms" width="300"/> <img src="./imgREADME/simcitygraph.png" title="Screenshot of tableaunoir showcasing magnets to illustrate large graph algorithms, using Sim City icons for nodes" alt="Screenshot of tableaunoir showcasing magnets to illustrate large graph algorithms, using Sim City icons for nodes" width="300"/>
+
 
 
 
 
 ## Features
 
+We list the main features of Tableaunoir.
 * Of course, you can draw and erase, with your mouse or a graphic tablet. You can draw shapes.
 * **Collaborate** edit the same board at the same time (need a server for that),
 * **does not require an account** 
@@ -67,13 +78,15 @@ An idea to explain and share? Tableaunoir enables to write together on shared co
 
 Tableaunoir can simply be used to draw pictures: [https://team.inria.fr/erable/en/marie-france-sagot/blog/silly-things/]
 
+### Make slides for videos or presentation
 
+Tableaunoir can also be used to build slides. See the [documentation](https://github.com/tableaunoir/documentation).
 
 
 ---
 
 
-### Commands for the Tableaunoir project
+## Commands for the Tableaunoir project
 
 
 #### remove all node_modules and install back again
