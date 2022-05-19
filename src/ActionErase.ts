@@ -14,7 +14,7 @@ export class ActionErase extends Action {
     get xMax(): number { return Math.max(...this.points.map((p) => p.x)); }
 
     serializeData(): ActionSerialized {
-        return { type: "erase",  userid: this.userid, points: this.points };
+        return { type: "erase", userid: this.userid, points: this.points };
     }
 
     private points: { x: number; y: number; lineWidth: number }[] = [];
@@ -50,7 +50,7 @@ export class ActionErase extends Action {
 
     async undo(): Promise<void> { this.svgLinesErasedRestore(); }
 
-    svgLinesErasedRestore(): void { /*nothing*/    }
+    svgLinesErasedRestore(): void { /*nothing*/ }
 
     svgLinesErasedErase(): void {
         for (let i = 0; i < this.points.length; i++) {
@@ -66,7 +66,7 @@ export class ActionErase extends Action {
     * 
     * @returns 
     */
-    /*async redoAnimated(): Promise<void> {
+    async redoAnimated(): Promise<void> {
         this.svgLinesErasedErase();
         for (let i = 1; i < this.points.length; i++) {
             Drawing.clearLine(this.points[i - 1].x, this.points[i - 1].y,
@@ -76,7 +76,7 @@ export class ActionErase extends Action {
                 await this.delay();
         }
 
-    }*/
+    }
 
 
 

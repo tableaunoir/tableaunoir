@@ -63,7 +63,7 @@ export class Export {
         const nodeContent = document.getElementById("content");
         return new Promise((resolve) => {
             // if (document.getElementById("magnets").hasChildNodes())
-             html2canvas(nodeContent).then(canvas => resolve(canvas))
+            html2canvas(nodeContent).then(canvas => resolve(canvas))
             //htmlToImage.toCanvas(nodeContent).then(canvas => resolve(canvas)); 
             // else
             //   resolve(getCanvas());
@@ -87,30 +87,30 @@ export class Export {
         const t = BoardManager.timeline.getCurrentIndex();
         await BoardManager.timeline.setCurrentIndex(0);
 
-        console.log("the width of the board is: " + BoardManager.width);
-        const doc = severalSlides ? new jspdf('l', 'px', [BoardManager.width, 1000]) : new jspdf('l');
+        const doc = new jspdf({ orientation: "landscape", unit: "px", format: [Layout.getWindowWidth(), Layout.getWindowHeight()] });
         let firstpage = true;
 
         while (!BoardManager.timeline.isEnd()) {
             console.log(severalSlides ? "treating next slide..." : "beginning of the process");
             await BoardManager.timeline.nextPausedFrame();
-            const canvas = await Export.getCanvasBoard();
+            const canvasFullBoard = await Export.getCanvasBoard();
 
             if (severalSlides) {
+                const canvasPage = Export.extractFromCanvas(canvasFullBoard, 0, Layout.getWindowWidth());
                 if (!firstpage)
                     doc.addPage();
 
                 const ph = doc.internal.pageSize.getHeight();
-                const h = canvas.height;
-                const w = canvas.width;
-                doc.addImage(canvas, 'png', 0, 0, ph * w / h, ph);
+                const h = canvasPage.height;
+                const w = canvasPage.width;
+                doc.addImage(canvasPage, 'png', 0, 0, ph * w / h, ph, "", "FAST");
             }
             else { // we split the board in several pieces
 
                 for (let x = 0; x < BoardManager.width; x += Layout.getWindowWidth()) {
                     if (!firstpage)
                         doc.addPage();
-                    const canvasPage = Export.extractFromCanvas(canvas, x, Layout.getWindowWidth());
+                    const canvasPage = Export.extractFromCanvas(canvasFullBoard, x, Layout.getWindowWidth());
 
                     const pw = doc.internal.pageSize.getWidth();
                     const ph = doc.internal.pageSize.getHeight();
@@ -118,9 +118,9 @@ export class Export {
                     const w = canvasPage.width;
 
                     if (w / h > pw / ph)
-                        doc.addImage(canvasPage, 'png', 0, 0, pw, pw * h / w);
+                        doc.addImage(canvasPage, 'png', 0, 0, pw, pw * h / w, "", "FAST");
                     else
-                        doc.addImage(canvasPage, 'png', 0, 0, ph * w / h, ph);
+                        doc.addImage(canvasPage, 'png', 0, 0, ph * w / h, ph,"", "FAST");
 
                     firstpage = false;
 
@@ -130,7 +130,9 @@ export class Export {
             }
             firstpage = false; //for sure it is not the first page because at least one slide has been produced
         }
-        doc.save((<HTMLInputElement>document.getElementById("exportPngName")).value + ".pdf");
+        //doc.save((<HTMLInputElement>document.getElementById("exportPngName")).value + ".pdf");
+        doc.output("pdfobjectnewwindow", {filename: (<HTMLInputElement>document.getElementById("exportPngName")).value + ".pdf"});
+        //doc.output("save",(<HTMLInputElement>document.getElementById("exportPngName")).value + ".pdf" );
         BoardManager.timeline.setCurrentIndex(t);
         Layout.restoreForUse();
     }

@@ -20,8 +20,6 @@ export class ToolDraw extends Tool {
 
     private isSmoothing = false;
 
-
-
     constructor(user: User) {
         super(user);
         OptionManager.boolean({

@@ -7,19 +7,19 @@ import { Tool } from './Tool';
 export abstract class ToolAbstractShape extends Tool {
 
     lastDelineation = new Delineation();
-    shape: SVGRectElement = undefined;
+    shape: SVGElement = undefined;
 
     //to be implemented for a concrete shape
-    abstract compute = undefined; 
+    abstract compute: (evt) => void;
 
     //to be implemented for a concrete shape
-    abstract getShape = undefined; 
+    abstract getShape: (evt) => SVGElement;
 
     //to be implemented for a concrete shape
-    abstract actionDrawShape: (evt) =>Action = undefined;
+    abstract actionDrawShape: (evt) => Action;
 
     //to be implemented for a concrete shape
-    abstract fillDelineation = undefined;
+    abstract fillDelineation: (evt) => void;
 
 
     constructor(user: User) {
