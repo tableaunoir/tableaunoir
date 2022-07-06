@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   id="emoji"
+   viewBox="0 0 72 72"
+   version="1.1"
+   sodipodi:docname="fittoscreen.svg"
+   inkscape:version="1.1.2 (0a00cf5339, 2022-02-04)"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <defs
+     id="defs7" />
+  <sodipodi:namedview
+     id="namedview5"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="0"
+     showgrid="false"
+     inkscape:zoom="1.7544173"
+     inkscape:cx="-31.064445"
+     inkscape:cy="61.558901"
+     inkscape:window-width="1920"
+     inkscape:window-height="1011"
+     inkscape:window-x="0"
+     inkscape:window-y="0"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="emoji" />
+  <rect
+     style="fill:#ffffff;fill-rule:evenodd;stroke:#000000"
+     id="rect29-3"
+     width="70.154488"
+     height="60.897549"
+     x="1.0924841"
+     y="5.5086432" />
+  <rect
+     style="fill:#000000;fill-rule:evenodd;stroke:#000000;stroke-width:0.444801"
+     id="rect29-3-5"
+     width="70.709686"
+     height="11.953834"
+     x="0.81488097"
+     y="5.2310438" />
+  <rect
+     style="fill:#000000;fill-rule:evenodd;stroke:#000000;stroke-width:0.444801"
+     id="rect29-3-5-3"
+     width="70.709686"
+     height="11.953834"
+     x="0.53729308"
+     y="54.452358"
+     inkscape:transform-center-x="12.341792"
+     inkscape:transform-center-y="-35.620097" />
+  <g
+     id="line-6"
+     style="fill:#ffffff"
+     transform="translate(0.04108997,0.83592237)">
+    <polygon
+       id="_x2194__xFE0F_-7"
+       fill="none"
+       stroke="#000000"
+       stroke-linecap="round"
+       stroke-linejoin="round"
+       stroke-miterlimit="10"
+       stroke-width="2"
+       points="46.5538,24.269 55.7618,32.9375 16.2382,32.9375 25.4458,24.269 21.7368,20.2344 5,35.998 21.7368,51.7646 25.4458,47.7314 16.2449,39.0664 55.7551,39.0664 46.5538,47.7314 50.2632,51.7646 67,35.998 50.2632,20.2344 "
+       style="fill:#ffffff" />
+  </g>
+</svg>

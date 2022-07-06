@@ -125,6 +125,9 @@ export class Layout {
     }
 
     static minimap(): void {
+        if(BoardManager.width < Layout.getWindowWidth()) //no need to switch to minimap if the board is small
+            return;
+
         document.getElementById("buttonMap").classList.add("buttonselected");
         console.log("minimap")
         const contentElement = document.getElementById("content");
@@ -134,40 +137,42 @@ export class Layout {
         const x = Layout.getWindowLeft();
         BoardNavigation.setScroll(0);
 
-        const viewport = document.getElementById("viewport");
-        viewport.hidden = false;
-        viewport.style.left = x + "";
-        viewport.style.top = "0px";
-        viewport.style.width = Layout.getWindowWidth() + "";
-        viewport.style.height = Layout.getWindowHeight() + "";
-
-        const newviewport = document.getElementById("newviewport");
-        newviewport.hidden = false;
-        newviewport.style.left = x + "";
-        newviewport.style.top = "0px";
-        newviewport.style.width = Layout.getWindowWidth() + "";
-        newviewport.style.height = Layout.getWindowHeight() + "";
-
-        const nodeBoard = document.getElementById("board");
-
-        nodeBoard.onmousemove = (evt) => {
-            let x = evt.offsetX - parseInt(viewport.style.width) / 2;
-            if (x < 0) x = 0;
-            x = Math.min(x, getCanvas().width - parseInt(viewport.style.width));
-            newviewport.style.left = x + "";
-        }
-        nodeBoard.onmouseup = () => { Layout.normal(); }
-
-        nodeBoard.onmouseleave = () => {
-            newviewport.hidden = true;
-            viewport.hidden = true;
-        }
-
-        nodeBoard.onmouseenter = () => {
-            newviewport.hidden = false;
+        if (BoardManager.width > Layout.getWindowWidth() * 1.5) {
+            //only install the GUI for moving in the board when the board is large
+            const viewport = document.getElementById("viewport");
             viewport.hidden = false;
-        }
+            viewport.style.left = x + "";
+            viewport.style.top = "0px";
+            viewport.style.width = Layout.getWindowWidth() + "";
+            viewport.style.height = Layout.getWindowHeight() + "";
 
+            const newviewport = document.getElementById("newviewport");
+            newviewport.hidden = false;
+            newviewport.style.left = x + "";
+            newviewport.style.top = "0px";
+            newviewport.style.width = Layout.getWindowWidth() + "";
+            newviewport.style.height = Layout.getWindowHeight() + "";
+
+            const nodeBoard = document.getElementById("board");
+
+            nodeBoard.onmousemove = (evt) => {
+                let x = evt.offsetX - parseInt(viewport.style.width) / 2;
+                if (x < 0) x = 0;
+                x = Math.min(x, getCanvas().width - parseInt(viewport.style.width));
+                newviewport.style.left = x + "";
+            }
+            nodeBoard.onmouseup = () => { Layout.normal(); }
+
+            nodeBoard.onmouseleave = () => {
+                newviewport.hidden = true;
+                viewport.hidden = true;
+            }
+
+            nodeBoard.onmouseenter = () => {
+                newviewport.hidden = false;
+                viewport.hidden = false;
+            }
+        }
         Layout.getWindowHeight = () => { return Layout.STANDARDHEIGHT; };
         Layout.getWindowWidth = () => { return window.innerWidth * Layout.getZoom(); };
         Layout.getZoom = () => {
@@ -211,24 +216,24 @@ export class Layout {
             const toolbar = Toolbar.getToolbar();
             const innerHeight = window.innerHeight - (Toolbar.isHidden() ? 0 : toolbar.clientHeight);
             let heightused;
-          //  if (toolbar.clientHeight < window.innerHeight / 10 || Toolbar.left || Toolbar.right) {
-                heightused = window.innerHeight;
-                content.style.top = "0px";
-      /*          if (Toolbar.left)
-                    content.style.left = "" + toolbar.clientWidth;
-                else
-                    content.style.left = "0px";
-
-            }
-            else {
-                heightused = innerHeight;
-                content.style.left = "0px";
-                if (Toolbar.bottom)
-                    content.style.top = "0px";
-                else if (Toolbar.top)
-                    content.style.top = "" + toolbar.clientHeight;
-
-            }*/
+            //  if (toolbar.clientHeight < window.innerHeight / 10 || Toolbar.left || Toolbar.right) {
+            heightused = window.innerHeight;
+            content.style.top = "0px";
+            /*          if (Toolbar.left)
+                          content.style.left = "" + toolbar.clientWidth;
+                      else
+                          content.style.left = "0px";
+      
+                  }
+                  else {
+                      heightused = innerHeight;
+                      content.style.left = "0px";
+                      if (Toolbar.bottom)
+                          content.style.top = "0px";
+                      else if (Toolbar.top)
+                          content.style.top = "" + toolbar.clientHeight;
+      
+                  }*/
 
 
             return Layout.STANDARDHEIGHT / heightused;
