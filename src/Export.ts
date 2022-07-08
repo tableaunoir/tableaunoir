@@ -5,6 +5,7 @@ import { CircularMenu } from './CircularMenu';
 import html2canvas from 'html2canvas'
 import jspdf from 'jspdf'
 import { ActionFreeDraw } from './ActionFreeDraw';
+import { ClipBoardManager } from './ClipBoardManager';
 
 
 
@@ -20,11 +21,11 @@ export class Export {
         document.getElementById("exportPng").onclick = Export.exportPng;
         document.getElementById("exportPdf").onclick = Export.exportPdf;
         document.getElementById("exportTikz").onclick = () => {
-            const exportCode = <HTMLTextAreaElement> document.getElementById("exportCode");
+            const exportCode = <HTMLTextAreaElement>document.getElementById("exportCode");
             exportCode.hidden = false;
             const code = Export.getTikzCode();
             exportCode.value = code;
-            navigator.clipboard.writeText(code);
+            ClipBoardManager.copy(code, "tikz code");
         };
     }
 
