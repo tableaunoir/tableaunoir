@@ -4,6 +4,7 @@ import { Layout } from './Layout';
 import { CircularMenu } from './CircularMenu';
 import html2canvas from 'html2canvas'
 import jspdf from 'jspdf'
+import { ActionFreeDraw } from './ActionFreeDraw';
 
 
 
@@ -18,6 +19,13 @@ export class Export {
     static init(): void {
         document.getElementById("exportPng").onclick = Export.exportPng;
         document.getElementById("exportPdf").onclick = Export.exportPdf;
+        document.getElementById("exportTikz").onclick = () => {
+            const exportCode = <HTMLTextAreaElement> document.getElementById("exportCode");
+            exportCode.hidden = false;
+            const code = Export.getTikzCode();
+            exportCode.value = code;
+            navigator.clipboard.writeText(code);
+        };
     }
 
 
@@ -63,6 +71,24 @@ export class Export {
         return new Promise((resolve) => { html2canvas(nodeContent).then(canvas => resolve(canvas)) });
     }
 
+
+    /**
+     * @description export the board as TikZ code in order to put your image in a LaTEX document
+     */
+    static getTikzCode(): string {
+        let code = "\\begin{tikzpicture}[scale=1]\n";
+        const f = 0.01;
+        const round = (x: number) => Math.round(100 * x) / 100;
+        for (const action of BoardManager.timeline.actions) {
+            if (action instanceof ActionFreeDraw) {
+                const color = action.getMainColor();
+                const style = color == "white" ? "" : `[${color}]`;
+                code += "\\draw" + style + " " + action.points.map(p => `(${round(p.x * f)}, ${round(-p.y * f)})`).join("--") + ";\n";
+            }
+        }
+        code += "\\end{tikzpicture}";
+        return code;
+    }
 
     /**
       * @description export the board as a .pdf file
