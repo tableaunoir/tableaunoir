@@ -136,10 +136,12 @@
 
 	<div id="contextMenuTimeLine" class="contextmenu" style="display: none">
 		<ul class="menu">
-			<li id="mergeSlide" title="This slide will be 'disappear' and will be merged with the next one"><img src="img/icons/2194.svg">Merge slide with the next one</li>
+			<li id="mergeSlide" title="This slide will be 'disappear' and will be merged with the next one"><img
+					src="img/icons/2194.svg">Merge slide with the next one</li>
 			<li id="newSlide" title="Add a new slide after this one (without erasing the board)"><img
 					src="img/icons/1F5BC.svg"> New slide from now (Ctrl + Alt + N)</li>
-			<li id="newSlideAndClear" title="Add a new clear slide after this one. The new slide will start by clearing the board."><img
+			<li id="newSlideAndClear"
+				title="Add a new clear slide after this one. The new slide will start by clearing the board."><img
 					src="img/icons/1F5BCclear.svg">New clear slide from now (Alt + N)</li>
 		</ul>
 	</div>
@@ -273,9 +275,9 @@
 						<span>Name:</span> <input id="exportPngName" value="myblackboard" />
 						<button id="exportPng"><img src="img/icons/1F5BC.svg" />Get an image</button>
 						<button id="exportPdf"><img src="img/icons/pdf.svg" />Get a PDF</button>
-						<button id="exportTikz">Get tikz code</button>
-						<textarea id="exportCode" hidden readonly></textarea>
+						<button id="exportTikz" title="Export the board in TikZ">Get tikz code</button>
 					</div>
+					<textarea rows="10" cols="30" id="exportCode" hidden readonly></textarea>
 				</div>
 			</div>
 
