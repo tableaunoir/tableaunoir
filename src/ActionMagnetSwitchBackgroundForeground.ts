@@ -2,7 +2,14 @@ import { ActionSerialized } from './ActionSerialized';
 import { Action } from "./Action";
 
 
-
+/**
+ * @description
+ * action that put the magnet to the background if it is in the foreground and
+ * put the magnet to the foreground if it is in the background
+ * 
+ * foreground: the user can move the magnet
+ * background: the magnet is behind the board so that the user can draw over the magnet
+ */
 export class ActionMagnetSwitchBackgroundForeground extends Action {
     readonly magnetid: string;
     readonly points: { x: number; y: number; }[] = [];

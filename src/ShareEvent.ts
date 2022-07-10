@@ -19,6 +19,8 @@ import { Discussion } from './Discussion';
 import { Menu } from './Menu';
 import { Drawing } from './Drawing';
 import { ToolArc } from './ToolArc';
+import { ActionMagnetChangeSizeRatio } from './ActionMagnetChangeSizeRatio';
+import { ActionMagnetSwitchBackgroundForeground } from './ActionMagnetSwitchBackgroundForeground';
 
 /**
  * this class contains the events that are shared with other users connected to the same tableaunoir
@@ -162,6 +164,14 @@ export class ShareEvent {
     }
 
 
+
+    static magnetChangeSize(userID: string, idmagnet: string, ratio: number): void {
+        BoardManager.addAction(new ActionMagnetChangeSizeRatio(userID, idmagnet, ratio), true);
+    }
+
+    static magnetSwitchBackgroundForeground(userID: string, idmagnet: string) {
+        BoardManager.addAction(new ActionMagnetSwitchBackgroundForeground(UserManager.me.userID, idmagnet));
+    }
 
     static magnetMoveStart(idMagnet: string): void {
         MagnetMovementRecorder.start(idMagnet);

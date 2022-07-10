@@ -119,12 +119,15 @@ export class GUIActions {
 
 
 
+
+
     static magnetChangeSize(ratio: number): void {
         const magnet = MagnetManager.getMagnetUnderCursor();
         if (magnet) {
             if (!MagnetTextManager.isTextMagnet(magnet)) {
                 const id = magnet.id;
-                BoardManager.addAction(new ActionMagnetChangeSizeRatio(UserManager.me.userID, id, ratio), true);
+                Share.execute("magnetChangeSize", [UserManager.me.userID, id, ratio])
+                
             }
         }
     }
@@ -146,8 +149,8 @@ export class GUIActions {
         }
 
 
-        const switchBackgroundForegrounOfMagnet = (m: HTMLElement) => {
-            BoardManager.addAction(new ActionMagnetSwitchBackgroundForeground(UserManager.me.userID, m.id));
+        const switchBackgroundForegroundOfMagnet = (m: HTMLElement) => {
+            Share.execute("magnetSwitchBackgroundForeground", [UserManager.me.userID, m.id])
         }
 
         /** get the magnet under the cursor for magnet that are in the background (cannot use the standard mousemove
@@ -171,9 +174,9 @@ export class GUIActions {
         if (magnet == undefined) {
             const m = getMagnetBackgroundUnderCursor();
             if (m)
-                switchBackgroundForegrounOfMagnet(m);
+                switchBackgroundForegroundOfMagnet(m);
         }
-        else switchBackgroundForegrounOfMagnet(magnet);
+        else switchBackgroundForegroundOfMagnet(magnet);
 
     }
 
