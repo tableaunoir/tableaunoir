@@ -156,13 +156,13 @@ function load() {
 
 function installMouseEventsCanvas() {
 	const minDurationMouseMove = 100;//minimum duration between two mousemove without drawing
-	let timeToMouseMove = true;
+	let timeToSendMouseMoveEvent = true; //if true, the mousemove event is shared among the other users
 	let ismousedown = false;
 	let hasFocus = true;
 	let changeToErase = false;
 
 	setInterval(() => {
-		timeToMouseMove = true;
+		timeToSendMouseMoveEvent = true;
 		hasFocus = document.hasFocus()
 	}, minDurationMouseMove);
 
@@ -188,9 +188,9 @@ function installMouseEventsCanvas() {
 		window["point"] = point;
 		S.onmousemove(point);
 
-		if ((ismousedown && UserManager.me.canWrite) || timeToMouseMove) {
+		if ((ismousedown && UserManager.me.canWrite) || timeToSendMouseMoveEvent) {
 			Share.execute("mousemove", [UserManager.me.userID, evt]);
-			timeToMouseMove = false;
+			timeToSendMouseMoveEvent = false; //prevent sending the mousemove event
 		}
 
 
