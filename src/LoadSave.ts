@@ -18,6 +18,10 @@ import { Menu } from './Menu'
  */
 export class LoadSave {
 
+
+    /**
+     * @description load the board from local storage via the id
+     */
     static loadFromLocalStorage(): void {
         const name = Share.getTableauNoirID();
         if (localStorage[name])
@@ -25,6 +29,10 @@ export class LoadSave {
     }
 
 
+    /**
+     * @description save the current board in the local storage in the slot given by the id of the board
+     * it is typically stored when the connection is lost
+     */
     static saveLocalStorage(): void {
         const name = Share.getTableauNoirID();
         localStorage[name] = LoadSave.getTableauNoirString();
@@ -249,7 +257,7 @@ export class LoadSave {
     static loadJSON(obj: { canvasDataURL?: string, actions: ActionSerialized[], t: number, width: number, height: number, magnets: string, svg: string, backgroundLayer: string, script: string }): void {
         console.log("loadJSON");
 
-        BoardManager._reset();
+        BoardManager.reset();
 
         if (obj.width) {
             getCanvas().width = obj.width;

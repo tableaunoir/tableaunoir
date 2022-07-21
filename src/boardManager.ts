@@ -52,9 +52,9 @@ export class BoardManager {
 
 
     /**
-    * erase the board
+    * erase the board, reset the cancel stack everything. The board will be EMPTY.
     */
-    static _reset(): void {
+    static reset(): void {
 
         const canvas = getCanvas();
         canvas.width = canvas.width + 0; //clear the board
@@ -170,23 +170,15 @@ export class BoardManager {
 
 
     /**
-     * load the board from the local storage
+     * load the board from the local storage (a bit deprecated, corresponds to the previous Tableaunoir format with a bitmap)
      */
-    static load(data = localStorage.getItem(Share.getTableauNoirID())): void {
-        // let data = localStorage.getItem(BoardManager.boardName);
-
-        if (data != undefined) {
-            try {
-                BoardManager.timeline.clearAndReset(data);
-            }
-            catch (e) {
-                //TODO: handle error?
-            }
+    static load(canvasDataURL: string): void {
+        try {
+            BoardManager.timeline.clearAndReset(canvasDataURL);
         }
-        else {
-            BoardManager._reset();
+        catch (e) {
+            //TODO: handle error?
         }
-
     }
 
 
@@ -302,11 +294,11 @@ export class BoardManager {
         setTimeout(() => document.getElementById("content").style.filter = "", 100);
     }
 
-/**
- * 
- * @param userid 
- * @description add a pause action for making a new slide
- */
+    /**
+     * 
+     * @param userid 
+     * @description add a pause action for making a new slide
+     */
     static newSlide(userid: string): void {
         BoardManager.addAction(new ActionSlideStart(userid));
         BoardManager.updateSlideNumber();
@@ -328,7 +320,8 @@ export class BoardManager {
 
     static get width(): number {
         console.log(BoardManager.widthFromActions)
-        return Math.max(BoardManager.widthFromActions, BoardManager.widthFromMagnets); }
+        return Math.max(BoardManager.widthFromActions, BoardManager.widthFromMagnets);
+    }
 }
 
 

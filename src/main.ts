@@ -86,7 +86,7 @@ function load() {
 		Tool.init();
 		Drawing.init();
 
-		BoardManager.load();
+		BoardManager.reset();
 		DesktopApplicationManager.init();
 
 		Array.from(document.getElementsByTagName("helpbutton")).map((b) => (<HTMLElement>b).onclick = (evt) => { alert((<HTMLElement>evt.target).title) });

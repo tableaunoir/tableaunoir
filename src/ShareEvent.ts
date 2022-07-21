@@ -90,7 +90,7 @@ export class ShareEvent {
      * - we clear the cancel stack
      */
     static boardReset(): void {
-        BoardManager._reset();
+        BoardManager.reset();
         Menu.hide();
     }
 
