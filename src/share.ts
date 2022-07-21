@@ -497,7 +497,7 @@ export class Share {
 
 		const url = document.location.href;
 
-		const newUrl = url + "?id=" + id;
+		const newUrl = url.indexOf("?") >= 0 ? url + "&id=" + id : url + "?id=" + id;
 		history.pushState({}, null, newUrl);
 
 		Share.updateQRCodeAndTextBoxWithURL();

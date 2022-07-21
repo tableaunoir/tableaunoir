@@ -74,8 +74,6 @@ export class GUIActions {
                 Share.execute("switchDraw", [UserManager.me.userID]);
             Share.execute("setCurrentColor", [UserManager.me.userID, GUIActions.palette.getCurrentColor()]);
 
-
-
         }
 
 

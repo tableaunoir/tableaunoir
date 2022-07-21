@@ -12,6 +12,7 @@ import { Tool } from './Tool';
 import { ToolAbstractShape } from './ToolAbstractShape';
 import { ToolArc } from './ToolArc';
 import { Layout } from './Layout';
+import { BackgroundTexture } from './BackgroundTexture';
 
 
 
@@ -91,6 +92,7 @@ export class User {
             this.elementName.classList.add("userNameCursor");
             document.getElementById("cursors").appendChild(this.cursor);
             document.getElementById("cursors").appendChild(this.elementName);
+            this.color = BackgroundTexture.getDefaultChalkColor();
         }
 
         this.tool = new ToolDraw(this);

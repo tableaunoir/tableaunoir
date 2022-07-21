@@ -1,6 +1,7 @@
 import { Share } from './share';
-import { GUIActions } from './GUIActions';
 import Color from 'color';
+import { UserManager } from './UserManager';
+import { ShareEvent } from './ShareEvent';
 
 
 /**
@@ -37,7 +38,19 @@ export class BackgroundTexture {
         checkboxBackgroundGradient.checked = false;
         backgroundCustomColor.hidden = true;
         document.getElementById("content").style.background = "black";
-        BackgroundTexture.switchTo("black");
+
+
+        const params = (new URL(document.location.href)).searchParams;
+        if (params.get("bg") != null && params.get("id") == null)
+        /**
+         * if the parameter "bg" is defined, then it gives the color (or texture) of the background
+         * Note that this parameter is ignored when accessing a shared board (i.e. when the parameter id is defined) because the background color
+         * is defined in the board itself 
+         */
+            BackgroundTexture.switchTo(params.get("bg"));
+        else
+            BackgroundTexture.switchTo("black");
+
         document.getElementById("whiteBoardSwitch").onclick = () => {
             backgroundCustomColor.hidden = true;
             Share.execute("setBackgroundColor", ["white"]);
@@ -48,12 +61,14 @@ export class BackgroundTexture {
         }
         document.getElementById("customBoardSwitch").onclick = updateCustomColor;
 
+
+
     }
 
 
     /**
-     * @param backgroundTexture, can be "white" or "black"
-     * @description set the background color to the color backgroundColor
+     * @param backgroundTexture, can be "white" or "black", or any CSS background expression
+     * @description set the background to backgroundTexture
      */
     static switchTo(backgroundTexture: string): void {
         const previousBackgroundColor = BackgroundTexture.currentBackgroundTexture;
@@ -71,8 +86,14 @@ export class BackgroundTexture {
         if (document.getElementById(previousBackgroundColor + "BoardSwitch"))
             document.getElementById(previousBackgroundColor + "BoardSwitch").classList.remove("buttonselected");
 
+        if (backgroundTexture == "white" && UserManager.me.color == "white")
+            Share.execute("setCurrentColor", [UserManager.me.userID, "black"]);
+        else if (backgroundTexture == "black" && UserManager.me.color == "black")
+            Share.execute("setCurrentColor", [UserManager.me.userID, "white"]);
 
-        GUIActions.palette.switchBlackAndWhite();
+        //        ShareEvent.setCurrentColor(UserManager.me.userID, "red");
+
+        // GUIActions.palette.switchBlackAndWhite();
         document.getElementById("content").style.background = backgroundTexture;
 
         /*   const inputBackgroundColor = <HTMLInputElement>document.getElementById("inputBackgroundColor");
