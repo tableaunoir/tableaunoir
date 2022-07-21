@@ -182,11 +182,29 @@ export class MagnetTextManager {
 		div.style.top = y + "px";
 		MagnetManager.addMagnet(div);
 
-		divText.focus();
+
 
 		if (Share.isShared())
 			Share.sendMagnetChanged(div);
 
+		/*divText.focus();
 		document.execCommand('selectAll', false, null);
+		setTimeout(() => divText.focus(), 200);*/
+
+		function setCaret(el) {
+			// TODO: why is el.focus() not giving the focus ????????? 
+			console.log("focus")
+			el.focus();
+			document.execCommand('selectAll', true, null);
+			/*	const range = document.createRange()
+				const sel = window.getSelection()
+	
+				range.selectNodeContents(el);
+	
+				sel.removeAllRanges()
+				sel.addRange(range)*/
+		}
+
+		setCaret(divText);
 	}
 }

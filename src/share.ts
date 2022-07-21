@@ -71,7 +71,8 @@ export class Share {
 	}
 
 	/**
-	 * when launched, this function will keep testing the quality of the connection
+	 * @description when launched, this function will keep testing the quality of the connection
+	 * Technically, it looks whether we receive some messages (remember that they are some "heartbeat" messages that are normally frequently sent)
 	 */
 	static protocolTestConnection(): void {
 		const CONNECTIVITYDELAY = 15000;
@@ -83,12 +84,8 @@ export class Share {
 		}, CONNECTIVITYDELAY);
 
 	}
-	/**
-	 * @returns true iff we are on github.io
-	 */
-	/**static isOnGitHub(): boolean {
-		return window.location.origin.indexOf("github") >= 0;
-	}**/
+
+	
 	/**
 	 * initialization
 	 */
@@ -171,9 +168,6 @@ export class Share {
 	 * @description shows the connection error (called when there is a problem with the connection)
 	 */
 	static showConnectionError(): void {
-		/**if (Share.isOnGitHub())
-			ErrorMessage.show("For sharing, first go to a deployed server. Go to menu/share for more information.");
-		else*/
 		ErrorMessage.show("Impossible to connect to the server");
 	}
 
@@ -221,10 +215,6 @@ export class Share {
 	 * @description treats the msg received from the server
 	 */
 	static _treatReceivedMessage(msg: ShareMessage): void {
-		/*if (msg.type != "fullCanvas" && msg.type != "magnets" && msg.type != "execute")
-			console.log("Server -> me: " + JSON.stringify(msg));
-		else
-			console.log("Server -> me: " + msg.type);*/
 		switch (msg.type) {
 			case "id": Share._setTableauID(msg.id); break;
 			case "youruserid": // "your name is ..."
@@ -272,7 +262,7 @@ export class Share {
 				//TODO buggy (and not used)
 				BoardManager.timeline.insertActionNowAlreadyExecuted(ActionDeserializer.deserialize(msg.action));
 				break;
-			case "svg":
+			case "svg": //TODO: is it used?
 				console.log("received svg!")
 				document.getElementById("svg").innerHTML = msg.data;
 				ConstraintDrawing.reset();

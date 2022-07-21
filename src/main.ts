@@ -117,11 +117,13 @@ function load() {
 
 		document.getElementById("buttonAskQuestion").onclick = Discussion.askQuestion;
 
+	/*
+	   TODO: why?
 		const buttons = document.getElementById("controls").children;
 
 		for (let i = 0; i < buttons.length; i++)
 			if (buttons[i] instanceof HTMLButtonElement)
-				(<HTMLButtonElement>buttons[i]).onfocus = (<HTMLElement>document.activeElement).blur; //to be improved
+				(<HTMLButtonElement>buttons[i]).onfocus = (<HTMLElement>document.activeElement).blur; //to be improved*/
 
 		document.onkeydown = KeyBoardShortCuts.onKeyDown;
 		document.onkeyup = KeyBoardShortCuts.onKeyUp;

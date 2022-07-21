@@ -58,14 +58,14 @@ export class ActionFreeDraw extends Action {
         if (this.magnet1id) {
             return {
                 type: "freedrawinteractivegraph",
-                 userid: this.userid,
+                userid: this.userid,
                 points: this.points, magnet1id: this.magnet1id,
                 magnet2id: this.magnet2id,
                 magnet1point: this.magnet1point,
                 magnet2point: this.magnet2point
             };
         }
-        return { type: "freedraw",  userid: this.userid, points: this.points };
+        return { type: "freedraw", userid: this.userid, points: this.points };
     }
 
     public alreadyDrawnSth = false;
@@ -232,7 +232,7 @@ export class ActionFreeDraw extends Action {
      * 
      * @returns 
      */
-   async redoAnimated(): Promise<void> {
+    async redoAnimated(): Promise<void> {
         if (this.svgLines)
             await this.redo();
         else {
@@ -254,7 +254,19 @@ export class ActionFreeDraw extends Action {
 
 
     createOverviewImage(): string {
-        const canvas = Action.createCanvasOverview();
+        /**
+         * 
+         * @returns a clear canvas of the size of the small icon in the animation bar
+         */
+        function createCanvasOverview(): HTMLCanvasElement {
+            const canvas = document.createElement("canvas");
+            canvas.width = 24;
+            canvas.height = 24;
+            return canvas;
+        }
+
+
+        const canvas = createCanvasOverview();
         const ctx = canvas.getContext("2d");
         if (!this.alreadyDrawnSth)
             Drawing.drawDot(ctx, canvas.width / 2, canvas.height / 2, this.points[0].color);

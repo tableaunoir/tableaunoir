@@ -9,9 +9,9 @@ export abstract class Action {
      * the user that has performed the action
      */
     public userid: string;
-    public pause = false;
+    public pause = false; // TODO: to be deleted
     public isDirectlyUndoable = false;
-    public isBlocking = true;
+    public isBlocking = true; //true if this action is sync (i.e. the following actions are waiting this action to be finished)
     private hash = 0;
     private _speed = 1;
     private _delay = this.getDelay(this._speed);
@@ -87,12 +87,6 @@ export abstract class Action {
 
     abstract get xMax(): number;
 
-    protected static createCanvasOverview(): HTMLCanvasElement {
-        const canvas = document.createElement("canvas");
-        canvas.width = 24;
-        canvas.height = 24;
-        return canvas;
-    }
 
 
     _overviewImage: string = undefined;

@@ -439,6 +439,7 @@ export class MagnetManager {
 	 * @description remove the focus on the magnet (it is a text magnet for instance)
 	 */
 	private static magnetUnFocus(element: HTMLElement) {
+		console.log("blur")
 		element.blur();
 		if (element.children.length > 0)
 			(<HTMLElement>element.children[0]).blur();
@@ -449,7 +450,7 @@ export class MagnetManager {
 	/**
 	 * 
 	 * @param magnet 
-	 * @returns the set of all magnet that are "contained" in the magnet
+	 * @returns the set of all magnets that are "contained" in the magnet
 	 *  (the contained magnets are the magnets that should move with it etc.)
 	 */
 	private static getContainedMagnets(element: HTMLElement): HTMLElement[] {
