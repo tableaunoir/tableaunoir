@@ -14,6 +14,7 @@ import { ShareEvent } from './ShareEvent';
 import config from './config.json'
 import { ConstraintDrawing } from './ConstraintDrawing';
 import { ActionDeserializer, HTMLdeserialize } from './ActionDeserializer';
+import { ClipBoardManager } from './ClipBoardManager';
 
 /**
  * the class that enables to share the board
@@ -153,10 +154,11 @@ export class Share {
 	 */
 	static copyShareUrl(): void {
 		const sharelink = (<HTMLInputElement>document.getElementById("shareUrl")).value;
-
-		navigator.clipboard.writeText(sharelink).
+		ClipBoardManager.copy(sharelink, "URL");
+		/*navigator.clipboard.writeText(sharelink).
 			then(() => { document.getElementById("shareUrlCopied").hidden = false; },
-        /* else */() => { document.getElementById("shareUrlCopied").hidden = false; });
+		//else 
+		() => { document.getElementById("shareUrlCopied").hidden = false; });*/
 	}
 
 
@@ -315,7 +317,7 @@ export class Share {
 			const user = UserManager.users[userid];
 
 			//switch to the correct tool
-			const toolClassName = user.tool.name; 
+			const toolClassName = user.tool.name;
 			Share.executeTo("switch" + toolClassName.substring("Tool".length), [userid], idNewUser);
 
 			if (user.isRoot)
@@ -501,6 +503,7 @@ export class Share {
 		history.pushState({}, null, newUrl);
 
 		Share.updateQRCodeAndTextBoxWithURL();
+		Share.copyShareUrl();
 
 		UserListComponent.updateGUIUsers(); //update the user because now the tableau is shared
 
