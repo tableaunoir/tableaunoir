@@ -125,7 +125,7 @@ export class Layout {
     }
 
     static minimap(): void {
-        if(BoardManager.width < Layout.getWindowWidth()) //no need to switch to minimap if the board is small
+        if (BoardManager.width < Layout.getWindowWidth()) //no need to switch to minimap if the board is small
             return;
 
         document.getElementById("buttonMap").classList.add("buttonselected");
@@ -136,8 +136,9 @@ export class Layout {
         getCanvas().style.pointerEvents = "none";
         const x = Layout.getWindowLeft();
         BoardNavigation.setScroll(0);
-
-        if (BoardManager.width > Layout.getWindowWidth() * 1.5) {
+        const boardWidth = BoardManager.width;
+        console.log(boardWidth)
+        if (boardWidth > Layout.getWindowWidth() * 1.5) {
             //only install the GUI for moving in the board when the board is large
             const viewport = document.getElementById("viewport");
             viewport.hidden = false;

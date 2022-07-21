@@ -326,7 +326,9 @@ export class BoardManager {
             BoardManager.executeOperation(new OperationDeleteSeveralActions([nextNewSlideActionIndex]));
     }
 
-    static get width(): number { return Math.max(BoardManager.widthFromActions, BoardManager.widthFromMagnets); }
+    static get width(): number {
+        console.log(BoardManager.widthFromActions)
+        return Math.max(BoardManager.widthFromActions, BoardManager.widthFromMagnets); }
 }
 
 

@@ -9,7 +9,7 @@ import { Action } from "./Action";
 export class ActionInit extends Action {
     get xMax(): number {
         if (this.img)
-            this.img.width;
+            return this.img.width;
         else return 0;
     }
 
