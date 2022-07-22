@@ -191,20 +191,20 @@ export class MagnetTextManager {
 		document.execCommand('selectAll', false, null);
 		setTimeout(() => divText.focus(), 200);*/
 
-		function setCaret(el) {
-			// TODO: why is el.focus() not giving the focus ????????? 
-			console.log("focus")
-			el.focus();
-			document.execCommand('selectAll', true, null);
-			/*	const range = document.createRange()
-				const sel = window.getSelection()
-	
-				range.selectNodeContents(el);
-	
-				sel.removeAllRanges()
-				sel.addRange(range)*/
+
+		function focusAndSelectAll(idmagnet: string) {
+			const divText = <HTMLElement>document.getElementById(idmagnet).children[0]
+			divText.focus();
+			const range = document.createRange()
+			const sel = window.getSelection()
+
+			range.selectNodeContents(divText);
+
+			sel.removeAllRanges()
+			sel.addRange(range)
 		}
 
-		setCaret(divText);
+		//accessing the dom via the id instead of the div itself, because the div may have been modified after addMagnet
+		setTimeout(() => focusAndSelectAll(div.id), 50);
 	}
 }
