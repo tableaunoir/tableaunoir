@@ -6,6 +6,18 @@ import { UserManager } from './UserManager';
 
 
 export class MagnetTextManager {
+
+	/**
+	 * @description call the LaTEX engine (MathJaX)
+	 */
+	static latexTypeSet() {
+		try {
+			eval("MathJax.typeset();");
+		}
+		catch (e) {
+			console.log("MathJaX not supported");
+		}
+	}
 	/**
 	 * 
 	 * @param element 
@@ -30,7 +42,7 @@ export class MagnetTextManager {
 		element.dataset.code = LaTEXCode;
 		divText.contentEditable = "false";
 		divText.innerHTML = `\\[${element.dataset.code}\\]`;
-		eval("MathJax.typeset();");
+		MagnetTextManager.latexTypeSet();
 
 		if (Share.isShared())
 			Share.sendMagnetChanged(element);
@@ -85,7 +97,7 @@ export class MagnetTextManager {
 		if (latexCode != undefined)
 			MagnetTextManager.setLaTEX(element, latexCode);
 		else //else there may be some standard LaTEX "\[...\]" inside the text magnet
-			eval("MathJax.typeset();")
+			MagnetTextManager.latexTypeSet();
 	}
 
 	/**

@@ -59,7 +59,8 @@ export class ActionFreeDraw extends Action {
             return {
                 type: "freedrawinteractivegraph",
                 userid: this.userid,
-                points: this.points, magnet1id: this.magnet1id,
+                points: this.points,
+                magnet1id: this.magnet1id,
                 magnet2id: this.magnet2id,
                 magnet1point: this.magnet1point,
                 magnet2point: this.magnet2point
@@ -112,10 +113,12 @@ export class ActionFreeDraw extends Action {
     svgLines: SVGLineElement[] = undefined;
 
 
-    public computeSVGLines(): void {
+    private computeSVGLines(): void {
         this.svgLines = [];
         for (let i = 0; i < this.points.length - 1; i++) {
-            this.svgLines.push(ToolDraw.addSVGLine(this.points[i].x, this.points[i].y, this.points[i + 1].x, this.points[i + 1].y, this.points[i].pressure, this.points[i].color));
+            const a = this.points[i];
+            const b = this.points[i + 1];
+            this.svgLines.push(ToolDraw.addSVGLine(a.x, a.y, b.x, b.y, a.pressure, a.color));
         }
         this.isDirectlyUndoable = true;
         ConstraintDrawing.freeDraw(this.svgLines, this.magnet1id, this.magnet2id, this.magnet1point, this.magnet2point);

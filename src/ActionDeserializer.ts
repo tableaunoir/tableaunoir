@@ -17,6 +17,11 @@ import { ActionLine } from './ActionLine';
 import { ActionClear } from './ActionClear';
 import { ActionSlideStart } from './ActionSlideStart';
 
+
+/**
+ * @description this class enables to obtain the real Action object (draw a line, erase that part, etc.)
+ * from its serialized version (the one stored in a file)
+ */
 export class ActionDeserializer {
     static deserializeSub(obj: ActionSerialized): Action {
         if (obj.type == "init")
