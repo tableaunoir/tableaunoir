@@ -67,6 +67,11 @@ export class Export {
      * @returns (async) a new canvas containing the current board (with the drawing, the magnets etc.)
      */
     private static getCanvasBoard(): Promise<HTMLCanvasElement> {
+
+        /** hack for the magnet with LaTEX to appear correctly on the exported canvas: put opacity to 0 for the
+         * mjx-assistive-mml elements. Warning: changing display to none is not working because you have a !important
+         * in the CSS for mjx-assistive-mml
+         */
         const C = document.getElementsByTagName("mjx-assistive-mml");
         console.log(C)
         for (let i = 0; i < C.length; i++) {
