@@ -42,11 +42,11 @@ export class BackgroundTexture {
 
         const params = (new URL(document.location.href)).searchParams;
         if (params.get("bg") != null && params.get("id") == null)
-        /**
-         * if the parameter "bg" is defined, then it gives the color (or texture) of the background
-         * Note that this parameter is ignored when accessing a shared board (i.e. when the parameter id is defined) because the background color
-         * is defined in the board itself 
-         */
+            /**
+             * if the parameter "bg" is defined, then it gives the color (or texture) of the background
+             * Note that this parameter is ignored when accessing a shared board (i.e. when the parameter id is defined) because the background color
+             * is defined in the board itself 
+             */
             BackgroundTexture.switchTo(params.get("bg"));
         else
             BackgroundTexture.switchTo("black");
@@ -94,6 +94,10 @@ export class BackgroundTexture {
         //        ShareEvent.setCurrentColor(UserManager.me.userID, "red");
 
         // GUIActions.palette.switchBlackAndWhite();
+
+
+
+
         document.getElementById("content").style.background = backgroundTexture;
 
         /*   const inputBackgroundColor = <HTMLInputElement>document.getElementById("inputBackgroundColor");
@@ -113,6 +117,7 @@ export class BackgroundTexture {
 
 
     }
+
 
 
 

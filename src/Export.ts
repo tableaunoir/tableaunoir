@@ -8,7 +8,6 @@ import { ActionFreeDraw } from './ActionFreeDraw';
 import { ClipBoardManager } from './ClipBoardManager';
 
 
-
 /**
  * @description this class enables to export the board in png and pdf
  */
@@ -68,6 +67,12 @@ export class Export {
      * @returns (async) a new canvas containing the current board (with the drawing, the magnets etc.)
      */
     private static getCanvasBoard(): Promise<HTMLCanvasElement> {
+        const C = document.getElementsByTagName("mjx-assistive-mml");
+        console.log(C)
+        for (let i = 0; i < C.length; i++) {
+            (<HTMLElement>C[i]).style.opacity = "0.0";
+        }
+
         const nodeContent = document.getElementById("content");
         return new Promise((resolve) => { html2canvas(nodeContent).then(canvas => resolve(canvas)) });
     }
