@@ -73,7 +73,6 @@ export class Export {
          * in the CSS for mjx-assistive-mml
          */
         const C = document.getElementsByTagName("mjx-assistive-mml");
-        console.log(C)
         for (let i = 0; i < C.length; i++) {
             (<HTMLElement>C[i]).style.opacity = "0.0";
         }
