@@ -1,5 +1,4 @@
 import { MagnetTextManager } from './MagnetTextManager';
-import { ActionMagnetChangeSizeRatio } from './ActionMagnetChangeSizeRatio';
 import { ActionFill } from './ActionFill';
 import { Layout } from './Layout';
 import { ErrorMessage } from './ErrorMessage';
@@ -11,7 +10,6 @@ import { Palette } from "./Palette";
 import { Share } from "./share";
 import { MagnetManager } from './magnetManager';
 import { UserManager } from './UserManager';
-import { ActionMagnetSwitchBackgroundForeground } from './ActionMagnetSwitchBackgroundForeground';
 import { BoardManager } from './boardManager';
 
 export class GUIActions {
@@ -125,7 +123,7 @@ export class GUIActions {
             if (!MagnetTextManager.isTextMagnet(magnet)) {
                 const id = magnet.id;
                 Share.execute("magnetChangeSize", [UserManager.me.userID, id, ratio])
-                
+
             }
         }
     }

@@ -1,4 +1,3 @@
-import { ActionMagnetDelete } from './ActionMagnetDelete';
 import { AnimationToolBar } from './AnimationToolBar';
 import { ActionDeserializer } from './ActionDeserializer';
 import { MagnetTextManager } from './MagnetTextManager';

@@ -15,7 +15,6 @@ import { Layout } from './Layout';
 import { Menu } from './Menu';
 import { TouchScreen } from './TouchScreen';
 import { ActionPrintMagnet } from './ActionPrintMagnet';
-import { ActionMagnetChangeSizeRatio } from 'ActionMagnetChangeSizeRatio';
 
 
 

@@ -1,7 +1,6 @@
 import { Share } from './share';
 import Color from 'color';
 import { UserManager } from './UserManager';
-import { ShareEvent } from './ShareEvent';
 
 
 /**
