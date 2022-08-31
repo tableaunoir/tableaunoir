@@ -232,8 +232,7 @@
 				<span class="edit">
 					<div class="menuDiv">
 						<button class="buttonClear" id="blackboardClear">
-							<img src="img/clearboard.png" /><br /><span>Clear and reset the board</span><br />
-							<span class="keyboardkeyhelp">Ctrl+Alt+K</span></button>
+							<img src="img/clearboard.png" /><br /><span>Clear and reset the board</span></button>
 						<button class="buttonClear" id="clearMagnet">
 							<img src="img/magnet_delete.png" /><br /><span>Remove all the magnets</span></button>
 					</div>
@@ -299,11 +298,13 @@
 
 					<button id="customBoardSwitch"><img
 							src="img/switchcustombackground.png" /><br /><span>Customboard</span></button>
-					<button id="blackBoardSwitch"><img
-							src="img/switchblack.png" /><br /><span>Blackboard</span></button>
-					<button id="whiteBoardSwitch"><img
-							src="img/switchwhite.png" /><br /><span>Whiteboard</span></button>
-
+					<button id="blackBoardSwitch">
+						<div class="boardColor" style="background-color: black;"></div><span>Blackboard</span></button>
+					<button id="whiteBoardSwitch">
+						<div class="boardColor" style="background-color: white;"></div><span>Whiteboard</span></button>
+					<button id="greenBoardSwitch">
+						<div class="boardColor" style="background-color: darkgreen;"></div> <span>Greenboard</span>
+					</button>
 					<div id="backgroundCustomColor">
 						<input type="color" id="inputBackgroundColor" />
 

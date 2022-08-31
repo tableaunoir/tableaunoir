@@ -50,17 +50,15 @@ export class BackgroundTexture {
         else
             BackgroundTexture.switchTo("black");
 
-        document.getElementById("whiteBoardSwitch").onclick = () => {
+        const onButtonColorBoardSwitch = (color: string) => () => {
             backgroundCustomColor.hidden = true;
-            Share.execute("setBackgroundColor", ["white"]);
+            Share.execute("setBackgroundColor", [color]);
         }
-        document.getElementById("blackBoardSwitch").onclick = () => {
-            backgroundCustomColor.hidden = true;
-            Share.execute("setBackgroundColor", ["black"]);
-        }
+
+        document.getElementById("whiteBoardSwitch").onclick = onButtonColorBoardSwitch("white");
+        document.getElementById("blackBoardSwitch").onclick = onButtonColorBoardSwitch("black");
+        document.getElementById("greenBoardSwitch").onclick = onButtonColorBoardSwitch("darkgreen");
         document.getElementById("customBoardSwitch").onclick = updateCustomColor;
-
-
 
     }
 

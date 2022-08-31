@@ -1219,6 +1219,11 @@ h1 {
 
 
 
+.boardColor {
+	width: 96px;
+	height: 64px;
+}
+
 #timelineSlideActions {
 	display: inline;
 }
