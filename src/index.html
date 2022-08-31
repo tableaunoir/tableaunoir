@@ -142,7 +142,7 @@
 					src="img/icons/1F5BC.svg"> New slide from now (Ctrl + Alt + N)</li>
 			<li id="newSlideAndClear"
 				title="Add a new clear slide after this one. The new slide will start by clearing the board."><img
-					src="img/icons/1F5BCclear.svg">New clear slide from now (Alt + N)</li>		
+					src="img/icons/1F5BCclear.svg">New clear slide from now (Alt + N)</li>
 		</ul>
 	</div>
 
@@ -275,7 +275,8 @@
 						<span>Name:</span> <input id="exportPngName" value="myblackboard" />
 						<button id="exportPng"><img src="img/icons/1F5BC.svg" />Get an image</button>
 						<button id="exportPdf"><img src="img/icons/pdf.svg" />Get a PDF</button>
-						<button id="exportTikz" title="Export the board in TikZ"><img src="img/icons/LaTeX.svg" />Get tikz code</button>
+						<button id="exportTikz" title="Export the board in TikZ"><img src="img/icons/LaTeX.svg" />Get
+							tikz code</button>
 					</div>
 					<textarea rows="10" cols="30" id="exportCode" hidden readonly></textarea>
 				</div>
@@ -401,7 +402,8 @@
 
 
 				<h2>Presentation</h2>
-				<input type="checkbox" id="inputPresentationSlideNumber"></input><label for="inputPresentationSlideNumber">Show the current slide number</label>
+				<input type="checkbox" id="inputPresentationSlideNumber"></input><label
+					for="inputPresentationSlideNumber">Show the current slide number</label>
 
 
 				<h2>Language</h2>
@@ -589,6 +591,23 @@
 						</tr>
 					</table>
 
+
+
+					<h2>Presentation</h2>
+
+					<table>
+						<tr>
+							<td><span class="keyboardkey">Alt + N</span></td>
+							<td>New clear slide</td>
+						</tr>
+						<tr>
+							<td><span class="keyboardkey">Ctrl + Alt + N</span></td>
+							<td>New slide (without erasing)</td>
+						</tr>
+					</table>
+
+
+
 				</div>
 			</div>
 			<div id="Share" class="tabcontent">
@@ -715,8 +734,8 @@
 
 				<h1>Documentation</h1>
 				<div>
-				See the <a target="_blank" rel="noopener noreferrer"
-				href="https://github.com/tableaunoir/documentation/">full documentation</a></div>
+					See the <a target="_blank" rel="noopener noreferrer"
+						href="https://github.com/tableaunoir/documentation/">full documentation</a></div>
 
 
 				<h1>Frequently asked questions</h1>
@@ -765,11 +784,15 @@
 				</ul>
 
 				<h2>How to draw over a magnet?</h2>
-				The solution is to put the magnet behind the board. To do that, 1. pass the mouse cursor under the magnet, and 2. press 
-				<span class="keyboardkey">b</span>. Now, you can draw over the magnet. To put the magnet to the foreground again, repeat 1 and 2.
+				The solution is to put the magnet behind the board. To do that, 1. pass the mouse cursor under the
+				magnet, and 2. press
+				<span class="keyboardkey">b</span>. Now, you can draw over the magnet. To put the magnet to the
+				foreground again, repeat 1 and 2.
 
-				<h2>I use a different screen and now my board exceeds the size of the screen. How to see the full board?</h2>
-				In the toolbar, click on <img draggable="false" class="icon" src="img/icons/fittoscreen.svg" /> to entirely see you board.
+				<h2>I use a different screen and now my board exceeds the size of the screen. How to see the full board?
+				</h2>
+				In the toolbar, click on <img draggable="false" class="icon" src="img/icons/fittoscreen.svg" /> to
+				entirely see you board.
 			</div>
 		</div>
 		<div class="divMenuHide"><button onclick="Menu.hide()">X</button><span class="keyboardkeyhelp">Esc</span></div>
