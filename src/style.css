@@ -1212,8 +1212,9 @@ h1 {
 	display: inline-block;
 	overflow: auto;
 	flex-grow: 1;
-	height: 40px;
+	min-height: 40px;
 	margin: 4px;
+	resize: vertical;
 }
 
 

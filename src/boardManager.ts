@@ -16,6 +16,7 @@ import { Action } from './Action';
 import { ActionMagnetMove } from './ActionMagnetMove';
 import { Operation } from 'Operation';
 import { AnimationManager } from './AnimationManager';
+import { OptionManager } from './OptionManager';
 
 
 /**
@@ -39,6 +40,7 @@ export class BoardManager {
     /** stack to store the cancel/redo operations */
     static cancelStack = new CancelStack();
 
+    static isSlideNumber = true;
     /**
    * initialization (button)
    */
@@ -47,6 +49,16 @@ export class BoardManager {
             if (confirm("Do you want to clear and reset the board?"))
                 Share.execute("boardReset", []);
         }
+
+        OptionManager.boolean({
+            name: "presentationSlideNumber",
+            defaultValue: true,
+            onChange: (b) => {
+                BoardManager.isSlideNumber = b;
+                BoardManager.updateSlideNumber();
+            }
+        });
+
 
     }
 
@@ -242,7 +254,7 @@ export class BoardManager {
      */
     private static updateSlideNumber(shift = 0): void {
         const slideNumberElement = document.getElementById("slideNumber");
-        slideNumberElement.hidden = false;
+        slideNumberElement.hidden = !BoardManager.isSlideNumber;
         slideNumberElement.innerHTML = "" + (BoardManager.timeline.getSlideNumber() + shift);
     }
 
