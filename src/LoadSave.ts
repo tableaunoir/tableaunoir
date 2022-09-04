@@ -316,7 +316,7 @@ export class LoadSave {
     }
 
 
-    static getTableauNoirString(): string { return JSON.stringify(LoadSave.getTableauNoirObject()); }
+    static getTableauNoirString(): string { return JSON.stringify(LoadSave.getTableauNoirObject(), null, 1); }
 
 
 

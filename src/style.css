@@ -1229,7 +1229,6 @@ h1 {
 }
 
 
-
 .shake {
 	animation: shake 0.82s cubic-bezier(.36, .07, .19, .97) both;
 }
@@ -1268,14 +1267,13 @@ h1 {
 	text-decoration: unset;
 	color: rgb(223, 223, 223);
 	font-weight: 500;
-	width:200px;
+	width: 200px;
 }
 
 .menu>li>img {
-	width:32px;
+	width: 32px;
 }
 
 .menu>li:hover {
 	background: grey;
 }
-

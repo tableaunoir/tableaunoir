@@ -19,8 +19,6 @@ ipcMain.on("open", (event, arg) => { openFile(arg) });
 ipcMain.on("save", (event, arg) => { fs.writeFileSync(filename, arg) })
 ipcMain.on("filename", (event, arg) => { setFilename(arg) })
 
-
-
 app.on('ready', () => {
     win = new BrowserWindow({
         alwaysOnTop: false,
@@ -33,6 +31,7 @@ app.on('ready', () => {
         movable: false,
         webPreferences: {
             nodeIntegration: true, //makes that require('electron') is possible in the web-side,
+            contextIsolation: false, // important: otherwise nodeIntegration does not work
         }
     });
 

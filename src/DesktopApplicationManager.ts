@@ -27,7 +27,8 @@ export class DesktopApplicationManager {
         }
         catch (e) {
             /** setting when online web app*/
-            console.log("Web version of Tableaunoir");
+            console.log(e);
+            console.log("Because of the previous error, we deduce that this is the Web version of Tableaunoir");
             DesktopApplicationManager._desktop = false;
 
             window.onbeforeunload = function () {
