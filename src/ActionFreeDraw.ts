@@ -6,13 +6,22 @@ import { Drawing } from './Drawing';
 import { getCanvas } from './main';
 import { Action } from './Action';
 
+
 export class ActionFreeDraw extends Action {
     get xMin(): number { return Math.min(...this.points.map((p) => p.x)); }
     get xMax(): number { return Math.max(...this.points.map((p) => p.x)); }
     get yMin(): number { return Math.min(...this.points.map((p) => p.y)); }
     get yMax(): number { return Math.max(...this.points.map((p) => p.y)); }
 
+    get xMean(): number { return this.points.map((p) => p.x).reduce((partialSum, a) => partialSum + a, 0) / this.points.length; }
+    get yMean(): number { return this.points.map((p) => p.y).reduce((partialSum, a) => partialSum + a, 0) / this.points.length; }
 
+    get rect(): { x1: number, y1: number, x2: number, y2: number } {
+        return {
+            x1: this.xMin, y1: this.yMin,
+            x2: this.xMax, y2: this.yMax
+        }
+    }
     /**
      * 
      * @param magnet1id 

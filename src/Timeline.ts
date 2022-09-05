@@ -545,7 +545,7 @@ export class Timeline {
      */
     isSeveralSlides(): boolean {
         for (const action of this.actions) {
-            if (action.pause)
+            if (action instanceof ActionSlideStart)
                 return true;
         }
         return false;

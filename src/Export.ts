@@ -6,6 +6,7 @@ import html2canvas from 'html2canvas'
 import jspdf from 'jspdf'
 import { ActionFreeDraw } from './ActionFreeDraw';
 import { ClipBoardManager } from './ClipBoardManager';
+import { ErrorMessage } from './ErrorMessage';
 
 
 /**
@@ -118,6 +119,7 @@ export class Export {
         await BoardManager.timeline.setCurrentIndex(0);
 
         const doc = new jspdf({ orientation: "landscape", unit: "px", format: [Layout.getWindowWidth(), Layout.getWindowHeight()] });
+        
         const blitCanvasPageOnPage = (canvasPage: HTMLCanvasElement) => {
             doc.addImage(canvasPage, 'png', 0, 0, doc.internal.pageSize.getWidth(), doc.internal.pageSize.getHeight(), "", "FAST");
         };
@@ -125,7 +127,10 @@ export class Export {
         let firstpage = true;
         const w = Math.max(BoardManager.width, Layout.getWindowWidth());
 
+        let islide = 1;
         while (!BoardManager.timeline.isEnd()) {
+            if (severalSlides)
+                ErrorMessage.show(`pdf export: treating slide n. ${islide}`);
             console.log(severalSlides ? "treating next slide..." : "beginning of the process");
             await BoardManager.timeline.nextPausedFrame();
             const canvasFullBoard = await Export.getCanvasBoard();
@@ -144,6 +149,7 @@ export class Export {
                 }
             }
             firstpage = false; //for sure it is not the first page because at least one slide has been produced
+            islide++;
         }
         //doc.save((<HTMLInputElement>document.getElementById("exportPngName")).value + ".pdf");
         doc.output("pdfobjectnewwindow", { filename: (<HTMLInputElement>document.getElementById("exportPngName")).value + ".pdf" });

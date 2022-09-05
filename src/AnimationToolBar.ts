@@ -3,6 +3,8 @@ import { Share } from './share';
 import { SelectionActions } from './SelectionActions';
 import { ActionSlideStart } from './ActionSlideStart';
 import { BoardManager } from './boardManager';
+import { Action } from './Action';
+import { ActionFreeDraw } from './ActionFreeDraw';
 
 
 /**
@@ -105,7 +107,7 @@ export class AnimationToolBar {
                 AnimationToolBar.deselect();
 
             Share.execute("timelineSetCurrentIndex", [t]);
-            
+
         }
 
 
@@ -160,11 +162,47 @@ export class AnimationToolBar {
     */
     static createActionElement(t: number): HTMLElement {
         const action = BoardManager.timeline.actions[t];
+
+
+        function areActionsActionFreeDrawQuiteDifferent(a1: Action, a2: Action): boolean {
+            if (!(a1 instanceof ActionFreeDraw) || !(a2 instanceof ActionFreeDraw))
+                return false;
+
+            function isOverlap(
+                Ax1, Ay1, Ax2, Ay2,
+                Bx1, By1, Bx2, By2): boolean {
+                if (Ax1 > Bx2 || Bx1 > Ax2)
+                    return false;
+
+                if (By1 > Ay2 || Ay1 > By2)
+                    return false;
+
+                return true;
+            }
+
+            const R1 = a1.rect;
+            const R2 = a2.rect;
+
+            const TT = 50;
+
+            return !isOverlap(
+                R1.x1 - TT, R1.y1 - TT, R1.x2 + TT, R1.y2 + TT,
+                R2.x1 - TT, R2.y1 - TT, R2.x2 + TT, R2.y2 + TT);
+        }
+
         const el = document.createElement("div");
 
         el.dataset.index = t.toString();
 
         el.classList.add("action");
+
+        if (t > 0) {
+            const previousAction = BoardManager.timeline.actions[t - 1];
+            if (areActionsActionFreeDrawQuiteDifferent(action, previousAction)) {
+                el.classList.add("actionDifferent");
+            }
+        }
+
         el.style.backgroundImage = action.getOverviewImage();
 
         if (!action.isBlocking) el.classList.add("actionParallel");

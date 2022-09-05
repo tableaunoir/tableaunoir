@@ -29,6 +29,7 @@ import { S, Script } from './Script';
 import { Export } from './Export';
 import { Tool } from './Tool';
 import { DesktopApplicationManager } from './DesktopApplicationManager';
+import { Action } from './Action';
 
 TestPerformance.init();
 
@@ -85,7 +86,7 @@ function load() {
 		Wallpaper.init();
 		Tool.init();
 		Drawing.init();
-
+		Action.init();
 		BoardManager.reset();
 		DesktopApplicationManager.init();
 

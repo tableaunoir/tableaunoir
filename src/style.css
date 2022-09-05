@@ -1048,6 +1048,10 @@ h1 {
 }
 
 
+.actionDifferent {
+	border-left-width: 6px;
+}
+
 .actionExecuted {
 	opacity: 1.0;
 	background-color: #e56666;

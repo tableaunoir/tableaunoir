@@ -1,5 +1,6 @@
 import { AnimationManager } from './AnimationManager';
 import { ActionSerialized } from './ActionSerialized';
+import { OptionManager } from './OptionManager';
 
 
 
@@ -13,25 +14,17 @@ export abstract class Action {
     public isDirectlyUndoable = false;
     public isBlocking = true; //true if this action is sync (i.e. the following actions are waiting this action to be finished)
     private hash = 0;
-    private _speed = 1;
-    private _delay = this.getDelay(this._speed);
+    private _speed = 0;
+    private static _delay = 10;
 
-    private getDelay(speed: number): number {
-        switch (speed) {
-            case 0: return 20;
-            case 1: return 4; //default
-            case 2: return 1;
-        }
-        return 0;
-    }
 
-    set speed(speed: number) {
-        this._speed = speed;
-        this._delay = this.getDelay(speed);
+    static init() {
+        /** the user can choose the FPS of the animations :) */
+        OptionManager.number({ name: "FPS", defaultValue: 50, onChange: (fps) => Action._delay = 1000 / fps });
     }
 
 
-    async delay(): Promise<void> { await AnimationManager.delay(this._delay); }
+    async delay(): Promise<void> { await AnimationManager.delay(Action._delay); }
 
 
     constructor(userid: string) { this.userid = userid; }
