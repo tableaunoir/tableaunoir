@@ -1,4 +1,3 @@
-import { Sound } from './Sound';
 import { OptionManager } from './OptionManager';
 import { MagnetManager } from './magnetManager';
 import { UserManager } from './UserManager';
@@ -9,6 +8,7 @@ import { BoardManager } from './boardManager';
 import { Delineation } from './Delineation';
 import { Drawing } from './Drawing';
 import { Tool } from './Tool';
+import { ToolDrawAudio } from './ToolDrawAudio';
 
 
 export class ToolDraw extends Tool {
@@ -191,43 +191,4 @@ class ToolDrawGuessMagnetConnection {
         this._magnet2 = magnet2;
 
     }
-}
-
-class ToolDrawAudio {
-    static audioChalkDown: HTMLAudioElement = new Audio("sounds/chalkdown.ogg");
-    static audioChalkMove: HTMLAudioElement = new Audio("sounds/chalkmove.ogg");
-
-    static mousedown(p: number): void {
-        if (!Sound.is) return;
-        ToolDrawAudio.audioChalkDown.pause();
-        ToolDrawAudio.audioChalkDown.currentTime = 0;
-        ToolDrawAudio.audioChalkDown.volume = p;
-        ToolDrawAudio.audioChalkDown.play();
-        ToolDrawAudio.audioChalkMove.loop = true;
-    }
-
-
-    static mousemove(d: number): void {
-        if (!Sound.is) return;
-
-        if (d <= 2) {
-            ToolDrawAudio.audioChalkMove.pause();
-        }
-        else {
-            ToolDrawAudio.audioChalkMove.volume = Math.min(1, d / 150);
-            if (ToolDrawAudio.audioChalkMove.paused) {
-                ToolDrawAudio.audioChalkMove.play();
-            }
-        }
-    }
-
-
-    static mouseup(): void {
-        if (!Sound.is) return;
-        ToolDrawAudio.audioChalkDown.pause();
-        ToolDrawAudio.audioChalkMove.pause();
-        ToolDrawAudio.audioChalkDown.currentTime = 0;
-        ToolDrawAudio.audioChalkMove.currentTime = 0;
-    }
-
 }

@@ -5,6 +5,8 @@ import { ActionSerialized } from './ActionSerialized';
 import { Drawing } from './Drawing';
 import { getCanvas } from './main';
 import { Action } from './Action';
+import { ToolDrawAudio } from './ToolDrawAudio';
+import { AnimationManager } from './AnimationManager';
 
 
 export class ActionFreeDraw extends Action {
@@ -251,10 +253,22 @@ export class ActionFreeDraw extends Action {
             if (!this.alreadyDrawnSth)
                 Drawing.drawDot(getCanvas().getContext("2d"), this.points[0].x, this.points[0].y, this.points[0].color);
 
+            if (AnimationManager.isRunning)
+                ToolDrawAudio.mousedown(Math.random() * 0.5 + 0.2);
+
             for (let i = 1; i < this.points.length; i++) {
+                const d = Math.abs(this.points[i - 1].x - this.points[i].x) + Math.abs(this.points[i - 1].y - this.points[i].y);
+
+                if (AnimationManager.isRunning)
+                    ToolDrawAudio.mousemove(d);
+
                 Drawing.drawLine(getCanvas().getContext("2d"), this.points[i - 1].x, this.points[i - 1].y, this.points[i].x, this.points[i].y, this.points[i].pressure, this.points[i].color);
                 await this.delay();
             }
+
+
+            ToolDrawAudio.mouseup();
+
         }
 
 
