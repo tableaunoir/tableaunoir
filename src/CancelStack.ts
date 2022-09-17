@@ -1,7 +1,9 @@
 import { Operation } from './Operation';
 
 
-
+/**
+ * the stack is local to each user, but undo/redo are automatically shared because operations (objects of class Operation) runs instructions that are shared
+ */
 export class CancelStack {
     /**
     * stack of operations (add an action, remove an action, etc.)
@@ -26,6 +28,7 @@ export class CancelStack {
 
     /**
     * @description undo the last action
+    * the undo operation is automatically shared. This is because it undoes/redoes operations (class Operation) and what the instructions in operations are shared. 
     */
     undo(): void {
         if (!this.canUndo)
@@ -75,6 +78,7 @@ export class CancelStack {
 
     /**
      * @description redo the next action
+     * redo is shared
      */
     redo(): void {
         if (!this.canRedo)

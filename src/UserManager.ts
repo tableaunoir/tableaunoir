@@ -31,7 +31,7 @@ export class UserManager {
     static me: User = undefined; // the current user
     static users: { [id: string]: User } = {};
 
-   
+
 
     /**
      * initialisation: creation of myself :)
@@ -62,9 +62,9 @@ export class UserManager {
     static isIamResponsibleForData(): boolean {
         let minkey = "zzzzzzzzzzzzzzzz";
         for (const key in UserManager.users) {
-            if(UserManager.users[key].isRoot)
-            if (key < minkey)
-                minkey = key;
+            if (UserManager.users[key].isRoot)
+                if (key < minkey)
+                    minkey = key;
         }
         return (UserManager.me.userID == minkey);
     }
@@ -87,6 +87,7 @@ export class UserManager {
      */
     static add(userid: string): void {
         UserManager.users[userid] = new User(false);
+        UserManager.users[userid].userID = userid;
         UserListComponent.add(userid);
     }
 
@@ -108,7 +109,7 @@ export class UserManager {
 
 
 
-    
+
 
 
 
@@ -120,7 +121,7 @@ export class UserManager {
      */
     static getNumberOfUsers(): number { return Object.keys(UserManager.users).length; }
 
-   
+
 
 
     /**

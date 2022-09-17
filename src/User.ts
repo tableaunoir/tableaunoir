@@ -37,8 +37,8 @@ export class User {
     private cursor = undefined;
     tool: Tool = undefined;
     private elementName = undefined;
-    userID = "0";
-    private _name = "";
+    userID = "0"; //inner ID
+    private _name = ""; // name like "Isaac Newton", etc.
     isRoot = false;
 
     get name(): string { return this._name; }

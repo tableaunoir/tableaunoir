@@ -47,6 +47,7 @@ export class ToolDraw extends Tool {
         this.lastDelineation.addPoint({ x: this.x, y: this.y });
         this.svgLines = [];
 
+        console.log(`new action from user ${this.user.userID}`);
         this.action = new ActionFreeDraw(this.user.userID);
         this.action.addPoint({ x: this.x, y: this.y, pressure: 0, color: this.user.color });
     }

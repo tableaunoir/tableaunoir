@@ -104,27 +104,30 @@ export class Delineation {
      * If removeContour is true: the contour will not be part of the magnet
      */
     magnetize(userid: string, cut: boolean, removeContour: boolean): void {
+        const iaction = BoardManager.timeline.getIndexLastActionByUser(userid);
+        console.log(`magnetize from action n°${iaction} from user ${userid}`);
+
+        //TODO: take the last action from userid and analysize it! actions[iaction]
         if (!this.isSuitableForMagnetisation())
             return;
 
-        if (removeContour)
-            Drawing.removeContour(this.points);
+        /* if (removeContour)
+             Drawing.removeContour(this.points);*/
 
-        if (userid == UserManager.me.userID) //only the real user will create the magnet since the others will receive it
-            this._createMagnetFromImg();
 
-        Sound.play("magnetcreationfromboard");
+        BoardManager.timeline.deleteAction(iaction).then(() => {
+            if (userid == UserManager.me.userID) //only the real user will create the magnet since the others will receive it
+                this._createMagnetFromImg();
 
-        if (cut && removeContour) //if cut, remove the contour after having baked the magnet
-            Drawing.removeContour(this.points);
+            Sound.play("magnetcreationfromboard");
 
-        if (cut)
-            Drawing.clearPolygon(this.points);
+            if (cut) {
+                const action = new ActionClearZone(userid, this.points, cut, removeContour);
+                BoardManager.addAction(action);
+            }
+            this.reset();
 
-        //the code above can not be executed by the action because the magnet has to be created
-        const action = new ActionClearZone(userid, this.points, cut, removeContour);
-        BoardManager.addAction(action);
-        this.reset();
+        });
     }
 
 

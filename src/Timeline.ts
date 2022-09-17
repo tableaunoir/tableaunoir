@@ -141,6 +141,16 @@ export class Timeline {
     getCurrentIndex(): number { return this.currentIndex; }
 
 
+
+    getIndexLastActionByUser(userid: string): number {
+        for (let t = this.currentIndex; t >= 0; t--) {
+            if (this.actions[t].userid == userid)
+                return t;
+        }
+        return -1; //userid has performed no actions
+    }
+
+
     clearAndReset(canvasDataURL: string): void {
         const actionInit = new ActionInit(UserManager.me.userID, canvasDataURL);
         actionInit.redo();
@@ -299,7 +309,7 @@ export class Timeline {
      * @param t 
      * @description delete action at time t
      */
-    deleteAction(t: number): void {
+    async deleteAction(t: number): Promise<void> {
         if (t == 0) //the first action cannot be removed
             return;
 
