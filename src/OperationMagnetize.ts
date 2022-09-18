@@ -11,7 +11,7 @@ export class OperationMagnetize extends Operation {
     private actionContour: Action;
 
 
-    constructor(private userid, private taction: number, private cut: boolean, private magnetid: string) {
+    constructor(private userid: string, private taction: number, private cut: boolean, private magnetid: string) {
         super();
         this.actionContour = BoardManager.timeline.actions[taction];
 

@@ -20,6 +20,7 @@ import { Drawing } from './Drawing';
 import { ToolArc } from './ToolArc';
 import { ActionMagnetChangeSizeRatio } from './ActionMagnetChangeSizeRatio';
 import { ActionMagnetSwitchBackgroundForeground } from './ActionMagnetSwitchBackgroundForeground';
+import { Magnetizer } from './Magnetizer';
 
 /**
  * this class contains the events that are shared with other users connected to the same tableaunoir
@@ -134,13 +135,13 @@ export class ShareEvent {
 
     /** magnets */
     static magnetize(userID: string, magnetid: string, iaction: number, cut: boolean): void {
-        UserManager.users[userID].lastDelineation.performMagnetize(userID, magnetid, iaction, cut);
+        Magnetizer.performMagnetize(userID, magnetid, iaction, cut);
     }
 
 
     static undomagnetize(userID: string, iaction, cut, previousActionJSON: string) {
         const previousAction = ActionDeserializer.deserialize(JSON.parse(previousActionJSON));
-        UserManager.users[userID].lastDelineation.undoMagnetize(userID, iaction, cut, previousAction);
+        Magnetizer.undoMagnetize(userID, iaction, cut, previousAction);
     }
 
 

@@ -43,8 +43,6 @@ export class ToolDraw extends Tool {
     mousedown(evt): void {
         ToolDrawAudio.mousedown(evt.pressure);
         this.pointIndex = 0;
-        this.lastDelineation.reset();
-        this.lastDelineation.addPoint({ x: this.x, y: this.y });
         this.svgLines = [];
 
         console.log(`new action from user ${this.user.userID}`);
@@ -95,7 +93,6 @@ export class ToolDraw extends Tool {
 
             ToolDrawAudio.mousemove(Math.abs(evtX - this.x) + Math.abs(evtY - this.y));
 
-            if (this.lastDelineation.isDrawing()) {//this guard is because, when a magnet is created the user does not know the drawing stopped.
 
                 if (this.action.addPoint({ x: evtX, y: evtY, pressure: evt.pressure, color: this.user.color }))
                     this.svgLines.push(ToolDraw.addSVGLine(this.x, this.y, evtX, evtY, evt.pressure, this.user.color));
@@ -107,7 +104,6 @@ export class ToolDraw extends Tool {
                 /*else
                     Drawing.drawLine(getCanvas().getContext("2d"), this.x, this.y, evtX, evtY, evt.pressure, this.user.color);*/
 
-            }
 
 
         }
@@ -139,10 +135,6 @@ export class ToolDraw extends Tool {
 
             }
             else {
-
-                this.lastDelineation.setPoints(this.action.points);
-                this.lastDelineation.finish();
-
                 BoardManager.addAction(this.action);
             }
         }

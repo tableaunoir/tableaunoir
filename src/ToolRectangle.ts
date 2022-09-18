@@ -45,13 +45,7 @@ export class ToolRectangle extends ToolAbstractShape {
 
 
 
-    fillDelineation: () => void = () => {
-        this.lastDelineation.addPoint({ x: this.x1, y: this.y1 });
-        this.lastDelineation.addPoint({ x: this.x2, y: this.y1 });
-        this.lastDelineation.addPoint({ x: this.x2, y: this.y2 });
-        this.lastDelineation.addPoint({ x: this.x1, y: this.y2 });
-        this.lastDelineation.addPoint({ x: this.x1, y: this.y1 });
-    }
+
 
 
 }

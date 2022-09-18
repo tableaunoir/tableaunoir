@@ -2,7 +2,7 @@ import { ActionEllipse } from './ActionEllipse';
 import { ToolAbstractShape } from './ToolAbstractShape';
 
 export abstract class ToolEllipse extends ToolAbstractShape {
-    
+
 
     cx: number;
     cy: number;
@@ -33,17 +33,6 @@ export abstract class ToolEllipse extends ToolAbstractShape {
     }
 
 
-    /**
-     * the contour for making a magnet of the shape of an ellipse
-     */
-    fillDelineation: () => void = () => {
-        const precision = 200;
-
-        for (let i = 0; i < precision; i++) {
-            const angle = 2 * Math.PI * i / precision;
-            this.lastDelineation.addPoint({ x: this.cx + this.rx * Math.cos(angle), y: this.cy + this.ry * Math.sin(angle) });
-        }
-    }
 
 
 }

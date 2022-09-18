@@ -49,13 +49,7 @@ export class User {
             this.elementName.innerHTML = this._name;
     }
 
-    get isDelineation(): boolean {
-        return this.tool instanceof ToolDraw || this.tool instanceof ToolAbstractShape;
-    }
 
-    get lastDelineation(): Magnetizer {
-        return (<ToolDraw | ToolAbstractShape>this.tool).lastDelineation;
-    }
 
     private lastHearBeat = Date.now();
 

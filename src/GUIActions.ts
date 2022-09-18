@@ -11,6 +11,9 @@ import { Share } from "./share";
 import { MagnetManager } from './magnetManager';
 import { UserManager } from './UserManager';
 import { BoardManager } from './boardManager';
+import { ActionFreeDraw } from './ActionFreeDraw';
+import { ActionRectangle } from './ActionRectangle';
+import { ActionEllipse } from './ActionEllipse';
 
 export class GUIActions {
 
@@ -22,8 +25,15 @@ export class GUIActions {
         const magnet = MagnetManager.getMagnetUnderCursor();
         if (magnet)
             magnet.style.backgroundColor = UserManager.me.color;//MagnetManager.nextBackgroundColor
-        else if (UserManager.me.lastDelineation.points.length > 1)
-            BoardManager.addAction(new ActionFill(UserManager.me.userID, UserManager.me.lastDelineation.points, UserManager.me.color));
+        else {
+            const iaction = BoardManager.timeline.getIndexLastActionByUser(UserManager.me.userID);
+            const action = BoardManager.timeline.actions[iaction];
+            if (action != undefined)
+                if (action instanceof ActionFreeDraw || action instanceof ActionRectangle || action instanceof ActionEllipse) {
+                    BoardManager.addAction(new ActionFill(UserManager.me.userID, action.contour, UserManager.me.color));
+
+                }
+        }
     }
 
     /**

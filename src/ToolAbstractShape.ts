@@ -18,9 +18,6 @@ export abstract class ToolAbstractShape extends Tool {
     //to be implemented for a concrete shape
     abstract actionDrawShape: (evt) => Action;
 
-    //to be implemented for a concrete shape
-    abstract fillDelineation: (evt) => void;
-
 
     constructor(user: User) {
         super(user);
@@ -33,7 +30,6 @@ export abstract class ToolAbstractShape extends Tool {
 
 
     mousedown(evt: PointerEvent): void {
-        this.lastDelineation.reset();
         this.compute(evt);
         this.shape = this.getShape(evt);
         document.getElementById("svg").appendChild(this.shape);
@@ -50,13 +46,10 @@ export abstract class ToolAbstractShape extends Tool {
     }
     mouseup(evt: PointerEvent): void {
         if (this.isDrawing) {
-            this.fillDelineation(evt);
-            this.lastDelineation.finish();
             const action = this.actionDrawShape(evt);
             action.redo();
             BoardManager.addAction(action);
             this.shape.remove();
-            //BoardManager.save(this.lastDelineation._getRectangle());
         }
 
     }

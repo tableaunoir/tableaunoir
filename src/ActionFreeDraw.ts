@@ -318,4 +318,10 @@ export class ActionFreeDraw extends Action {
     }
 
 
+
+
+
+    get contour() {
+        return this.points;
+    }
 }

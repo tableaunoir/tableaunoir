@@ -12,6 +12,7 @@ import { Layout } from './Layout';
 import { Toolbar } from './Toolbar';
 import { Menu } from './Menu';
 import { S, Script } from './Script';
+import { Magnetizer } from './Magnetizer';
 
 
 
@@ -161,19 +162,11 @@ export class KeyBoardShortCuts {
         }
         else if (evt.ctrlKey && evt.key.toLowerCase() == 'x') {//Ctrl + x
             CircularMenu.hide();
-            if (!UserManager.me.isDelineation)
-                return;
-            const deli = UserManager.me.lastDelineation;
-            if (deli.containsPolygonToMagnetize())
-                deli.magnetize(UserManager.me.userID, true);
+            Magnetizer.magnetize(UserManager.me.userID, true);
         }
         else if (evt.ctrlKey && evt.key.toLowerCase() == 'c') {//Ctrl + c
             CircularMenu.hide();
-            if (!UserManager.me.isDelineation)
-                return;
-            const deli = UserManager.me.lastDelineation;
-            if (deli.containsPolygonToMagnetize())
-                deli.magnetize(UserManager.me.userID, false);
+            Magnetizer.magnetize(UserManager.me.userID, false);
             evt.preventDefault();
         }
         else if (evt.ctrlKey && evt.key == "v") { //Ctrl + v = print the current magnet or (implementing in progress) paste the clipboard
@@ -192,19 +185,12 @@ export class KeyBoardShortCuts {
         }
         else if (evt.key.toLowerCase() == "m") { //m = make new magnets
             CircularMenu.hide();
-            if (!UserManager.me.isDelineation) {
+            if (!Magnetizer.isSuitableForMagnetisation(UserManager.me.userID)) {
                 Share.execute("printMagnet", [MagnetManager.getCurrentMagnetID()]);
                 MagnetManager.removeCurrentMagnet();
             }
             else {
-                const deli = UserManager.me.lastDelineation;
-                if (deli.containsPolygonToMagnetize()) {
-                    deli.magnetize(UserManager.me.userID, true);
-                }
-                else {
-                    Share.execute("printMagnet", [MagnetManager.getCurrentMagnetID()]);
-                    MagnetManager.removeCurrentMagnet();
-                }
+                Magnetizer.magnetize(UserManager.me.userID, true);
             }
         }
         else if (evt.key == "p") { //p = print the current magnet

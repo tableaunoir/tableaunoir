@@ -1,6 +1,7 @@
 import { Share } from './share';
 import { UserManager } from './UserManager';
 import { CircularMenu } from './CircularMenu';
+import { Magnetizer } from './Magnetizer';
 
 /**
  * This class represents the circular menu of tools (shapes etc.)
@@ -13,10 +14,7 @@ export class ToolMenu extends CircularMenu {
             src: "img/icons/1F9F2.svg",
             title: "Magnetize the last drawn shape (Ctrl + X)",
             onclick: () => {
-                if (!UserManager.me.isDelineation)
-                    return;
-                if (UserManager.me.lastDelineation.containsPolygonToMagnetize())
-                    UserManager.me.lastDelineation.magnetize(UserManager.me.userID, true);
+                Magnetizer.magnetize(UserManager.me.userID, true);
                 CircularMenu.hide();
             }
         });

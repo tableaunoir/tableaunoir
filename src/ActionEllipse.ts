@@ -4,8 +4,8 @@ import { Action } from "./Action";
 
 
 export class ActionEllipse extends Action {
-    
-    get xMax(): number { return this.cx+ this.rx; }
+
+    get xMax(): number { return this.cx + this.rx; }
 
     serializeData(): ActionSerialized {
         return {
@@ -26,5 +26,19 @@ export class ActionEllipse extends Action {
         Drawing.drawEllipse({ cx: this.cx, cy: this.cy, rx: this.rx, ry: this.ry }, this.color);
     }
 
+
+    /**
+     * the contour for making a magnet of the shape of an ellipse
+     */
+    get contour(): { x: number; y: number; }[] {
+        const precision = 200;
+        const A = []
+
+        for (let i = 0; i < precision; i++) {
+            const angle = 2 * Math.PI * i / precision;
+            A.push({ x: this.cx + this.rx * Math.cos(angle), y: this.cy + this.ry * Math.sin(angle) });
+        }
+        return A;
+    }
 
 }
