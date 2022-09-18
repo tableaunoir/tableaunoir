@@ -16,6 +16,14 @@ import { ActionEllipse } from './ActionEllipse';
  * This class represents a polyline drawn by a user
  */
 export class Magnetizer {
+
+
+    /**
+     * 
+     * @param userid 
+     * @returns true if the last action added in the timeline by the user userid
+     * is ok for magnetisation
+     */
     static isSuitableForMagnetisation(userid: string): boolean {
         const iaction = BoardManager.timeline.getIndexLastActionByUser(userid);
         return Magnetizer.isActionSuitableForMagnetisation(BoardManager.timeline.actions[iaction]);
@@ -38,39 +46,18 @@ export class Magnetizer {
 
         Sound.play("magnetcreationfromboard");
 
-
-        const op = new OperationMagnetize(userid, iaction, cut, MagnetManager.generateID());
+        /**
+         * the magnet id is common to all. That is why it is computed here. (it would be bad if each client computes its own magnet id!)
+         */
+        const magnetid = MagnetManager.generateID();
+        const op = new OperationMagnetize(userid, iaction, cut, magnetid);
 
         if (userid == UserManager.me.userID)
             BoardManager.executeOperation(op);
         else
             op.redo();
 
-        /*
-    this.performMagnetize(userid, iaction, cut);*/
     }
-
-
-
-
-
-
-    /**
-        performMagnetize(userid: string, iaction: number, cut: boolean) {
-            const actionContour = <ActionFreeDraw>BoardManager.timeline.actions[iaction];
-    
-            BoardManager.deleteAction(iaction).then(() => {
-                this._createMagnetFromImg(userid);
-    
-                if (cut) {
-                    const action = new ActionClearZone(userid, actionContour.points);
-                    BoardManager.addAction(action);
-                }
-                this.reset();
-    
-            });
-        }
-     */
 
 
 
@@ -100,12 +87,19 @@ export class Magnetizer {
     }
 
 
-
+    /**
+     * 
+     * @param userid 
+     * @param iaction 
+     * @param cut 
+     * @param previousContourAction 
+     * @description This function is called from a SharedEvent, called by OperationMagnetize
+     */
     static async undoMagnetize(userid: string, iaction: number, cut: boolean, previousContourAction: Action) {
         if (cut)
-            await BoardManager.timeline.deleteActions([iaction, iaction + 1]);
+            await BoardManager.timeline.deleteActions([iaction, iaction + 1]); //delete the cleaning of the zone + the magnet creation
         else
-            await BoardManager.timeline.deleteActions([iaction]);
+            await BoardManager.timeline.deleteActions([iaction]); //delete the magnet creation
 
         BoardManager.timeline.insertAction(previousContourAction, iaction);
     }
@@ -152,7 +146,9 @@ export class Magnetizer {
      * @param userid 
      * @param magnetid 
      * @param points 
-     * @returns 
+     * @returns a magnet (not added to the magnet layer yet) that contains the image of what is on the canvas in the polygon
+     * defined by the points
+     * the magnet id is magnetid (the magnet id is fixed from outside because it is shared by all the board)
      */
     static createMagnetFromCanvas(userid: string, magnetid: string, points: { x: number, y: number }[]): HTMLImageElement {
 
