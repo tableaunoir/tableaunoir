@@ -1,4 +1,4 @@
-import { Delineation } from './Delineation';
+import { Magnetizer } from './Magnetizer';
 import { ToolEllipseByCenter } from './ToolEllipseByCenter';
 import { ToolEllipseByBorder } from './ToolEllipseByBorder';
 import { ToolLine } from './ToolLine';
@@ -53,7 +53,7 @@ export class User {
         return this.tool instanceof ToolDraw || this.tool instanceof ToolAbstractShape;
     }
 
-    get lastDelineation(): Delineation {
+    get lastDelineation(): Magnetizer {
         return (<ToolDraw | ToolAbstractShape>this.tool).lastDelineation;
     }
 

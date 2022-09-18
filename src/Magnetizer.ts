@@ -13,7 +13,7 @@ import { ActionMagnetNew } from './ActionMagnetNew';
 /**
  * This class represents a polyline drawn by a user
  */
-export class Delineation {
+export class Magnetizer {
 
     //TODO: delete all this points thing... it should be computed directly from the Action themselves
 
@@ -98,7 +98,7 @@ export class Delineation {
     }
 
     dotInPreviousPolygon(): boolean {
-        return Delineation.inPolygon(this.points[0], this.lastpoints);
+        return Magnetizer.inPolygon(this.points[0], this.lastpoints);
     }
 
 

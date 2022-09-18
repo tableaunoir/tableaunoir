@@ -1,12 +1,12 @@
 import { Action } from './Action';
 import { User } from './User';
 import { BoardManager } from './boardManager';
-import { Delineation } from './Delineation';
+import { Magnetizer } from './Magnetizer';
 import { Tool } from './Tool';
 
 export abstract class ToolAbstractShape extends Tool {
 
-    lastDelineation = new Delineation();
+    lastDelineation = new Magnetizer();
     shape: SVGElement = undefined;
 
     //to be implemented for a concrete shape

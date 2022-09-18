@@ -5,7 +5,7 @@ import { ActionFreeDraw } from './ActionFreeDraw';
 import { User } from './User';
 import { ChalkCursor } from './ChalkCursor';
 import { BoardManager } from './boardManager';
-import { Delineation } from './Delineation';
+import { Magnetizer } from './Magnetizer';
 import { Drawing } from './Drawing';
 import { Tool } from './Tool';
 import { ToolDrawAudio } from './ToolDrawAudio';
@@ -13,7 +13,7 @@ import { ToolDrawAudio } from './ToolDrawAudio';
 
 export class ToolDraw extends Tool {
     name = "ToolDraw";
-    lastDelineation = new Delineation();
+    lastDelineation = new Magnetizer();
     private action: ActionFreeDraw;
     private guessMagnetConnection = new ToolDrawGuessMagnetConnection();
     private svgLines = [];
