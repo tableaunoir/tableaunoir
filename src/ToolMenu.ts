@@ -16,7 +16,7 @@ export class ToolMenu extends CircularMenu {
                 if (!UserManager.me.isDelineation)
                     return;
                 if (UserManager.me.lastDelineation.containsPolygonToMagnetize())
-                    Share.execute("magnetize", [UserManager.me.userID, true, true]);
+                    UserManager.me.lastDelineation.magnetize(UserManager.me.userID, true);
                 CircularMenu.hide();
             }
         });
@@ -76,15 +76,15 @@ export class ToolMenu extends CircularMenu {
             }
         });
 
-/*
-        this.addButtonImage({
-            src: "img/icons/1F58C.svg",
-            title: "Fill the last shape that was drawn",
-            onclick: () => {
-                GUIActions.fill();
-                CircularMenu.hide();
-            }
-        });*/
+        /*
+                this.addButtonImage({
+                    src: "img/icons/1F58C.svg",
+                    title: "Fill the last shape that was drawn",
+                    onclick: () => {
+                        GUIActions.fill();
+                        CircularMenu.hide();
+                    }
+                });*/
 
 
 

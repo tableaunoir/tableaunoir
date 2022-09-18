@@ -165,7 +165,7 @@ export class KeyBoardShortCuts {
                 return;
             const deli = UserManager.me.lastDelineation;
             if (deli.containsPolygonToMagnetize())
-                Share.execute("magnetize", [UserManager.me.userID, true, evt.key == "x"]);
+                deli.magnetize(UserManager.me.userID, true);
         }
         else if (evt.ctrlKey && evt.key.toLowerCase() == 'c') {//Ctrl + c
             CircularMenu.hide();
@@ -173,7 +173,7 @@ export class KeyBoardShortCuts {
                 return;
             const deli = UserManager.me.lastDelineation;
             if (deli.containsPolygonToMagnetize())
-                Share.execute("magnetize", [UserManager.me.userID, false, evt.key == "c"]);
+                deli.magnetize(UserManager.me.userID, false);
             evt.preventDefault();
         }
         else if (evt.ctrlKey && evt.key == "v") { //Ctrl + v = print the current magnet or (implementing in progress) paste the clipboard
@@ -199,7 +199,7 @@ export class KeyBoardShortCuts {
             else {
                 const deli = UserManager.me.lastDelineation;
                 if (deli.containsPolygonToMagnetize()) {
-                    Share.execute("magnetize", [UserManager.me.userID, true, evt.key == "m"]);
+                    deli.magnetize(UserManager.me.userID, true);
                 }
                 else {
                     Share.execute("printMagnet", [MagnetManager.getCurrentMagnetID()]);

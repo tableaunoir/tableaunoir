@@ -18,7 +18,16 @@ export class MagnetMovementRecorder {
      * @param id 
      * @description start a new movement of magnet of id id
      */
-    static start(id: string): void { MagnetMovementRecorder.magnetIDToPoints[id] = []; }
+    static start(id: string): void {
+
+        /**
+         * we add the initial coordinate of the magnet so that when we cancel the movement, we go back to the initial position ;)
+         */
+        const magnet = document.getElementById(id);
+        const startx = parseFloat(magnet.style.left);
+        const starty = parseFloat(magnet.style.top);
+        MagnetMovementRecorder.magnetIDToPoints[id] = [{ x: startx, y: starty }];
+    }
 
     /**
      * 
@@ -33,7 +42,7 @@ export class MagnetMovementRecorder {
 
         MagnetMovementUpdater.update(magnet, x, y);
 
-     
+
         ConstraintDrawing.update();
 
         if (MagnetMovementRecorder.magnetIDToPoints[id])

@@ -287,7 +287,7 @@ export class Timeline {
          * @param t 
          * @description delete actions at timesteps given by the indices (that should be ordered by increasing indices)
          */
-    deleteActions(indices: number[]): void {
+    async deleteActions(indices: number[]): Promise<void> {
         for (let i = indices.length - 1; i >= 0; i--) {
             const t = indices[i];
             if (t <= this.currentIndex)
@@ -298,7 +298,7 @@ export class Timeline {
         if (this.actions.length == 0)
             this.clear();
 
-        this.resetAndUpdate();
+        await this.resetAndUpdate();
 
         AnimationToolBar.update();
     }

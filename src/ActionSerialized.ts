@@ -1,7 +1,7 @@
 export type ActionSerialized =
     { type: "init", userid: string, canvasDataURL: string } |
     { type: "clear", userid: string} |
-    { type: "clearzone", userid: string, points: any, cut: boolean, removeContour: boolean } |
+    { type: "clearzone", userid: string, points: any} |
     { type: "ellipse", userid: string, cx: number, cy: number, rx: number, ry: number, color: string } |
     { type: "rectangle", userid: string, x1: number, y1: number, x2: number, y2: number, color: string } |
     { type: "line", userid: string, x1: number, y1: number, x2: number, y2: number, color: string } |

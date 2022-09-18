@@ -132,11 +132,26 @@ export class BoardManager {
     }
 
 
+
+
+    /**
+     * 
+     * @param iaction 
+     * @description delete the action iaction. We also register the deletion of the action in the cancelStack for the good user
+     */
+    static async deleteAction(iaction: number): Promise<void> {
+        const operation = new OperationDeleteSeveralActions([iaction]);
+
+        if (BoardManager.timeline.actions[iaction].userid == UserManager.me.userID)
+            BoardManager.cancelStack.push(operation);
+
+        await operation.redo();
+    }
     /**
      * 
      * @param action 
      * @param executeAgain: true means that we execute the action again if it is the moment to execute it (if false, we just add it and it assumed the action was just performed)
-     * @description add an action (and performs it!)
+     * @description add an action (and performs it!). We also register that action in the cancelStack for the good user
      */
     static addAction(action: Action, executeAgain = true): void {
         if (!BoardManager.MAGNETCANCELLABLE)
@@ -168,6 +183,8 @@ export class BoardManager {
     static getLastAction(): Action {
         return BoardManager.timeline.getLastAction();
     }
+
+
 
 
     static getCurrentScreenRectangle(): { x1: number, y1: number, x2: number, y2: number } {

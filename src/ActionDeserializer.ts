@@ -56,7 +56,7 @@ export class ActionDeserializer {
             return action;
         }
         if (obj.type == "clearzone") {
-            return new ActionClearZone(obj.userid, obj.points, obj.cut, obj.removeContour);
+            return new ActionClearZone(obj.userid, obj.points);
         }
         if (obj.type == "clear") {
             return new ActionClear(obj.userid);

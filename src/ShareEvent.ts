@@ -133,9 +133,16 @@ export class ShareEvent {
     static questionRemove(questionID: string): void { Discussion.removeQuestion(questionID); }
 
     /** magnets */
-    static magnetize(userID: string, cut: boolean, removeContour: boolean): void {
-        UserManager.users[userID].lastDelineation.magnetize(userID, cut, removeContour);
+    static magnetize(userID: string, magnetid: string, iaction: number, cut: boolean): void {
+        UserManager.users[userID].lastDelineation.performMagnetize(userID, magnetid, iaction, cut);
     }
+
+
+    static undomagnetize(userID: string, iaction, cut, previousActionJSON: string) {
+        const previousAction = ActionDeserializer.deserialize(JSON.parse(previousActionJSON));
+        UserManager.users[userID].lastDelineation.undoMagnetize(userID, iaction, cut, previousAction);
+    }
+
 
     static clearPolygon(points: { x: number, y: number }[]): void {
         Drawing.clearPolygon(points);

@@ -184,7 +184,7 @@ export class MagnetManager {
 	/**
 	 * @returns a new ID for a new magnet
 	 */
-	private static generateID(): string {
+	public static generateID(): string {
 		let id = "";
 		do {
 			id = "m" + Math.round(Math.random() * 1000000);

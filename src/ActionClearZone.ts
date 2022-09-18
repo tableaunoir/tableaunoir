@@ -15,9 +15,7 @@ export class ActionClearZone extends Action {
         return {
             type: "clearzone",
             userid: this.userid,
-            points: this.points,
-            cut: this.cut,
-            removeContour: this.removeContour
+            points: this.points
         };
     }
 
@@ -28,14 +26,9 @@ export class ActionClearZone extends Action {
      * @param cut, true iff the inside of the polygon is removed
      * @param removeContour, true iff the contour (the lines of the polygon itself) is removed
      */
-    constructor(userid: string, private points: { x: number, y: number }[], private cut: boolean, private removeContour: boolean) { super(userid); }
+    constructor(userid: string, private points: { x: number, y: number }[]) { super(userid); }
 
     async redo(): Promise<void> {
-
-        /*if (userid != UserManager.me.userID) //only the real user will create the magnet since the others will receive it
-            this._createMagnetFromImg();*/
-
-        if (this.cut)
             Drawing.clearPolygon(this.points);
 
     }

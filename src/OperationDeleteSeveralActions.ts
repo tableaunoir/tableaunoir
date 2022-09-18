@@ -8,7 +8,7 @@ export class OperationDeleteSeveralActions extends Operation {
     constructor(private indices: number[]) {
         super();
         this.actionsTable = this.indices.map(index => BoardManager.timeline.actions[index]);
-    }   
+    }
 
     undo(): void {
         BoardManager.timeline.insertActions(this.indices, this.actionsTable);
@@ -21,8 +21,8 @@ export class OperationDeleteSeveralActions extends Operation {
     }
 
 
-    redo(): void {
-        BoardManager.timeline.deleteActions(this.indices);
+    async redo(): Promise<void> {
+        await BoardManager.timeline.deleteActions(this.indices);
         /*
         TODO: this code is too slow because the board tries to refresh itself at each action removal!
         TODO: the current code is not shared but no one uses Tableaunoir in presentation mode and sharing
