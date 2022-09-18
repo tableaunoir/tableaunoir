@@ -131,8 +131,13 @@ export class Magnetizer {
         if (!(action instanceof ActionFreeDraw || action instanceof ActionRectangle || action instanceof ActionEllipse))
             return false;
 
-        if (action instanceof ActionFreeDraw)
+        if (action instanceof ActionFreeDraw) {
+            if (action.isInteractive())
+                return false;
+
             return isSufficientlyBig(action.contour);
+
+        }
 
         return true;
     }
