@@ -316,7 +316,7 @@ export class Timeline {
         //if the action deleted is the current one, use the optimized version
         if (t == this.currentIndex) {
             this.currentIndex--;
-            this.updateState(t);
+            await this.updateState(t);
         }
 
         this.actions.splice(t, 1); //really delete
@@ -324,7 +324,7 @@ export class Timeline {
         //if the currentindex is after the deleted action, update
         if (t < this.currentIndex) {
             this.currentIndex--;
-            this.resetAndUpdate();
+            await this.resetAndUpdate();
         }
 
         if (this.actions.length == 0)

@@ -52,10 +52,10 @@ export class Magnetizer {
         const magnetid = MagnetManager.generateID();
         const op = new OperationMagnetize(userid, iaction, cut, magnetid);
 
-        if (userid == UserManager.me.userID)
-            BoardManager.executeOperation(op);
-        else
-            op.redo();
+        //  if (userid == UserManager.me.userID)
+        BoardManager.executeOperation(op);
+        /*else
+            op.redo();*/
 
     }
 
@@ -108,7 +108,6 @@ export class Magnetizer {
      * @returns true iff 
      * either the action is a rectangle, an ellipse,
      * or the free draw that can be magnetized (the surface is not too small)
-     * TODO: to be improved. Make that a polygon with intersection cannot be magnetized
      */
     static isActionSuitableForMagnetisation(action: Action): boolean {
 
@@ -122,14 +121,17 @@ export class Magnetizer {
 
         }
 
+        /**
+         * we can only magnetize freedraw (some of them), rectangles and ellipses
+         */
         if (!(action instanceof ActionFreeDraw || action instanceof ActionRectangle || action instanceof ActionEllipse))
             return false;
 
         if (action instanceof ActionFreeDraw) {
-            if (action.isInteractive())
+            if (action.isInteractive()) //a drawing between different magnets, that is interative, that is moving with the magnet cannot be magnetized
                 return false;
 
-            return isSufficientlyBig(action.contour);
+            return isSufficientlyBig(action.contour); //TODO: to be improved. Make that a polygon with intersection cannot be magnetized
 
         }
 

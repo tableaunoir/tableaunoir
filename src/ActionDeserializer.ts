@@ -29,7 +29,7 @@ export class ActionDeserializer {
         if (obj.type == "ellipse")
             return new ActionEllipse(obj.userid, obj.cx, obj.cy, obj.rx, obj.ry, obj.color);
         if (obj.type == "rectangle")
-            return new ActionRectangle(obj.userid, obj.x1, obj.y1, obj.x2, obj.y1, obj.color);
+            return new ActionRectangle(obj.userid, obj.x1, obj.y1, obj.x2, obj.y2, obj.color);
         if (obj.type == "line")
             return new ActionLine(obj.userid, obj.x1, obj.y1, obj.x2, obj.y1, obj.color);
         if (obj.type == "freedraw") {
