@@ -23,7 +23,14 @@ import { ActionSlideStart } from './ActionSlideStart';
  * from its serialized version (the one stored in a file)
  */
 export class ActionDeserializer {
-    static deserializeSub(obj: ActionSerialized): Action {
+
+
+    /**
+     * 
+     * @param obj (a plain JS object)
+     * @returns an action object
+     */
+    static deserialize(obj: ActionSerialized): Action {
         if (obj.type == "init")
             return new ActionInit(obj.userid, obj.canvasDataURL);
         if (obj.type == "ellipse")
@@ -81,24 +88,21 @@ export class ActionDeserializer {
         }
         if (obj.type == "slidestart")
             return new ActionSlideStart(obj.userid);
-            
+
         throw "ActionDeserializer: unknown type of action";
     }
 
-    static deserialize(obj: ActionSerialized): Action {
-        return ActionDeserializer.deserializeSub(obj);
-    }
+
 }
 
 
 /**
  * 
  * @param outerHTML 
- * @returns the HTML element whose code is outerHTML
+ * @returns a (new) HTML element whose code is outerHTML
  */
 export function HTMLdeserialize(outerHTML: string): HTMLElement {
-    const el = document.createElement("div");
-    el.innerHTML = outerHTML;
-    //console.log("HTMLdeserialize: " + outerHTML);
-    return <HTMLElement>el.children[0];
+    const fakeContainer = document.createElement("div");
+    fakeContainer.innerHTML = outerHTML;
+    return <HTMLElement>fakeContainer.children[0];
 }
