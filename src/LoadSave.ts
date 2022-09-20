@@ -11,6 +11,7 @@ import { getCanvas } from './main';
 import { MagnetManager } from './magnetManager';
 import { BoardManager } from './boardManager';
 import { Menu } from './Menu'
+import { BackgroundTexture } from './BackgroundTexture';
 
 
 /**
@@ -254,10 +255,14 @@ export class LoadSave {
      * obj.canvasDataURL is the content of the canvas
      * obj.magnets is the HTML code of the magnets
      */
-    static loadJSON(obj: { canvasDataURL?: string, actions: ActionSerialized[], t: number, width: number, height: number, magnets: string, svg: string, backgroundLayer: string, script: string }): void {
+    static loadJSON(obj: { background: string, canvasDataURL?: string, actions: ActionSerialized[], t: number, width: number, height: number, magnets: string, svg: string, backgroundLayer: string, script: string }): void {
         console.log("loadJSON");
 
         BoardManager.reset();
+
+        if (obj.background) {
+            BackgroundTexture.switchTo(obj.background);
+        }
 
         if (obj.width) {
             getCanvas().width = obj.width;
@@ -308,6 +313,7 @@ export class LoadSave {
         // const canvasDataURL = getCanvas().toDataURL();
         //const obj = { magnets: magnets, svg: svg, canvasDataURL: canvasDataURL };
         return {
+            background: BackgroundTexture.getBackgroundTexture(),
             backgroundLayer: backgroundLayer,
             //magnets: magnets,
             width: getCanvas().width, height: getCanvas().height,
