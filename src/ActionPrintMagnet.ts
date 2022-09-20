@@ -4,7 +4,7 @@ import { Action } from "./Action";
 
 
 /**
- * operation that consists in printing (pasting) the magnet
+ * action that consists in printing (pasting) the magnet
  */
 export class ActionPrintMagnet extends Action {
 
@@ -78,11 +78,7 @@ export class ActionPrintMagnet extends Action {
 
 
 					context.filter = img.style.filter;
-
-
 					context.drawImage(img, -w / 2, -h / 2, w, h);
-
-
 					context.filter = "none";
 					context.restore();
 
