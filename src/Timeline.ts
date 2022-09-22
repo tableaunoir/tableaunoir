@@ -554,9 +554,14 @@ export class Timeline {
      * @returns true if there are several slides
      */
     isSeveralSlides(): boolean {
+        let countSlides = 0;
         for (const action of this.actions) {
-            if (action instanceof ActionSlideStart)
-                return true;
+            if (action instanceof ActionSlideStart) {
+                countSlides++;
+                if (countSlides > 1)
+                    return true;
+
+            }
         }
         return false;
     }

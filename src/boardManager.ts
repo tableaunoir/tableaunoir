@@ -221,6 +221,7 @@ export class BoardManager {
             return;
 
         BoardManager.cancelStack.undo();
+        BoardManager.updateSlideNumber();
     }
 
 
@@ -233,6 +234,7 @@ export class BoardManager {
             return;
 
         BoardManager.cancelStack.redo();
+        BoardManager.updateSlideNumber();
     }
 
 
@@ -271,8 +273,12 @@ export class BoardManager {
      */
     private static updateSlideNumber(shift = 0): void {
         const slideNumberElement = document.getElementById("slideNumber");
-        slideNumberElement.hidden = !BoardManager.isSlideNumber;
-        slideNumberElement.innerHTML = "" + (BoardManager.timeline.getSlideNumber() + shift);
+        if (BoardManager.timeline.isSeveralSlides()) {
+            slideNumberElement.hidden = !BoardManager.isSlideNumber;
+            slideNumberElement.innerHTML = "" + (BoardManager.timeline.getSlideNumber() + shift);
+        }
+        else
+            slideNumberElement.hidden = true;
     }
 
 
