@@ -45,6 +45,7 @@ export class ToolDraw extends Tool {
         this.pointIndex = 0;
         this.svgLines = [];
 
+        Particules.start(this.x, this.y, evt.pressure, this.user.color);
         console.log(`new action from user ${this.user.userID}`);
         this.action = new ActionFreeDraw(this.user.userID);
         this.action.addPoint({ x: this.x, y: this.y, pressure: 0, color: this.user.color });
@@ -93,16 +94,18 @@ export class ToolDraw extends Tool {
 
             ToolDrawAudio.mousemove(Math.abs(evtX - this.x) + Math.abs(evtY - this.y));
 
+            if (Math.random() < 0.5)
+                Particules.start(this.x, this.y, evt.pressure, this.user.color, 1);
 
-                if (this.action.addPoint({ x: evtX, y: evtY, pressure: evt.pressure, color: this.user.color }))
-                    this.svgLines.push(ToolDraw.addSVGLine(this.x, this.y, evtX, evtY, evt.pressure, this.user.color));
-                // 
-                //  if (this.isSmoothing)
-                //requestAnimationFrame(() => this.updateWhenDrawing());
+            if (this.action.addPoint({ x: evtX, y: evtY, pressure: evt.pressure, color: this.user.color }))
+                this.svgLines.push(ToolDraw.addSVGLine(this.x, this.y, evtX, evtY, evt.pressure, this.user.color));
+            // 
+            //  if (this.isSmoothing)
+            //requestAnimationFrame(() => this.updateWhenDrawing());
 
-                //this.svgLines.push(ToolDraw.addSVGLine(this.x, this.y, evtX, evtY, evt.pressure, this.user.color));
-                /*else
-                    Drawing.drawLine(getCanvas().getContext("2d"), this.x, this.y, evtX, evtY, evt.pressure, this.user.color);*/
+            //this.svgLines.push(ToolDraw.addSVGLine(this.x, this.y, evtX, evtY, evt.pressure, this.user.color));
+            /*else
+                Drawing.drawLine(getCanvas().getContext("2d"), this.x, this.y, evtX, evtY, evt.pressure, this.user.color);*/
 
 
 
@@ -182,6 +185,59 @@ class ToolDrawGuessMagnetConnection {
 
         this._magnet1 = magnet1;
         this._magnet2 = magnet2;
+
+    }
+}
+
+
+
+
+
+
+
+
+
+
+class Particules {
+
+
+    static createParticle(x: number, y: number, v:number, color: string) {
+        const svgns = "http://www.w3.org/2000/svg";
+        const shape = <SVGEllipseElement>document.createElementNS(svgns, 'ellipse');
+
+        const r = 1 + 2 * Math.random();
+        shape.setAttributeNS(null, 'cx', "" + x);
+        shape.setAttributeNS(null, 'cy', "" + y);
+        shape.setAttributeNS(null, 'rx', "" + r);
+        shape.setAttributeNS(null, 'ry', "" + r);
+        shape.setAttributeNS(null, 'fill', color);
+        shape.style.pointerEvents = "none";
+        
+        shape.dataset["vx"] = "" + (2 * v * Math.random() - v);
+        shape.dataset["vy"] = "" + (2 * v * Math.random() - v);
+        shape.dataset["t"] = "0";
+        return shape;
+    }
+
+    static start(x: number, y: number, v: number, color: string, nb = 5) {
+        for (let i = 0; i < nb; i++) {
+            const particule = Particules.createParticle(x, y, 20*v, color);
+            document.getElementById("svg").appendChild(particule);
+
+            const f = () => {
+                if (parseInt(particule.dataset["t"]) > 4)
+                    document.getElementById("svg").removeChild(particule);
+                else {
+                    const a = 10;
+                    particule.setAttribute('cx', "" + (particule.cx.baseVal.value + parseFloat(particule.dataset["vx"])));
+                    particule.setAttribute('cy', "" + (particule.cy.baseVal.value + parseFloat(particule.dataset["vy"]) + parseInt(particule.dataset["t"])*a));
+                    particule.dataset["t"] = "" + (parseInt(particule.dataset["t"]) + 1);
+                    particule.style.opacity = "" + ((5 - parseInt(particule.dataset["t"])) / 5);
+                    setTimeout(f, 100);
+                }
+            }
+            f();
+        }
 
     }
 }
