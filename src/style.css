@@ -309,7 +309,8 @@ a {
 
 
 .magnetHighlight {
-	box-shadow: 0px 0px 32px 16px rgba(128,128,128,1);
+	box-shadow: 0px 0px 32px 16px rgba(128, 128, 128, 1);
+	background: radial-gradient(rgba(128, 128, 128, 0), rgba(128, 128, 128, 0.5));
 }
 
 
