@@ -13,6 +13,7 @@ import { Toolbar } from './Toolbar';
 import { Menu } from './Menu';
 import { S, Script } from './Script';
 import { Magnetizer } from './Magnetizer';
+import { ToolDraw } from './ToolDraw';
 
 
 
@@ -27,10 +28,17 @@ export class KeyBoardShortCuts {
 
 
     static onKeyUp(evt: KeyboardEvent): void {
+        if (evt.key == "Shift") {
+            if (UserManager.me.isToolDraw) {
+                (<ToolDraw>UserManager.me.tool).updateNoMagnetPossibleConnection();
+            }
+        }
+
         delete keys[evt.key];
     }
 
     static onKeyDown(evt: KeyboardEvent): void {
+        console.log(evt.key)
         S.onkey(evt.key);
         keys[evt.key] = true;
 
@@ -122,6 +130,11 @@ export class KeyBoardShortCuts {
         }
         else if (evt.ctrlKey && evt.key == "r") {
             Script.toggle();
+        }
+        else if (evt.key == "Shift") {
+            if (UserManager.me.isToolDraw) {
+                (<ToolDraw>UserManager.me.tool).updateMagnetPossibleConnection();
+            }
         }
         else if (UserManager.me.canWrite) {
             KeyBoardShortCuts.onKeyDownThatModifies(evt);
