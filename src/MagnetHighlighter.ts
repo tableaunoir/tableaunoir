@@ -1,12 +1,10 @@
 export class MagnetHighlighter {
     static highlight(magnet: HTMLElement) {
         magnet.classList.add("magnetHighlight");
-
     }
 
-
-    static unhighlightAll() {
-        const A = document.getElementsByClassName("magnet");
+    static unhighlightAll() { 
+        const A = document.getElementsByClassName("magnetHighlight");
         for (let i = 0; i < A.length; i++) {
             MagnetHighlighter.unhighlight(<HTMLElement>A[i]);
         }
