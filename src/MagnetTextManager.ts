@@ -33,7 +33,7 @@ export class MagnetTextManager {
 	/**
 	 * 
 	 * @param element 
-	 * @param LaTEXCode 
+	 * @param LaTEXCode e.g. "\frac x y" (do not put the $ etc.)
 	 * @description update the magnet element to be the rendering of the latex code LaTEXCode
 	 */
 	private static setLaTEX(element: HTMLElement, LaTEXCode: string): void {
@@ -111,7 +111,7 @@ export class MagnetTextManager {
 
 		element.ondblclick = () => {
 			if (element.dataset.type == "LaTEX") {
-				const answer = prompt("Type the LaTEX code:", element.dataset.code);
+				const answer = prompt("Type the LaTEX code: (e.g. \frac 1 2)", element.dataset.code);
 
 				if (answer)
 					MagnetTextManager.setLaTEX(element, answer);

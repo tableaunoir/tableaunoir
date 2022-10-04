@@ -1,3 +1,7 @@
+/**
+ * @description the action (all the classes deriving from the class Action) serialized
+ * The serialized version is used to be stored in a .tableaunoir file, or to be transmitted via the Internet
+ */
 export type ActionSerialized =
     { type: "init", userid: string, canvasDataURL: string } |
     { type: "clear", userid: string} |
