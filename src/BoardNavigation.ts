@@ -105,7 +105,7 @@ export class BoardNavigation {
             setTimeout(() => {
                 if (getContainer().scrollLeft != x)
                     getContainer().scrollTo({ top: 0, left: x })
-            }, 300);
+            }, 500);
 
         }
 
