@@ -19,13 +19,17 @@ export class BoardNavigation {
     }
 
 
+    /**
+     * by default is true. Becomes false time to time
+     * to avoid to extend the canvas too quickly
+     */
     static _rightExtendCanvasEnable = true;
 
 
     /**
      * @returns the number of pixels when scrolling slowly
      */
-    static scrollQuantity(): number { return 100; }
+    static get scrollQuantity(): number { return 100; }
 
 
 
@@ -75,25 +79,31 @@ export class BoardNavigation {
     /**
    * go left
    */
-    static left(): void {
-        BoardNavigation._left(getContainer().scrollLeft - BoardNavigation.scrollQuantity());
-    }
+    static left(): void { BoardNavigation._left(getContainer().scrollLeft - BoardNavigation.scrollQuantity); }
 
 
     /**
      * go right (and extend the board if necessary)
      */
-    static right(): void {
-        const x = getContainer().scrollLeft + BoardNavigation.scrollQuantity();
-        BoardNavigation._right(x);
-    }
+    static right(): void { BoardNavigation._right(getContainer().scrollLeft + BoardNavigation.scrollQuantity); }
 
 
+    static timeoutScrolling = undefined;
+
+    /**
+     * 
+     * @param x 
+     * @description move the board so that the window left part coincides with points of the board 
+     * of absicsse is x
+     */
     static setScroll(x: number): void {
         if (x <= 0)
             document.getElementById("buttonLeft").classList.add("disabled");
 
         if (x != getContainer().scrollLeft) {
+            if (BoardNavigation.timeoutScrolling)
+                clearTimeout(BoardNavigation.timeoutScrolling);
+
             getContainer().scrollTo({ top: 0, left: x, behavior: 'smooth' });
 
             /*
@@ -102,9 +112,10 @@ export class BoardNavigation {
             so, we check whether the scrollTo with the smooth scrolling works, if not
             let us do a simple scrolling thing, which hopefully works :)
             */
-            setTimeout(() => {
+            BoardNavigation.timeoutScrolling = setTimeout(() => {
                 if (getContainer().scrollLeft != x)
-                    getContainer().scrollTo({ top: 0, left: x })
+                    getContainer().scrollTo({ top: 0, left: x });
+                BoardNavigation.timeoutScrolling = undefined;
             }, 500);
 
         }
@@ -114,8 +125,8 @@ export class BoardNavigation {
 
 
     /**
- * go left
- */
+     * go left
+     */
     static leftPreviousPage(): void {
         const container = getContainer();
         const xCorrected = Layout.isCalibratedHalfPage() ? Math.max(0, container.scrollLeft - Layout.scrollQuantityPage()) :
