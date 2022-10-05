@@ -92,7 +92,23 @@ export class BoardNavigation {
     static setScroll(x: number): void {
         if (x <= 0)
             document.getElementById("buttonLeft").classList.add("disabled");
-        getContainer().scrollTo({ top: 0, left: x, behavior: 'smooth' });
+
+        if (x != getContainer().scrollLeft) {
+            getContainer().scrollTo({ top: 0, left: x, behavior: 'smooth' });
+
+            /*
+            on MacOS, iOS or other Apple technologies, also on Webkit, there is a bug with
+            smooth scrolling. See issue #232
+            so, we check whether the scrollTo with the smooth scrolling works, if not
+            let us do a simple scrolling thing, which hopefully works :)
+            */
+            setTimeout(() => {
+                if (getContainer().scrollLeft != x)
+                    getContainer().scrollTo({ top: 0, left: x })
+            }, 300);
+
+        }
+
         setTimeout(UserManager.setSymbolCursorPosition, 1000);
     }
 
