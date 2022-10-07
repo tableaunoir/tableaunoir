@@ -1,5 +1,8 @@
 export class ErrorMessage {
 
+
+    static timer = undefined;
+
     /**
      *
      * @param msg
@@ -12,8 +15,11 @@ export class ErrorMessage {
         document.getElementById("error").hidden = false;
         document.getElementById("error").innerHTML = msg;
 
-        const hide = () => { document.getElementById("error").hidden = true };
+        const hide = () => { document.getElementById("error").hidden = true; ErrorMessage.timer = undefined; };
         document.getElementById("error").onclick = hide;
-        setInterval(hide, 5000);
+
+        if (ErrorMessage.timer)
+            clearTimeout(ErrorMessage.timer);
+        ErrorMessage.timer = setTimeout(hide, 5000);
     }
 }

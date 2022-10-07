@@ -3,29 +3,37 @@ import { BoardNavigation } from './BoardNavigation';
 import { OptionManager } from './OptionManager';
 import { getCanvas, getCanvasBackground, getContainer } from './main';
 import { Toolbar } from './Toolbar';
+import { ErrorMessage } from './ErrorMessage';
 
 export class Layout {
 
     static isminimap: boolean;
 
-    static get isMinimap(): boolean {
-        return Layout.isminimap;
-    }
+    /**
+     * @returns true if the minimap is shown
+     */
+    static get isMinimap(): boolean { return Layout.isminimap; }
 
-
+    /**
+     * @description toogle between the normal mode (in which you write) VS the minimap in which you see the full board
+     */
     static toggleMinimap(): void {
         if (Layout.isMinimap) {
             Layout.normal();
         }
         else {
-            Layout.minimap();
+            if (!Layout.isMinimapNeeded())
+                ErrorMessage.show("You already see the full board.");
+            else
+                Layout.minimap();
         }
     }
+
     /**
- * @returns the number of pixels when scrolling a page
- * a page is either halfscreen (when you teach)
- * or fullscreen when there is a pdf loaded
- */
+     * @returns the number of pixels when scrolling a page
+     * a page is either halfscreen (when you teach)
+     * or fullscreen when there is a pdf loaded
+     */
     static scrollQuantityPage(): number {
         const THESHOLD = window.screen.availWidth * 2;
         const middle = Layout.getWindowWidth() / 2;
@@ -124,8 +132,16 @@ export class Layout {
         nodeBoard.onmouseenter = undefined;
     }
 
+
+    /**
+     * 
+     * @returns true if the board is sufficiently large, and thus the minimap is needed
+     */
+    static isMinimapNeeded(): boolean { return BoardManager.width >= Layout.getWindowWidth(); }
+
+
     static minimap(): void {
-        if (BoardManager.width < Layout.getWindowWidth()) //no need to switch to minimap if the board is small
+        if (!Layout.isMinimapNeeded()) //no need to switch to minimap if the board is small
             return;
 
         document.getElementById("buttonMap").classList.add("buttonselected");
@@ -215,7 +231,7 @@ export class Layout {
         Layout.getWindowWidth = () => { return window.innerWidth * Layout.getZoom(); };
         Layout.getZoom = () => {
             const toolbar = Toolbar.getToolbar();
-     //       const innerHeight = window.innerHeight - (Toolbar.isHidden() ? 0 : toolbar.clientHeight);
+            //       const innerHeight = window.innerHeight - (Toolbar.isHidden() ? 0 : toolbar.clientHeight);
             //  if (toolbar.clientHeight < window.innerHeight / 10 || Toolbar.left || Toolbar.right) {
             const heightused = window.innerHeight;
             content.style.top = "0px";

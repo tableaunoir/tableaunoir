@@ -551,6 +551,12 @@ button:hover {
 }
 
 
+button:active:not(.disabled) {
+	scale: 0.95;
+}
+
+
+
 .buttonselected {
 	box-shadow: 3px 2px 1px inset black;
 }
@@ -741,6 +747,10 @@ h1 {
 	background-color: gray;
 }
 
+
+.paletteColorButton:active {
+	scale: 0.95;
+}
 
 .paletteColorButton.selected {
 	border: 2px white solid;
