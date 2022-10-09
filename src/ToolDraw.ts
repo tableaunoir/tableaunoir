@@ -18,16 +18,22 @@ export class ToolDraw extends Tool {
     private guessMagnetConnection = new ToolDrawGuessMagnetConnection();
     private svgLines = [];
 
+
     private isSmoothing = false;
+    private isParticules = false;
+
 
     constructor(user: User) {
         super(user);
         OptionManager.boolean({
             name: "smoothing",
             defaultValue: true,
-            onChange: (s) => {
-                this.isSmoothing = s;
-            }
+            onChange: (s) => { this.isSmoothing = s; }
+        });
+        OptionManager.boolean({
+            name: "particulesEffect",
+            defaultValue: false,
+            onChange: (s) => { this.isParticules = s; }
         });
         if (this.user.isCurrentUser) {
             document.getElementById("buttonEraser").hidden = false;
@@ -45,7 +51,8 @@ export class ToolDraw extends Tool {
         this.pointIndex = 0;
         this.svgLines = [];
 
-        Particules.start(this.x, this.y, evt.pressure, this.user.color);
+        if (this.isParticules)
+            Particules.start(this.x, this.y, evt.pressure, this.user.color);
         console.log(`new action from user ${this.user.userID}`);
         this.action = new ActionFreeDraw(this.user.userID);
         this.action.addPoint({ x: this.x, y: this.y, pressure: 0, color: this.user.color });
@@ -91,10 +98,11 @@ export class ToolDraw extends Tool {
         if (this.isDrawing) {
             const evtX = evt.offsetX;
             const evtY = evt.offsetY;
+            const speed = Math.abs(evtX - this.x) + Math.abs(evtY - this.y);
 
-            ToolDrawAudio.mousemove(Math.abs(evtX - this.x) + Math.abs(evtY - this.y));
+            ToolDrawAudio.mousemove(speed);
 
-            if (Math.random() < 0.5)
+            if (this.isParticules && Math.random() < 0.015 * speed)
                 Particules.start(this.x, this.y, evt.pressure, this.user.color, 1);
 
             if (this.action.addPoint({ x: evtX, y: evtY, pressure: evt.pressure, color: this.user.color }))
@@ -201,7 +209,7 @@ class ToolDrawGuessMagnetConnection {
 class Particules {
 
 
-    static createParticle(x: number, y: number, v:number, color: string) {
+    private static createParticle(x: number, y: number, v: number, color: string) {
         const svgns = "http://www.w3.org/2000/svg";
         const shape = <SVGEllipseElement>document.createElementNS(svgns, 'ellipse');
 
@@ -212,7 +220,7 @@ class Particules {
         shape.setAttributeNS(null, 'ry', "" + r);
         shape.setAttributeNS(null, 'fill', color);
         shape.style.pointerEvents = "none";
-        
+
         shape.dataset["vx"] = "" + (2 * v * Math.random() - v);
         shape.dataset["vy"] = "" + (2 * v * Math.random() - v);
         shape.dataset["t"] = "0";
@@ -221,7 +229,7 @@ class Particules {
 
     static start(x: number, y: number, v: number, color: string, nb = 5) {
         for (let i = 0; i < nb; i++) {
-            const particule = Particules.createParticle(x, y, 20*v, color);
+            const particule = Particules.createParticle(x, y, 20 * v, color);
             document.getElementById("svg").appendChild(particule);
 
             const f = () => {
@@ -230,7 +238,7 @@ class Particules {
                 else {
                     const a = 10;
                     particule.setAttribute('cx', "" + (particule.cx.baseVal.value + parseFloat(particule.dataset["vx"])));
-                    particule.setAttribute('cy', "" + (particule.cy.baseVal.value + parseFloat(particule.dataset["vy"]) + parseInt(particule.dataset["t"])*a));
+                    particule.setAttribute('cy', "" + (particule.cy.baseVal.value + parseFloat(particule.dataset["vy"]) + parseInt(particule.dataset["t"]) * a));
                     particule.dataset["t"] = "" + (parseInt(particule.dataset["t"]) + 1);
                     particule.style.opacity = "" + ((5 - parseInt(particule.dataset["t"])) / 5);
                     setTimeout(f, 100);
