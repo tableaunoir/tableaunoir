@@ -285,6 +285,7 @@ a {
 
 .graphNode {
 	border-radius: 16px;
+	background-color: rgb(238, 238, 238);
 }
 
 @keyframes magnetToForeground {
@@ -308,9 +309,10 @@ a {
 
 
 
-
-
-
+.magnetHighlight {
+	box-shadow: 0px 0px 32px 16px rgba(128, 128, 128, 1);
+	background: radial-gradient(rgba(128, 128, 128, 0), rgba(128, 128, 128, 0.5));
+}
 
 
 
@@ -549,6 +551,12 @@ button:hover {
 }
 
 
+button:active:not(.disabled) {
+	scale: 0.95;
+}
+
+
+
 .buttonselected {
 	box-shadow: 3px 2px 1px inset black;
 }
@@ -739,6 +747,10 @@ h1 {
 	background-color: gray;
 }
 
+
+.paletteColorButton:active {
+	scale: 0.95;
+}
 
 .paletteColorButton.selected {
 	border: 2px white solid;

@@ -112,19 +112,20 @@ function load() {
 		document.getElementById("buttonLeft").onclick = BoardNavigation.leftPreviousPage;
 
 		document.getElementById("buttonRight").onclick = BoardNavigation.rightNextPage;
-		document.getElementById("buttonMap").onclick = Layout.toggleMinimap;
+		document.getElementById("buttonMap").onclick = () => Layout.toggleMinimap();
+		
 		document.getElementById("buttonCancel").onclick = () => BoardManager.cancel(UserManager.me.userID);//Share.execute("cancel", [UserManager.me.userID]);
 		document.getElementById("buttonRedo").onclick = () => BoardManager.redo(UserManager.me.userID);//Share.execute("redo", [UserManager.me.userID]);
 
 		document.getElementById("buttonAskQuestion").onclick = Discussion.askQuestion;
 
-	/*
-	   TODO: why?
-		const buttons = document.getElementById("controls").children;
-
-		for (let i = 0; i < buttons.length; i++)
-			if (buttons[i] instanceof HTMLButtonElement)
-				(<HTMLButtonElement>buttons[i]).onfocus = (<HTMLElement>document.activeElement).blur; //to be improved*/
+		/*
+		   TODO: why?
+			const buttons = document.getElementById("controls").children;
+	
+			for (let i = 0; i < buttons.length; i++)
+				if (buttons[i] instanceof HTMLButtonElement)
+					(<HTMLButtonElement>buttons[i]).onfocus = (<HTMLElement>document.activeElement).blur; //to be improved*/
 
 		document.onkeydown = KeyBoardShortCuts.onKeyDown;
 		document.onkeyup = KeyBoardShortCuts.onKeyUp;
@@ -141,9 +142,8 @@ function load() {
 		document.getElementById("previousFrame").onclick = () => Share.execute("timelinePreviousFrame", []);
 		document.getElementById("nextFrame").onclick = () => Share.execute("timelineNextFrame", []);
 
-		window.addEventListener("click", e => {
-			AnimationToolBar.hideMenu();
-		});
+		window.addEventListener("click", () => AnimationToolBar.hideMenu());
+
 		installMouseEventsCanvas();
 
 		/*ErrorMessage.show("Tableaunoir works, but maybe not in share mode since INRIA servers are down see <a href='https://intranet.inria.fr/Actualite/Important-arret-complet-des-services-informatiques-locaux-le-mercredi-24-mars'>here</a>");*/

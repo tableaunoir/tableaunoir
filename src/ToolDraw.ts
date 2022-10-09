@@ -9,6 +9,7 @@ import { Magnetizer } from './Magnetizer';
 import { Drawing } from './Drawing';
 import { Tool } from './Tool';
 import { ToolDrawAudio } from './ToolDrawAudio';
+import { MagnetHighlighter } from './MagnetHighlighter';
 
 
 export class ToolDraw extends Tool {
@@ -100,6 +101,7 @@ export class ToolDraw extends Tool {
             const evtY = evt.offsetY;
             const speed = Math.abs(evtX - this.x) + Math.abs(evtY - this.y);
 
+
             ToolDrawAudio.mousemove(speed);
 
             if (this.isParticules && Math.random() < 0.015 * speed)
@@ -115,9 +117,21 @@ export class ToolDraw extends Tool {
             /*else
                 Drawing.drawLine(getCanvas().getContext("2d"), this.x, this.y, evtX, evtY, evt.pressure, this.user.color);*/
 
+            MagnetHighlighter.unhighlightAll();
+            if (evt.shiftKey) {
+                this.guessMagnetConnection.live(this.action);
+            }
 
 
         }
+        else {
+            MagnetHighlighter.unhighlightAll();
+            if (evt.shiftKey) {
+                this.updateMagnetPossibleConnection();
+            }
+        }
+
+
     }
 
     mouseup(evt): void {
@@ -132,12 +146,9 @@ export class ToolDraw extends Tool {
                 this.action.postTreatement();
 
             this.guessMagnetConnection.live(this.action);
-
-            const magnet1 = this.guessMagnetConnection.magnet1;
-            const magnet2 = this.guessMagnetConnection.magnet2;
-
-            if (magnet1 && magnet2 && evt.shiftKey) {
-
+            MagnetHighlighter.unhighlightAll();
+            if (this.guessMagnetConnection.hasConnections && evt.shiftKey) {
+                const [magnet1, magnet2] = this.guessMagnetConnection.pairMagnets;
                 this.action.setInteractiveGraphInformation(magnet1.id, magnet2.id,
                     MagnetManager.getMagnetCenter(magnet1),
                     MagnetManager.getMagnetCenter(magnet2));
@@ -149,6 +160,23 @@ export class ToolDraw extends Tool {
                 BoardManager.addAction(this.action);
             }
         }
+    }
+
+
+    updateMagnetPossibleConnection() {
+        if (this.isDrawing) {
+            this.guessMagnetConnection.live(this.action);
+        }
+        else {
+            const magnetNear = MagnetManager.getMagnetNearPoint({ x: this.user.x, y: this.user.y });
+            if (magnetNear)
+                MagnetHighlighter.highlight(magnetNear);
+        }
+
+    }
+
+    updateNoMagnetPossibleConnection() {
+        MagnetHighlighter.unhighlightAll();
     }
 
 
@@ -173,26 +201,50 @@ class ToolDrawGuessMagnetConnection {
     get magnet1() { return this._magnet1; }
     get magnet2() { return this._magnet2; }
 
+
+    get hasConnections() {
+        return this._magnet1 || this._magnet2;
+    }
+
+    get pairMagnets() {
+        const m1 = this._magnet1 ? this._magnet1 : this._magnet2;
+        const m2 = this._magnet2 ? this._magnet2 : this._magnet1;
+        return [m1, m2];
+    }
+
+
     live(action: ActionFreeDraw) {
-        const magnet1 = MagnetManager.getMagnetNearPoint(action.points[0]);
-        const magnet2 = MagnetManager.getMagnetNearPoint(action.points[action.points.length - 1]);
+        const compute = () => {
 
-        /** for instance, the user draws an arrow */
-        const almostLine = action.isAlmostLine();
+            const foundMagnet1 = MagnetManager.getMagnetNearPoint(action.points[0]);
+            const foundMagnet2 = MagnetManager.getMagnetNearPoint(action.points[action.points.length - 1]);
 
-        if (almostLine != undefined) {
-            if (magnet1 == this._magnet1 && magnet2 == undefined)
-                return;
-            if (magnet2 == this._magnet1 && magnet1 == undefined)
-                return;
-            if (magnet1 == this._magnet2 && magnet2 == undefined)
-                return;
-            if (magnet2 == this._magnet2 && magnet1 == undefined)
-                return;
+            /** for instance, the user draws an arrow */
+            const almostLine = action.isAlmostLine();
+
+
+            if (almostLine != undefined) {
+                if (foundMagnet1 == this._magnet1 && foundMagnet2 == undefined)
+                    return;
+                if (foundMagnet2 == this._magnet1 && foundMagnet1 == undefined)
+                    return;
+                if (foundMagnet1 == this._magnet2 && foundMagnet2 == undefined)
+                    return;
+                if (foundMagnet2 == this._magnet2 && foundMagnet1 == undefined)
+                    return;
+            }
+
+            this._magnet1 = foundMagnet1;
+            this._magnet2 = foundMagnet2;
         }
 
-        this._magnet1 = magnet1;
-        this._magnet2 = magnet2;
+        compute();
+        MagnetHighlighter.unhighlightAll();
+
+        if (this._magnet1)
+            MagnetHighlighter.highlight(this._magnet1);
+        if (this._magnet2)
+            MagnetHighlighter.highlight(this._magnet2);
 
     }
 }

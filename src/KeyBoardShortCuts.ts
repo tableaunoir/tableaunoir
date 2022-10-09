@@ -13,6 +13,7 @@ import { Toolbar } from './Toolbar';
 import { Menu } from './Menu';
 import { S, Script } from './Script';
 import { Magnetizer } from './Magnetizer';
+import { ToolDraw } from './ToolDraw';
 
 
 
@@ -21,12 +22,20 @@ const keys = {};
 
 window['keys'] = keys;
 
+
+/**
+ * @description this class contains all the keyboard shortcuts
+ */
 export class KeyBoardShortCuts {
 
     private static available = true; /** a semaphor to avoid keyboard shortcuts to be triggered a lot */
 
 
     static onKeyUp(evt: KeyboardEvent): void {
+        if (evt.key == "Shift")
+            if (UserManager.me.isToolDraw)
+                (<ToolDraw>UserManager.me.tool).updateNoMagnetPossibleConnection();
+
         delete keys[evt.key];
     }
 
@@ -34,11 +43,13 @@ export class KeyBoardShortCuts {
         S.onkey(evt.key);
         keys[evt.key] = true;
 
+        const keyLowerCase = evt.key.toLowerCase();
+
         if ((evt.key != "F11") &&
             (evt.key != "F12") &&
             (evt.key != "F5") &&
-            !(evt.ctrlKey && evt.key == "s") &&
-            !(evt.ctrlKey && evt.key == "o") &&
+            !(evt.ctrlKey && keyLowerCase == "s") &&
+            !(evt.ctrlKey && keyLowerCase == "o") &&
             !(document.activeElement instanceof HTMLInputElement) &&
             !(document.activeElement instanceof HTMLTextAreaElement))
             evt.preventDefault();
@@ -62,45 +73,45 @@ export class KeyBoardShortCuts {
         if (Menu.isShown())
             return;
 
-        if (evt.ctrlKey && evt.altKey && evt.key == "n" && UserManager.me.canWrite) {// alt + n = new slide
+        if (evt.ctrlKey && evt.altKey && keyLowerCase == "n" && UserManager.me.canWrite) {// alt + n = new slide
             Share.execute("newSlide", [UserManager.me.userID]);
             AnimationToolBar.hideMenu();
             evt.preventDefault();
         }
-        else if (evt.altKey && evt.key == "n" && UserManager.me.canWrite) {// alt + n = new slide
+        else if (evt.altKey && keyLowerCase == "n" && UserManager.me.canWrite) {// alt + n = new slide
             Share.execute("newSlideAndClear", [UserManager.me.userID]);
             AnimationToolBar.hideMenu();
             evt.preventDefault();
         }
-        else if (evt.ctrlKey && evt.altKey && evt.key == "k") { // clear the board
+        else if (evt.ctrlKey && evt.altKey && keyLowerCase == "k") { // clear the board
             Share.execute("boardReset", []);
         }
-        else if (evt.ctrlKey && evt.altKey && evt.key == "h") { // mouse cursor hidden or not
+        else if (evt.ctrlKey && evt.altKey && keyLowerCase == "h") { // mouse cursor hidden or not
             OptionManager.toggle("cursorVisible");
         }
-        else if (!evt.ctrlKey && !evt.shiftKey && evt.key == "n") { //navigation
+        else if (!evt.ctrlKey && !evt.shiftKey && keyLowerCase == "n") { //navigation
             Layout.toggleMinimap();
         }
-        else if (!evt.ctrlKey && !evt.shiftKey && evt.key == "c") // c => change color
+        else if (!evt.ctrlKey && !evt.shiftKey && keyLowerCase == "c") // c => change color
             GUIActions.changeColor(true);
-        else if (!evt.ctrlKey && evt.shiftKey && evt.key == "C")
+        else if (!evt.ctrlKey && evt.shiftKey && keyLowerCase == "C")
             GUIActions.previousColor(true);
-        else if (!evt.ctrlKey && !evt.shiftKey && evt.key == "t") { // t => tool menu 
+        else if (!evt.ctrlKey && !evt.shiftKey && keyLowerCase == "t") { // t => tool menu 
             GUIActions.toolmenu.show({ x: UserManager.me.x, y: UserManager.me.y });
         }
         else if (evt.key == "+" || (evt.ctrlKey && evt.key == "="))
             GUIActions.magnetIncreaseSize();
         else if (evt.key == "-" || evt.key == "=")
             GUIActions.magnetDecreaseSize();
-        else if (evt.key == "b")
+        else if (keyLowerCase == "b")
             GUIActions.magnetSwitchBackgroundForeground();
-        else if (evt.key == "e")  //e = switch eraser and chalk
+        else if (keyLowerCase == "e")  //e = switch eraser and chalk
             GUIActions.switchDrawEraser();
-        else if (evt.key == "f")
+        else if (keyLowerCase == "f")
             GUIActions.fill();
-        else if (evt.key == "h")
+        else if (keyLowerCase == "h")
             Toolbar.toggle();
-        else if (evt.key == "a")
+        else if (keyLowerCase == "a")
             AnimationToolBar.toggle();
         else if (evt.key == "Enter" && CircularMenu.isShown())
             CircularMenu.hide();
@@ -120,32 +131,39 @@ export class KeyBoardShortCuts {
         else if (evt.key == "ArrowRight") {
             BoardNavigation.rightNextPage();
         }
-        else if (evt.ctrlKey && evt.key == "r") {
+        else if (evt.ctrlKey && keyLowerCase == "r") {
             Script.toggle();
         }
-        else if (UserManager.me.canWrite) {
-            KeyBoardShortCuts.onKeyDownThatModifies(evt);
+        else if (evt.key == "Shift") {
+            if (UserManager.me.isToolDraw) {
+                (<ToolDraw>UserManager.me.tool).updateMagnetPossibleConnection();
+            }
         }
+        else if (UserManager.me.canWrite)
+            KeyBoardShortCuts.onKeyDownThatModifies(evt);
     }
 
 
     /**
      * 
      * @param evt 
+     * @description executes the command corresponding to the keyboard event evt
+     * This procedure should be executed only if the current user have the writing permissions
      */
     static onKeyDownThatModifies(evt: KeyboardEvent): void {
+        const keyLowerCase = evt.key.toLowerCase();
         if (evt.key == "Enter") {
             MagnetTextManager.addMagnetText(UserManager.me.x, UserManager.me.y);
             evt.preventDefault(); //so that it will not add "new line" in the text element
         }
-        else if (evt.key == "d")  //d = divide screen
+        else if (keyLowerCase == "d")  //d = divide screen
             Share.execute("divideScreen", [UserManager.me.userID, Layout.getXMiddle()]);
         else if ((evt.ctrlKey && evt.shiftKey && evt.key == "Z") || (evt.ctrlKey && evt.key == "y")) { //ctrl + shift + z OR Ctrl + Y = redo
             //Share.execute("redo", [UserManager.me.userID]);
             BoardManager.redo(UserManager.me.userID);
             evt.preventDefault();
         }
-        else if (evt.ctrlKey && evt.key == "z") {// ctrl + z = undo
+        else if (evt.ctrlKey && keyLowerCase == "z") {// ctrl + z = undo
             // Share.execute("cancel", [UserManager.me.userID]);
             BoardManager.cancel(UserManager.me.userID);
             evt.preventDefault();
@@ -160,16 +178,16 @@ export class KeyBoardShortCuts {
         else if (evt.key == "PageUp") {
             Share.execute("timelinePreviousPausedFrame", []);
         }
-        else if (evt.ctrlKey && evt.key.toLowerCase() == 'x') {//Ctrl + x
+        else if (evt.ctrlKey && keyLowerCase == 'x') {//Ctrl + x
             CircularMenu.hide();
             Magnetizer.magnetize(UserManager.me.userID, true);
         }
-        else if (evt.ctrlKey && evt.key.toLowerCase() == 'c') {//Ctrl + c
+        else if (evt.ctrlKey && keyLowerCase == 'c') {//Ctrl + c
             CircularMenu.hide();
             Magnetizer.magnetize(UserManager.me.userID, false);
             evt.preventDefault();
         }
-        else if (evt.ctrlKey && evt.key == "v") { //Ctrl + v = print the current magnet or (implementing in progress) paste the clipboard
+        else if (evt.ctrlKey && keyLowerCase == "v") { //Ctrl + v = print the current magnet or (implementing in progress) paste the clipboard
             CircularMenu.hide();
             if (KeyBoardShortCuts.available) {
                 KeyBoardShortCuts.available = false;
@@ -183,7 +201,7 @@ export class KeyBoardShortCuts {
 
             }
         }
-        else if (evt.key.toLowerCase() == "m") { //m = make new magnets
+        else if (keyLowerCase == "m") { //m = make new magnets
             CircularMenu.hide();
             if (!Magnetizer.isSuitableForMagnetisation(UserManager.me.userID)) {
                 Share.execute("printMagnet", [MagnetManager.getCurrentMagnetID()]);

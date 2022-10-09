@@ -1,4 +1,3 @@
-import { Magnetizer } from './Magnetizer';
 import { ToolEllipseByCenter } from './ToolEllipseByCenter';
 import { ToolEllipseByBorder } from './ToolEllipseByBorder';
 import { ToolLine } from './ToolLine';
@@ -9,7 +8,6 @@ import { ToolEraser } from './ToolEraser';
 import { MagnetManager } from './magnetManager';
 import { UserManager } from './UserManager';
 import { Tool } from './Tool';
-import { ToolAbstractShape } from './ToolAbstractShape';
 import { ToolArc } from './ToolArc';
 import { Layout } from './Layout';
 import { BackgroundTexture } from './BackgroundTexture';
