@@ -67,7 +67,8 @@ export class Palette extends CircularMenu {
         img.style.borderColor = this.colors[i];
 
         img.onclick = () => {
-            this.buttons[this.currentColorID].classList.remove("selected");
+            if (this.buttons[this.currentColorID]) //the button may not be here because we switch to another palette
+                this.buttons[this.currentColorID].classList.remove("selected");
             this.currentColorID = i;
             this.buttons[this.currentColorID].classList.add("selected");
             CircularMenu.hide();
