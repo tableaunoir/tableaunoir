@@ -3,6 +3,8 @@ const CopyPlugin = require('copy-webpack-plugin');
 const webpack = require('webpack');
 const WebpackBundleAnalyzer = require("webpack-bundle-analyzer")
   .BundleAnalyzerPlugin;
+  
+  
 
 const path = require('path');
 

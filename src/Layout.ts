@@ -289,10 +289,10 @@ export class Layout {
         getContainer().scrollLeft = 0;
         const nodeContent = document.getElementById("content");
         const nodeBoard = document.getElementById("board");
-        nodeContent.style.width = "" + getCanvas().width;
-        nodeContent.style.height = "" + getCanvas().height;
-        nodeBoard.style.width = "" + getCanvas().width;
-        nodeBoard.style.height = "" + getCanvas().height;
+        nodeContent.style.width = "" + getCanvas().width + "px";
+        nodeContent.style.height = "" + getCanvas().height + "px";
+        nodeBoard.style.width = "" + getCanvas().width + "px";
+        nodeBoard.style.height = "" + getCanvas().height + "px";
         nodeContent.style.transition = "";
         nodeContent.style.transform = "scale(1)";
     }

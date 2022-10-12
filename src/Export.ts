@@ -109,8 +109,8 @@ export class Export {
 
         const severalSlides = BoardManager.timeline.isSeveralSlides();
 
-        console.log(severalSlides ? "there are several slides, it is a presentation. We make one slide on page in the PDF" :
-            "there are no slides. We split the board in pieces, there may be several pages.")
+        ErrorMessage.show(severalSlides ? "pdf export: there are several slides, it is a presentation. We make one slide on page in the PDF" :
+            "pdf export: there are no slides. We split the board in pieces, there may be several pages.")
 
         CircularMenu.hideAndRemove();
         Layout.setForExportPng();
@@ -119,7 +119,7 @@ export class Export {
         await BoardManager.timeline.setCurrentIndex(0);
 
         const doc = new jspdf({ orientation: "landscape", unit: "px", format: [Layout.getWindowWidth(), Layout.getWindowHeight()] });
-        
+
         const blitCanvasPageOnPage = (canvasPage: HTMLCanvasElement) => {
             doc.addImage(canvasPage, 'png', 0, 0, doc.internal.pageSize.getWidth(), doc.internal.pageSize.getHeight(), "", "FAST");
         };
@@ -131,7 +131,7 @@ export class Export {
         while (!BoardManager.timeline.isEnd()) {
             if (severalSlides)
                 ErrorMessage.show(`pdf export: treating slide n. ${islide}`);
-            console.log(severalSlides ? "treating next slide..." : "beginning of the process");
+            console.log(severalSlides ? "treating next slide..." : "pdf export: beginning of the process");
             await BoardManager.timeline.nextPausedFrame();
             const canvasFullBoard = await Export.getCanvasBoard();
 
@@ -141,8 +141,12 @@ export class Export {
                 blitCanvasPageOnPage(canvasPage);
             }
             else { // we split the board in several pieces
+                const nbPanels = Math.floor(BoardManager.width / (2 * Layout.getWindowWidth()));
                 for (let x = 0; x < BoardManager.width; x += Layout.getWindowWidth()) {
-                    if (!firstpage) doc.addPage();
+                    const iPanel = Math.floor(x / Layout.getWindowWidth()) + 1;
+                    ErrorMessage.show(`pdf export: treating panels n° ${iPanel} and ${iPanel + 1}}/${nbPanels}`)
+                    if (!firstpage)
+                        doc.addPage();
                     const canvasPage = Export.extractFromCanvas(canvasFullBoard, x, Layout.getWindowWidth());
                     blitCanvasPageOnPage(canvasPage);
                     firstpage = false;
