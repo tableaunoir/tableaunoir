@@ -140,7 +140,7 @@ export class Toolbar {
         divideLine.className = "divideLineHelp";
 
         document.getElementById("buttonDivide").onmouseenter = () => {
-            divideLine.style.left = "" + Layout.getXMiddle();
+            divideLine.style.left = "" + Layout.getXMiddle() + "px";
             document.getElementById("board").prepend(divideLine);
         };
         document.getElementById("buttonDivide").onmouseleave = () => {
