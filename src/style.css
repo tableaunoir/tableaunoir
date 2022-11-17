@@ -182,8 +182,8 @@ helpbutton {
 	position: absolute;
 	top: 0;
 	left: 0;
-	width: 30000;
-	height: 1000;
+	width: 30000px;
+	height: 1000px;
 	pointer-events: none;
 	z-index: -1;
 }

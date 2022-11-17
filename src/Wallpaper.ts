@@ -90,10 +90,10 @@ export class Wallpaper {
         const fullHeight = Layout.getWindowHeight();
         const canvas = Wallpaper._createCanvas(fullHeight / nbgridy, fullHeight / nbgridy);
         const ctx = canvas.getContext("2d");
-        
+
         const h = canvas.height;
 
-        for(const ratio of [0.25, 0.5, 0.75]) {
+        for (const ratio of [0.25, 0.5, 0.75]) {
             const y = ratio * h;
             Drawing.drawLine(ctx, 0, y, canvas.width, y, PRESSURE2, COLORGRID2);
         }
@@ -109,7 +109,6 @@ export class Wallpaper {
      * @description draw a music score thing as a background
      */
     static musicScore(): void {
-
         const COLORSTAFF = "rgb(128, 128, 255)";
         const canvas = Wallpaper._createCanvas(2, MUSIC_fullHeight);
 
@@ -137,7 +136,7 @@ export class Wallpaper {
      * @returns the frequency (in Herz) that corresponds to a note at y, with the background being the two music staffs
      */
     static musicScoreYToFrequency(y: number): number {
-        
+
         /**
          * dy is the vertical position wrt to some C in the current staff
          */
