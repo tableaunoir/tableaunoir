@@ -132,7 +132,15 @@ export class BackgroundTexture {
      *                                   "black" if it is a whiteboard
      */
     static getDefaultChalkColor(): string {
-        return Color(BackgroundTexture.getBackgroundTexture()).isLight() ? "black" : "white";
+        function isLight(bgTexture: string) {
+            if (bgTexture.startsWith("linear-gradient")) {
+                const extremityColors = bgTexture.substring("linear-gradient(".length, bgTexture.length - 1).split(",").map((s) => s.trim());
+                return Color(extremityColors[0]).isLight() && Color(extremityColors[1]).isLight();
+            }
+            else
+                return Color(bgTexture).isLight();
+        }
+        return isLight(BackgroundTexture.getBackgroundTexture()) ? "black" : "white";
     }
 
 }
