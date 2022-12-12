@@ -7,6 +7,8 @@ import { getCanvas } from './main';
 import { Action } from './Action';
 import { ToolDrawAudio } from './ToolDrawAudio';
 import { AnimationManager } from './AnimationManager';
+import { ToolDrawOptions } from './ToolDrawOptions';
+import { ChalkParticules } from './ChalkParticules';
 
 
 export class ActionFreeDraw extends Action {
@@ -258,6 +260,9 @@ export class ActionFreeDraw extends Action {
 
             for (let i = 1; i < this.points.length; i++) {
                 const d = Math.abs(this.points[i - 1].x - this.points[i].x) + Math.abs(this.points[i - 1].y - this.points[i].y);
+
+                if (ToolDrawOptions.isParticules && AnimationManager.isRunning && Math.random() < 0.03 * d)
+                    ChalkParticules.start(this.points[i - 1].x, this.points[i - 1].y, this.points[i].pressure, this.points[i].color, 1);
 
                 if (AnimationManager.isRunning)
                     ToolDrawAudio.mousemove(d);

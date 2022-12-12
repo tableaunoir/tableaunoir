@@ -30,6 +30,7 @@ import { Export } from './Export';
 import { Tool } from './Tool';
 import { DesktopApplicationManager } from './DesktopApplicationManager';
 import { Action } from './Action';
+import { ToolDrawOptions } from './ToolDrawOptions';
 
 TestPerformance.init();
 
@@ -60,7 +61,7 @@ function load() {
 		installBodyNoScroll();
 
 		UserManager.init();
-
+		ToolDrawOptions.init();
 
 		BackgroundDocuments.init();
 		Layout.init();

@@ -10,8 +10,7 @@ export class AnimationManager {
      * true if all animations should end as soon as possible (no delay anymore)
      * by default, it is true (not in animation mode)
      */
-    private static mustEnd = true;
-
+    private static _mustEnd = true;
 
     /**
      * 
@@ -21,7 +20,7 @@ export class AnimationManager {
      *  (also, if mustEnd is true, then resolve the promise directly because we are not in animation mode anymore)
      */
     static async delay(ms: number): Promise<void> {
-        if (AnimationManager.mustEnd)
+        if (AnimationManager._mustEnd)
             return;
         const minRealDelay = 10;
         if (ms >= minRealDelay) {
@@ -54,7 +53,7 @@ export class AnimationManager {
      */
     static begin(): void {
         console.log("start animation");
-        AnimationManager.mustEnd = false;
+        AnimationManager._mustEnd = false;
     }
 
 
@@ -63,15 +62,14 @@ export class AnimationManager {
      */
     static end(): void {
         console.log("stop animation");
-        AnimationManager.mustEnd = true;
+        AnimationManager._mustEnd = true;
     }
 
     /**
      * @returns true iff an animation is running
      */
     static get isRunning(): boolean {
-        console.log(`is running: ${!AnimationManager.mustEnd}`);
-        return !AnimationManager.mustEnd;
+        return !AnimationManager._mustEnd;
     }
 
 }
