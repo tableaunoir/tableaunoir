@@ -1053,7 +1053,10 @@ h1 {
 	cursor: pointer;
 }
 
-
+.action:hover {
+	margin-left: 0px;
+	transform: scale(1.1);
+}
 
 .actionSelected {
 	border: 1px solid rgb(77, 169, 255);
@@ -1120,9 +1123,7 @@ h1 {
 }
 
 
-.action:hover {
-	transform: scale(1.1);
-}
+
 
 
 #timeline {

@@ -5,6 +5,9 @@ import { ActionSlideStart } from './ActionSlideStart';
 import { BoardManager } from './boardManager';
 import { Action } from './Action';
 import { ActionFreeDraw } from './ActionFreeDraw';
+import { MagnetHighlighter } from './MagnetHighlighter';
+import { ActionMagnetNew } from './ActionMagnetNew';
+import { ActionMagnetMove } from './ActionMagnetMove';
 
 
 /**
@@ -21,6 +24,7 @@ export class AnimationToolBar {
         AnimationToolBar.selection = new SelectionActions();
         AnimationToolBar.update();
     }
+    
     static isSelection(): boolean { return !AnimationToolBar.selection.isEmpty; }
 
     /**
@@ -54,10 +58,10 @@ export class AnimationToolBar {
     static is(): boolean { return document.getElementById("animationToolBar").style.display == ""; }
 
 
-    /*
+    /**
     @param slideNumber (1, 2, 3)...
     @param from (either ActionInit, or ActionPause)   
-     * @returns a new slide that will contain all actions of the slide
+    @returns a new slide that will contain all actions of the slide
      */
     static createSlideDiv(slideNumber: number, from: number, to: number): HTMLElement {
         const slide = document.createElement("div");
@@ -151,10 +155,6 @@ export class AnimationToolBar {
 
 
 
-
-
-
-
     /**
     *
     * @param t
@@ -162,7 +162,6 @@ export class AnimationToolBar {
     */
     static createActionElement(t: number): HTMLElement {
         const action = BoardManager.timeline.actions[t];
-
 
         function areActionsActionFreeDrawQuiteDifferent(a1: Action, a2: Action): boolean {
             if (!(a1 instanceof ActionFreeDraw) || !(a2 instanceof ActionFreeDraw))
@@ -240,8 +239,28 @@ export class AnimationToolBar {
             //AnimationToolBar.update();
         }
 
-        el.onmousemove = () => { BoardManager.timeline.setCurrentIndex(t); }
-        el.onmouseleave = () => { BoardManager.timeline.setCurrentIndex(AnimationToolBar.currentIndex); }
+        el.onmousemove = () => {
+            BoardManager.timeline.setCurrentIndex(t);
+        }
+
+        /**
+         * show some hints for the selected action action
+         */
+        function highlightAction() {
+            if (action instanceof ActionMagnetNew || action instanceof ActionMagnetMove)
+                MagnetHighlighter.highlight(document.getElementById(action.magnetid));
+        }
+
+        /**
+         * remove all the highlighting hints for actions
+         */
+        function unhighlightAction() {
+            MagnetHighlighter.unhighlightAll();
+        }
+
+
+        el.onmouseenter = highlightAction;
+        el.onmouseleave = () => { BoardManager.timeline.setCurrentIndex(AnimationToolBar.currentIndex); unhighlightAction(); }
 
         el.ondragover = () => { console.log("dragover"); el.classList.add("dragover"); }
         el.ondragleave = () => { el.classList.remove("dragover"); }

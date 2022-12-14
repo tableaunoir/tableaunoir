@@ -9,6 +9,7 @@ export class ActionMagnetNew extends Action {
     magnet: HTMLElement;
 
     get xMax(): number { return 0; }
+    get magnetid(): string { return this.magnet.id; }
 
     serializeData(): ActionSerialized {
         return {

@@ -249,7 +249,8 @@ export class ActionFreeDraw extends Action {
      * @returns 
      */
     async redoAnimated(): Promise<void> {
-        if (this.svgLines)
+        if (this.isInteractive())
+            //if (this.svgLines)
             await this.redo();
         else {
             if (!this.alreadyDrawnSth)
@@ -270,13 +271,8 @@ export class ActionFreeDraw extends Action {
                 Drawing.drawLine(getCanvas().getContext("2d"), this.points[i - 1].x, this.points[i - 1].y, this.points[i].x, this.points[i].y, this.points[i].pressure, this.points[i].color);
                 await this.delay();
             }
-
-
             ToolDrawAudio.mouseup();
-
         }
-
-
     }
 
 
