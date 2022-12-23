@@ -173,10 +173,10 @@ export class User {
         else {
             this.cursor.classList.add("cursorinscreen");
         }
-        this.cursor.style.left = x - 8;
-        this.cursor.style.top = y - 8;
-        this.elementName.style.left = x - 8;
-        this.elementName.style.top = y + 8;
+        this.cursor.style.left = (x - 8) + "px";
+        this.cursor.style.top = (y - 8) + "px";
+        this.elementName.style.left = (x - 8) + "px";
+        this.elementName.style.top = (y + 8) + "px";
     }
 
     mousemove(evt: MouseEvent): void {
