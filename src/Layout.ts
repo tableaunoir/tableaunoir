@@ -158,17 +158,17 @@ export class Layout {
             //only install the GUI for moving in the board when the board is large
             const viewport = document.getElementById("viewport");
             viewport.hidden = false;
-            viewport.style.left = x + "";
+            viewport.style.left = x + "px";
             viewport.style.top = "0px";
-            viewport.style.width = Layout.getWindowWidth() + "";
-            viewport.style.height = Layout.getWindowHeight() + "";
+            viewport.style.width = Layout.getWindowWidth() + "px";
+            viewport.style.height = Layout.getWindowHeight() + "px";
 
             const newviewport = document.getElementById("newviewport");
             newviewport.hidden = false;
-            newviewport.style.left = x + "";
+            newviewport.style.left = x + "px";
             newviewport.style.top = "0px";
-            newviewport.style.width = Layout.getWindowWidth() + "";
-            newviewport.style.height = Layout.getWindowHeight() + "";
+            newviewport.style.width = Layout.getWindowWidth() + "px";
+            newviewport.style.height = Layout.getWindowHeight() + "px";
 
             const nodeBoard = document.getElementById("board");
 
@@ -176,7 +176,7 @@ export class Layout {
                 let x = evt.offsetX - parseInt(viewport.style.width) / 2;
                 if (x < 0) x = 0;
                 x = Math.min(x, getCanvas().width - parseInt(viewport.style.width));
-                newviewport.style.left = x + "";
+                newviewport.style.left = x + "px";
             }
             nodeBoard.onmouseup = () => { Layout.normal(); }
 
