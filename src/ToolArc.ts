@@ -166,13 +166,13 @@ export class ToolArc extends Tool {
             x = e.clientX * Layout.getZoom();
             y = e.clientY * Layout.getZoom();
 
-            element.style.left = "" + (element.offsetLeft - dx);
-            element.style.top = "" + (element.offsetTop - dy);
+            element.style.left = "" + (element.offsetLeft - dx) + "px";
+            element.style.top = "" + (element.offsetTop - dy) + "px";
 
             //from the center, we drag all the compass
             if (element == this.elementCenter) {
-                this.elementRadius.style.left = "" + (this.elementRadius.offsetLeft - dx);
-                this.elementRadius.style.top = "" + (this.elementRadius.offsetTop - dy);
+                this.elementRadius.style.left = "" + (this.elementRadius.offsetLeft - dx) + "px";
+                this.elementRadius.style.top = "" + (this.elementRadius.offsetTop - dy) + "px";
             }
             callback();
         }
@@ -216,9 +216,11 @@ export class ToolArc extends Tool {
     }
 
     mouseup(): void {
+        if (!this.action) return; //ugly fix
         this.isDrawing = false;
         this.elementRadius.style.visibility = "visible";
         BoardManager.addAction(this.action);
+        this.action = undefined;
     }
 
 
