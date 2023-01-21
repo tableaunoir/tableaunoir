@@ -1047,7 +1047,7 @@ h1 {
 	background-color: rgb(128, 64, 64);
 	border: 1px solid rgb(64, 64, 64);
 	display: inline-block;
-	opacity: 0.7;
+	opacity: 0.85;
 	margin: 0px;
 	background-size: 24px 24px;
 	cursor: pointer;
@@ -1069,7 +1069,7 @@ h1 {
 
 .actionExecuted {
 	opacity: 1.0;
-	background-color: #e56666;
+	background-color: #f58888;
 }
 
 
