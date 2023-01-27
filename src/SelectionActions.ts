@@ -79,7 +79,11 @@ export class SelectionActions {
     /**
      * @returns the sorted (in the increasing order) array of the indices of the selected actions 
      */
-    private get indicesArray(): number[] { return Array.from(this.selection).sort(); }
+    private get indicesArray(): number[] {
+        const A = Array.from(this.selection);
+        A.sort(function(a, b){return a - b});
+        return A;
+    }
 
     /**
      * @description delete the selected actions

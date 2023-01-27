@@ -284,8 +284,8 @@ export class Timeline {
 
     /**
          * 
-         * @param t 
-         * @description delete actions at timesteps given by the indices (that should be ordered by increasing indices)
+         * @param indices the indices (that should be ordered by increasing indices)
+         * @description delete actions at timesteps given by the indices 
          */
     async deleteActions(indices: number[]): Promise<void> {
         for (let i = indices.length - 1; i >= 0; i--) {

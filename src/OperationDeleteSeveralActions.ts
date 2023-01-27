@@ -5,6 +5,10 @@ import { Operation } from "./Operation";
 export class OperationDeleteSeveralActions extends Operation {
     private actionsTable: Action[];
 
+    /**
+     * 
+     * @param indices the indices of the actions to be deleted (in the increasing order)
+     */
     constructor(private indices: number[]) {
         super();
         this.actionsTable = this.indices.map(index => BoardManager.timeline.actions[index]);
