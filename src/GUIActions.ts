@@ -1,7 +1,7 @@
 import { MagnetTextManager } from './MagnetTextManager';
 import { ActionFill } from './ActionFill';
 import { Layout } from './Layout';
-import { ErrorMessage } from './ErrorMessage';
+import { ShowMessage } from './ShowMessage';
 import { S } from './Script';
 import { AnimationToolBar } from './AnimationToolBar';
 import { OptionManager } from './OptionManager';
@@ -63,7 +63,7 @@ export class GUIActions {
             })
         }
         catch (e) {
-            ErrorMessage.show(e);
+            ShowMessage.error(e);
         }
     }
 

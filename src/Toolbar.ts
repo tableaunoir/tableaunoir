@@ -1,6 +1,6 @@
 import { AnimationToolBar } from './AnimationToolBar';
 import { Layout } from './Layout';
-import { ErrorMessage } from './ErrorMessage';
+import { ShowMessage } from './ShowMessage';
 import { OptionManager } from './OptionManager';
 
 
@@ -28,7 +28,7 @@ export class Toolbar {
                 }
             }
             catch (e) {
-                ErrorMessage.show("Error in loading the toolbar. You can however use Tableaunoir.")
+                ShowMessage.error("Error in loading the toolbar. You can however use Tableaunoir.")
             }
 
         }

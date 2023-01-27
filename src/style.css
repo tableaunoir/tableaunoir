@@ -770,16 +770,35 @@ h1 {
 	width: 500px;
 }
 
-#error {
+
+#msg {
 	top: 0px;
 	left: 0px;
 	opacity: 0.8;
 	font-size: 32px;
 	background-color: white;
 	padding: 16px;
-	color: red;
 	position: absolute;
 	z-index: 10000;
+}
+
+
+@keyframes showMessage {
+	from {
+		filter: blur(10px);
+	}
+	to {}
+}
+
+
+.msg {
+	color: blue;
+	animation: showMessage 400ms forwards;
+}
+
+.error {
+	color: red;
+	animation: showMessage 400ms forwards;
 }
 
 

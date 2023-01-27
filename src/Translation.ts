@@ -1,5 +1,5 @@
 import { OptionManager } from './OptionManager';
-import { ErrorMessage } from './ErrorMessage';
+import { ShowMessage } from './ShowMessage';
 
 /**
  * This class enables to translate Tableaunoir in other languages (french for instance)
@@ -23,7 +23,7 @@ export class Translation {
 
         }
         catch (e) {
-            ErrorMessage.show(e);
+            ShowMessage.error(e);
         }
 
     }

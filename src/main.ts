@@ -3,7 +3,7 @@ import { Drawing } from './Drawing';
 import { CircularMenu } from './CircularMenu';
 import { MagnetTextManager } from './MagnetTextManager';
 import { Wallpaper } from './Wallpaper';
-import { ErrorMessage } from './ErrorMessage';
+import { ShowMessage } from './ShowMessage';
 import { GUIActions } from './GUIActions';
 import { Sound } from './Sound';
 import { TestPerformance } from './TestPerformance';
@@ -153,7 +153,7 @@ function load() {
 	}
 	catch (e) {
 		console.error(e.stack);
-		ErrorMessage.show("Problem in loading Tableaunoir... please try to clean the cache of your browser.");
+		ShowMessage.error("Problem in loading Tableaunoir... please try to clean the cache of your browser.");
 	}
 
 }

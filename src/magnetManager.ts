@@ -7,7 +7,7 @@ import { UserManager } from './UserManager';
 import { ToolDraw } from './ToolDraw';
 import { Geometry } from './Geometry';
 import { ConstraintDrawing } from './ConstraintDrawing';
-import { ErrorMessage } from './ErrorMessage';
+import { ShowMessage } from './ShowMessage';
 import { getCanvas } from "./main";
 import { Share } from "./share";
 import { BoardManager } from './boardManager';
@@ -650,7 +650,7 @@ export class MagnetManager {
 		if (MagnetManager.currentMagnet == undefined)
 			return;
 		if (!MagnetManager.currentMagnet.classList.contains("magnet"))
-			ErrorMessage.show("oups, important bug. The application wanted to delete something else than a magnet!");
+			ShowMessage.error("oups, important bug. The application wanted to delete something else than a magnet!");
 
 		Share.execute("magnetRemove", [MagnetManager.currentMagnet.id]);
 	}

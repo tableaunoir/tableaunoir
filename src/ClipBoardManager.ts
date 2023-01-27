@@ -1,4 +1,4 @@
-import { ErrorMessage } from "./ErrorMessage";
+import { ShowMessage } from "./ShowMessage";
 
 export class ClipBoardManager {
 
@@ -11,6 +11,6 @@ export class ClipBoardManager {
      */
     static copy(stringToCopy: string, description: string): void {
         navigator.clipboard.writeText(stringToCopy);
-        ErrorMessage.show(description + " copied!");
+        ShowMessage.show(description + " copied!");
     }
 }

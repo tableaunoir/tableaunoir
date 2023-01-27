@@ -5,7 +5,7 @@ import { ActionMagnetNew } from './ActionMagnetNew';
 import { MagnetMovementRecorder } from './MagnetMovementRecorder';
 import { Wallpaper } from './Wallpaper';
 import { UserListComponent } from './UserListComponent';
-import { ErrorMessage } from './ErrorMessage';
+import { ShowMessage } from './ShowMessage';
 import { BackgroundTexture } from './BackgroundTexture';
 import { Share } from './share';
 import { LoadSave } from './LoadSave';
@@ -59,7 +59,7 @@ export class ShareEvent {
         console.log(userId)
         const tool = UserManager.users[userId].tool;
         if (!(tool instanceof ToolArc))
-            ErrorMessage.show("the tool should be ToolArc");
+            ShowMessage.error("the tool should be ToolArc");
 
         (<ToolArc>tool).setAttributes(center, radiusHandlePosition);
     }

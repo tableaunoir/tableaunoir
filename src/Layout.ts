@@ -3,7 +3,7 @@ import { BoardNavigation } from './BoardNavigation';
 import { OptionManager } from './OptionManager';
 import { getCanvas, getCanvasBackground, getContainer } from './main';
 import { Toolbar } from './Toolbar';
-import { ErrorMessage } from './ErrorMessage';
+import { ShowMessage } from './ShowMessage';
 
 export class Layout {
 
@@ -23,7 +23,7 @@ export class Layout {
         }
         else {
             if (!Layout.isMinimapNeeded())
-                ErrorMessage.show("You already see the full board.");
+                ShowMessage.error("You already see the full board.");
             else
                 Layout.minimap();
         }

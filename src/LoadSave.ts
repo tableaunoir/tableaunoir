@@ -2,7 +2,7 @@ import { AnimationToolBar } from './AnimationToolBar';
 import { DesktopApplicationManager } from './DesktopApplicationManager';
 import { UserManager } from './UserManager';
 import { ActionMagnetNew } from './ActionMagnetNew';
-import { ErrorMessage } from './ErrorMessage';
+import { ShowMessage } from './ShowMessage';
 import { ActionSerialized } from './ActionSerialized';
 import { Share } from './share';
 import { ConstraintDrawing } from './ConstraintDrawing';
@@ -153,7 +153,7 @@ export class LoadSave {
             }
             else {
                 if (getTypeFilesDrag(event) == "error")
-                    ErrorMessage.show("Impossible to drop these kind of files");
+                    ShowMessage.error("Impossible to drop these kind of files");
                 else {
                     for (const file of getFilesFromDragEvent(event))
                         LoadSave.loadFile(file, x, y);
@@ -195,7 +195,7 @@ export class LoadSave {
                 console.log("adding a magnet image")
                 console.log(file)
                 reader.readAsDataURL(file);
-                reader.onerror = () => ErrorMessage.show("problem in loading image");
+                reader.onerror = () => ShowMessage.error("problem in loading image");
                 reader.onload = function (evt) {
                     const img = new Image();
                     img.src = <string>evt.target.result;

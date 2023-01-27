@@ -9,7 +9,7 @@ import { getCanvas } from './main';
 import { MagnetManager } from './magnetManager';
 import { BoardManager } from './boardManager';
 import { UserManager } from './UserManager';
-import { ErrorMessage } from './ErrorMessage';
+import { ShowMessage } from './ShowMessage';
 import { ShareEvent } from './ShareEvent';
 import config from './config.json'
 import { ConstraintDrawing } from './ConstraintDrawing';
@@ -63,7 +63,7 @@ export class Share {
 	 * executed when the connection is lost
 	 */
 	static whenDisconnected(): void {
-		ErrorMessage.show("You seem disconnected...");
+		ShowMessage.error("You seem disconnected...");
 
 		if (!Share.isTryingToConnect) /*when an error occurs after the loading time, we could probably deduce that 
 		the board was used. Then store the data */
@@ -168,7 +168,7 @@ export class Share {
 	 * @description shows the connection error (called when there is a problem with the connection)
 	 */
 	static showConnectionError(): void {
-		ErrorMessage.show("Impossible to connect to the server");
+		ShowMessage.error("Impossible to connect to the server");
 	}
 
 	/**
@@ -239,7 +239,7 @@ export class Share {
 					Share.canWriteValueByDefault = true;
 				Share.execute("setRoot", [UserManager.me.userID]);
 				break;
-			case "accessdenied": ErrorMessage.show("Access denied"); break;
+			case "accessdenied": ShowMessage.error("Access denied"); break;
 			case "join": //a new user joins the group
 				console.log("a new user is joining: ", msg.userid)
 				UserManager.add(msg.userid);

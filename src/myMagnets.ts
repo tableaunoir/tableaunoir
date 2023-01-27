@@ -1,3 +1,4 @@
+import { ShowMessage } from './ShowMessage';
 import { MagnetManager } from './magnetManager';
 import { MagnetPositionner } from './MagnetPositionner';
 
@@ -470,7 +471,7 @@ export class MyMagnets {
         el.classList.add("magnetCollectionButton");
         el.appendChild(magnet);
 
-        el.onclick = () => { MagnetManager.addMagnet(MagnetPositionner.positionnate((<HTMLElement>magnet.cloneNode(true)))); };
+        el.onclick = () => { ShowMessage.show("Magnet added"); MagnetManager.addMagnet(MagnetPositionner.positionnate((<HTMLElement>magnet.cloneNode(true)))); };
         return el;
     }
     /**
@@ -502,13 +503,20 @@ export class MyMagnets {
                 MagnetPositionner.resetPositionate();
                 const ite = magnetSetName();
                 const b = true;//to avoid a lint error
-
+                let count = 0;
                 while (b) {
                     const m = ite.next();
                     if (m.done)
                         break;
                     MagnetManager.addMagnet(MagnetPositionner.positionnate(m.value));
+                    count++;
                 }
+
+                if (count > 1)
+                    ShowMessage.show("Magnets added");
+                else
+                    ShowMessage.show("Magnet added");
+
             };
         document.getElementById("magnetCollection").appendChild(el);
     }

@@ -5,7 +5,7 @@
     "clean-webpack-plugin": "^3.0.0",
     "copy-webpack-plugin": "^6.3.0",
     "css-loader": "^5.0.1",
-    "electron": "^20.1.1",
+    "electron": "^22.1.0",
     "eslint": "^8.15.0",
     "pdfjs-dist": "^2.5.207",
     "ts-loader": "^9.3.0",
@@ -27,6 +27,7 @@
     "color": "*",
     "html2canvas": "*",
     "jspdf": "*",
-    "lz-string": "*"
+    "lz-string": "*",
+    "tippy.js": "^6.3.7"
   }
 }

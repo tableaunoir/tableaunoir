@@ -3,7 +3,7 @@ import { AnimationToolBar } from './AnimationToolBar';
 import { ActionClear } from './ActionClear';
 import { Drawing } from './Drawing';
 import { BoardManager } from './boardManager';
-import { ErrorMessage } from './ErrorMessage';
+import { ShowMessage } from './ShowMessage';
 import { ActionSerialized } from './ActionSerialized';
 import { ActionDeserializer } from './ActionDeserializer';
 import { UserManager } from './UserManager';
@@ -104,7 +104,7 @@ export class Timeline {
             //perform the undo of the undoable actions
             for (let t = previoust; t >= nextt + 1; t--)
                 if (this.actions[t] == undefined) {
-                    ErrorMessage.show("issue #113. error with t = " + t + " try to undo/redo again");
+                    ShowMessage.error("issue #113. error with t = " + t + " try to undo/redo again");
                     bug113 = true;
                 }
                 else
@@ -200,7 +200,7 @@ export class Timeline {
         let bug113 = false;
         for (let t = this.getLastClearAction() + 1; t <= this.currentIndex; t++) {
             if (this.actions[t] == undefined) {
-                ErrorMessage.show("issue #113. error with t = " + t + " try to undo/redo again");
+                ShowMessage.error("issue #113. error with t = " + t + " try to undo/redo again");
                 bug113 = true;
             }
             else
@@ -372,7 +372,7 @@ export class Timeline {
         // for the actions that are not undoable
         for (let t = this.getLastClearAction() + 1; t <= this.currentIndex; t++) {
             if (this.actions[t] == undefined) {
-                ErrorMessage.show("issue #113. error with t = " + t + " try to undo/redo again");
+                ShowMessage.error("issue #113. error with t = " + t + " try to undo/redo again");
                 bug113 = true;
             }
             else if (!this.actions[t].isDirectlyUndoable)
@@ -535,7 +535,7 @@ export class Timeline {
      */
     repair(): void {
         if (this.actions.indexOf(undefined) >= 0) {
-            ErrorMessage.show("#113 issue"); //we remove the undefined elements in the tab
+            ShowMessage.error("#113 issue"); //we remove the undefined elements in the tab
             this.actions = this.actions.filter((a) => a != undefined);
             this.currentIndex = this.actions.length - 1;
         }
