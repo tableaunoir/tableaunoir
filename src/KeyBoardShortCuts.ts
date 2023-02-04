@@ -119,16 +119,16 @@ export class KeyBoardShortCuts {
             GUIActions.palette.previous();
         else if (evt.key == "ArrowRight" && CircularMenu.isShown())
             GUIActions.palette.next();
-        else if (evt.shiftKey && evt.key == "ArrowLeft") {
+        else if (evt.shiftKey && evt.key == "ArrowLeft" && !Layout.isMinimap) {
             BoardNavigation.left();
         }
-        else if (evt.shiftKey && evt.key == "ArrowRight") {
+        else if (evt.shiftKey && evt.key == "ArrowRight" && !Layout.isMinimap) {
             BoardNavigation.right();
         }
-        else if (evt.key == "ArrowLeft") {
+        else if (evt.key == "ArrowLeft" && !Layout.isMinimap) {
             BoardNavigation.leftPreviousPage();
         }
-        else if (evt.key == "ArrowRight") {
+        else if (evt.key == "ArrowRight" && !Layout.isMinimap) {
             BoardNavigation.rightNextPage();
         }
         else if (evt.ctrlKey && keyLowerCase == "r") {
@@ -172,10 +172,10 @@ export class KeyBoardShortCuts {
             if (!Share.isShared())
                 BoardManager.fastNextPausedFrame();
         }
-        else if (evt.key == "PageDown") {
+        else if (evt.key == "PageDown" || evt.key == "ArrowDown") {
             Share.execute("timelineNextPausedFrame", []);
         }
-        else if (evt.key == "PageUp") {
+        else if (evt.key == "PageUp" || evt.key == "ArrowUp") {
             Share.execute("timelinePreviousPausedFrame", []);
         }
         else if (evt.ctrlKey && keyLowerCase == 'x') {//Ctrl + x

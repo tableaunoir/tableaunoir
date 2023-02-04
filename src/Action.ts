@@ -20,7 +20,7 @@ export abstract class Action {
 
     static init() {
         /** the user can choose the FPS of the animations :) */
-        OptionManager.number({ name: "FPS", defaultValue: 50, onChange: (fps) => Action._delay = 1000 / fps });
+        OptionManager.number({ name: "FPS", defaultValue: 150, onChange: (fps) => Action._delay = 1000 / fps });
     }
 
 
