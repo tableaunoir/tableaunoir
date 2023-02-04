@@ -43,9 +43,10 @@ We list the main features of Tableaunoir.
 * Load/Save the current board,
 * Export in PNG or PDF,
 * Add texts (`Enter` and type), and move texts. Supports **LaTeX** (using [MathJax](https://www.mathjax.org/))!
-* Switch to a whiteboard instead of a blackboard,
+* Switch to a **whiteboard** instead of a blackboard, or any background color
 * Change from right-handed (default) to **left-handed** cursor,
 * **Divide yourboard in half**. Ideal for teaching. Add as many new half-board as you need, going right with `→` and then left/right with `←/→` keyboard arrows,
+* Make **slides**, record **animations**. This can be used to prepare slides for a talk or for a video.
 
 You can teach online by sharing the screen with Discord, Zoom, Teams, etc, or by sharing a link (need a server for that).
 
