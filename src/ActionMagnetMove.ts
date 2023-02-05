@@ -45,7 +45,10 @@ export class ActionMagnetMove extends Action {
 
     }
 
-    async redo(): Promise<void> { this.setPosition(this.points[this.points.length - 1]); }
+
+
+    get lastPoint(): { x: number, y: number } { return this.points[this.points.length - 1]; }
+    async redo(): Promise<void> { this.setPosition(this.lastPoint); }
 
     async undo(): Promise<void> { this.setPosition(this.points[0]); }
 

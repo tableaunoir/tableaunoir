@@ -218,6 +218,7 @@ export class ShareEvent {
     static newSlide(userid: string): void { BoardManager.newSlide(userid) }
     static newSlideAndClear(userid: string): void { BoardManager.newSlideAndClear(userid) }
     static mergeSlide(userid: string): void { BoardManager.mergeSlide(userid) }
+    static forgetAnimation(userid: string): void { BoardManager.forgetAnimation(userid) }
 
     /**backgrounds */
 
