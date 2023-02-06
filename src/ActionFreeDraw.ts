@@ -146,8 +146,15 @@ export class ActionFreeDraw extends Action {
             const b = this.points[i + 1];
 
             if (Math.abs(a.x - b.x) > 5 || Math.abs(a.y - b.y) > 5) {
-                newpoints.push({ x: Geometry.numberRound(0.85 * a.x + 0.15 * b.x), y: Geometry.numberRound(0.85 * a.y + 0.15 * b.y), pressure: b.pressure, color: a.color });
-                newpoints.push({ x: Geometry.numberRound(0.15 * a.x + 0.85 * b.x), y: Geometry.numberRound(0.15 * a.y + 0.85 * b.y), pressure: b.pressure, color: a.color });
+                const f = (coeff1, coeff2) => {
+                    newpoints.push({
+                        x: Geometry.numberRound(coeff1 * a.x + coeff2 * b.x),
+                        y: Geometry.numberRound(coeff1 * a.y + coeff2 * b.y),
+                        pressure: Geometry.numberRound(coeff1 * a.pressure + coeff2 * b.pressure), color: a.color
+                    });
+                }
+                f(0.85, 0.15);
+                f(0.15, 0.85);
             }
             else
                 newpoints.push(a);
@@ -163,8 +170,17 @@ export class ActionFreeDraw extends Action {
 
 
     private simplify() {
-        function dist2(v, w) { return (v.x - w.x) ** 2 + (v.y - w.y) ** 2 }
-        function perpendicularDistance(p, v, w) {
+        function dist2(v: { x: number, y: number }, w: { x: number, y: number }) { return (v.x - w.x) ** 2 + (v.y - w.y) ** 2 }
+
+
+        /**
+         * 
+         * @param p 
+         * @param v 
+         * @param w 
+         * @returns the distance of the point p to the segment [vw]
+         */
+        function perpendicularDistance(p: { x: number, y: number }, v: { x: number, y: number }, w: { x: number, y: number }) {
             const l2 = dist2(v, w);
             if (l2 == 0) return dist2(p, v);
             let t = ((p.x - v.x) * (w.x - v.x) + (p.y - v.y) * (w.y - v.y)) / l2;
@@ -177,25 +193,28 @@ export class ActionFreeDraw extends Action {
 
         const EPSILON = 2;
 
+        /**
+         * 
+         * @param begin 
+         * @param end 
+         * @returns the simplified polyline between begin and end
+         */
         const DouglasPeucker = (begin: number, end: number) => {
             // Find the point with the maximum distance
             let dmax = 0
-            let index = 0
+            let ifar = 0
 
             for (let i = begin; i < end; i++) {
-
                 const d = perpendicularDistance(this.points[i], this.points[begin], this.points[end]);
                 if (d > dmax) {
-                    index = i;
+                    ifar = i;
                     dmax = d;
                 }
             }
 
-            // If max distance is greater than epsilon, recursively simplify
             if (dmax > EPSILON) {
-                // Recursive call
-                const A1 = DouglasPeucker(begin, index)
-                const A2 = DouglasPeucker(index, end);
+                const A1 = DouglasPeucker(begin, ifar)
+                const A2 = DouglasPeucker(ifar, end);
                 return A1.concat(A2.slice(1));
             } else
                 return [this.points[begin], this.points[end]];
@@ -203,13 +222,17 @@ export class ActionFreeDraw extends Action {
         }
 
         this.points = DouglasPeucker(0, this.points.length - 1);
+
+        //fix of the pressure at the end (otherwise there is a weird end in the draw)
+        if (this.points.length >= 2)
+            this.points[this.points.length - 1].pressure = this.points[this.points.length - 2].pressure;
     }
 
-
-    postTreatement(): void {
-        // console.log("Original: " + this.points.length);
+    
+    public postTreatement(): void {
+       // console.log("Original: " + this.points.length);
         this.smoothifyOnePass();
-        //console.log("After smoothing: " + this.points.length);
+       // console.log("After smoothing: " + this.points.length);
         this.simplify();
         //console.log("After simplifying: " + this.points.length);
     }

@@ -143,7 +143,7 @@ export class ToolDraw extends Tool {
                     MagnetManager.getMagnetCenter(magnet2));
 
                 BoardManager.addAction(this.action);
-
+             
             }
             else {
                 BoardManager.addAction(this.action);
