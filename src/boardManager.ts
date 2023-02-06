@@ -359,7 +359,11 @@ export class BoardManager {
     }
 
 
-
+    /**
+     * 
+     * @param userid 
+     * @description we "simplify" the timeline by removing redundant animation steps
+     */
     static forgetAnimation(userid: string): void {
         const timeline = BoardManager.timeline;
         const t = timeline.getCurrentIndex();
