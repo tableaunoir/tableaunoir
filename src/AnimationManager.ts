@@ -19,7 +19,7 @@ export class AnimationManager {
      *  (or so... if ms is too small, then delayCounter is used to wait only time to time)
      *  (also, if mustEnd is true, then resolve the promise directly because we are not in animation mode anymore)
      */
-    static async delay(ms: number): Promise<void> {
+    public static async delay(ms: number): Promise<void> {
         if (AnimationManager._mustEnd)
             return;
         const minRealDelay = 10;
@@ -47,29 +47,28 @@ export class AnimationManager {
         });
     }
 
-
     /**
      * begin an animation
      */
-    static begin(): void {
-        console.log("start animation");
-        AnimationManager._mustEnd = false;
-    }
-
+    public static begin(): void { AnimationManager._mustEnd = false; }
 
     /**
-     * end an animation
+     * declare the animation over (should be called when we know the animation is over)
      */
-    static end(): void {
-        console.log("stop animation");
+    public static end(): void { AnimationManager._mustEnd = true; }
+
+    /**
+    * wait til the end of animation if there is an animation that is running.
+    * Otherwise, the promise directly resolves
+    */
+    public static ensureEnd(): Promise<void> {
+        if (AnimationManager._mustEnd) return;
         AnimationManager._mustEnd = true;
+        return new Promise(function (resolve) { setTimeout(resolve, 100); });// ugly fix :)
     }
 
     /**
      * @returns true iff an animation is running
      */
-    static get isRunning(): boolean {
-        return !AnimationManager._mustEnd;
-    }
-
+    public static get isRunning(): boolean { return !AnimationManager._mustEnd; }
 }

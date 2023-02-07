@@ -240,7 +240,7 @@ export class BoardManager {
 
 
     static async previousPausedFrame(): Promise<void> {
-        AnimationManager.end();
+        await AnimationManager.ensureEnd();
         await BoardManager.timeline.previousPausedFrame();
         AnimationToolBar.updateCurrentIndex();
         BoardManager.updateSlideNumber();
@@ -251,7 +251,7 @@ export class BoardManager {
      */
     static async nextPausedFrame(): Promise<void> {
         if (AnimationManager.isRunning) {
-            AnimationManager.end();
+            await AnimationManager.ensureEnd();
             BoardManager.updateSlideNumber();
         }
         else {
@@ -283,13 +283,13 @@ export class BoardManager {
 
 
     static async previousFrame(): Promise<void> {
-        AnimationManager.end();
+        await AnimationManager.ensureEnd();
         await BoardManager.timeline.previousFrame();
         AnimationToolBar.updateCurrentIndex();
     }
 
     static async nextFrame(): Promise<void> {
-        AnimationManager.end();
+        await AnimationManager.ensureEnd();
         await BoardManager.timeline.nextFrame();
         AnimationToolBar.updateCurrentIndex();
     }
@@ -297,8 +297,8 @@ export class BoardManager {
     /**
      * @description go the next slide (instantly)
      */
-    static fastNextPausedFrame(): void {
-        AnimationManager.end();
+    static async fastNextPausedFrame(): Promise<void> {
+        await AnimationManager.ensureEnd();
         BoardManager.timeline.nextPausedFrame();
         AnimationToolBar.updateCurrentIndex();
     }
