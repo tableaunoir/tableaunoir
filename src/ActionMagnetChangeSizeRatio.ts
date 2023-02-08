@@ -9,7 +9,12 @@ import { ActionSerialized } from './ActionSerialized';
  */
 export class ActionMagnetChangeSizeRatio extends Action {
 
-    get xMax(): number { return 0; }
+    get xMax(): number {
+        const magnet = document.getElementById(this.magnetid);
+        const w = magnet ? magnet.offsetWidth : 0;
+        const x = magnet ? magnet.offsetLeft : 0;
+        return x + w;
+    }
 
     serializeData(): ActionSerialized {
         return {

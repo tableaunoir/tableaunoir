@@ -214,7 +214,7 @@ export class BoardManager {
 
 
     /**
-     *
+     * @description cancel the previous operation on the cancel stack
      */
     static async cancel(userid: string): Promise<void> {
         if (!BoardManager.cancelStack.canUndo())
@@ -227,7 +227,7 @@ export class BoardManager {
 
 
     /**
-     *
+     * @description redo the next operation on the cancel stack
      */
     static async redo(userid: string): Promise<void> {
         if (!BoardManager.cancelStack.canRedo())
@@ -238,7 +238,9 @@ export class BoardManager {
     }
 
 
-
+    /**
+     * @description go to the previous slide
+     */
     static async previousPausedFrame(): Promise<void> {
         await AnimationManager.ensureEnd();
         await BoardManager.timeline.previousPausedFrame();
@@ -248,6 +250,8 @@ export class BoardManager {
 
     /**
      * @decription go the next slide by executing the animation
+     * if a slide is already running (i.e. if the animations are executed)
+     * then we go directly at the end of the slide
      */
     static async nextPausedFrame(): Promise<void> {
         if (AnimationManager.isRunning) {
@@ -262,7 +266,16 @@ export class BoardManager {
             AnimationToolBar.updateCurrentIndex();
             BoardManager.updateSlideNumber();
         }
+    }
 
+
+    /**
+     * @description go the next slide (instantly)
+     */
+    static async fastNextPausedFrame(): Promise<void> {
+        await AnimationManager.ensureEnd();
+        BoardManager.timeline.nextPausedFrame();
+        AnimationToolBar.updateCurrentIndex();
     }
 
 
@@ -281,38 +294,28 @@ export class BoardManager {
             slideNumberElement.hidden = true;
     }
 
-
+    /**
+     * @description go the previous frame, that is if we are at time t, we go at time t-1
+     * (just one action before)
+     */
     static async previousFrame(): Promise<void> {
         await AnimationManager.ensureEnd();
         await BoardManager.timeline.previousFrame();
         AnimationToolBar.updateCurrentIndex();
     }
 
+
+    /**
+     * @description go the next frame, that is if we are at time t, we go at time t+1
+     * (just one action after)
+     */
     static async nextFrame(): Promise<void> {
         await AnimationManager.ensureEnd();
         await BoardManager.timeline.nextFrame();
         AnimationToolBar.updateCurrentIndex();
     }
 
-    /**
-     * @description go the next slide (instantly)
-     */
-    static async fastNextPausedFrame(): Promise<void> {
-        await AnimationManager.ensureEnd();
-        BoardManager.timeline.nextPausedFrame();
-        AnimationToolBar.updateCurrentIndex();
-    }
 
-
-
-    private static get widthFromActions(): number { return Math.max(...this.timeline.actions.map((a) => a.xMax)); }
-    private static get widthFromMagnets(): number {
-        const magnets = MagnetManager.getMagnets();
-        let max = 0;
-        for (let i = 0; i < magnets.length; i++)
-            max = Math.max(max, magnets[i].offsetLeft + magnets[i].offsetWidth);
-        return max;
-    }
 
 
     /**
@@ -342,21 +345,21 @@ export class BoardManager {
     }
 
     /**
- * 
- * @param userid 
- * @description remove the next pause action for merging the current slide with the next one
- */
+     * 
+     * @param userid 
+     * @description remove the next pause action for merging the current slide with the next one
+     */
     static mergeSlide(userid: string): void {
         const nextNewSlideActionIndex = BoardManager.timeline.getNextNewSlideActionIndex();
-        console.log("merge: remove action of index " + nextNewSlideActionIndex);
         if (nextNewSlideActionIndex)
             BoardManager.executeOperation(new OperationDeleteSeveralActions([nextNewSlideActionIndex]));
     }
 
-    static get width(): number {
-        console.log(BoardManager.widthFromActions)
-        return Math.max(BoardManager.widthFromActions, BoardManager.widthFromMagnets);
-    }
+
+    /**
+     * @returns the width of the board
+     */
+    static get width(): number { return Math.max(...this.timeline.actions.map((a) => a.xMax)); }
 }
 
 

@@ -140,6 +140,7 @@ function load() {
 			evt.stopPropagation();//prevent the menu to be hidden because of a click on the toolbar
 		}
 
+		// these button are hidden in the GUI
 		document.getElementById("previousFrame").onclick = () => Share.execute("timelinePreviousFrame", []);
 		document.getElementById("nextFrame").onclick = () => Share.execute("timelineNextFrame", []);
 

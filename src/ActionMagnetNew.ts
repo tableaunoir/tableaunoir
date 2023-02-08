@@ -8,7 +8,7 @@ export class ActionMagnetNew extends Action {
     previousMagnet: HTMLElement; // the new magnet is maybe a replacement. We store here the previous magnet.
     magnet: HTMLElement;
 
-    get xMax(): number { return 0; }
+    get xMax(): number { return this.magnet.offsetLeft + this.magnet.offsetWidth; }
     get magnetid(): string { return this.magnet.id; }
 
     serializeData(): ActionSerialized {

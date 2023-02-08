@@ -493,8 +493,8 @@ export class Timeline {
 
 
     /**
- * go to the next frame
- */
+     * @description go to the next frame
+     */
     async nextFrame(): Promise<void> {
         if (this.isEnd())
             return;

@@ -9,8 +9,11 @@ export class ActionMagnetMove extends Action {
     readonly magnetid: string;
     readonly points: { x: number; y: number; }[] = [];
 
-
-    get xMax(): number { return 0; }
+    get xMax(): number {
+        const magnet = document.getElementById(this.magnetid);
+        const w = magnet ? magnet.offsetWidth : 0;
+        return Math.max(...this.points.map((p) => p.x)) + w;
+    }
 
     serializeData(): ActionSerialized {
         return {
