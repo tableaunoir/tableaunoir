@@ -230,11 +230,11 @@ export class ActionFreeDraw extends Action {
 
     
     public postTreatement(): void {
-        console.log("Original: " + this.points.length);
+       // console.log("Original: " + this.points.length);
       //  this.smoothifyOnePass();
        // console.log("After smoothing: " + this.points.length);
         this.simplify();
-        console.log("After simplifying: " + this.points.length);
+      //  console.log("After simplifying: " + this.points.length);
     }
 
 
