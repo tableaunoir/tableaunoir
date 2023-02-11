@@ -696,30 +696,6 @@ export class MagnetManager {
 		magnetsOnTop.map(doPrintMagnet);
 	}
 
-
-
-	static magnetColors = ['', 'rgb(255, 128, 0)', 'rgb(0, 128, 0)', 'rgb(192, 0, 0)', 'rgb(0, 0, 255)'];
-
-	static nextBackgroundColor(color: string): string {
-		for (let i = 0; i < MagnetManager.magnetColors.length; i++) {
-			if (MagnetManager.magnetColors[i] == color) {
-				return MagnetManager.magnetColors[(i + 1) % MagnetManager.magnetColors.length];
-			}
-		}
-		return MagnetManager.magnetColors[0];
-	}
-
-
-	static previousBackgroundColor(color: string): string {
-		for (let i = 0; i < MagnetManager.magnetColors.length; i++) {
-			if (MagnetManager.magnetColors[i] == color) {
-				return MagnetManager.magnetColors[(i - 1) % MagnetManager.magnetColors.length];
-			}
-		}
-		return MagnetManager.magnetColors[0];
-	}
-
-
 }
 
 
