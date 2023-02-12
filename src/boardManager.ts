@@ -374,7 +374,7 @@ export class BoardManager {
         const t = timeline.getCurrentIndex();
         const tbegin = timeline.getPreviousSlideLastFrame() + 1;
 
-        const indicesSuchThat = (array, i: number, j: number, predicate) => {
+        const indicesSuchThat = (array: Action[], i: number, j: number, predicate: (a: Action, k: number) => boolean) => {
             const result = [];
             for (let k = i; k <= j; k++) {
                 if (predicate(array[k], k))
@@ -383,7 +383,7 @@ export class BoardManager {
             return result;
         }
 
-        const firstIndexSuchThat = (array, i: number, j: number, predicate) => {
+        const firstIndexSuchThat = (array: Action[], i: number, j: number, predicate) => {
             for (let k = i; k <= j; k++) {
                 if (predicate(array[k], k))
                     return k;
@@ -429,7 +429,7 @@ export class BoardManager {
                             ) {
 
                                 console.log("recognize translation");
-                                const i = indicesSuchThat(timeline.actions, tbegin, j, (a) => {
+                                const i = indicesSuchThat(timeline.actions, tbegin, j, (a: Action) => {
                                     if (a instanceof ActionFreeDraw)
                                         return a.points.every((p) => ClipPathManager.isInsidePolygon(p, polygon))
                                     else
@@ -471,7 +471,7 @@ export class BoardManager {
         /**
          * MAGNETNEW .... MAGNETMOVE ... MAGNETMOVE... => MAGNETNEW with last position as the new position
          */
-        for (const j of indicesSuchThat(timeline.actions, tbegin, t, (a) => a instanceof ActionMagnetNew)) {
+        for (const j of indicesSuchThat(timeline.actions, tbegin, t, (a: Action) => a instanceof ActionMagnetNew)) {
             const actionMagnetNew: ActionMagnetNew = <ActionMagnetNew>timeline.actions[j];
             const magnet = actionMagnetNew.magnet;
             const magnetid = actionMagnetNew.magnetid;
@@ -503,16 +503,16 @@ export class BoardManager {
          * MAGNETNEW .... MAGNETDELETE ==> remove
          * .... MAGNETDELETE => remove
          */
-        for (const j of indicesSuchThat(timeline.actions, tbegin, t, (a) => a instanceof ActionMagnetDelete)) {
+        for (const j of indicesSuchThat(timeline.actions, tbegin, t, (a: Action) => a instanceof ActionMagnetDelete)) {
             const actionMagnetDelete: ActionMagnetDelete = <ActionMagnetDelete>timeline.actions[j];
             const magnetid = actionMagnetDelete.magnetid;
-            const iNew = indicesSuchThat(timeline.actions, tbegin, j, (a) => a instanceof ActionMagnetNew &&
+            const iNew = indicesSuchThat(timeline.actions, tbegin, j, (a: Action) => a instanceof ActionMagnetNew &&
                 a.magnetid == magnetid);
 
             if (iNew.length > 0) {
                 //magnet created and deleted in this slide => remove everything about this magnet
                 const i = indicesSuchThat(timeline.actions, tbegin, j,
-                    (a) => ((a instanceof ActionMagnetNew) || (a instanceof ActionMagnetMove) || (a instanceof ActionMagnetDelete))
+                    (a: Action) => ((a instanceof ActionMagnetNew) || (a instanceof ActionMagnetMove) || (a instanceof ActionMagnetDelete))
                         && a.magnetid == magnetid);
                 BoardManager.executeOperation(new OperationDeleteSeveralActions(i));
                 this.forgetAnimation(userid);
