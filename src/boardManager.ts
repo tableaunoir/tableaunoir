@@ -383,55 +383,83 @@ export class BoardManager {
             return result;
         }
 
+        const firstIndexSuchThat = (array, i: number, j: number, predicate) => {
+            for (let k = i; k <= j; k++) {
+                if (predicate(array[k], k))
+                    return k;
+            }
+            return undefined;
+        }
+
         console.log(`tbegin = ${tbegin}, t = ${t}`)
 
+
+        /**
+         * check for CLEAR ZONE NEW MAGNET (of that zone) ......... MAGNETPRINT (of that magnet)
+         * ==> move what has been drawn in the clear zone.
+         */
         if (t > tbegin) {
             if (tbegin == 0 || timeline.actions[tbegin + 1] instanceof ActionClear) {
                 console.log("good slide")
                 for (let j = tbegin; j <= t - 4; j++) {
                     const actionMagnetClearZone = timeline.actions[j];
                     const actionMagnetNew = timeline.actions[j + 1];
-                    const actionMagnetMove = timeline.actions[j + 2];
-                    const actionPrintMagnet = <ActionPrintMagnet>timeline.actions[j + 3];
-                    const actionMagnetDelete = <ActionPrintMagnet>timeline.actions[j + 4];
+
                     if (actionMagnetClearZone instanceof ActionClearZone &&
-                        actionMagnetNew instanceof ActionMagnetNew &&
-                        actionMagnetMove instanceof ActionMagnetMove &&
-                        actionPrintMagnet instanceof ActionPrintMagnet &&
-                        actionMagnetDelete instanceof ActionMagnetDelete) {
+                        actionMagnetNew instanceof ActionMagnetNew) {
                         const magnetid = actionMagnetNew.magnetid;
                         const polygon = actionMagnetClearZone.points;
                         console.log("recognize maybe a translation");
 
-                        const mx = parseInt(actionMagnetNew.magnet.style.left);
-                        const my = parseInt(actionMagnetNew.magnet.style.top);
-                        if (actionPrintMagnet.magnet.id == magnetid &&
-                            actionMagnetMove.magnetid == magnetid &&
-                            actionMagnetDelete.magnetid == magnetid &&
-                            ClipPathManager.almostSameListOfPoints(
+                        const iPrint = firstIndexSuchThat(timeline.actions, j, t, (a) =>
+                            a instanceof ActionPrintMagnet && a.magnet.id == magnetid);
+
+                        if (iPrint) {
+
+                            const actionPrintMagnet = timeline.actions[iPrint];
+
+                            const iMove = indicesSuchThat(timeline.actions, j, iPrint, (a) =>
+                                a instanceof ActionMagnetMove && a.magnetid == magnetid);
+
+                            const mx = parseInt(actionMagnetNew.magnet.style.left);
+                            const my = parseInt(actionMagnetNew.magnet.style.top);
+                            if (ClipPathManager.almostSameListOfPoints(
                                 ClipPathManager.clipPathToPoints(actionMagnetNew.magnet.style.clipPath)
-                                    .map((p) => ({ x: p.x + mx, y: p.y + my })),
-                                polygon)
-                        ) {
-                            console.log("recognize translation");
-                            const i = indicesSuchThat(timeline.actions, tbegin, j, (a) => {
-                                if (a instanceof ActionFreeDraw)
-                                    return a.points.every((p) => ClipPathManager.isInsidePolygon(p, polygon))
-                                else
-                                    return false;
+                                    .map((p) => ({ x: p.x + mx, y: p.y + my })), polygon)
+                            ) {
 
-                            });
+                                console.log("recognize translation");
+                                const i = indicesSuchThat(timeline.actions, tbegin, j, (a) => {
+                                    if (a instanceof ActionFreeDraw)
+                                        return a.points.every((p) => ClipPathManager.isInsidePolygon(p, polygon))
+                                    else
+                                        return false;
 
-                            const vector = {
-                                x: actionMagnetMove.points[actionMagnetMove.points.length - 1].x - actionMagnetMove.points[0].x,
-                                y: actionMagnetMove.points[actionMagnetMove.points.length - 1].y - actionMagnetMove.points[0].y
-                            };
+                                });
 
-                            BoardManager.executeOperation(new OperationDeleteSeveralActions([j, j + 1, j + 2, j + 3, j + 4]));
-                            BoardManager.executeOperation(new OperationTranslate(i, vector));
+                                let vector: { x: number, y: number };
 
-                            this.forgetAnimation(userid);
-                            return;
+                                if (iMove.length == 0)
+                                    vector = { x: 0, y: 0 }
+                                else {
+                                    const actionMagnetMoveFirst = <ActionMagnetMove>timeline.actions[iMove[0]];
+                                    const actionMagnetMoveLast = <ActionMagnetMove>timeline.actions[iMove[iMove.length - 1]];
+
+                                    vector = {
+                                        x: actionMagnetMoveLast.points[actionMagnetMoveLast.points.length - 1].x
+                                            - actionMagnetMoveFirst.points[0].x,
+                                        y: actionMagnetMoveLast.points[actionMagnetMoveLast.points.length - 1].y
+                                            - actionMagnetMoveFirst.points[0].y
+                                    };
+
+                                }
+
+                                BoardManager.executeOperation(new OperationDeleteSeveralActions([j, iPrint]));
+                                BoardManager.executeOperation(new OperationTranslate(i, vector));
+
+                                this.forgetAnimation(userid);
+                                return;
+                            }
                         }
                     }
                 }
@@ -449,26 +477,32 @@ export class BoardManager {
             const magnetid = actionMagnetNew.magnetid;
 
             const i = indicesSuchThat(timeline.actions, j, t,
-                (a) => ((a instanceof ActionMagnetMove))
+                (a: Action) => ((a instanceof ActionMagnetMove))
                     && a.magnetid == magnetid);
 
-            const lasti = i[i.length - 1];
-            const actionLastMove: ActionMagnetMove = <ActionMagnetMove>timeline.actions[lasti];
-            const lastPoint = actionLastMove.lastPoint;
-            BoardManager.executeOperation(new OperationDeleteSeveralActions(i));
+            if (i.length > 0) {
+                const lasti = i[i.length - 1];
+                const actionLastMove: ActionMagnetMove = <ActionMagnetMove>timeline.actions[lasti];
+                const lastPoint = actionLastMove.lastPoint;
+                BoardManager.executeOperation(new OperationDeleteSeveralActions(i));
 
-            BoardManager.executeOperation(new OperationDeleteSeveralActions([j]));
+                BoardManager.executeOperation(new OperationDeleteSeveralActions([j]));
 
-            const newmagnet = <HTMLElement>magnet.cloneNode(true);
-            newmagnet.style.left = lastPoint.x + "px";
-            newmagnet.style.top = lastPoint.y + "px";
-            BoardManager.executeOperation(new OperationAddAction(new ActionMagnetNew(userid, newmagnet), j));
-
+                const newmagnet = <HTMLElement>magnet.cloneNode(true);
+                newmagnet.style.left = lastPoint.x + "px";
+                newmagnet.style.top = lastPoint.y + "px";
+                BoardManager.executeOperation(new OperationAddAction(new ActionMagnetNew(userid, newmagnet), j));
+                this.forgetAnimation(userid);
+                return;
+            }
         }
 
 
 
-
+        /**
+         * MAGNETNEW .... MAGNETDELETE ==> remove
+         * .... MAGNETDELETE => remove
+         */
         for (const j of indicesSuchThat(timeline.actions, tbegin, t, (a) => a instanceof ActionMagnetDelete)) {
             const actionMagnetDelete: ActionMagnetDelete = <ActionMagnetDelete>timeline.actions[j];
             const magnetid = actionMagnetDelete.magnetid;
@@ -481,13 +515,20 @@ export class BoardManager {
                     (a) => ((a instanceof ActionMagnetNew) || (a instanceof ActionMagnetMove) || (a instanceof ActionMagnetDelete))
                         && a.magnetid == magnetid);
                 BoardManager.executeOperation(new OperationDeleteSeveralActions(i));
+                this.forgetAnimation(userid);
+                return;
             }
             else { //magnet deleted but created in this slide => remove everything except the deletion {
                 const i = indicesSuchThat(timeline.actions, tbegin, j,
-                    (a) => ((a instanceof ActionMagnetNew) || (a instanceof ActionMagnetMove))
+                    (a: Action) => ((a instanceof ActionMagnetNew) || (a instanceof ActionMagnetMove))
                         && a.magnetid == magnetid);
-                BoardManager.executeOperation(new OperationDeleteSeveralActions(i));
+                if (i.length > 0) {
+                    BoardManager.executeOperation(new OperationDeleteSeveralActions(i));
+                    this.forgetAnimation(userid);
+                    return;
+                }
             }
+
         }
     }
 }
