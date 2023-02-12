@@ -94,7 +94,7 @@ export class KeyBoardShortCuts {
         }
         else if (!evt.ctrlKey && !evt.shiftKey && keyLowerCase == "c") // c => change color
             GUIActions.changeColor(true);
-        else if (!evt.ctrlKey && evt.shiftKey && keyLowerCase == "C")
+        else if (!evt.ctrlKey && evt.shiftKey && keyLowerCase == "c")
             GUIActions.previousColor(true);
         else if (!evt.ctrlKey && !evt.shiftKey && keyLowerCase == "t") { // t => tool menu 
             GUIActions.toolmenu.show({ x: UserManager.me.x, y: UserManager.me.y });

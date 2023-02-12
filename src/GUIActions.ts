@@ -24,7 +24,7 @@ export class GUIActions {
     static fill(): void {
         const magnet = MagnetManager.getMagnetUnderCursor();
         if (magnet)
-            magnet.style.backgroundColor = UserManager.me.color;//MagnetManager.nextBackgroundColor
+            magnet.style.backgroundColor = UserManager.me.color;
         else {
             const iaction = BoardManager.timeline.getIndexLastActionByUser(UserManager.me.userID);
             const action = BoardManager.timeline.actions[iaction];
@@ -103,17 +103,9 @@ export class GUIActions {
     }
 
     static previousColor(calledFromKeyBoard = false): void {
-        if (MagnetManager.getMagnetUnderCursor() == undefined) { //if no magnet under the cursor, change the color of the chalk
-            UserManager.me.switchDraw();
-
-            if (!UserManager.me.tool.isDrawing && (GUIActions.paletteShowOnKey || !calledFromKeyBoard))
-                GUIActions.palette.show({ x: UserManager.me.tool.x, y: UserManager.me.tool.y });
-            GUIActions.palette.previous();
-        }
-        else { // if there is a magnet change the background of the magnet
-            const magnet = MagnetManager.getMagnetUnderCursor();
-            magnet.style.backgroundColor = MagnetManager.previousBackgroundColor(magnet.style.backgroundColor);
-        }
+        if (!UserManager.me.tool.isDrawing && (GUIActions.paletteShowOnKey || !calledFromKeyBoard))
+             GUIActions.palette.show({ x: UserManager.me.tool.x, y: UserManager.me.tool.y });
+        GUIActions.palette.previous();
     }
 
     static switchDrawEraser(): void {
