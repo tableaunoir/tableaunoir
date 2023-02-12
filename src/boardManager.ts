@@ -14,9 +14,14 @@ import { Layout } from './Layout';
 import { Timeline } from './Timeline';
 import { Action } from './Action';
 import { ActionMagnetMove } from './ActionMagnetMove';
-import { Operation } from 'Operation';
+import { Operation } from './Operation';
 import { AnimationManager } from './AnimationManager';
 import { OptionManager } from './OptionManager';
+import { ActionClearZone } from './ActionClearZone';
+import { ActionPrintMagnet } from './ActionPrintMagnet';
+import { ClipPathManager } from './ClipPathManager';
+import { ActionFreeDraw } from './ActionFreeDraw';
+import { OperationTranslate } from './OperationTranslate';
 
 
 /**
@@ -367,7 +372,7 @@ export class BoardManager {
     static forgetAnimation(userid: string): void {
         const timeline = BoardManager.timeline;
         const t = timeline.getCurrentIndex();
-        const tbegin = timeline.getPreviousSlideLastFrame();
+        const tbegin = timeline.getPreviousSlideLastFrame() + 1;
 
         const indicesSuchThat = (array, i: number, j: number, predicate) => {
             const result = [];
@@ -378,7 +383,66 @@ export class BoardManager {
             return result;
         }
 
+        console.log(`tbegin = ${tbegin}, t = ${t}`)
 
+        if (t > tbegin) {
+            if (tbegin == 0 || timeline.actions[tbegin + 1] instanceof ActionClear) {
+                console.log("good slide")
+                for (let j = tbegin; j <= t - 4; j++) {
+                    const actionMagnetClearZone = timeline.actions[j];
+                    const actionMagnetNew = timeline.actions[j + 1];
+                    const actionMagnetMove = timeline.actions[j + 2];
+                    const actionPrintMagnet = <ActionPrintMagnet>timeline.actions[j + 3];
+                    const actionMagnetDelete = <ActionPrintMagnet>timeline.actions[j + 4];
+                    if (actionMagnetClearZone instanceof ActionClearZone &&
+                        actionMagnetNew instanceof ActionMagnetNew &&
+                        actionMagnetMove instanceof ActionMagnetMove &&
+                        actionPrintMagnet instanceof ActionPrintMagnet &&
+                        actionMagnetDelete instanceof ActionMagnetDelete) {
+                        const magnetid = actionMagnetNew.magnetid;
+                        const polygon = actionMagnetClearZone.points;
+                        console.log("recognize maybe a translation");
+
+                        const mx = parseInt(actionMagnetNew.magnet.style.left);
+                        const my = parseInt(actionMagnetNew.magnet.style.top);
+                        if (actionPrintMagnet.magnet.id == magnetid &&
+                            actionMagnetMove.magnetid == magnetid &&
+                            actionMagnetDelete.magnetid == magnetid &&
+                            ClipPathManager.almostSameListOfPoints(
+                                ClipPathManager.clipPathToPoints(actionMagnetNew.magnet.style.clipPath)
+                                    .map((p) => ({ x: p.x + mx, y: p.y + my })),
+                                polygon)
+                        ) {
+                            console.log("recognize translation");
+                            const i = indicesSuchThat(timeline.actions, tbegin, j, (a) => {
+                                if (a instanceof ActionFreeDraw)
+                                    return a.points.every((p) => ClipPathManager.isInsidePolygon(p, polygon))
+                                else
+                                    return false;
+
+                            });
+
+                            const vector = {
+                                x: actionMagnetMove.points[actionMagnetMove.points.length - 1].x - actionMagnetMove.points[0].x,
+                                y: actionMagnetMove.points[actionMagnetMove.points.length - 1].y - actionMagnetMove.points[0].y
+                            };
+
+                            BoardManager.executeOperation(new OperationDeleteSeveralActions([j, j + 1, j + 2, j + 3, j + 4]));
+                            BoardManager.executeOperation(new OperationTranslate(i, vector));
+
+                            this.forgetAnimation(userid);
+                            return;
+                        }
+                    }
+                }
+            }
+        }
+
+
+
+        /**
+         * MAGNETNEW .... MAGNETMOVE ... MAGNETMOVE... => MAGNETNEW with last position as the new position
+         */
         for (const j of indicesSuchThat(timeline.actions, tbegin, t, (a) => a instanceof ActionMagnetNew)) {
             const actionMagnetNew: ActionMagnetNew = <ActionMagnetNew>timeline.actions[j];
             const magnet = actionMagnetNew.magnet;

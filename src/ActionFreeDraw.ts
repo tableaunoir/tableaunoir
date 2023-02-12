@@ -236,8 +236,6 @@ export class ActionFreeDraw extends Action {
                 Drawing.drawLine(getCanvas().getContext("2d"), this.points[i - 1].x, this.points[i - 1].y, this.points[i].x, this.points[i].y, this.points[i].pressure, this.points[i].color);
             }
         }
-
-
     }
 
 

@@ -26,12 +26,9 @@ export class ActionClearZone extends Action {
      * @param cut, true iff the inside of the polygon is removed
      * @param removeContour, true iff the contour (the lines of the polygon itself) is removed
      */
-    constructor(userid: string, private points: { x: number, y: number }[]) { super(userid); }
+    constructor(userid: string, public readonly points: { x: number, y: number }[]) { super(userid); }
 
-    async redo(): Promise<void> {
-            Drawing.clearPolygon(this.points);
-
-    }
+    async redo(): Promise<void> { Drawing.clearPolygon(this.points); }
 
 
     createOverviewImage(): string { return "url(img/icons/erase.svg)"; }

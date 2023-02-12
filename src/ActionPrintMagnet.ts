@@ -8,24 +8,25 @@ import { Action } from "./Action";
  */
 export class ActionPrintMagnet extends Action {
 
-	get xMax(): number { return this.x + this.magnet.clientWidth; }
+	get xMax(): number { return this.x + this._magnet.clientWidth; }
 
 	private canvasImg: HTMLCanvasElement = undefined; //contains the preprocessed img of the HTMLElement
 
 	serializeData(): ActionSerialized {
 		return {
 			type: "printmagnet",
-			userid: this.userid, magnet: this.magnet.outerHTML,
+			userid: this.userid, magnet: this._magnet.outerHTML,
 			x: this.x, y: this.y
 		};
 	}
 
-	private magnet: HTMLElement;
+	private _magnet: HTMLElement;
 	constructor(userid: string, magnet: HTMLElement, private x: number, private y: number) {
 		super(userid);
-		this.magnet = <HTMLElement>magnet.cloneNode(true);
-
+		this._magnet = <HTMLElement>magnet.cloneNode(true);
 	}
+
+	get magnet(): HTMLElement { return this._magnet; }
 
 
 	createOverviewImage(): string { return "url(img/icons/stamp.svg)"; }
@@ -34,9 +35,9 @@ export class ActionPrintMagnet extends Action {
 		return new Promise((resolve) => {
 			const context = getCanvas().getContext("2d");
 
-			if (this.magnet instanceof HTMLImageElement) {
+			if (this._magnet instanceof HTMLImageElement) {
 
-				const img = <HTMLImageElement>this.magnet;
+				const img = <HTMLImageElement>this._magnet;
 
 				const printImage = () => {
 
