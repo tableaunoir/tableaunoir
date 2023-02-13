@@ -22,6 +22,8 @@ import { ActionPrintMagnet } from './ActionPrintMagnet';
 import { ClipPathManager } from './ClipPathManager';
 import { ActionFreeDraw } from './ActionFreeDraw';
 import { OperationTranslate } from './OperationTranslate';
+import { ActionErase } from './ActionErase';
+import { Geometry } from './Geometry';
 
 
 /**
@@ -372,7 +374,8 @@ export class BoardManager {
     static forgetAnimation(userid: string): void {
         const timeline = BoardManager.timeline;
         const t = timeline.getCurrentIndex();
-        const tbegin = timeline.getPreviousSlideLastFrame() + 1;
+        const tClear = timeline.getLastClearAction();
+        const tbeginSlide = timeline.getPreviousSlideLastFrame() + 1;
 
         const indicesSuchThat = (array: Action[], i: number, j: number, predicate: (a: Action, k: number) => boolean) => {
             const result = [];
@@ -391,17 +394,17 @@ export class BoardManager {
             return undefined;
         }
 
-        console.log(`tbegin = ${tbegin}, t = ${t}`)
+        console.log(`tbegin = ${tbeginSlide}, t = ${t}`)
 
 
         /**
          * check for CLEAR ZONE NEW MAGNET (of that zone) ......... MAGNETPRINT (of that magnet)
          * ==> move what has been drawn in the clear zone.
          */
-        if (t > tbegin) {
-            if (tbegin == 0 || timeline.actions[tbegin + 1] instanceof ActionClear) {
+        if (t > tbeginSlide) {
+            if (tbeginSlide == 0 || timeline.actions[tbeginSlide + 1] instanceof ActionClear) {
                 console.log("good slide")
-                for (let j = tbegin; j <= t - 4; j++) {
+                for (let j = tbeginSlide; j <= t - 4; j++) {
                     const actionMagnetClearZone = timeline.actions[j];
                     const actionMagnetNew = timeline.actions[j + 1];
 
@@ -429,8 +432,10 @@ export class BoardManager {
                             ) {
 
                                 console.log("recognize translation");
-                                const i = indicesSuchThat(timeline.actions, tbegin, j, (a: Action) => {
+                                const i = indicesSuchThat(timeline.actions, tbeginSlide, j, (a: Action) => {
                                     if (a instanceof ActionFreeDraw)
+                                        return a.points.every((p) => ClipPathManager.isInsidePolygon(p, polygon))
+                                    else if (a instanceof ActionErase)
                                         return a.points.every((p) => ClipPathManager.isInsidePolygon(p, polygon))
                                     else
                                         return false;
@@ -469,9 +474,71 @@ export class BoardManager {
 
 
         /**
+         * FREEDRAW ....   ERASE.... ERASE.... => remove the freedraw that is completely erased
+         */
+        for (const j of indicesSuchThat(timeline.actions, tbeginSlide, t, (a: Action) => a instanceof ActionFreeDraw)) {
+            const actionFreeDraw = <ActionFreeDraw>timeline.actions[j];
+
+            const S: Set<number> = new Set();
+            for (let pti = 0; pti < actionFreeDraw.points.length; pti++)
+                S.add(pti);
+
+            for (const i of indicesSuchThat(timeline.actions, j, t, (a: Action) => a instanceof ActionErase)) {
+                const actionErase = <ActionErase>timeline.actions[i];
+                for (const pti of S) {
+                    for (const pte of actionErase.points) {
+                        if (Geometry.distance(actionFreeDraw.points[pti], pte) <= pte.lineWidth)
+                            S.delete(pti);
+                    }
+                }
+            }
+
+            if (S.size == 0) {
+                BoardManager.executeOperation(new OperationDeleteSeveralActions([j]));
+                this.forgetAnimation(userid);
+                return;
+            }
+            /*
+            TODO: if S contains few consecutive indices, then replace by several ActionLine?
+            */
+        }
+
+
+        /**
+         * .................ERASE that erases nothing => remove ERASE
+         */
+        for (const j of indicesSuchThat(timeline.actions, tbeginSlide, t, (a: Action) => a instanceof ActionErase)) {
+            const actionErase = <ActionErase>timeline.actions[j];
+
+            const isActionEraseErasingSth = () => {
+                /* TODO: this condition should be expanded. 
+                E.g. If you draw an ActionLine, it will be completely ignored... :(
+                    and the ActionErase will just be removed although it was erasing maybe the ActionLine. 
+                */
+                for (const i of indicesSuchThat(timeline.actions, tClear, j-1, (a: Action) => a instanceof ActionFreeDraw)) {
+                    const actionFreeDraw = <ActionFreeDraw>timeline.actions[i];
+
+                    for (const ptfd of actionFreeDraw.points) {
+                        for (const pte of actionErase.points) {
+                            if (Geometry.distance(ptfd, pte) <= pte.lineWidth)
+                                return true;
+                        }
+                    }
+                }
+                return false;
+            }
+
+            if (!isActionEraseErasingSth()) {
+                BoardManager.executeOperation(new OperationDeleteSeveralActions([j]));
+                this.forgetAnimation(userid);
+                return;
+            }
+        }
+
+        /**
          * MAGNETNEW .... MAGNETMOVE ... MAGNETMOVE... => MAGNETNEW with last position as the new position
          */
-        for (const j of indicesSuchThat(timeline.actions, tbegin, t, (a: Action) => a instanceof ActionMagnetNew)) {
+        for (const j of indicesSuchThat(timeline.actions, tbeginSlide, t, (a: Action) => a instanceof ActionMagnetNew)) {
             const actionMagnetNew: ActionMagnetNew = <ActionMagnetNew>timeline.actions[j];
             const magnet = actionMagnetNew.magnet;
             const magnetid = actionMagnetNew.magnetid;
@@ -503,15 +570,15 @@ export class BoardManager {
          * MAGNETNEW .... MAGNETDELETE ==> remove
          * .... MAGNETDELETE => remove
          */
-        for (const j of indicesSuchThat(timeline.actions, tbegin, t, (a: Action) => a instanceof ActionMagnetDelete)) {
+        for (const j of indicesSuchThat(timeline.actions, tbeginSlide, t, (a: Action) => a instanceof ActionMagnetDelete)) {
             const actionMagnetDelete: ActionMagnetDelete = <ActionMagnetDelete>timeline.actions[j];
             const magnetid = actionMagnetDelete.magnetid;
-            const iNew = indicesSuchThat(timeline.actions, tbegin, j, (a: Action) => a instanceof ActionMagnetNew &&
+            const iNew = indicesSuchThat(timeline.actions, tbeginSlide, j, (a: Action) => a instanceof ActionMagnetNew &&
                 a.magnetid == magnetid);
 
             if (iNew.length > 0) {
                 //magnet created and deleted in this slide => remove everything about this magnet
-                const i = indicesSuchThat(timeline.actions, tbegin, j,
+                const i = indicesSuchThat(timeline.actions, tbeginSlide, j,
                     (a: Action) => ((a instanceof ActionMagnetNew) || (a instanceof ActionMagnetMove) || (a instanceof ActionMagnetDelete))
                         && a.magnetid == magnetid);
                 BoardManager.executeOperation(new OperationDeleteSeveralActions(i));
@@ -519,7 +586,7 @@ export class BoardManager {
                 return;
             }
             else { //magnet deleted but created in this slide => remove everything except the deletion {
-                const i = indicesSuchThat(timeline.actions, tbegin, j,
+                const i = indicesSuchThat(timeline.actions, tbeginSlide, j,
                     (a: Action) => ((a instanceof ActionMagnetNew) || (a instanceof ActionMagnetMove))
                         && a.magnetid == magnetid);
                 if (i.length > 0) {

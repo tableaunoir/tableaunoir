@@ -2,6 +2,7 @@ import { BoardManager } from "./boardManager";
 import { Action } from "./Action";
 import { Operation } from "./Operation";
 import { ActionFreeDraw } from "./ActionFreeDraw";
+import { ActionErase } from "./ActionErase";
 
 
 /**
@@ -27,9 +28,14 @@ export class OperationTranslate extends Operation {
                     p.x += v.x;
                     p.y += v.y;
                 }
+            else if (a instanceof ActionErase)
+                for (const p of a.points) {
+                    p.x += v.x;
+                    p.y += v.y;
+                }
         }
     }
-    
+
     undo(): void { this._translate({ x: -this.vector.x, y: -this.vector.y }); }
     async redo(): Promise<void> { this._translate(this.vector); }
 
