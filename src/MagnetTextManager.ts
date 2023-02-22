@@ -5,7 +5,7 @@ import { UserManager } from './UserManager';
 
 
 
-export class MagnetTextManager {
+export default class MagnetTextManager {
 
 	/**
 	 * @description call the LaTEX engine (MathJaX)

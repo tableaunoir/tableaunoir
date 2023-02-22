@@ -1,4 +1,4 @@
-import { MagnetTextManager } from './MagnetTextManager';
+import MagnetTextManager from './MagnetTextManager';
 import { OptionManager } from './OptionManager';
 import { AnimationToolBar } from './AnimationToolBar';
 import { BoardManager } from './boardManager';

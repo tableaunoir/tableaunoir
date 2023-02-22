@@ -1,5 +1,5 @@
 import { S } from './Script';
-import { MagnetTextManager } from './MagnetTextManager';
+import MagnetTextManager from './MagnetTextManager';
 import { ActionMagnetDelete } from './ActionMagnetDelete';
 import { ActionMagnetNew } from './ActionMagnetNew';
 import { Sound } from './Sound';

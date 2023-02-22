@@ -1,6 +1,6 @@
 import { AnimationToolBar } from './AnimationToolBar';
 import { ActionDeserializer } from './ActionDeserializer';
-import { MagnetTextManager } from './MagnetTextManager';
+import MagnetTextManager from './MagnetTextManager';
 import { ActionMagnetNew } from './ActionMagnetNew';
 import { MagnetMovementRecorder } from './MagnetMovementRecorder';
 import { Wallpaper } from './Wallpaper';

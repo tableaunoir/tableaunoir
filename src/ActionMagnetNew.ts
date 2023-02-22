@@ -1,4 +1,4 @@
-import { MagnetTextManager } from './MagnetTextManager';
+import MagnetTextManager from './MagnetTextManager';
 import { ActionSerialized } from './ActionSerialized';
 import { Action } from "./Action";
 import { MagnetManager } from './magnetManager';

@@ -1,7 +1,7 @@
 import { AnimationToolBar } from './AnimationToolBar';
 import { Drawing } from './Drawing';
 import { CircularMenu } from './CircularMenu';
-import { MagnetTextManager } from './MagnetTextManager';
+import MagnetTextManager from './MagnetTextManager';
 import { Wallpaper } from './Wallpaper';
 import { ShowMessage } from './ShowMessage';
 import { GUIActions } from './GUIActions';

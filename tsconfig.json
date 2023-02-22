@@ -3,7 +3,7 @@
   "moduleResolution": "node",
     "baseUrl": "src/",
     "module": "ES6",
-    "target": "es5",
+    "target": "ES6",
     "downlevelIteration": true,
     "sourceMap": true,
     "allowSyntheticDefaultImports": true,

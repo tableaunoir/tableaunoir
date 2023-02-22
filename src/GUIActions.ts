@@ -1,4 +1,4 @@
-import { MagnetTextManager } from './MagnetTextManager';
+import MagnetTextManager from './MagnetTextManager';
 import { ActionFill } from './ActionFill';
 import { Layout } from './Layout';
 import { ShowMessage } from './ShowMessage';
