@@ -83,49 +83,11 @@ Tableaunoir can simply be used to draw pictures: [https://team.inria.fr/erable/e
 
 Tableaunoir can also be used to build slides. See the [documentation](https://github.com/tableaunoir/documentation).
 
-
 ---
 
+#### Developer options
 
-## Commands for the Tableaunoir project
-
-
-#### remove all node_modules and install back again
-
-`npm ci` 
-
-#### Build everything to dist
-
-`npm run build`
-
-#### See linter warning/errors
-`npm run lint`
-
-#### Starts a local node server
-
-`npm run serve`
-
-
-
-## Offline version
-
-If you prefer to use an offline version, it is possible. You have to install [Electron](https://www.electronjs.org/) and then the application can be launched as follows (from the main directory):
-
-```bash
-$ electron mainElectron.js
-```
-
-## Create your own tableaunoir server
-
-In order to share blackboards, you need a server. For installing the server:
-- In the server, first `git clone` (and then later `git pull`) the project.
-- Modify the `src/config.js`.
-- Compile Tableaunoir (see above)
-- Install Apache HTTPD to deploy `dist/index.html` (other web servers might work too, but have not been tested).
-- Configure the server part, see [`server/README.md`](server/README.md).
-- Then `server/run.sh`.
-
----
+See [developer options](developeroptions.md)
 
 ## [License](https://github.com/tableaunoir/tableaunoir.github.io/blob/master/LICENSE)
 This software is open-source under [the GPLv3.0 license](https://github.com/tableaunoir/tableaunoir.github.io/blob/master/LICENSE).
