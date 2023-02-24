@@ -25,8 +25,8 @@ export class LoadSave {
      */
     static loadFromLocalStorage(): void {
         const name = Share.getTableauNoirID();
-        if (localStorage[name])
-            LoadSave.loadJSON(JSON.parse(localStorage[name]));
+        if (localStorage.getItem(name))
+            LoadSave.loadJSON(JSON.parse(localStorage.getItem(name)));
     }
 
 
@@ -36,7 +36,7 @@ export class LoadSave {
      */
     static saveLocalStorage(): void {
         const name = Share.getTableauNoirID();
-        localStorage[name] = LoadSave.getTableauNoirString();
+        localStorage.setItem(name, LoadSave.getTableauNoirString());
     }
 
     /**

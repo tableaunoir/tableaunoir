@@ -42,12 +42,12 @@ export class OptionManager {
     //static boolean({name: string, onChangeCallBack: (boolean) => void}): void {
     static boolean({ name, defaultValue, onChange }: { name: string, defaultValue: boolean, onChange: (boolean) => void }): void {
         const el = OptionManager.getInputElement(name);
-        const initialValue = (localStorage[name] == undefined) ? defaultValue : parseBoolean(localStorage[name]);
-        //console.log(`reading option ${name}: ${localStorage[name]}`)
+        const initialValue = localStorage.getItem(name) === null ? defaultValue : parseBoolean(localStorage.getItem(name));
+        //console.log(`reading option ${name}: ${localStorage.getItem(name)}`)
         el.checked = initialValue;
         onChange(el.checked);
         el.onchange = () => {
-            localStorage[name] = el.checked;
+            localStorage.setItem(name, el.checked.toString());
             onChange(el.checked);
         };
     }
@@ -60,17 +60,17 @@ export class OptionManager {
     }
 
     static string({ name, defaultValue, onChange }: { name: string, defaultValue: string, onChange: (string) => void }): void {
-        const initialValue: string = (localStorage[name] == undefined) ? defaultValue : localStorage[name];
+        const initialValue: string = (localStorage.getItem(name) === null) ? defaultValue : localStorage.getItem(name);
         const el = OptionManager.getInputElement(name);
 
         onChange(initialValue);
 
         if (el != undefined) {
-            //console.log(`reading option ${name}: ${localStorage[name]}`)
+            //console.log(`reading option ${name}: ${localStorage.getItem(name)}`)
             el.value = initialValue;
 
             el.oninput = () => {
-                localStorage[name] = el.value;
+                localStorage.setItem(name, el.value.toString());
                 onChange(el.value);
             };
         }
@@ -82,7 +82,7 @@ export class OptionManager {
                 if (radioInput.value == initialValue)
                     radioInput.checked = true;
                 radioInput.onclick = () => {
-                    localStorage[name] = radioInput.value;
+                    localStorage.setItem(name, radioInput.value.toString());
                     onChange(radioInput.value);
                 };
             }
@@ -93,12 +93,12 @@ export class OptionManager {
 
     static number({ name, defaultValue, onChange }: { name: string, defaultValue: number, onChange: (number) => void }): void {
         const el = OptionManager.getInputElement(name);
-        const initialValue = (localStorage[name] == undefined) ? defaultValue : localStorage[name];
-        //console.log(`reading option ${name}: ${localStorage[name]}`)
+        const initialValue = localStorage.getItem(name) ?? defaultValue;
+        //console.log(`reading option ${name}: ${localStorage.getItem(name)}`)
         el.value = "" + initialValue;
         onChange(el.value);
         el.oninput = () => {
-            localStorage[name] = el.value;
+            localStorage.setItem(name, el.value);
             onChange(el.value);
         };
     }

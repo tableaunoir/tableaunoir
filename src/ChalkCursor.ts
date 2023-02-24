@@ -4,7 +4,7 @@ import { OptionManager } from './OptionManager';
 export class ChalkCursor {
 
     /** undefined for right-handed, "true" for left-handed */
-    static leftHanded = localStorage.getItem("leftHanded");
+    static leftHanded = localStorage.getItem("leftHanded") === null;
 
 
     /**
