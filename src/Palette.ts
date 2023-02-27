@@ -1,16 +1,20 @@
 import { CircularMenu } from './CircularMenu';
 import { ChalkCursor } from './ChalkCursor';
 import { OptionManager } from './OptionManager';
+import { standard, crazy } from './Palettes';
+import type { PaletteNames } from './Palettes';
 
 /**
  * the circular palette
  */
 export class Palette extends CircularMenu {
 
-    private static defaultColorSet = '["white", "yellow", "orange", "rgb(100, 172, 255)", "Crimson", "Plum", "LimeGreen", "black"]'
+    private palettes: { standard: string[], crazy: string[] } = {
+        standard, crazy
+    }
 
     /** colors that can have a chalk. The first color *must* be white */
-    private colors: string[] = eval(Palette.defaultColorSet);
+    private colors: string[] = standard;
 
     private currentColorID = 0;
     onchange: () => void = () => {
@@ -22,10 +26,10 @@ export class Palette extends CircularMenu {
         super();
         setTimeout(() => OptionManager.string({
             name: "palette",
-            defaultValue: Palette.defaultColorSet,
-            onChange: (s) => {
-                //console.log("change colors of the palette")
-                this.colors = eval(s);
+            defaultValue: "standard",
+            onChange: (newPaletteName: PaletteNames ) => {
+                this.colors = this.palettes[newPaletteName];
+                this.currentColorID = 0;
                 this._createPalette();
             }
         }), 1000);
