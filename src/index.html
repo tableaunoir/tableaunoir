@@ -160,17 +160,42 @@
 
 	<div id="menu" class="menuHide MenuPanel">
 		<div class="tabs">
-			<button class="tablink" id="defaultOpen" onclick="Menu.openPage('MyBlackboard', this)">⎕
-				<span>My Board</span></button>
-			<button class="tablink" id="tabShare" onclick="Menu.openPage('Share', this)">🔗 <span>Share</span></button>
-			<button class="tablink" onclick="Menu.openPage('Background', this)">🖼 <span>Background</span></button>
-			<button class="tablink" onclick="Menu.openPage('Magnets', this)">🎊 <span>Magnets</span></button>
-			<button class="tablink onlyForDesktop" onclick="Menu.openPage('ScriptTab', this)">⚛ Script</button>
-			<button class="tablink" onclick="Menu.openPage('Options', this)">⚛ Options</button>
-			<button class="tablink onlyForDesktop" onclick="Menu.openPage('KeyboardShortcuts', this)" id="defaultOpen">⌨
-				<span>Keyboard Shortcuts</span></button>
-			<button class="tablink" onclick="Menu.openPage('Help', this)" id="defaultOpen">? <span>Help</span></button>
-			<button class="tablink" onclick="Menu.openPage('About', this)" id="defaultOpen">About tableaunoir</button>
+			<button class="tablink" id="defaultOpen" onclick="Menu.openPage('MyBlackboard', this)">
+				<img src="img/icons/board.svg" alt="My board" />
+				<span>My Board</span>
+			</button>
+			<button class="tablink" id="tabShare" onclick="Menu.openPage('Share', this)">
+				<img src="img/icons/link.svg" alt="share" />
+				<span>Share</span>
+			</button>
+			<button class="tablink" onclick="Menu.openPage('Background', this)">
+				<img src="img/icons/palette.svg" alt="background" />
+				<span>Background</span>
+			</button>
+			<button class="tablink" onclick="Menu.openPage('Magnets', this)">
+				<img src="img/icons/magnet.svg" alt="magnets" />
+				<span>Magnets</span>
+			</button>
+			<button class="tablink onlyForDesktop" onclick="Menu.openPage('ScriptTab', this)">
+				<img src="img/icons/codebraces.svg" alt="scripts" />
+				<span>Script</span>
+			</button>
+			<button class="tablink" onclick="Menu.openPage('Options', this)">
+				<img src="img/icons/settings.svg" alt="settings" />
+				<span>Options</span>
+			</button>
+			<button class="tablink onlyForDesktop" onclick="Menu.openPage('KeyboardShortcuts', this)" id="defaultOpen">
+				<img src="img/icons/keyboard.svg" alt="shortcuts" />
+				<span class="longText">Keyboard Shortcuts</span>
+			</button>
+			<button class="tablink" onclick="Menu.openPage('Help', this)" id="defaultOpen">
+				<div>?</div>
+				<span>Help</span>
+			</button>
+			<button class="tablink" onclick="Menu.openPage('About', this)" id="defaultOpen">
+				<img src="img/icons/about.svg" alt="about" />
+				About tableaunoir
+			</button>
 		</div>
 		<div style="user-select: text;">
 			<div id="menucontent"></div>

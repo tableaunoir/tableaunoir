@@ -1,5 +1,9 @@
 /**main screen*/
 
+:root {
+	--menu-background-color: black;
+}
+
 html {
 	overscroll-behavior-x: none;
 	width: 100%;
@@ -460,11 +464,10 @@ img.magnet.backgroundTransparent {
 }
 
 .tabs {
-	display: inline-block;
+	background-color: var(--menu-background-color);
 	position: sticky;
-	left: 0px;
-	top: 0px;
-	background-color: black;
+	top: 0;
+	left: 0;
 }
 
 
@@ -475,21 +478,41 @@ img.magnet.backgroundTransparent {
 }
 
 .tablink {
-	display: block;
-	border: none;
+	display: flex;
+	align-items: center;
+	gap: 10px;
+
+	/* anti jiggle */
+	border: 2px solid var(--menu-background-color);
+
 	background-color: inherit;
 	color: rgb(180, 180, 180);
-	padding: 8px;
-	padding-top: 6px;
-	font-size: 14pt;
+	text-align: left;
 	margin: 8px;
 	width: 150px;
-	outline: none;
-	text-align: left;
+	box-sizing: border-box;
 }
 
 .tablink:hover {
 	background-color: rgb(51, 51, 51);
+}
+
+.tablink > div {
+	width: 23px;
+	height: 23px;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+.tablink > img {
+	width: 23px;
+	height: 23px;
+}
+
+.longText {
+	overflow: hidden;
+	text-overflow: ellipsis;
 }
 
 
