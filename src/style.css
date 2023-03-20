@@ -1218,6 +1218,15 @@ h1 {
 		width: 128px;
 		padding-left: 16px;
 	}
+
+	.tablinkLabel {
+		display: none;
+	}
+
+	.tablink {
+		width: min-content;
+		min-width: 0;
+	}
 }
 
 
