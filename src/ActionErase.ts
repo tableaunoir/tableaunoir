@@ -17,7 +17,7 @@ export class ActionErase extends Action {
         return { type: "erase", userid: this.userid, points: this.points };
     }
 
-    private points: { x: number; y: number; lineWidth: number }[] = [];
+    public points: { x: number; y: number; lineWidth: number }[] = [];
 
     /**
      * 

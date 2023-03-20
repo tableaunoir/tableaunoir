@@ -1,4 +1,22 @@
 export class ClipPathManager {
+    static isInsidePolygon(p: { x: number; y: number }, polygon: { x: number; y: number; }[]): unknown {
+        // ray-casting algorithm based on
+        // https://wrf.ecse.rpi.edu/Research/Short_Notes/pnpoly.html/pnpoly.html
+
+        const x = p.x, y = p.y;
+
+        let inside = false;
+        for (let i = 0, j = polygon.length - 1; i < polygon.length; j = i++) {
+            const xi = polygon[i].x, yi = polygon[i].y;
+            const xj = polygon[j].x, yj = polygon[j].y;
+
+            const intersect = ((yi > y) != (yj > y))
+                && (x < (xj - xi) * (y - yi) / (yj - yi) + xi);
+            if (intersect) inside = !inside;
+        }
+
+        return inside;
+    }
 
     /**
      * 
@@ -40,4 +58,18 @@ export class ClipPathManager {
         return "polygon(" + points.map(point => `${point.x}px ${point.y}px`).join(", ") + ")";
     }
 
+
+    /**
+     * 
+     * @param a 
+     * @param b 
+     * @returns true if a and b are the same list of points
+     */
+    static almostSameListOfPoints(a: { x: number, y: number }[], b: { x: number, y: number }[]) {
+        console.log("sameListOfPoints")
+        console.log(a)
+        console.log(b)
+        return a.length === b.length &&
+            a.every((val, index) => Math.abs(val.x - b[index].x) < 2 && Math.abs(val.y - b[index].y) < 2);
+    }
 }
