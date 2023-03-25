@@ -1132,6 +1132,10 @@ h1 {
 }
 
 
+
+
+
+
 .slide {
 	display: inline-block;
 	height: 8px;
@@ -1146,9 +1150,12 @@ h1 {
 	cursor: pointer;
 }
 
+.slideClear {
+	border-left: 2px solid rgb(128, 128, 255)
+}
 
 .slideCurrent {
-	border-left: 2px solid red;
+	border-bottom: 2px solid red;
 }
 
 

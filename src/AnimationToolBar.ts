@@ -8,6 +8,7 @@ import { ActionFreeDraw } from './ActionFreeDraw';
 import { MagnetHighlighter } from './MagnetHighlighter';
 import { ActionMagnetNew } from './ActionMagnetNew';
 import { ActionMagnetMove } from './ActionMagnetMove';
+import { ActionClear } from './ActionClear';
 
 
 /**
@@ -24,7 +25,7 @@ export class AnimationToolBar {
         AnimationToolBar.selection = new SelectionActions();
         AnimationToolBar.update();
     }
-    
+
     static isSelection(): boolean { return !AnimationToolBar.selection.isEmpty; }
 
     /**
@@ -68,6 +69,11 @@ export class AnimationToolBar {
         slide.dataset.from = from + "";
         slide.dataset.to = to + "";
         slide.classList.add("slide");
+
+        if (from + 1 <= to)
+            if (BoardManager.timeline.actions[from + 1] instanceof ActionClear)
+                slide.classList.add("slideClear");
+
         slide.title = "slide n°" + slideNumber;
         slide.style.flexGrow = "" + Math.max(1, to - from);
 
