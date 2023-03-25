@@ -137,15 +137,17 @@
 
 	<div id="contextMenuTimeLine" class="contextmenu" style="display: none">
 		<ul class="menu">
-			<li id="forgetAnimation" title="Simplify the list of actions, e.g. an erased line will be permanently removed."><img
-				src="img/icons/1F9F9.svg">Prune the animations in the slide</li>
+			<li id="forgetAnimation"
+				title="Simplify the list of actions, e.g. an erased line will be permanently removed."><img
+					src="img/icons/1F9F9.svg">Prune the animations in the slide</li>
 			<li id="mergeSlide" title="This slide will be 'disappear' and will be merged with the next one"><img
 					src="img/icons/2194.svg">Merge slide with the next one</li>
 			<li id="newSlide" title="Add a new slide after this one (without erasing the board)"><img
 					src="img/icons/1F5BC.svg"> New slide from now (Ctrl + Alt + N)</li>
 			<li id="newSlideAndClear"
-				title="Add a new clear slide after this one. The new slide will start by clearing the board."><img
-					src="img/icons/1F5BCclear.svg">New clear slide from now (Alt + N)</li>
+				title="Add a new clear slide after this one. The new slide will start by clearing the board.">
+				<img src="img/icons/supererase.svg">New clear slide from now (Alt + N)
+			</li>
 		</ul>
 	</div>
 
@@ -411,7 +413,8 @@
 				<input type="checkbox" id="inputChalkEffect" /><label for="inputChalkEffect">Artistic chalk effect
 					(your drawing looks more beautiful but Tableaunoir is slower)</label>
 				<br />
-				<input type="checkbox" id="inputParticulesEffect" /><label for="inputParticulesEffect"><span>Particules of chalk (Tableaunoir is even slower!)</span>
+				<input type="checkbox" id="inputParticulesEffect" /><label for="inputParticulesEffect"><span>Particules
+						of chalk (Tableaunoir is even slower!)</span>
 				</label>
 				<br />
 				<input type="checkbox" id="inputEraserEffect" /><label for="inputEraserEffect">Artistic dust
@@ -730,8 +733,7 @@
 
 					<br />
 
-					<input id="magnetCollectionSearch"
-						placeholder="type the type of magnets you are searching for" />
+					<input id="magnetCollectionSearch" placeholder="type the type of magnets you are searching for" />
 					<div class="menuDiv" id="magnetCollection">
 					</div>
 					<div class="menuDiv" id="magnetCollectionSearchResult"></div>
