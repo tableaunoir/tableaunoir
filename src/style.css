@@ -1210,7 +1210,16 @@ h1 {
 	}
 }
 
+@media only screen and (orientation: portrait) {
+	.tablinkLabel {
+		display: none;
+	}
 
+	.tablink {
+		width: min-content;
+		min-width: 0;
+	}
+}
 
 
 @media only screen and (max-width: 768px) {
@@ -1224,6 +1233,15 @@ h1 {
 	.paletteColorButton {
 		width: 128px;
 		padding-left: 16px;
+	}
+
+	.tablinkLabel {
+		display: none;
+	}
+
+	.tablink {
+		width: min-content;
+		min-width: 0;
 	}
 }
 
