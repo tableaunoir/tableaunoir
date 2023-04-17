@@ -497,7 +497,7 @@ img.magnet.backgroundTransparent {
 	background-color: rgb(51, 51, 51);
 }
 
-.tablink > div {
+.tablink>div {
 	width: 23px;
 	height: 23px;
 	display: flex;
@@ -505,7 +505,7 @@ img.magnet.backgroundTransparent {
 	align-items: center;
 }
 
-.tablink > img {
+.tablink>img {
 	width: 23px;
 	height: 23px;
 }
@@ -810,6 +810,7 @@ h1 {
 	from {
 		filter: blur(10px);
 	}
+
 	to {}
 }
 
@@ -1360,4 +1361,21 @@ h1 {
 
 .menu>li:hover {
 	background: grey;
+}
+
+
+
+
+@keyframes magnetMovePolyLineAnimation {
+	to {
+		stroke-dashoffset: 1000;
+	}
+}
+
+.magnetMovePolyLine {
+	stroke-dasharray: 16;
+	animation: magnetMovePolyLineAnimation 5s linear 0s infinite reverse;
+	stroke: gray;
+	stroke-width: 2px;
+	fill: none;
 }

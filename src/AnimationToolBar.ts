@@ -253,8 +253,11 @@ export class AnimationToolBar {
          * show some hints for the selected action action
          */
         function highlightAction() {
-            if (action instanceof ActionMagnetNew || action instanceof ActionMagnetMove)
+            if (action instanceof ActionMagnetNew || action instanceof ActionMagnetMove) {
                 MagnetHighlighter.highlight(document.getElementById(action.magnetid));
+                if (action instanceof ActionMagnetMove)
+                    ActionMagnetMoveHighlighter.highlight(action);
+            }
         }
 
         /**
@@ -262,6 +265,7 @@ export class AnimationToolBar {
          */
         function unhighlightAction() {
             MagnetHighlighter.unhighlightAll();
+            ActionMagnetMoveHighlighter.unhighlight();
         }
 
 
@@ -443,4 +447,35 @@ class SnapshotGoToTimeStep {
         if (SnapshotGoToTimeStep.timeoutSnapshot == null)
             SnapshotGoToTimeStep.timeoutSnapshot = setTimeout(SnapshotGoToTimeStep._update, 200);
     }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+class ActionMagnetMoveHighlighter {
+    private static addSVGPolyLine(points: { x: number, y: number }[]): SVGPolylineElement {
+        const svgns = "http://www.w3.org/2000/svg";
+        const shape = <SVGPolylineElement>document.createElementNS(svgns, 'polyline');
+        shape.setAttributeNS(null, 'points', points.map(({ x, y }) => x + "," + y).join(" "));
+        document.getElementById("svg").appendChild(shape);
+        shape.classList.add("magnetMovePolyLine")
+        return shape;
+    }
+
+
+    static highlight(action: ActionMagnetMove) {
+        ActionMagnetMoveHighlighter.addSVGPolyLine(action.pointsCentered);
+    }
+
+
+    static unhighlight() { document.querySelectorAll(".magnetMovePolyLine").forEach((el) => el.remove()); }
+
 }

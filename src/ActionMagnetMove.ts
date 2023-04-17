@@ -39,6 +39,17 @@ export class ActionMagnetMove extends Action {
     createOverviewImage(): string { return "url(img/icons/magnetMove.svg)"; }
 
 
+    get pointsCentered(): { x: number, y: number }[] {
+        const magnet = document.getElementById(this.magnetid);
+        if (magnet) {
+            const mx = magnet.offsetWidth / 2;
+            const my = magnet.offsetHeight / 2;
+            return this.points.map(({ x, y }) => ({ x: x + mx, y: y + my }));
+        }
+        else
+            return this.points;
+    }
+
     private setPosition(point: { x: number, y: number }): void {
         const magnet = document.getElementById(this.magnetid);
         if (magnet) {

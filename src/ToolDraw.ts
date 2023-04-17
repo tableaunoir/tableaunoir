@@ -71,7 +71,7 @@ export class ToolDraw extends Tool {
     }
 
 
-
+    
 
     /* updateWhenDrawing(): void {
          const points = this.action.points;
