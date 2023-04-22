@@ -22,6 +22,8 @@ export class AnimationToolBar {
     static selection: SelectionActions = new SelectionActions();
 
     static deselect(): void {
+        if(AnimationToolBar.selection.isEmpty)
+            return;
         AnimationToolBar.selection = new SelectionActions();
         AnimationToolBar.update();
     }

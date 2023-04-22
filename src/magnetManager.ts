@@ -395,7 +395,7 @@ export class MagnetManager {
 			MagnetManager._installMagnet(magnets[i]);
 
 		MagnetTextManager.latexTypeSet();
-		
+
 
 	}
 
@@ -478,11 +478,13 @@ export class MagnetManager {
 	 * 
 	 * @param element 
 	 * @description makes that the magnet is draggable
+	 *  + handle the currentMagnet
 	 */
 	private static makeDraggableElement(element: HTMLElement): void {
 		let dx = 0, dy = 0, x = 0, y = 0;
 
 		element.addEventListener("pointerdown", dragMouseDown);
+		element.onpointermove = () => { MagnetManager.currentMagnet = element; }
 
 		TouchScreen.addTouchEvents(element);
 
@@ -513,8 +515,8 @@ export class MagnetManager {
 
 
 			MagnetManager.magnetUnFocus(element);
-			document.onpointermove = elementDrag;
-			document.onpointerup = closeDragElement;
+			document.onpointermove = pointermove;
+			document.onpointerup = pointerup;
 			//document.onmouseup = closeDragElement;
 
 			otherElementsToMove = MagnetManager.getContainedMagnets(element);
@@ -529,10 +531,9 @@ export class MagnetManager {
 
 
 
-		function elementDrag(e) {
+		function pointermove(e) {
 			if (!drag) return;
 
-			MagnetManager.currentMagnet = element;
 			e.target.classList.add("magnetDrag");
 
 			const canvas = getCanvas();
@@ -563,7 +564,7 @@ export class MagnetManager {
 			S.onmagnetmove(e);
 		}
 
-		function closeDragElement() {
+		function pointerup() {
 			if (!drag)
 				return;
 

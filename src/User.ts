@@ -11,6 +11,7 @@ import { Tool } from './Tool';
 import { ToolArc } from './ToolArc';
 import { Layout } from './Layout';
 import { BackgroundTexture } from './BackgroundTexture';
+import { AnimationToolBar } from './AnimationToolBar';
 
 
 
@@ -126,6 +127,8 @@ export class User {
 
 
     mousedown(evt: MouseEvent): void {
+        AnimationToolBar.deselect();
+
         if (this.isCurrentUser) {
             MagnetManager.setInteractable(false);
             //unselect the selected element (e.g. a text in edit mode)
@@ -190,9 +193,10 @@ export class User {
         this.tool.x = evtX;
         this.tool.y = evtY;
 
-        if (!this.isCurrentUser) {
+        if (this.isCurrentUser)
+            MagnetManager.noCurrentMagnet();
+        else
             this.setSymbolCursorPosition();
-        }
     }
 
 

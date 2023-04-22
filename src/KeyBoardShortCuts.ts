@@ -217,10 +217,11 @@ export class KeyBoardShortCuts {
         }
         else if (evt.key == "Delete" || evt.key == "x" || evt.key == "Backspace") { //supr = delete the current magnet
             CircularMenu.hide();
-            /*if (lastDelineation.containsPolygonToMagnetize())
-                lastDelineation.erase();
-            else*/
-            MagnetManager.removeCurrentMagnet();
+
+            if (AnimationToolBar.is() && !AnimationToolBar.selection.isEmpty)
+                AnimationToolBar.selection.delete();
+            else
+                MagnetManager.removeCurrentMagnet();
             evt.preventDefault();
         }
     }
