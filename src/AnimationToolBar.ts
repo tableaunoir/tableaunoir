@@ -9,6 +9,8 @@ import { MagnetHighlighter } from './MagnetHighlighter';
 import { ActionMagnetNew } from './ActionMagnetNew';
 import { ActionMagnetMove } from './ActionMagnetMove';
 import { ActionClear } from './ActionClear';
+import { ChalkParticules } from './ChalkParticules';
+import { ActionErase } from './ActionErase';
 
 
 /**
@@ -260,6 +262,11 @@ export class AnimationToolBar {
                 if (action instanceof ActionMagnetMove)
                     ActionMagnetMoveHighlighter.highlight(action);
             }
+            else if (action instanceof ActionFreeDraw)
+                ActionFreeDrawHighlighter.highlight(action);
+            else if (action instanceof ActionErase)
+                ActionEraseHighlighter.highlight(action);
+
         }
 
         /**
@@ -268,6 +275,8 @@ export class AnimationToolBar {
         function unhighlightAction() {
             MagnetHighlighter.unhighlightAll();
             ActionMagnetMoveHighlighter.unhighlight();
+            ActionFreeDrawHighlighter.unhighlight();
+            ActionEraseHighlighter.unhighlight();
         }
 
 
@@ -456,9 +465,53 @@ class SnapshotGoToTimeStep {
 
 
 
+class ActionEraseHighlighter {
+    static timer = undefined;
 
+    static highlight(action: ActionErase) {
+        this.unhighlight();
 
+        this.timer = setInterval(() => {
+            for (let t = 0; t < 20; t++) {
+                const i = Math.floor((action.points.length) * Math.random());
+                const p = action.points[i];
+                const radius = Math.random() * p.lineWidth;
+                const angle = 2 * Math.PI * Math.random();
+                const r = Math.floor(255 * Math.random());
+                const g = Math.floor(255 * Math.random());
+                const b = Math.floor(255 * Math.random());
+                ChalkParticules.start(p.x + radius * Math.sin(angle), p.y + radius * Math.sin(angle), 0,
+                    `rgb(${r}, ${g}, ${b})`, 1);
+            }
+        }, 100);
+    }
 
+    static unhighlight() {
+        if (this.timer)
+            clearInterval(this.timer);
+    }
+}
+
+class ActionFreeDrawHighlighter {
+    static timer = undefined;
+    static i = 0;
+
+    static highlight(action: ActionFreeDraw) {
+        this.unhighlight();
+
+        this.timer = setInterval(() => {
+            this.i = this.i > action.points.length - 2 ? 0 : this.i + 1;
+            const p = action.points[this.i];
+            ChalkParticules.start(p.x, p.y, p.pressure, p.color);
+        }, 100);
+    }
+
+    static unhighlight() {
+        this.i = 0;
+        if (this.timer)
+            clearInterval(this.timer);
+    }
+}
 
 
 
