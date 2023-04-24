@@ -11,6 +11,9 @@ import { ActionMagnetMove } from './ActionMagnetMove';
 import { ActionClear } from './ActionClear';
 import { ChalkParticules } from './ChalkParticules';
 import { ActionErase } from './ActionErase';
+import { ActionRectangle } from './ActionRectangle';
+import { ActionEllipse } from './ActionEllipse';
+import { ActionLine } from './ActionLine';
 
 
 /**
@@ -262,8 +265,11 @@ export class AnimationToolBar {
                 if (action instanceof ActionMagnetMove)
                     ActionMagnetMoveHighlighter.highlight(action);
             }
-            else if (action instanceof ActionFreeDraw)
-                ActionFreeDrawHighlighter.highlight(action);
+            else if (action instanceof ActionFreeDraw ||
+                action instanceof ActionEllipse ||
+                action instanceof ActionLine ||
+                action instanceof ActionRectangle)
+                ActionFromContourHighlighter.highlight(action.contour);
             else if (action instanceof ActionErase)
                 ActionEraseHighlighter.highlight(action);
 
@@ -275,7 +281,7 @@ export class AnimationToolBar {
         function unhighlightAction() {
             MagnetHighlighter.unhighlightAll();
             ActionMagnetMoveHighlighter.unhighlight();
-            ActionFreeDrawHighlighter.unhighlight();
+            ActionFromContourHighlighter.unhighlight();
             ActionEraseHighlighter.unhighlight();
         }
 
@@ -492,17 +498,17 @@ class ActionEraseHighlighter {
     }
 }
 
-class ActionFreeDrawHighlighter {
+class ActionFromContourHighlighter {
     static timer = undefined;
     static i = 0;
 
-    static highlight(action: ActionFreeDraw) {
+    static highlight(contourPoints: any[]) {
         this.unhighlight();
 
         this.timer = setInterval(() => {
-            this.i = this.i > action.points.length - 2 ? 0 : this.i + 1;
-            const p = action.points[this.i];
-            ChalkParticules.start(p.x, p.y, p.pressure, p.color);
+            this.i = this.i > contourPoints.length - 2 ? 0 : this.i + 1;
+            const p = contourPoints[this.i];
+            ChalkParticules.start(p.x, p.y, p.pressure ? p.pressure : 1, p.color ? p.color : "gray");
         }, 100);
     }
 
@@ -532,5 +538,4 @@ class ActionMagnetMoveHighlighter {
 
 
     static unhighlight() { document.querySelectorAll(".magnetMovePolyLine").forEach((el) => el.remove()); }
-
 }

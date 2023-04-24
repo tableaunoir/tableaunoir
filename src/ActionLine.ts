@@ -5,7 +5,7 @@ import { getCanvas } from './main';
 
 export class ActionLine extends Action {
     get xMax(): number { return Math.max(this.x1, this.x2); }
-    
+
     serializeData(): ActionSerialized {
         return { type: "line", userid: this.userid, x1: this.x1, y1: this.y1, x2: this.x2, y2: this.y2, color: this.color };
     }
@@ -23,4 +23,8 @@ export class ActionLine extends Action {
 
     createOverviewImage(): string { return "url(img/icons/line.svg)"; }
 
+
+    get contour(): { x: number, y: number }[] {
+        return [{ x: this.x1, y: this.y1 }, { x: this.x2, y: this.y2 }]
+    }
 }
