@@ -64,6 +64,8 @@ export class KeyBoardShortCuts {
                 CircularMenu.hide();
             else if (AnimationToolBar.isMenu())
                 AnimationToolBar.hideMenu();
+            else if (MagnetManager.isMenu())
+                MagnetManager.hideMenu();
             else if (AnimationToolBar.is() && AnimationToolBar.isSelection())
                 AnimationToolBar.deselect();
             else

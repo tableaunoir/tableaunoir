@@ -104,7 +104,7 @@ export class GUIActions {
 
     static previousColor(calledFromKeyBoard = false): void {
         if (!UserManager.me.tool.isDrawing && (GUIActions.paletteShowOnKey || !calledFromKeyBoard))
-             GUIActions.palette.show({ x: UserManager.me.tool.x, y: UserManager.me.tool.y });
+            GUIActions.palette.show({ x: UserManager.me.tool.x, y: UserManager.me.tool.y });
         GUIActions.palette.previous();
     }
 
@@ -134,35 +134,39 @@ export class GUIActions {
     static magnetDecreaseSize(): void { GUIActions.magnetChangeSize(0.9); }
 
 
-    /**
-     * switch the "background/foreground state" of the magnet under the cursor
-     * if the magnet is in the foreground, it moves that magnet background
-     * if the magnet is in the background, it moves that magnet foreground
-     */
-    static magnetSwitchBackgroundForeground(): void {
+    /** get the magnet under the cursor for magnet that are in the background (cannot use the standard mousemove
+         * because these magnets are hidden by the canvas) */
+    static getMagnetBackgroundUnderCursor(x: number, y: number) {
         const magnetGetRectangle = (m: HTMLElement) => {
             const x1 = parseInt(m.style.left);
             const y1 = parseInt(m.style.top);
             return { x1: x1, y1: y1, x2: x1 + m.clientWidth, y2: y1 + m.clientHeight };
         }
 
+        const magnets = MagnetManager.getMagnets();
+        for (let i = 0; i < magnets.length; i++) {
+            const m = magnets[i];
+            if (S.inRectangle({ x: x, y: y }, magnetGetRectangle(m))) {
+                return m;
+            }
+        }
+        return undefined;
+    }
+
+    /**
+     * switch the "background/foreground state" of the magnet under the cursor
+     * if the magnet is in the foreground, it moves that magnet background
+     * if the magnet is in the background, it moves that magnet foreground
+     */
+    static magnetSwitchBackgroundForeground(): void {
+
+
 
         const switchBackgroundForegroundOfMagnet = (m: HTMLElement) => {
             Share.execute("magnetSwitchBackgroundForeground", [UserManager.me.userID, m.id])
         }
 
-        /** get the magnet under the cursor for magnet that are in the background (cannot use the standard mousemove
-         * because these magnets are hidden by the canvas) */
-        const getMagnetBackgroundUnderCursor = () => {
-            const magnets = MagnetManager.getMagnets();
-            for (let i = 0; i < magnets.length; i++) {
-                const m = magnets[i];
-                if (S.inRectangle({ x: x, y: y }, magnetGetRectangle(m))) {
-                    return m;
-                }
-            }
-            return undefined;
-        }
+
         const magnet = MagnetManager.getMagnetUnderCursor();
         const x = UserManager.me.x;
         const y = UserManager.me.y;
@@ -170,12 +174,14 @@ export class GUIActions {
 
 
         if (magnet == undefined) {
-            const m = getMagnetBackgroundUnderCursor();
+            const m = GUIActions.getMagnetBackgroundUnderCursor(x, y);
             if (m)
                 switchBackgroundForegroundOfMagnet(m);
         }
-        else switchBackgroundForegroundOfMagnet(magnet);
-
+        else {
+            switchBackgroundForegroundOfMagnet(magnet);
+            MagnetManager.magnetUnderCursor = undefined;
+        }
     }
 
 }

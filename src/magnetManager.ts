@@ -15,6 +15,7 @@ import { Layout } from './Layout';
 import { Menu } from './Menu';
 import { TouchScreen } from './TouchScreen';
 import { ActionPrintMagnet } from './ActionPrintMagnet';
+import { GUIActions } from './GUIActions';
 
 
 
@@ -621,6 +622,64 @@ export class MagnetManager {
 			return Array.from(content.children).map((e) => e.textContent).join('\n');
 	}
 
+
+	static hideMenu(): void { document.getElementById("contextMenuMagnet").style.display = "none" }
+	static isMenu(): boolean { return document.getElementById("contextMenuMagnet").style.display == "block"; }
+
+	static showMenu(x: number, y: number): void {
+		/*if (AnimationToolBar.menu == undefined)
+			AnimationToolBar.menu = new ActionTimeLineMenu();
+		AnimationToolBar.menu.show({ x: Layout.getXMiddle(), y: 800 });*/
+
+		const menu = document.getElementById("contextMenuMagnet")
+		menu.style.display = 'block';
+
+
+		if (y + menu.clientHeight > window.innerHeight)
+			y = window.innerHeight - menu.clientHeight;
+
+		menu.style.left = x + "px";
+		menu.style.top = y + "px";
+
+
+		const isCurrentMagnetForeground = MagnetManager.getMagnetUnderCursor() != undefined;
+
+		console.log(isCurrentMagnetForeground ? "currently in foreground" : "currently in background")
+		document.getElementById("contextMenuMagnetBackground").style.display =
+			(isCurrentMagnetForeground) ? null : "none";
+		document.getElementById("contextMenuMagnetForeground").style.display =
+			(!isCurrentMagnetForeground) ? null : "none";
+
+		document.getElementById("contextMenuMagnetBackground").onclick = () => {
+			GUIActions.magnetSwitchBackgroundForeground();
+			MagnetManager.hideMenu();
+		}
+
+		document.getElementById("contextMenuMagnetForeground").onclick = () => {
+			GUIActions.magnetSwitchBackgroundForeground();
+			MagnetManager.hideMenu();
+		}
+
+
+		if (isCurrentMagnetForeground) {
+			document.getElementById("contextMenuMagnetRemove").onclick = () => {
+				MagnetManager.removeCurrentMagnet();
+				MagnetManager.hideMenu();
+			}
+		}
+		else {
+			const magnetInBackground = GUIActions.getMagnetBackgroundUnderCursor(x, y);
+			console.log(magnetInBackground)
+			document.getElementById("contextMenuMagnetRemove").onclick = () => {
+				MagnetManager.magnetRemove(magnetInBackground.id);
+				MagnetManager.hideMenu();
+			}
+
+		}
+
+	}
+
+
 	/**
 	 * 
 	 * @param element 
@@ -633,10 +692,26 @@ export class MagnetManager {
 		MagnetManager.makeDraggableElement(element);
 		MagnetManager.setZIndex(element);
 
-		element.onmouseenter = () => { MagnetManager.magnetUnderCursor = element };
-		element.onmouseleave = () => { MagnetManager.magnetUnderCursor = undefined };
+		element.onmouseenter = () => {
+			if (!MagnetManager.isMenu())
+				MagnetManager.magnetUnderCursor = element
+		};
+		element.onmouseleave = () => {
+			if (!MagnetManager.isMenu())
+				MagnetManager.magnetUnderCursor = undefined;
+		};
 
+
+
+		element.oncontextmenu = (evt) => {
+			MagnetManager.showMenu(evt.pageX, evt.pageY);
+			evt.preventDefault();
+			return;
+		}
 	}
+
+
+
 
 
 

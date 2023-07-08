@@ -114,7 +114,7 @@ function load() {
 
 		document.getElementById("buttonRight").onclick = BoardNavigation.rightNextPage;
 		document.getElementById("buttonMap").onclick = () => Layout.toggleMinimap();
-		
+
 		document.getElementById("buttonCancel").onclick = () => BoardManager.cancel(UserManager.me.userID);//Share.execute("cancel", [UserManager.me.userID]);
 		document.getElementById("buttonRedo").onclick = () => BoardManager.redo(UserManager.me.userID);//Share.execute("redo", [UserManager.me.userID]);
 
@@ -144,7 +144,7 @@ function load() {
 		document.getElementById("previousFrame").onclick = () => Share.execute("timelinePreviousFrame", []);
 		document.getElementById("nextFrame").onclick = () => Share.execute("timelineNextFrame", []);
 
-		window.addEventListener("click", () => AnimationToolBar.hideMenu());
+		window.addEventListener("click", () => { AnimationToolBar.hideMenu(); MagnetManager.hideMenu() });
 
 		installMouseEventsCanvas();
 
@@ -171,17 +171,33 @@ function installMouseEventsCanvas() {
 		hasFocus = document.hasFocus()
 	}, minDurationMouseMove);
 
-	document.getElementById("canvas").oncontextmenu = (evt) => evt.preventDefault();
+	document.getElementById("canvas").oncontextmenu = (evt) => {
+		evt.preventDefault();
+	}
+
 	document.getElementById("canvas").onpointerdown = (evt) => {
 		evt.preventDefault();
 		if (hasFocus) {
 			ismousedown = true;
-			if (evt.button == 2 && UserManager.me.isToolDraw) {
-				changeToErase = true;
-				Share.execute("switchEraser", [UserManager.me.userID]);
+			const rightButton = (evt.button == 2);
+			changeToErase = false;
+
+			const magnetInBackground = GUIActions.getMagnetBackgroundUnderCursor(UserManager.me.x, UserManager.me.y);
+			console.log(magnetInBackground)
+			if (rightButton) {
+				if (magnetInBackground) {
+					MagnetManager.showMenu(evt.pageX+1, evt.pageY+1); //the +1 are here for evt.preventDefault() to work (not showing the ctx menu of the browser)
+					ismousedown = false;
+					return;
+				}
+				else if (UserManager.me.isToolDraw) {
+					changeToErase = true;
+					Share.execute("switchEraser", [UserManager.me.userID]);
+				}
+				else
+					changeToErase = false;
 			}
-			else
-				changeToErase = false;
+
 			window["ismousedown"] = true;
 			Share.execute("mousedown", [UserManager.me.userID, evt])
 		}
