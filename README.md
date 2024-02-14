@@ -109,7 +109,7 @@ Tableaunoir can also be used to build slides. See the [documentation](https://gi
 
 ## Offline version
 
-If you prefer to use an offline version, it is possible. You have to install [Electron](https://www.electronjs.org/) and then the application can be launched as follows (from the main directory):
+If you prefer to use an offline version, it is possible. You have to install [Electron](https://www.electronjs.org/). Make sure to have compiled the project with `npm run build`. Then the application can be launched as follows (from the main directory):
 
 ```bash
 $ electron mainElectron.js
