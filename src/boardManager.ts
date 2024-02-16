@@ -24,6 +24,7 @@ import { ActionFreeDraw } from './ActionFreeDraw';
 import { OperationTranslate } from './OperationTranslate';
 import { ActionErase } from './ActionErase';
 import { Geometry } from './Geometry';
+import { ActionMagnetChangeSizeRatio } from './ActionMagnetChangeSizeRatio';
 
 
 /**
@@ -518,7 +519,7 @@ export class BoardManager {
                 E.g. If you draw an ActionLine, it will be completely ignored... :(
                     and the ActionErase will just be removed although it was erasing maybe the ActionLine. 
                 */
-                for (const i of indicesSuchThat(timeline.actions, tClear, j-1, (a: Action) => a instanceof ActionFreeDraw)) {
+                for (const i of indicesSuchThat(timeline.actions, tClear, j - 1, (a: Action) => a instanceof ActionFreeDraw)) {
                     const actionFreeDraw = <ActionFreeDraw>timeline.actions[i];
 
                     for (const ptfd of actionFreeDraw.points) {
@@ -582,7 +583,10 @@ export class BoardManager {
             if (iNew.length > 0) {
                 //magnet created and deleted in this slide => remove everything about this magnet
                 const i = indicesSuchThat(timeline.actions, tbeginSlide, j,
-                    (a: Action) => ((a instanceof ActionMagnetNew) || (a instanceof ActionMagnetMove) || (a instanceof ActionMagnetDelete))
+                    (a: Action) => ((a instanceof ActionMagnetNew) ||
+                        (a instanceof ActionMagnetMove) ||
+                        (a instanceof ActionMagnetDelete) ||
+                        (a instanceof ActionMagnetChangeSizeRatio))
                         && a.magnetid == magnetid);
                 BoardManager.executeOperation(new OperationDeleteSeveralActions(i));
                 this.forgetAnimation(userid);

@@ -30,7 +30,7 @@ export class ActionMagnetChangeSizeRatio extends Action {
      * @param magnetid 
      * @param ratio (ratio > 1: increase the size, ratio < 1: decrease the size)
      */
-    constructor(userid: string, private readonly magnetid: string, private readonly ratio: number) {
+    constructor(userid: string, public readonly magnetid: string, private readonly ratio: number) {
         super(userid);
         this.isDirectlyUndoable = true;
     }
