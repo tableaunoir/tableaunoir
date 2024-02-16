@@ -123,6 +123,10 @@
 		<div class="timelinecontrols">
 			<button id="previousSlide" title="Previous slide (Page Up)">◀◀</button>
 			<button id="nextSlide" title="Next slide (Page Down)">▶▶</button>
+			<button id="buttonNewSlideAndClear"
+				title="Add a new clear slide after this one. The new slide will start by clearing the board, but you can remove that 'action' to create a slide starting with the current context.">
+				<img draggable="false" class="icon" src="img/icons/supererase.svg">
+			</button>
 			<button id="timelineMenu" title="Menu for modifying the timeline"><img draggable="false" class="icon"
 					src="img/icons/1F49E.svg" /></button>
 			<button hidden id="previousFrame" title="Previous action in the timeline">◀</button>
@@ -136,14 +140,12 @@
 
 	<div id="contextMenuMagnet" class="contextmenu" style="display: none">
 		<ul class="menu">
-			<li id="contextMenuMagnetBackground"
-				title="Move the magnet in the background (behind the board)"><img
+			<li id="contextMenuMagnetBackground" title="Move the magnet in the background (behind the board)"><img
 					src="img/icons/magnetbackground.svg">Move magnet to background (b)</li>
-					<li id="contextMenuMagnetForeground"
-				title="Move the magnet in the foreground (in front of the board)"><img
+			<li id="contextMenuMagnetForeground" title="Move the magnet in the foreground (in front of the board)"><img
 					src="img/icons/magnetforeground.svg">Move magnet to foreground (b)</li>
-			<li id="contextMenuMagnetRemove" title="Remove the magnet"><img
-					src="img/icons/E262.svg">Remove the magnet</li>
+			<li id="contextMenuMagnetRemove" title="Remove the magnet"><img src="img/icons/E262.svg">Remove the magnet
+			</li>
 		</ul>
 	</div>
 

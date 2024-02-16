@@ -91,6 +91,8 @@ function load() {
 		BoardManager.reset();
 		DesktopApplicationManager.init();
 
+		AnimationToolBar.init();
+
 		Array.from(document.getElementsByTagName("helpbutton")).map((b) => (<HTMLElement>b).onclick = (evt) => { alert((<HTMLElement>evt.target).title) });
 
 		document.getElementById("buttonMenu").onclick = Menu.toggle;

@@ -20,6 +20,21 @@ import { ActionLine } from './ActionLine';
  * this class handles the toolbar at the bottom for the animation
  */
 export class AnimationToolBar {
+    static init() {
+        document.getElementById("previousSlide").onclick = () => Share.execute("timelinePreviousPausedFrame", []);
+        document.getElementById("nextSlide").onclick = () => Share.execute("timelineNextPausedFrame", []);
+        document.getElementById("buttonNewSlideAndClear").onclick = () => Share.execute("newSlideAndClear", [UserManager.me.userID]);
+
+        document.getElementById("timelineMenu").onclick = (evt) => {
+            AnimationToolBar.showMenu(evt.pageX, evt.pageY);
+            evt.stopPropagation();//prevent the menu to be hidden because of a click on the toolbar
+        }
+
+        // these button are hidden in the GUI
+        document.getElementById("previousFrame").onclick = () => Share.execute("timelinePreviousFrame", []);
+        document.getElementById("nextFrame").onclick = () => Share.execute("timelineNextFrame", []);
+
+    }
 
     static currentIndex = 0;
 
@@ -176,6 +191,13 @@ export class AnimationToolBar {
     static createActionElement(t: number): HTMLElement {
         const action = BoardManager.timeline.actions[t];
 
+        /**
+         * 
+         * @param a1 
+         * @param a2 
+         * @returns true if actions a1 and a2 are far, different
+         * @description this function is used to add spacing between "different" actions
+         */
         function areActionsActionFreeDrawQuiteDifferent(a1: Action, a2: Action): boolean {
             if (!(a1 instanceof ActionFreeDraw) || !(a2 instanceof ActionFreeDraw))
                 return false;
@@ -202,36 +224,36 @@ export class AnimationToolBar {
                 R2.x1 - TT, R2.y1 - TT, R2.x2 + TT, R2.y2 + TT);
         }
 
-        const el = document.createElement("div");
+        const elAction = document.createElement("div");
 
-        el.dataset.index = t.toString();
+        elAction.dataset.index = t.toString();
 
-        el.classList.add("action");
+        elAction.classList.add("action");
 
         if (t > 0) {
             const previousAction = BoardManager.timeline.actions[t - 1];
             if (areActionsActionFreeDrawQuiteDifferent(action, previousAction)) {
-                el.classList.add("actionDifferent");
+                elAction.classList.add("actionDifferent");
             }
         }
 
-        el.style.backgroundImage = action.getOverviewImage();
+        elAction.style.backgroundImage = action.getOverviewImage();
 
-        if (!action.isBlocking) el.classList.add("actionParallel");
-        if (t <= BoardManager.timeline.getCurrentIndex()) el.classList.add("actionExecuted");
+        if (!action.isBlocking) elAction.classList.add("actionParallel");
+        if (t <= BoardManager.timeline.getCurrentIndex()) elAction.classList.add("actionExecuted");
 
-        el.draggable = true;
+        elAction.draggable = true;
 
-        el.oncontextmenu = (evt) => {
+        elAction.oncontextmenu = (evt) => {
             Share.execute("timelineSetCurrentIndex", [t]);
             AnimationToolBar.showMenu(evt.pageX, evt.pageY);
             evt.preventDefault();
             return;
         }
 
-        el.ondragend = () => { /* nothing */ };
+        elAction.ondragend = () => { /* nothing */ };
 
-        el.onclick = (event) => {
+        elAction.onclick = (event) => {
             if (event.ctrlKey)
                 AnimationToolBar.selection.add(t);
             else if (event.shiftKey)
@@ -242,17 +264,17 @@ export class AnimationToolBar {
             Share.execute("timelineSetCurrentIndex", [t]);
         }
 
-        el.ondrag = (evt) => {
+        elAction.ondrag = (evt) => {
             if (AnimationToolBar.selection.isEmpty || evt.ctrlKey) {
                 AnimationToolBar.selection.add(t);
-                el.classList.add("selected");
+                elAction.classList.add("selected");
             }
 
 
             //AnimationToolBar.update();
         }
 
-        el.onmousemove = () => {
+        elAction.onmousemove = () => {
             BoardManager.timeline.setCurrentIndex(t);
         }
 
@@ -286,18 +308,23 @@ export class AnimationToolBar {
         }
 
 
-        el.onmouseenter = highlightAction;
-        el.onmouseleave = () => { BoardManager.timeline.setCurrentIndex(AnimationToolBar.currentIndex); unhighlightAction(); }
+        elAction.onmouseenter = highlightAction;
+        elAction.onmouseleave = () => { BoardManager.timeline.setCurrentIndex(AnimationToolBar.currentIndex); unhighlightAction(); }
 
-        el.ondragover = () => { console.log("dragover"); el.classList.add("dragover"); }
-        el.ondragleave = () => { el.classList.remove("dragover"); }
+        elAction.ondragover = () => { console.log("dragover"); elAction.classList.add("dragover"); }
+        elAction.ondragleave = () => { elAction.classList.remove("dragover"); }
 
-        el.ondrop = () => {
+        elAction.ondrop = () => {
             AnimationToolBar.selection.moveTo(t);
             AnimationToolBar.update();
         }
 
-        return el;
+        if (action instanceof ActionSlideStart && t > 0)
+            elAction.title = "Beginning of the slide. Remove me (drag me out the list) in order to merge with the previous slide";
+        else if (action instanceof ActionClear)
+            elAction.title = "Action 'clear all the board'. Remove me (drag me out the list) so that the board is not cleared!";
+
+        return elAction;
     }
 
 
@@ -427,10 +454,13 @@ export class AnimationToolBar {
             AnimationToolBar.hideMenu();
         }
 
-        document.getElementById("newSlideAndClear").onclick = () => {
+        function newSlideAndClear() {
+            console.log("newslideandclear")
             Share.execute("newSlideAndClear", [UserManager.me.userID]);
             AnimationToolBar.hideMenu();
         }
+        document.getElementById("newSlideAndClear").onclick = newSlideAndClear;
+
         document.getElementById("newSlide").onclick = () => {
             Share.execute("newSlide", [UserManager.me.userID]);
             AnimationToolBar.hideMenu();
