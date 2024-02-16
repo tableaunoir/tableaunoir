@@ -146,9 +146,12 @@ export class GUIActions {
         const magnets = MagnetManager.getMagnets();
         for (let i = 0; i < magnets.length; i++) {
             const m = magnets[i];
-            if (S.inRectangle({ x: x, y: y }, magnetGetRectangle(m))) {
-                return m;
-            }
+            if (m.style.visibility != "hidden")
+                /*note that for performance issue etc., a removed magnet is not really removed but just hidden. 
+            So we check that the magnet is visible  */
+                if (S.inRectangle({ x: x, y: y }, magnetGetRectangle(m))) {
+                    return m;
+                }
         }
         return undefined;
     }
