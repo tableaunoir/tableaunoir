@@ -135,17 +135,7 @@ function load() {
 
 		document.getElementById("canvasBackground").onpointermove = () => { console.log("mousemove on the background should not occur") };
 
-		document.getElementById("previousSlide").onclick = () => Share.execute("timelinePreviousPausedFrame", []);
-		document.getElementById("nextSlide").onclick = () => Share.execute("timelineNextPausedFrame", []);
-		document.getElementById("timelineMenu").onclick = (evt) => {
-			AnimationToolBar.showMenu(evt.pageX, evt.pageY);
-			evt.stopPropagation();//prevent the menu to be hidden because of a click on the toolbar
-		}
-
-		// these button are hidden in the GUI
-		document.getElementById("previousFrame").onclick = () => Share.execute("timelinePreviousFrame", []);
-		document.getElementById("nextFrame").onclick = () => Share.execute("timelineNextFrame", []);
-
+		
 		window.addEventListener("click", () => { AnimationToolBar.hideMenu(); MagnetManager.hideMenu() });
 
 		installMouseEventsCanvas();
