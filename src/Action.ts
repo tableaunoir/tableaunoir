@@ -3,7 +3,15 @@ import { ActionSerialized } from './ActionSerialized';
 import { OptionManager } from './OptionManager';
 
 
-
+/**
+ * An Action is something done on the board, and it appears in the timeline. It could be:
+ * - draw a line (ActionFreeDraw)
+ * - erase a portion of the board (ActionErase)
+ * - add a magnet (ActionMagnetNew)
+ * 
+ * /!\ Do not confuse with an Operation (which is something done by the user, like "adding an action")
+ * 
+ */
 export abstract class Action {
 
     /**

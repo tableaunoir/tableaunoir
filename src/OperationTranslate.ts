@@ -6,7 +6,7 @@ import { ActionErase } from "./ActionErase";
 
 
 /**
- * Translate some drawings
+ * Translate some drawings (does not work in sharing mode)
  */
 export class OperationTranslate extends Operation {
 

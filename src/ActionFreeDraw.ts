@@ -228,17 +228,23 @@ export class ActionFreeDraw extends Action {
             this.points[this.points.length - 1].pressure = this.points[this.points.length - 2].pressure;
     }
 
-    
+
     public postTreatement(): void {
-       // console.log("Original: " + this.points.length);
-      //  this.smoothifyOnePass();
-       // console.log("After smoothing: " + this.points.length);
+        // console.log("Original: " + this.points.length);
+        //  this.smoothifyOnePass();
+        // console.log("After smoothing: " + this.points.length);
         this.simplify();
-      //  console.log("After simplifying: " + this.points.length);
+        //  console.log("After simplifying: " + this.points.length);
     }
 
 
     getMainColor(): string { return this.points[0].color; }
+
+    setColor(color: string) {
+        for (const point of this.points)
+            point.color = color;
+        this._overviewImage = undefined; //so that the small overview image is recomputed
+    }
 
 
     async undo(): Promise<void> {
