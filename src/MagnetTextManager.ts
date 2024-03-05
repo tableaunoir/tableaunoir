@@ -27,11 +27,21 @@ export class MagnetTextManager {
 		return element.classList.contains("magnetText");
 	}
 
-
+	/**
+	 * 
+	 * @param element 
+	 * @param color 
+	 * @description set the color of the text in the magnet element
+	 */
 	public static setColor(element: HTMLElement, color: string) {
 		(<HTMLElement>element.children[0]).style.color = color;
 	}
 
+	/**
+	 * 
+	 * @param element 
+	 * @returns the color of the text in the magnet element
+	 */
 	public static getColor(element: HTMLElement) {
 		return (<HTMLElement>element.children[0]).style.color;
 	}
