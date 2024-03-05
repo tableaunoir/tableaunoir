@@ -28,7 +28,13 @@ export class MagnetTextManager {
 	}
 
 
+	public static setColor(element: HTMLElement, color: string) {
+		(<HTMLElement>element.children[0]).style.color = color;
+	}
 
+	public static getColor(element: HTMLElement) {
+		return (<HTMLElement>element.children[0]).style.color;
+	}
 
 	/**
 	 * 

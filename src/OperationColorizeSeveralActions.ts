@@ -3,6 +3,8 @@ import { Action } from "./Action";
 import { Operation } from "./Operation";
 import { ActionFreeDraw } from "./ActionFreeDraw";
 import { AnimationToolBar } from "./AnimationToolBar";
+import { ActionMagnetNew } from "./ActionMagnetNew";
+import { MagnetTextManager } from "./MagnetTextManager";
 
 
 
@@ -30,7 +32,11 @@ export class OperationColorizeSeveralActions extends Operation {
      * @returns set the color of the action
      */
     private setColor(action: Action, color: string) {
-        if (action instanceof ActionFreeDraw)
+        if (action instanceof ActionMagnetNew) {
+            if (MagnetTextManager.isTextMagnet(action.magnet))
+                return MagnetTextManager.setColor(action.magnet, color);
+        }
+        else if (action instanceof ActionFreeDraw)
             action.setColor(color);
         else
             (<any>action).color = color;
@@ -43,6 +49,12 @@ export class OperationColorizeSeveralActions extends Operation {
      * 
      */
     private getColor(action: Action) {
+        if (action instanceof ActionMagnetNew) {
+            if (MagnetTextManager.isTextMagnet(action.magnet))
+                return MagnetTextManager.getColor(action.magnet);
+            else
+                return undefined;
+        }
         if (action instanceof ActionFreeDraw)
             return action.getMainColor();
         else return (<any>action).color;
