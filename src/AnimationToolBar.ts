@@ -14,6 +14,8 @@ import { ActionErase } from './ActionErase';
 import { ActionRectangle } from './ActionRectangle';
 import { ActionEllipse } from './ActionEllipse';
 import { ActionLine } from './ActionLine';
+import { ShowMessage } from './ShowMessage';
+import { ActionMagnetDelete } from './ActionMagnetDelete';
 
 
 /**
@@ -282,10 +284,43 @@ export class AnimationToolBar {
          * show some hints for the selected action action
          */
         function highlightAction() {
-            if (action instanceof ActionMagnetNew || action instanceof ActionMagnetMove) {
-                MagnetHighlighter.highlight(document.getElementById(action.magnetid));
-                if (action instanceof ActionMagnetMove)
-                    ActionMagnetMoveHighlighter.highlight(action);
+            /**
+             * 
+             * @param magnetid 
+             * @param t 
+             * @returns true if there is a magnet of id magnetid on the screen at time t
+             */
+            function isThereAMagnetWithID(magnetid: string, t: number): boolean {
+                for (let t2 = t - 1; t2 >= 0; t2--) {
+                    const act = BoardManager.timeline.actions[t2];
+                    if(act instanceof ActionClear) {
+                        return false
+                    }
+                    else if (act instanceof ActionMagnetDelete) {
+                        if (act.magnetid == magnetid)
+                            return false;
+                    }
+                    else if (act instanceof ActionMagnetNew) {
+                        if (act.magnetid == magnetid)
+                            return true;
+                    }
+                }
+                return false;
+            }
+
+            if (action instanceof ActionMagnetNew) {
+                if (document.getElementById(action.magnetid))
+                    MagnetHighlighter.highlight(document.getElementById(action.magnetid));
+            }
+            else if (action instanceof ActionMagnetMove) {
+                if (document.getElementById(action.magnetid))
+                    MagnetHighlighter.highlight(document.getElementById(action.magnetid));
+                else {
+                    if (!isThereAMagnetWithID(action.magnetid, t))
+                        ShowMessage.error(`<img class="icon" src="img/icons/E0AB.svg"/> Temporal paradox: this action is supposed to move a magnet which does not exist yet. Solution: you may correct the timeline by creating a magnet before its move nearby the start point, and Tableaunoir will try to move it in order to face the temporal paradox.`);
+                }
+
+                ActionMagnetMoveHighlighter.highlight(action);
             }
             else if (action instanceof ActionFreeDraw ||
                 action instanceof ActionEllipse ||

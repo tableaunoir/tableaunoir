@@ -2,11 +2,12 @@ import { ConstraintDrawing } from './ConstraintDrawing';
 import { ActionSerialized } from './ActionSerialized';
 import { Action } from "./Action";
 import { MagnetMovementUpdater } from './MagnetMovementRecorder';
+import { MagnetManager } from './magnetManager';
+import { ShowMessage } from './ShowMessage';
 
 
 
 export class ActionMagnetMove extends Action {
-    readonly magnetid: string;
     readonly points: { x: number; y: number; }[] = [];
 
     get xMax(): number {
@@ -29,9 +30,8 @@ export class ActionMagnetMove extends Action {
      * @param magnetid 
      * @param points a NON-EMPTY list of points
      */
-    constructor(userid: string, magnetid: string, points: { x: number; y: number; }[]) {
+    constructor(userid: string, public magnetid: string, points: { x: number; y: number; }[]) {
         super(userid);
-        this.magnetid = magnetid;
         this.points = points;
         this.isDirectlyUndoable = true;
     }
@@ -59,10 +59,32 @@ export class ActionMagnetMove extends Action {
 
     }
 
+    /**
+     * @description check whether the magnet is here. If not, try to reassign to a close magnet
+     */
+    private check() {
+        const magnet = document.getElementById(this.magnetid);
+        if (magnet == undefined || magnet.style.visibility == "hidden") {
+            ShowMessage.show("Temporal paradox fixed!");
+            this.reassign();
+        }
+    }
+
+    /**
+     * reassign a magnet (because the current one is not here anymore)
+     */
+    private reassign() {
+        const pt = this.points[0];
+        const newmagnet = MagnetManager.getMagnetNearPoint(pt);
+
+        if (newmagnet)
+            this.magnetid = newmagnet.id;
+    }
+
 
 
     get lastPoint(): { x: number, y: number } { return this.points[this.points.length - 1]; }
-    async redo(): Promise<void> { this.setPosition(this.lastPoint); }
+    async redo(): Promise<void> { this.check(); this.setPosition(this.lastPoint); }
 
     async undo(): Promise<void> { this.setPosition(this.points[0]); }
 

@@ -3,7 +3,9 @@ import { ActionSerialized } from './ActionSerialized';
 import { Action } from "./Action";
 import { MagnetManager } from './magnetManager';
 
-
+/**
+ * TODO: The property previousMagnet has to be clarified
+ */
 export class ActionMagnetNew extends Action {
     previousMagnet: HTMLElement; // the new magnet is maybe a replacement. We store here the previous magnet.
     magnet: HTMLElement;
@@ -90,8 +92,8 @@ export class ActionMagnetNew extends Action {
         if (element)
             element.remove();
 
-        if (this.previousMagnet)
-            this._addMagnet(this.previousMagnet);
+       /* if (this.previousMagnet)
+            this._addMagnet(this.previousMagnet);*/
 
     }
 

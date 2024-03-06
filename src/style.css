@@ -804,6 +804,8 @@ h1 {
 	padding: 16px;
 	position: absolute;
 	z-index: 10000;
+	margin: 16px;
+	border-radius: 32px;
 }
 
 
@@ -1096,6 +1098,7 @@ h1 {
 	background-size: 24px 24px;
 	cursor: pointer;
 }
+
 
 .action:hover {
 	margin-left: 0px;

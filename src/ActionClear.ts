@@ -4,7 +4,7 @@ import { Action } from './Action';
 
 
 /**
- * @description action which completely clears the board
+ * @description action which completely clears the board (both drawings and magnets)
  */
 export class ActionClear extends Action {
 

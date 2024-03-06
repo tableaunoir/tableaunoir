@@ -13,7 +13,7 @@ export class ActionMagnetDelete extends Action {
     serializeData(): ActionSerialized {
         return {
             type: "magnetdelete",
-             userid: this.userid, magnetid: this.magnetid
+            userid: this.userid, magnetid: this.magnetid
         };
     }
 
@@ -25,7 +25,6 @@ export class ActionMagnetDelete extends Action {
     }
 
     createOverviewImage(): string { return "url(img/icons/E262.svg)"; }
-
 
 
 
