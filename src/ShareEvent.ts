@@ -177,7 +177,7 @@ export class ShareEvent {
     }
 
     static magnetSwitchBackgroundForeground(userID: string, idmagnet: string) {
-        BoardManager.addAction(new ActionMagnetSwitchBackgroundForeground(UserManager.me.userID, idmagnet));
+        BoardManager.addAction(new ActionMagnetSwitchBackgroundForeground(userID, idmagnet, -document.getElementById(idmagnet).style.zIndex));
     }
 
     static magnetMoveStart(idMagnet: string): void {

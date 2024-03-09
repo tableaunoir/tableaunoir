@@ -1,5 +1,6 @@
 import { ActionSerialized } from './ActionSerialized';
 import { Action } from "./Action";
+import { ShowMessage } from './ShowMessage';
 
 
 /**
@@ -12,15 +13,15 @@ import { Action } from "./Action";
  */
 export class ActionMagnetSwitchBackgroundForeground extends Action {
     readonly magnetid: string;
-    readonly points: { x: number; y: number; }[] = [];
-
+    readonly destination: number; // positive => goto foreground; negative => goto background
 
     get xMax(): number { return 0; }
 
     serializeData(): ActionSerialized {
         return {
             type: "magnetswitchbackgroundforeground",
-             userid: this.userid, magnetid: this.magnetid
+            userid: this.userid, magnetid: this.magnetid,
+            destination: this.destination
         };
     }
 
@@ -29,34 +30,48 @@ export class ActionMagnetSwitchBackgroundForeground extends Action {
      * 
      * @param userid 
      * @param magnetid 
-     * @param points a NON-EMPTY list of points
+     * @param destination (if positive => to foreground, if negative => to background)
      */
-    constructor(userid: string, magnetid: string) {
+    constructor(userid: string, magnetid: string, destination: number) {
         super(userid);
         this.magnetid = magnetid;
+        this.destination = destination;
         this.isDirectlyUndoable = true;
     }
 
     createOverviewImage(): string { return "url(img/icons/magnetMove.svg)"; }
 
-    do(): void {
+
+    do(destination: number): void {
+        console.log(this.magnetid)
         const m = document.getElementById(this.magnetid);
-        const z = -parseInt(m.style.zIndex); //new value for zIndex
+
+        if (m.style.zIndex == "")
+            m.style.zIndex = "1";
+        const z = parseInt(m.style.zIndex); //new value for zIndex
+
+        if (z * destination > 0) //same side (all in the foregrounds or all in the background)
+            return;
 
         /** animations */
         m.classList.remove("magnetToForeground");
         m.classList.remove("magnetToBackground");
-        if (z < 0)
+        
+        if (destination < 0) 
             m.classList.add("magnetToBackground");
         else
             m.classList.add("magnetToForeground");
 
-        m.style.zIndex = z + "";
+        m.style.zIndex = (-z) + "";
+
+        if (!(destination * parseInt(m.style.zIndex) > 0)) {
+            ShowMessage.error("errur in switching background and foreground");
+            console.trace(`action magnet switch : ${destination} and ${z} and ${m.style.zIndex}`);
+        }
     }
 
-    /** switching between back/foreground is an involution */
-    async redo(): Promise<void> { this.do(); }
-    async undo(): Promise<void> { this.do(); }
+    async redo(): Promise<void> { this.do(this.destination); }
+    async undo(): Promise<void> { this.do(-this.destination); }
 
 
 }

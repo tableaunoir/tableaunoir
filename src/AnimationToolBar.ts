@@ -40,7 +40,6 @@ export class AnimationToolBar {
 
     static currentIndex = 0;
 
-    static isActionSelected(): boolean { return false }
     static selection: SelectionActions = new SelectionActions();
 
     static deselect(): void {

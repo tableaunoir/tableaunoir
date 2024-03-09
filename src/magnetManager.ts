@@ -408,7 +408,11 @@ export class MagnetManager {
 	 * @description set the z-index of the element depending on the size of the element
 	 */
 	static setZIndex(element: HTMLElement): void {
-		const f = () => { const LARGENUMBER = 10000; element.style.zIndex = "" + (LARGENUMBER - element.clientWidth); };
+		const f = () => {
+			const LARGENUMBER = 10000;
+			const sign = (element.classList.contains("magnetToBackground") ? "-" : "");
+			element.style.zIndex = sign + (LARGENUMBER - element.clientWidth);
+		};
 
 		if (element.tagName == "IMG")
 			element.addEventListener("load", f);

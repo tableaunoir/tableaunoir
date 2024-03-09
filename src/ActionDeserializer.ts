@@ -81,7 +81,7 @@ export class ActionDeserializer {
             return new ActionMagnetDelete(obj.userid, obj.magnetid);
         }
         if (obj.type == "magnetswitchbackgroundforeground") {
-            return new ActionMagnetSwitchBackgroundForeground(obj.userid, obj.magnetid);
+            return new ActionMagnetSwitchBackgroundForeground(obj.userid, obj.magnetid, obj.destination);
         }
         if (obj.type == "magnetchangesizeratio") {
             return new ActionMagnetChangeSizeRatio(obj.userid, obj.magnetid, obj.ratio);

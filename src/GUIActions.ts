@@ -75,7 +75,7 @@ export class GUIActions {
 
     static init(): void {
         GUIActions.palette.onchange = () => {
-            if (AnimationToolBar.isActionSelected) {
+            if (AnimationToolBar.isSelection()) {
                 BoardManager.executeOperation(new OperationColorizeSeveralActions(
                     Array.from(AnimationToolBar.selection.selection), GUIActions.palette.getCurrentColor()));
                 //TODO: recolorize the actions that are selected in the timeline :)

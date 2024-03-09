@@ -281,7 +281,7 @@ a {
 }
 
 .magnetToBackground {
-	animation: magnetToBackground 500ms forwards;
+	animation: magnetToBackground 200ms forwards;
 }
 
 
@@ -307,7 +307,7 @@ a {
 }
 
 .magnetToForeground {
-	animation: magnetToForeground 500ms forwards;
+	animation: magnetToForeground 200ms forwards;
 }
 
 
