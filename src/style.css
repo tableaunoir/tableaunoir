@@ -1383,3 +1383,9 @@ h1 {
 	stroke-width: 2px;
 	fill: none;
 }
+
+
+
+#qrcode {
+	width: 512px;
+}
