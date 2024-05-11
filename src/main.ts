@@ -143,6 +143,13 @@ function load() {
 		/*ErrorMessage.show("Tableaunoir works, but maybe not in share mode since INRIA servers are down see <a href='https://intranet.inria.fr/Actualite/Important-arret-complet-des-services-informatiques-locaux-le-mercredi-24-mars'>here</a>");*/
 
 
+
+
+		const params = (new URL(document.location.href)).searchParams;
+        if (params.get("load") != null && params.get("id") == null) {
+			LoadSave.loadTableaunoirFileFromURL(params.get("load"));
+		}
+            
 	}
 	catch (e) {
 		console.error(e.stack);
