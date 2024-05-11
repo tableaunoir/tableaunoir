@@ -469,7 +469,7 @@ export class Share {
 			const imgQRCode = <HTMLImageElement>document.getElementById("qrcode");
 			imgQRCode.hidden = false;
 			imgQRCode.src = "https://qrcode.tec-it.com/API/QRCode?data=" + url;
-			//"https://chart.googleapis.com/chart?cht=qr&chl=" + url + "&chs=200x200&chld=L|0"; (not working anymore)
+			//"https://chart.googleapis.com/chart?cht=qr&chl=" + url + "&chs=200x200&chld=L|0"; (not working)
 		}
 
 		const urlCorrected = url.startsWith("file://") ? config.server.frontend + "?id=" + Share.id : url;
