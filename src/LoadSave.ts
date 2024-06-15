@@ -306,12 +306,12 @@ export class LoadSave {
 
 
 
-    static async loadTableaunoirFileFromURL(url) {
+    static async loadTableaunoirFileFromURL(url: string) {
         const urlFetch = await fetch(url);
         const json = await urlFetch.json();
         LoadSave.loadJSON(json);
     }
-    
+
     static getTableauNoirObject(): any {
         //   const magnets = document.getElementById("magnets").innerHTML;
         const backgroundLayer = document.getElementById("documentPanel").innerHTML;
