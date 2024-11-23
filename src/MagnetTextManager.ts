@@ -127,7 +127,7 @@ export class MagnetTextManager {
 
 		element.ondblclick = () => {
 			if (element.dataset.type == "LaTEX") {
-				const answer = prompt("Type the LaTEX code: (e.g. \frac 1 2)", element.dataset.code);
+				const answer = prompt("Type the LaTEX code: (e.g. \\frac 1 2)", element.dataset.code);
 
 				if (answer)
 					MagnetTextManager.setLaTEX(element, answer);
