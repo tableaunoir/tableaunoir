@@ -51,6 +51,7 @@ canvas {
 	cursor: none;
 	touch-action: none;
 	background-repeat: repeat;
+	border-right: 2px gray solid;
 }
 
 #canvasBackground {
@@ -62,6 +63,7 @@ canvas {
 	position: relative;
 	margin: 0px;
 	padding: 0px;
+	overflow: hidden;
 }
 
 
@@ -167,7 +169,6 @@ helpbutton {
 
 
 #container {
-	overflow: hidden;
 	margin: 0px;
 	padding: 0px;
 	bottom: 0px;
