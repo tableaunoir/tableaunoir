@@ -97,7 +97,7 @@ export class Layout {
 
         OptionManager.boolean({
             name: "horizontalScrollbar",
-            defaultValue: false,
+            defaultValue: true,
             onChange: (isScrollbar) => {
                 getContainer().style.overflowX = isScrollbar ? "scroll" : "hidden";
             }

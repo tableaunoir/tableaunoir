@@ -53,6 +53,7 @@ export class BoardNavigation {
         const container = getContainer();
         const canvas = getCanvas();
         document.getElementById("buttonLeft").classList.remove("disabled");
+        
         if (container.scrollLeft >= MAXCANVASWIDTH - Layout.getWindowWidth()) {
             container.scrollLeft = MAXCANVASWIDTH - Layout.getWindowWidth();
             return;
