@@ -51,7 +51,6 @@ canvas {
 	cursor: none;
 	touch-action: none;
 	background-repeat: repeat;
-	border-right: 2px gray solid;
 }
 
 #canvasBackground {
@@ -65,6 +64,9 @@ canvas {
 	padding: 0px;
 	overflow: hidden;
 }
+
+
+
 
 
 
@@ -172,6 +174,21 @@ helpbutton {
 	margin: 0px;
 	padding: 0px;
 	bottom: 0px;
+}
+
+
+#container.ContainerScrollEnabled {
+	overflow-x: scroll;
+}
+
+
+#container:not(.ContainerScrollEnabled) {
+	overflow-x: hidden;
+}
+
+
+#container.ContainerMapMode {
+	overflow-x: hidden;
 }
 
 #svg {

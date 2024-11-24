@@ -97,7 +97,8 @@ export class BoardManager {
             canvas.width = atLeastWidth;
             BoardManager.timeline.canvasRedraw();
         }
-        document.getElementById("board").style.width = canvas.width + "px";
+        const EXTRA = 200;
+        document.getElementById("board").style.width = (canvas.width + EXTRA) + "px";
     }
 
 
