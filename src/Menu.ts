@@ -14,8 +14,9 @@ export class Menu {
      * @param pageName
      * @param elmnt
      * @description open the page of name pageName
+     * @example Menu.openPage('MyBlackboard', this)
      */
-    static openPage(pageName: string, elmnt: HTMLElement): void {
+    private static openPage(pageName: string, elmnt: HTMLElement): void {
         // Hide all elements with class="tabcontent" by default */
         const tabcontent = document.getElementsByClassName("tabcontent");
         for (let i = 0; i < tabcontent.length; i++) {
@@ -73,7 +74,7 @@ export class Menu {
         Menu.getMenu().classList.add("menuShow");
         Menu.getMenu().classList.remove("menuHide");
 
-        
+
     }
 
 
@@ -81,6 +82,10 @@ export class Menu {
         Menu.openPage("Share", document.getElementById("tabShare"));
     }
 
+
+    static openPageMyBoard(): void {
+        Menu.openPage("MyBlackboard", document.getElementById("defaultOpen"));
+    }
 
     /**
      * @returns true iff the menu is shown

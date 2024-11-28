@@ -75,6 +75,16 @@ export class KeyBoardShortCuts {
         if (Menu.isShown())
             return;
 
+        if (evt.ctrlKey && keyLowerCase == "s") { //Ctrl + S = open the menu "save"
+            Menu.show();
+            Menu.openPageMyBoard();
+            setTimeout(() => {
+                const textBoxFileName = <HTMLInputElement> document.getElementById("name");
+                textBoxFileName.select();
+                textBoxFileName.focus();
+            }, 500);
+            evt.preventDefault();
+        }
         if (evt.ctrlKey && evt.altKey && keyLowerCase == "n" && UserManager.me.canWrite) {// alt + n = new slide
             Share.execute("newSlide", [UserManager.me.userID]);
             AnimationToolBar.hideMenu();
