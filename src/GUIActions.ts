@@ -153,6 +153,7 @@ export class GUIActions {
                 /*note that for performance issue etc., a removed magnet is not really removed but just hidden. 
             So we check that the magnet is visible  */
                 if (S.inRectangle({ x: x, y: y }, magnetGetRectangle(m))) {
+                    /* TODO: here we should test for the polygon clipPath or maybe use the document.elementsFromPoint() method*/
                     return m;
                 }
         }
@@ -165,9 +166,6 @@ export class GUIActions {
      * if the magnet is in the background, it moves that magnet foreground
      */
     static magnetSwitchBackgroundForeground(): void {
-
-
-
         const switchBackgroundForegroundOfMagnet = (m: HTMLElement) => {
             Share.execute("magnetSwitchBackgroundForeground", [UserManager.me.userID, m.id])
         }
