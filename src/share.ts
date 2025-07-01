@@ -32,6 +32,13 @@ export class Share {
 	 * @description tries to connect to the server, when the connection is made, it executes f
 	 */
 	static tryConnect(f: () => void): void {
+		/**
+		 * remove these two lines (this is only for the github version)
+		 */
+		ShowMessage.error("INRIA suddently decided to stop the support of sharing boards with tableaunoir. ENS de Lyon will soon provide a solution. Consider also to install a server on your own institution.");
+		return;
+
+
 		Share.isTryingToConnect = true;
 		Share.id = Share.getIDInSharedURL();
 
@@ -85,7 +92,7 @@ export class Share {
 
 	}
 
-	
+
 	/**
 	 * initialization
 	 */
