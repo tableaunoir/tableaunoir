@@ -35,9 +35,8 @@ export class Share {
 		/**
 		 * remove these two lines (this is only for the github version)
 		 */
-		ShowMessage.error("INRIA suddently decided to stop the support of sharing boards with tableaunoir. ENS de Lyon will soon provide a solution. Consider also to install a server on your own institution.");
+		ShowMessage.error("Sorry, we are working on hosting a server for this demo version at ENS de Lyon. Thank you INRIA/IRISA for having provided a server from october 2020 til june 2025. Also consider installing a server on your own institution.");
 		return;
-
 
 		Share.isTryingToConnect = true;
 		Share.id = Share.getIDInSharedURL();
