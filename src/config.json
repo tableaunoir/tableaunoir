@@ -1,6 +1,6 @@
 {
   "server": {
-    "websocket": "ws://tableaunoir.lip.ens-lyon.fr:443/ws",
+    "websocket": "ws://tableaunoir.ens-lyon.fr:443/ws",
     "frontend": "https://tableaunoir.github.io"
   }
 }

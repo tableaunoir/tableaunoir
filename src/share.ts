@@ -35,8 +35,6 @@ export class Share {
 		/**
 		 * remove these two lines (this is only for the github version)
 		 */
-		ShowMessage.error("Sorry, we are working on hosting a server for sharing boards for this demo version at ENS de Lyon. We thank INRIA/IRISA that provided a server from October 2020 til June 2025. Also consider installing a server on your own institution.");
-		return;
 
 		Share.isTryingToConnect = true;
 		Share.id = Share.getIDInSharedURL();
