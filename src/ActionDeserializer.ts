@@ -38,7 +38,7 @@ export class ActionDeserializer {
         if (obj.type == "rectangle")
             return new ActionRectangle(obj.userid, obj.x1, obj.y1, obj.x2, obj.y2, obj.color);
         if (obj.type == "line")
-            return new ActionLine(obj.userid, obj.x1, obj.y1, obj.x2, obj.y1, obj.color);
+            return new ActionLine(obj.userid, obj.x1, obj.y1, obj.x2, obj.y2, obj.color);
         if (obj.type == "freedraw") {
             const action = new ActionFreeDraw(obj.userid);
             for (const point of obj.points)
