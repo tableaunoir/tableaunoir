@@ -16,6 +16,7 @@ import { ActionFreeDraw } from './ActionFreeDraw';
 import { ActionLine } from './ActionLine';
 import { ActionClear } from './ActionClear';
 import { ActionSlideStart } from './ActionSlideStart';
+import { ActionWait } from './ActionWait';
 
 
 /**
@@ -88,6 +89,8 @@ export class ActionDeserializer {
         }
         if (obj.type == "slidestart")
             return new ActionSlideStart(obj.userid);
+        if (obj.type == "wait")
+            return new ActionWait(obj.userid);
 
         throw "ActionDeserializer: unknown type of action";
     }

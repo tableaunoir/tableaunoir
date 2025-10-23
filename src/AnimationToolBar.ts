@@ -499,6 +499,14 @@ export class AnimationToolBar {
             Share.execute("newSlide", [UserManager.me.userID]);
             AnimationToolBar.hideMenu();
         };
+
+        document.getElementById("addActionWait").onclick = () => {
+            Share.execute("addActionWait", [UserManager.me.userID]);
+            AnimationToolBar.hideMenu();
+        };
+
+
+
         document.getElementById("forgetAnimation").onclick = () => {
             Share.execute("forgetAnimation", [UserManager.me.userID]);
             AnimationToolBar.hideMenu();

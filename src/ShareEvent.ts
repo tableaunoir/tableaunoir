@@ -21,6 +21,7 @@ import { ToolArc } from './ToolArc';
 import { ActionMagnetChangeSizeRatio } from './ActionMagnetChangeSizeRatio';
 import { ActionMagnetSwitchBackgroundForeground } from './ActionMagnetSwitchBackgroundForeground';
 import { Magnetizer } from './Magnetizer';
+import { ActionWait } from './ActionWait';
 
 /**
  * this class contains the events that are shared with other users connected to the same tableaunoir
@@ -219,6 +220,9 @@ export class ShareEvent {
     static newSlideAndClear(userid: string): void { BoardManager.newSlideAndClear(userid) }
     static mergeSlide(userid: string): void { BoardManager.mergeSlide(userid) }
     static forgetAnimation(userid: string): void { BoardManager.forgetAnimation(userid) }
+    static addActionWait(userid: string): void {
+        BoardManager.addAction(new ActionWait(userid));
+    }
 
     /**backgrounds */
 
