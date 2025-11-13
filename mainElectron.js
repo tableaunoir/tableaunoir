@@ -113,7 +113,7 @@ function newDocument() {
             title: 'Confirm',
             message: 'Are you sure you want to create a new fresh board?'
         });
-    if (choice == 0) {
+    if (choice == 0) { // yes
         filename = undefined;
         win.title = "Tableaunoir - (new board)";
         win.webContents.send("new");
