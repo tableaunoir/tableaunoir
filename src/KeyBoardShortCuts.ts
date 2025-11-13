@@ -14,6 +14,7 @@ import { Menu } from './Menu';
 import { S, Script } from './Script';
 import { Magnetizer } from './Magnetizer';
 import { ToolDraw } from './ToolDraw';
+import { DesktopApplicationManager } from './DesktopApplicationManager';
 
 
 
@@ -75,7 +76,7 @@ export class KeyBoardShortCuts {
         if (Menu.isShown())
             return;
 
-        if (evt.ctrlKey && keyLowerCase == "s") { //Ctrl + S = open the menu "save"
+        if (evt.ctrlKey && keyLowerCase == "s" && !DesktopApplicationManager.is) { //Ctrl + S = open the menu "save"
             Menu.show();
             Menu.openPageMyBoard();
             setTimeout(() => {
