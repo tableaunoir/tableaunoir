@@ -79,8 +79,7 @@ function buildMenu() {
                         isFullScreen = !isFullScreen;
                         win.setFullScreen(isFullScreen);
                     }
-                },
-                { label: 'Redo', accelerator: "Ctrl+Shift+Z", click() { win.webContents.send("redo"); } },
+                }
             ]
         },
         /*,

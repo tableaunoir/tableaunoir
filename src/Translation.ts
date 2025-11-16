@@ -2,11 +2,19 @@ import { OptionManager } from './OptionManager';
 import { ShowMessage } from './ShowMessage';
 
 /**
+ * Languages that are available. A translation file should be present for each language, except "en" which is the reference language: fr.json for instance, ...
+ */
+const availableLanguage = ["fr", "en", "de", "es"];
+
+/**
  * This class enables to translate Tableaunoir in other languages (french for instance)
  */
 export class Translation {
 
-    private static readonly englishDict = {};
+    /**
+     * The English dictionnary is empty. But we store on the fly the English dictionnary in order to be able to translate back in English if the user selects English!
+     */
+    private static readonly englishDict = {}; 
 
     /**
      * initialization
@@ -15,17 +23,13 @@ export class Translation {
         try {
             setTimeout(() => OptionManager.string({
                 name: "language",
-                defaultValue: "en",
-                onChange: (s) => {
-                    Translation.translate(s);
-                }
+                defaultValue: availableLanguage.indexOf(navigator.language)>=0 ? navigator.language : "en", // the by-default language is the language of the system, and English if not available
+                onChange: (s) => { Translation.translate(s); }
             }), 1000);
-
         }
         catch (e) {
             ShowMessage.error(e);
         }
-
     }
 
 
@@ -33,7 +37,7 @@ export class Translation {
      * @returns a promise on the dictionnary of the selected language
      */
     static fetchDictionary(language: string): Promise<{ [index: string]: string }> {
-        if (language == null || language == "en") //English is the by-default language
+        if (language == null || language == "en") //English is the reference language
             return new Promise(() => {
                 //TODO:
             });
@@ -54,7 +58,7 @@ export class Translation {
             return;
 
         if ((<HTMLElement>element).title != undefined) {
-            if (dict[(<HTMLElement>element).title]) {
+            if (dict[(<HTMLElement>element).title.trim()]) {
                 Translation.setEnglishDictEntry(dict[(<HTMLElement>element).title], (<HTMLElement>element).title);
                 (<HTMLElement>element).title = dict[(<HTMLElement>element).title];
             }
@@ -62,8 +66,8 @@ export class Translation {
         }
 
         if (element.children.length == 0) {
-            if (dict[element.innerHTML]) {
-                Translation.setEnglishDictEntry(dict[element.innerHTML], element.innerHTML);
+            if (dict[element.innerHTML.trim()]) {
+                Translation.setEnglishDictEntry(dict[element.innerHTML.trim()], element.innerHTML);
                 element.innerHTML = dict[element.innerHTML];
             }
 
@@ -92,14 +96,14 @@ export class Translation {
      */
     static translateFromIDs(dict: { [index: string]: string }): void {
         for (const key in dict) {
-            if (key.startsWith('#')) {
+            if (key.startsWith('#') && !key.endsWith(".title")) {
                 const element = document.getElementById(key.substr(1));
 
                 if (element == undefined)
-                    console.log(`Element ${key} not found. I cannot translate..`);
+                    console.log(`Language translation: Element ${key} not found.`);
                 else {
                     if (element.children.length > 0)
-                        console.log(`I refuse to translate because element ${key}  has some children.`);
+                        console.log(`Language translation: I refuse to translate because element ${key}  has some children.`);
 
                     Translation.setEnglishDictEntry(key, element.innerHTML);
                     element.innerHTML = dict[key];
@@ -120,7 +124,7 @@ export class Translation {
                 const element = document.getElementById(id);
 
                 if (element == undefined)
-                    console.log(`Element of id ${id} not found. I cannot translate..`);
+                    console.log(`Language translation: Element of id ${id} not found. Thus I cannot translate ${key}`);
                 else {
                     Translation.setEnglishDictEntry(key, element.title);
                     element.title = dict[key];

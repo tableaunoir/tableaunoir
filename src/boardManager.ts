@@ -383,18 +383,16 @@ export class BoardManager {
 
         const indicesSuchThat = (array: Action[], i: number, j: number, predicate: (a: Action, k: number) => boolean) => {
             const result = [];
-            for (let k = i; k <= j; k++) {
+            for (let k = i; k <= j; k++)
                 if (predicate(array[k], k))
                     result.push(k);
-            }
             return result;
         }
 
         const firstIndexSuchThat = (array: Action[], i: number, j: number, predicate) => {
-            for (let k = i; k <= j; k++) {
+            for (let k = i; k <= j; k++)
                 if (predicate(array[k], k))
                     return k;
-            }
             return undefined;
         }
 
