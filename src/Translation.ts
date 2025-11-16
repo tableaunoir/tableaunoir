@@ -68,7 +68,7 @@ export class Translation {
         if (element.children.length == 0) {
             if (dict[element.innerHTML.trim()]) {
                 Translation.setEnglishDictEntry(dict[element.innerHTML.trim()], element.innerHTML);
-                element.innerHTML = dict[element.innerHTML];
+                element.innerHTML = dict[element.innerHTML.trim()];
             }
 
         } else {
