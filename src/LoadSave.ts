@@ -332,12 +332,22 @@ export class LoadSave {
     static getTableauNoirString(): string { return JSON.stringify(LoadSave.getTableauNoirObject(), null, 1); }
 
 
+    /**
+     * @param fileNamePattern 
+     * @returns the file name where %DATE has been replaced by the current date
+     */
+    static getFileNameFromFileNamePattern(fileNamePattern: string): string {
+        const now = new Date();
+        const nowString = `${now.getFullYear()}-${now.getMonth() + 1}-${now.getDate()}-${now.getHours()}-${now.getMinutes()}-${now.getSeconds()}`;
+        return fileNamePattern.replace(/%DATE/g, nowString);
+    }
 
     /**
      * @description save the blackboard and the magnets
      */
     static save(): void {
-        LoadSave.download((<HTMLInputElement>document.getElementById("name")).value + ".tableaunoir", LoadSave.getTableauNoirString());
+        const filename = LoadSave.getFileNameFromFileNamePattern((<HTMLInputElement>document.getElementById("name")).value);
+        LoadSave.download(filename + ".tableaunoir", LoadSave.getTableauNoirString());
     }
 
     /**

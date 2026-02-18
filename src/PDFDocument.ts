@@ -55,6 +55,7 @@ export class PDFDocument {
 
                 // Render PDF page into canvas context
                 const renderContext = {
+                    canvas,
                     canvasContext: ctx,
                     viewport: viewport
                 };

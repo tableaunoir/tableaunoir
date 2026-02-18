@@ -38,7 +38,8 @@ export class Export {
         Layout.setForExportPng();
         const bigCanvas = await Export.getCanvasBoard();
         const canvas = Export.extractFromCanvas(bigCanvas, 0, BoardManager.width);
-        LoadSave.downloadDataURL((<HTMLInputElement>document.getElementById("exportPngName")).value + ".png", canvas.toDataURL());
+        const filename = LoadSave.getFileNameFromFileNamePattern((<HTMLInputElement>document.getElementById("exportPngName")).value);
+        LoadSave.downloadDataURL(filename + ".png", canvas.toDataURL());
         Layout.restoreForUse();
     }
 
@@ -155,8 +156,9 @@ export class Export {
             firstpage = false; //for sure it is not the first page because at least one slide has been produced
             islide++;
         }
-        //doc.save((<HTMLInputElement>document.getElementById("exportPngName")).value + ".pdf");
-        doc.output("pdfobjectnewwindow", { filename: (<HTMLInputElement>document.getElementById("exportPngName")).value + ".pdf" });
+        const filename = LoadSave.getFileNameFromFileNamePattern((<HTMLInputElement>document.getElementById("exportPngName")).value);
+
+        doc.output("pdfobjectnewwindow", { filename: filename + ".pdf" });
         BoardManager.timeline.setCurrentIndex(t); //restore the current timeline index
         Layout.restoreForUse();
     }
