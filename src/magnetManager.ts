@@ -395,8 +395,6 @@ export class MagnetManager {
 		for (let i = 0; i < magnets.length; i++)
 			MagnetManager._installMagnet(magnets[i]);
 
-		MagnetTextManager.latexTypeSet();
-
 
 	}
 
