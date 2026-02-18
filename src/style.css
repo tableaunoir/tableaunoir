@@ -370,6 +370,7 @@ a {
 .magnetText div {
 	background-color: rgba(128, 128, 128, 0.2);
 	font-size: 24px;
+	font-weight: normal;
 	cursor: text;
 	min-width: 4px;
 }
@@ -945,6 +946,9 @@ h1 {
 }
 
 
+
+
+
 @keyframes divideLineHelp {
 	from {
 		height: 0px;
@@ -1388,4 +1392,10 @@ h1 {
 
 #qrcode {
 	width: 512px;
+}
+
+
+
+p {
+	margin: 4px;
 }

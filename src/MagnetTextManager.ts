@@ -1,8 +1,15 @@
 import { Share } from './share';
 import { MagnetManager } from './magnetManager';
 import { UserManager } from './UserManager';
+import {Converter} from "showdown";
 
 
+
+
+function markdownToHTML(code) {
+	const converter = new Converter();
+	return converter.makeHtml(code);
+}
 
 
 export class MagnetTextManager {
@@ -49,15 +56,13 @@ export class MagnetTextManager {
 	/**
 	 * 
 	 * @param element 
-	 * @param LaTEXCode e.g. "\frac x y" (do not put the $ etc.)
-	 * @description update the magnet element to be the rendering of the latex code LaTEXCode
+	 * @param markdown code e.g. "**equation** is $\frac x y = 1$"
+	 * @description set the code to the text magnet
 	 */
-	private static setLaTEX(element: HTMLElement, LaTEXCode: string): void {
+	private static validateCode(element: HTMLElement, code: string): void {
 		const divText = <HTMLElement>element.children[0];
-		element.dataset.type = "LaTEX";
-		element.dataset.code = LaTEXCode;
-		divText.contentEditable = "false";
-		divText.innerHTML = `\\[${element.dataset.code}\\]`;
+		element.dataset.code = code;
+		divText.innerHTML = markdownToHTML(code);
 		MagnetTextManager.latexTypeSet();
 
 		if (Share.isShared())
@@ -65,56 +70,6 @@ export class MagnetTextManager {
 	}
 
 
-	/**
-	 * 
-	 * @param element
-	 * @returns the corresponding latex that is written raw in element, or undefined otherwise if there is no such raw LaTEX code
-	 */
-	private static recognizeLaTEXCode(element: HTMLElement): string {
-		function recognizeLaTEXCodeInDiv(divText): string {
-			const text = divText.innerHTML;
-			if (text.startsWith("$") && text.endsWith("$")) { //recognize $....$
-				return text.substring(1, text.length - 1);
-			}
-			else if (text.startsWith("$") && text.endsWith("$<br>")) { //for some reasons, on Firefox, adding a space adds a fake "<br>" at the end
-				return text.substring(1, text.length - "$<br>".length);
-			}
-			else if (text.startsWith("\\[") && text.endsWith("\\]")) {
-				return text.substring(2, text.length - 2);
-			}
-			else return undefined;
-		}
-
-		const divText = <HTMLElement>element.children[0];
-		const laTEXCodeDirect = recognizeLaTEXCodeInDiv(divText); //LaTEX code directly extracted from the HTML code of divText
-
-		if (laTEXCodeDirect)
-			return laTEXCodeDirect;
-		else if (divText.children.length == 1) //maybe divText contains a unique div (it happens when new lines were created and deleted)
-			return recognizeLaTEXCodeInDiv(<HTMLElement>divText.children[0]);
-		else
-			return undefined;
-
-
-
-	}
-
-
-
-	/**
-	 * 
-	 * @param element 
-	 * @decription this function tries to see whether the element is a LaTEX magnet.
-	 * If yes it parses it and shows the formula
-	 */
-	private static maybeRecognizeLaTEX(element: HTMLElement): void {
-		const latexCode = MagnetTextManager.recognizeLaTEXCode(element);
-
-		if (latexCode != undefined)
-			MagnetTextManager.setLaTEX(element, latexCode);
-		else //else there may be some standard LaTEX "\[...\]" inside the text magnet
-			MagnetTextManager.latexTypeSet();
-	}
 
 	/**
 	 *
@@ -122,16 +77,14 @@ export class MagnetTextManager {
 	 * @description set up the text magnet: add the mouse event, key event for editing the text magnet
 	 */
 	public static installMagnetText(element: HTMLElement): void {
-		MagnetTextManager.maybeRecognizeLaTEX(element);
 		const divText = <HTMLElement>element.children[0];
 
 		element.ondblclick = () => {
-			if (element.dataset.type == "LaTEX") {
-				const answer = prompt("Type the LaTEX code: (e.g. \\frac 1 2)", element.dataset.code);
+			const answer = prompt("Type the markdown code: (e.g. \\frac 1 2)", element.dataset.code);
 
-				if (answer)
-					MagnetTextManager.setLaTEX(element, answer);
-			}
+			if (answer)
+				MagnetTextManager.validateCode(element, answer);
+
 		}
 
 		divText.onpointerdown = (e) => { e.stopPropagation(); }
@@ -154,7 +107,7 @@ export class MagnetTextManager {
 			if (e.key == "Escape") {
 				divText.blur();
 
-				MagnetTextManager.maybeRecognizeLaTEX(element);
+				MagnetTextManager.validateCode(element, divText.innerText);
 
 
 				window.getSelection().removeAllRanges();
@@ -197,13 +150,13 @@ export class MagnetTextManager {
 	 */
 	public static addMagnetText(x: number, y: number): void {
 		const div = document.createElement("div");
-		const divText = document.createElement("div");
+		const divContent = document.createElement("div");
 
-		div.appendChild(divText);
-		divText.innerHTML = "type text";
-		divText.contentEditable = "true";
-		divText.style.fontSize = "24px";
-		divText.style.color = UserManager.me.color;
+		div.appendChild(divContent);
+		divContent.innerHTML = "type text";
+		divContent.contentEditable = "true";
+		divContent.style.fontSize = "24px";
+		divContent.style.color = UserManager.me.color;
 		div.classList.add("magnetText");
 
 		div.style.left = x + "px";
