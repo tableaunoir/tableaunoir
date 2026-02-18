@@ -1,15 +1,30 @@
 import { Share } from './share';
 import { MagnetManager } from './magnetManager';
 import { UserManager } from './UserManager';
-import {Converter} from "showdown";
+import { Marked } from "marked";
+import { markedHighlight } from "marked-highlight";
+import hljs from 'highlight.js';
+import 'highlight.js/styles/default.css';
+
+// or UMD script
+// <script src="https://cdn.jsdelivr.net/npm/marked/lib/marked.umd.js"></script>
+// <script src="https://cdn.jsdelivr.net/npm/marked-highlight/lib/index.umd.js"></script>
+// const { Marked } = globalThis.marked;
+// const { markedHighlight } = globalThis.markedHighlight;
+const marked = new Marked(
+	markedHighlight({
+		emptyLangClass: 'hljs',
+		langPrefix: 'hljs language-',
+		highlight(code, lang, info) {
+			const language = hljs.getLanguage(lang) ? lang : 'plaintext';
+			return hljs.highlight(code, { language }).value;
+		}
+	})
+);
 
 
 
-
-function markdownToHTML(code) {
-	const converter = new Converter();
-	return converter.makeHtml(code);
-}
+function markdownToHTML(code) { return marked.parse(code, { async: false }); }
 
 
 export class MagnetTextManager {
@@ -18,12 +33,7 @@ export class MagnetTextManager {
 	 * @description call the LaTEX engine (MathJaX)
 	 */
 	static latexTypeSet() {
-		try {
-			eval("MathJax.typeset();");
-		}
-		catch (e) {
-			console.log("MathJaX not supported");
-		}
+		try { eval("MathJax.typeset();"); } catch (e) { console.log("MathJaX not supported"); }
 	}
 	/**
 	 * 

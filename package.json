@@ -26,10 +26,12 @@
     "@types/lz-string": "*",
     "@types/pdfjs-dist": "*",
     "color": "*",
+    "highlight.js": "^11.11.1",
     "html2canvas": "*",
     "jspdf": "*",
     "lz-string": "*",
-    "showdown": "^2.1.0",
+    "marked": "^17.0.3",
+    "marked-highlight": "^2.2.3",
     "tippy.js": "^6.3.7"
   }
 }
