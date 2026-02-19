@@ -250,6 +250,6 @@ export class MagnetTextManager {
 		}
 
 		//accessing the dom via the id instead of the div itself, because the div may have been modified after addMagnet
-		setTimeout(() => focusAndSelectAll(div.id), 200);
+		setTimeout(() => focusAndSelectAll(div.id), 50);
 	}
 }
