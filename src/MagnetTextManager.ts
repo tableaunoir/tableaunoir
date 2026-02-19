@@ -180,7 +180,9 @@ export class MagnetTextManager {
 				setFontSize(size);
 				e.preventDefault();
 			}
-
+			else if (e.key == "PageDown" || e.key == "PageUp") {
+				e.preventDefault(); // to prevent a weird behavior where the text magnet moves at the top
+			}
 
 			e.stopPropagation();
 		}
