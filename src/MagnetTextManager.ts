@@ -238,7 +238,8 @@ export class MagnetTextManager {
 
 		function focusAndSelectAll(idmagnet: string) {
 			const magnet = document.getElementById(idmagnet);
-			const divCode = <HTMLElement> magnet.children[0];
+			MagnetTextManager.toggleCodeEditionMode(magnet);
+			const divCode = <HTMLElement>magnet.children[0];
 			divCode.focus();
 			const range = document.createRange();
 			const sel = window.getSelection();
