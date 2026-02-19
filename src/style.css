@@ -240,7 +240,7 @@ helpbutton {
 	font-size: 12px;
 }
 
-em {
+#menu em {
 	color: rgb(220, 255, 168);
 	font-weight: italic;
 }

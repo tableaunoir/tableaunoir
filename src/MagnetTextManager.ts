@@ -21,17 +21,7 @@ const marked = new Marked(
 
 function markdownToHTML(code) { return marked.parse(code, { async: false }); }
 
-try {
-	(<any>window).MathJax.Hub.Config({
-		tex2jax: {
-			inlineMath: [['$', '$'], ['\\(', '\\)']],
-			processEscapes: true
-		}
-	});
-}
-catch (e) {
-	console.log("MathJaX not supported or impossible to configure");
-}
+
 
 export class MagnetTextManager {
 
@@ -60,6 +50,7 @@ export class MagnetTextManager {
 	 * @description set the color of the text in the magnet element
 	 */
 	public static setColor(element: HTMLElement, color: string) {
+		element.style.color = color;
 		(<HTMLElement>element.children[0]).style.color = color;
 	}
 
@@ -78,7 +69,7 @@ export class MagnetTextManager {
 	 * @param markdown code e.g. "**equation** is $\frac x y = 1$"
 	 * @description set the code to the text magnet
 	 */
-	private static validateCode(element: HTMLElement): void {
+	private static toggleDisplayMode(element: HTMLElement): void {
 		const divText = <HTMLElement>element.children[0];
 		const divContent = <HTMLElement>element.children[1];
 		const code = divText.innerText;
@@ -88,12 +79,18 @@ export class MagnetTextManager {
 		divText.hidden = true;
 
 		MagnetTextManager.latexTypeSet(divContent);
-
-		if (Share.isShared())
-			Share.sendMagnetChanged(element);
 	}
 
 
+	private static toggleCodeEditionMode(element: HTMLElement): void {
+		const divCode = <HTMLElement>element.children[0];
+		const divContent = <HTMLElement>element.children[1];
+
+		divCode.hidden = false;
+		divContent.hidden = true;
+		divCode.focus();
+
+	}
 
 	/**
 	 *
@@ -101,65 +98,77 @@ export class MagnetTextManager {
 	 * @description set up the text magnet: add the mouse event, key event for editing the text magnet
 	 */
 	public static installMagnetText(element: HTMLElement): void {
-		const divText = <HTMLElement>element.children[0];
+		const divCode = <HTMLElement>element.children[0];
 		const divContent = <HTMLElement>element.children[1];
 
+		let lastDownTarget = null; // prevent to toggleCodeEdition when moving the magnet
+
 		divContent.onpointerdown = (e) => {
+			lastDownTarget = e.target;
 			e.stopPropagation();
 		}
 
 		divContent.onpointermove = (e) => { e.stopPropagation(); }
 
 		divContent.onpointerup = (e) => {
-			divText.hidden = false;
-			divContent.hidden = true;
-			divText.focus();
+			if (e.target === lastDownTarget)
+				MagnetTextManager.toggleCodeEditionMode(element);
 			//e.stopPropagation();
 
 		};
 
-		/*		divText.onblur = (e) => {
-					MagnetTextManager.validateCode(element);
-					window.getSelection().removeAllRanges();
-				}
-		*/
 
-		divText.onpointerdown = (e) => { e.stopPropagation(); }
-		divText.onpointermove = (e) => { e.stopPropagation(); }
-		divText.onpointerup = (e) => {
-			if (document.activeElement == divText) //if edit mode then the click should stop here
+		divCode.oncontextmenu = (e) => { e.stopPropagation(); }
+		divCode.onpointerdown = (e) => { e.stopPropagation(); }
+		divCode.onpointermove = (e) => { e.stopPropagation(); }
+		divCode.onpointerup = (e) => {
+			if (document.activeElement == divCode) //if edit mode then the click should stop here
 				e.stopPropagation();
 			//otherwise, we do not stop (maybe the magnet is dragged! #144)
 		}
 
-		divText.onkeydown = (e) => {
+
+
+		function validate() {
+			MagnetTextManager.toggleDisplayMode(element);
+			window.getSelection().removeAllRanges();
+
+			if (Share.isShared())
+				Share.execute("magnetChange", [UserManager.me.userID, element.id, element.outerHTML]);
+		}
+
+		divCode.onblur = (e) => {
+			validate();
+		}
+
+
+		divCode.onkeydown = (e) => {
+			const getFontSize = () => {
+				return parseInt(element.style.fontSize);
+			}
 			const setFontSize = (size) => {
-				divText.style.fontSize = size + "px";
+				element.style.fontSize = size + "px";
+				divCode.style.fontSize = size + "px";
 				divContent.style.fontSize = size + "px";
+
 				for (let i = 0; i < divContent.children.length; i++) {
 					(<HTMLElement>divContent.children[i]).style.fontSize = size + "px";
 				}
 			}
 
 
-			if (e.key == "Escape") {
-				divText.blur();
-
-				MagnetTextManager.validateCode(element);
-				window.getSelection().removeAllRanges();
-				/*if(divText.innerHTML == "")
-					MagnetManager.remove(div);*/
-			}
+			if (e.key == "Escape")
+				validate();
 			if ((e.ctrlKey && e.key == "=") || (e.ctrlKey && e.key == "+")) { // Ctrl + +
 
-				let size = parseInt(divText.style.fontSize);
+				let size = getFontSize();
 				size++;
 				setFontSize(size);
 				e.preventDefault();
 
 			}
 			else if (e.ctrlKey && e.key == "-") { // Ctrl + -
-				let size = parseInt(divText.style.fontSize);
+				let size = getFontSize();
 				if (size > 6) size--;
 				setFontSize(size);
 				e.preventDefault();
@@ -169,15 +178,15 @@ export class MagnetTextManager {
 			e.stopPropagation();
 		}
 
-		divText.onkeyup = evt => {
-			Share.execute("magnetChange", [UserManager.me.userID, element.id, element.outerHTML]);
+		divCode.onkeyup = evt => {
+			//Share.execute("magnetChange", [UserManager.me.userID, element.id, element.outerHTML]);
 			/*if (Share.isShared())
 				Share.sendMagnetChanged(element);*/
 			evt.stopPropagation();
 		};
 
 
-		MagnetTextManager.validateCode(element);
+		MagnetTextManager.toggleDisplayMode(element);
 
 	}
 
@@ -195,19 +204,19 @@ export class MagnetTextManager {
 		div.style.left = x + "px";
 		div.style.top = y + "px";
 		div.classList.add("magnetText");
+		div.style.fontSize = "24px";
+		div.style.color = UserManager.me.color;
 
 		const divCode = document.createElement("div");
 		div.appendChild(divCode);
 		divCode.innerHTML = "type text";
-		divCode.style.fontSize = "24px";
-		divCode.style.color = UserManager.me.color;
 		divCode.contentEditable = "plaintext-only";
+		divCode.style.margin = "2px";
+		divCode.style.padding = "2px";
 
 		const divContent = document.createElement("div");
 		div.appendChild(divContent);
 		divContent.innerHTML = "";
-		divContent.style.fontSize = "24px";
-		divContent.style.color = UserManager.me.color;
 		divContent.hidden = true;
 
 		MagnetManager.addMagnet(div);
