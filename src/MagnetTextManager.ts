@@ -101,6 +101,14 @@ export class MagnetTextManager {
 		const divCode = <HTMLElement>element.children[0];
 		const divContent = <HTMLElement>element.children[1];
 
+		if (divContent == undefined) { // just a test because the previous version of Tableaunoir did not have a content
+			const divContent = document.createElement("div");
+			element.appendChild(divContent);
+			divContent.innerHTML = "";
+			divContent.hidden = true;
+			return this.installMagnetText(element);
+		}
+
 		let lastDownTarget = null; // prevent to toggleCodeEdition when moving the magnet
 
 		divContent.onpointerdown = (e) => {
@@ -229,18 +237,19 @@ export class MagnetTextManager {
 
 
 		function focusAndSelectAll(idmagnet: string) {
-			const divText = <HTMLElement>document.getElementById(idmagnet).children[0];
-			divText.focus();
-			const range = document.createRange()
-			const sel = window.getSelection()
+			const magnet = document.getElementById(idmagnet);
+			const divCode = <HTMLElement> magnet.children[0];
+			divCode.focus();
+			const range = document.createRange();
+			const sel = window.getSelection();
 
-			range.selectNodeContents(divText);
+			range.selectNodeContents(divCode);
 
-			sel.removeAllRanges()
-			sel.addRange(range)
+			sel.removeAllRanges();
+			sel.addRange(range);
 		}
 
 		//accessing the dom via the id instead of the div itself, because the div may have been modified after addMagnet
-		setTimeout(() => focusAndSelectAll(div.id), 50);
+		setTimeout(() => focusAndSelectAll(div.id), 200);
 	}
 }
