@@ -133,8 +133,7 @@ export class MagnetTextManager {
 			MagnetTextManager.toggleDisplayMode(element);
 			window.getSelection().removeAllRanges();
 
-			if (Share.isShared())
-				Share.execute("magnetChange", [UserManager.me.userID, element.id, element.outerHTML]);
+			Share.execute("magnetChange", [UserManager.me.userID, element.id, element.outerHTML]);
 		}
 
 		divCode.onblur = (e) => {

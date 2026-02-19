@@ -154,6 +154,15 @@ export class ShareEvent {
         MagnetManager.printMagnet(document.getElementById(magnetID));
     }
 
+    /**
+     * 
+     * @param userid 
+     * @param idMagnet 
+     * @param outerHTML 
+     * @description modify the magnet of id idmagnet by user userid. The content is now outerHTML.
+     * It adds an action in the timeline. Normally it adds an ActionMagnetNew. But if it is a text magnet and the previous action was about that
+     * text magnet, we just update the content of the previous action.
+     */
     static magnetChange(userid: string, idMagnet: string, outerHTML: string): void {
         const magnet = document.getElementById(idMagnet);
         if (magnet.outerHTML != outerHTML) {
