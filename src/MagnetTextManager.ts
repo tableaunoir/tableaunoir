@@ -6,6 +6,203 @@ import { markedHighlight } from "marked-highlight";
 import hljs from 'highlight.js';
 
 
+
+
+
+
+
+class MarkdownMagnet extends HTMLElement {
+
+	connectedCallback() {
+		const shadow = this.attachShadow({ mode: 'open' });
+		this.render();
+	}
+
+
+	/**
+	 * 
+	 * @param element 
+	 * @param markdown code e.g. "**equation** is $\frac x y = 1$"
+	 * @description set the code to the text magnet
+	 */
+	toggleDisplayMode(): void {
+		const divCode = this.editorElement;
+		const divContent = this.renderingElement;
+		const code = divCode.innerText;
+		this.textContent = code;
+
+		divContent.innerHTML = markdownToHTML(code);
+		divContent.hidden = false;
+		divCode.hidden = true;
+
+		MagnetTextManager.latexTypeSet(divContent);
+	}
+
+
+	toggleCodeEditionMode(): void {
+		const divCode = this.editorElement;
+		const divContent = this.renderingElement;
+
+		divCode.hidden = false;
+		divContent.hidden = true;
+		divCode.focus();
+
+	}
+	get markdownCode() {
+		return this.textContent.trim();
+	}
+
+	get editorElement() {return <HTMLElement>this.shadowRoot.children[1]};
+	get renderingElement() {return <HTMLElement>this.shadowRoot.children[2]};
+	
+	render() {
+		const element = this;
+
+		const style = document.createElement("style");
+		style.textContent = `
+    div {
+			background-color: rgba(128, 128, 128, 0.2);
+			font-size: 24px;
+			font-weight: normal;
+			cursor: text;
+			min-width: 4px;
+	}
+
+	p {
+		margin: 4px;
+	}
+    `;
+
+		this.shadowRoot.appendChild(style);
+
+		const divCode = document.createElement("div");
+		this.shadowRoot.appendChild(divCode);
+		divCode.innerText = this.markdownCode;
+		divCode.contentEditable = "plaintext-only";
+		divCode.style.margin = "2px";
+		divCode.style.padding = "2px";
+
+		const divContent = document.createElement("div");
+		this.shadowRoot.appendChild(divContent);
+		divContent.innerHTML = "";
+		divContent.hidden = true;
+
+		let lastDownTarget = null; // prevent to toggleCodeEdition when moving the magnet
+
+		divContent.onpointerdown = (e) => {
+			lastDownTarget = e.target;
+			e.stopPropagation();
+		}
+
+		divContent.onpointermove = (e) => { e.stopPropagation(); }
+
+		divContent.onpointerup = (e) => {
+			if (e.target === lastDownTarget)
+				this.toggleCodeEditionMode();
+			//e.stopPropagation();
+
+		};
+
+
+		divCode.oncontextmenu = (e) => { e.stopPropagation(); }
+		divCode.onpointerdown = (e) => { e.stopPropagation(); }
+		divCode.onpointermove = (e) => { e.stopPropagation(); }
+		divCode.onpointerup = (e) => {
+			if (document.activeElement == divCode) //if edit mode then the click should stop here
+				e.stopPropagation();
+			//otherwise, we do not stop (maybe the magnet is dragged! #144)
+		}
+
+
+
+		const validate = () => {
+			this.toggleDisplayMode();
+			window.getSelection().removeAllRanges();
+
+			Share.execute("magnetChange", [UserManager.me.userID, element.id, element.outerHTML]);
+		}
+
+		divCode.onblur = (e) => {
+			validate();
+		}
+
+
+		divCode.onkeydown = (e) => {
+			const getFontSize = () => {
+				return parseInt(element.style.fontSize);
+			}
+			const setFontSize = (size) => {
+				element.style.fontSize = size + "px";
+				divCode.style.fontSize = size + "px";
+				divContent.style.fontSize = size + "px";
+
+				for (let i = 0; i < divContent.children.length; i++) {
+					(<HTMLElement>divContent.children[i]).style.fontSize = size + "px";
+				}
+			}
+
+
+			if (e.key == "Escape")
+				validate();
+			if ((e.ctrlKey && e.key == "=") || (e.ctrlKey && e.key == "+")) { // Ctrl + +
+
+				let size = getFontSize();
+				size++;
+				setFontSize(size);
+				e.preventDefault();
+
+			}
+			else if (e.ctrlKey && e.key == "-") { // Ctrl + -
+				let size = getFontSize();
+				if (size > 6) size--;
+				setFontSize(size);
+				e.preventDefault();
+			}
+			else if (e.key == "PageDown" || e.key == "PageUp") {
+				e.preventDefault(); // to prevent a weird behavior where the text magnet moves at the top
+			}
+
+			e.stopPropagation();
+		}
+
+		divCode.onkeyup = evt => {
+			//Share.execute("magnetChange", [UserManager.me.userID, element.id, element.outerHTML]);
+			/*if (Share.isShared())
+				Share.sendMagnetChanged(element);*/
+			evt.stopPropagation();
+		};
+
+
+		this.toggleDisplayMode();
+	}
+
+
+
+
+
+
+
+
+
+
+	focusAndSelectAll() {
+		this.toggleCodeEditionMode();
+		const divCode = this.editorElement;
+		divCode.focus();
+		const range = document.createRange();
+		const sel = window.getSelection();
+
+		range.selectNodeContents(divCode);
+
+		sel.removeAllRanges();
+		sel.addRange(range);
+	}
+}
+
+
+customElements.define('markdown-magnet', MarkdownMagnet);
+
+
 const marked = new Marked(
 	markedHighlight({
 		emptyLangClass: 'hljs',
@@ -63,141 +260,6 @@ export class MagnetTextManager {
 		return (<HTMLElement>element.children[0]).style.color;
 	}
 
-	/**
-	 * 
-	 * @param element 
-	 * @param markdown code e.g. "**equation** is $\frac x y = 1$"
-	 * @description set the code to the text magnet
-	 */
-	private static toggleDisplayMode(element: HTMLElement): void {
-		const divText = <HTMLElement>element.children[0];
-		const divContent = <HTMLElement>element.children[1];
-		const code = divText.innerText;
-
-		divContent.innerHTML = markdownToHTML(code);
-		divContent.hidden = false;
-		divText.hidden = true;
-
-		MagnetTextManager.latexTypeSet(divContent);
-	}
-
-
-	private static toggleCodeEditionMode(element: HTMLElement): void {
-		const divCode = <HTMLElement>element.children[0];
-		const divContent = <HTMLElement>element.children[1];
-
-		divCode.hidden = false;
-		divContent.hidden = true;
-		divCode.focus();
-
-	}
-
-	/**
-	 *
-	 * @param element
-	 * @description set up the text magnet: add the mouse event, key event for editing the text magnet
-	 */
-	public static installMagnetText(element: HTMLElement): void {
-		const divCode = <HTMLElement>element.children[0];
-		const divContent = <HTMLElement>element.children[1];
-
-		if (divContent == undefined) { // just a test because the previous version of Tableaunoir did not have a content
-			const divContent = document.createElement("div");
-			element.appendChild(divContent);
-			divContent.innerHTML = "";
-			divContent.hidden = true;
-			return this.installMagnetText(element);
-		}
-
-		let lastDownTarget = null; // prevent to toggleCodeEdition when moving the magnet
-
-		divContent.onpointerdown = (e) => {
-			lastDownTarget = e.target;
-			e.stopPropagation();
-		}
-
-		divContent.onpointermove = (e) => { e.stopPropagation(); }
-
-		divContent.onpointerup = (e) => {
-			if (e.target === lastDownTarget)
-				MagnetTextManager.toggleCodeEditionMode(element);
-			//e.stopPropagation();
-
-		};
-
-
-		divCode.oncontextmenu = (e) => { e.stopPropagation(); }
-		divCode.onpointerdown = (e) => { e.stopPropagation(); }
-		divCode.onpointermove = (e) => { e.stopPropagation(); }
-		divCode.onpointerup = (e) => {
-			if (document.activeElement == divCode) //if edit mode then the click should stop here
-				e.stopPropagation();
-			//otherwise, we do not stop (maybe the magnet is dragged! #144)
-		}
-
-
-
-		function validate() {
-			MagnetTextManager.toggleDisplayMode(element);
-			window.getSelection().removeAllRanges();
-
-			Share.execute("magnetChange", [UserManager.me.userID, element.id, element.outerHTML]);
-		}
-
-		divCode.onblur = (e) => {
-			validate();
-		}
-
-
-		divCode.onkeydown = (e) => {
-			const getFontSize = () => {
-				return parseInt(element.style.fontSize);
-			}
-			const setFontSize = (size) => {
-				element.style.fontSize = size + "px";
-				divCode.style.fontSize = size + "px";
-				divContent.style.fontSize = size + "px";
-
-				for (let i = 0; i < divContent.children.length; i++) {
-					(<HTMLElement>divContent.children[i]).style.fontSize = size + "px";
-				}
-			}
-
-
-			if (e.key == "Escape")
-				validate();
-			if ((e.ctrlKey && e.key == "=") || (e.ctrlKey && e.key == "+")) { // Ctrl + +
-
-				let size = getFontSize();
-				size++;
-				setFontSize(size);
-				e.preventDefault();
-
-			}
-			else if (e.ctrlKey && e.key == "-") { // Ctrl + -
-				let size = getFontSize();
-				if (size > 6) size--;
-				setFontSize(size);
-				e.preventDefault();
-			}
-			else if (e.key == "PageDown" || e.key == "PageUp") {
-				e.preventDefault(); // to prevent a weird behavior where the text magnet moves at the top
-			}
-
-			e.stopPropagation();
-		}
-
-		divCode.onkeyup = evt => {
-			//Share.execute("magnetChange", [UserManager.me.userID, element.id, element.outerHTML]);
-			/*if (Share.isShared())
-				Share.sendMagnetChanged(element);*/
-			evt.stopPropagation();
-		};
-
-
-		MagnetTextManager.toggleDisplayMode(element);
-
-	}
 
 
 
@@ -208,51 +270,26 @@ export class MagnetTextManager {
 	 * @description adds a new magnet text at position x and y
 	 */
 	public static addMagnetText(x: number, y: number): void {
-		const div = document.createElement("div");
-		div.classList.add("magnetText");
-		div.style.left = x + "px";
-		div.style.top = y + "px";
-		div.classList.add("magnetText");
-		div.style.fontSize = "24px";
-		div.style.color = UserManager.me.color;
+		const element = document.createElement("markdown-magnet");
+		element.textContent = "type text";
+		element.classList.add("magnetText");
+		element.style.left = x + "px";
+		element.style.top = y + "px";
+		element.style.fontSize = "24px";
+		element.style.color = UserManager.me.color;
 
-		const divCode = document.createElement("div");
-		div.appendChild(divCode);
-		divCode.innerHTML = "type text";
-		divCode.contentEditable = "plaintext-only";
-		divCode.style.margin = "2px";
-		divCode.style.padding = "2px";
-
-		const divContent = document.createElement("div");
-		div.appendChild(divContent);
-		divContent.innerHTML = "";
-		divContent.hidden = true;
-
-		MagnetManager.addMagnet(div);
+		MagnetManager.addMagnet(element);
 
 		if (Share.isShared())
-			Share.sendMagnetChanged(div);
-
-		/*divText.focus();
-		document.execCommand('selectAll', false, null);
-		setTimeout(() => divText.focus(), 200);*/
-
+			Share.sendMagnetChanged(element);
 
 		function focusAndSelectAll(idmagnet: string) {
-			const magnet = document.getElementById(idmagnet);
-			MagnetTextManager.toggleCodeEditionMode(magnet);
-			const divCode = <HTMLElement>magnet.children[0];
-			divCode.focus();
-			const range = document.createRange();
-			const sel = window.getSelection();
+			const magnet = <MarkdownMagnet>document.getElementById(idmagnet);
+			magnet.focusAndSelectAll();
 
-			range.selectNodeContents(divCode);
-
-			sel.removeAllRanges();
-			sel.addRange(range);
 		}
 
 		//accessing the dom via the id instead of the div itself, because the div may have been modified after addMagnet
-		setTimeout(() => focusAndSelectAll(div.id), 50);
+		setTimeout(() => focusAndSelectAll(element.id), 50);
 	}
 }

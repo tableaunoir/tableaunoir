@@ -367,13 +367,6 @@ a {
 	cursor: none;
 }
 
-.magnetText div {
-	background-color: rgba(128, 128, 128, 0.2);
-	font-size: 24px;
-	font-weight: normal;
-	cursor: text;
-	min-width: 4px;
-}
 
 div.magnetText {
 	background-color: rgba(128, 128, 128, 0.1);
@@ -1396,6 +1389,3 @@ h1 {
 
 
 
-p {
-	margin: 4px;
-}

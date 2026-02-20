@@ -688,9 +688,6 @@ export class MagnetManager {
 	 * @description adds the event mousedown etc. to the magnet. Call LaTEX
 	 */
 	static _installMagnet(element: HTMLElement): void {
-		if (MagnetTextManager.isTextMagnet(element))
-			MagnetTextManager.installMagnetText(element);
-
 		MagnetManager.makeDraggableElement(element);
 		MagnetManager.setZIndex(element);
 
