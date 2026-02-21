@@ -22,7 +22,6 @@ class MarkdownMagnet extends HTMLElement {
 		style.textContent = `
     div {
 			background-color: rgba(128, 128, 128, 0.2);
-			font-size: 24px;
 			font-weight: normal;
 			cursor: text;
 			min-width: 4px;
@@ -46,6 +45,8 @@ class MarkdownMagnet extends HTMLElement {
 		this.shadowRoot.appendChild(divContent);
 		divContent.innerHTML = "";
 		divContent.hidden = true;
+
+		this.fontSize = this.fontSize;
 
 		let lastDownTarget = null; // prevent to toggleCodeEdition when moving the magnet
 
@@ -86,34 +87,20 @@ class MarkdownMagnet extends HTMLElement {
 
 
 		divCode.onkeydown = (e) => {
-			const getFontSize = () => {
-				return parseInt(element.style.fontSize);
-			}
-			const setFontSize = (size) => {
-				element.style.fontSize = size + "px";
-				divCode.style.fontSize = size + "px";
-				divContent.style.fontSize = size + "px";
-
-				for (let i = 0; i < divContent.children.length; i++) {
-					(<HTMLElement>divContent.children[i]).style.fontSize = size + "px";
-				}
-			}
-
-
 			if (e.key == "Escape")
 				validate();
 			if ((e.ctrlKey && e.key == "=") || (e.ctrlKey && e.key == "+")) { // Ctrl + +
 
-				let size = getFontSize();
+				let size = this.fontSize;
 				size++;
-				setFontSize(size);
+				this.fontSize = size;
 				e.preventDefault();
 
 			}
 			else if (e.ctrlKey && e.key == "-") { // Ctrl + -
-				let size = getFontSize();
+				let size = this.fontSize
 				if (size > 6) size--;
-				setFontSize(size);
+				this.fontSize = size;
 				e.preventDefault();
 			}
 			else if (e.key == "PageDown" || e.key == "PageUp") {
@@ -153,6 +140,17 @@ class MarkdownMagnet extends HTMLElement {
 		MagnetTextManager.latexTypeSet(divContent);
 	}
 
+
+
+
+	get fontSize(): number { return parseInt(this.style.fontSize); }
+
+
+	set fontSize(size: number) {
+		this.style.fontSize = size + "px";
+		/*this.editorElement.style.fontSize = size + "px";
+		this.renderingElement.style.fontSize = size + "px";*/
+	}
 
 	/**
 	 * @description toggle to the edition mode where the user can change the markdown code
