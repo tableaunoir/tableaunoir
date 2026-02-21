@@ -7,55 +7,15 @@ import hljs from 'highlight.js';
 
 
 
-
-
-
-
+/**
+ * This class is the class for a <markdown-magnet>Type text</markdown-magnet> element
+ * This magnet contains markdown code and we can toggle the edit mode (where the user can write the markdown code)
+ * and the rendering (the HTML content corresponding to the markdown code)
+ */
 class MarkdownMagnet extends HTMLElement {
 
-	connectedCallback() {
+	private connectedCallback() {
 		const shadow = this.attachShadow({ mode: 'open' });
-		this.render();
-	}
-
-
-	/**
-	 * 
-	 * @param element 
-	 * @param markdown code e.g. "**equation** is $\frac x y = 1$"
-	 * @description set the code to the text magnet
-	 */
-	toggleDisplayMode(): void {
-		const divCode = this.editorElement;
-		const divContent = this.renderingElement;
-		const code = divCode.innerText;
-		this.textContent = code;
-
-		divContent.innerHTML = markdownToHTML(code);
-		divContent.hidden = false;
-		divCode.hidden = true;
-
-		MagnetTextManager.latexTypeSet(divContent);
-	}
-
-
-	toggleCodeEditionMode(): void {
-		const divCode = this.editorElement;
-		const divContent = this.renderingElement;
-
-		divCode.hidden = false;
-		divContent.hidden = true;
-		divCode.focus();
-
-	}
-	get markdownCode() {
-		return this.textContent.trim();
-	}
-
-	get editorElement() {return <HTMLElement>this.shadowRoot.children[1]};
-	get renderingElement() {return <HTMLElement>this.shadowRoot.children[2]};
-	
-	render() {
 		const element = this;
 
 		const style = document.createElement("style");
@@ -116,15 +76,13 @@ class MarkdownMagnet extends HTMLElement {
 
 
 		const validate = () => {
-			this.toggleDisplayMode();
+			this.toggleRenderingMode();
 			window.getSelection().removeAllRanges();
 
 			Share.execute("magnetChange", [UserManager.me.userID, element.id, element.outerHTML]);
 		}
 
-		divCode.onblur = (e) => {
-			validate();
-		}
+		divCode.onblur = (e) => { validate(); }
 
 
 		divCode.onkeydown = (e) => {
@@ -166,29 +124,68 @@ class MarkdownMagnet extends HTMLElement {
 		}
 
 		divCode.onkeyup = evt => {
+			const code = divCode.innerText;
+			this.textContent = code;
 			//Share.execute("magnetChange", [UserManager.me.userID, element.id, element.outerHTML]);
-			/*if (Share.isShared())
-				Share.sendMagnetChanged(element);*/
+			if (Share.isShared())
+				Share.sendMagnetChanged(element);
 			evt.stopPropagation();
 		};
 
 
-		this.toggleDisplayMode();
+		this.toggleRenderingMode();
 	}
 
 
+	/**
+	 * @description toggle to the rendering mode (we display the HTML content corresponding to the markdown code)
+	 */
+	private toggleRenderingMode(): void {
+		const divCode = this.editorElement;
+		const divContent = this.renderingElement;
+		const code = divCode.innerText;
+		this.textContent = code;
+
+		divContent.innerHTML = markdownToHTML(code);
+		divContent.hidden = false;
+		divCode.hidden = true;
+
+		MagnetTextManager.latexTypeSet(divContent);
+	}
 
 
+	/**
+	 * @description toggle to the edition mode where the user can change the markdown code
+	 */
+	private toggleCodeEditionMode(): void {
+		const divCode = this.editorElement;
+		const divContent = this.renderingElement;
+
+		divCode.hidden = false;
+		divContent.hidden = true;
+		divCode.focus();
+
+	}
+
+	/**
+	 * @returns a string with the markdown code
+	 */
+	private get markdownCode() { return this.textContent.trim(); }
+
+	/**
+	 * access to the HTML element corresponding respectively to the editor (in the code edition mode)
+	 * and the rendering element (for the rendering mode)
+	 */
+	private get editorElement() { return <HTMLElement>this.shadowRoot.children[1] };
+	private get renderingElement() { return <HTMLElement>this.shadowRoot.children[2] };
 
 
-
-
-
-
-	focusAndSelectAll() {
+	/**
+	 * @description toggle to the edition mode, give focus and select all the markdown code
+	 */
+	public toggleEditionModeAndSelectAll() {
 		this.toggleCodeEditionMode();
 		const divCode = this.editorElement;
-		divCode.focus();
 		const range = document.createRange();
 		const sel = window.getSelection();
 
@@ -202,7 +199,9 @@ class MarkdownMagnet extends HTMLElement {
 
 customElements.define('markdown-magnet', MarkdownMagnet);
 
-
+/**
+ * @description load the library "marked" to render the HTML element from some markdown code
+ */
 const marked = new Marked(
 	markedHighlight({
 		emptyLangClass: 'hljs',
@@ -215,11 +214,17 @@ const marked = new Marked(
 );
 
 
+/**
+ * 
+ * @param markdownCode 
+ * @returns the string of the HTML element 
+ */
+function markdownToHTML(markdownCode: string): string { return marked.parse(markdownCode, { async: false }); }
 
-function markdownToHTML(code) { return marked.parse(code, { async: false }); }
 
-
-
+/**
+ * This module contains function for handling text magnet aka "markdown magnet"
+ */
 export class MagnetTextManager {
 
 	/**
@@ -271,7 +276,8 @@ export class MagnetTextManager {
 	 */
 	public static addMagnetText(x: number, y: number): void {
 		const element = document.createElement("markdown-magnet");
-		element.textContent = "type text";
+		const invitationToWriteSomeThing = "type text";
+		element.textContent = invitationToWriteSomeThing;
 		element.classList.add("magnetText");
 		element.style.left = x + "px";
 		element.style.top = y + "px";
@@ -285,7 +291,7 @@ export class MagnetTextManager {
 
 		function focusAndSelectAll(idmagnet: string) {
 			const magnet = <MarkdownMagnet>document.getElementById(idmagnet);
-			magnet.focusAndSelectAll();
+			magnet.toggleEditionModeAndSelectAll();
 
 		}
 
