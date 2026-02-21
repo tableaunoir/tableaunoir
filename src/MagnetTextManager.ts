@@ -46,8 +46,6 @@ class MarkdownMagnet extends HTMLElement {
 		divContent.innerHTML = "";
 		divContent.hidden = true;
 
-		this.fontSize = this.fontSize;
-
 		let lastDownTarget = null; // prevent to toggleCodeEdition when moving the magnet
 
 		divContent.onpointerdown = (e) => {
@@ -144,13 +142,7 @@ class MarkdownMagnet extends HTMLElement {
 
 
 	get fontSize(): number { return parseInt(this.style.fontSize); }
-
-
-	set fontSize(size: number) {
-		this.style.fontSize = size + "px";
-		/*this.editorElement.style.fontSize = size + "px";
-		this.renderingElement.style.fontSize = size + "px";*/
-	}
+	set fontSize(size: number) {		this.style.fontSize = size + "px";	}
 
 	/**
 	 * @description toggle to the edition mode where the user can change the markdown code
