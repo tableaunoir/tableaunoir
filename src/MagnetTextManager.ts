@@ -31,8 +31,20 @@ class MarkdownMagnet extends HTMLElement {
 		margin: 4px;
 	}
     `;
-
 		this.shadowRoot.appendChild(style);
+
+
+		const highlightjsstyle = document.createElement("style");
+		highlightjsstyle.textContent = `/*!
+  Theme: Bright
+  Author: Chris Kempson (http://chriskempson.com)
+  License: ~ MIT (or more permissive) [via base16-schemes-source]
+  Maintainer: @highlightjs/core-team
+  Version: 2021.09.0
+*/pre code.hljs{display:block;overflow-x:auto;padding:1em}code.hljs{padding:3px 5px}.hljs{color:#e0e0e0;background:#000}.hljs ::selection,.hljs::selection{background-color:#505050;color:#e0e0e0}.hljs-comment{color:#b0b0b0}.hljs-tag{color:#d0d0d0}.hljs-operator,.hljs-punctuation,.hljs-subst{color:#e0e0e0}.hljs-operator{opacity:.7}.hljs-bullet,.hljs-deletion,.hljs-name,.hljs-selector-tag,.hljs-template-variable,.hljs-variable{color:#fb0120}.hljs-attr,.hljs-link,.hljs-literal,.hljs-number,.hljs-symbol,.hljs-variable.constant_{color:#fc6d24}.hljs-class .hljs-title,.hljs-title,.hljs-title.class_{color:#fda331}.hljs-strong{font-weight:700;color:#fda331}.hljs-addition,.hljs-code,.hljs-string,.hljs-title.class_.inherited__{color:#a1c659}.hljs-built_in,.hljs-doctag,.hljs-keyword.hljs-atrule,.hljs-quote,.hljs-regexp{color:#76c7b7}.hljs-attribute,.hljs-function .hljs-title,.hljs-section,.hljs-title.function_,.ruby .hljs-property{color:#6fb3d2}.diff .hljs-meta,.hljs-keyword,.hljs-template-tag,.hljs-type{color:#d381c3}.hljs-emphasis{color:#d381c3;font-style:italic}.hljs-meta,.hljs-meta .hljs-keyword,.hljs-meta .hljs-string{color:#be643c}.hljs-meta .hljs-keyword,.hljs-meta-keyword{font-weight:700}`;
+
+		this.shadowRoot.appendChild(highlightjsstyle);
+
 
 		const divCode = document.createElement("div");
 		this.shadowRoot.appendChild(divCode);
@@ -142,7 +154,7 @@ class MarkdownMagnet extends HTMLElement {
 
 
 	get fontSize(): number { return parseInt(this.style.fontSize); }
-	set fontSize(size: number) {		this.style.fontSize = size + "px";	}
+	set fontSize(size: number) { this.style.fontSize = size + "px"; }
 
 	/**
 	 * @description toggle to the edition mode where the user can change the markdown code
@@ -166,8 +178,8 @@ class MarkdownMagnet extends HTMLElement {
 	 * access to the HTML element corresponding respectively to the editor (in the code edition mode)
 	 * and the rendering element (for the rendering mode)
 	 */
-	private get editorElement() { return <HTMLElement>this.shadowRoot.children[1] };
-	private get renderingElement() { return <HTMLElement>this.shadowRoot.children[2] };
+	private get editorElement() { return <HTMLElement>this.shadowRoot.children[2] };
+	private get renderingElement() { return <HTMLElement>this.shadowRoot.children[3] };
 
 
 	/**
