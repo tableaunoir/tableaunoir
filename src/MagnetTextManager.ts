@@ -34,6 +34,9 @@ class MarkdownMagnet extends HTMLElement {
 		this.shadowRoot.appendChild(style);
 
 
+		/**
+		 * we include the highlightjs style here since it should be visible from the shadow
+		 */
 		const highlightjsstyle = document.createElement("style");
 		highlightjsstyle.textContent = `/*!
   Theme: Bright
