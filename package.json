@@ -1,13 +1,14 @@
 {
   "devDependencies": {
+    "@types/showdown": "^2.0.6",
     "@typescript-eslint/eslint-plugin": "*",
     "@typescript-eslint/parser": "*",
     "clean-webpack-plugin": "^3.0.0",
-    "copy-webpack-plugin": "^6.3.0",
-    "css-loader": "^5.0.1",
-    "electron": "^22.1.0",
+    "copy-webpack-plugin": "^13.0.1",
+    "css-loader": "^7.1.4",
+    "electron": "^40.4.1",
     "eslint": "^8.15.0",
-    "pdfjs-dist": "^2.5.207",
+    "pdfjs-dist": "^5.4.624",
     "ts-loader": "^9.3.0",
     "typescript": "^4.0.5",
     "webpack": "^5.4.0",
@@ -25,9 +26,12 @@
     "@types/lz-string": "*",
     "@types/pdfjs-dist": "*",
     "color": "*",
+    "highlight.js": "^11.11.1",
     "html2canvas": "*",
     "jspdf": "*",
     "lz-string": "*",
+    "marked": "^17.0.3",
+    "marked-highlight": "^2.2.3",
     "tippy.js": "^6.3.7"
   }
 }
