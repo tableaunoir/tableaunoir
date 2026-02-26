@@ -42,7 +42,7 @@ We list the main features of Tableaunoir.
 * Change the color of magnets' background,
 * Load/Save the current board,
 * Export in PNG or PDF,
-* Add texts (`Enter` and type), and move texts. Supports **LaTeX** (using [MathJax](https://www.mathjax.org/))!
+* Add texts (`Enter` and type), and move texts. Supports **Markdown**, **code highlighting** and **LaTeX** (using [MathJax](https://www.mathjax.org/))!
 * Switch to a **whiteboard** instead of a blackboard, or any background color
 * Change from right-handed (default) to **left-handed** cursor,
 * **Divide yourboard in half**. Ideal for teaching. Add as many new half-board as you need, going right with `→` and then left/right with `←/→` keyboard arrows,
