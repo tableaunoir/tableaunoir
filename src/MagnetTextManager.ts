@@ -15,7 +15,10 @@ import hljs from 'highlight.js';
 class MarkdownMagnet extends HTMLElement {
 
 	private connectedCallback() {
-		const shadow = this.attachShadow({ mode: 'open' });
+		const shadow = this.attachShadow({
+			mode: 'open',
+			delegatesFocus: true // so that Firefox understands when the focus is removed from the text magnet (the editor)
+		});
 		const element = this;
 
 		const style = document.createElement("style");
@@ -96,7 +99,7 @@ class MarkdownMagnet extends HTMLElement {
 			Share.execute("magnetChange", [UserManager.me.userID, element.id, element.outerHTML]);
 		}
 
-		divCode.onblur = (e) => { validate(); }
+		divCode.addEventListener('focusout', (e) => {		validate();		});
 
 
 		divCode.onkeydown = (e) => {
@@ -135,6 +138,9 @@ class MarkdownMagnet extends HTMLElement {
 
 		this.toggleRenderingMode();
 	}
+
+
+
 
 
 	/**

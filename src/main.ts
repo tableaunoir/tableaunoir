@@ -122,14 +122,6 @@ function load() {
 
 		document.getElementById("buttonAskQuestion").onclick = Discussion.askQuestion;
 
-		/*
-		   TODO: why?
-			const buttons = document.getElementById("controls").children;
-	
-			for (let i = 0; i < buttons.length; i++)
-				if (buttons[i] instanceof HTMLButtonElement)
-					(<HTMLButtonElement>buttons[i]).onfocus = (<HTMLElement>document.activeElement).blur; //to be improved*/
-
 		document.onkeydown = KeyBoardShortCuts.onKeyDown;
 		document.onkeyup = KeyBoardShortCuts.onKeyUp;
 
@@ -139,10 +131,6 @@ function load() {
 		window.addEventListener("click", () => { AnimationToolBar.hideMenu(); MagnetManager.hideMenu() });
 
 		installMouseEventsCanvas();
-
-		/*ErrorMessage.show("Tableaunoir works, but maybe not in share mode since INRIA servers are down see <a href='https://intranet.inria.fr/Actualite/Important-arret-complet-des-services-informatiques-locaux-le-mercredi-24-mars'>here</a>");*/
-
-
 
 
 		const params = (new URL(document.location.href)).searchParams;
