@@ -193,7 +193,7 @@ function installMouseEventsCanvas() {
 				const magnetInBackground = GUIActions.getMagnetBackgroundUnderCursor(UserManager.me.x, UserManager.me.y);
 				if (magnetInBackground) {
 					//the +1 are here for evt.preventDefault() to work (not showing the ctx menu of the browser)
-					MagnetManager.showMenu(evt.pageX + 1, evt.pageY + 1); 
+					MagnetManager.showMenu(evt.pageX + 1, evt.pageY + 1);
 					isCurrentlyMouseDown = false;
 					return;
 				}
@@ -238,7 +238,10 @@ function installMouseEventsCanvas() {
 		evt.preventDefault();
 		isCurrentlyMouseDown = false;
 		window["ismousedown"] = false;
-		Share.execute("mouseup", [UserManager.me.userID, evt])
+		Share.execute("mouseup", [UserManager.me.userID, evt]);
+
+		if (isToolTemporarilySwitchedToErase) // switch back to draw if erase was temporary
+			Share.execute("switchDraw", [UserManager.me.userID]);
 	};
 
 	TouchScreen.addTouchEvents(document.getElementById("canvas"));
