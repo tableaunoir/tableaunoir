@@ -99,7 +99,7 @@ class MarkdownMagnet extends HTMLElement {
 			Share.execute("magnetChange", [UserManager.me.userID, element.id, element.outerHTML]);
 		}
 
-		divCode.addEventListener('focusout', (e) => {		validate();		});
+		divCode.addEventListener('focusout', (e) => { validate(); });
 
 
 		divCode.onkeydown = (e) => {

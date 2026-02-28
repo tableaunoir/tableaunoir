@@ -127,17 +127,16 @@ function load() {
 
 		document.getElementById("canvasBackground").onpointermove = () => { console.log("mousemove on the background should not occur") };
 
-		
+
 		window.addEventListener("click", () => { AnimationToolBar.hideMenu(); MagnetManager.hideMenu() });
 
 		installMouseEventsCanvas();
 
-
 		const params = (new URL(document.location.href)).searchParams;
-        if (params.get("load") != null && params.get("id") == null) {
+		if (params.get("load") != null && params.get("id") == null) {
 			LoadSave.loadTableaunoirFileFromURL(params.get("load"));
 		}
-            
+
 	}
 	catch (e) {
 		console.error(e.stack);
@@ -147,44 +146,66 @@ function load() {
 }
 
 function installMouseEventsCanvas() {
-	const minDurationMouseMove = 100;//minimum duration between two mousemove without drawing
-	let timeToSendMouseMoveEvent = true; //if true, the mousemove event is shared among the other users
-	let ismousedown = false;
-	let hasFocus = true;
-	let changeToErase = false;
+	/**
+	 * This is the duration between two mousemove without drawing. It means that two too close mousemove (less that minDurationMouseMove)
+	 * will not be sent to the other users to save bandwidth
+	 */
+	const minDurationMouseMove = 100;
+
+	/**
+	 * A flag to say that the next mousemove event will be shared among the other users
+	 */
+	let timeToSendMouseMoveEvent = true;
+
+	/**
+	 * A flag saying that mousedown has occured. So the next mousemove will be sent anyway
+	 */
+	let isCurrentlyMouseDown = false;
+
+	/**
+	 * says whether Tableaunoir has the focus or not
+	 * If hasTableaunoirFocus == false, then Tableaunoir has *not* the focus and a click should just switch to Tableaunoir's window
+	 * with drawing a point or something
+	 */
+	let hasTableaunoirFocus = true;
+
+	/**
+	 * A flag to say that the mousedown event was with right button and thus we switched temporarily to Erasing Tool
+	 */
+	let isToolTemporarilySwitchedToErase = false;
 
 	setInterval(() => {
 		timeToSendMouseMoveEvent = true;
-		hasFocus = document.hasFocus()
+		hasTableaunoirFocus = document.hasFocus()
 	}, minDurationMouseMove);
 
-	document.getElementById("canvas").oncontextmenu = (evt) => {
-		evt.preventDefault();
-	}
+	document.getElementById("canvas").oncontextmenu = (evt) => { evt.preventDefault(); }
 
 	document.getElementById("canvas").onpointerdown = (evt) => {
 		evt.preventDefault();
-		if (hasFocus) {
-			ismousedown = true;
+		if (hasTableaunoirFocus) {
 			const rightButton = (evt.button == 2);
-			changeToErase = false;
 
-			const magnetInBackground = GUIActions.getMagnetBackgroundUnderCursor(UserManager.me.x, UserManager.me.y);
-			console.log(magnetInBackground)
+			if (!isCurrentlyMouseDown) // issue #273. With tablet you can have nested pointeddown so do not chage chageToErase to false if it was true in an earlier pointerdown event
+				isToolTemporarilySwitchedToErase = false;
+
 			if (rightButton) {
+				const magnetInBackground = GUIActions.getMagnetBackgroundUnderCursor(UserManager.me.x, UserManager.me.y);
 				if (magnetInBackground) {
-					MagnetManager.showMenu(evt.pageX+1, evt.pageY+1); //the +1 are here for evt.preventDefault() to work (not showing the ctx menu of the browser)
-					ismousedown = false;
+					//the +1 are here for evt.preventDefault() to work (not showing the ctx menu of the browser)
+					MagnetManager.showMenu(evt.pageX + 1, evt.pageY + 1); 
+					isCurrentlyMouseDown = false;
 					return;
 				}
 				else if (UserManager.me.isToolDraw) {
-					changeToErase = true;
+					isToolTemporarilySwitchedToErase = true;
 					Share.execute("switchEraser", [UserManager.me.userID]);
 				}
 				else
-					changeToErase = false;
+					isToolTemporarilySwitchedToErase = false;
 			}
 
+			isCurrentlyMouseDown = true;
 			window["ismousedown"] = true;
 			Share.execute("mousedown", [UserManager.me.userID, evt])
 		}
@@ -196,33 +217,31 @@ function installMouseEventsCanvas() {
 		window["point"] = point;
 		S.onmousemove(point);
 
-		if ((ismousedown && UserManager.me.canWrite) || timeToSendMouseMoveEvent) {
+		if ((isCurrentlyMouseDown && UserManager.me.canWrite) || timeToSendMouseMoveEvent) {
 			Share.execute("mousemove", [UserManager.me.userID, evt]);
-			timeToSendMouseMoveEvent = false; //prevent sending the mousemove event
+			timeToSendMouseMoveEvent = false; //prevent sending the very next mousemove event
 		}
 
 
 	};
 	document.getElementById("canvas").onpointerup = (evt) => {
 		evt.preventDefault();
-		ismousedown = false;
+		isCurrentlyMouseDown = false;
 		window["ismousedown"] = false;
 		Share.execute("mouseup", [UserManager.me.userID, evt])
-		if (changeToErase)
+		if (isToolTemporarilySwitchedToErase) // switch back to draw if erase was temporary
 			Share.execute("switchDraw", [UserManager.me.userID]);
 	};
 
 	//onpointerleave: stop the drawing to prevent bugs (like it draws a small line)
 	document.getElementById("canvas").onpointerleave = (evt) => {
 		evt.preventDefault();
-		ismousedown = false;
+		isCurrentlyMouseDown = false;
 		window["ismousedown"] = false;
 		Share.execute("mouseup", [UserManager.me.userID, evt])
 	};
-	//document.getElementById("canvas").onmousedown = mousedown;
 
 	TouchScreen.addTouchEvents(document.getElementById("canvas"));
-
 
 	document.getElementById("controls").onclick = CircularMenu.hide;
 	document.getElementById("animationToolBar").onclick = CircularMenu.hide;
