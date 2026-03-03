@@ -551,6 +551,13 @@ export class Share {
 		console.log(`setCanWriteForAllExceptMeAndRoot(${canWrite})`)
 		Share.execute("setCanWriteValueByDefault", [canWrite]);
 
+		if (canWrite == true) {
+			document.getElementById("buttonAllCanWrite").className = "activated";
+			document.getElementById("buttonOnlyRootCanWrite").className = "";
+		} else {
+			document.getElementById("buttonOnlyRootCanWrite").className = "activated";
+			document.getElementById("buttonAllCanWrite").className = "";
+		}
 		for (const userid in UserManager.users) {
 			const b = UserManager.users[userid] == UserManager.me || UserManager.users[userid].isRoot;
 			Share.execute("setUserCanWrite", [userid, b || canWrite]);

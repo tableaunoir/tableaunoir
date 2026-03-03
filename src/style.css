@@ -564,7 +564,7 @@ button {
 	min-width: 48px;
 }
 
-button:hover {
+button:hover, button.activated {
 	filter: brightness(1.3);
 }
 
