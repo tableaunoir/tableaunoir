@@ -94,8 +94,6 @@ class MarkdownMagnet extends HTMLElement {
 
 		const validate = () => {
 			this.toggleRenderingMode();
-			window.getSelection().removeAllRanges();
-
 			Share.execute("magnetChange", [UserManager.me.userID, element.id, element.outerHTML]);
 		}
 
@@ -147,6 +145,8 @@ class MarkdownMagnet extends HTMLElement {
 	 * @description toggle to the rendering mode (we display the HTML content corresponding to the markdown code)
 	 */
 	private toggleRenderingMode(): void {
+		if (!this.isEditorMode) // prevents to render twice + /!\ divCode.innerText does not contain "\n" when hidden, so anyway it will be make a bug if we run it when divCode.hidden = true
+			return;
 		const divCode = this.editorElement;
 		const divContent = this.renderingElement;
 		const code = divCode.innerText;
@@ -160,7 +160,7 @@ class MarkdownMagnet extends HTMLElement {
 	}
 
 
-
+	get isEditorMode(): boolean { return !this.editorElement.hidden; }
 
 	get fontSize(): number { return parseInt(this.style.fontSize); }
 	set fontSize(size: number) { this.style.fontSize = size + "px"; }
