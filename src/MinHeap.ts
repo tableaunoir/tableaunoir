@@ -3,7 +3,7 @@
  */
 export class MinHeap {
 
-    private heap: Object[];
+    private heap: object[];
     private priority: number[];
     private indices;
     /**

@@ -1,4 +1,3 @@
-import { OptionManager } from './OptionManager';
 import { MagnetManager } from './magnetManager';
 import { UserManager } from './UserManager';
 import { ActionFreeDraw } from './ActionFreeDraw';

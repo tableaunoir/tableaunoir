@@ -15,7 +15,7 @@ import hljs from 'highlight.js';
 class MarkdownMagnet extends HTMLElement {
 
 	private connectedCallback() {
-		const shadow = this.attachShadow({
+		const _shadow = this.attachShadow({
 			mode: 'open',
 			delegatesFocus: true // so that Firefox understands when the focus is removed from the text magnet (the editor)
 		});
@@ -97,7 +97,7 @@ class MarkdownMagnet extends HTMLElement {
 			Share.execute("magnetChange", [UserManager.me.userID, element.id, element.outerHTML]);
 		}
 
-		divCode.addEventListener('focusout', (e) => { validate(); });
+		divCode.addEventListener('focusout', (_evt) => { validate(); });
 
 
 		divCode.onkeydown = (e) => {
@@ -187,8 +187,8 @@ class MarkdownMagnet extends HTMLElement {
 	 * access to the HTML element corresponding respectively to the editor (in the code edition mode)
 	 * and the rendering element (for the rendering mode)
 	 */
-	private get editorElement() { return <HTMLElement>this.shadowRoot.children[2] };
-	private get renderingElement() { return <HTMLElement>this.shadowRoot.children[3] };
+	private get editorElement() { return <HTMLElement>this.shadowRoot.children[2] }
+	private get renderingElement() { return <HTMLElement>this.shadowRoot.children[3] }
 
 
 	/**
@@ -217,7 +217,7 @@ const marked = new Marked(
 	markedHighlight({
 		emptyLangClass: 'hljs',
 		langPrefix: 'hljs language-',
-		highlight(code, lang, info) {
+		highlight(code, lang, _info) {
 			const language = hljs.getLanguage(lang) ? lang : 'plaintext';
 			return hljs.highlight(code, { language }).value;
 		}
@@ -245,7 +245,7 @@ export class MagnetTextManager {
 		try {
 			(<any>window).MathJax.typeset([element]);
 			//	eval("MathJax.typeset();");
-		} catch (e) { console.log("MathJaX not supported"); }
+		} catch (_err) { console.log("MathJaX not supported"); }
 	}
 	/**
 	 * 

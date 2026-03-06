@@ -101,7 +101,7 @@ export class LoadSave {
          * "error" otherwise
          */
         function getTypeFilesDrag(event): "tableaunoir" | "images" | "error" {
-            let containsImages = false;
+            let _containsImages = false;
             let containsTableaunoir = false;
             let containsError = false;
             let count = 0;
@@ -110,7 +110,7 @@ export class LoadSave {
                 if (file.name.endsWith(".tableaunoir"))
                     containsTableaunoir = true;
                 else if (file.name.endsWith(".png") || file.name.endsWith(".jpg") || file.name.endsWith(".gif") || file.name.endsWith(".svg"))
-                    containsImages = true;
+                    _containsImages = true;
                 else
                     containsError = true;
                 count++;

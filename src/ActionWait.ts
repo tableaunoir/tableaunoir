@@ -1,4 +1,3 @@
-import { Drawing } from './Drawing';
 import { ActionSerialized } from './ActionSerialized';
 import { Action } from './Action';
 import { AnimationManager } from './AnimationManager';

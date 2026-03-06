@@ -124,6 +124,7 @@ export class Share {
 					}
 				}
 				catch (e) {
+					console.log("Error tryjoin from shared url: ", e)
 					Share.ws = undefined;
 					Share.showConnectionError();
 				}
@@ -206,6 +207,7 @@ export class Share {
 			Share.setRoot(UserManager.me.userID);
 		}
 		catch (e) {
+			console.log("Error share: ", e)
 			Share.ws = undefined;
 			Share.showConnectionError();
 		}

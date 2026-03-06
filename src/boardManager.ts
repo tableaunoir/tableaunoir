@@ -214,6 +214,7 @@ export class BoardManager {
             BoardManager.timeline.clearAndReset(canvasDataURL);
         }
         catch (e) {
+            console.log("Error while loading board from local storage: ", e)
             //TODO: handle error?
         }
     }
@@ -224,7 +225,7 @@ export class BoardManager {
     /**
      * @description cancel the previous operation on the cancel stack
      */
-    static async cancel(userid: string): Promise<void> {
+    static async cancel(_userid: string): Promise<void> {
         if (!BoardManager.cancelStack.canUndo())
             return;
 
@@ -237,7 +238,7 @@ export class BoardManager {
     /**
      * @description redo the next operation on the cancel stack
      */
-    static async redo(userid: string): Promise<void> {
+    static async redo(_userid: string): Promise<void> {
         if (!BoardManager.cancelStack.canRedo())
             return;
 
@@ -357,7 +358,7 @@ export class BoardManager {
      * @param userid 
      * @description remove the next pause action for merging the current slide with the next one
      */
-    static mergeSlide(userid: string): void {
+    static mergeSlide(_userid: string): void {
         const nextNewSlideActionIndex = BoardManager.timeline.getNextNewSlideActionIndex();
         if (nextNewSlideActionIndex)
             BoardManager.executeOperation(new OperationDeleteSeveralActions([nextNewSlideActionIndex]));
@@ -421,7 +422,7 @@ export class BoardManager {
 
                         if (iPrint) {
 
-                            const actionPrintMagnet = timeline.actions[iPrint];
+                            const _actionPrintMagnet = timeline.actions[iPrint];
 
                             const iMove = indicesSuchThat(timeline.actions, j, iPrint, (a) =>
                                 a instanceof ActionMagnetMove && a.magnetid == magnetid);
