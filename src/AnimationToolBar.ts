@@ -292,7 +292,7 @@ export class AnimationToolBar {
             function isThereAMagnetWithID(magnetid: string, t: number): boolean {
                 for (let t2 = t - 1; t2 >= 0; t2--) {
                     const act = BoardManager.timeline.actions[t2];
-                    if(act instanceof ActionClear) {
+                    if (act instanceof ActionClear) {
                         return false
                     }
                     else if (act instanceof ActionMagnetDelete) {
@@ -331,15 +331,7 @@ export class AnimationToolBar {
 
         }
 
-        /**
-         * remove all the highlighting hints for actions
-         */
-        function unhighlightAction() {
-            MagnetHighlighter.unhighlightAll();
-            ActionMagnetMoveHighlighter.unhighlight();
-            ActionFromContourHighlighter.unhighlight();
-            ActionEraseHighlighter.unhighlight();
-        }
+
 
 
         elAction.onmouseenter = highlightAction;
@@ -492,16 +484,19 @@ export class AnimationToolBar {
             console.log("newslideandclear")
             Share.execute("newSlideAndClear", [UserManager.me.userID]);
             AnimationToolBar.hideMenu();
+            unhighlightAction();
         }
         document.getElementById("newSlideAndClear").onclick = newSlideAndClear;
 
         document.getElementById("newSlide").onclick = () => {
             Share.execute("newSlide", [UserManager.me.userID]);
+            unhighlightAction();
             AnimationToolBar.hideMenu();
         };
 
         document.getElementById("addActionWait").onclick = () => {
             Share.execute("addActionWait", [UserManager.me.userID]);
+            unhighlightAction();
             AnimationToolBar.hideMenu();
         };
 
@@ -572,20 +567,22 @@ class ActionEraseHighlighter {
 
 class ActionFromContourHighlighter {
     static timer = undefined;
-    static i = 0;
+    static timerIndex = 0;
 
     static highlight(contourPoints: any[]) {
         this.unhighlight();
-
         this.timer = setInterval(() => {
-            this.i = this.i > contourPoints.length - 2 ? 0 : this.i + 1;
-            const p = contourPoints[this.i];
+            this.timerIndex++;
+            const i = this.timerIndex % contourPoints.length;
+            const p = contourPoints[i];
             ChalkParticules.start(p.x, p.y, p.pressure ? p.pressure : 1, p.color ? p.color : "gray");
+            if (this.timerIndex >= contourPoints.length * 3)
+                this.unhighlight();
         }, 100);
     }
 
     static unhighlight() {
-        this.i = 0;
+        this.timerIndex = 0;
         if (this.timer)
             clearInterval(this.timer);
     }
@@ -610,4 +607,17 @@ class ActionMagnetMoveHighlighter {
 
 
     static unhighlight() { document.querySelectorAll(".magnetMovePolyLine").forEach((el) => el.remove()); }
+}
+
+
+
+
+/**
+ * remove all the highlighting hints for actions
+ */
+function unhighlightAction() {
+    MagnetHighlighter.unhighlightAll();
+    ActionMagnetMoveHighlighter.unhighlight();
+    ActionFromContourHighlighter.unhighlight();
+    ActionEraseHighlighter.unhighlight();
 }
