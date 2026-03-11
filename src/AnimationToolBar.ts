@@ -118,7 +118,7 @@ export class AnimationToolBar {
         if (isCurrentSlide)
             slide.classList.add("slideCurrent");
 
-        const actionIndex = (evt) => {
+        const actionIndex = (_evt) => {
             /*  if (isCurrentSlide) {
                   const x = evt.clientX - slide.offsetLeft;
                   return from + Math.round(x * (to - from) / slide.clientWidth);
@@ -367,7 +367,7 @@ export class AnimationToolBar {
      * @param t 
      * @returns update and take into account that the action n° t has been removed
      */
-    static updateDeleteAction(t: number): void {
+    static updateDeleteAction(_t: number): void {
         if (!AnimationToolBar.is())
             return;
 
@@ -380,7 +380,7 @@ export class AnimationToolBar {
      * @param index 
      * @description update the timeline bar given that there was only the insertion of action at index that have been produced
      */
-    static updateAddAction(index: number): void {
+    static updateAddAction(_index: number): void {
         if (!AnimationToolBar.is())
             return;
 

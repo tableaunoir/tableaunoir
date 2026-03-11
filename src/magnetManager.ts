@@ -1,5 +1,4 @@
 import { S } from './Script';
-import { MagnetTextManager } from './MagnetTextManager';
 import { ActionMagnetDelete } from './ActionMagnetDelete';
 import { ActionMagnetNew } from './ActionMagnetNew';
 import { Sound } from './Sound';
@@ -740,7 +739,7 @@ export class MagnetManager {
 		BoardManager.addAction(new ActionMagnetDelete(UserManager.me.userID, id));
 		//		document.getElementById(id).remove(); //do not remove here because ActionMagnetDelete is doing the job in add Action
 		//		document.getElementById(id).style.top = "-1000";
-		MagnetManager.currentMagnet == undefined;
+		MagnetManager.currentMagnet = undefined;
 		MagnetManager.magnetUnderCursor = undefined;
 		ConstraintDrawing.update();
 	}
