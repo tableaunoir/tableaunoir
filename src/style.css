@@ -368,8 +368,9 @@ a {
 }
 
 
-div.magnetText {
+markdown-magnet {
 	background-color: rgba(128, 128, 128, 0.1);
+	width: max-content;
 }
 
 
