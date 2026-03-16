@@ -205,9 +205,11 @@ function installMouseEventsCanvas() {
 					isToolTemporarilySwitchedToErase = false;
 			}
 
-			isCurrentlyMouseDown = true;
-			window["ismousedown"] = true;
-			Share.execute("mousedown", [UserManager.me.userID, evt])
+			if (UserManager.me.canWrite) {
+				isCurrentlyMouseDown = true;
+				window["ismousedown"] = true;
+				Share.execute("mousedown", [UserManager.me.userID, evt])
+			}
 		}
 	};
 
