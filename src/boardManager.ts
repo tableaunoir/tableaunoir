@@ -49,6 +49,7 @@ export class BoardManager {
     static cancelStack = new CancelStack();
 
     static isSlideNumber = true;
+    static isSlideAutoCreate = false;
     /**
    * initialization (button)
    */
@@ -67,7 +68,13 @@ export class BoardManager {
             }
         });
 
-
+        OptionManager.boolean({
+            name: "autoCreateSlides",
+            defaultValue: false,
+            onChange: (b) => {
+                BoardManager.isSlideAutoCreate = b;
+            }
+        });
     }
 
 
@@ -263,6 +270,11 @@ export class BoardManager {
      * then we go directly at the end of the slide
      */
     static async nextPausedFrame(): Promise<void> {
+        if (BoardManager.isSlideAutoCreate &&
+            BoardManager.timeline.getSlideNumber() == BoardManager.timeline.getTotalSlideNumber()) {
+            Share.execute("newSlideAndClear", [UserManager.me.userID]);
+            AnimationToolBar.hideMenu();
+        }
         if (AnimationManager.isRunning) {
             await AnimationManager.ensureEnd();
             BoardManager.updateSlideNumber();
