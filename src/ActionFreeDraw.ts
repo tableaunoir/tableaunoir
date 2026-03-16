@@ -203,29 +203,32 @@ export class ActionFreeDraw extends Action {
             // Find the point with the maximum distance
             let dmax = 0
             let ifar = 0
+            let sum_pressure = 0
 
             for (let i = begin; i < end; i++) {
                 const d = perpendicularDistance(this.points[i], this.points[begin], this.points[end]);
+                sum_pressure += this.points[i].pressure
                 if (d > dmax) {
                     ifar = i;
                     dmax = d;
                 }
             }
+            let avg_pressure = sum_pressure / (end - begin);
 
             if (dmax > EPSILON) {
                 const A1 = DouglasPeucker(begin, ifar)
                 const A2 = DouglasPeucker(ifar, end);
                 return A1.concat(A2.slice(1));
-            } else
-                return [this.points[begin], this.points[end]];
-
+            } else {
+                let a = this.points[begin]
+                a.pressure = avg_pressure
+                let b = this.points[end]
+                b.pressure = avg_pressure
+                return [a, b];
+            }
         }
 
         this.points = DouglasPeucker(0, this.points.length - 1);
-
-        //fix of the pressure at the end (otherwise there is a weird end in the draw)
-        if (this.points.length >= 2)
-            this.points[this.points.length - 1].pressure = this.points[this.points.length - 2].pressure;
     }
 
 
