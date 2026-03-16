@@ -16,6 +16,15 @@ import { ActionInit } from './ActionInit';
  * data structure for the linear history of actions (draw a line, eraser here, etc.)
  */
 export class Timeline {
+    getTotalSlideNumber(): number {
+        let c = 1;
+        for (let i = 1; i <= this.actions.length; i++) {
+            if (this.actions[i] instanceof ActionSlideStart)
+                c++;
+        }
+        return c;
+    }
+
     getSlideNumber(): number {
         let c = 1;
         for (let i = 1; i <= this.currentIndex; i++) {
