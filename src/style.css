@@ -67,9 +67,6 @@ canvas {
 
 
 
-
-
-
 helpbutton::before {
 	content: '?';
 	color: yellow;

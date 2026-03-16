@@ -177,7 +177,6 @@ export class Layout {
             newviewport.style.height = Layout.getWindowHeight() + "px";
 
             const nodeBoard = document.getElementById("board");
-            
 
             nodeBoard.onmousemove = (evt) => {
                 let x = evt.offsetX - parseInt(viewport.style.width) / 2;
