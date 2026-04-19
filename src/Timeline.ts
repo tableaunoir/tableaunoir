@@ -16,6 +16,10 @@ import { ActionInit } from './ActionInit';
  * data structure for the linear history of actions (draw a line, eraser here, etc.)
  */
 export class Timeline {
+
+    /**
+     * @return the total number of slides in the current document, i.e. 1 + the number of ActionSlideStart
+     */
     getTotalSlideNumber(): number {
         let c = 1;
         for (let i = 1; i <= this.actions.length; i++) {
@@ -25,6 +29,10 @@ export class Timeline {
         return c;
     }
 
+    /**
+     * 
+     * @returns the current slide number
+     */
     getSlideNumber(): number {
         let c = 1;
         for (let i = 1; i <= this.currentIndex; i++) {
@@ -32,6 +40,16 @@ export class Timeline {
                 c++;
         }
         return c;
+    }
+
+
+
+    /**
+     * @description requires that this.currentIndex is at the end of the slide
+     * @returns true iff the current slide is empty (no actions, or ends with ActionClear)
+     */
+    isSlideEmpty(): boolean {
+        return this.actions[this.currentIndex] instanceof ActionSlideStart || this.actions[this.currentIndex] instanceof ActionClear;
     }
 
     /**
@@ -171,7 +189,7 @@ export class Timeline {
      * 
      * @param A the array of serialized action
      * @param t the current timestep
-     * @description loads the cancelStack
+     * @description loads the actions
      */
     public async load(A: ActionSerialized[], t: number): Promise<void> {
         this.actions = [];
@@ -184,7 +202,7 @@ export class Timeline {
         }
         //this.actions = A.map(ActionDeserializer.deserialize);
         this.currentIndex = t;
-        console.log("loaded stack with " + this.actions.length + " elements");
+        console.log("loaded actions with " + this.actions.length + " elements");
         this.resetAndUpdate();
 
     }
@@ -527,7 +545,7 @@ export class Timeline {
 
 
     /**
-     * @description print the stack in the console (for debug)
+     * @description print the list of actions in the console (for debug)
      */
     __str__(): string {
         let s = "";
@@ -551,7 +569,7 @@ export class Timeline {
     }
 
     /**
-     * @returns the serialized version of the cancelstack (an array of serialized actions)
+     * @returns the serialized version of the list of actions (an array of serialized actions)
      */
     serialize(): ActionSerialized[] {
         this.repair();
