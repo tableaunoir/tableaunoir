@@ -62,6 +62,7 @@ canvas {
 	position: relative;
 	margin: 0px;
 	padding: 0px;
+	overflow: hidden;
 }
 
 
@@ -167,10 +168,24 @@ helpbutton {
 
 
 #container {
-	overflow: hidden;
 	margin: 0px;
 	padding: 0px;
 	bottom: 0px;
+}
+
+
+#container.ContainerScrollEnabled {
+	overflow-x: scroll;
+}
+
+
+#container:not(.ContainerScrollEnabled) {
+	overflow-x: hidden;
+}
+
+
+#container.ContainerMapMode {
+	overflow-x: hidden;
 }
 
 #svg {

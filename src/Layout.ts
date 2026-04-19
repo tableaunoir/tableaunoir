@@ -97,9 +97,12 @@ export class Layout {
 
         OptionManager.boolean({
             name: "horizontalScrollbar",
-            defaultValue: false,
+            defaultValue: true,
             onChange: (isScrollbar) => {
-                getContainer().style.overflowX = isScrollbar ? "scroll" : "hidden";
+                if (isScrollbar)
+                    getContainer().classList.add("ContainerScrollEnabled");
+                else
+                    getContainer().classList.remove("ContainerScrollEnabled");
             }
         });
 
@@ -130,6 +133,7 @@ export class Layout {
         nodeBoard.onmouseup = undefined;
         nodeBoard.onmouseleave = undefined;
         nodeBoard.onmouseenter = undefined;
+        getContainer().classList.remove("ContainerMapMode");
     }
 
 
@@ -154,6 +158,8 @@ export class Layout {
         BoardNavigation.setScroll(0);
         const boardWidth = BoardManager.width;
         console.log(boardWidth)
+        getContainer().classList.add("ContainerMapMode");
+        
         if (boardWidth > Layout.getWindowWidth() * 1.5) {
             //only install the GUI for moving in the board when the board is large
             const viewport = document.getElementById("viewport");

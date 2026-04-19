@@ -16,6 +16,15 @@ export class BoardNavigation {
      */
     static init(): void {
         BoardNavigation.setScroll(0);
+
+        getContainer().onscroll = () => {
+            BoardNavigation._right(getContainer().scrollLeft);
+        }
+
+        getContainer().addEventListener('wheel', (e) => {
+            getContainer().scrollLeft += e.deltaY;
+            BoardNavigation._right(getContainer().scrollLeft);
+        });
     }
 
 
