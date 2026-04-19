@@ -271,7 +271,8 @@ export class BoardManager {
      */
     static async nextPausedFrame(): Promise<void> {
         if (BoardManager.isSlideAutoCreate &&
-            BoardManager.timeline.getSlideNumber() == BoardManager.timeline.getTotalSlideNumber()) {
+            BoardManager.timeline.getSlideNumber() == BoardManager.timeline.getTotalSlideNumber()
+            && !BoardManager.timeline.isSlideEmpty()) {
             Share.execute("newSlideAndClear", [UserManager.me.userID]);
             AnimationToolBar.hideMenu();
         }
