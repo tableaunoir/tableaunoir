@@ -79,8 +79,7 @@ function buildMenu() {
                         isFullScreen = !isFullScreen;
                         win.setFullScreen(isFullScreen);
                     }
-                },
-                { label: 'Redo', accelerator: "Ctrl+Shift+Z", click() { win.webContents.send("redo"); } },
+                }
             ]
         },
         /*,
@@ -113,7 +112,7 @@ function newDocument() {
             title: 'Confirm',
             message: 'Are you sure you want to create a new fresh board?'
         });
-    if (choice == 0) {
+    if (choice == 0) { // yes
         filename = undefined;
         win.title = "Tableaunoir - (new board)";
         win.webContents.send("new");
@@ -157,8 +156,7 @@ function saveDocument() {
 
 function saveAsDocument() {
     const newFilename = dialog.showSaveDialogSync(win, { title: "Save file", filters: [{ name: "Tableaunoir file", extensions: ".tableaunoir" }] });
-    if (newFilename == undefined) return;
-
+    if (newFilename == undefined || newFilename == null || newFilename == "") return;
     filename = newFilename;
     win.title = "Tableaunoir - " + filename;
     saveDocument();

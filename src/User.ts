@@ -194,7 +194,7 @@ export class User {
         this.tool.y = evtY;
 
         if (this.isCurrentUser)
-            MagnetManager.noCurrentMagnet();
+            MagnetManager.setNoCurrentMagnet();
         else
             this.setSymbolCursorPosition();
     }

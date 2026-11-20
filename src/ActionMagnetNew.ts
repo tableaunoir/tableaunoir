@@ -92,8 +92,8 @@ export class ActionMagnetNew extends Action {
         if (element)
             element.remove();
 
-       /* if (this.previousMagnet)
-            this._addMagnet(this.previousMagnet);*/
+        if (this.previousMagnet)
+            this._addMagnet(this.previousMagnet);
 
     }
 

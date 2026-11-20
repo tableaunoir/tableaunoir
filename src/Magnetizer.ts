@@ -1,6 +1,5 @@
 import { Sound } from './Sound';
 import { ActionClearZone } from './ActionClearZone';
-import { UserManager } from './UserManager';
 import { BoardManager } from './boardManager';
 import { getCanvas } from './main';
 import { MagnetManager } from './magnetManager';

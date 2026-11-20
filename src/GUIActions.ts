@@ -38,30 +38,42 @@ export class GUIActions {
     }
 
     /**
-     * @description tries to paste a magnet from the content of the clipboard
+     * @description tries to paste a magnet from the content of the clipboard. The clipboard should contain an image
      */
-    static pasteFromClipBoard(): void {
-        try {
-            //the <any> is because Typescript does not infer properly the types :(
-            (<any>(navigator.clipboard)).read().then((items) => {
-                function blobToDataURL(blob: Blob, callback: (dataURL: string) => void) {
-                    const a = new FileReader();
-                    a.onload = function (e) { callback(<string>e.target.result); }
-                    a.readAsDataURL(blob);
-                }
-                console.log(items[0])
+    static async pasteFromClipBoard(): Promise<void> {
 
-                console.log(items[0].types)
-                console.log(items[0].getType("image/png"));
-                items[0].getType("image/png").then((blob: Blob) => blobToDataURL(blob, (dataURL) => {
-                    const magnet = new Image();
-                    magnet.src = dataURL;
-                    magnet.style.left = Layout.getWindowLeft() + "px";
-                    magnet.style.top = "0px";
-                    console.log(dataURL);
-                    MagnetManager.addMagnet(magnet);
-                }));
-            })
+        /**
+         * 
+         * @param blob 
+         * @returns (a promise to) the data URL data contained in the blob
+         */
+        function blobToDataURL(blob: Blob): Promise<string> {
+            return new Promise((resolve) => {
+                const a = new FileReader();
+                a.onload = function (e) { resolve(<string>e.target.result); }
+                a.readAsDataURL(blob);
+            });
+        }
+
+
+        try {
+            const clipboard = navigator.clipboard;
+            if (clipboard == undefined) {
+                ShowMessage.error("Impossible to use the clipboard (secure origin required)");
+                return;
+            }
+            const items = await (clipboard).read();
+            if (items[0].types.indexOf("image/png") < 0) {
+                ShowMessage.show("No image in the clipboard to paste");
+                return;
+            }
+            const blob = await items[0].getType("image/png");
+            const dataURL = await blobToDataURL(blob);
+            const magnet = new Image();
+            magnet.src = dataURL;
+            magnet.style.left = Layout.getWindowLeft() + "px";
+            magnet.style.top = "0px";
+            MagnetManager.addMagnet(magnet);
         }
         catch (e) {
             ShowMessage.error(e);
@@ -86,10 +98,6 @@ export class GUIActions {
             Share.execute("setCurrentColor", [UserManager.me.userID, GUIActions.palette.getCurrentColor()]);
 
         }
-
-
-
-
 
         OptionManager.boolean({
             name: "paletteShowOnKey", defaultValue: true,
@@ -153,6 +161,7 @@ export class GUIActions {
                 /*note that for performance issue etc., a removed magnet is not really removed but just hidden. 
             So we check that the magnet is visible  */
                 if (S.inRectangle({ x: x, y: y }, magnetGetRectangle(m))) {
+                    /* TODO: here we should test for the polygon clipPath or maybe use the document.elementsFromPoint() method*/
                     return m;
                 }
         }
@@ -165,9 +174,6 @@ export class GUIActions {
      * if the magnet is in the background, it moves that magnet foreground
      */
     static magnetSwitchBackgroundForeground(): void {
-
-
-
         const switchBackgroundForegroundOfMagnet = (m: HTMLElement) => {
             Share.execute("magnetSwitchBackgroundForeground", [UserManager.me.userID, m.id])
         }

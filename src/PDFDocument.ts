@@ -55,10 +55,11 @@ export class PDFDocument {
 
                 // Render PDF page into canvas context
                 const renderContext = {
+                    canvas,
                     canvasContext: ctx,
                     viewport: viewport
                 };
-                const renderTask = page.render(renderContext);
+                const renderTask = page.render(<any> renderContext); //maybe a problem here
 
                 // Wait for rendering to finish
                 renderTask.promise.then(() => {

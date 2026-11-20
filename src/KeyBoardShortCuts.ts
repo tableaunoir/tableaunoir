@@ -14,6 +14,7 @@ import { Menu } from './Menu';
 import { S, Script } from './Script';
 import { Magnetizer } from './Magnetizer';
 import { ToolDraw } from './ToolDraw';
+import { DesktopApplicationManager } from './DesktopApplicationManager';
 
 
 
@@ -75,6 +76,16 @@ export class KeyBoardShortCuts {
         if (Menu.isShown())
             return;
 
+        if (evt.ctrlKey && keyLowerCase == "s" && !DesktopApplicationManager.is) { //Ctrl + S = open the menu "save"
+            Menu.show();
+            Menu.openPageMyBoard();
+            setTimeout(() => {
+                const textBoxFileName = <HTMLInputElement>document.getElementById("name");
+                textBoxFileName.select();
+                textBoxFileName.focus();
+            }, 500);
+            evt.preventDefault();
+        }
         if (evt.ctrlKey && evt.altKey && keyLowerCase == "n" && UserManager.me.canWrite) {// alt + n = new slide
             Share.execute("newSlide", [UserManager.me.userID]);
             AnimationToolBar.hideMenu();
@@ -195,12 +206,10 @@ export class KeyBoardShortCuts {
                 KeyBoardShortCuts.available = false;
                 setTimeout(() => KeyBoardShortCuts.available = true, 1000);
 
-                //   if (MagnetManager.getMagnetUnderCursor())
-                Share.execute("printMagnet", [MagnetManager.getCurrentMagnetID()]);
-                /* else
-                     GUIActions.pasteFromClipBoard();*/
-
-
+                if (MagnetManager.getMagnetUnderCursor())
+                    Share.execute("printMagnet", [MagnetManager.getCurrentMagnetID()]);
+                else
+                    GUIActions.pasteFromClipBoard();
             }
         }
         else if (keyLowerCase == "m") { //m = make new magnets

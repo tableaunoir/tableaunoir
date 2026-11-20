@@ -32,6 +32,12 @@ export class Share {
 	 * @description tries to connect to the server, when the connection is made, it executes f
 	 */
 	static tryConnect(f: () => void): void {
+		/**
+		 * remove these two lines (this is only for the github version)
+		ShowMessage.error("Sorry, we are working on hosting a server for sharing boards for this demo version at ENS de Lyon. We thank INRIA/IRISA that provided a server from October 2020 til June 2025. Also consider installing a server on your own institution.");
+		return;
+		*/
+
 		Share.isTryingToConnect = true;
 		Share.id = Share.getIDInSharedURL();
 
@@ -85,7 +91,7 @@ export class Share {
 
 	}
 
-	
+
 	/**
 	 * initialization
 	 */
@@ -118,6 +124,7 @@ export class Share {
 					}
 				}
 				catch (e) {
+					console.log("Error tryjoin from shared url: ", e)
 					Share.ws = undefined;
 					Share.showConnectionError();
 				}
@@ -200,6 +207,7 @@ export class Share {
 			Share.setRoot(UserManager.me.userID);
 		}
 		catch (e) {
+			console.log("Error share: ", e)
 			Share.ws = undefined;
 			Share.showConnectionError();
 		}

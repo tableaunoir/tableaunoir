@@ -258,7 +258,7 @@ helpbutton {
 	font-size: 12px;
 }
 
-em {
+#menu em {
 	color: rgb(220, 255, 168);
 	font-weight: italic;
 }
@@ -385,15 +385,10 @@ a {
 	cursor: none;
 }
 
-.magnetText div {
-	background-color: rgba(128, 128, 128, 0.2);
-	font-size: 24px;
-	cursor: text;
-	min-width: 4px;
-}
 
-div.magnetText {
+markdown-magnet {
 	background-color: rgba(128, 128, 128, 0.1);
+	width: max-content;
 }
 
 
@@ -963,6 +958,9 @@ h1 {
 }
 
 
+
+
+
 @keyframes divideLineHelp {
 	from {
 		height: 0px;
@@ -1407,3 +1405,6 @@ h1 {
 #qrcode {
 	width: 512px;
 }
+
+
+

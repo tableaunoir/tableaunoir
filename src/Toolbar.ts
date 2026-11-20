@@ -28,6 +28,7 @@ export class Toolbar {
                 }
             }
             catch (e) {
+                console.log("Error loading the toolbar: ", e)
                 ShowMessage.error("Error in loading the toolbar. You can however use Tableaunoir.")
             }
 

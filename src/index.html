@@ -12,6 +12,15 @@
 	<link rel="stylesheet" type="text/css" href="style.css" />
 	<script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?version=4.8.0&features=es6"></script>
 	<script src="./tableaunoir.js"></script>
+	<script>
+		window.MathJax = {
+			tex: {
+				inlineMath: [['$', '$'], ['\\(', '\\)']],
+				displayMath: [['$$', '$$'], ['\\[', '\\]']],
+				processEscapes: true
+			}
+		};
+	</script>
 	<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
 </head>
 
@@ -162,6 +171,9 @@
 				title="Add a new clear slide after this one. The new slide will start by clearing the board.">
 				<img src="img/icons/supererase.svg">New clear slide from now (Alt + N)
 			</li>
+			<li id="addActionWait" title="Add a small pause of 100ms">
+				<img src="img/icons/E0AB.svg">Add a small pause
+			</li>
 		</ul>
 	</div>
 
@@ -301,8 +313,8 @@
 				<div id="saveExplanation">
 					Save your board in a <em>.tableaunoir file</em> for later use:</div>
 				<div class="menuDiv">
-					<span>Name:</span> <input id="name" value="myblackboard" />
-					<button id="save"> <img src="img/icons/E260.svg" />Save</button>
+					<span title="Filename (%DATE inserts the current date)">Name:</span> <input id="name" value="myblackboard-%DATE" />
+					<button id="save"> <img src="img/icons/E260.svg" /><span>Save</span></button>
 				</div>
 
 				<div>
@@ -315,11 +327,13 @@
 							approprietly</em>. If you made a presentation (with several slides), then each PDF page will
 						correspond to a slide. The PDF export is a bit slow, be patient!</div>
 					<div class="menuDiv">
-						<span>Name:</span> <input id="exportPngName" value="myblackboard" />
+						<span title="Filename (%DATE inserts the current date)">Name:</span> <input id="exportPngName" value="myblackboard-%DATE" />
 						<button id="exportPng"><img src="img/icons/1F5BC.svg" />Get an image</button>
-						<button id="exportPdf"><img src="img/icons/pdf.svg" />Get a PDF</button>
-						<button id="exportTikz" title="Export the board in TikZ"><img src="img/icons/LaTeX.svg" />Get
-							tikz code</button>
+						<button id="exportPdf"><img src="img/icons/pdf.svg" /><span>Get a PDF</span></button>
+						<button id="exportTikz" title="Export the board in TikZ"><img src="img/icons/LaTeX.svg" />
+							<span>
+								Get tikz code</span>
+						</button>
 					</div>
 					<textarea rows="10" cols="30" id="exportCode" hidden readonly></textarea>
 				</div>
@@ -420,25 +434,24 @@
 				<label for="lineWidth">Line width:</label>
 				<input type="number" id="inputLineWidth" name="lineWidth" min="1" max="40" step="0.5">
 				<br />
-				<input type="checkbox" id="inputSmoothing" /><label for="inputToolbar"><span>Smoothing (your
-						drawing are
-						getting smoother after you draw)</span></label>
+				<input type="checkbox" id="inputSmoothing" /><label for="inputToolbar">
+					<span>Smoothing (your drawing are getting smoother after you draw)</span></label>
 				<br />
-				<input type="checkbox" id="inputChalkEffect" /><label for="inputChalkEffect">Artistic chalk effect
-					(your drawing looks more beautiful but Tableaunoir is slower)</label>
+				<input type="checkbox" id="inputChalkEffect" />
+				<label for="inputChalkEffect">Artistic chalk effect</label>
 				<br />
-				<input type="checkbox" id="inputParticulesEffect" /><label for="inputParticulesEffect"><span>Particules
-						of chalk (Tableaunoir is even slower!)</span>
+				<input type="checkbox" id="inputParticulesEffect" /><label for="inputParticulesEffect">
+					<span>Particules of chalk</span>
 				</label>
 				<br />
-				<input type="checkbox" id="inputEraserEffect" /><label for="inputEraserEffect">Artistic dust
-					effect when you erase (your chalkboard looks more real but Tableaunoir is slower)</label>
+				<input type="checkbox" id="inputEraserEffect" />
+				<label for="inputEraserEffect">Artistic dust effect when erasing</label>
 
 
 				<div class="onlyForDesktop">
 					<h2>⚒ <span>Toolbar</span></h2>
-					<input type="checkbox" id="inputToolbar" /><label for="inputToolbar">Show the toolbar
-						(h)</label>
+					<input type="checkbox" id="inputToolbar" />
+					<label for="inputToolbar">Show the toolbar (h)</label>
 
 					<br /><br />
 
@@ -461,7 +474,9 @@
 				<br />
 
 				<input type="checkbox" id="inputPresentationSlideNumber" /><label
-					for="inputPresentationSlideNumber">Show the current slide number</label>
+					for="inputPresentationSlideNumber">Show the current slide number</label><br />
+				<input type="checkbox" id="inputAutoCreateSlides" /><label
+					for="inputAutoCreateSlides">Allow to automatically create slides by pressing the ArrowDown key</label><br />
 
 
 				<h2>🗣 <span>Language</span></h2>
@@ -475,8 +490,8 @@
 				<label for="inputLanguageEs">Spanish</label><br />
 
 				<h2>🎨 <span>Palette</span></h2>
-				<input type="checkbox" id="inputPaletteShowOnKey" /><label for="inputPaletteShowOnKey">Show the
-					palette when using keyboard shortcut c/shift+c</label>
+				<input type="checkbox" id="inputPaletteShowOnKey" />
+				<label for="inputPaletteShowOnKey">Show the palette when using keyboard shortcut c/shift+c</label>
 				<helpbutton
 					title="By default, Tableaunoir shows the palette at the location of the cursor so that you may choose your appropriate color by clicking. However, you may prefer not get disturbed by the palette at all and just want to choose your color with the keyboard shortcuts.">
 				</helpbutton>
@@ -490,9 +505,9 @@
 					<h2>✐✎ <span>Cursor</span></h2>
 					<input type="checkbox" id="inputLeftHanded" /><label for="inputLeftHanded">Left-handed</label>
 					<br />
-					<input type="checkbox" id="inputCursorVisible" /><label for="inputCursorVisible">Show the
-						mouse
-						cursor (chalk, eraser, etc.)</label><span class="keyboardkeyhelp">Ctrl+Alt+h</span>
+					<input type="checkbox" id="inputCursorVisible" />
+					<label for="inputCursorVisible">Show the mouse cursor (chalk, eraser, etc.)</label>
+					<span class="keyboardkeyhelp">Ctrl+Alt+h</span>
 					<helpbutton
 						title="By default, the cursors (chalk, eraser, etc.) are shown. But sometimes, as you work on a tablet with a screen, you do not need to see the cursor. Also, if you make videos, maybe it could annoying to see the cursors.">
 					</helpbutton>
@@ -659,8 +674,7 @@
 					<h2>Link</h2>
 					<input readonly id="shareUrl" value="" /><button id="buttonCopyShareUrl">Copy</button><span
 						id="shareUrlCopied" hidden="true">Copied!</span> <br />
-					<img src=""
-						id="qrcode">
+					<img src="" id="qrcode">
 				</div>
 
 				<h2>Pseudo</h2>
@@ -743,7 +757,7 @@
 
 				<span class="edit">
 
-					<div class="menuDiv">
+					<div id="#magnetsRemarkOwnImages" class="menuDiv">
 						Remark: For using your <em> own images as magnets</em>, drag and drop .png/.svg/.gif/.jpg files.
 					</div>
 
@@ -771,36 +785,41 @@
 
 				<h1>Documentation</h1>
 				<div>
-					See the <a target="_blank" rel="noopener noreferrer"
-						href="https://tableaunoir.github.io/documentation">full documentation</a></div>
+					<a target="_blank" rel="noopener noreferrer" href="https://tableaunoir.github.io/documentation">Full
+						documentation</a>
+				</div>
 
 
 				<h1>Frequently asked questions</h1>
 				<h2>How to completely clear the board?</h2>
-				Use the eraser, and do <span class="keyboardkey">Ctrl</span> + click. If you cleared the board by
-				mistake, you can always do <span class="keyboardkey">Ctrl+Z</span> to undo it.
+				<ul>
+					<li><span>Use the eraser, and do </span><span class="keyboardkey">Ctrl</span> + click.</li>
+				</ul>
+
 
 
 				<h2>How to create a magnet?</h2>
 				<img src="img/help/createmagnet.gif" />
 				<ul>
 					<li>Draw a contour around the picture</li>
-					<li>Then press <span class="keyboardkey">Ctrl+X</span></li>
+					<li><span>Then press </span><span class="keyboardkey">Ctrl+X</span></li>
 				</ul>
 				<h2>How to duplicate a magnet?</h2>
 				<ul>
-					<li>Press and maintain <span class="keyboardkey">Ctrl</span></li>
+					<li><span>Press and maintain </span><span class="keyboardkey">Ctrl</span></li>
 					<li>Drag the magnet</li>
 				</ul>
 				<h2>How to write LaTeX formulas?</h2>
 				<img src="img/help/latex.gif" />
 				<ul>
-					<li>Create a text magnet by pressing <span class="keyboardkey">Enter</span></li>
+					<li><span>Create a text magnet by pressing </span>
+						<span class="keyboardkey">Enter</span>
+					</li>
 					<li>Type your LaTeX code between between <code>$</code> and <code>$</code>, or <code>\[</code> and
 						<code>\]</code>
 					</li>
-					<li>Press <span class="keyboardkey">Esc</span> to get the output</li>
-					<li>The magnet LaTEX code can be reedited by double-clicking (except if the magnet contains several
+					<li><span>Press </span><span class="keyboardkey">Esc</span></li>
+					<li>The magnet LaTEX code can be reedited double-clicking (except if the magnet contains several
 						formulas)</li>
 				</ul>
 				<h2>How to draw squares, circles, horizontal/vertical lines?</h2>
@@ -828,8 +847,8 @@
 
 				<h2>I use a different screen and now my board exceeds the size of the screen. How to see the full board?
 				</h2>
-				In the toolbar, click on <img draggable="false" class="icon" src="img/icons/fittoscreen.svg" /> to
-				entirely see you board.
+				<span>To entirely see your board, in the toolbar, click on </span><img draggable="false" class="icon"
+					src="img/icons/fittoscreen.svg" />
 			</div>
 		</div>
 		<div class="divMenuHide"><button onclick="Menu.hide()">X</button><span class="keyboardkeyhelp">Esc</span></div>

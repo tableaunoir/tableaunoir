@@ -19,4 +19,5 @@ export type ActionSerialized =
     { type: "magnetmove", userid: string, magnetid: string, points: { x: number; y: number; }[] } |
     { type: "magnetswitchbackgroundforeground", userid: string, magnetid: string, destination: number } |
     { type: "magnetchangesizeratio", userid: string, magnetid: string, ratio: number } |
-    { type: "slidestart", userid: string };
+    { type: "slidestart", userid: string } |
+    { type: "wait", userid: string, delay: number };

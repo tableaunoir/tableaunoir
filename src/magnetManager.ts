@@ -1,5 +1,4 @@
 import { S } from './Script';
-import { MagnetTextManager } from './MagnetTextManager';
 import { ActionMagnetDelete } from './ActionMagnetDelete';
 import { ActionMagnetNew } from './ActionMagnetNew';
 import { Sound } from './Sound';
@@ -91,7 +90,7 @@ export class MagnetManager {
 	/**
 	 * @description set that there is no current magnet
 	 */
-	static noCurrentMagnet(): void { MagnetManager.currentMagnet = undefined; }
+	static setNoCurrentMagnet(): void { MagnetManager.currentMagnet = undefined; }
 
 
 	/**
@@ -395,8 +394,6 @@ export class MagnetManager {
 		for (let i = 0; i < magnets.length; i++)
 			MagnetManager._installMagnet(magnets[i]);
 
-		MagnetTextManager.latexTypeSet();
-
 
 	}
 
@@ -690,9 +687,6 @@ export class MagnetManager {
 	 * @description adds the event mousedown etc. to the magnet. Call LaTEX
 	 */
 	static _installMagnet(element: HTMLElement): void {
-		if (MagnetTextManager.isTextMagnet(element))
-			MagnetTextManager.installMagnetText(element);
-
 		MagnetManager.makeDraggableElement(element);
 		MagnetManager.setZIndex(element);
 
@@ -724,7 +718,7 @@ export class MagnetManager {
 
 
 	/**
-	 * @description remove the current magnet
+	 * @description remove (delete) the current magnet
 	 */
 	static removeCurrentMagnet(): void {
 		if (MagnetManager.currentMagnet == undefined)
@@ -745,7 +739,7 @@ export class MagnetManager {
 		BoardManager.addAction(new ActionMagnetDelete(UserManager.me.userID, id));
 		//		document.getElementById(id).remove(); //do not remove here because ActionMagnetDelete is doing the job in add Action
 		//		document.getElementById(id).style.top = "-1000";
-		MagnetManager.currentMagnet == undefined;
+		MagnetManager.currentMagnet = undefined;
 		MagnetManager.magnetUnderCursor = undefined;
 		ConstraintDrawing.update();
 	}

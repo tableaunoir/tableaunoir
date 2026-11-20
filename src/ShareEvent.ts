@@ -21,6 +21,7 @@ import { ToolArc } from './ToolArc';
 import { ActionMagnetChangeSizeRatio } from './ActionMagnetChangeSizeRatio';
 import { ActionMagnetSwitchBackgroundForeground } from './ActionMagnetSwitchBackgroundForeground';
 import { Magnetizer } from './Magnetizer';
+import { ActionWait } from './ActionWait';
 
 /**
  * this class contains the events that are shared with other users connected to the same tableaunoir
@@ -153,6 +154,15 @@ export class ShareEvent {
         MagnetManager.printMagnet(document.getElementById(magnetID));
     }
 
+    /**
+     * 
+     * @param userid 
+     * @param idMagnet 
+     * @param outerHTML 
+     * @description modify the magnet of id idmagnet by user userid. The content is now outerHTML.
+     * It adds an action in the timeline. Normally it adds an ActionMagnetNew. But if it is a text magnet and the previous action was about that
+     * text magnet, we just update the content of the previous action.
+     */
     static magnetChange(userid: string, idMagnet: string, outerHTML: string): void {
         const magnet = document.getElementById(idMagnet);
         if (magnet.outerHTML != outerHTML) {
@@ -219,6 +229,9 @@ export class ShareEvent {
     static newSlideAndClear(userid: string): void { BoardManager.newSlideAndClear(userid) }
     static mergeSlide(userid: string): void { BoardManager.mergeSlide(userid) }
     static forgetAnimation(userid: string): void { BoardManager.forgetAnimation(userid) }
+    static addActionWait(userid: string): void {
+        BoardManager.addAction(new ActionWait(userid));
+    }
 
     /**backgrounds */
 

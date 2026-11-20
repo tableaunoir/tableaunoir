@@ -49,6 +49,7 @@ export class BoardManager {
     static cancelStack = new CancelStack();
 
     static isSlideNumber = true;
+    static isSlideAutoCreate = false;
     /**
    * initialization (button)
    */
@@ -67,7 +68,13 @@ export class BoardManager {
             }
         });
 
-
+        OptionManager.boolean({
+            name: "autoCreateSlides",
+            defaultValue: false,
+            onChange: (b) => {
+                BoardManager.isSlideAutoCreate = b;
+            }
+        });
     }
 
 
@@ -215,6 +222,7 @@ export class BoardManager {
             BoardManager.timeline.clearAndReset(canvasDataURL);
         }
         catch (e) {
+            console.log("Error while loading board from local storage: ", e)
             //TODO: handle error?
         }
     }
@@ -225,7 +233,7 @@ export class BoardManager {
     /**
      * @description cancel the previous operation on the cancel stack
      */
-    static async cancel(userid: string): Promise<void> {
+    static async cancel(_userid: string): Promise<void> {
         if (!BoardManager.cancelStack.canUndo())
             return;
 
@@ -238,7 +246,7 @@ export class BoardManager {
     /**
      * @description redo the next operation on the cancel stack
      */
-    static async redo(userid: string): Promise<void> {
+    static async redo(_userid: string): Promise<void> {
         if (!BoardManager.cancelStack.canRedo())
             return;
 
@@ -263,6 +271,12 @@ export class BoardManager {
      * then we go directly at the end of the slide
      */
     static async nextPausedFrame(): Promise<void> {
+        if (BoardManager.isSlideAutoCreate &&
+            BoardManager.timeline.getSlideNumber() == BoardManager.timeline.getTotalSlideNumber()
+            && !BoardManager.timeline.isSlideEmpty()) {
+            Share.execute("newSlideAndClear", [UserManager.me.userID]);
+            AnimationToolBar.hideMenu();
+        }
         if (AnimationManager.isRunning) {
             await AnimationManager.ensureEnd();
             BoardManager.updateSlideNumber();
@@ -358,7 +372,7 @@ export class BoardManager {
      * @param userid 
      * @description remove the next pause action for merging the current slide with the next one
      */
-    static mergeSlide(userid: string): void {
+    static mergeSlide(_userid: string): void {
         const nextNewSlideActionIndex = BoardManager.timeline.getNextNewSlideActionIndex();
         if (nextNewSlideActionIndex)
             BoardManager.executeOperation(new OperationDeleteSeveralActions([nextNewSlideActionIndex]));
@@ -384,18 +398,16 @@ export class BoardManager {
 
         const indicesSuchThat = (array: Action[], i: number, j: number, predicate: (a: Action, k: number) => boolean) => {
             const result = [];
-            for (let k = i; k <= j; k++) {
+            for (let k = i; k <= j; k++)
                 if (predicate(array[k], k))
                     result.push(k);
-            }
             return result;
         }
 
         const firstIndexSuchThat = (array: Action[], i: number, j: number, predicate) => {
-            for (let k = i; k <= j; k++) {
+            for (let k = i; k <= j; k++)
                 if (predicate(array[k], k))
                     return k;
-            }
             return undefined;
         }
 
@@ -424,7 +436,7 @@ export class BoardManager {
 
                         if (iPrint) {
 
-                            const actionPrintMagnet = timeline.actions[iPrint];
+                            const _actionPrintMagnet = timeline.actions[iPrint];
 
                             const iMove = indicesSuchThat(timeline.actions, j, iPrint, (a) =>
                                 a instanceof ActionMagnetMove && a.magnetid == magnetid);

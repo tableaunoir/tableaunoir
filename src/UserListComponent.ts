@@ -83,6 +83,7 @@ export class UserListComponent {
         const img = new Image();
         let i = parseInt(userid.substr(1));
         if (isNaN(i)) i = 0;
+        img.draggable = false;
         img.src = "img/users/" + UserListComponent.usersImageFileNames[i % UserListComponent.usersImageFileNames.length];
         img.classList.add("userImage");
         return img;
