@@ -16,7 +16,7 @@
   },
   "scripts": {
     "build": "webpack --mode production",
-    "lint": "eslint src/**.ts",
+    "lint": "tslint src/**.ts",
     "serve": "node server/main.js"
   },
   "dependencies": {

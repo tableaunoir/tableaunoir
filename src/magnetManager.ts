@@ -90,7 +90,7 @@ export class MagnetManager {
 	/**
 	 * @description set that there is no current magnet
 	 */
-	static noCurrentMagnet(): void { MagnetManager.currentMagnet = undefined; }
+	static setNoCurrentMagnet(): void { MagnetManager.currentMagnet = undefined; }
 
 
 	/**
@@ -718,7 +718,7 @@ export class MagnetManager {
 
 
 	/**
-	 * @description remove the current magnet
+	 * @description remove (delete) the current magnet
 	 */
 	static removeCurrentMagnet(): void {
 		if (MagnetManager.currentMagnet == undefined)
