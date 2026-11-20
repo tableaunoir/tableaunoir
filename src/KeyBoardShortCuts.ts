@@ -80,7 +80,7 @@ export class KeyBoardShortCuts {
             Menu.show();
             Menu.openPageMyBoard();
             setTimeout(() => {
-                const textBoxFileName = <HTMLInputElement> document.getElementById("name");
+                const textBoxFileName = <HTMLInputElement>document.getElementById("name");
                 textBoxFileName.select();
                 textBoxFileName.focus();
             }, 500);
@@ -206,10 +206,10 @@ export class KeyBoardShortCuts {
                 KeyBoardShortCuts.available = false;
                 setTimeout(() => KeyBoardShortCuts.available = true, 1000);
 
-                //   if (MagnetManager.getMagnetUnderCursor())
-                Share.execute("printMagnet", [MagnetManager.getCurrentMagnetID()]);
-                /* else
-                     GUIActions.pasteFromClipBoard();*/
+                if (MagnetManager.getMagnetUnderCursor())
+                    Share.execute("printMagnet", [MagnetManager.getCurrentMagnetID()]);
+                else
+                    GUIActions.pasteFromClipBoard();
 
 
             }

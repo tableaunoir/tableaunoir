@@ -38,30 +38,35 @@ export class GUIActions {
     }
 
     /**
-     * @description tries to paste a magnet from the content of the clipboard
+     * @description tries to paste a magnet from the content of the clipboard. The clipboard should contain an image
      */
-    static pasteFromClipBoard(): void {
-        try {
-            //the <any> is because Typescript does not infer properly the types :(
-            (<any>(navigator.clipboard)).read().then((items) => {
-                function blobToDataURL(blob: Blob, callback: (dataURL: string) => void) {
-                    const a = new FileReader();
-                    a.onload = function (e) { callback(<string>e.target.result); }
-                    a.readAsDataURL(blob);
-                }
-                console.log(items[0])
+    static async pasteFromClipBoard(): Promise<void> {
 
-                console.log(items[0].types)
-                console.log(items[0].getType("image/png"));
-                items[0].getType("image/png").then((blob: Blob) => blobToDataURL(blob, (dataURL) => {
-                    const magnet = new Image();
-                    magnet.src = dataURL;
-                    magnet.style.left = Layout.getWindowLeft() + "px";
-                    magnet.style.top = "0px";
-                    console.log(dataURL);
-                    MagnetManager.addMagnet(magnet);
-                }));
-            })
+        /**
+         * 
+         * @param blob 
+         * @returns (a promise to) the data URL data contained in the blob
+         */
+        function blobToDataURL(blob: Blob): Promise<string> {
+            return new Promise((resolve) => {
+                const a = new FileReader();
+                a.onload = function (e) { resolve(<string>e.target.result); }
+                a.readAsDataURL(blob);
+            });
+        }
+
+
+        try {
+            const items = await (navigator.clipboard).read();
+            if (items[0].types.indexOf("image/png") < 0)
+                return;
+            const blob = await items[0].getType("image/png");
+            const dataURL = await blobToDataURL(blob);
+            const magnet = new Image();
+            magnet.src = dataURL;
+            magnet.style.left = Layout.getWindowLeft() + "px";
+            magnet.style.top = "0px";
+            MagnetManager.addMagnet(magnet);
         }
         catch (e) {
             ShowMessage.error(e);
@@ -86,10 +91,6 @@ export class GUIActions {
             Share.execute("setCurrentColor", [UserManager.me.userID, GUIActions.palette.getCurrentColor()]);
 
         }
-
-
-
-
 
         OptionManager.boolean({
             name: "paletteShowOnKey", defaultValue: true,
