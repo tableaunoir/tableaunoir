@@ -210,8 +210,6 @@ export class KeyBoardShortCuts {
                     Share.execute("printMagnet", [MagnetManager.getCurrentMagnetID()]);
                 else
                     GUIActions.pasteFromClipBoard();
-
-
             }
         }
         else if (keyLowerCase == "m") { //m = make new magnets

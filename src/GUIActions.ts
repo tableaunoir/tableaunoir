@@ -57,9 +57,16 @@ export class GUIActions {
 
 
         try {
-            const items = await (navigator.clipboard).read();
-            if (items[0].types.indexOf("image/png") < 0)
+            const clipboard = navigator.clipboard;
+            if (clipboard == undefined) {
+                ShowMessage.error("Impossible to use the clipboard (secure origin required)");
                 return;
+            }
+            const items = await (clipboard).read();
+            if (items[0].types.indexOf("image/png") < 0) {
+                ShowMessage.show("No image in the clipboard to paste");
+                return;
+            }
             const blob = await items[0].getType("image/png");
             const dataURL = await blobToDataURL(blob);
             const magnet = new Image();
