@@ -9,7 +9,7 @@
     "eslint": "^8.15.0",
     "pdfjs-dist": "^5.4.624",
     "ts-loader": "^9.3.0",
-    "typescript": "^4.0.5",
+    "typescript": "^5.9.3",
     "webpack": "^5.4.0",
     "webpack-bundle-analyzer": "^4.10.2",
     "webpack-cli": "^4.2.0"
@@ -32,6 +32,7 @@
     "lz-string": "*",
     "marked": "^17.0.3",
     "marked-highlight": "^2.2.3",
+    "qrdx": "^0.0.67",
     "tippy.js": "^6.3.7"
   }
 }
