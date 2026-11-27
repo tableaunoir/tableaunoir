@@ -15,6 +15,7 @@ import config from './config.json'
 import { ConstraintDrawing } from './ConstraintDrawing';
 import { ActionDeserializer, HTMLdeserialize } from './ActionDeserializer';
 import { ClipBoardManager } from './ClipBoardManager';
+import type { QRCodeInstance } from 'qrdx/vanilla';
 
 /**
  * the class that enables to share the board
@@ -25,6 +26,7 @@ export class Share {
 	static canWriteValueByDefault = true;
 	static lastMessageTime = Date.now();
 	static isTryingToConnect = false;
+	static qrCode: QRCodeInstance = undefined;
 
 	/**
 	 *
@@ -473,11 +475,17 @@ export class Share {
 				 * @param newUrl 
 				 * @description update the QR code in the menu
 				 */
-		const generateQRCode = (url) => {
-			const imgQRCode = <HTMLImageElement>document.getElementById("qrcode");
-			imgQRCode.hidden = false;
-			imgQRCode.src = "https://qrcode.tec-it.com/API/QRCode?data=" + url;
-			//"https://chart.googleapis.com/chart?cht=qr&chl=" + url + "&chs=200x200&chld=L|0"; (not working)
+		const generateQRCode = async (url: string) => {
+			const qrCodeContainer = document.getElementById("qrcode");
+			qrCodeContainer.hidden = false;
+			// drawn in the page, so the join link is not sent to a third-party server;
+			// qrdx is loaded only when a board is shared
+			if (!Share.qrCode) {
+				const { createQRCode } = await import(/* webpackExports: ["createQRCode"] */ 'qrdx/vanilla');
+				if (!Share.qrCode)
+					Share.qrCode = createQRCode(qrCodeContainer, { value: url, size: 512, margin: 4, bodyPattern: "square", cornerEyePattern: "square", cornerEyeDotPattern: "square" });
+			}
+			Share.qrCode.update({ value: url });
 		}
 
 		const urlCorrected = url.startsWith("file://") ? config.server.frontend + "?id=" + Share.id : url;
